@@ -1,6 +1,6 @@
 [alias]
     i = init
-    l = clone --recursive
+    n = clone --recursive
 
     c = commit --verbose
 
