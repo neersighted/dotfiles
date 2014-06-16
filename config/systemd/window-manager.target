@@ -1,0 +1,9 @@
+[Unit]
+Description  = X Window Manager
+Wants        = dbus.socket
+Requires     = xorg.target
+After        = dbus.socket xorg.target
+AllowIsolate = true
+
+[Install]
+Alias = default.target

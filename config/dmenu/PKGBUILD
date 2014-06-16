@@ -1,0 +1,52 @@
+# Maintainer: neersighted <n@neersighted.com>
+
+pkgname=dmenu-neersighted
+pkgver=4c50e43
+pkgrel=1
+pkgdesc='The dynamic window manager'
+url='http://tools.suckless.org/dmenu'
+license=('MIT')
+source=('git://git.suckless.org/dmenu#commit=4c50e43'
+        'xft.diff'
+        'config.h')
+md5sums=('SKIP' 'SKIP' 'SKIP')
+sha1sums=('SKIP' 'SKIP' 'SKIP')
+sha256sums=('SKIP' 'SKIP' 'SKIP')
+arch=('i686' 'x86_64')
+depends=('libxext' 'libxft')
+makedepends=('ncurses')
+conflicts=('dmenu')
+provides=('dmenu')
+
+pkgver() {
+  cd "${srcdir}/dmenu"
+
+  git describe --always | sed 's/^v//;s/-/./g'
+}
+
+build() {
+  cd "${srcdir}/dmenu"
+
+  # Apply config.
+  cp "${srcdir}/config.h" ./config.h
+
+  # Apply patches.
+  git apply "${srcdir}/xft.diff"
+
+  # Build it!
+  make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
+}
+
+package() {
+  cd "${srcdir}/dmenu"
+
+  # Install the program.
+  make PREFIX=/usr DESTDIR="${pkgdir}" TERMINFO="${pkgdir}/usr/share/terminfo" install
+
+  # Install the license.
+  install -Dm644 LICENSE \
+                    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  # Install the readme.
+  install -Dm644 README \
+                    "${pkgdir}/usr/share/doc/${pkgname}/README"
+}

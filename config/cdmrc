@@ -1,0 +1,33 @@
+#!/bin/bash
+binlist=(
+    'fish -l'
+    '~/.xsession dwm'
+    '~/.xsession i3'
+)
+namelist=(
+    shell
+    dwm
+    i3
+)
+
+flaglist=(
+    C
+    X
+    X
+)
+
+dialogrc=
+
+countfrom=0
+
+display=0
+xtty=keep
+
+locktty=no
+
+consolekit=no
+cktimeout=30
+
+altstartx=no
+serverargs=(-nolisten tcp)
+startxlog=/dev/null

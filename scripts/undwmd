@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+kill `ps aux | grep dwmd | grep -v undwmd | grep -v grep | awk '{print $2}'`

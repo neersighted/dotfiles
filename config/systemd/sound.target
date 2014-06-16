@@ -1,0 +1,7 @@
+[Unit]
+Description  = Sound Server
+Requires     = dbus.socket
+After        = dbus.socket
+
+[Install]
+Alias = default.target

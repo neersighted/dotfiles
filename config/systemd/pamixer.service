@@ -1,0 +1,12 @@
+[Unit]
+Description = Pulse Audio Volume Control
+Requires    = pulseaudio.service
+After       = pulseaudio.service
+
+[Service]
+Type      = oneshot
+ExecStart = /usr/bin/pamixer --set-volume %I
+ExecStart = /usr/bin/pamixer --unmute
+
+[Install]
+WantedBy = sound.target

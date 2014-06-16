@@ -1,0 +1,52 @@
+# Maintainer: neersighted <n@neersighted.com>
+
+pkgname=st-neersighted
+pkgver=c2fd275
+pkgrel=1
+pkgdesc='A simple virtual terminal emulator for X'
+url='http://st.suckless.org'
+license=('MIT')
+source=('git://git.suckless.org/st#commit=c2fd275'
+        'no-bold.diff'
+        'config.h')
+md5sums=('SKIP' 'SKIP' 'SKIP')
+sha1sums=('SKIP' 'SKIP' 'SKIP')
+sha256sums=('SKIP' 'SKIP' 'SKIP')
+arch=('i686' 'x86_64')
+depends=('libxext' 'libxft')
+makedepends=('ncurses')
+conflicts=('st')
+provides=('st')
+
+pkgver() {
+  cd "${srcdir}/st"
+
+  git describe --always | sed 's/^v//;s/-/./g'
+}
+
+build() {
+  cd "${srcdir}/st"
+
+  # Apply config.
+  cp "${srcdir}/config.h" ./config.h
+
+  # Apply patches.
+  git apply "${srcdir}/no-bold.diff"
+
+  # Build it!
+  make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
+}
+
+package() {
+  cd "${srcdir}/st"
+
+  # Install the program.
+  make PREFIX=/usr DESTDIR="${pkgdir}" TERMINFO="${pkgdir}/usr/share/terminfo" install
+
+  # Install the license.
+  install -Dm644 LICENSE \
+                    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  # Install the readme.
+  install -Dm644 README \
+                    "${pkgdir}/usr/share/doc/${pkgname}/README"
+}

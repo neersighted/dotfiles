@@ -1,0 +1,36 @@
+#
+# Colors
+#
+
+[color]
+    ui =  auto
+    interactive = auto
+
+[color "branch"]
+    current = cyan
+    local = blue
+    remote = yellow
+[color "diff"]
+    meta = blue
+    frag = cyan
+
+    plain = black
+    old = red
+    new = green
+
+    whitespace = red reverse
+    commit = normal
+[color "status"]
+    header = cyan
+    nobranch = red
+
+    added = yellow
+    changed = green
+    untracked = red
+[color "decorate"]
+    HEAD = cyan
+
+    tag =  green
+    branch = blue
+    remoteBranch = yellow
+    stash = magenta

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#
+# diff an AUR pkgbuild based on your local copy
+#
+
+DIFF=${DIFF:-diff}
+
+if [[ ! -f PKGBUILD ]]; then
+  echo "error: No PKGBUILD found in working directory." >&2
+  exit 1
+fi >&2
+
+eval $(grep '^pkgname=' PKGBUILD)
+if [[ -z "${pkgname}" ]]; then
+  echo "error: pkgname not found in PKGBUILD" >&2
+  exit 1
+fi
+
+diff ${@:--u} PKGBUILD \
+    <(curl -sL "http://aur.archlinux.org/packages/${pkgname:0:2}/${pkgname}/PKGBUILD")

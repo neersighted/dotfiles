@@ -1,0 +1,51 @@
+# Maintainer: neersighted <n@neersighted.com>
+
+pkgname=dwm-neersighted
+pkgver=fd3c19b
+pkgrel=1
+pkgdesc='The dynamic window manager'
+url='http://dwm.suckless.org'
+license=('MIT')
+source=('git://git.suckless.org/dwm#commit=fd3c19b'
+        'config.h')
+md5sums=('SKIP' 'SKIP')
+sha1sums=('SKIP' 'SKIP')
+sha256sums=('SKIP' 'SKIP')
+arch=('i686' 'x86_64')
+depends=('libxext' 'libxft')
+makedepends=('ncurses')
+conflicts=('dwm')
+provides=('dwm')
+
+pkgver() {
+  cd "${srcdir}/dwm"
+
+  git describe --always | sed 's/^v//;s/-/./g'
+}
+
+build() {
+  cd "${srcdir}/dwm"
+
+  # Apply config.
+  cp "${srcdir}/config.h" ./config.h
+
+  # Apply patches.
+  #git apply "${srcdir}/patch.diff"
+
+  # Build it!
+  make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
+}
+
+package() {
+  cd "${srcdir}/dwm"
+
+  # Install the program.
+  make PREFIX=/usr DESTDIR="${pkgdir}" TERMINFO="${pkgdir}/usr/share/terminfo" install
+
+  # Install the license.
+  install -Dm644 LICENSE \
+                    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  # Install the readme.
+  install -Dm644 README \
+                    "${pkgdir}/usr/share/doc/${pkgname}/README"
+}

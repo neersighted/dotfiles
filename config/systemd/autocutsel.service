@@ -1,0 +1,13 @@
+[Unit]
+Description = X Selection Sync Tool
+Requires    = xorg.target
+After       = xorg.target
+
+[Service]
+Type        = simple
+Restart     = always
+RestartSec  = 10
+ExecStart   = /usr/bin/autocutsel
+
+[Install]
+WantedBy = user-programs.target

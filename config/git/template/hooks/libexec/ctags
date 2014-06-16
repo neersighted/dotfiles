@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Fail hard and fast.
+set -e
+
+ctags --tag-relative -R -f.git/tags --exclude=.git

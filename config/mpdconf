@@ -1,0 +1,73 @@
+#
+# Backend
+#
+
+music_directory "~/Annex/Music/Library"
+playlist_directory "~/Annex/Music/Playlists"
+
+db_file "~/.mpd/mpd.db"
+sticker_file "~/.mpd/mpd.stcks"
+state_file "~/.mpd/mpd.state"
+log_file "~/.mpd/mpd.log"
+pid_file "~/.mpd/mpd.pid"
+
+#
+# Network
+#
+
+bind_to_address "~/.mpd/mpd.sock"
+bind_to_address "any"
+
+#
+# Database
+#
+
+# Watch the music_directory.
+auto_update "yes"
+
+#
+# Playback
+#
+
+# Play on startup.
+restore_paused "no"
+# Use gapless mp3 if available.
+gapless_mp3_playback "yes"
+
+# We use a hardware volume control.
+mixer_type "hardware"
+
+#
+# Output
+#
+
+replaygain "track"
+replaygain_preamp "0"
+
+samplerate_converter "Best Sinc Interpolator"
+
+audio_output {
+    type   "alsa"
+    name   "Onboard"
+    device "onboard"
+}
+audio_output {
+    type   "alsa"
+    name   "E17"
+    device "e17"
+}
+audio_output {
+    type "fifo"
+    name "Visualizer"
+    path "~/.ncmpcpp/visualizer.fifo"
+}
+audio_output {
+    type     "httpd"
+    name     "HTTP Stream"
+    port     "6602"
+
+    encoder  "wave"
+    encoding "mp3"
+    bitrate  "64"
+    format   "44100:16:2"
+}

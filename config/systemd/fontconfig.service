@@ -1,0 +1,11 @@
+[Unit]
+Description = X Font Configuration
+Requires    = xorg.service
+After       = xorg.service
+
+[Service]
+Type        = oneshot
+ExecStart   = /usr/bin/fc-cache -f
+
+[Install]
+WantedBy = user-programs.target

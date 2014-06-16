@@ -1,0 +1,12 @@
+[Unit]
+Description = Feh Image Viewer
+Requires    = xorg.service
+After       = xorg.service
+
+[Service]
+Type      = oneshot
+ExecStart = /bin/sh "%h/.fehbg"
+
+[Install]
+Alias    = desktop-background.service
+WantedBy = user-programs.target

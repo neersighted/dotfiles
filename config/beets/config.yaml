@@ -1,0 +1,46 @@
+directory: ~/Annex/Music/Library
+library: ~/.local/share/beets/library.blb
+paths:
+    default: $albumartist/$album%aunique{}/$track $title
+    singleton: Non-Album/$artist/$title
+    comp: Compilations/$album%aunique{}/$track $title
+art_filename: cover
+
+color: yes
+
+import:
+    timid: yes
+    detail: yes
+
+plugins:
+    - convert
+    - replaygain
+    - fetchart
+    - embedart
+    - lyrics
+    - smartplaylist
+    - info
+    - scrub
+    - mbsync
+    - missing
+    - duplicates
+    - web
+    - mpdupdate
+convert:
+    dest: ~/Annex/Music/Library to Go
+    opts: -aq 0
+replaygain:
+    overwrite: yes
+    albumgain: yes
+lyrics:
+    fallback: 'No lyrics found.'
+smartplaylist:
+    playlist_dir: ~/Annex/Music/Playlists
+    playlists:
+        - query: ''
+          name: All.m3u
+        - query: 'favorite:yes'
+          name: Favorites.m3u
+        - query: 'playlist::^(?!\s*$).+'
+          name: '$playlist.m3u'
+    relative_to: ~/Annex/Music/Library

@@ -1,0 +1,14 @@
+[Unit]
+Description = X Automatic Locking Daemon (%I minutes)
+Requires    = xorg.target
+After       = xorg.target
+
+[Service]
+Type        = simple
+Restart     = always
+RestartSec  = 10
+ExecStart   = /usr/bin/xautolock -locker "lock" -time %I
+ExecReload  = /bin/kill -HUB $MAINPID
+
+[Install]
+WantedBy = user-programs.target

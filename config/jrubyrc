@@ -1,0 +1,9 @@
+# Specify the major Ruby version to be compatible with.
+compat.version = 2.0
+
+# Enable C extensions under JRuby.
+cext.enabled = true
+
+# Backtrace settings.
+backtrace.style = mri
+backtrace.color = true

@@ -1,0 +1,16 @@
+[Unit]
+Description = Pulse Audio Server
+Requires    = dbus.socket
+After       = dbus.socket
+
+[Service]
+Type       = dbus
+BusName    = org.pulseaudio.Server
+Restart    = always
+RestartSec = 10
+ExecStart  = /usr/bin/pulseaudio
+ExecStop   = /usr/bin/pulseaudio --kill
+
+[Install]
+Alias    = sound-manager.service
+WantedBy = sound.target

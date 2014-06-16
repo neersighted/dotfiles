@@ -1,0 +1,184 @@
+#
+# General
+#
+
+# Default to a horizontal, tabbed workspace.
+default_orientation horizontal
+workspace_layout tabbed
+
+# Wrap focus.
+force_focus_wrapping yes
+# Don't make the focus follow the mouse.
+focus_follows_mouse no
+
+#
+# Keybindings
+#
+
+# Use the Super key.
+set $mod Mod4
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# Change the focused window.
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+# Focus the parent/child container.
+bindsym $mod+u focus parent
+bindsym $mod+d focus child
+# Change focus between tiling/floating windows.
+bindsym $mod+space focus mode_toggle
+
+# Cycle through border types.
+bindsym $mod+b border toggle
+# Enter fullscreen mode for the focused window.
+bindsym $mod+z fullscreen # Show the scratchpad.
+bindsym $mod+grave scratchpad show
+
+# Move the focused window.
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+# Resize the focused window.
+bindsym $mod+Left resize shrink width 10 px or 10 ppt
+bindsym $mod+Down resize grow height 10 px or 10 ppt
+bindsym $mod+Up resize shrink height 10 px or 10 ppt
+bindsym $mod+Right resize grow width 10 px or 10 ppt
+# Toggle tiling/floating.
+bindsym $mod+Shift+space floating toggle
+# Move to the scrachpad.
+bindsym $mod+Shift+grave move scratchpad
+
+# Create a split.
+bindsym $mod+Shift+s split vertical
+bindsym $mod+Shift+v split horizontal
+# Cycle through layouts.
+bindsym $mod+Shift+x layout toggle all
+# Change container layout (stacked, tabbed, toggle split).
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+x layout toggle split
+
+# Switch to workspace.
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+# Move the focused container to workspace.
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# Kill the focused window.
+bindsym $mod+q kill
+# Kill the current session.
+bindsym $mod+Shift+q exit
+
+# Reload the configuration file.
+bindsym $mod+r reload
+# Restart i3 inplace.
+bindsym $mod+Shift+r restart
+
+#
+# Shortcuts
+#
+
+# Run Stuff
+bindsym $mod+Return exec dmenu_run
+bindsym $mod+Shift+Return exec i3-dmenu-desktop
+
+# Lock the screen.
+bindsym $mod+Ctrl+L exec i3lock -d
+
+# Music: Play/Pause
+bindsym $mod+Insert exec mpc toggle
+# Music: Stop
+bindsym $mod+Home exec mpc stop
+# Music: Next
+bindsym $mod+End exec mpc next
+# Music: Previous
+bindsym $mod+Delete exec mpc prev
+# Music: Random
+bindsym $mod+Print exec mpc random
+bindsym $mod+Shift+Print exec mpc shuffle
+# Music: Repeat
+bindsym $mod+Scroll_Lock exec mpc repeat
+bindsym $mod+Shift+Scroll_Lock exec mpc single
+
+# Volume: Up
+bindsym $mod+Prior exec amixer set PCM 5+
+bindsym $mod+Shift+Prior exec amixer set PCM 10+
+# Volume: Down
+bindsym $mod+Next exec amixer set PCM 5-
+bindsym $mod+Shift+Next exec amixer set PCM 10-
+# Volume: Mute
+bindsym $mod+Pause exec amixer set PCM toggle
+bindsym $mod+Shift+Pause exec amixer set PCM PCM 0
+
+#
+# Appearance
+#
+
+# Use normal borders.
+new_window normal
+new_float normal
+# Hide edge borders.
+hide_edge_borders both
+
+# Use a nice font.
+font xft:Source Code Pro 7.5
+
+# Solarized!
+client.focused #93a1a1 #fdf6e3 #268bd2
+client.focused_inactive #93a1a1 #fdf6e3 #2aa198
+client.unfocused #93a1a1 #fdf6e3 #657b83
+client.urgent #93a1a1 #fdf6e3 #dc322f
+
+#
+# Statusbar
+#
+
+bar {
+    status_command /usr/bin/true
+
+    mode dock
+    position bottom
+
+    tray_output primary
+    workspace_buttons yes
+
+    font xft:Source Code Pro 7.5
+    colors {
+      background #fdf6e3
+      statusline #657b83
+
+      focused_workspace #93a1a1 #fdf6e3 #268bd2
+      active_workspace #93a1a1 #fdf6e3 #2aa198
+      inactive_workspace #93a1a1 #fdf6e3 #657b83
+      urgent_workspace #93a1a1 #fdf6e3 #dc322f
+    }
+}
+
+#
+# Rules
+#
+
+# Float popups.
+for_window [window_role="pop-up"] floating enable
+for_window [class="Pinentry"] floating enable

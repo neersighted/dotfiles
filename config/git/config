@@ -1,0 +1,34 @@
+#
+# User Details
+#
+
+[user]
+    name = neersighted
+    email = n@neersighted.com
+
+[github]
+    user = neersighted
+    email = n@neersighted.com
+[hub]
+    protocol = git
+
+#
+# General Config
+#
+
+[core]
+    autocrlf = false
+[init]
+    templatedir = ~/.config/git/template
+
+[push]
+    default = current
+[branch]
+    autosetuprebase = always
+
+[merge]
+    summary = true
+    ff = false
+[rerere]
+    enabled = 1
+

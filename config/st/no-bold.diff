@@ -1,0 +1,12 @@
+diff --git a/st.c b/st.c
+--- a/st.c
++++ b/st.c
+@@ -3164,7 +3164,7 @@
+ 		 * to bright system colors [8-15]
+ 		 */
+ 		if(BETWEEN(base.fg, 0, 7))
+-			fg = &dc.col[base.fg + 8];
++			fg = &dc.col[base.fg];
+ 
+ 		if(base.mode & ATTR_ITALIC) {
+ 			font = &dc.ibfont;
