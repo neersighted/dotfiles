@@ -2,7 +2,7 @@ gtk-theme-name="Numix Solarized Light"
 gtk-cursor-theme-name="Adwaita"
 gtk-icon-theme-name="gnome"
 
-gtk-font-name="Source Sans Pro Light 7.5"
+gtk-font-name="Source Sans Pro Light 10"
 gtk-xft-antialias=1
 gtk-xft-hinting=1
 gtk-xft-hintstyle="hintfull"
