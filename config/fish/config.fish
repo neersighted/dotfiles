@@ -56,6 +56,11 @@ end
 
 # Check that we are an interactive shell.
 if status --is-interactive
+   # Load rbenv.
+   . (rbenv init -|psub)
+   # Load pyenv.
+   . (pyenv init -|psub)
+
    # Run Tmux.
    if tmux has-session -t main
       tmux attach-session -t main
