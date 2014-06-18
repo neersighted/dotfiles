@@ -179,10 +179,11 @@ set spell
 set spelllang=en_us
 
 " Use the system clipboard for yank/paste.
+set clipboard=autoselect
 if has("unnamedplus")
-    set clipboard=unnamedplus,autoselectplus
+    set clipboard+=unnamedplus
 else
-    set clipboard=unnamed,autoselect
+    set clipboard+=unnamed
 endif
 
 " Default to 4-space(!!!) indents
