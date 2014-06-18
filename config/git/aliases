@@ -1,24 +1,2 @@
 [alias]
-    i = init
-    n = clone --recursive
-
-    c = commit --verbose
-
-    a = add --interactive
-    x = reset
-    z = rm
-
-    o = checkout
-    b = branch
-    t = tag
-
-    m = merge
-    r = rebase --interactive
-
-    f = fetch
-    u = up
-    p = push
-
-    s = status --short --branch
-    d = diff
-    l = log --all --graph --decorate --pretty=format:'%C(blue)%h%C(cyan)%d : %C(reset)%s%+b %C(white)-- %aN, %ar%n' --abbrev-commit
+    log = log --all --graph --decorate --pretty=format:'%C(blue)%h%C(cyan)%d : %C(reset)%s%+b %C(white)-- %aN, %ar%n' --abbrev-commit

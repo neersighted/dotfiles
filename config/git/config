@@ -32,3 +32,9 @@
 [rerere]
     enabled = 1
 
+[log]
+    abbrevCommit = true
+[status]
+    short = true
+[format]
+    pretty = "format:%C(blue)%h%C(cyan)%d : %C(reset)%s%+b %C(white)-- %aN, %ar%n"
