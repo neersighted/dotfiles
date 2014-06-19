@@ -25,13 +25,7 @@ fresh config/fish/functions --file=~/.config/fish/functions/
 #
 
 # vim: vi improved
-fresh-options --file=~/.vimrc --marker=\"
-    fresh config/vim/bootstrap.vim
-    fresh config/vim/bundles.vim
-    fresh config/vim/settings.vim
-    fresh config/vim/keybindings.vim
-    fresh config/vim/abbreviations.vim
-fresh-options
+fresh config/vim/vimrc --file
 
 #
 # Search

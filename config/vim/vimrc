@@ -1,0 +1,744 @@
+"
+" Profiling
+"
+
+if has('vim_starting') && has('reltime')
+    let startuptime = reltime()
+    autocmd VimEnter *
+      \ let startuptime = reltime(startuptime) |
+      \ redraw |
+      \ echo reltimestr(startuptime)
+endif
+
+"
+" System Detection
+"
+
+" Platform Variables {{{
+  let s:is_tmux = exists($TMUX)
+
+  let s:is_windows = has('win32') || has('win64')
+  let s:is_cygwin  = has('win32unix')
+  let s:is_mac     = match(system('uname'), 'Darwin') != -1
+
+  let s:is_gui    = has('gui_running')
+  let s:is_gtk    = has('gui_gtk2')
+  let s:is_macvim = has('gui_macvim')
+" }}}
+
+"
+" Functions
+"
+
+" Platform Functions {{{
+  " Check if a directory is empty/does not exist.
+  function! s:is_empty(dir)
+    return empty(glob(expand(a:dir)))
+  endfunction
+
+  " Make sure a directory exists.
+  function! s:ensure(dir)
+    let dir = expand(a:dir)
+
+    if s:is_empty(dir) && !isdirectory(dir)
+      try
+        call mkdir(target, 'p')
+      catch
+        " On some platforms mkdir() does not exist.
+        silent execute '!mkdir -p '.dir
+      endtry
+    endif
+  endfunction
+
+  " Get the (platform dependant) cache location.
+  function! s:get_cache(for)
+    if s:is_windows && !s:is_cygwin
+      let l:dir = '~/Application Data/Vim'
+    elseif s:is_mac
+      let l:dir = '~/Library/Application Support/Vim'
+    else
+      if empty($XDG_DATA_HOME)
+        let l:dir= '~/.local/share/vim'
+      else
+        let l:dir = $XDG_DATA_HOME.'/vim'
+      endif
+    endif
+
+    let dir = resolve(expand(l:dir . '/' . a:for))
+
+    call s:ensure(dir)
+    return dir
+  endfunction
+" }}}
+
+" Utility Functions {{{
+  " Execute a command without moving or clobbering search.
+  " Stolen from bling.vim <3
+  function! Preserve(command)
+    " Preserve the position and search.
+    let old_search = @/
+    let cursor_l = line('.')
+    let cursor_c = col('.')
+
+    " Do the dirty work.
+    execute a:command
+
+    " Restore the old data.
+    let @/ = old_search
+    call cursor(cursor_l, cursor_c)
+  endfunction
+" }}}
+
+"
+" Plugins
+"
+
+let s:bundle_cache = s:get_cache('bundle')
+let s:neobundle = s:bundle_cache.'/neobundle.vim'
+
+" Install Neobundle {{{
+  " Clone Neobundle if we can.
+  if s:is_empty(s:bundle_cache)
+    if executable('git')
+      silent execute '!git clone git://github.com/Shougo/neobundle.vim 's:neobundle
+    else
+      if confirm("Git is not installed. Continue?", "&Yes\n&No", 2) == 2
+        quit
+      endif
+    endif
+  endif
+" }}}
+
+" Run Neobundle {{{
+  " Set defaults.
+  set nocompatible
+
+  " Load Neobundle.
+  silent execute "set runtimepath+=".s:neobundle
+  call neobundle#begin(s:bundle_cache)
+" }}}
+
+if neobundle#has_cache()
+  NeoBundleLoadCache
+else
+  " Plugins {{{
+    " Libraries {{{
+      " Neobundle itself.
+      NeoBundleFetch 'Shougo/neobundle.vim'
+
+      " Unified fuzzy interface to any (implemented) source.
+      NeoBundle "Shougo/unite.vim"
+
+      " Background and asynchronous process support.
+      NeoBundle "Shougo/vimproc"
+      " A pseudo-command line.
+      NeoBundle "junegunn/vim-pseudocl"
+      " Async adapters for running Vim's compiler plugins, or arbitrary commands.
+      NeoBundle "tpope/vim-dispatch"
+
+      " Repeat support for arbitrary plugins.
+      NeoBundle "tpope/vim-repeat"
+      NeoBundle "visualrepeat"
+    " }}}
+
+    " Fixes/Tweaks {{{
+      " Sane defaults.
+      NeoBundle 'tpope/vim-sensible'
+
+      " Auto-detect indent settings.
+      NeoBundle 'tpope/vim-sleuth'
+      " Auto detect the build command.
+      NeoBundle 'johnsyweb/vim-makeshift'
+
+      " Smooth scrolling.
+      NeoBundle "terryma/vim-smooth-scroll"
+
+      " Close buffers without changing the layout.
+      NeoBundle "moll/vim-bbye"
+
+      " Fix terminal key sequences.
+      NeoBundle "drmikehenry/vim-fixkey"
+      " Let Tmux notify Vim of changed environmental variables.
+      NeoBundle 'buztard/vim-nomad'
+
+      " Show markers for indents.
+      NeoBundle "Yggdroot/indentLine"
+      " View CSS colors.
+      NeoBundle "gorodinskiy/vim-coloresque"
+    " }}}
+
+    " Unite Sources {{{
+      NeoBundle "Shougo/unite-outline"
+      NeoBundle "Shougo/unite-help"
+      NeoBundle "Shougo/neomru.vim"
+      NeoBundle "thinca/vim-unite-history"
+    " }}}
+
+    " Editing {{{
+      " Commentary adds key bindings to easily comment and uncomment code.
+      NeoBundle "tpope/vim-commentary"
+      " Align text with verbs!
+      NeoBundle "tommcdo/vim-lion"
+
+      " Surround.vim adds support for manipulating the surroundings of a text object,
+      " such as adding/removing quotes, replacing in brackets, and more.
+      NeoBundle "tpope/vim-surround"
+      " Automatically close quotes, parenthesis, braces, and other delimiters.
+      NeoBundle "Raimondi/delimitMate"
+      " Automatically end block constructs in supported languages.
+      NeoBundle "tpope/vim-endwise"
+
+      " A Vim implementation of Emac's 'kill ring', allowing you to cycle through
+      " yanks.
+      NeoBundle "maxbrunsfeld/vim-yankstack"
+      " Force a paste mode regardless of the yank type.
+      NeoBundle "UnconditionalPaste"
+
+      " Split and join statements intelligently.
+      NeoBundle "AndrewRadev/splitjoin.vim"
+      " Speeddating adds support for incrementing and decrementing dates.
+      NeoBundle "tpope/vim-speeddating"
+      " Handy bracket-prefixed pairs of mappings that @tpope finds useful.
+      NeoBundle "tpope/vim-unimpaired"
+
+      " Multiple cursors and selection.
+      NeoBundle "terryma/vim-multiple-cursors"
+      " Abolish brings bracket substitutions to Vim abbreviations, searches, and
+      " substitutions.
+      NeoBundle "tpope/vim-abolish"
+    " }}}
+
+    " Lint {{{
+    " Lint and syntax checking for many languages.
+    NeoBundle "scrooloose/syntastic"
+    " }}}
+
+    " Completion {{{
+      " Completion engine supporting almost anything. Also it's fast.
+      NeoBundle "Shougo/neocomplete.vim"
+
+      " Python completion source.
+      NeoBundle "davidhalter/jedi-vim"
+
+      " A powerful snippet engine, with support for nested snippets.
+      NeoBundle "SirVer/ultisnips"
+      " A snippets collection for Snipmate/UltiSnips.
+      NeoBundle "honza/vim-snippets"
+    " }}}
+
+    " Movement {{{
+      " A better /...
+      NeoBundle "junegunn/vim-oblique"
+
+      " EasyMotion displays possible motions as hints, making it easier to navigate
+      " files.
+      NeoBundle "Lokaltog/vim-easymotion"
+      " Seek adds a two-character seek binding.
+      NeoBundle "goldfeld/vim-seek"
+    " }}}
+
+    " Navigation {{{
+      " A shell, in your Vim! It's like a magic REPL.
+      NeoBundle "Shougo/vimshell"
+      " A file browser and sidebar for Vim.
+      NeoBundle "Shougo/vimfiler"
+      " A ctags browser as a sidebar.
+      NeoBundle "majutsushi/tagbar"
+
+      " Quick access to a file browser.
+      NeoBundle "tpope/vim-vinegar"
+
+      " Various utilities for *nix (and maybe Windows) systems, such as renaming and
+      " deleting files, or changing file permissions.
+      NeoBundle "tpope/vim-eunuch"
+    " }}}
+
+    " Collaboration {{{
+      " A Git wrapper so awesome, it should be illegal.  Add mappings for working
+      " with Git meta-files and diffs, and wrap common Git commands.
+      NeoBundle "tpope/vim-fugitive"
+      " A Fugitive extension to browse commits (basically gitk).
+      NeoBundle "int3/vim-extradite"
+      " A Fugitive extension to manage and merge/rebase branches.
+      NeoBundle "idanarye/vim-merginal"
+
+      " EditorConfig is a universal editor configuration language.  It helps
+      " developers maintain constant coding styles across editors and platforms.
+      NeoBundle "editorconfig/editorconfig-vim"
+    " }}}
+
+    " UI {{{
+      " A nice status screen.
+      NeoBundle 'mhinz/vim-startify'
+
+      " A sweet, lightweight status bar.
+      NeoBundle 'bling/vim-airline'
+
+      " Signature.vim adds visual marks in the gutter, as well as shortcuts for
+      " managing marks.
+      NeoBundle "kshenoy/vim-signature"
+      " Signify adds diff marks to the gutter.
+      NeoBundle "airblade/vim-gitgutter"
+    " }}}
+
+    " Support {{{
+      " A combination of common syntax and support files.
+      NeoBundle "sheerun/vim-polyglot"
+
+      " Bundler, the Ruby dependency manager.
+      NeoBundle "tpope/vim-bundler"
+      " Fish is a non-POSIX compatible shell for the 21st century.
+      NeoBundle "dag/vim-fish"
+      " GnuPG support in Vim.
+      NeoBundle "jamessan/vim-gnupg"
+      " A Heroku wrapper, so you can Heroku your Herokus.
+      NeoBundle "tpope/vim-heroku"
+      " Tools for working with Node.js.
+      NeoBundle "moll/vim-node"
+      " Tools for working with Ruby on Rails.
+      NeoBundle "tpope/vim-rails"
+      " Tmux statusline.
+      NeoBundle "edkolev/tmuxline.vim"
+      " Tools for working with virtualenv.
+      NeoBundle "jmcantrell/vim-virtualenv"
+    " }}}
+
+    " Colors {{{
+      " The best colorscheme, ever.
+      NeoBundle 'altercation/vim-colors-solarized'
+    " }}}
+
+    " Unused {{{
+    " }}}
+  " }}}
+  NeoBundleSaveCache
+endif
+
+" End Neobundle {{{
+  NeoBundleCheck
+  call neobundle#end()
+" }}}
+
+"
+" Settings
+"
+
+" Input {{{
+  " Timeout {{{
+  " Make escape/keybinds faster.
+  set ttimeoutlen=50 timeoutlen=300
+" }}}
+
+" Mouse {{{
+" Enable the mouse, but hide it when typing.
+set mouse=a mousehide
+" }}}
+
+" Keyboard {{{
+" Fix the Mac option key.
+if s:is_macvim
+  set macmeta
+endif
+" }}}
+" }}}
+
+" Output {{{
+  " Allow backgrounding buffers.
+  set hidden
+
+  " Assume a fast TTY.
+  set ttyfast
+" }}}
+
+" Editing {{{
+  " Search {{{
+    " Enable escape characters.
+    set magic
+    " Show searches as they are typed.
+    set hlsearch incsearch
+  " }}}
+
+  " Selection {{{
+    " Use the system clipboard.
+    set clipboard=autoselect
+    if has("unnamedplus")
+        set clipboard+=unnamedplus
+    else
+        set clipboard+=unnamed
+    endif
+
+    " Allow the cursor to go beyond the line and to make true blocks.
+    set virtualedit=onemore,block
+
+    if neobundle#tap('vim-yankstack')
+      function! neobundle#hooks.on_post_source(bundle)
+        call yankstack#setup() " Yankstack compatibility...
+      endfunction
+
+      call neobundle#untap()
+    endif
+
+    if neobundle#tap('vim-unimpaired')
+      function! neobundle#hooks.on_post_source(bundle)
+        " Line bubbling (sugar for ]e/[e).
+        nmap <m-k> <plug>unimpairedMoveUp
+        nmap <m-j> <plug>unimpairedMoveDown
+        vmap <m-k> <plug>unimpairedMoveSelectionUpgv
+        vmap <m-j> <plug>unimpairedMoveSelectionDowngv
+        " Blank line insertion.
+        nmap <m-s-k> <plug>unimpairedBlankUp
+        nmap <m-s-j> <plug>unimpairedBlankDown
+      endfunction
+
+      call neobundle#untap()
+    endif
+
+    " Yank from cursor to end of line.
+    nnoremap Y y$
+    " Reselect pasted text in visual mode.
+    nnoremap pv V`]
+    vnoremap p p`]
+
+    " Toggle paste mode.
+    nnoremap <silent> <leader>p :setlocal paste! paste?<cr>
+    set pastetoggle=<leader>p
+  " }}}
+
+  " Indent {{{
+    " Retain selection when indenting in Visual mode (sugar for gv).
+    vnoremap < <gv
+    vnoremap > >gv
+
+    " Toggle automatic indenting.
+    nnoremap <silent> <leader>i :setlocal autoindent! autoindent?<cr>
+  " }}}
+
+  " Formatting {{{
+    " Format a line.
+    nnoremap Q gq
+    " Split a line (complements J).
+    nnoremap K i<cr><esc>
+  " }}}
+
+  " Lint {{{
+  if neobundle#tap('syntastic')
+    " Enable error indicators (via signs).
+    let g:syntastic_enable_signs = 1
+    " Auto-show the Syntastic LOC.
+    let g:syntastic_auto_loc_list = 1
+
+    " Don't check on write-quit.
+    let g:syntastic_check_on_wq = 0
+
+      neobundle#untap()
+    endif
+  " }}}
+
+  " Completion {{{
+    if neobundle#tap('ultisnips')
+      let g:UltiSnipsSnippetsDir = s:bundle_cache."/vim-snippets/snippets"
+
+      call neobundle#untap()
+    endif
+  " }}}
+
+  " Spelling {{{
+    " Enable spell checking.
+    set spell spelllang=en
+
+    " Toggle spell checking.
+    nnoremap <silent> <leader>z :setlocal spell! spell?<cr>
+  " }}}
+
+  " Case {{{
+    " Ignore case when searching, unless a uppercase letter is present.
+    set ignorecase smartcase
+    " When completing infer case.
+    set infercase
+  " }}}
+
+  " Wrapping {{{
+    " Hard wrap at 80 characters by default.
+    set textwidth=79
+    " Enable virtual wrapping, but only between words and only when out of room.
+    set wrap linebreak wrapmargin=0
+    " Wrap over lines.
+    set whichwrap=h,l,<,>,[,],b,s
+    set backspace=indent,eol,start
+
+    " Move over virtual lines (wrapped lines).
+    nnoremap j gj
+    nnoremap k gk
+
+    " Toggle forced line wrapping.
+    nnoremap <silent> <leader>q :setlocal wrap! wrap?<cr>
+  " }}}
+
+  " Splits {{{
+    " Open to the right.
+    set splitright
+    " Allow squishing splits.
+    set winminheight=0
+  " }}}
+" }}}
+
+" Movement {{{
+  " Arrow Keys {{{
+    nnoremap <left> <nop>
+    nnoremap <down> <nop>
+    nnoremap <up> <nop>
+    nnoremap <right> <nop>
+  " }}}
+
+  " Seeking {{{
+    if neobundle#tap('vim-seek')
+      " Enable 's' as seek.
+      let g:seek_enable_jumps = 1
+
+      call neobundle#untap()
+    endif
+  " }}}
+
+  " Scrolling {{{
+    if neobundle#tap('vim-smooth-scroll')
+      function! neobundle#hooks.on_post_source(bundle)
+        noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<cr>
+        noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<cr>
+        noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<cr>
+        noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<cr>
+      endfunction
+
+      call neobundle#untap()
+    endif
+  " }}}
+" }}}
+
+" Navigation {{{
+  " Unite {{{
+    if neobundle#tap('unite.vim')
+      function! s:unite_settings()
+        nnoremap <buffer> <esc> <plug>(unite_exit)
+      endfunction
+      if has('autocmd')
+        augroup unite
+          autocmd!
+          autocmd FileType unite call s:unite_settings()
+        augroup end
+      endif
+
+      let g:unite_source_history_yank_enable = 1
+        if executable('ag')
+          let g:unite_source_grep_command = 'ag'
+          let g:unite_source_grep_default_opts = '--column --smart-case --nogroup --noheading --nocolor --follow'
+          let g:unite_source_grep_recursive_opt = ''
+        elseif executable('ack')
+          let g:unite_source_grep_command = 'ack'
+          let g:unite_source_grep_default_opts = '--column --smart-case --nogroup --noheading --nocolor --follow'
+          let g:unite_source_grep_recursive_opt = ''
+        elseif executable('ack-grep')
+          let g:unite_source_grep_command = 'ack-grep'
+          let g:unite_source_grep_default_opts = '--column --smart-case --nogroup --noheading --nocolor --follow'
+          let g:unite_source_grep_recursive_opt = ''
+        endif
+
+      function! neobundle#hooks.on_post_source(bundle)
+        " Fuzzy finder.
+        nnoremap <silent> <leader>f :Unite -buffer-name=files -start-insert file_rec/async file_mru<cr>
+        " Quick grep.
+        nnoremap <silent> <leader>/ :Unite -buffer-name=grep grep:.<cr>
+        " Quick cd.
+        nnoremap <silent> <leader>d :Unite -bufer-name=cd --default-action=cd directory_rec/assync directory_mru<cr>
+        " Buffer searching.
+        nnoremap <silent> <leader>b :Unite -buffer-name=buffers -quick-match buffer<cr>
+        " Yank searching.
+        nnoremap <silent> <leader>y :Unite -buffer-name=yanks history/yank<cr>
+        " Snipper searching.
+        nnoremap <silent> <leader>s :Unite -buffer-name=snippets snippet<cr>
+      endfunction
+
+      call neobundle#untap()
+    endif
+  " }}}
+
+  " Grep {{{
+    if executable('ag')
+      set grepprg=ag\ --column\ --smart-case\ --nogroup\ --noheading\ --nocolor\ --follow
+      set grepformat=%f:%l:%c:%m
+    elseif executable('ack')
+      set grepprg=ag\ --column\ --smart-case\ --nogroup\ --noheading\ --nocolor\ --follow\ $*
+      set grepformat=%f:%l:%c:%m
+    elseif executable('ack-grep')
+      set grepprg=ag-grep\ --column\ --smart-case\ --nogroup\ --noheading\ --nocolor\ --follow\ $*
+      set grepformat=%f:%l:%c:%m
+    endif
+  " }}}
+
+  " Files {{{
+    if neobundle#tap('vimfiler')
+      let g:vimfiler_as_default_explorer = 1
+
+      call neobundle#untap()
+    endif
+  " }}}
+
+  " Buffers {{{
+    " Map meta-h/l to switch buffers.
+    nnoremap <silent> <m-h> :bp<cr>
+    nnoremap <silent> <m-l> :bn<cr>
+    " ...and meta-c/meta-shift-c to quit and delete.
+    nnoremap <silent> <m-c> :Bdelete<cr>
+    nnoremap <silent> <m-s-c> :q<cr>
+  " }}}
+" }}}
+
+" Appearance {{{
+  " Font {{{
+    if s:is_macvim
+      set guifont=Source_Code_Pro_Light:h10
+      set antialias
+    else
+      set guifont=Source\ Code\ Pro\ Light\ 7.5
+    endif
+  " }}}
+
+  " Colorscheme {{{
+    " A amazing colorscheme.
+    if neobundle#tap('vim-colors-solarized') " {{{
+      colorscheme solarized
+
+      call neobundle#untap()
+    endif " }}}
+
+    " Color Switching {{{
+      " Quick bind to toggle the background.
+      nnoremap <silent> <leader>c let &background = ( &background == "dark"? "light" : "dark" )<cr>
+
+      " Change colors based on the time of day.
+      if strftime("%H") >= 7 && strftime("%H") <= 17
+        set background=light
+        silent! AirlineRefresh
+      else
+        set background=dark
+        silent! AirlineRefresh
+      endif
+    " }}}
+  " }}}
+
+  " Syntax {{{
+    " Turn on syntax highlighting.
+    syntax on
+
+    " Toggle syntax highlighting.
+    nnoremap <silent> <leader>s :if exists("g:syntax_on") <bar> syntax off <bar> else <bar> syntax on <bar> endif<cr>
+  " }}}
+
+  " Hidden {{{
+    " Show hidden characters.
+    set list
+    " Totally conceal if no replacement exists, but in normal/command mode.
+    set conceallevel=2 concealcursor=nc
+
+    " Toggle hidden characters.
+    nnoremap <silent> <leader>h :setlocal list! list?<cr>
+
+    if neobundle#tap('indentLine')
+      let g:indentLine_char = '┊'
+
+      call neobundle#untap()
+    endif
+  " }}}
+
+  " Search {{{
+    " Show matched characters.
+    set showmatch
+  " }}}
+
+  " Folding {{{
+    " Turn on folding based on syntax plugins.
+    set foldenable foldmethod=syntax
+    " ...and unfold when needed.
+    set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
+
+    " Open and close folds.
+    nnoremap <space> za
+  " }}}
+
+  " Ruler {{{
+    " Turn on line numbers.
+    set number relativenumber
+    " Color the column we wrap on.
+    set colorcolumn=+1
+
+    " Toggle line numbers.
+    nnoremap <silent> <leader>n :setlocal number! relativenumber!<cr>
+  " }}}
+
+  " Status Bar " {{{
+    " Disable the built in mode indicator, and don't show the last command.
+    set noshowmode noshowcmd
+
+    if neobundle#tap('vim-airline') " {{{
+      " Use the pretty fonts.
+      let g:airline_powerline_fonts = 1
+
+      function! neobundle#hooks.on_source(bundle)
+        " Enable some nice extensions.
+        let g:airline#extensions#tabline#enabled = 1
+        let g:airline#extensions#whitespace#enabled = 1
+      endfunction
+
+      call neobundle#untap()
+    endif " }}}
+  " }}}
+
+  " Messages {{{
+    " Turn off bells.
+    set noerrorbells novisualbell
+    " Use abbreviations and disable 'Press Enter to Continue' messages.
+    set shortmess+=filmnrxoOtT
+  " }}}
+
+  " GUI {{{
+    " Get rid of GUI cruft.
+    set guioptions-=m
+    set guioptions-=T
+    set guioptions-=e
+    set guioptions-=r
+    set guioptions-=L
+  " }}}
+
+  " Startup {{{
+    " A nice splash screen.
+    if neobundle#tap('vim-startify') " {{{
+      " Save the cursor position.
+      let g:startify_restore_position = 1
+      let g:startify_session_dir = s:get_cache('session')
+
+      call neobundle#untap()
+    endif " }}}
+  " }}}
+" }}}
+
+" Caches {{{
+  " Use swapfiles, backups, and persist undo data.
+  set swapfile backup undofile
+
+  " Save the marks for the last 50 files, and 1000 register lines.
+  set viminfo='50,<1000,h
+  " Save 100 lines of command-line and search history.
+  set history=100
+  " Save view/session to view/session files.
+  set viewoptions=cursor,folds
+  set sessionoptions=curdir,folds,blank,buffers,tabpages,resize,winsize,winpos
+
+  let &directory = s:get_cache('swap')
+  let &backupdir = s:get_cache('backup')
+  if has("persistent_undo")
+    let &undodir = s:get_cache('undo')
+  endif
+  if has("mksession")
+    let &viewdir = s:get_cache('view')
+  endif
+" }}}
+
+" vim:foldmethod=marker
