@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
 while true; do
+    xsetroot -name "$(date +'%l:%m %p | %A %B %e, %Y')"
+    sleep 10
+done &
+
+while true; do
     dwm
 done
