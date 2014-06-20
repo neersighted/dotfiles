@@ -326,6 +326,13 @@ endif
 " Settings
 "
 
+" Setup {{{
+  " Set up and clear my autocmmand group.
+  augroup vimrc
+    autocmd!
+  augroup end
+" }}}
+
 " Input {{{
   " Timeout {{{
   " Make escape/keybinds faster.
@@ -523,10 +530,7 @@ endif
         nnoremap <buffer> <esc> <plug>(unite_exit)
       endfunction
       if has('autocmd')
-        augroup unite
-          autocmd!
-          autocmd FileType unite call s:unite_settings()
-        augroup end
+        autocmd vimrc FileType unite call s:unite_settings()
       endif
 
       let g:unite_source_history_yank_enable = 1
@@ -617,13 +621,20 @@ endif
       nnoremap <silent> <leader>c let &background = ( &background == "dark"? "light" : "dark" )<cr>
 
       " Change colors based on the time of day.
-      if strftime("%H") >= 7 && strftime("%H") <= 17
-        set background=light
-        silent! AirlineRefresh
-      else
-        set background=dark
-        silent! AirlineRefresh
-      endif
+      function! RecolorBackground()
+        if strftime("%H") >= 7 && strftime("%H") <= 17
+          set background=light
+          silent! AirlineRefresh
+          return 'light'
+        else
+          set background=dark
+          silent! AirlineRefresh
+          return 'dark'
+        endif
+      endfunction
+
+      autocmd vimrc BufWritePost * call RecolorBackground()
+      call RecolorBackground()
     " }}}
   " }}}
 
@@ -742,6 +753,9 @@ endif
   if has("mksession")
     let &viewdir = s:get_cache('view')
   endif
+
+  " Clear Neobundle's cache when we write out vimrc.
+  autocmd vimrc BufWritePost *vimrc NeoBundleClearCache
 " }}}
 
 " vim:foldmethod=marker
