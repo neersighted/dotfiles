@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 while true; do
-    xsetroot -name "$(date +'%l:%m %p | %A %B %e, %Y')"
+    xsetroot -name "$(date +'%l:%M %p | %A %B %e, %Y')"
     sleep 10
 done &
 
