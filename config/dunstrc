@@ -32,7 +32,7 @@
     monitor = 0
     follow = mouse
 
-    startup_notification = true
+    startup_notification = false
     dmenu = /usr/bin/dmenu -p dunst:
     browser = /usr/bin/google-chrome-stable
 
