@@ -431,16 +431,16 @@ endif
   " }}}
 
   " Lint {{{
-  if neobundle#tap('syntastic')
-    " Enable error indicators (via signs).
-    let g:syntastic_enable_signs = 1
-    " Auto-show the Syntastic LOC.
-    let g:syntastic_auto_loc_list = 1
+    if neobundle#tap('syntastic')
+      " Enable error indicators (via signs).
+      let g:syntastic_enable_signs = 1
+      " Auto-show the Syntastic LOC.
+      let g:syntastic_auto_loc_list = 1
 
-    " Don't check on write-quit.
-    let g:syntastic_check_on_wq = 0
+      " Don't check on write-quit.
+      let g:syntastic_check_on_wq = 0
 
-      neobundle#untap()
+      call neobundle#untap()
     endif
   " }}}
 
@@ -502,8 +502,13 @@ endif
 
   " Seeking {{{
     if neobundle#tap('vim-seek')
-      " Enable 's' as seek.
+      " Enable jumps.
       let g:seek_enable_jumps = 1
+
+      " Remap this because Yankstack clobbers it.
+      function! neobundle#hooks.on_post_source(bundle)
+        nmap <silent> s <Plug>(seek-seek)
+      endfunction
 
       call neobundle#untap()
     endif
@@ -559,12 +564,20 @@ endif
         nnoremap <silent> <leader>b :Unite -buffer-name=buffers -auto-preview -quick-match buffer<cr>
         " Yank searching.
         nnoremap <silent> <leader>y :Unite -buffer-name=yanks history/yank<cr>
-        " Snipper searching.
-        nnoremap <silent> <leader>s :Unite -buffer-name=snippets snippet<cr>
       endfunction
 
       call neobundle#untap()
     endif
+  " }}}
+
+  " Shell {{{
+      if neobundle#tap('vimshell.vim')
+        function! neobundle#hooks.on_post_source(bundle)
+          nnoremap <silent> <leader>s :VimShell<cr>
+        endfunction
+
+        call neobundle#untap()
+      endif
   " }}}
 
   " Grep {{{
@@ -643,7 +656,7 @@ endif
     syntax on
 
     " Toggle syntax highlighting.
-    nnoremap <silent> <leader>s :if exists("g:syntax_on") <bar> syntax off <bar> else <bar> syntax on <bar> endif<cr>
+    nnoremap <silent> <leader>h :if exists("g:syntax_on") <bar> syntax off <bar> else <bar> syntax on <bar> endif<cr>
   " }}}
 
   " Hidden {{{
@@ -653,7 +666,7 @@ endif
     " Totally conceal if no replacement exists, but in normal/command mode.
     set conceallevel=2 concealcursor=nc
     " Toggle hidden characters.
-    nnoremap <silent> <leader>h :setlocal list! list?<cr>
+    nnoremap <silent> <leader>l :setlocal list! list?<cr>
 
     if neobundle#tap('indentLine')
       let g:indentLine_char = '┊'
