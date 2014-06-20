@@ -114,7 +114,7 @@ let s:neobundle = s:bundle_cache.'/neobundle.vim'
   set nocompatible
 
   " Load Neobundle.
-  silent execute "set runtimepath+=".s:neobundle
+  silent execute 'set runtimepath+='.s:neobundle
   call neobundle#begin(s:bundle_cache)
 " }}}
 
@@ -127,18 +127,18 @@ else
       NeoBundleFetch 'Shougo/neobundle.vim'
 
       " Unified fuzzy interface to any (implemented) source.
-      NeoBundle "Shougo/unite.vim"
+      NeoBundle 'Shougo/unite.vim'
 
       " Background and asynchronous process support.
-      NeoBundle "Shougo/vimproc"
+      NeoBundle 'Shougo/vimproc'
       " A pseudo-command line.
-      NeoBundle "junegunn/vim-pseudocl"
+      NeoBundle 'junegunn/vim-pseudocl'
       " Async adapters for running Vim's compiler plugins, or arbitrary commands.
-      NeoBundle "tpope/vim-dispatch"
+      NeoBundle 'tpope/vim-dispatch'
 
       " Repeat support for arbitrary plugins.
-      NeoBundle "tpope/vim-repeat"
-      NeoBundle "visualrepeat"
+      NeoBundle 'tpope/vim-repeat'
+      NeoBundle 'visualrepeat'
     " }}}
 
     " Fixes/Tweaks {{{
@@ -151,120 +151,123 @@ else
       NeoBundle 'johnsyweb/vim-makeshift'
 
       " Smooth scrolling.
-      NeoBundle "terryma/vim-smooth-scroll"
+      NeoBundle 'terryma/vim-smooth-scroll'
 
       " Close buffers without changing the layout.
-      NeoBundle "moll/vim-bbye"
+      NeoBundle 'moll/vim-bbye'
 
       " Fix terminal key sequences.
-      NeoBundle "drmikehenry/vim-fixkey"
+      NeoBundle 'drmikehenry/vim-fixkey'
       " Let Tmux notify Vim of changed environmental variables.
       NeoBundle 'buztard/vim-nomad'
 
+      " Make Vim's build in character info command support more things.
+      NeoBundle 'tpope/vim-characterize'
+
       " Show markers for indents.
-      NeoBundle "Yggdroot/indentLine"
+      NeoBundle 'Yggdroot/indentLine'
       " View CSS colors.
-      NeoBundle "gorodinskiy/vim-coloresque"
+      NeoBundle 'gorodinskiy/vim-coloresque'
     " }}}
 
     " Unite Sources {{{
-      NeoBundle "Shougo/unite-outline"
-      NeoBundle "Shougo/unite-help"
-      NeoBundle "Shougo/neomru.vim"
-      NeoBundle "thinca/vim-unite-history"
+      NeoBundle 'Shougo/unite-outline'
+      NeoBundle 'Shougo/unite-help'
+      NeoBundle 'Shougo/neomru.vim'
+      NeoBundle 'thinca/vim-unite-history'
     " }}}
 
     " Editing {{{
       " Commentary adds key bindings to easily comment and uncomment code.
-      NeoBundle "tpope/vim-commentary"
+      NeoBundle 'tpope/vim-commentary'
       " Align text with verbs!
-      NeoBundle "tommcdo/vim-lion"
+      NeoBundle 'tommcdo/vim-lion'
 
       " Surround.vim adds support for manipulating the surroundings of a text object,
       " such as adding/removing quotes, replacing in brackets, and more.
-      NeoBundle "tpope/vim-surround"
+      NeoBundle 'tpope/vim-surround'
       " Automatically close quotes, parenthesis, braces, and other delimiters.
-      NeoBundle "Raimondi/delimitMate"
+      NeoBundle 'Raimondi/delimitMate'
       " Automatically end block constructs in supported languages.
-      NeoBundle "tpope/vim-endwise"
+      NeoBundle 'tpope/vim-endwise'
 
       " A Vim implementation of Emac's 'kill ring', allowing you to cycle through
       " yanks.
-      NeoBundle "maxbrunsfeld/vim-yankstack"
+      NeoBundle 'maxbrunsfeld/vim-yankstack'
       " Force a paste mode regardless of the yank type.
-      NeoBundle "UnconditionalPaste"
+      NeoBundle 'UnconditionalPaste'
 
       " Split and join statements intelligently.
-      NeoBundle "AndrewRadev/splitjoin.vim"
+      NeoBundle 'AndrewRadev/splitjoin.vim'
       " Speeddating adds support for incrementing and decrementing dates.
-      NeoBundle "tpope/vim-speeddating"
+      NeoBundle 'tpope/vim-speeddating'
       " Handy bracket-prefixed pairs of mappings that @tpope finds useful.
-      NeoBundle "tpope/vim-unimpaired"
+      NeoBundle 'tpope/vim-unimpaired'
 
       " Multiple cursors and selection.
-      NeoBundle "terryma/vim-multiple-cursors"
+      NeoBundle 'terryma/vim-multiple-cursors'
       " Abolish brings bracket substitutions to Vim abbreviations, searches, and
       " substitutions.
-      NeoBundle "tpope/vim-abolish"
+      NeoBundle 'tpope/vim-abolish'
     " }}}
 
     " Lint {{{
     " Lint and syntax checking for many languages.
-    NeoBundle "scrooloose/syntastic"
+    NeoBundle 'scrooloose/syntastic'
     " }}}
 
     " Completion {{{
       " Completion engine supporting almost anything. Also it's fast.
-      NeoBundle "Shougo/neocomplete.vim"
+      NeoBundle 'Shougo/neocomplete.vim'
 
       " Python completion source.
-      NeoBundle "davidhalter/jedi-vim"
+      NeoBundle 'davidhalter/jedi-vim'
 
       " A powerful snippet engine, with support for nested snippets.
-      NeoBundle "SirVer/ultisnips"
+      NeoBundle 'SirVer/ultisnips'
       " A snippets collection for Snipmate/UltiSnips.
-      NeoBundle "honza/vim-snippets"
+      NeoBundle 'honza/vim-snippets'
     " }}}
 
     " Movement {{{
       " A better /...
-      NeoBundle "junegunn/vim-oblique"
+      NeoBundle 'junegunn/vim-oblique'
 
       " EasyMotion displays possible motions as hints, making it easier to navigate
       " files.
-      NeoBundle "Lokaltog/vim-easymotion"
+      NeoBundle 'Lokaltog/vim-easymotion'
       " Seek adds a two-character seek binding.
-      NeoBundle "goldfeld/vim-seek"
+      NeoBundle 'goldfeld/vim-seek'
     " }}}
 
     " Navigation {{{
       " A shell, in your Vim! It's like a magic REPL.
-      NeoBundle "Shougo/vimshell"
+      NeoBundle 'Shougo/vimshell'
       " A file browser and sidebar for Vim.
-      NeoBundle "Shougo/vimfiler"
+      NeoBundle 'Shougo/vimfiler'
       " A ctags browser as a sidebar.
-      NeoBundle "majutsushi/tagbar"
+      NeoBundle 'majutsushi/tagbar'
 
       " Quick access to a file browser.
-      NeoBundle "tpope/vim-vinegar"
+      NeoBundle 'tpope/vim-vinegar'
 
       " Various utilities for *nix (and maybe Windows) systems, such as renaming and
       " deleting files, or changing file permissions.
-      NeoBundle "tpope/vim-eunuch"
+      NeoBundle 'tpope/vim-eunuch'
     " }}}
 
     " Collaboration {{{
       " A Git wrapper so awesome, it should be illegal.  Add mappings for working
       " with Git meta-files and diffs, and wrap common Git commands.
-      NeoBundle "tpope/vim-fugitive"
+      NeoBundle 'tpope/vim-fugitive'
       " A Fugitive extension to browse commits (basically gitk).
-      NeoBundle "int3/vim-extradite"
+      NeoBundle 'int3/vim-extradite'
       " A Fugitive extension to manage and merge/rebase branches.
-      NeoBundle "idanarye/vim-merginal"
+      NeoBundle 'idanarye/vim-merginal'
 
       " EditorConfig is a universal editor configuration language.  It helps
       " developers maintain constant coding styles across editors and platforms.
-      NeoBundle "editorconfig/editorconfig-vim"
+      NeoBundle 'editorconfig/editorconfig-vim'
     " }}}
 
     " UI {{{
@@ -276,31 +279,31 @@ else
 
       " Signature.vim adds visual marks in the gutter, as well as shortcuts for
       " managing marks.
-      NeoBundle "kshenoy/vim-signature"
+      NeoBundle 'kshenoy/vim-signature'
       " Signify adds diff marks to the gutter.
-      NeoBundle "airblade/vim-gitgutter"
+      NeoBundle 'airblade/vim-gitgutter'
     " }}}
 
     " Support {{{
       " A combination of common syntax and support files.
-      NeoBundle "sheerun/vim-polyglot"
+      NeoBundle 'sheerun/vim-polyglot'
 
       " Bundler, the Ruby dependency manager.
-      NeoBundle "tpope/vim-bundler"
+      NeoBundle 'tpope/vim-bundler'
       " Fish is a non-POSIX compatible shell for the 21st century.
-      NeoBundle "dag/vim-fish"
+      NeoBundle 'dag/vim-fish'
       " GnuPG support in Vim.
-      NeoBundle "jamessan/vim-gnupg"
+      NeoBundle 'jamessan/vim-gnupg'
       " A Heroku wrapper, so you can Heroku your Herokus.
-      NeoBundle "tpope/vim-heroku"
+      NeoBundle 'tpope/vim-heroku'
       " Tools for working with Node.js.
-      NeoBundle "moll/vim-node"
+      NeoBundle 'moll/vim-node'
       " Tools for working with Ruby on Rails.
-      NeoBundle "tpope/vim-rails"
+      NeoBundle 'tpope/vim-rails'
       " Tmux statusline.
-      NeoBundle "edkolev/tmuxline.vim"
+      NeoBundle 'edkolev/tmuxline.vim'
       " Tools for working with virtualenv.
-      NeoBundle "jmcantrell/vim-virtualenv"
+      NeoBundle 'jmcantrell/vim-virtualenv'
     " }}}
 
     " Colors {{{
@@ -545,11 +548,11 @@ endif
         " Fuzzy finder.
         nnoremap <silent> <leader>f :Unite -buffer-name=files -start-insert file_rec/async file_mru<cr>
         " Quick grep.
-        nnoremap <silent> <leader>/ :Unite -buffer-name=grep grep:.<cr>
+        nnoremap <silent> <leader>/ :Unite -buffer-name=grep -auto-preview grep:.<cr>
         " Quick cd.
         nnoremap <silent> <leader>d :Unite -bufer-name=cd --default-action=cd directory_rec/assync directory_mru<cr>
         " Buffer searching.
-        nnoremap <silent> <leader>b :Unite -buffer-name=buffers -quick-match buffer<cr>
+        nnoremap <silent> <leader>b :Unite -buffer-name=buffers -auto-preview -quick-match buffer<cr>
         " Yank searching.
         nnoremap <silent> <leader>y :Unite -buffer-name=yanks history/yank<cr>
         " Snipper searching.
@@ -635,9 +638,9 @@ endif
   " Hidden {{{
     " Show hidden characters.
     set list
+    let &listchars = 'tab:\u21e5\u00b7,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u26ad'
     " Totally conceal if no replacement exists, but in normal/command mode.
     set conceallevel=2 concealcursor=nc
-
     " Toggle hidden characters.
     nnoremap <silent> <leader>h :setlocal list! list?<cr>
 
