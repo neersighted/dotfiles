@@ -516,12 +516,10 @@ endif
 
   " Scrolling {{{
     if neobundle#tap('vim-smooth-scroll')
-      function! neobundle#hooks.on_post_source(bundle)
-        noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<cr>
-        noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<cr>
-        noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<cr>
-        noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<cr>
-      endfunction
+      noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<cr>
+      noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<cr>
+      noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<cr>
+      noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<cr>
 
       call neobundle#untap()
     endif
@@ -553,28 +551,19 @@ endif
           let g:unite_source_grep_recursive_opt = ''
         endif
 
-      function! neobundle#hooks.on_post_source(bundle)
-        " Fuzzy finder.
-        nnoremap <silent> <leader>f :Unite -buffer-name=files -start-insert file_rec/async file_mru<cr>
-        " Quick grep.
-        nnoremap <silent> <leader>/ :Unite -buffer-name=grep -auto-preview grep:.<cr>
-        " Quick cd.
-        nnoremap <silent> <leader>d :Unite -bufer-name=cd --default-action=cd directory_rec/assync directory_mru<cr>
-        " Buffer searching.
-        nnoremap <silent> <leader>b :Unite -buffer-name=buffers -auto-preview -quick-match buffer<cr>
-        " Yank searching.
-        nnoremap <silent> <leader>y :Unite -buffer-name=yanks history/yank<cr>
-      endfunction
+        nnoremap <silent> <leader>f :Unite -buffer-name=files -start-insert file_rec/async file_mru<cr> " Fuzzy finder.
+        nnoremap <silent> <leader>/ :Unite -buffer-name=grep -auto-preview grep:.<cr> " Quick grep.
+        nnoremap <silent> <leader>d :Unite -bufer-name=cd --default-action=cd directory_rec/assync directory_mru<cr> " Quick cd.
+        nnoremap <silent> <leader>b :Unite -buffer-name=buffers -auto-preview -quick-match buffer<cr> " Buffer searching.
+        nnoremap <silent> <leader>y :Unite -buffer-name=yanks history/yank<cr> " Yank searching.
 
       call neobundle#untap()
     endif
   " }}}
 
   " Shell {{{
-      if neobundle#tap('vimshell.vim')
-        function! neobundle#hooks.on_post_source(bundle)
-          nnoremap <silent> <leader>s :VimShell<cr>
-        endfunction
+      if neobundle#tap('vimshell')
+        nnoremap <silent> <leader>s :VimShell<cr>
 
         call neobundle#untap()
       endif
@@ -707,12 +696,9 @@ endif
     if neobundle#tap('vim-airline') " {{{
       " Use the pretty fonts.
       let g:airline_powerline_fonts = 1
-
-      function! neobundle#hooks.on_source(bundle)
-        " Enable some nice extensions.
-        let g:airline#extensions#tabline#enabled = 1
-        let g:airline#extensions#whitespace#enabled = 1
-      endfunction
+      " Enable some nice extensions.
+      let g:airline#extensions#tabline#enabled = 1
+      let g:airline#extensions#whitespace#enabled = 1
 
       call neobundle#untap()
     endif " }}}
