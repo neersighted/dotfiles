@@ -221,10 +221,12 @@ else
       NeoBundle 'Shougo/neocomplete.vim'
 
       " Python completion source.
-      NeoBundle 'davidhalter/jedi-vim'
+      NeoBundle 'davidhalter/jedi-vim',
+            \ {'autoload':{'filetypes':['python']}}
 
       " A powerful snippet engine, with support for nested snippets.
-      NeoBundle 'SirVer/ultisnips'
+      NeoBundle 'Shougo/neosnippet'
+      NeoBundle 'Shougo/neosnippet-snippets'
       " A snippets collection for Snipmate/UltiSnips.
       NeoBundle 'honza/vim-snippets'
     " }}}
@@ -445,8 +447,48 @@ endif
   " }}}
 
   " Completion {{{
-    if neobundle#tap('ultisnips')
-      let g:UltiSnipsSnippetsDir = s:bundle_cache."/vim-snippets/snippets"
+    if neobundle#tap('neocomplete.vim')
+      " Enable automatically and at startup.
+      let g:neocomplete#enable_at_startup = 1
+      let g:neocomplete#enable_smart_case = 1
+      " Require 3 characters to complete.
+      let g:neocomplete#sources#syntax#min_keyword_length = 3
+      " Buffers to not complete in.
+      let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+      " Set up dicts.
+      let g:neocomplete#sources#dictionary#dictionaries = {}
+      let g:neocomplete#sources#omni#input_patterns  {}
+      let g:neocomplete#keyword_patterns = {
+            \ 'default': '\h\w*'
+            \ }
+
+      function! s:tab()
+        if neosnippet#expandable_or_jumpable()
+          return "\<plug>(neosnippet_expand_or_jump)"
+        elseif pumvisible()
+          return "\<c-n>"
+        elseif neocomplete#complete_common_string() != ''
+          call neocomplete#complete_common_string()
+        else
+          return "\<tab>"
+        endif
+      endfunction
+
+      imap <expr> <tab> <sid>tab()
+
+      inoremap <expr> <cr> pumvisible() ? neocomplete#close_popup() : '<cr>'
+      inoremap <expr> <bs> pumvisible() ? neocomplete#smart_close_popup().'<c-h>' : '<c-h>'
+      inoremap <expr> <esc> pumvisible() ? neocomplete#cancel_popup() : '<esc>'
+      inoremap <expr> <c-c> pumvisible() ? neocomplete#cancel_popup() : '<c-c>'
+      inoremap <expr> <c-f> neocomplete#complete_common_string()
+
+      call neobundle#untap()
+    endif
+    if neobundle#tap('neosnippet.vim')
+      let g:neosnippet#snippets_directory = s:bundle_cache."/vim-snippets/snippets"
+
+      imap <c-k> <Plug>(neosnippet_expand_or_jump)
 
       call neobundle#untap()
     endif
