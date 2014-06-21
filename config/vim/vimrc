@@ -457,8 +457,6 @@ endif
       let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
       " Set up dicts.
-      let g:neocomplete#sources#dictionary#dictionaries = {}
-      let g:neocomplete#sources#omni#input_patterns  {}
       let g:neocomplete#keyword_patterns = {
             \ 'default': '\h\w*'
             \ }
