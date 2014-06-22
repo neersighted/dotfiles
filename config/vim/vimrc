@@ -149,32 +149,37 @@ else
       NeoBundle 'tpope/vim-sleuth'
       " Auto detect the build command.
       NeoBundle 'johnsyweb/vim-makeshift'
-
-      " Smooth scrolling.
-      NeoBundle 'terryma/vim-smooth-scroll'
+      " Let Tmux notify Vim of changed environmental variables.
+      NeoBundle 'buztard/vim-nomad'
 
       " Close buffers without changing the layout.
       NeoBundle 'moll/vim-bbye'
 
+      " Smooth scrolling.
+      NeoBundle 'terryma/vim-smooth-scroll'
       " Fix terminal key sequences.
       NeoBundle 'drmikehenry/vim-fixkey'
-      " Let Tmux notify Vim of changed environmental variables.
-      NeoBundle 'buztard/vim-nomad'
 
       " Make Vim's build in character info command support more things.
       NeoBundle 'tpope/vim-characterize'
-
+ 
       " Show markers for indents.
       NeoBundle 'Yggdroot/indentLine'
-      " View CSS colors.
-      NeoBundle 'gorodinskiy/vim-coloresque'
     " }}}
 
     " Unite Sources {{{
-      NeoBundle 'Shougo/unite-outline'
-      NeoBundle 'Shougo/unite-help'
-      NeoBundle 'Shougo/neomru.vim'
-      NeoBundle 'thinca/vim-unite-history'
+      NeoBundleLazy 'Shougo/unite-help', {
+        \ 'depends': ['Shougo/unite.vim'],
+        \ 'autoload': {'unite_sources': ['help']}
+      \ }
+      NeoBundleLazy 'Shougo/neomru.vim', {
+        \ 'depends': ['Shougo/unite.vim'],
+        \ 'autoload': {'unite_sources': ['file_mru', 'directory_mru', 'neomru/file', 'neomru/directory']}
+      \ }
+      NeoBundleLazy 'thinca/vim-unite-history', {
+        \ 'depends': ['Shougo/unite.vim'],
+        \ 'autoload': {'unite_sources': ['history/command', 'history/search']}
+      \ }
     " }}}
 
     " Editing {{{
@@ -196,6 +201,8 @@ else
       NeoBundle 'maxbrunsfeld/vim-yankstack'
       " Force a paste mode regardless of the yank type.
       NeoBundle 'UnconditionalPaste'
+      " Replace a text object with a register.
+      NeoBundle 'ReplaceWithRegister'
 
       " Split and join statements intelligently.
       NeoBundle 'AndrewRadev/splitjoin.vim'
@@ -212,23 +219,34 @@ else
     " }}}
 
     " Lint {{{
-    " Lint and syntax checking for many languages.
-    NeoBundle 'scrooloose/syntastic'
+      " Lint and syntax checking for many languages.
+      NeoBundle 'scrooloose/syntastic'
     " }}}
 
     " Completion {{{
       " Completion engine supporting almost anything. Also it's fast.
-      NeoBundle 'Shougo/neocomplete.vim'
+      NeoBundleLazy 'Shougo/neocomplete.vim', {
+        \ 'depends': ['Shougo/unite.vim'],
+        \ 'autoload': {'insert': 1}
+      \ }
 
       " Python completion source.
-      NeoBundle 'davidhalter/jedi-vim',
-            \ {'autoload':{'filetypes':['python']}}
+      NeoBundleLazy 'davidhalter/jedi-vim', {
+        \ 'autoload': {'filetypes': ['python']}
+      \ }
 
       " A powerful snippet engine, with support for nested snippets.
-      NeoBundle 'Shougo/neosnippet'
-      NeoBundle 'Shougo/neosnippet-snippets'
+      NeoBundleLazy 'Shougo/neosnippet', {
+        \ 'depends': ['Shougo/neocomplete.vim'],
+        \ 'autoload': {'insert': 1}
+      \ }
+      NeoBundle 'Shougo/neosnippet-snippets', {
+        \ 'depends': ['Shougo/neosnippet']
+      \ }
       " A snippets collection for Snipmate/UltiSnips.
-      NeoBundle 'honza/vim-snippets'
+      NeoBundle 'honza/vim-snippets', {
+        \ 'depends': ['Shougo/neosnippet']
+      \ }
     " }}}
 
     " Movement {{{
@@ -243,15 +261,18 @@ else
     " }}}
 
     " Navigation {{{
-      " A shell, in your Vim! It's like a magic REPL.
-      NeoBundle 'Shougo/vimshell'
+      NeoBundle 'Shougo/vimshell', {
+        \ 'depends': ['Shougo/vimproc']
+      \ }
       " A file browser and sidebar for Vim.
       NeoBundle 'Shougo/vimfiler'
       " A ctags browser as a sidebar.
       NeoBundle 'majutsushi/tagbar'
 
       " Quick access to a file browser.
-      NeoBundle 'tpope/vim-vinegar'
+      NeoBundle 'tpope/vim-vinegar', {
+        \ 'depends': ['Shougo/vimfiler']
+      \ }
 
       " Various utilities for *nix (and maybe Windows) systems, such as renaming and
       " deleting files, or changing file permissions.
@@ -278,6 +299,8 @@ else
 
       " A sweet, lightweight status bar.
       NeoBundle 'bling/vim-airline'
+      " Derive Tmux's status line from Vim.
+      NeoBundle 'edkolev/tmuxline.vim'
 
       " Signature.vim adds visual marks in the gutter, as well as shortcuts for
       " managing marks.
@@ -291,21 +314,27 @@ else
       NeoBundle 'sheerun/vim-polyglot'
 
       " Bundler, the Ruby dependency manager.
-      NeoBundle 'tpope/vim-bundler'
+      NeoBundleLazy 'tpope/vim-bundler', {
+        \ 'autoload': {'filetypes': 'ruby'}
+      \ }
       " Fish is a non-POSIX compatible shell for the 21st century.
-      NeoBundle 'dag/vim-fish'
+      NeoBundleLazy 'dag/vim-fish', {
+        \ 'autoload': {'filetypes': 'fish'}
+      \ }
       " GnuPG support in Vim.
       NeoBundle 'jamessan/vim-gnupg'
-      " A Heroku wrapper, so you can Heroku your Herokus.
-      NeoBundle 'tpope/vim-heroku'
       " Tools for working with Node.js.
-      NeoBundle 'moll/vim-node'
+      NeoBundleLazy 'moll/vim-node', {
+        \ 'autoload': {'filetypes': 'javascript'}
+      \ }
       " Tools for working with Ruby on Rails.
-      NeoBundle 'tpope/vim-rails'
-      " Tmux statusline.
-      NeoBundle 'edkolev/tmuxline.vim'
+      NeoBundleLazy 'tpope/vim-rails', {
+        \ 'autoload': {'filetypes': 'ruby'}
+      \ }
       " Tools for working with virtualenv.
-      NeoBundle 'jmcantrell/vim-virtualenv'
+      NeoBundleLazy 'jmcantrell/vim-virtualenv', {
+        \ 'autoload': {'filetypes': 'python'}
+      \ }
     " }}}
 
     " Colors {{{
