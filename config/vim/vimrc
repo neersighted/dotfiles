@@ -491,21 +491,30 @@ endif
             \ }
 
       function! s:tab()
-        if neosnippet#expandable_or_jumpable()
-          return "\<plug>(neosnippet_expand_or_jump)"
+        if neosnippet#jumpable()
+          return "\<plug>(neosnippet_jump)"
         elseif pumvisible()
           return "\<c-n>"
         elseif neocomplete#complete_common_string() != ''
-          call neocomplete#complete_common_string()
+          return neocomplete#complete_common_string()
         else
           return "\<tab>"
         endif
       endfunction
+      function! s:cr()
+        if pumvisible()
+          if neosnippet#expandable()
+            return "\<plug>(neosnippet_expand)"
+          else
+            return neocomplete#close_popup()
+          endif
+        else
+          return "\<cr>\<plug>DiscretionaryEnd"
+        endif
+      endfunction
 
+      imap <expr> <cr> <sid>cr()
       imap <expr> <tab> <sid>tab()
-
-      inoremap <expr> <cr> pumvisible() ? neocomplete#close_popup() : '<cr>'
-      inoremap <expr> <bs> pumvisible() ? neocomplete#smart_close_popup().'<c-h>' : '<c-h>'
       inoremap <expr> <esc> pumvisible() ? neocomplete#cancel_popup() : '<esc>'
       inoremap <expr> <c-c> pumvisible() ? neocomplete#cancel_popup() : '<c-c>'
       inoremap <expr> <c-f> neocomplete#complete_common_string()
@@ -514,8 +523,6 @@ endif
     endif
     if neobundle#tap('neosnippet.vim')
       let g:neosnippet#snippets_directory = s:bundle_cache."/vim-snippets/snippets"
-
-      imap <c-k> <Plug>(neosnippet_expand_or_jump)
 
       call neobundle#untap()
     endif
@@ -823,7 +830,7 @@ endif
   endif
 
   " Clear Neobundle's cache when we write out vimrc.
-  autocmd vimrc BufWritePost *vimrc NeoBundleClearCache
+  autocmd vimrc BufWritePost *vimrc* NeoBundleClearCache
 " }}}
 
 " vim:foldmethod=marker
