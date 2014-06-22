@@ -727,7 +727,7 @@ endif
   " Hidden {{{
     " Show hidden characters.
     set list
-    let &listchars = 'tab:\u21e5\u00b7,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u26ad'
+    set listchars=tab:»·,trail:·,eol:¬,nbsp:_
     " Totally conceal if no replacement exists, but in normal/command mode.
     set conceallevel=2 concealcursor=nc
     " Toggle hidden characters.
