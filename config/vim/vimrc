@@ -803,6 +803,10 @@ endif
       let g:startify_restore_position = 1
       let g:startify_session_dir = s:get_cache('session')
 
+      " This is fun.
+      let g:startify_custom_header =
+        \ map(split(system('fortune | cowsay'), '\n'), '"   ". v:val') + ['','']
+
       call neobundle#untap()
     endif " }}}
   " }}}
