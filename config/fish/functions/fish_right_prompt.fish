@@ -2,15 +2,15 @@ set -g __fish_git_prompt_show_informative_status 1
 set -g __fish_git_prompt_hide_untrackedfiles 1
 
 set -g __fish_git_prompt_color_branch magenta bold
-set -g __fish_git_prompt_showupstream "informative"
-set -g __fish_git_prompt_char_upstream_ahead "↑"
-set -g __fish_git_prompt_char_upstream_behind "↓"
+set -g __fish_git_prompt_showupstream 'informative'
+set -g __fish_git_prompt_char_upstream_ahead '↑'
+set -g __fish_git_prompt_char_upstream_behind '↓'
 set -g __fish_git_prompt_char_upstream_prefix ""
 
-set -g __fish_git_prompt_char_conflictedstate "x"
-set -g __fish_git_prompt_char_dirtystate "~"
-set -g __fish_git_prompt_char_untrackedfiles "?"
-set -g __fish_git_prompt_char_stagedstate "+"
+set -g __fish_git_prompt_char_conflictedstate 'x'
+set -g __fish_git_prompt_char_dirtystate '~'
+set -g __fish_git_prompt_char_untrackedfiles '?'
+set -g __fish_git_prompt_char_stagedstate '+'
 set -g __fish_git_prompt_char_cleanstate "o"
 
 set -g __fish_git_prompt_color_dirtystate blue
@@ -27,14 +27,14 @@ function fish_right_prompt --description 'simple right prompt'
   set_color normal
 
   set_color $fish_color_cwd
-  echo -n " "(prompt_pwd)
+  printf ' %s' (prompt_pwd)
 
   set_color normal
-  echo -n (__fish_git_prompt)
+  printf '%s' (__fish_git_prompt)
 
   if not test $last_status -eq 0
     set_color $fish_color_error
-    echo -n " [$last_status]"
+    printf ' [%i]' $last_status
   end
 
   set_color normal
