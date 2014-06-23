@@ -490,6 +490,9 @@ endif
             \ 'default': '\h\w*'
             \ }
 
+      " Don't conflict with endwise.
+      let g:endwise_no_mappings = 1
+
       function! s:tab()
         if neosnippet#jumpable()
           return "\<plug>(neosnippet_jump)"
