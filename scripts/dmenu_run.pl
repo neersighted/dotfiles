@@ -10,8 +10,6 @@ use strict;
 #    released for free under the creative commons CC BY  license. 
 #         http://creativecommons.org/licenses/by/3.0
 
-my $DMENU_EXEC = "/usr/bin/dmenu";
-
 use Storable qw(nstore retrieve);
 use IPC::Open2;
 
@@ -102,7 +100,7 @@ if ( $remove_key ) {
 }
 
 # execute dmenu to prompt the user
-my $pid = open2( my $fh_out, my $fh_in, $DMENU_EXEC,@dmenu_opts );
+my $pid = open2( my $fh_out, my $fh_in, '/usr/bin/env dmenu', @dmenu_opts );
 foreach  # run fancy_sort on our keys
     my $bit ( sort { fancy_sort( $a, $b, $count_ref ) } keys %{$count_ref} )
 {
