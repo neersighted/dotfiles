@@ -20,6 +20,9 @@ fresh-options --file=~/.config/fish/config.fish --marker
 fresh-options
 fresh config/fish/functions --file=~/.config/fish/functions/
 
+# fzf: fuzzy finder for your shell
+fresh junegunn/fzf fzf --bin
+
 #
 # Editing
 #
