@@ -11,7 +11,7 @@ static const Bool topbar            = True;
 static const char *termcmd[]  = { "st", NULL };
 static const char *killcmd[]  = { "undwmd", NULL};
 static char dmenumon[2]       = "0";
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+static const char *dmenucmd[] = { "dmenu_run.pl", "-m", dmenumon, "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 
 static const int nmaster           = 1;
 static const float mfact           = 0.7;
