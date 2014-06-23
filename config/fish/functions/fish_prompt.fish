@@ -1,3 +1,3 @@
-function fish_prompt --description 'really simple left prompt'
+function fish_prompt --description 'left prompt'
   echo -n -s "λ "
 end

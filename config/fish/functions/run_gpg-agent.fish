@@ -1,4 +1,4 @@
-function run_gpg-agent
+function run_gpg-agent --description 'run the gpg-agent'
     if [ -x /usr/bin/gpg-agent ]
         set -l gpginfo /tmp/gpg-agent.info
         if not pgrep -u $USER gpg-agent >/dev/null ^&1
