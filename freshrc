@@ -32,7 +32,7 @@ fresh config/vim/vimrc --file
 #
 
 # ack: better than grep
-fresh extern/ack --bin
+fresh vendor/ack --bin
 fresh config/agrc --file=~/.ackrc
 
 # ag: better than ack
@@ -177,7 +177,7 @@ fresh pengwynn/dotfiles bin/hide --bin
 fresh config/htoprc --file=~/.config/htop/htoprc
 
 # hub: git + hub = github
-fresh extern/hub --bin
+fresh vendor/hub --bin
 
 # jruby: ruby-on-jvm interperter
 fresh config/jrubyrc --file
