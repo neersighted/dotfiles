@@ -8,9 +8,8 @@ function fzf_key_bindings --description 'create fzf keybindings'
     eval "$argv $stdin"
   end
 
-  function __fzf_select
-    # select files, directories, and symlinks with fzf
-    find * \
+  function __fzf_select # select files, directories, and symlinks with fzf
+    command find * \
       -path '*/\.*' \
       -prune \
       -o -type f -print \
@@ -19,26 +18,24 @@ function fzf_key_bindings --description 'create fzf keybindings'
       ^/dev/null |\
     fzf -m |\
     while read item
-      echo -n (echo -n "$item" | sed 's/ /\\\\ /g')' '
+      echo -n (echo $item | sed 's/ /\\\\ /g')
     end
   end
 
-  function __fzf_ctrl_t
-    # insert __fzf_select into the commandline
-    function __fzf_tmux_height
-      # determine a height for tmux splits
+  function __fzf_ctrl_t # insert __fzf_select into the commandline
+    function __fzf_tmux_height # determine a height for tmux splits
       set -l height 40%
       set -q FZF_TMUX_HEIGHT; and set height $FZF_TMUX_HEIGHT
 
       if echo $height | grep -q -E '%$'
-        echo "-p "(echo $height | sed 's/%$//')
+        set height (echo $height | sed 's/%$//')
+        echo -n "-p $height"
       else
-        echo "-l $height"
+        echo -n "-l $height"
       end
     end
 
-    # if in tmux, open in a split
-    if test -n "$TMUX_PANE"
+    if test -n "$TMUX_PANE" # if in tmux, open in a split
       tmux split-window (__fzf_tmux_height) "fish -c 'fzf_key_bindings; __fzf_ctrl_t_tmux \\$TMUX_PANE'"
     else
       __fzf_select |\
@@ -48,14 +45,12 @@ function fzf_key_bindings --description 'create fzf keybindings'
     commandline -f repaint
   end
 
-  function __fzf_ctrl_t_tmux
-    # call this in tmux, send fzf's output back
+  function __fzf_ctrl_t_tmux # call this in tmux, send fzf's output back
     __fzf_select |\
     __fzf_wrap tmux send-keys -t \\$argv[1]
   end
 
-  function __fzf_ctrl_r
-    # populate the command line with history
+  function __fzf_ctrl_r # populate the command line with history
     history |\
     fzf +s +m | \
     __fzf_wrap commandline
@@ -63,9 +58,8 @@ function fzf_key_bindings --description 'create fzf keybindings'
     commandline -f repaint
   end
 
-  function __fzf_alt_c
-    # cd to a directory
-    find * \
+  function __fzf_alt_c # cd to a directory
+    command find * \
       -path '*/\.*' \
       -prune \
       -o \
