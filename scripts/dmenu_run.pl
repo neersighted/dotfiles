@@ -13,6 +13,8 @@ use strict;
 use Storable qw(nstore retrieve);
 use IPC::Open2;
 
+my $DMENU = "/usr/bin/dmenu";
+
 my $STO = $ENV{HOME} . "/.dmenu_cache.sto";
 # if we have a cache dir, use it.
 my $CACHEDIR = $ENV{XDG_CACHE_HOME} || $ENV{HOME} . "/.cache";
@@ -100,7 +102,7 @@ if ( $remove_key ) {
 }
 
 # execute dmenu to prompt the user
-my $pid = open2( my $fh_out, my $fh_in, '/usr/bin/env dmenu', @dmenu_opts );
+my $pid = open2( my $fh_out, my $fh_in, $DMENU, @dmenu_opts );
 foreach  # run fancy_sort on our keys
     my $bit ( sort { fancy_sort( $a, $b, $count_ref ) } keys %{$count_ref} )
 {
