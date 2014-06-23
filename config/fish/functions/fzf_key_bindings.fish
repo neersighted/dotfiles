@@ -1,5 +1,6 @@
-function fzf_key_bindings --description 'fzf keybindings'
+function fzf_key_bindings --description 'create fzf keybindings'
   function __fzf_wrap
+    # add (the fist line of) stdin as a argument to a command
     read -l stdin
 
     test "$stdin" = ''; and return
@@ -8,6 +9,7 @@ function fzf_key_bindings --description 'fzf keybindings'
   end
 
   function __fzf_select
+    # select files, directories, and symlinks with fzf
     find * \
       -path '*/\.*' \
       -prune \
@@ -22,7 +24,9 @@ function fzf_key_bindings --description 'fzf keybindings'
   end
 
   function __fzf_ctrl_t
+    # insert __fzf_select into the commandline
     function __fzf_tmux_height
+      # determine a height for tmux splits
       set -l height 40%
       set -q FZF_TMUX_HEIGHT; and set height $FZF_TMUX_HEIGHT
 
@@ -33,6 +37,7 @@ function fzf_key_bindings --description 'fzf keybindings'
       end
     end
 
+    # if in tmux, open in a split
     if test -n "$TMUX_PANE"
       tmux split-window (__fzf_tmux_height) "fish -c 'fzf_key_bindings; __fzf_ctrl_t_tmux \\$TMUX_PANE'"
     else
@@ -44,6 +49,7 @@ function fzf_key_bindings --description 'fzf keybindings'
   end
 
   function __fzf_ctrl_t_tmux
+    # call this in tmux, send fzf's output back
     __fzf_select |\
     __fzf_wrap tmux send-keys -t \\$argv[1]
   end
