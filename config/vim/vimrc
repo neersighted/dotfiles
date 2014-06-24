@@ -84,6 +84,10 @@ endif
     let @/ = old_search
     call cursor(cursor_l, cursor_c)
   endfunction
+
+  function! KillTrailingWhitespace()
+      call Preserve('%s/\s\+$//e')
+  endfunction
 " }}}
 
 "
