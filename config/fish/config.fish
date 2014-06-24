@@ -35,7 +35,7 @@ end
 
 # Set programs.
 set -x EDITOR vim
-set -x PAGER most
+set -x PAGER less
 set -x BROWSER google-chrome
 
 #
