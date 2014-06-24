@@ -4,6 +4,8 @@ function fzf_key_bindings --description 'create fzf keybindings'
 
     test "$stdin" = ''; and return
 
+    set stdin (echo $stdin | sed 's/\n$//')
+
     eval "$argv '$stdin'"
   end
 
@@ -11,10 +13,9 @@ function fzf_key_bindings --description 'create fzf keybindings'
     command find * \
       -path '*/\.*' \
       -prune \
-      -o -type f \
-      -o -type d \
-      -o -type l \
-      -print \
+      -o -type f -print \
+      -o -type d -print \
+      -o -type l -print \
       ^/dev/null |\
     fzf -m |\
     while read item
@@ -53,7 +54,6 @@ function fzf_key_bindings --description 'create fzf keybindings'
   function __fzf_ctrl_r --description 'set the commandline to shell history'
     history |\
     fzf +s +m |\
-    sed 's/\n$//' |\
     __fzf_wrap commandline
 
     commandline -f repaint
@@ -64,8 +64,7 @@ function fzf_key_bindings --description 'create fzf keybindings'
       -path '*/\.*' \
       -prune \
       -o \
-      -type d \
-      -print \
+      -type d -print \
       ^/dev/null |\
     fzf +m |\
     __fzf_wrap cd
