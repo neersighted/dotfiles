@@ -259,6 +259,7 @@ else
       " Automatically end block constructs in supported languages.
       NeoBundle 'tpope/vim-endwise', {
         \ 'lazy': 1,
+        \ 'augroup': 'endwise',
         \ 'autoload': {
         \   'filetypes': ['lua', 'elixir', 'ruby', 'sh', 'zsh', 'vb', 'vbnet',
         \                 'aspvbs', 'vim', 'c', 'cpp,', 'xdefaults', 'objc', 'matlab'],
@@ -298,7 +299,10 @@ else
       " substitutions.
       NeoBundle 'tpope/vim-abolish', {
         \ 'lazy': 1,
-        \ 'autoload': {'commands': ['Abolish', 'Subvert']}
+        \ 'autoload': {
+        \   'commands': ['Abolish', 'Subvert'],
+        \   'mappings': ['crc', 'crm', 'cr_', 'crs', 'cru', 'crU', 'cr-', 'crk', 'cr.']
+        \ }
       \ }
     " }}}
 
@@ -372,7 +376,7 @@ else
       " Multiple cursors and selection.
       NeoBundle 'terryma/vim-multiple-cursors', {
         \ 'lazy': 1,
-        \ 'autoload': {'insert': 1}
+        \ 'autoload': {'mappings': ['<c-n>']}
       \ }
       " Syntactically expand the selection.
       NeoBundle 'terryma/vim-expand-region', {
