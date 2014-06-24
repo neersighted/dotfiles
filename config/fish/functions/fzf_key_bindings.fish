@@ -1,6 +1,5 @@
 function fzf_key_bindings --description 'create fzf keybindings'
-  function __fzf_wrap
-    # add (the fist line of) stdin as a argument to a command
+  function __fzf_wrap --description 'wrap stdin as an argument to a command'
     read -l stdin
 
     test "$stdin" = ''; and return
@@ -8,7 +7,7 @@ function fzf_key_bindings --description 'create fzf keybindings'
     eval "$argv $stdin"
   end
 
-  function __fzf_select # select files, directories, and symlinks with fzf
+  function __fzf_select --description 'select a tree with fzf'
     command find * \
       -path '*/\.*' \
       -prune \
@@ -22,8 +21,8 @@ function fzf_key_bindings --description 'create fzf keybindings'
     end
   end
 
-  function __fzf_ctrl_t # insert __fzf_select into the commandline
-    function __fzf_tmux_height # determine a height for tmux splits
+  function __fzf_ctrl_t --description 'insert __fzf_select into the commandline'
+    function __fzf_tmux_height --description 'determine a good tmux split size'
       set -l height 40%
       set -q FZF_TMUX_HEIGHT; and set height $FZF_TMUX_HEIGHT
 
@@ -35,7 +34,7 @@ function fzf_key_bindings --description 'create fzf keybindings'
       end
     end
 
-    if test -n "$TMUX_PANE" # if in tmux, open in a split
+    if test -n "$TMUX_PANE"
       tmux split-window (__fzf_tmux_height) "fish -c 'fzf_key_bindings; __fzf_ctrl_t_tmux \\$TMUX_PANE'"
     else
       __fzf_select |\
@@ -45,12 +44,12 @@ function fzf_key_bindings --description 'create fzf keybindings'
     commandline -f repaint
   end
 
-  function __fzf_ctrl_t_tmux # call this in tmux, send fzf's output back
+  function __fzf_ctrl_t_tmux --description 'callback in tmux split'
     __fzf_select |\
     __fzf_wrap tmux send-keys -t \\$argv[1]
   end
 
-  function __fzf_ctrl_r # populate the command line with history
+  function __fzf_ctrl_r --descrption 'set the commandline to shell history'
     history |\
     fzf +s +m | \
     __fzf_wrap commandline
@@ -58,7 +57,7 @@ function fzf_key_bindings --description 'create fzf keybindings'
     commandline -f repaint
   end
 
-  function __fzf_alt_c # cd to a directory
+  function __fzf_alt_c 'cd to a directory'
     command find * \
       -path '*/\.*' \
       -prune \
