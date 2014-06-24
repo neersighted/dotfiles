@@ -2,11 +2,11 @@ function fzf_key_bindings --description 'create fzf keybindings'
   function __fzf_wrap --description 'wrap stdin as an argument to a command'
     read -l stdin
 
-    test "$stdin" = ''; and return
+    test $stdin != ''; or return
 
-    set stdin (echo $stdin | sed 's/\n$//')
+    set stdin (echo $stdin | sed "s/\"/\\\\\"/g")
 
-    eval "$argv '$stdin'"
+    eval "$argv \"$stdin\""
   end
 
   function __fzf_select --description 'select a tree with fzf'
