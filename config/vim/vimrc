@@ -3,11 +3,8 @@
 "
 
 if has('vim_starting') && has('reltime')
-    let startuptime = reltime()
-    autocmd VimEnter *
-      \ let startuptime = reltime(startuptime) |
-      \ redraw |
-      \ echo reltimestr(startuptime)
+    let startup = reltime()
+    autocmd VimEnter * let ready = reltime(startup) | redraw | echo reltimestr(ready)
 endif
 
 "
