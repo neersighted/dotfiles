@@ -563,17 +563,21 @@ endif
       inoremap <expr> <c-f> neocomplete#complete_common_string()
 
       call neobundle#untap()
-    endif
-    if neobundle#tap('neosnippet.vim')
+    endif " }}}
+    if neobundle#tap('neosnippet.vim') " {{{
       let g:neosnippet#snippets_directory = s:bundle_cache."/vim-snippets/snippets"
 
       call neobundle#untap()
-    endif
+    endif " }}}
   " }}}
 
   " Spelling {{{
-    " Enable spell checking.
-    set spell spelllang=en
+    " Disable spell checking by default.
+    set nospell spelllang=en
+    " ...but start it on some filetypes.
+    autocmd vimrc FileType gitcommit setlocal spell
+    autocmd vimrc FileType markdown setlocal spell
+    autocmd vimrc FileType text setlocal spell
 
     " Toggle spell checking.
     nnoremap <silent> <leader>z :setlocal spell! spell?<cr>
