@@ -625,21 +625,21 @@ endif
 
 " Input {{{
   " Timeout {{{
-  " Make escape/keybinds faster.
-  set ttimeoutlen=50 timeoutlen=300
+    " Make escape/keybinds faster.
+    set ttimeoutlen=50 timeoutlen=300
 " }}}
 
-" Mouse {{{
-" Enable the mouse, but hide it when typing.
-set mouse=a mousehide
-" }}}
+  " Mouse {{{
+    " Enable the mouse, but hide it when typing.
+    set mouse=a mousehide
+  " }}}
 
-" Keyboard {{{
-" Fix the Mac option key.
-if s:is_macvim
-  set macmeta
-endif
-" }}}
+  " Keyboard {{{
+    " Fix the Mac option key.
+    if s:is_macvim
+      set macmeta
+    endif
+  " }}}
 " }}}
 
 " Output {{{
