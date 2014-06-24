@@ -11,9 +11,10 @@ function fzf_key_bindings --description 'create fzf keybindings'
     command find * \
       -path '*/\.*' \
       -prune \
-      -o -type f -print \
-      -o -type d -print \
-      -o -type l -print \
+      -o -type f \
+      -o -type d \
+      -o -type l \
+      -print \
       ^/dev/null |\
     fzf -m |\
     while read item
