@@ -144,11 +144,23 @@ else
         \ }
       \ }
       " Async adapters for running Vim's compiler plugins, or arbitrary commands.
-      NeoBundle 'tpope/vim-dispatch'
+      NeoBundle 'tpope/vim-dispatch', {
+        \ 'lazy': 1,
+        \ 'autoload': {
+        \   'commands': ['Dispatch', 'Start', 'Make', 'FocusDispatch', 'Focus']
+        \ }
+      \ }
+
 
       " Repeat support for arbitrary plugins.
-      NeoBundle 'tpope/vim-repeat'
-      NeoBundle 'visualrepeat'
+      NeoBundle 'tpope/vim-repeat', {
+        \ 'lazy': 1,
+        \ 'autoload': {'mappings': ['.']}
+      \ }
+      " A library for making text objects.
+      NeoBundle 'kana/vim-textobj-user', {
+        \ 'lazy': 1
+      \ }
     " }}}
 
     " Fixes/Tweaks {{{
