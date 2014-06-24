@@ -548,7 +548,11 @@ endif
             return neocomplete#close_popup()
           endif
         else
-          return "\<cr>\<plug>DiscretionaryEnd"
+          if neobundle#is_sourced('vim-endwise')
+            return "\<cr>\<plug>DiscretionaryEnd"
+          else
+            return "\<cr>"
+          end
         endif
       endfunction
 
