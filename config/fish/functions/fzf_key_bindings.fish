@@ -49,7 +49,7 @@ function fzf_key_bindings --description 'create fzf keybindings'
     __fzf_wrap tmux send-keys -t \\$argv[1]
   end
 
-  function __fzf_ctrl_r --descrption 'set the commandline to shell history'
+  function __fzf_ctrl_r --description 'set the commandline to shell history'
     history |\
     fzf +s +m | \
     __fzf_wrap commandline
@@ -57,7 +57,7 @@ function fzf_key_bindings --description 'create fzf keybindings'
     commandline -f repaint
   end
 
-  function __fzf_alt_c 'cd to a directory'
+  function __fzf_alt_c --description 'cd to a directory'
     command find * \
       -path '*/\.*' \
       -prune \
