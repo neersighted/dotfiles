@@ -803,13 +803,47 @@ endif
   " Startup {{{
     " A nice splash screen.
     if neobundle#tap('vim-startify') " {{{
-      " Save the cursor position.
-      let g:startify_restore_position = 1
+      " Save sessions.
       let g:startify_session_dir = s:get_cache('session')
+      let g:startify_session_persistence = 1
+      let g:startify_session_autoload    = 1
 
-      " This is fun.
-      let g:startify_custom_header =
-        \ map(split(system('fortune | cowsay'), '\n'), '"   ". v:val') + ['','']
+      " Show relative paths.
+      let g:startify_relative_path = 1
+      " Trim entries.
+      let g:startify_files_number        = 5
+      let g:startify_enable_special      = 0
+      let g:startify_skiplist = ['COMMIT_EDITMSG',
+                              \ 'bundle/.*/doc',
+                              \  $VIMRUNTIME.'/doc']
+
+      " Tidy menu.
+      let g:startify_list_order = [['   Recent:'],
+                                 \ 'files',
+                                 \ ['   Sessions:'],
+                                 \ 'sessions',
+                                 \ ['   Bookmarks:'],
+                                 \ 'bookmarks']
+      let g:startify_bookmarks = ['~/prj',
+                                \ '~/tmp',
+                                \ '~/.dotfiles',
+                                \ '~/.freshrc']
+
+      " Start numbering at 1.
+      let g:startify_custom_indices = map(range(1,100), 'string(v:val)')
+
+      " Pretty.
+      let g:startify_custom_header = [ '',
+                                    \ '   __      ___           ',
+                                    \ '   \ \    / (_)          ',
+                                    \ '    \ \  / / _ _ __ ___  ',
+                                    \ '     \ \/ / | | ''_ ` _ \',
+                                    \ '      \  /  | | | | | | |',
+                                    \ '       \/   |_|_| |_| |_|',
+                                    \ '']
+
+      " Disable color column in startify.
+      autocmd vimrc FileType startify setlocal colorcolumn=
 
       call neobundle#untap()
     endif " }}}
@@ -837,6 +871,8 @@ endif
     let &viewdir = s:get_cache('view')
   endif
 
+  " Load the last cursor position.
+  autocmd vimrc BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe 'normal! g`"' | endif
   " Clear Neobundle's cache when we write out vimrc.
   autocmd vimrc BufWritePost *vimrc* NeoBundleClearCache
 " }}}
