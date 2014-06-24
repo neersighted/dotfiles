@@ -4,7 +4,7 @@ function fzf_key_bindings --description 'create fzf keybindings'
 
     test "$stdin" = ''; and return
 
-    eval "$argv $stdin"
+    eval "$argv '$stdin'"
   end
 
   function __fzf_select --description 'select a tree with fzf'
@@ -52,7 +52,8 @@ function fzf_key_bindings --description 'create fzf keybindings'
 
   function __fzf_ctrl_r --description 'set the commandline to shell history'
     history |\
-    fzf +s +m | \
+    fzf +s +m |\
+    sed 's/\n$//' |\
     __fzf_wrap commandline
 
     commandline -f repaint
