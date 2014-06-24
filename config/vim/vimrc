@@ -688,16 +688,17 @@ endif
     endif " }}}
 
     if neobundle#tap('vim-unimpaired') " {{{
-      function! neobundle#hooks.on_post_source(bundle)
-        " Line bubbling (sugar for ]e/[e).
-        nmap <m-k> <plug>unimpairedMoveUp
-        nmap <m-j> <plug>unimpairedMoveDown
-        vmap <m-k> <plug>unimpairedMoveSelectionUpgv
-        vmap <m-j> <plug>unimpairedMoveSelectionDowngv
-        " Blank line insertion.
-        nmap <m-s-k> <plug>unimpairedBlankUp
-        nmap <m-s-j> <plug>unimpairedBlankDown
-      endfunction
+      " Line bubbling (sugar for ]e/[e).
+      nmap <m-k> <plug>unimpairedMoveUp
+      nmap <m-j> <plug>unimpairedMoveDown
+      vmap <m-k> <plug>unimpairedMoveSelectionUpgv
+      vmap <m-j> <plug>unimpairedMoveSelectionDowngv
+      " Blank line insertion.
+      nmap <m-s-k> <plug>unimpairedBlankUp
+      nmap <m-s-j> <plug>unimpairedBlankDown
+      " Paste above/below.
+      nmap <m-s-p> <Plug>unimpairedPutAbove
+      nmap <m-p> <Plug>unimpairedPutBelow
 
       call neobundle#untap()
     endif " }}}
