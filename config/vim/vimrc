@@ -384,6 +384,11 @@ endif
   augroup vimrc
     autocmd!
   augroup end
+
+  " Don't load a bunch of 'standard' plains.
+  let g:loaded_netrwPlugin   = 1
+  let g:loaded_2html_plugin  = 1
+  let g:loaded_vimballPlugin = 1
 " }}}
 
 " Input {{{
