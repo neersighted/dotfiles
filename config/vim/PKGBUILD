@@ -1,5 +1,5 @@
 pkgname=gvim-neersighted
-pkgver=7.4.335.r1.4aa63564dd3f
+pkgver=latest
 pkgrel=1
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor'
 url='http://www.vim.org/'
@@ -24,21 +24,23 @@ build() {
     cd vim
 
     ./configure \
-        --enable-acl \
-        --disable-gpm \
-        --with-x=yes \
         --prefix=/usr \
-        --enable-cscope \
+        --localstatedir=/var/lib/vim \
+        --with-x=yes \
         --enable-gui=gtk2 \
-        --enable-luainterp \
-        --enable-multibyte \
-        --disable-netbeans \
-        --enable-perlinterp \
         --enable-rubyinterp \
-        --with-features=huge \
         --disable-pythoninterp \
         --enable-python3interp \
-        --localstatedir=/var/lib/vim
+        --enable-perlinterp \
+        --enable-luainterp \
+        --enable-acl \
+        --enable-multibyte \
+        --enable-cscope \
+        --disable-netbeans \
+        --disable-gpm \
+        --with-features=huge \
+        --enable-fail-if-missing \
+        --with-compiledby="neersighted"
     make
 }
 
