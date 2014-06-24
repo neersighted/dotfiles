@@ -1038,7 +1038,8 @@ endif
     nnoremap <silent> <leader>h :if exists("g:syntax_on") <bar> syntax off <bar> else <bar> syntax on <bar> endif<cr>
 
     " Less annoying MatchParen.
-    highlight MatchParen cterm=bold ctermbg=none ctermfg=none gui=bold guibg=NONE guifg=NONE
+    highlight MatchParen cterm=bold ctermbg=NONE ctermfg=NONE
+    highlight MatchParen gui=bold guibg=NONE guifg=NONE
 
     if neobundle#tap('rainbow') " {{{
       " Rainbow delimiters!
