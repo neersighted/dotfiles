@@ -339,9 +339,23 @@ else
     " }}}
 
     " Movement {{{
-      " EasyMotion displays possible motions as hints, making it easier to navigate
-      " files.
-      NeoBundle 'Lokaltog/vim-easymotion'
+      " Sneak is the missing motion(tm) for Vim.
+      NeoBundle 'justinmk/vim-sneak', {
+        \ 'lazy': 1,
+        \ 'autoload': {
+        \   'mappings': ['<plug>Sneak_s', '<plug>Sneak_S',
+        \                '<plug>Sneak_f', '<plug>Sneak_F',
+        \                '<plug>Sneak_t', '<plug>Sneak_T',
+        \                '<plug>SneakNext', '<plug>SneakPrevious',
+        \                '<plug>(SneakStreak)', '<plug>(SneakStreakBackward)']
+        \ }
+      \ }
+      " Movements to the end of a motions/text object.
+      NeoBundle 'tommcdo/vim-ninja-feet', {
+        \ 'lazy': 1,
+        \ 'autoload': {'mappings': [']i', '[i', ']a', '[a', 'z]', 'z[']}
+      \ }
+
       " A better /...
       NeoBundle 'junegunn/vim-oblique', {
         \ 'depends': ['junegunn/vim-pseudocl'],
@@ -369,20 +383,11 @@ else
         \ }
       \ }
 
-      " Seek adds a two-character seek binding.
-      NeoBundle 'goldfeld/vim-seek', {
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['s', 'S']}
-      \ }
-      " Movements to the end of a motions/text object.
-      NeoBundle 'tommcdo/vim-ninja-feet', {
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': [']i', '[i', ']a', '[a', 'z]', 'z[']}
-      \ }
-
       " A collection of useful text objects (including 'remote' and
       " 'delimiter'-based objects).
-      NeoBundle 'wellle/targets.vim'
+      NeoBundle 'wellle/targets.vim', {
+        \ 'lazy': 1
+      \ }
       " Text object for the last search.
       NeoBundle 'kana/vim-textobj-lastpat', {
         \ 'depends': ['kana/vim-textobj-user'],
@@ -412,12 +417,6 @@ else
         \ 'depends': ['kana/vim-textobj-user'],
         \ 'lazy': 1,
         \ 'autoload': {'mappings': ['ic', 'ac', 'aC']}
-      \ }
-      " Text object for folds.
-      NeoBundle 'kana/vim-textobj-fold', {
-        \ 'depends': ['kana/vim-textobj-user'],
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['iz', 'az']}
       \ }
       " Text object for the current indent level.
       NeoBundle 'kana/vim-textobj-indent', {
@@ -854,9 +853,42 @@ endif
   " }}}
 
   " Seeking {{{
-    if neobundle#tap('vim-seek') " {{{
-      " Enable jumps.
-      let g:seek_enable_jumps = 1
+    if neobundle#tap('vim-sneak') " {{{
+      " Be clever: if I press s in a match, seek to the next match.
+      let g:sneak#s_next = 1
+
+      " Map Sneak-Streak.
+      nmap <m-cr> <plug>(SneakStreak)
+
+      " Map Sneak.
+      nmap s <plug>Sneak_s
+      nmap S <plug>Sneak_S
+      xmap s <plug>Sneak_s
+      xmap S <plug>Sneak_S
+      omap s <plug>Sneak_s
+      omap S <plug>Sneak_S
+      " Map Sneak next/previous.
+      nmap ; <plug>SneakNext
+      omap ; <plug>SneakNext
+      xmap ; <plug>SneakNext
+      nmap , <plug>SneakPrevious
+      omap , <plug>SneakPrevious
+      xmap , <plug>SneakPrevious
+
+      " Remap f to use Sneak.
+      nmap f <plug>Sneak_f
+      nmap F <plug>Sneak_F
+      xmap f <plug>Sneak_f
+      xmap F <plug>Sneak_F
+      omap f <plug>Sneak_f
+      omap F <plug>Sneak_F
+      " Remap t to use Sneak.
+      nmap t <plug>Sneak_t
+      nmap T <plug>Sneak_T
+      xmap t <plug>Sneak_t
+      xmap T <plug>Sneak_T
+      omap t <plug>Sneak_t
+      omap T <plug>Sneak_T
 
       call neobundle#untap()
     endif " }}}
