@@ -2,10 +2,9 @@ function fzf_key_bindings --description 'create fzf keybindings'
   function __fzf_wrap --description 'wrap stdin as an argument to a command'
     read -l stdin
 
-    test $stdin != ''; or return
+    test -n "$stdin"; or return
 
     set stdin (echo $stdin | sed "s/\"/\\\\\"/g")
-
     eval "$argv \"$stdin\""
   end
 
