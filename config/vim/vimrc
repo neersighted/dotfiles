@@ -486,6 +486,15 @@ endif
     nnoremap Q gq
     " Split a line (complements J).
     nnoremap K i<cr><esc>
+
+    if neobundle#tap('splitjoin.vim') " {{{
+      " Use custom mappings.
+      let g:splitjoin_split_mapping = ''
+      let g:splitjoin_join_mapping = ''
+
+      nmap sj :SplitjoinJoin<cr>
+      nmap sk :SplitjoinSplit<cr>
+    end " }}}
   " }}}
 
   " Lint {{{
