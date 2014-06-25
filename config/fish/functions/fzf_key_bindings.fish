@@ -1,10 +1,15 @@
 function fzf_key_bindings --description 'create fzf keybindings'
   function __fzf_wrap --description 'wrap stdin as an argument to a command'
-    read -l stdin
+    read -l stdin; test -n "$stdin"; or return
 
-    test -n "$stdin"; or return
+    # OH GOD WHY
+    if test "$argv[1]" = 'noescape'
+      set argv (echo $argv | sed 's/noescape //')
+    else
+      set stdin (echo $stdin | sed 's/\\\\/\\\\\\\\\\\/g')
+      set stdin (echo $stdin | sed 's/\"/\\\\\"/g')
+    end
 
-    set stdin (echo $stdin | sed "s/\"/\\\\\"/g")
     eval "$argv \"$stdin\""
   end
 
@@ -18,7 +23,10 @@ function fzf_key_bindings --description 'create fzf keybindings'
       ^/dev/null |\
     fzf -m |\
     while read item
-      echo -n (echo $item | sed 's/ /\\\\ /g')
+      set item (bash -c "printf '%q' '$item'")
+      set item (echo $item | sed 's/\"/\\\\\\\"/g')
+
+      echo -n "$item "
     end
   end
 
@@ -35,11 +43,11 @@ function fzf_key_bindings --description 'create fzf keybindings'
       end
     end
 
-    if test -n "$TMUX_PANE"
+    if test -n "$TMUX_PANE" -a -z "$FZF_TMUX"
       tmux split-window (__fzf_tmux_height) "fish -c 'fzf_key_bindings; __fzf_ctrl_t_tmux \\$TMUX_PANE'"
     else
       __fzf_select |\
-      __fzf_wrap commandline -i
+      __fzf_wrap noescape commandline -i
     end
 
     commandline -f repaint
@@ -47,7 +55,7 @@ function fzf_key_bindings --description 'create fzf keybindings'
 
   function __fzf_ctrl_t_tmux --description 'callback in tmux split'
     __fzf_select |\
-    __fzf_wrap tmux send-keys -t \\$argv[1]
+    __fzf_wrap noescape tmux send-keys -t \\$argv[1]
   end
 
   function __fzf_ctrl_r --description 'set the commandline to shell history'
