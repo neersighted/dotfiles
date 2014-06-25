@@ -1,0 +1,20 @@
+#!/usr/bin/env fish
+
+test (count $argv) -ge 1; and set input $argv[1]; or set input movieme.mp4
+test (count $argv) -ge 2; and set input $argv[2]; or set output movieme.gif
+test (count $argv) -ge 3; and set framerate $argv[3]; or set framerate 10
+
+# make temporary directory
+rm -rf /tmp/movieme
+mkdir /tmp/movieme
+
+# create pngs
+ffmpeg -i $input -f image2 -vf scale=480:-1 -r $framerate /tmp/movieme/movieme-%03d.png
+
+# convert pngs
+for png in /tmp/movieme/*.png
+  convert $png (echo $png | sed 's/png/gif/')
+end
+
+# combine pngs
+gifme $framerate $output /tmp/movieme/*.gif

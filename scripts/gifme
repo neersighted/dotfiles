@@ -1,0 +1,7 @@
+#!/usr/bin/env fish
+
+test (count $argv) -ge 1; and set framerate $argv[1]; or set framerate 10
+test (count $argv) -ge 2; and set output $argv[2]; or set output gifme.gif
+
+# assemble and optimize the gif
+gifsicle -O3 --colors=256 --delay=$framerate -o $output $input
