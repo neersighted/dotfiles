@@ -23,6 +23,9 @@ fresh config/fish/functions --file=~/.config/fish/functions/
 # fzf: fuzzy finder for your shell
 fresh junegunn/fzf fzf --bin
 
+# gpg: the gnu privacy guard
+fresh config/gpg.conf --file=~/.gnupg/gpg.conf
+
 #
 # Editing
 #
@@ -164,9 +167,6 @@ fresh-options
 # gibo: gitignore boilerplates
 fresh simonwhitaker/gitignore-boilerplates gibo --bin
 
-# gifme: make me an animated gif out of these gifs, damnit
-fresh scripts/gifme --bin
-
 # gitio: github's url shortener
 fresh pengwynn/dotfiles bin/gitio --bin
 
@@ -193,9 +193,6 @@ fresh config/makepkg.conf --file=~/.makepkg.conf
 
 # man.cx: open manpages in man.cx
 fresh pengwynn/dotfiles bin/man.cx --bin
-
-# movieme: make me a movie out of this gif, damnit
-fresh scripts/movieme --bin
 
 # mustacheme: mustaceify an image or animated gif
 fresh holman/dotfiles bin/mustacheme --bin

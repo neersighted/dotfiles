@@ -23,6 +23,10 @@ function fzf_key_bindings --description 'create fzf keybindings'
       ^/dev/null |\
     fzf -m |\
     while read item
+      echo "$item" >/dev/stderr
+      set item (echo $item | sed "s/\\'/\\\\'/g")
+      echo "$item" >/dev/stderr
+      echo "printf '%q' '$item'" >/dev/stderr
       set item (bash -c "printf '%q' '$item'")
       set item (echo $item | sed 's/\"/\\\\\\\"/g')
 
@@ -44,7 +48,7 @@ function fzf_key_bindings --description 'create fzf keybindings'
     end
 
     if test -n "$TMUX_PANE" -a -z "$FZF_TMUX"
-      tmux split-window (__fzf_tmux_height) "fish -c 'fzf_key_bindings; __fzf_ctrl_t_tmux \\$TMUX_PANE'"
+      tmux split-window (__fzf_tmux_height) "fish -c 'fzf_key_bindings; __fzf_ctrl_t_tmux \\$TMUX_PANE'; cat"
     else
       __fzf_select |\
       __fzf_wrap noescape commandline -i

@@ -1,0 +1,72 @@
+#!/usr/bin/env ruby
+require 'optparse'
+
+timestamp = Time.now.strftime('%F_%Hh-%Mm-%Ss')
+options   = {
+  output:  "giffy-#{timestamp}.gif",
+  reverse: false,
+  width:   480,
+  delay:   0,
+  quiet:   false
+}
+
+parser = OptionParser.new do |opts|
+    opts.banner = "Usage: giffy [-h] [-r] [-o /path/to/output] [-d DELAY] [-w WIDTH] FILES [FILES ...]"
+
+    opts.separator ""
+    opts.separator "Options:"
+
+    opts.on("-r", "--reverse", "Use reversed frames to smoothly loop") do |reverse|
+      options[:reverse] = true
+    end
+
+    opts.on("-o", "--output /path/to/output.gif", "Set the output file [giffy-YYYY-MO-DD_HHh-MMm-SSs.gif]") do |out|
+      options[:output] = out
+    end
+
+    opts.on("-d", "--delay DELAY", "Set the delay between frames [0]") do |delay|
+      options[:delay] = delay
+    end
+
+    opts.on("-w", "--width WIDTH", "Set the width of the animation (in pixels) [480]") do |width|
+      options[:width] = width
+    end
+
+    opts.on("-h", "--help", "Show this message") do
+      puts opts
+      exit
+    end
+end
+
+parser.parse!
+files = *ARGV
+
+unless system("which convert 2>&1 > /dev/null")
+  puts "This script requires ImageMagick and Gifsicle."
+  exit(1)
+end
+
+unless files && files.size != 0
+  puts parser.help
+  exit(1)
+end
+
+gif =  ["convert"]
+gif << "-delay"  << options.fetch(:delay).to_s
+gif << "-loop"   << "0"
+gif << "-resize" << options.fetch(:width).to_s
+gif << "-layers" << "Optimize"
+gif << files
+gif << files.reverse[1..-2] if options.fetch(:reverse)
+gif << options.fetch(:output)
+
+opt =  ["gifsicle"]
+opt << "-O3" << options.fetch(:output)
+opt << "-o"  << options.fetch(:output)
+
+if system(gif.join(' ')) && system(opt.join(' '))
+  puts "You have a handsome new animation at #{options.fetch(:output)}"
+else
+  puts "Something didn't quite work out there..."
+  exit(1)
+end
