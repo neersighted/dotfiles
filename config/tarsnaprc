@@ -1,7 +1,3 @@
-keyfile ~/.tarsnap/key
-cachedir ~/.tarsnap/cache
-exclude ~/.tarsnap/cache
-
 print-stats
 humanize-numbers
 

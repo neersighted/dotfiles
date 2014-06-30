@@ -23,9 +23,6 @@ fresh config/fish/functions --file=~/.config/fish/functions/
 # fzf: fuzzy finder for your shell
 fresh junegunn/fzf fzf --bin
 
-# gpg: the gnu privacy guard
-fresh config/gpg.conf --file=~/.gnupg/gpg.conf
-
 #
 # Editing
 #
@@ -116,6 +113,9 @@ fresh twe4ked/dotfiles bin/add-keys --bin
 fresh falconindy/bin-scripts aurcomm --bin
 fresh scripts/aurdiff --bin
 
+# feather: tarsnap generations
+fresh vendor/feather --bin
+
 # git: the stupid content tracker
 fresh-options --file=~/.config/git/config --marker
     fresh config/git/config
@@ -169,6 +169,9 @@ fresh simonwhitaker/gitignore-boilerplates gibo --bin
 
 # gitio: github's url shortener
 fresh pengwynn/dotfiles bin/gitio --bin
+
+# gnupg: the gnu privacy guard
+fresh config/gpg.conf --file=~/.gnupg/gpg.conf
 
 # gxpr: google/wolfram|alpha expression calculator
 fresh pengwynn/dotfiles bin/gxpr --bin
