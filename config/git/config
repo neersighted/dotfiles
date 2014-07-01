@@ -3,12 +3,12 @@
 #
 
 [user]
-    name = neersighted
-    email = n@neersighted.com
+    name = Bjorn Neergaard
+    email = bjorn@neersighted.com
 
 [github]
     user = neersighted
-    email = n@neersighted.com
+    email = bjorn@neersighted.com
 [hub]
     protocol = git
 
