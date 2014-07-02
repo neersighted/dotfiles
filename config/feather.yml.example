@@ -42,9 +42,8 @@ schedule:
 backups:
   - home:
     - schedule: daily
-    - path: /home
-    - path: /root
-    - exclude: /root/.tarsnap
+    - path: [/root, /home]
+    - exclude: [/root/.tarsnap]
   - etc:
     - schedule: realtime
-    - path: /etc
+    - path: [/etc]
