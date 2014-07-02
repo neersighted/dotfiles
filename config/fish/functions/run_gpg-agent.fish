@@ -14,7 +14,7 @@ function run_gpg-agent --description 'run the gpg-agent'
   end
 
   set -q GPGINFO; or set -gx GPGINFO /tmp/gpg-agent.info
-  set -q PINENTRY; or set -gx PINENTRY pinentry-curses
+  set -q PINENTRY; or set -gx PINENTRY /usr/bin/pinentry-curses
   if [ -x /usr/bin/gpg-agent ]
     __refresh_gpg_info $GPGINFO
 
