@@ -171,7 +171,8 @@ fresh simonwhitaker/gitignore-boilerplates gibo --bin
 fresh pengwynn/dotfiles bin/gitio --bin
 
 # gnupg: the gnu privacy guard
-fresh config/gpg.conf --file=~/.gnupg/gpg.conf
+fresh config/gnupg/gpg.conf --file=~/.gnupg/gpg.conf
+fresh config/gnupg/gpg-agent.conf --file=~/.gnupg/gpg-agent.conf
 
 # gxpr: google/wolfram|alpha expression calculator
 fresh pengwynn/dotfiles bin/gxpr --bin
