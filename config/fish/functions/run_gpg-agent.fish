@@ -14,14 +14,12 @@ function run_gpg-agent --description 'run the gpg-agent'
   end
 
   set -q GPGINFO; or set -gx GPGINFO /tmp/gpg-agent.info
-  set -q PINENTRY; or set -gx PINENTRY /usr/bin/pinentry-curses
   if [ -x /usr/bin/gpg-agent ]
     __refresh_gpg_info $GPGINFO
 
     if not pgrep -u $USER gpg-agent >/dev/null ^&1
-      gpg-agent --daemon \
-        --enable-ssh-support \
-        --pinentry-program $PINENTRY \
+      gpg-agent \
+        --daemon \
         --write-env-file $GPGINFO \
         >/dev/null ^&1
       chmod 600 $GPGINFO

@@ -37,7 +37,6 @@ end
 set -gx PAGER less
 set -gx EDITOR vim
 set -gx BROWSER google-chrome
-set -gx PINENTRY /usr/bin/pinentry-curses
 
 #
 # Startup
