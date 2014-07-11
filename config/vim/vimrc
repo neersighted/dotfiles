@@ -558,11 +558,15 @@ else
       " A combination of common syntax and support files.
       NeoBundle 'sheerun/vim-polyglot'
 
+      " Ansible is a modern, simple IT automation tool.
+      NeoBundle 'chase/vim-ansible-yaml'
       " Bundler, the Ruby dependency manager.
       NeoBundle 'tpope/vim-bundler', {
         \ 'lazy': 1,
         \ 'autoload': {'filetypes': 'ruby'}
       \ }
+      " BrightScript, the programming language used by Roku.
+      NeoBundle 'chooh/brightscript.vim'
       " Fish is a non-POSIX compatible shell for the 21st century.
       NeoBundle 'dag/vim-fish', {
         \ 'lazy': 1,
