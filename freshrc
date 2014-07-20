@@ -84,9 +84,6 @@ fresh config/xserverrc --file
 # Audio
 #
 
-# alsa: advanced linux sound architecture
-fresh config/asoundrc --file
-
 # beets: command-line music organizer
 fresh config/beets/config.yaml --file=~/.config/beets/config.yaml
 

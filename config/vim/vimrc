@@ -101,7 +101,7 @@ let s:neobundle = s:bundle_cache.'/neobundle.vim'
   " Clone Neobundle if we can.
   if s:is_empty(s:bundle_cache)
     if executable('git')
-      silent execute '!git clone git://github.com/Shougo/neobundle.vim 's:neobundle
+      execute '!git clone git://github.com/Shougo/neobundle.vim '.s:neobundle
     else
       if confirm("Git is not installed. Continue?", "&Yes\n&No", 2) == 2
         quit
@@ -1087,6 +1087,8 @@ endif
     " Enable virtual wrapping, but only between words and only when out of room.
     set wrap linebreak wrapmargin=0
     set showbreak=⇇
+    " Wrap to the current indent level.
+    set breakindent
   " }}}
 
   " Ruler {{{

@@ -13,7 +13,7 @@ function run_gpg-agent --description 'run the gpg-agent'
     end
   end
 
-  set -q GPGINFO; or set -gx GPGINFO /tmp/gpg-agent.info
+  set -q GPGINFO; or set -gx GPGINFO $HOME/.gpg-agent-info
   if [ -x /usr/bin/gpg-agent ]
     __refresh_gpg_info $GPGINFO
 
