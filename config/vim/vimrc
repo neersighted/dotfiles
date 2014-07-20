@@ -389,7 +389,7 @@ else
 
       " A collection of useful text objects (including 'remote' and
       " 'delimiter'-based objects).
-      NeoBundle 'wellle/targets.vim'
+      " NeoBundle 'wellle/targets.vim'
       " Text object for the last search.
       NeoBundle 'kana/vim-textobj-lastpat', {
         \ 'depends': ['kana/vim-textobj-user'],
