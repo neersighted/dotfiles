@@ -44,18 +44,6 @@ set -gx BROWSER google-chrome
 
 # Check that we are an login shell.
 if status --is-login
-   # Clear the startup message.
-   set -e fish_greeting
-
-   # Run CDM if we're not in it...
-   if not set -q CDM
-      set -gx CDM 1
-      exec cdm
-   end
-end
-
-# Check that we are an interactive shell.
-if status --is-interactive
    # Load rbenv.
    source (rbenv init -|psub)
    # Load pyenv.
@@ -63,11 +51,21 @@ if status --is-interactive
 
    # Run the GPG Agent.
    run_gpg-agent
+end
 
+# Check that we are an interactive shell.
+if status --is-interactive
+end
+
+# Check that we are an not a login shell and are an interactive shell.
+if not status --is-login; and not status --is-interactive
    # Run Tmux.
-   if tmux has-session -t main
-      tmux attach-session -t main
+   if tmux has-session -t 0
+      tmux attach-session -t 0
    else
-      tmux new-session -s main
+      tmux new-session -s 0
    end
 end
+
+# Clear the startup message.
+set -e fish_greeting
