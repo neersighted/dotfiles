@@ -48,6 +48,7 @@ fresh config/agrc --file
 # dwm: dynamic window manager
 fresh scripts/dwmd --bin
 fresh scripts/undwmd --bin
+fresh scripts/dwmstatus --bin
 
 # dunst: simple notification daemon
 fresh config/dunstrc --file=~/.config/dunst/dunstrc

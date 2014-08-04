@@ -28,6 +28,19 @@ if [ -d $HOME/.pyenv ]
     $HOME/.pyenv/{bin,shims} \
     $PATH
 end
+# perl
+if [ -d /usr/bin/core_perl ]
+   set -gx PATH \
+   /usr/bin/{core,site,vendor}_perl \
+   $PATH
+end
+# go
+if [ -d $HOME/.go ]
+   set -gx GOPATH $HOME/.go
+   set -gx PATH \
+   $HOME/.go/bin \
+   $PATH
+end
 
 #
 # Options

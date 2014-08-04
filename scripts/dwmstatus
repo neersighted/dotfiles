@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+bat() {
+  bat=$( acpi -b | sed 's/.*[charging|unknown], \([0-9]*\)%.*/\1/gi' )
+
+  echo "$bat"
+}
+
+cpu() {
+  read cpu a b c previdle rest < /proc/stat
+  prevtotal=$((a+b+c+previdle))
+  sleep 0.5
+  read cpu a b c idle rest < /proc/stat
+  total=$((a+b+c+idle))
+  cpu="$((100*( (total-prevtotal) - (idle-previdle) ) / (total-prevtotal) ))"
+
+  echo "$cpu%"
+}
+
+dte() {
+  dte="$(date +'%a %b %d')"
+
+  echo "$dte"
+}
+
+mem() {
+  mem="$(free -m | awk '/^-\/\+/ {print $3}')"
+
+  echo "$mem"MB
+}
+
+sta() {
+  sta=$(acpi -b | sed 's/.*: \([a-zA-Z]*\),.*/\1/' | sed -e 's/Discharging/-/' -e 's/Charging/+/' -e 's/Unknown//')
+
+  echo "$sta"
+}
+
+swp() {
+  swp="$(free -m | awk '/^Swap/ {print $3}')"
+
+  echo "$swp"MB
+}
+
+tme() {
+  tme="$(date +'%I:%M')"
+
+  echo "$tme"
+}
+
+xsetroot -name "CPU $(cpu) • MEM $(mem) SWP $(swp) • BAT $(bat)$(sta) • $(tme) $(dte)"
