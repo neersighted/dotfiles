@@ -653,6 +653,10 @@ endif
 
   " Assume a fast TTY.
   set ttyfast
+  " Don't use TTY scrolling.
+  set ttyscroll=3
+  " Postpone redraws.
+  set lazyredraw
 " }}}
 
 " Editing {{{

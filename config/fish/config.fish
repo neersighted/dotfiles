@@ -55,20 +55,13 @@ set -gx BROWSER google-chrome
 # Startup
 #
 
-# Check that we are an login shell.
-if status --is-login
-   # Load rbenv.
-   source (rbenv init -|psub)
-   # Load pyenv.
-   source (pyenv init -|psub)
+# Load rbenv.
+source (rbenv init -|psub)
+# Load pyenv.
+source (pyenv init -|psub)
 
-   # Run the GPG Agent.
-   run_gpg-agent
-end
-
-# Check that we are an interactive shell.
-if status --is-interactive
-end
+# Run the GPG Agent.
+run_gpg-agent
 
 # Check that we are an not a login shell and are an interactive shell.
 if not status --is-login; and not status --is-interactive

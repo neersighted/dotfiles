@@ -24,7 +24,7 @@
 [push]
     default = current
 [branch]
-    autosetuprebase = always
+    autosetuprebase = local
 
 [merge]
     summary = true
