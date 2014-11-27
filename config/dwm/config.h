@@ -10,6 +10,8 @@ static const Bool topbar            = True;
 
 static const char *killcmd[]   = { "undwmd", NULL};
 static const char *lockcmd[]   = { "xautolock", "-locknow", NULL };
+static const char *passcmd[]   = { "passmenu", NULL };
+static const char *passcmd2[]  = { "passmenu", "--type", NULL };
 static const char *launchcmd[] = { "dmenu_run.pl", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]   = { "st", NULL };
 
@@ -42,6 +44,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_c,      spawn,          {.v = killcmd } },
 	{ MODKEY,                       XK_r,      quit,           {0} },
 	{ MODKEY,                       XK_q,      spawn,          {.v = lockcmd } },
+	{ MODKEY,                       XK_p,      spawn,          {.v = passcmd } },
+	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = passcmd2 } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = launchcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_c,      killclient,     {0} },

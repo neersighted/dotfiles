@@ -9,9 +9,6 @@ fresh freshshell/fresh bin/fresh --bin
 # Shell
 #
 
-# cdm: the console display manager (login manager, really)
-fresh config/cdmrc --file
-
 # fish: the friendly interactive shell, for humans
 fresh-options --file=~/.config/fish/config.fish --marker
     fresh config/fish/config.fish
@@ -19,9 +16,6 @@ fresh-options --file=~/.config/fish/config.fish --marker
     fresh config/fish/colors.fish
 fresh-options
 fresh config/fish/functions --file=~/.config/fish/functions/
-
-# fzf: fuzzy finder for your shell
-fresh junegunn/fzf fzf --bin
 
 #
 # Editing
@@ -55,6 +49,7 @@ fresh config/dunstrc --file=~/.config/dunst/dunstrc
 
 # dmenu: simple 'graphical' menu
 fresh scripts/dmenu_run.pl --bin
+fresh scripts/passmenu --bin
 
 # fonts: those things that let you read words
 fresh config/fonts.conf --file=~/.config/fontconfig/fonts.conf
@@ -67,9 +62,6 @@ fresh config/gtk/gtkrc-2.0 --file
 # i3: tiling/tabbed window manger
 fresh config/i3/config --file=~/.config/i3/config
 
-# termite: a better terminal
-fresh config/termite/config --file=~/.config/termite/config
-
 # xmodmap: x keysym configuration
 fresh config/Xmodmap --file
 
@@ -80,22 +72,6 @@ fresh config/Xresources --file
 fresh config/xinitrc --file
 fresh config/xinitrc --file=~/.xsession
 fresh config/xserverrc --file
-
-#
-# Audio
-#
-
-# beets: command-line music organizer
-fresh config/beets/config.yaml --file=~/.config/beets/config.yaml
-
-# flac: free lossless audio codec
-fresh scripts/flac2mp3 --bin
-
-# mpd: music player daemon
-fresh config/mpdconf --file
-
-# ncmpcpp: ncurses mpd client in c++
-fresh config/ncmpcpp/config --file=~/.ncmpcpp/config
 
 #
 # Utilities
@@ -110,9 +86,6 @@ fresh twe4ked/dotfiles bin/add-keys --bin
 # aur: the arch user repository
 fresh falconindy/bin-scripts aurcomm --bin
 fresh scripts/aurdiff --bin
-
-# feather: tarsnap generations
-fresh vendor/feather --bin
 
 # git: the stupid content tracker
 fresh-options --file=~/.config/git/config --marker
