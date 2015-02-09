@@ -49,7 +49,6 @@ fresh config/dunstrc --file=~/.config/dunst/dunstrc
 
 # dmenu: simple 'graphical' menu
 fresh scripts/dmenu_run.pl --bin
-fresh scripts/passmenu --bin
 
 # fonts: those things that let you read words
 fresh config/fonts.conf --file=~/.config/fontconfig/fonts.conf
@@ -61,6 +60,9 @@ fresh config/gtk/gtkrc-2.0 --file
 
 # i3: tiling/tabbed window manger
 fresh config/i3/config --file=~/.config/i3/config
+
+# xbindkeys: global keyboard bindings
+fresh config/xbindkeysrc --file
 
 # xmodmap: x keysym configuration
 fresh config/Xmodmap --file

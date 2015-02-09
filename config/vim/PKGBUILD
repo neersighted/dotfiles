@@ -5,7 +5,7 @@ pkgdesc='Vi Improved, a highly configurable, improved version of the vi text edi
 url='http://www.vim.org/'
 license=('custom:vim')
 groups=('editors')
-source=('vim::hg+https://vim.googlecode.com/hg/' 'gvim.desktop')
+source=('hg+http://vim.googlecode.com/hg/vim' 'gvim.desktop')
 md5sums=('SKIP' '6e11c556ba3f2ce7dc05d9908188d604')
 arch=('i686' 'x86_64')
 depends=('gtk2' 'gdk-pixbuf2' 'pango' 'glib2' 'libsm' 'libice' 'libxt' 'libx11' 'glibc' 'ncurses' 'acl' 'lua' 'perl' 'python')
@@ -17,7 +17,7 @@ pkgver() {
     cd vim
 
     # OH GOD WHY.
-    hg log -r "." --template "{sub('-', '.', strip(latesttag, 'v'))}.r{latesttagdistance}.{node|short}"
+    hg tip --template '{latesttag}\n' | sed 's/^v//;s/-/./g'
 }
 
 build() {
