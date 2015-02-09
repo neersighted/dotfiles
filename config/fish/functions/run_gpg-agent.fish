@@ -21,7 +21,7 @@ function run_gpg-agent --description 'run the gpg-agent'
       gpg-agent \
         --daemon \
         --write-env-file $GPGINFO \
-        >/dev/null ^&1
+        >> $GPGINFO ^&1
       chmod 600 $GPGINFO
 
       __refresh_gpg_info $GPGINFO
