@@ -12,10 +12,10 @@
 
 [init]
     templatedir = ~/.config/git/template
-
 [branch]
     autosetuprebase = always
-
+[push]
+    default = simple
 [merge]
     summary = true
     ff = false
