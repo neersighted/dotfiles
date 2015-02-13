@@ -5,6 +5,8 @@
 [user]
     name = Bjorn Neergaard
     email = bjorn@neersighted.com
+[credential]
+    helper = cache --timeout=3600
 
 #
 # General Config
@@ -32,7 +34,6 @@
 #
 
 [url "git@github.com:"]
-     insteadOf = gh:
-     insteadOf = github:
-     insteadOf = git://github.com/
-     insteadOf = https://github.com/
+     pushInsteadOf = git://github.com/
+[credential "https://github.com"]
+     username = neersighted
