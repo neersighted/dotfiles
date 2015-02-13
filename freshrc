@@ -29,7 +29,6 @@ fresh config/vim/vimrc --file
 #
 
 # ack: better than grep
-fresh vendor/ack --bin
 fresh config/agrc --file=~/.ackrc
 
 # ag: better than ack
@@ -92,7 +91,6 @@ fresh scripts/aurdiff --bin
 # git: the stupid content tracker
 fresh-options --file=~/.config/git/config --marker
     fresh config/git/config
-    fresh config/git/aliases
     fresh config/git/colors
 fresh-options
 fresh config/git/attributes --file=~/.config/git/attributes
@@ -155,9 +153,6 @@ fresh pengwynn/dotfiles bin/hide --bin
 
 # htop: interactive process monitor
 fresh config/htoprc --file=~/.config/htop/htoprc
-
-# hub: git + hub = github
-fresh vendor/hub --bin
 
 # jruby: ruby-on-jvm interperter
 fresh config/jrubyrc --file

@@ -16,21 +16,15 @@
 # General Config
 #
 
-[core]
-    autocrlf = false
 [init]
     templatedir = ~/.config/git/template
 
-[push]
-    default = current
 [branch]
-    autosetuprebase = local
+    autosetuprebase = always
 
 [merge]
     summary = true
     ff = false
-[rerere]
-    enabled = 1
 
 [log]
     abbrevCommit = true
@@ -38,3 +32,13 @@
     short = true
 [format]
     pretty = "format:%C(blue)%h%C(cyan)%d : %C(reset)%s%+b %C(white)-- %aN, %ar%n"
+
+#
+# Servers
+#
+
+[url "git@github.com:"]
+     insteadOf = gh:
+     insteadOf = github:
+     insteadOf = git://github.com/
+     insteadOf = https://github.com/
