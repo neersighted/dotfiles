@@ -6,12 +6,6 @@
     name = Bjorn Neergaard
     email = bjorn@neersighted.com
 
-[github]
-    user = neersighted
-    email = bjorn@neersighted.com
-[hub]
-    protocol = git
-
 #
 # General Config
 #

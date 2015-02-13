@@ -7,7 +7,7 @@ function run_gpg-agent --description 'run the gpg-agent'
     end
 
     if [ -f $gpginfo ]
-      sed 's/=/ /' $gpginfo | while read key value
+      sed -e 's/=/ /' -e 's/;.*$/ /' $gpginfo | while read key value
         set -gx $key $value
       end
     end
