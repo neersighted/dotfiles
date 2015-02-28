@@ -1,4 +1,3 @@
-alias git hub
 alias ls 'ls -Alh --color'
 
 function gvim
