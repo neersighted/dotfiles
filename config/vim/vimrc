@@ -99,7 +99,7 @@ let s:neobundle = s:bundle_cache.'/neobundle.vim'
 
 " Install Neobundle {{{
   " Clone Neobundle if we can.
-  if s:is_empty(s:bundle_cache)
+  if s:is_empty(s:neobundle)
     if executable('git')
       execute '!git clone git://github.com/Shougo/neobundle.vim '.s:neobundle
     else
