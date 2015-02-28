@@ -81,9 +81,6 @@ fresh config/xserverrc --file
 # +x: quickly make a file executable
 fresh pengwynn/dotfiles bin/+x --bin
 
-# add-keys: add a github user's ssh public keys
-fresh twe4ked/dotfiles bin/add-keys --bin
-
 # aur: the arch user repository
 fresh falconindy/bin-scripts aurcomm --bin
 fresh scripts/aurdiff --bin
@@ -96,44 +93,6 @@ fresh-options
 fresh config/git/attributes --file=~/.config/git/attributes
 fresh config/git/ignore --file=~/.config/git/ignore
 fresh config/git/template --file=~/.config/git/template/
-fresh-options --bin
-    fresh pengwynn/dotfiles bin/git-all
-    fresh pengwynn/dotfiles bin/git-amend
-    fresh pengwynn/dotfiles bin/git-big-object-report
-    fresh scripts/git-cc
-    fresh pengwynn/dotfiles bin/git-ci
-    fresh pengwynn/dotfiles bin/git-conflicts
-    fresh pengwynn/dotfiles bin/git-credit
-    fresh pengwynn/dotfiles bin/git-cut-branch
-    fresh pengwynn/dotfiles bin/git-delete-local-merged
-    fresh pengwynn/dotfiles bin/git-diff-grep
-    fresh pengwynn/dotfiles bin/git-find-object
-    fresh pengwynn/dotfiles bin/git-go
-    fresh pengwynn/dotfiles bin/git-grab
-    fresh pengwynn/dotfiles bin/git-incoming
-    fresh kablamo/dotfiles bin/git-jump
-    fresh pengwynn/dotfiles bin/git-ls-object-refs
-    fresh pengwynn/dotfiles bin/git-object-deflate
-    fresh pengwynn/dotfiles bin/git-outgoing
-    fresh pengwynn/dotfiles bin/git-pr
-    fresh pengwynn/dotfiles bin/git-promote
-    fresh pengwynn/dotfiles bin/git-prune-merged-branches
-    fresh pengwynn/dotfiles bin/git-pruneall
-    fresh pengwynn/dotfiles bin/git-push-log
-    fresh pengwynn/dotfiles bin/git-rank-contributers
-    fresh pengwynn/dotfiles bin/git-rel
-    fresh kablamo/git-ribbon bin/git-ribbon
-    fresh lukaszkorecki/DotFiles bins/git-stats
-    fresh kablamo/git-spark bin/git-spark
-    fresh pengwynn/dotfiles bin/git-sweep
-    fresh kablamo/dotfiles bin/git-submodule-rm
-    fresh pengwynn/dotfiles bin/git-thanks
-    fresh holman/dotfiles bin/git-track
-    fresh lukaszkorecki/DotFiles bins/git-today
-    fresh pengwynn/dotfiles bin/git-undo
-    fresh aanand/git-up bin/git-up
-    fresh ddollar/git-utils git-wtf
-fresh-options
 
 # gibo: gitignore boilerplates
 fresh simonwhitaker/gitignore-boilerplates gibo --bin
@@ -157,37 +116,17 @@ fresh config/htoprc --file=~/.config/htop/htoprc
 # jruby: ruby-on-jvm interperter
 fresh config/jrubyrc --file
 
-# l33t: become the l33t h4x0r you were always meant to be!
-fresh pengwynn/dotfiles bin/l33t --bin
-
 # makepkg: arch linux packager
 fresh config/makepkg.conf --file=~/.makepkg.conf
 
 # man.cx: open manpages in man.cx
 fresh pengwynn/dotfiles bin/man.cx --bin
 
-# mustacheme: mustaceify an image or animated gif
-fresh holman/dotfiles bin/mustacheme --bin
-
 # notes: view notes in a file (ie todo/xxx/fixme)
 fresh pengwynn/dotfiles bin/notes --bin
 
 # octocatsay: like cowsay, but...
 fresh cobyism/octocatsay bin/octocatsay --bin
-
-# osx: sensible hacker defaults for osx
-fresh mathiasbynens/dotfiles .osx --bin=~/bin/osx
-
-# moreutils: more unix tools
-fresh-options --bin
-    fresh git://git.kitenet.net/moreutils check-isutf8
-    fresh git://git.kitenet.net/moreutils chronic
-    fresh git://git.kitenet.net/moreutils combine
-    fresh git://git.kitenet.net/moreutils ts
-    fresh git://git.kitenet.net/moreutils vidir
-    fresh git://git.kitenet.net/moreutils vipe
-    fresh git://git.kitenet.net/moreutils zrun
-fresh-options
 
 # pass: the standard unix password manager
 fresh scripts/lastpass2pass.rb --bin=~/bin/lp2p
@@ -233,11 +172,6 @@ fresh-options --file=~/.tmux.conf --marker
         fresh config/tmux/linux.conf
     fi
 fresh-options
-
-# todo.txt: simple todo list
-fresh ginatrapani/todo.txt-cli todo.sh --bin=~/bin/todo
-fresh duncanje/todo.txt-revive revive --file=~/.todo.d/revive
-fresh config/todo.cfg --file
 
 # timein: what time is it in X?
 fresh jasoncodes/dotfiles bin/timein --bin

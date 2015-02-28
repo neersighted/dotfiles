@@ -60,8 +60,9 @@ source (rbenv init -|psub)
 # Load pyenv.
 source (pyenv init -|psub)
 
-# Run the GPG Agent.
-run_gpg-agent
+# Connect to envoy.
+envoy -t gpg-agent
+source (envoy -p|sed -e 's/export/set -gx/' -e 's/=/ /'|psub)
 
 # Check that we are an not a login shell and are an interactive shell.
 if not status --is-login; and not status --is-interactive

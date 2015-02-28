@@ -306,14 +306,6 @@ else
       \ }
     " }}}
 
-    " Lint {{{
-      " Lint and syntax checking for many languages.
-      NeoBundle 'scrooloose/syntastic', {
-        \ 'lazy': 1,
-        \ 'autoload': {'insert': 1}
-      \ }
-    " }}}
-
     " Completion {{{
       " Completion engine supporting almost anything. Also it's fast.
       NeoBundle 'Shougo/neocomplete.vim', {
@@ -736,20 +728,6 @@ endif
       nmap sj :SplitjoinJoin<cr>
       nmap sk :SplitjoinSplit<cr>
     end " }}}
-  " }}}
-
-  " Lint {{{
-    if neobundle#tap('syntastic') " {{{
-      " Enable error indicators (via signs).
-      let g:syntastic_enable_signs = 1
-      " Auto-show the Syntastic LOC.
-      let g:syntastic_auto_loc_list = 1
-
-      " Don't check on write-quit.
-      let g:syntastic_check_on_wq = 0
-
-      call neobundle#untap()
-    endif " }}}
   " }}}
 
   " Completion {{{
