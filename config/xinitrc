@@ -28,6 +28,10 @@ xautolock -locker slock -time 5 -corners 0-00 &
 # Start the notification daemon.
 dunst &
 
+if [ -f $HOME/.xinitrc.local ]; then
+  source $HOME/.xinitrc.local
+fi
+
 session=${1:-dwm}
 case $session in
     dwm|dwmd) exec dwmd;;
