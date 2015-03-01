@@ -35,11 +35,15 @@ if [ -d /usr/bin/core_perl ]
    $PATH
 end
 # go
-if [ -d $HOME/.go ]
+if type -fp go >/dev/null
    set -gx GOPATH $HOME/.go
    set -gx PATH \
    $HOME/.go/bin \
    $PATH
+
+   if [ ! -d $HOME/.go ]
+      mkdir -p $HOME/.go
+   end
 end
 
 #
@@ -56,21 +60,29 @@ set -gx BROWSER google-chrome
 #
 
 # Load rbenv.
-source (rbenv init -|psub)
+if type -fp rbenv >/dev/null
+   source (rbenv init -|psub)
+end
 # Load pyenv.
-source (pyenv init -|psub)
+if type -fp pyenv >/dev/null
+   source (pyenv init -|psub)
+end
 
 # Connect to envoy.
-envoy -t gpg-agent
-source (envoy -p|sed -e 's/export/set -gx/' -e 's/=/ /'|psub)
+if type -fp envoy >/dev/null
+   envoy -t gpg-agent
+   source (envoy -p|sed -e 's/export/set -gx/' -e 's/=/ /'|psub)
+end
 
 # Check that we are an not a login shell and are an interactive shell.
 if not status --is-login; and not status --is-interactive
    # Run Tmux.
-   if tmux has-session -t 0
-      tmux attach-session -t 0
-   else
-      tmux new-session -s 0
+   if type -fp tmux >/dev/null
+      if tmux has-session -t 0
+         tmux new -t 0
+      else
+         tmux new-session -s 0
+      end
    end
 end
 
