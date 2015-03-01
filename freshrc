@@ -75,6 +75,13 @@ fresh config/xinitrc --file=~/.xsession
 fresh config/xserverrc --file
 
 #
+# Audio
+#
+
+# alsa: advanced linux sound architecture
+fresh config/asoundrc --file
+
+#
 # Utilities
 #
 

@@ -76,3 +76,7 @@ end
 
 # Clear the startup message.
 set -e fish_greeting
+
+if [ -f $HOME/.config/fish/config.local.fish ]
+   source $HOME/.config/fish/config.local.fish
+end

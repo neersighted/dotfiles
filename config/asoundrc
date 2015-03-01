@@ -1,0 +1,15 @@
+defaults.pcm.rate_converter "speexrate_medium"
+
+pcm.!default {
+    type asym
+    capture.pcm {
+        @func getenv
+        vars [ ALSA_IN ]
+        default "sysdefault"
+    }
+    playback.pcm {
+        @func getenv
+        vars [ ALSA_OUT ]
+        default "sysdefault"
+    }
+}
