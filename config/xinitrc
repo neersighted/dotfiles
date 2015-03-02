@@ -11,22 +11,28 @@ fi
 # Make sure to allow tmux.
 unset TMUX
 
-# Load my custom keybinds.
-xmodmap ~/.Xmodmap &
-# Run the keyboard binding daemon.
-xbindkeys &
-
 # Set the background.
 feh --bg-scale ~/.dotfiles/img/bg.jpg &
+
+# Load my custom keybinds.
+xmodmap ~/.Xmodmap &
+# Start the keyboard binding daemon.
+xbindkeys &
+
+# Start the notification daemon.
+dunst &
+
+# Start the filemanagement daemon.
+spacefm -d &
+
+# Start the auto-mount daemon.
+devmon &
 
 # Start the tinting daemon.
 redshift -l 34.05:-118.25 -t 6500:3500 &
 
 # Start the locking daemon.
 xautolock -locker slock -time 5 -corners 0-00 &
-
-# Start the notification daemon.
-dunst &
 
 if [ -f $HOME/.xinitrc.local ]; then
   source $HOME/.xinitrc.local
