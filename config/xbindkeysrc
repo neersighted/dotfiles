@@ -17,3 +17,11 @@
 "playerctl previous"
     XF86AudioPrev
     Mod4 + Home
+
+# Toggle CD/DVD drive 1
+"eject -T /dev/sr0"
+    XF86Eject
+
+# Toggle CD/DVD drive 2
+"eject -T /dev/sr1"
+    Shift + XF86Eject
