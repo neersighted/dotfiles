@@ -1,0 +1,282 @@
+diff --git a/config.mk b/config.mk
+index bc3d80e..f5e949f 100644
+--- a/config.mk
++++ b/config.mk
+@@ -15,8 +15,8 @@ XINERAMALIBS  = -lXinerama
+ XINERAMAFLAGS = -DXINERAMA
+ 
+ # includes and libs
+-INCS = -I${X11INC}
+-LIBS = -L${X11LIB} -lX11 ${XINERAMALIBS}
++INCS = -I${X11INC} -I/usr/include/freetype2
++LIBS = -L${X11LIB} -lX11 -lXft ${XINERAMALIBS}
+ 
+ # flags
+ CPPFLAGS = -D_BSD_SOURCE -D_POSIX_C_SOURCE=2 -DVERSION=\"${VERSION}\" ${XINERAMAFLAGS}
+diff --git a/drw.c b/drw.c
+index b130405..7057a34 100644
+--- a/drw.c
++++ b/drw.c
+@@ -3,6 +3,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <X11/Xlib.h>
++#include <X11/Xft/Xft.h>
+ 
+ #include "drw.h"
+ #include "util.h"
+@@ -42,39 +43,19 @@ drw_free(Drw *drw) {
+ }
+ 
+ Fnt *
+-drw_font_create(Display *dpy, const char *fontname) {
++drw_font_create(Display *dpy, int screen, const char *fontname) {
+ 	Fnt *font;
+-	char *def, **missing;
+-	int n;
+ 
+ 	font = (Fnt *)calloc(1, sizeof(Fnt));
+ 	if(!font)
+ 		return NULL;
+-	font->set = XCreateFontSet(dpy, fontname, &missing, &n, &def);
+-	if(missing) {
+-		while(n--)
+-			fprintf(stderr, "drw: missing fontset: %s\n", missing[n]);
+-		XFreeStringList(missing);
+-	}
+-	if(font->set) {
+-		XFontStruct **xfonts;
+-		char **font_names;
+-		XExtentsOfFontSet(font->set);
+-		n = XFontsOfFontSet(font->set, &xfonts, &font_names);
+-		while(n--) {
+-			font->ascent = MAX(font->ascent, (*xfonts)->ascent);
+-			font->descent = MAX(font->descent,(*xfonts)->descent);
+-			xfonts++;
+-		}
+-	}
+-	else {
+-		if(!(font->xfont = XLoadQueryFont(dpy, fontname))
+-		&& !(font->xfont = XLoadQueryFont(dpy, "fixed")))
+-			die("error, cannot load font: '%s'\n", fontname);
+-		font->ascent = font->xfont->ascent;
+-		font->descent = font->xfont->descent;
+-	}
++	if(!(font->xfont = XftFontOpenName(dpy,screen,fontname))
++	&& !(font->xfont = XftFontOpenName(dpy,screen,"fixed")))
++		die("error, cannot load font: '%s'\n", fontname);
++	font->ascent = font->xfont->ascent;
++	font->descent = font->xfont->descent;
+ 	font->h = font->ascent + font->descent;
++	font->dpy = dpy;
+ 	return font;
+ }
+ 
+@@ -82,10 +63,7 @@ void
+ drw_font_free(Display *dpy, Fnt *font) {
+ 	if(!font)
+ 		return;
+-	if(font->set)
+-		XFreeFontSet(dpy, font->set);
+-	else
+-		XFreeFont(dpy, font->xfont);
++	XftFontClose(dpy, font->xfont);
+ 	free(font);
+ }
+ 
+@@ -93,7 +71,7 @@ Clr *
+ drw_clr_create(Drw *drw, const char *clrname) {
+ 	Clr *clr;
+ 	Colormap cmap;
+-	XColor color;
++	Visual *vis;
+ 
+ 	if(!drw)
+ 		return NULL;
+@@ -101,9 +79,10 @@ drw_clr_create(Drw *drw, const char *clrname) {
+ 	if(!clr)
+ 		return NULL;
+ 	cmap = DefaultColormap(drw->dpy, drw->screen);
+-	if(!XAllocNamedColor(drw->dpy, cmap, clrname, &color, &color))
++	vis = DefaultVisual(drw->dpy, drw->screen);
++	if(!XftColorAllocName(drw->dpy, vis, cmap, clrname, &clr->rgb))
+ 		die("error, cannot allocate color '%s'\n", clrname);
+-	clr->rgb = color.pixel;
++	clr->pix = clr->rgb.pixel;
+ 	return clr;
+ }
+ 
+@@ -121,7 +100,7 @@ drw_setfont(Drw *drw, Fnt *font) {
+ 
+ void
+ drw_setscheme(Drw *drw, ClrScheme *scheme) {
+-	if(drw && scheme) 
++	if(drw && scheme)
+ 		drw->scheme = scheme;
+ }
+ 
+@@ -131,7 +110,7 @@ drw_rect(Drw *drw, int x, int y, unsigned int w, unsigned int h, int filled, int
+ 
+ 	if(!drw || !drw->font || !drw->scheme)
+ 		return;
+-	XSetForeground(drw->dpy, drw->gc, invert ? drw->scheme->bg->rgb : drw->scheme->fg->rgb);
++	XSetForeground(drw->dpy, drw->gc, invert ? drw->scheme->bg->pix : drw->scheme->fg->pix);
+ 	dx = (drw->font->ascent + drw->font->descent + 2) / 4;
+ 	if(filled)
+ 		XFillRectangle(drw->dpy, drw->drawable, drw->gc, x+1, y+1, dx+1, dx+1);
+@@ -144,13 +123,17 @@ drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, const char *tex
+ 	char buf[256];
+ 	int i, tx, ty, th, len, olen;
+ 	Extnts tex;
++	Colormap cmap;
++	Visual *vis;
++	XftDraw *d;
+ 
+ 	if(!drw || !drw->scheme)
+ 		return;
+-	XSetForeground(drw->dpy, drw->gc, invert ? drw->scheme->fg->rgb : drw->scheme->bg->rgb);
++	XSetForeground(drw->dpy, drw->gc, invert ? drw->scheme->fg->pix : drw->scheme->bg->pix);
+ 	XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, y, w, h);
+ 	if(!text || !drw->font)
+ 		return;
++
+ 	olen = strlen(text);
+ 	drw_font_getexts(drw->font, text, olen, &tex);
+ 	th = drw->font->ascent + drw->font->descent;
+@@ -164,11 +147,12 @@ drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, const char *tex
+ 	memcpy(buf, text, len);
+ 	if(len < olen)
+ 		for(i = len; i && i > len - 3; buf[--i] = '.');
+-	XSetForeground(drw->dpy, drw->gc, invert ? drw->scheme->bg->rgb : drw->scheme->fg->rgb);
+-	if(drw->font->set)
+-		XmbDrawString(drw->dpy, drw->drawable, drw->font->set, drw->gc, tx, ty, buf, len);
+-	else
+-		XDrawString(drw->dpy, drw->drawable, drw->gc, tx, ty, buf, len);
++
++	cmap = DefaultColormap(drw->dpy, drw->screen);
++	vis = DefaultVisual(drw->dpy, drw->screen);
++	d = XftDrawCreate(drw->dpy, drw->drawable, vis, cmap);
++	XftDrawStringUtf8(d, invert ? &drw->scheme->bg->rgb : &drw->scheme->fg->rgb, drw->font->xfont, tx, ty, (XftChar8 *)buf, len);
++	XftDrawDestroy(d);
+ }
+ 
+ void
+@@ -182,19 +166,13 @@ drw_map(Drw *drw, Window win, int x, int y, unsigned int w, unsigned int h) {
+ 
+ void
+ drw_font_getexts(Fnt *font, const char *text, unsigned int len, Extnts *tex) {
+-	XRectangle r;
++	XGlyphInfo ext;
+ 
+ 	if(!font || !text)
+ 		return;
+-	if(font->set) {
+-		XmbTextExtents(font->set, text, len, NULL, &r);
+-		tex->w = r.width;
+-		tex->h = r.height;
+-	}
+-	else {
+-		tex->h = font->ascent + font->descent;
+-		tex->w = XTextWidth(font->xfont, text, len);
+-	}
++	XftTextExtentsUtf8(font->dpy, font->xfont, (XftChar8 *)text, len, &ext);
++	tex->h = font->h;
++	tex->w = ext.xOff;
+ }
+ 
+ unsigned int
+diff --git a/drw.h b/drw.h
+index a5f34e0..503e764 100644
+--- a/drw.h
++++ b/drw.h
+@@ -1,7 +1,8 @@
+ /* See LICENSE file for copyright and license details. */
+ 
+ typedef struct {
+-	unsigned long rgb;
++	unsigned long pix;
++	XftColor rgb;
+ } Clr;
+ 
+ typedef struct {
+@@ -9,11 +10,11 @@ typedef struct {
+ } Cur;
+ 
+ typedef struct {
++	Display *dpy;
+ 	int ascent;
+ 	int descent;
+ 	unsigned int h;
+-	XFontSet set;
+-	XFontStruct *xfont;
++	XftFont *xfont;
+ } Fnt;
+ 
+ typedef struct {
+@@ -44,7 +45,7 @@ void drw_resize(Drw *drw, unsigned int w, unsigned int h);
+ void drw_free(Drw *drw);
+ 
+ /* Fnt abstraction */
+-Fnt *drw_font_create(Display *dpy, const char *fontname);
++Fnt *drw_font_create(Display *dpy, int screen, const char *fontname);
+ void drw_font_free(Display *dpy, Fnt *font);
+ void drw_font_getexts(Fnt *font, const char *text, unsigned int len, Extnts *extnts);
+ unsigned int drw_font_getexts_width(Fnt *font, const char *text, unsigned int len);
+diff --git a/dwm.c b/dwm.c
+index 1bbb4b3..f9ae316 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -39,6 +39,7 @@
+ #ifdef XINERAMA
+ #include <X11/extensions/Xinerama.h>
+ #endif /* XINERAMA */
++#include <X11/Xft/Xft.h>
+ 
+ #include "drw.h"
+ #include "util.h"
+@@ -792,7 +797,7 @@ focus(Client *c) {
+ 		detachstack(c);
+ 		attachstack(c);
+ 		grabbuttons(c, True);
+-		XSetWindowBorder(dpy, c->win, scheme[SchemeSel].border->rgb);
++		XSetWindowBorder(dpy, c->win, scheme[SchemeSel].border->pix);
+ 		setfocus(c);
+ 	}
+ 	else {
+@@ -1040,7 +1045,7 @@ manage(Window w, XWindowAttributes *wa) {
+ 
+ 	wc.border_width = c->bw;
+ 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
+-	XSetWindowBorder(dpy, w, scheme[SchemeNorm].border->rgb);
++	XSetWindowBorder(dpy, w, scheme[SchemeNorm].border->pix);
+ 	configure(c); /* propagates border_width, if size doesn't change */
+ 	updatewindowtype(c);
+ 	updatesizehints(c);
+@@ -1497,7 +1502,7 @@ setup(void) {
+ 	/* init screen */
+ 	screen = DefaultScreen(dpy);
+ 	root = RootWindow(dpy, screen);
+-	fnt = drw_font_create(dpy, font);
++	fnt = drw_font_create(dpy, screen, font);
+ 	sw = DisplayWidth(dpy, screen);
+ 	sh = DisplayHeight(dpy, screen);
+ 	bh = fnt->h + 2;
+@@ -1676,7 +1681,7 @@ unfocus(Client *c, Bool setfocus) {
+ 	if(!c)
+ 		return;
+ 	grabbuttons(c, False);
+-	XSetWindowBorder(dpy, c->win, scheme[SchemeNorm].border->rgb);
++	XSetWindowBorder(dpy, c->win, scheme[SchemeNorm].border->pix);
+ 	if(setfocus) {
+ 		XSetInputFocus(dpy, root, RevertToPointerRoot, CurrentTime);
+ 		XDeleteProperty(dpy, root, netatom[NetActiveWindow]);
+@@ -1730,7 +1735,7 @@ updatebars(void) {
+ 		.event_mask = ButtonPressMask|ExposureMask
+ 	};
+ 	for(m = mons; m; m = m->next) {
+-		if (m->barwin)
++		if(m->barwin)
+ 			continue;
+ 		m->barwin = XCreateWindow(dpy, root, m->wx, m->by, m->ww, bh, 0, DefaultDepth(dpy, screen),
+ 		                          CopyFromParent, DefaultVisual(dpy, screen),
+

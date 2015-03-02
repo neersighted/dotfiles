@@ -1,17 +1,3 @@
-From ef0b72fc2725cdfcb731837bf411fe343abe33e7 Mon Sep 17 00:00:00 2001
-From: Hiltjo Posthuma <hiltjo@codemadness.org>
-Date: Thu, 27 Mar 2014 15:02:33 +0100
-Subject: [PATCH] xft: adjust xft patch against current git version
-
-Signed-off-by: Hiltjo Posthuma <hiltjo@codemadness.org>
----
- config.mk |   8 +++--
- dmenu.1   |   2 +-
- dmenu.c   |  56 ++++++++++++++++++++------------
- draw.c    | 110 +++++++++++++++++++++++++++++++++++++++++---------------------
- draw.h    |  19 +++++++----
- 5 files changed, 129 insertions(+), 66 deletions(-)
-
 diff --git a/config.mk b/config.mk
 index c0d466b..04e2dce 100644
 --- a/config.mk
@@ -33,7 +19,7 @@ index c0d466b..04e2dce 100644
  # flags
  CPPFLAGS = -D_BSD_SOURCE -D_POSIX_C_SOURCE=200809L -DVERSION=\"${VERSION}\" ${XINERAMAFLAGS}
 diff --git a/dmenu.1 b/dmenu.1
-index bbee17d..bc6bb1a 100644
+index 2897ab1..d06b484 100644
 --- a/dmenu.1
 +++ b/dmenu.1
 @@ -58,7 +58,7 @@ dmenu is displayed on the monitor supplied.
@@ -46,7 +32,7 @@ index bbee17d..bc6bb1a 100644
  .BI \-nb " color"
  defines the normal background color.
 diff --git a/dmenu.c b/dmenu.c
-index 8d9bbb6..463e022 100644
+index 94c70de..cc6dedf 100644
 --- a/dmenu.c
 +++ b/dmenu.c
 @@ -17,6 +17,7 @@
@@ -177,10 +163,10 @@ index 8d9bbb6..463e022 100644
 +			ret = EXIT_SUCCESS;
 +			running = False;
 +		}
- 		sel->out = True;
+ 		if(sel)
+ 			sel->out = True;
  		break;
- 	case XK_Right:
-@@ -504,7 +527,7 @@ void
+@@ -505,7 +528,7 @@ void
  run(void) {
  	XEvent ev;
  
@@ -189,7 +175,7 @@ index 8d9bbb6..463e022 100644
  		if(XFilterEvent(&ev, win))
  			continue;
  		switch(ev.type) {
-@@ -538,13 +561,6 @@ setup(void) {
+@@ -539,13 +562,6 @@ setup(void) {
  	XineramaScreenInfo *info;
  #endif
  
@@ -203,7 +189,7 @@ index 8d9bbb6..463e022 100644
  	clip = XInternAtom(dc->dpy, "CLIPBOARD",   False);
  	utf8 = XInternAtom(dc->dpy, "UTF8_STRING", False);
  
-@@ -600,7 +616,7 @@ setup(void) {
+@@ -601,7 +617,7 @@ setup(void) {
  
  	/* create menu window */
  	swa.override_redirect = True;
@@ -462,6 +448,3 @@ index 43a57bf..1b4f21a 100644
  DC *initdc(void);
  void initfont(DC *dc, const char *fontstr);
  void mapdc(DC *dc, Window win, unsigned int w, unsigned int h);
--- 
-1.9.1
-

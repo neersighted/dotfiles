@@ -7,18 +7,17 @@ static const char selbgcolor[]      = "#073642";
 static const char selfgcolor[]      = "#93a1a1";
 static const Bool showbar           = True;
 static const Bool topbar            = True;
+static const unsigned int borderpx  = 1;
+static const unsigned int snap      = 32;
 
 static const char *killcmd[]   = { "undwmd", NULL};
 static const char *lockcmd[]   = { "xautolock", "-locknow", NULL };
-static const char *passcmd[]   = { "passmenu", NULL };
-static const char *passcmd2[]  = { "passmenu", "--type", NULL };
-static const char *launchcmd[] = { "dmenu_run.pl", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+static char dmenumon[2]        = "0";
+static const char *dmenucmd[]  = { "dmenu_run.pl", "-m", dmenumon, "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]   = { "st", NULL };
 
-static const int nmaster           = 1;
-static const float mfact           = 0.7;
-static const unsigned int borderpx = 1;
-static const unsigned int snap     = 32;
+static const int nmaster = 1;
+static const float mfact = 0.7;
 
 static const char *tags[]     = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 static const Layout layouts[] = {
@@ -28,6 +27,10 @@ static const Layout layouts[] = {
 	{ "><>",      NULL },
 };
 static const Rule rules[] = {
+	/* xprop(1):
+	 *	WM_CLASS(STRING) = instance, class
+	 *	WM_NAME(STRING) = title
+	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            True,        -1 },
 };
@@ -44,9 +47,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_c,      spawn,          {.v = killcmd } },
 	{ MODKEY,                       XK_r,      quit,           {0} },
 	{ MODKEY,                       XK_q,      spawn,          {.v = lockcmd } },
-	{ MODKEY,                       XK_p,      spawn,          {.v = passcmd } },
-	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = passcmd2 } },
-	{ MODKEY,                       XK_Return, spawn,          {.v = launchcmd } },
+	{ MODKEY,                       XK_Return, spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_space,  zoom,           {0} },
@@ -82,8 +83,6 @@ static Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 };
 
-/* button definitions */
-/* click can be ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },

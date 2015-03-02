@@ -1,7 +1,6 @@
-static char font[] = "Source Code Pro Light-10";
-static float cwscale = 1.0;
-static float chscale = 1.0;
-static const char *colorname[] = {
+static char font[]                   = "Source Code Pro Light-10";
+static const char *colorname[]       = {
+/* Solarized Dark */
 	"#073642",  /*  0: black    */
 	"#dc322f",  /*  1: red      */
 	"#859900",  /*  2: green    */
@@ -18,29 +17,54 @@ static const char *colorname[] = {
 	"#6c71c4",  /* 13: brmagenta*/
 	"#93a1a1",  /* 14: brcyan   */
 	"#fdf6e3",  /* 15: brwhite  */
+/* Solarized Light */
+	//"#eee8d5",  /*  0: black    */
+	//"#dc322f",  /*  1: red      */
+	//"#859900",  /*  2: green    */
+	//"#b58900",  /*  3: yellow   */
+	//"#268bd2",  /*  4: blue     */
+	//"#d33682",  /*  5: magenta  */
+	//"#2aa198",  /*  6: cyan     */
+	//"#073642",  /*  7: white    */
+	//"#fdf6e3",  /*  8: brblack  */
+	//"#cb4b16",  /*  9: brred    */
+	//"#93a1a1",  /* 10: brgreen  */
+	//"#839496",  /* 11: bryellow */
+	//"#657b83",  /* 12: brblue   */
+	//"#6c71c4",  /* 13: brmagenta*/
+	//"#586e75",  /* 14: brcyan   */
+	//"#002b36",  /* 15: brwhite  */
 };
-static unsigned int defaultfg = 12;
-static unsigned int defaultbg = 8;
-static unsigned int defaultcs = 14;
-static unsigned int defaultitalic = 11;
+static unsigned int defaultfg        = 12;
+static unsigned int defaultbg        = 8;
+static unsigned int defaultcs        = 14;
+static unsigned int defaultitalic    = 11;
 static unsigned int defaultunderline = 7;
 
-static char shell[] = "/usr/bin/fish";
-static char termname[] = "xterm-256color";
-static bool allowaltscreen = true;
-
-static char worddelimiters[] = " ";
-static unsigned int tabspaces = 8;
-
 static int borderpx = 1;
-static unsigned int blinktimeout = 800;
-static int bellvolume = 0;
+
+static unsigned int tabspaces = 4;
+
+static char worddelimiters[] = " `'\"()[]{}";
 
 static unsigned int doubleclicktimeout = 300;
 static unsigned int tripleclicktimeout = 600;
 
-static unsigned int xfps = 120;
+static int bellvolume            = 0;
+static unsigned int blinktimeout = 800;
+
+static float cwscale = 1.0;
+static float chscale = 1.0;
+
+static unsigned int xfps      = 120;
 static unsigned int actionfps = 30;
+
+static char termname[]     = "st-256color";
+static bool allowaltscreen = true;
+static char vtiden[]       = "\033[?6c";
+
+static char *utmp          = NULL;
+static char shell[]        = "/usr/bin/fish";
 
 #define MODKEY Mod1Mask
 static uint ignoremod = Mod2Mask|XK_SWITCH_MOD;
@@ -55,6 +79,7 @@ static Shortcut shortcuts[] = {
 	{ XK_ANY_MOD,           XK_Print,       printsel,       {.i =  0} },
 	{ MODKEY|ShiftMask,     XK_Prior,       xzoom,          {.i = +1} },
 	{ MODKEY|ShiftMask,     XK_Next,        xzoom,          {.i = -1} },
+	{ MODKEY|ShiftMask,     XK_Home,        xzoomreset,     {.i =  0} },
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ MODKEY|ShiftMask,     XK_Insert,      clippaste,      {.i =  0} },
 	{ MODKEY,               XK_Num_Lock,    numlock,        {.i =  0} },
@@ -103,7 +128,8 @@ static Key key[] = {
 	{ XK_KP_Delete,     ControlMask,    "\033[3;5~",    +1,    0,    0},
 	{ XK_KP_Delete,     ShiftMask,      "\033[2K",      -1,    0,    0},
 	{ XK_KP_Delete,     ShiftMask,      "\033[3;2~",    +1,    0,    0},
-	{ XK_KP_Delete,     XK_ANY_MOD,     "\033[3~",      +1,    0,    0},
+	{ XK_KP_Delete,     XK_ANY_MOD,     "\033[P",       -1,    0,    0},
+	{ XK_KP_Delete,     XK_ANY_MOD,     "\177",         +1,    0,    0},
 	{ XK_KP_Multiply,   XK_ANY_MOD,     "\033Oj",       +2,    0,    0},
 	{ XK_KP_Add,        XK_ANY_MOD,     "\033Ok",       +2,    0,    0},
 	{ XK_KP_Enter,      XK_ANY_MOD,     "\033OM",       +2,    0,    0},
@@ -157,7 +183,8 @@ static Key key[] = {
 	{ XK_Delete,        ControlMask,    "\033[3;5~",    +1,    0,    0},
 	{ XK_Delete,        ShiftMask,      "\033[2K",      -1,    0,    0},
 	{ XK_Delete,        ShiftMask,      "\033[3;2~",    +1,    0,    0},
-	{ XK_Delete,        XK_ANY_MOD,     "\033[3~",      +1,    0,    0},
+	{ XK_Delete,        XK_ANY_MOD,     "\033[P",       -1,    0,    0},
+	{ XK_Delete,        XK_ANY_MOD,     "\177",         +1,    0,    0},
 	{ XK_Home,          ShiftMask,      "\033[2J",       0,   -1,    0},
 	{ XK_Home,          ShiftMask,      "\033[1;2H",     0,   +1,    0},
 	{ XK_Home,          XK_ANY_MOD,     "\033[H",        0,   -1,    0},

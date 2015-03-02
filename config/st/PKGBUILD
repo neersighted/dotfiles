@@ -1,14 +1,14 @@
 # Maintainer: neersighted <n@neersighted.com>
 
 pkgname=st-neersighted
-pkgver=c2fd275
+pkgver=29619a1
 pkgrel=1
 pkgdesc='A simple virtual terminal emulator for X'
 url='http://st.suckless.org'
 license=('MIT')
-source=('git://git.suckless.org/st#commit=c2fd275'
-        'no-bold.diff'
-        'config.h')
+source=('git://git.suckless.org/st'
+        'config.h'
+        'no-bold.diff')
 md5sums=('SKIP' 'SKIP' 'SKIP')
 sha1sums=('SKIP' 'SKIP' 'SKIP')
 sha256sums=('SKIP' 'SKIP' 'SKIP')

@@ -1,16 +1,23 @@
 # Maintainer: neersighted <n@neersighted.com>
 
 pkgname=dwm-neersighted
-pkgver=fd3c19b
+pkgver=35db6d8
 pkgrel=1
 pkgdesc='The dynamic window manager'
 url='http://dwm.suckless.org'
 license=('MIT')
-source=('git://git.suckless.org/dwm#commit=fd3c19b'
-        'config.h')
-md5sums=('SKIP' 'SKIP')
-sha1sums=('SKIP' 'SKIP')
-sha256sums=('SKIP' 'SKIP')
+source=('git://git.suckless.org/dwm'
+        'config.h'
+        'xft.diff')
+md5sums=('SKIP'
+         'SKIP'
+         '0e55dddc40fae284035a0a049e505fbe')
+sha1sums=('SKIP'
+          'SKIP'
+          '4da5e10f560c2e18b77a147089561e765569fba9')
+sha256sums=('SKIP'
+            'SKIP'
+            '40e09e391e7656256b621b640b5f75e2640fa2a2ba7fb2f3421ca45a49768632')
 arch=('i686' 'x86_64')
 depends=('libxext' 'libxft')
 makedepends=('ncurses')
@@ -30,7 +37,7 @@ build() {
   cp "${srcdir}/config.h" ./config.h
 
   # Apply patches.
-  #git apply "${srcdir}/patch.diff"
+  git apply "${srcdir}/xft.diff"
 
   # Build it!
   make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11

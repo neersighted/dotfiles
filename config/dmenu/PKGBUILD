@@ -1,17 +1,23 @@
 # Maintainer: neersighted <n@neersighted.com>
 
 pkgname=dmenu-neersighted
-pkgver=4c50e43
+pkgver=13a529c
 pkgrel=1
 pkgdesc='The dynamic window manager'
 url='http://tools.suckless.org/dmenu'
 license=('MIT')
-source=('git://git.suckless.org/dmenu#commit=4c50e43'
-        'xft.diff'
-        'config.h')
-md5sums=('SKIP' 'SKIP' 'SKIP')
-sha1sums=('SKIP' 'SKIP' 'SKIP')
-sha256sums=('SKIP' 'SKIP' 'SKIP')
+source=('git://git.suckless.org/dmenu'
+        'config.h'
+        'xft.diff')
+md5sums=('SKIP'
+         'SKIP'
+         '3e1f43c0eed97be1ba58047781358294')
+sha1sums=('SKIP'
+          'SKIP'
+          'dc6e302cb08d4a251a01b795e9a923974f10788a')
+sha256sums=('SKIP'
+            'SKIP'
+            'a27b475bfa124ce4b4b45fd8047de0948ed466e1fe63c3223417305ea3016a8b')
 arch=('i686' 'x86_64')
 depends=('libxext' 'libxft')
 makedepends=('ncurses')
