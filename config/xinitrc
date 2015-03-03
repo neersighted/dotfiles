@@ -38,9 +38,16 @@ if [ -f $HOME/.xinitrc.local ]; then
   source $HOME/.xinitrc.local
 fi
 
+# Default to dwm.
 session=${1:-dwm}
+
+# Run dwm status daemon if we're running dwm.
+if [ $session == "dwm" ]; then
+  dwmstatus &
+fi
+
 case $session in
-    dwm|dwmd) exec dwmd;;
-    i3|i3wm ) exec i3;;
-    *       ) exec $session;;
+    dwm) exec dwm;;
+    i3 ) exec i3;;
+    *  ) exec $session;;
 esac

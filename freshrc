@@ -39,8 +39,6 @@ fresh config/agrc --file
 #
 
 # dwm: dynamic window manager
-fresh scripts/dwmd --bin
-fresh scripts/undwmd --bin
 fresh scripts/dwmstatus --bin
 
 # dunst: simple notification daemon
@@ -150,6 +148,9 @@ fresh scripts/pyenv-install --bin
 # rbenv: ruby version manager
 fresh scripts/rbenv-install --bin
 fresh config/rbenv/default-gems --file=~/.rbenv/default-gems
+
+# readline: terminal input
+fresh config/inputrc --file
 
 # repl: sometimes you need a repl
 fresh defunkt/repl bin/repl --bin

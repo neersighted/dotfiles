@@ -1,50 +1,99 @@
 #!/usr/bin/env bash
 
-bat() {
-  bat=$( acpi -b | sed 's/.*[charging|unknown], \([0-9]*\)%.*/\1/gi' )
+INTERVAL=5
 
-  echo "$bat"
+
+_get_active_iface() {
+  aiface="none"
+  for iface in "$(ifconfig | egrep 'eth[0-9]|enp[a-z0-9]|wlan[0-9]|wlp[a-z0-9]' | awk -F': ' '{print $1}')"; do
+    ifconfig $iface | grep -q 'inet ' && aiface="$iface"
+  done
+
+  echo "${aiface}"
 }
+
 
 cpu() {
   read cpu a b c previdle rest < /proc/stat
-  prevtotal=$((a+b+c+previdle))
+  prevtotal=$((a + b + c + previdle))
   sleep 0.5
   read cpu a b c idle rest < /proc/stat
-  total=$((a+b+c+idle))
-  cpu="$((100*( (total-prevtotal) - (idle-previdle) ) / (total-prevtotal) ))"
+  total=$((a + b + c + idle))
+  cpu="$((100 * ( (total - prevtotal) - (idle - previdle) ) / (total - prevtotal) ))"
 
-  echo "$cpu%"
+  echo "${cpu}%"
 }
 
-dte() {
-  dte="$(date +'%a %b %d')"
+datetime() {
+  datetime="$(date +'%a %b %d %I:%M')"
 
-  echo "$dte"
+  echo "${datetime}"
+}
+
+hdd() {
+  hdd="$(df -P | awk '/^\/dev/{s=s (s?" ":"") $5} END {printf "%s",s}')"
+
+  echo "${hdd}"
+}
+
+int() {
+  if host google.com >/dev/null; then
+    echo "go"
+  else
+    echo "no"
+  fi
+}
+
+load() {
+  load="$(awk '{print $1}' < /proc/loadavg)"
+
+  echo "${load}"
+}
+
+net() {
+  if [ "$(_get_active_iface)" != "none" ]; then
+    rxbn="$(cat /sys/class/net/$(_get_active_iface)/statistics/rx_bytes)"
+    txbn="$(cat /sys/class/net/$(_get_active_iface)/statistics/tx_bytes)"
+
+    rxrate=$(( ( rxbn - rxb ) / 1024 / INTERVAL ))
+    txrate=$(( ( txbn - txb ) / 1024 / INTERVAL ))
+
+    echo "${rxrate}K / ${txrate}K"
+
+    rxb="$rxbn"
+    txb="$txbn"
+  else
+    echo "nocarrier"
+  fi
 }
 
 mem() {
-  mem="$(free -m | awk '/^-\/\+/ {print $3}')"
+  mem="$(free -m | awk 'NR==2 {print $3}')"
 
-  echo "$mem"MB
+  echo "${mem}M"
 }
 
-sta() {
-  sta=$(acpi -b | sed 's/.*: \([a-zA-Z]*\),.*/\1/' | sed -e 's/Discharging/-/' -e 's/Charging/+/' -e 's/Unknown//')
+swap() {
+  swap="$(free -m | awk 'NR==3 {print $3}')"
 
-  echo "$sta"
+  echo "${swap}M"
 }
 
-swp() {
-  swp="$(free -m | awk '/^Swap/ {print $3}')"
 
-  echo "$swp"MB
+main() {
+  xsetroot -name "CPU $(cpu) LOAD $(load) • MEM $(mem) SWAP $(swap) • HDD $(hdd) • INT $(int) NET $(net) • $(datetime)"
 }
 
-tme() {
-  tme="$(date +'%I:%M')"
 
-  echo "$tme"
-}
+if [ "$(_get_active_iface)" != "none" ]; then
+  rxb="$(cat /sys/class/net/$(_get_active_iface)/statistics/rx_bytes)"
+  txb="$(cat /sys/class/net/$(_get_active_iface)/statistics/tx_bytes)"
+else
+  rxb=0
+  txb=0
+fi
 
-xsetroot -name "CPU $(cpu) • MEM $(mem) SWP $(swp) • BAT $(bat)$(sta) • $(tme) $(dte)"
+while true; do
+  main
+  sleep $INTERVAL
+done
