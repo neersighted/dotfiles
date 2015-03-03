@@ -1,4 +1,11 @@
 #
+# TTY
+#
+
+# Fix the keypad.
+tput smkx
+
+#
 # Paths
 #
 

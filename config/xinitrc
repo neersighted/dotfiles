@@ -11,9 +11,6 @@ fi
 # Make sure to allow tmux.
 unset TMUX
 
-# Set the background.
-feh --bg-scale ~/.dotfiles/img/bg.jpg &
-
 # Load my custom keybinds.
 xmodmap ~/.Xmodmap &
 # Start the keyboard binding daemon.
@@ -22,7 +19,7 @@ xbindkeys &
 # Start the notification daemon.
 dunst &
 
-# Start the filemanagement daemon.
+# Start the file management daemon.
 spacefm -d &
 
 # Start the auto-mount daemon.
@@ -33,6 +30,15 @@ redshift -l 34.05:-118.25 -t 6500:3500 &
 
 # Start the locking daemon.
 xautolock -locker slock -time 5 -corners 0-00 &
+
+# Start the mouse hiding daemon.
+unclutter &
+
+# Start the X compoistor.
+compton &
+
+# Set the background.
+feh --bg-scale ~/.dotfiles/img/bg.jpg &
 
 if [ -f $HOME/.xinitrc.local ]; then
   source $HOME/.xinitrc.local
