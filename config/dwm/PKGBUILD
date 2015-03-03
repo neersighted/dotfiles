@@ -13,17 +13,17 @@ source=('git://git.suckless.org/dwm'
         'xft.diff')
 md5sums=('SKIP'
          'SKIP'
-         'SKIP'
+         'b2960a40e54f0dba070b0a2db9ae8f25'
          'f52d3f16ddde2ecd34458354eca5c783'
          '0e55dddc40fae284035a0a049e505fbe')
 sha1sums=('SKIP'
           'SKIP'
-          'SKIP'
+          '70a39f36defb71cc404c197b06c071eba575deb4'
           '69cae9bcfcfde8af806bc87c708072bbf5841556'
           '4da5e10f560c2e18b77a147089561e765569fba9')
 sha256sums=('SKIP'
             'SKIP'
-            'SKIP'
+            '99863ea1e9843aedb569430b018da68b2af4f9fe7315506e7c3de977baabeeef'
             'a3e528e71df55a904e90205963522d20c3a8091e9ff38e7b49051ee942b94e27'
             '40e09e391e7656256b621b640b5f75e2640fa2a2ba7fb2f3421ca45a49768632')
 arch=('i686' 'x86_64')
