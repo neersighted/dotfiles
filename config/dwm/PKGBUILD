@@ -8,17 +8,21 @@ url='http://dwm.suckless.org'
 license=('MIT')
 source=('git://git.suckless.org/dwm'
         'config.h'
+        'multistatus.diff'
         'restart.diff'
         'xft.diff')
 md5sums=('SKIP'
+         'SKIP'
          'SKIP'
          'f52d3f16ddde2ecd34458354eca5c783'
          '0e55dddc40fae284035a0a049e505fbe')
 sha1sums=('SKIP'
           'SKIP'
+          'SKIP'
           '69cae9bcfcfde8af806bc87c708072bbf5841556'
           '4da5e10f560c2e18b77a147089561e765569fba9')
 sha256sums=('SKIP'
+            'SKIP'
             'SKIP'
             'a3e528e71df55a904e90205963522d20c3a8091e9ff38e7b49051ee942b94e27'
             '40e09e391e7656256b621b640b5f75e2640fa2a2ba7fb2f3421ca45a49768632')
@@ -41,6 +45,7 @@ build() {
   cp "${srcdir}/config.h" ./config.h
 
   # Apply patches.
+  git apply "${srcdir}/multistatus.diff"
   git apply "${srcdir}/restart.diff"
   git apply "${srcdir}/xft.diff"
 
