@@ -112,9 +112,6 @@ fresh pengwynn/dotfiles bin/gitio --bin
 fresh config/gnupg/gpg.conf --file=~/.gnupg/gpg.conf
 fresh config/gnupg/gpg-agent.conf --file=~/.gnupg/gpg-agent.conf
 
-# gxpr: google/wolfram|alpha expression calculator
-fresh pengwynn/dotfiles bin/gxpr --bin
-
 # hide: quickly hide a file (by prepending a dot)
 fresh pengwynn/dotfiles bin/hide --bin
 
@@ -132,15 +129,6 @@ fresh pengwynn/dotfiles bin/man.cx --bin
 
 # notes: view notes in a file (ie todo/xxx/fixme)
 fresh pengwynn/dotfiles bin/notes --bin
-
-# octocatsay: like cowsay, but...
-fresh cobyism/octocatsay bin/octocatsay --bin
-
-# pass: the standard unix password manager
-fresh scripts/lastpass2pass.rb --bin=~/bin/lp2p
-if [[ "$(uname)" != "Darwin" ]]; then
-    fresh zx2c4/password-store src/password-store.sh --bin=~/bin/pass
-fi
 
 # pry: advanced ruby repl
 fresh config/pryrc --file --marker
@@ -161,9 +149,6 @@ fresh defunkt/repl bin/repl --bin
 # rubygems: ruby package manager
 fresh config/gemrc --file
 
-# spark: fancy 'sparklines' in your shell
-fresh holman/spark spark --bin
-
 # sprunge: curl-based pastebin
 fresh falconindy/bin-scripts sprunge --bin
 
@@ -183,8 +168,5 @@ fresh-options --file=~/.tmux.conf --marker
         fresh config/tmux/linux.conf
     fi
 fresh-options
-
-# timein: what time is it in X?
-fresh jasoncodes/dotfiles bin/timein --bin
 
 # vi:ft=sh:
