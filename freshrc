@@ -9,6 +9,9 @@ fresh freshshell/fresh bin/fresh --bin
 # Shell
 #
 
+# dircolors: colorized ls
+fresh config/dircolorsrc --file
+
 # fish: the friendly interactive shell, for humans
 fresh-options --file=~/.config/fish/config.fish --marker
     fresh config/fish/config.fish

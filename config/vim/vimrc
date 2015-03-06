@@ -528,11 +528,6 @@ else
 
       " A sweet, lightweight status bar.
       NeoBundle 'bling/vim-airline'
-      " Derive Tmux's status line from Vim.
-      NeoBundle 'edkolev/tmuxline.vim', {
-        \ 'lazy': 1,
-        \ 'autoload': {'commands': ['Tmuxline', 'TmuxlineSnapshot']}
-      \ }
 
       " Show markers for indents.
       NeoBundle 'Yggdroot/indentLine'
@@ -947,10 +942,10 @@ endif
       set grepprg=ag\ --column\ --smart-case\ --nogroup\ --noheading\ --nocolor\ --follow
       set grepformat=%f:%l:%c:%m
     elseif executable('ack')
-      set grepprg=ag\ --column\ --smart-case\ --nogroup\ --noheading\ --nocolor\ --follow\ $*
+      set grepprg=ack\ --column\ --smart-case\ --nogroup\ --noheading\ --nocolor\ --follow
       set grepformat=%f:%l:%c:%m
     elseif executable('ack-grep')
-      set grepprg=ag-grep\ --column\ --smart-case\ --nogroup\ --noheading\ --nocolor\ --follow\ $*
+      set grepprg=ack-grep\ --column\ --smart-case\ --nogroup\ --noheading\ --nocolor\ --follow
       set grepformat=%f:%l:%c:%m
     endif
   " }}}
@@ -994,11 +989,11 @@ endif
 
     " Color Switching {{{
       " Quick bind to toggle the background.
-      nnoremap <silent> <leader>c let &background = ( &background == "dark"? "light" : "dark" )<cr>
+      nnoremap <silent> <leader>x let &background = ( &background == "dark"? "light" : "dark" )<cr>
 
       " Change colors based on the time of day.
       function! RecolorBackground()
-        if strftime("%H") >= 7 && strftime("%H") <= 17
+        if strftime("%H") >= 5 && strftime("%H") <= 22
           set background=light
           silent! AirlineRefresh
           return 'light'
