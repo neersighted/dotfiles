@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Load the global files.
+# Load global config.
 if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
   [ -x "$f" ] && . "$f"
@@ -8,41 +8,49 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-# Make sure to allow tmux.
-unset TMUX
-
-# Load my custom keybinds.
-xmodmap ~/.Xmodmap &
-# Start the keyboard binding daemon.
-xbindkeys &
-
-# Start the notification daemon.
-dunst &
-
-# Start the file management daemon.
-spacefm -d &
-
-# Start the auto-mount daemon.
-devmon &
-
-# Start the tinting daemon.
-redshift -l 34.05:-118.25 -t 6500:3500 &
-
-# Start the locking daemon.
-xautolock -locker slock -time 5 -corners 0-00 &
-
-# Start the mouse hiding daemon.
-unclutter &
-
-# Start the X compoistor.
-compton &
-
-# Set the background.
-feh --bg-scale ~/.dotfiles/img/bg.jpg &
-
+# Load local config.
 if [ -f $HOME/.xinitrc.local ]; then
   source $HOME/.xinitrc.local
 fi
+
+#
+# Environment
+#
+
+# Make sure to allow tmux.
+unset TMUX
+
+#
+# Background
+#
+
+# Load the background with feh.
+feh --bg-scale ~/.dotfiles/img/bg.jpg &
+# Start compton (X compositor).
+compton &
+# Start devmon (userspace auto-mounter).
+devmon &
+# Start dunst (notification daemon).
+dunst &
+# Start PulseAudio (sound server).
+start-pulseaudio-x11 &
+# Start Redshift (screen tinter).
+redshift -l 34.05:-118.25 -t 6500:3500 &
+# Start SpaceFM daemon (file manager).
+spacefm -d &
+# Start unclutter (mouse hiding daemon).
+unclutter &
+# Start xautolock (screen locker/timer).
+xautolock -secure -locker slock -time 5 -corners ---- &
+# Start xbindkeys (keyboard mapping daemon).
+xbindkeys &
+# Load keymap.
+xmodmap ~/.Xmodmap &
+
+
+#
+# Session
+#
 
 # Default to dwm.
 session=${1:-dwm}

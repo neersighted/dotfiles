@@ -1,26 +1,22 @@
 # Maintainer: neersighted <n@neersighted.com>
 
 pkgname=st-neersighted
-pkgver=29619a1
+pkgver=c87d454
 pkgrel=1
 pkgdesc='A simple virtual terminal emulator for X'
 url='http://st.suckless.org'
 license=('MIT')
 source=('git://git.suckless.org/st'
         'config.h'
-        'backspace-delete.diff'
         'no-bold.diff')
 md5sums=('SKIP'
          'SKIP'
-         'c3d9bff51783f183d4703dbe6c6be24e'
          '5361a50112ceb8ed85cf37ae2cecfb95')
 sha1sums=('SKIP'
           'SKIP'
-          '9405ca940a45277168858d0d75dd006544bf7392'
           'ab04deca96cf9f0821299701fbeedd4fa13358cd')
 sha256sums=('SKIP'
             'SKIP'
-            'c0da9bb10358600d6d6a1110ca2ecfba872722e7db2eebf18c70b298a05b4af0'
             'f15b3802d7cec6a809fe498833077e02ad3b0b6f384ddd83c46c3da84fc1b480')
 arch=('i686' 'x86_64')
 depends=('libxext' 'libxft')
@@ -41,7 +37,6 @@ build() {
   cp "${srcdir}/config.h" ./config.h
 
   # Apply patches.
-  git apply "${srcdir}/backspace-delete.diff"
   git apply "${srcdir}/no-bold.diff"
 
   # Build it!

@@ -1,5 +1,5 @@
 pkgname=gvim-neersighted
-pkgver=7.4.622.r1.cd5eff09c1ae
+pkgver=7.4.658
 pkgrel=1
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor'
 url='http://www.vim.org/'
@@ -42,13 +42,6 @@ build() {
         --enable-fail-if-missing \
         --with-compiledby="neersighted"
     make
-}
-
-check() {
-    cd vim
-
-    # Run the tests.
-    make test
 }
 
 package() {
