@@ -41,6 +41,9 @@ fresh config/agrc --file
 # Graphical
 #
 
+# compton: x compositor
+fresh config/compton.conf --file=~/.config/compton.conf
+
 # dwm: dynamic window manager
 fresh scripts/dwmstatus --bin
 
@@ -60,6 +63,9 @@ fresh config/gtk/gtkrc-2.0 --file
 
 # i3: tiling/tabbed window manger
 fresh config/i3/config --file=~/.config/i3/config
+
+# redshift: screen tinter
+fresh config/redshift.conf --file=~/.config/redshift.conf
 
 # xbindkeys: global keyboard bindings
 fresh config/xbindkeysrc --file

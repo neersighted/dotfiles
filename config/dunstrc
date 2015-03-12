@@ -30,11 +30,11 @@
     horizontal_padding = 8
 
     monitor = 0
-    follow = mouse
+    follow = none
 
     startup_notification = false
     dmenu = /usr/bin/dmenu -p dunst:
-    browser = /usr/bin/google-chrome-stable
+    browser = /usr/bin/google-chrome
 
 [shortcuts]
     close = mod4+grave

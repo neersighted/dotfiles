@@ -27,21 +27,21 @@ unset TMUX
 # Load the background with feh.
 feh --bg-scale ~/.dotfiles/img/bg.jpg &
 # Start compton (X compositor).
-compton &
+compton -b &
 # Start devmon (userspace auto-mounter).
-devmon &
+devmon --info-on-mount &
 # Start dunst (notification daemon).
-dunst &
+dunst -mon $(($(xrandr -q | grep '\sconnected\s' | wc -l) - 1)) &
 # Start PulseAudio (sound server).
 start-pulseaudio-x11 &
 # Start Redshift (screen tinter).
-redshift -l 34.05:-118.25 -t 6500:3500 &
+redshift &
 # Start SpaceFM daemon (file manager).
 spacefm -d &
 # Start unclutter (mouse hiding daemon).
 unclutter &
 # Start xautolock (screen locker/timer).
-xautolock -secure -locker slock -time 5 -corners ---- &
+xautolock -locker slock -time 5 -corners ---- &
 # Start xbindkeys (keyboard mapping daemon).
 xbindkeys &
 # Load keymap.
