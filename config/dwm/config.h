@@ -5,10 +5,16 @@ static const char normfgcolor[]     = "#93a1a1";
 static const char selbordercolor[]  = "#586e75";
 static const char selbgcolor[]      = "#073642";
 static const char selfgcolor[]      = "#93a1a1";
-static const Bool showbar           = True;
-static const Bool topbar            = True;
-static const unsigned int borderpx  = 1;
-static const unsigned int snap      = 32;
+
+enum showtab_modes { showtab_never, showtab_auto, showtab_nmodes, showtab_always};
+static const Bool showbar = True;
+static const Bool topbar  = True;
+static const int showtab  = showtab_auto;
+static const Bool toptab  = False;
+
+static const unsigned int borderpx = 1;
+
+static const unsigned int snap = 32;
 
 static char dmenumon[2]        = "0";
 static const char *dmenucmd[]  = { "dmenu_run.pl", "-m", dmenumon, "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
@@ -19,6 +25,7 @@ static const int nmaster = 1;
 static const float mfact = 0.7;
 
 static const char *tags[]     = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static int def_layouts[1 + LENGTH(tags)]  = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },
@@ -35,6 +42,9 @@ static const Rule rules[] = {
 };
 static const Bool resizehints = False;
 
+#include "adjtag.c"
+#include "push.c"
+
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
@@ -45,32 +55,37 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY|ShiftMask,             XK_c,      quit,           {0} },
 	{ MODKEY,                       XK_r,      quit,           {1} },
-	{ MODKEY,                       XK_q,      spawn,          {.v = lockcmd } },
-	{ MODKEY,                       XK_Return, spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_x,      spawn,          {.v = lockcmd} },
+	{ MODKEY,                       XK_Return, spawn,          {.v = dmenucmd} },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd} },
 	{ MODKEY,                       XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_space,  zoom,           {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_Tab,    setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_Tab,    view,           {0} },
-	{ MODKEY,                       XK_h,      focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_q,      setlayout,      {0} },
+	{ MODKEY|ShiftMask,             XK_q,      view,           {0} },
+	{ MODKEY,                       XK_h,      focusstack,     {.i = +1} },
 	{ MODKEY|ShiftMask,             XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_l,      focusstack,     {.i = -1} },
 	{ MODKEY|ShiftMask,             XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_j,      focusstack,     {.i = +1} },
+	{ MODKEY|ShiftMask,             XK_j,      pushdown,       {0} },
+	{ MODKEY,                       XK_k,      focusstack,     {.i = -1} },
+	{ MODKEY|ShiftMask,             XK_k,      pushup,         {0} },
+	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1} },
+	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1} },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+	{ MODKEY,                       XK_w,      tabmode,        {-1} },
+	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1} },
+	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1} },
+	{ MODKEY,                       XK_period, focusmon,       {.i = +1} },
+	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1} },
+	{ MODKEY,                       XK_Tab,    nexttag,        {0} },
+	{ MODKEY|ShiftMask,             XK_Tab,    prevtag,        {0} },
+	{ MODKEY,                       XK_0,      view,           {.ui = ~0} },
+	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -87,7 +102,7 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+	{ ClkStatusText,        0,              Button2,        spawn,          {.v = dmenucmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
@@ -95,5 +110,5 @@ static Button buttons[] = {
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+	{ ClkTabBar,            0,              Button1,        focuswin,       {0} },
 };
-

@@ -24,8 +24,8 @@ unset TMUX
 # Background
 #
 
-# Load the background with feh.
-feh --bg-scale ~/.dotfiles/img/bg.jpg &
+# Load the background with nitrogen.
+nitrogen --restore &
 # Start compton (X compositor).
 compton -b &
 # Start devmon (userspace auto-mounter).

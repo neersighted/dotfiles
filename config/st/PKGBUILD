@@ -9,12 +9,6 @@ license=('MIT')
 source=('git://git.suckless.org/st'
         'config.h'
         'no-bold.diff')
-md5sums=('SKIP'
-         'SKIP'
-         '5361a50112ceb8ed85cf37ae2cecfb95')
-sha1sums=('SKIP'
-          'SKIP'
-          'ab04deca96cf9f0821299701fbeedd4fa13358cd')
 sha256sums=('SKIP'
             'SKIP'
             'f15b3802d7cec6a809fe498833077e02ad3b0b6f384ddd83c46c3da84fc1b480')

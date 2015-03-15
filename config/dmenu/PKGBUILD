@@ -9,12 +9,6 @@ license=('MIT')
 source=('git://git.suckless.org/dmenu'
         'config.h'
         'xft.diff')
-md5sums=('SKIP'
-         'SKIP'
-         '3e1f43c0eed97be1ba58047781358294')
-sha1sums=('SKIP'
-          'SKIP'
-          'dc6e302cb08d4a251a01b795e9a923974f10788a')
 sha256sums=('SKIP'
             'SKIP'
             'a27b475bfa124ce4b4b45fd8047de0948ed466e1fe63c3223417305ea3016a8b')

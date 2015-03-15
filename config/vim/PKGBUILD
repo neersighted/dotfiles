@@ -6,7 +6,8 @@ url='http://www.vim.org/'
 license=('custom:vim')
 groups=('editors')
 source=('hg+http://vim.googlecode.com/hg/vim' 'gvim.desktop')
-md5sums=('SKIP' '6e11c556ba3f2ce7dc05d9908188d604')
+sha256sums=('SKIP'
+            '8a48bd9c4b14a0f1047ce9f668d0f5d8639a1713d150d4267d4793d340baf971')
 arch=('i686' 'x86_64')
 depends=('gtk2' 'gdk-pixbuf2' 'pango' 'glib2' 'libsm' 'libice' 'libxt' 'libx11' 'glibc' 'ncurses' 'acl' 'lua' 'perl' 'python')
 makedepends=('mercurial')
