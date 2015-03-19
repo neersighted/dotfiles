@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+( slock && xset dpms 0 0 60 ) &
+xset dpms 0 0 1
+xset dpms force off

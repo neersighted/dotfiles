@@ -9,6 +9,7 @@ tput smkx
 source (dircolors -c ~/.dircolorsrc|psub)
 
 # Enable color in less.
+set -gx LESS -R
 set -xU LESS_TERMCAP_mb (printf "\e[01;31m")      # begin blinking
 set -xU LESS_TERMCAP_md (printf "\e[01;31m")      # begin bold
 set -xU LESS_TERMCAP_me (printf "\e[0m")          # end mode
@@ -45,6 +46,12 @@ end
 if [ -d $HOME/.pyenv ]
     set -gx PATH \
     $HOME/.pyenv/{bin,shims} \
+    $PATH
+end
+# ndenv
+if [ -d $ndenv ]
+    set -gx PATH \
+    $HOME/.ndenv/{bin,shims} \
     $PATH
 end
 # perl
@@ -85,6 +92,11 @@ end
 # Load pyenv.
 if type -fp pyenv >/dev/null
    source (pyenv init -|psub)
+   source (pyenv virtualenv-init -|psub)
+end
+# Load ndenv.
+if type -fp ndenv >/dev/null
+   #source (ndenv init -|psub)
 end
 
 # Connect to envoy.

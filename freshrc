@@ -12,9 +12,6 @@ fresh freshshell/fresh bin/fresh --bin
 # bcache: block device cache
 fresh scripts/bcache-status --bin
 
-# btrfs: a better filesystem
-fresh scripts/btrsnap --bin
-
 #
 # Shell
 #
@@ -76,6 +73,9 @@ fresh config/i3/config --file=~/.config/i3/config
 
 # redshift: screen tinter
 fresh config/redshift.conf --file=~/.config/redshift.conf
+
+# slock: simple screen locker
+fresh scripts/xlock --bin
 
 # xbindkeys: global keyboard bindings
 fresh config/xbindkeysrc --file
@@ -142,6 +142,9 @@ fresh config/makepkg.conf --file=~/.makepkg.conf
 
 # man.cx: open manpages in man.cx
 fresh pengwynn/dotfiles bin/man.cx --bin
+
+# ndenv: node version manager
+fresh scripts/ndenv-install --bin
 
 # notes: view notes in a file (ie todo/xxx/fixme)
 fresh pengwynn/dotfiles bin/notes --bin

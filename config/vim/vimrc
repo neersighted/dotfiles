@@ -640,8 +640,6 @@ endif
 
   " Assume a fast TTY.
   set ttyfast
-  " Don't use TTY scrolling.
-  set ttyscroll=3
   " Postpone redraws.
   set lazyredraw
 " }}}
@@ -656,11 +654,10 @@ endif
 
   " Selection {{{
     " Use the system clipboard.
-    set clipboard=autoselect
-    if has("unnamedplus")
-        set clipboard+=unnamedplus
+    if has("clipboard") && has("unnamedplus")
+        set clipboard=unnamedplus
     else
-        set clipboard+=unnamed
+        set clipboard=unnamed
     endif
 
     " Allow the cursor to go beyond the line and to make true blocks.
