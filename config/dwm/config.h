@@ -1,4 +1,7 @@
-static const char font[]            = "Source Code Pro Light-7.5";
+static const char *fonts[] = {
+    "Source Code Pro Light:size=7.5",
+};
+static const char dmenufont[]       = "Source Code Pro Light-7.5";
 static const char normbordercolor[] = "#073642";
 static const char normbgcolor[]     = "#002b36";
 static const char normfgcolor[]     = "#93a1a1";
@@ -6,26 +9,25 @@ static const char selbordercolor[]  = "#586e75";
 static const char selbgcolor[]      = "#073642";
 static const char selfgcolor[]      = "#93a1a1";
 
-enum showtab_modes { showtab_never, showtab_auto, showtab_nmodes, showtab_always};
 static const Bool showbar = True;
 static const Bool topbar  = True;
-static const int showtab  = showtab_auto;
-static const Bool toptab  = False;
 
 static const unsigned int borderpx = 1;
 
 static const unsigned int snap = 32;
 
-static char dmenumon[2]        = "0";
-static const char *dmenucmd[]  = { "dmenu_run.pl", "-m", dmenumon, "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]   = { "st", NULL };
-static const char *lockcmd[]   = { "xautolock", "-locknow", NULL };
+static char dmenumon[2] = "0";
+
+static const char *dmenucmd[]      = { "dmenu_run.pl", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+static const char *termcmd[]       = { "st", NULL };
+static const char *lockcmd[]       = { "xautolock", "-locknow", NULL };
+static const char *locktogglecmd[] = { "xautolock", "-toggle", NULL };
 
 static const int nmaster = 1;
 static const float mfact = 0.7;
 
 static const char *tags[]     = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static int def_layouts[1 + LENGTH(tags)]  = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+//static int def_layouts[1 + LENGTH(tags)]  = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },
@@ -56,6 +58,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_c,      quit,           {0} },
 	{ MODKEY,                       XK_r,      quit,           {1} },
 	{ MODKEY,                       XK_x,      spawn,          {.v = lockcmd} },
+	{ MODKEY|ShiftMask,             XK_x,      spawn,          {.v = locktogglecmd} },
 	{ MODKEY,                       XK_Return, spawn,          {.v = dmenucmd} },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd} },
 	{ MODKEY,                       XK_c,      killclient,     {0} },
@@ -77,7 +80,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1} },
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1} },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_w,      tabmode,        {-1} },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1} },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1} },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1} },
@@ -110,5 +112,4 @@ static Button buttons[] = {
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
-	{ ClkTabBar,            0,              Button1,        focuswin,       {0} },
 };

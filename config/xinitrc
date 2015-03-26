@@ -21,6 +21,13 @@ fi
 unset TMUX
 
 #
+# Hardware
+#
+
+# Disable DPMS; xautolock manages this.
+xset dpms 0 0 0
+
+#
 # Background
 #
 

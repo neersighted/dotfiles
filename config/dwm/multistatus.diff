@@ -1,6 +1,8 @@
---- dwm/dwm.c.orig	2014-02-09 15:24:22.768117261 +0100
-+++ dwm/dwm.c	2014-02-09 15:24:22.764117260 +0100
-@@ -715,17 +715,13 @@
+diff --git a/dwm.c b/dwm.c
+index f896170..5dcd5dd 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -715,17 +715,13 @@ drawbar(Monitor *m) {
  	drw_text(drw, x, 0, w, bh, m->ltsymbol, 0);
  	x += w;
  	xx = x;
@@ -24,7 +26,7 @@
  	if((w = x - xx) > bh) {
  		x = xx;
  		if(m->sel) {
-@@ -1923,9 +1919,11 @@
+@@ -1932,9 +1928,11 @@ updatetitle(Client *c) {
  
  void
  updatestatus(void) {

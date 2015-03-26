@@ -1,5 +1,6 @@
 # Maintainer: neersighted <n@neersighted.com>
 
+_pkgname=dmenu
 pkgname=dmenu-neersighted
 pkgver=13a529c
 pkgrel=1

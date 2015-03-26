@@ -1,0 +1,46 @@
+# Maintainer: neersighted <n@neersighted.com>
+
+_pkgname=utmp
+pkgname=utmp-neersighted
+pkgver=694c4dd
+pkgrel=1
+pkgdesc='A simple login manager'
+url='http://git.suckless.org/utmp'
+license=('MIT')
+source=('git://git.suckless.org/utmp')
+sha256sums=('SKIP')
+arch=('i686' 'x86_64')
+depends=()
+makedepends=()
+conflicts=('utmp')
+provides=('utmp')
+
+pkgver() {
+  cd "${srcdir}/utmp"
+
+  git describe --always | sed 's/^v//;s/-/./g'
+}
+
+build() {
+  cd "${srcdir}/utmp"
+
+  # Prepare the source.
+  ./configure
+
+  # Build it!
+  make
+}
+
+package() {
+  cd "${srcdir}/utmp"
+
+  # Install the program.
+  make PREFIX=/usr DESTDIR="${pkgdir}" install
+
+  # Install the license.
+  install -Dm644 LICENSE \
+                    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  # Install the readme.
+  install -Dm644 README \
+                    "${pkgdir}/usr/share/doc/${pkgname}/README"
+}

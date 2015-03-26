@@ -654,11 +654,7 @@ endif
 
   " Selection {{{
     " Use the system clipboard.
-    if has("clipboard") && has("unnamedplus")
-        set clipboard=unnamedplus
-    else
-        set clipboard=unnamed
-    endif
+      set clipboard=unnamedplus
 
     " Allow the cursor to go beyond the line and to make true blocks.
     set virtualedit=onemore,block

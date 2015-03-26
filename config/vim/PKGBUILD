@@ -1,68 +1,72 @@
+# Maintainer: Bjorn Neergaard (neersighted) <bjorn@neersighted.com>
+
+_pkgname=gvim
 pkgname=gvim-neersighted
-pkgver=7.4.663
+pkgver=7.4.682
 pkgrel=1
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor'
 url='http://www.vim.org/'
 license=('custom:vim')
 groups=('editors')
-source=('hg+http://vim.googlecode.com/hg/vim' 'gvim.desktop')
+source=('git+https://github.com/vim/vim.git'
+        'gvim.desktop')
 sha256sums=('SKIP'
-            '8a48bd9c4b14a0f1047ce9f668d0f5d8639a1713d150d4267d4793d340baf971')
+            '46dff79072746c2199b8d6ab77936ee72beb4abea83a4c03a7b9174379e8e56a')
 arch=('i686' 'x86_64')
 depends=('gtk2' 'gdk-pixbuf2' 'pango' 'glib2' 'libsm' 'libice' 'libxt' 'libx11' 'glibc' 'ncurses' 'acl' 'lua' 'perl' 'python')
-makedepends=('mercurial')
+makedepends=('git')
 conflicts=('vim' 'gvim' 'vim-runtime')
 provides=('vim' 'gvim' 'vim-runtime')
 
 pkgver() {
-    cd vim
+  cd vim
 
-    # OH GOD WHY.
-    hg tip --template '{latesttag}\n' | sed 's/^v//;s/-/./g'
+  # Get the version number.
+  git describe --long | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-    cd vim
+  cd vim
 
-    ./configure \
-        --prefix=/usr \
-        --localstatedir=/var/lib/vim \
-        --with-x=yes \
-        --enable-gui=gtk2 \
-        --enable-rubyinterp \
-        --disable-pythoninterp \
-        --enable-python3interp \
-        --enable-perlinterp \
-        --enable-luainterp \
-        --enable-acl \
-        --enable-multibyte \
-        --enable-cscope \
-        --disable-netbeans \
-        --disable-gpm \
-        --with-features=huge \
-        --enable-fail-if-missing \
-        --with-compiledby="neersighted"
-    make
+  ./configure \
+    --prefix=/usr \
+    --localstatedir=/var/lib/vim \
+    --with-x=yes \
+    --enable-gui=gtk2 \
+    --enable-rubyinterp \
+    --disable-pythoninterp \
+    --enable-python3interp \
+    --enable-perlinterp \
+    --enable-luainterp \
+    --enable-acl \
+    --enable-multibyte \
+    --enable-cscope \
+    --disable-netbeans \
+    --disable-gpm \
+    --with-features=huge \
+    --enable-fail-if-missing \
+    --with-compiledby="neersighted"
+  make
 }
 
 package() {
-    cd vim
+  cd vim
 
-    # Install the program.
-    make DESTDIR=${pkgdir} install
+  # Install the program.
+  make DESTDIR=${pkgdir} install
 
-    # These are provided by (n)vi.
-    rm ${pkgdir}/usr/bin/ex
-    rm ${pkgdir}/usr/bin/view
-    shopt -s globstar
-        rm ${pkgdir}/usr/share/man/**/ex.1*
-        rm ${pkgdir}/usr/share/man/**/view.1*
-    shopt -u globstar
+  # These are provided by (n)vi.
+  rm ${pkgdir}/usr/bin/ex
+  rm ${pkgdir}/usr/bin/view
+  shopt -s globstar
+    rm ${pkgdir}/usr/share/man/**/ex.1*
+    rm ${pkgdir}/usr/share/man/**/view.1*
+  shopt -u globstar
 
-    # Install the XDG files.
-    install -Dm644 ${srcdir}/gvim.desktop ${pkgdir}/usr/share/applications/gvim.desktop
-    install -Dm644 runtime/vim48x48.png ${pkgdir}/usr/share/pixmaps/gvim.png
+  # Install the XDG files.
+  install -Dm644 ${srcdir}/gvim.desktop ${pkgdir}/usr/share/applications/gvim.desktop
+  install -Dm644 runtime/vim48x48.png ${pkgdir}/usr/share/pixmaps/gvim.png
 
-    # Install the license.
-    install -Dm644 runtime/doc/uganda.txt ${pkgdir}/usr/share/licenses/${pkgname}/license.txt
+  # Install the license.
+  install -Dm644 runtime/doc/uganda.txt ${pkgdir}/usr/share/licenses/${pkgname}/license.txt
 }

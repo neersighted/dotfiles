@@ -1,29 +1,30 @@
 # Maintainer: neersighted <n@neersighted.com>
 
+_pkgname=dwm
 pkgname=dwm-neersighted
-pkgver=35db6d8
+pkgver=14343e6
 pkgrel=1
 pkgdesc='The dynamic window manager'
 url='http://dwm.suckless.org'
 license=('MIT')
 source=('git://git.suckless.org/dwm'
         'config.h'
-        'push.c'
         'adjtag.c'
+        'push.c'
+        'default_source.diff'
         'multistatus.diff'
-        'pertag-tab.diff'
+        'pertag.diff'
         'restart.diff'
-        'smartborders.diff'
-        'xft.diff')
+        'smartborders.diff')
 sha256sums=('SKIP'
-            'SKIP'
-            '195c8c9f2c0af9f862b398a306bb1a791931beaf541e37df41f13cb44438301c'
+            '5756231e294d42a53bce63c7d72e60ae3f89aef4fb0a00b141b0ea065ac9ccfd'
             '0aea10231f2b82b8c0364daf1fe950101873a5e4aa4d23c536ef228810e4f72d'
-            '99863ea1e9843aedb569430b018da68b2af4f9fe7315506e7c3de977baabeeef'
-            '81b19bbebcddd557f6100027e248308918535ba3f9e772b6690f50676e8c9e0b'
-            'a3e528e71df55a904e90205963522d20c3a8091e9ff38e7b49051ee942b94e27'
-            '8c0e6376fe5a96c0dc6a897635cc00e600ffa2c073a306a2e9129c5522397ab2'
-            '40e09e391e7656256b621b640b5f75e2640fa2a2ba7fb2f3421ca45a49768632')
+            '195c8c9f2c0af9f862b398a306bb1a791931beaf541e37df41f13cb44438301c'
+            'c50ff4b5292b6e8793bfe03a87ba96bfeed17ba64d1d4f9344c60da26221d363'
+            '87d08f78025f70e99ee2e080d0804c38ee8f0c133d0c317dcf8954b74f6717b5'
+            '2c9ddd40baa08aa18a9fd95c2843191c730a3549c48d610b68408e26e2d2cef6'
+            '0cdb0478f2c218083a750f6e1be10efcba00b0a1fbd5d00dd5131b35e8ea38aa'
+            'b3da389451be20fc185b7cf3f5eca9034eefdb8bb734fd435117d1cd03da201d')
 arch=('i686' 'x86_64')
 depends=('libxext' 'libxft')
 makedepends=('ncurses')
@@ -45,11 +46,11 @@ build() {
   cp "${srcdir}/push.c" ./push.c
 
   # Apply patches.
+  git apply "${srcdir}/default_source.diff"
   git apply "${srcdir}/multistatus.diff"
-  git apply "${srcdir}/pertag-tab.diff"
+  git apply "${srcdir}/pertag.diff"
   git apply "${srcdir}/restart.diff"
   git apply "${srcdir}/smartborders.diff"
-  git apply "${srcdir}/xft.diff"
 
   # Build it!
   make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11

@@ -1,20 +1,24 @@
---type-set=coffee=.coffee
---type-set=cucumber=.feature
 --type-set=haml=.haml
---type-set=markdown=.md,.mkd,.markdown
---type-set=sass=.sass,.scss
+--type-set=erb=.erb
+--type-set=sass=.sass
+--type-set=scss=.scss
+--type-set=less=.less
+--type-set=coffee=.coffee
+--type-set=handlebars=.handlebars
+--type-add=html=.handlebars,.tmpl
 
---ignore-dir=vendor
+--type-set=jst=.jst--ignore-dir=tmp
 --ignore-dir=log
---ignore-dir=tmp
---ignore-dir=doc
---ignore-dir=coverage
---ignore-dir=public/assets
+--ignore-dir=db
+--ignore-dir=vendor
+--ignore-dir=node_modules
+--ignore-file=ext:*min*
+
+--all-types
+--follow
 
 --smart-case
 
---sort-files
 --color
---follow
---group
---context=3
+--context
+--sort-files

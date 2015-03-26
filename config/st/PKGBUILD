@@ -1,7 +1,8 @@
 # Maintainer: neersighted <n@neersighted.com>
 
+_pkgname=st
 pkgname=st-neersighted
-pkgver=c87d454
+pkgver=288f80c
 pkgrel=1
 pkgdesc='A simple virtual terminal emulator for X'
 url='http://st.suckless.org'

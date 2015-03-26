@@ -34,6 +34,9 @@ fresh config/fish/functions --file=~/.config/fish/functions/
 # vim: vi improved
 fresh config/vim/vimrc --file
 
+# neovim: vim improved
+fresh config/vim/vimrc --file=~/.nvimrc
+
 #
 # Search
 #

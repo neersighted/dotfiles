@@ -1,5 +1,5 @@
 diff --git a/dwm.c b/dwm.c
-index ffc8864..3ce8ebe 100644
+index f896170..a856c53 100644
 --- a/dwm.c
 +++ b/dwm.c
 @@ -308,6 +308,34 @@ applyrules(Client *c) {
@@ -75,7 +75,7 @@ index ffc8864..3ce8ebe 100644
  
  	wc.border_width = c->bw;
  	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
-@@ -1933,7 +1977,8 @@ updatewindowtype(Client *c) {
+@@ -1942,7 +1986,8 @@ updatewindowtype(Client *c) {
  	Atom state = getatomprop(c, netatom[NetWMState]);
  	Atom wtype = getatomprop(c, netatom[NetWMWindowType]);
  
