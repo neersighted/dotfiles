@@ -26,6 +26,8 @@ unset TMUX
 
 # Disable DPMS; xautolock manages this.
 xset dpms 0 0 0
+# Disable screen blanking; xautolock/slock manages this.
+xset s off
 
 #
 # Background
@@ -39,6 +41,8 @@ compton -b &
 devmon --info-on-mount &
 # Start dunst (notification daemon).
 dunst -mon $(($(xrandr -q | grep '\sconnected\s' | wc -l) - 1)) &
+# Start lightweight polkit agent.
+lxpolkit
 # Start PulseAudio (sound server).
 start-pulseaudio-x11 &
 # Start Redshift (screen tinter).

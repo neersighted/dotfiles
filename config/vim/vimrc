@@ -2,7 +2,7 @@
 " Profiling
 "
 
-if has('vim_starting') && has('reltime')
+if has('vim_starting')
     let startup = reltime()
     autocmd VimEnter * let ready = reltime(startup) | redraw | echo reltimestr(ready)
 endif
@@ -21,6 +21,19 @@ endif
   let s:is_gui    = has('gui_running')
   let s:is_gtk    = has('gui_gtk2')
   let s:is_macvim = has('gui_macvim')
+  let s:is_neovim = has('nvim')
+
+  if s:is_windows && !s:is_cygwin
+    let g:vim = '~/Application Data/Vim'
+  elseif s:is_mac
+    let g:vim = '~/Library/Application Support/Vim'
+  else
+    if exists($XDG_DATA_HOME)
+      let g:vim = $XDG_DATA_HOME . '/vim'
+    else
+      let g:vim = '~/.local/share/vim'
+    endif
+  endif
 " }}}
 
 "
@@ -34,7 +47,7 @@ endif
   endfunction
 
   " Make sure a directory exists.
-  function! s:ensure(dir)
+  function! s:mkdir_p(dir)
     let dir = expand(a:dir)
 
     if s:is_empty(dir) && !isdirectory(dir)
@@ -42,28 +55,16 @@ endif
         call mkdir(target, 'p')
       catch
         " On some platforms mkdir() does not exist.
-        silent execute '!mkdir -p '.dir
+        silent execute '!mkdir -p ' . dir
       endtry
     endif
   endfunction
 
   " Get the (platform dependant) cache location.
-  function! s:get_cache(for)
-    if s:is_windows && !s:is_cygwin
-      let l:dir = '~/Application Data/Vim'
-    elseif s:is_mac
-      let l:dir = '~/Library/Application Support/Vim'
-    else
-      if empty($XDG_DATA_HOME)
-        let l:dir= '~/.local/share/vim'
-      else
-        let l:dir = $XDG_DATA_HOME.'/vim'
-      endif
-    endif
+  function! s:cache_for(for)
+    let dir = resolve(expand(g:vim . '/' . a:for))
 
-    let dir = resolve(expand(l:dir . '/' . a:for))
-
-    call s:ensure(dir)
+    call s:mkdir_p(dir)
     return dir
   endfunction
 " }}}
@@ -94,509 +95,238 @@ endif
 " Plugins
 "
 
-let s:bundle_cache = s:get_cache('bundle')
-let s:neobundle = s:bundle_cache.'/neobundle.vim'
+" Set runtimepath.
+silent execute 'set runtimepath+=' . g:vim
 
-" Install Neobundle {{{
-  " Clone Neobundle if we can.
-  if s:is_empty(s:neobundle)
-    if executable('git')
-      execute '!git clone git://github.com/Shougo/neobundle.vim '.s:neobundle
-    else
-      if confirm("Git is not installed. Continue?", "&Yes\n&No", 2) == 2
-        quit
-      endif
-    endif
+" Set paths.
+let s:autoload   = s:cache_for('autoload')
+let s:plug       = s:autoload . '/plug.vim'
+let s:plug_cache = s:cache_for('plugged')
+
+" Install vim-plug {{{
+  " Clone vim-plug if we can.
+  if s:is_empty(s:plug)
+    silent execute '!curl -fLo ' . s:plug . 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall
   endif
 " }}}
 
-" Run Neobundle {{{
+" Run vim-plug {{{
   " Set defaults.
   set nocompatible
 
-  " Load Neobundle.
-  silent execute 'set runtimepath+='.s:neobundle
-  call neobundle#begin(s:bundle_cache)
+  " Load vim-plug.
+  call plug#begin(s:plug_cache)
 " }}}
 
-if neobundle#has_cache()
-  NeoBundleLoadCache
-else
   " Plugins {{{
     " Libraries {{{
-      " Neobundle itself.
-      NeoBundleFetch 'Shougo/neobundle.vim'
-
       " Background and asynchronous process support.
-      NeoBundle 'Shougo/vimproc', {
-        \ 'lazy': 1,
-        \ 'build': {
-        \   'windows': 'make -f make_mingw32.mak',
-        \   'cygwin':  'make -f make_cygwin.mak',
-        \   'mac':     'make -f make_mac.mak',
-        \   'unix':    'make -f make_unix.mak'
-        \ }
-      \ }
+      Plug 'Shougo/vimproc', { 'do': 'make' }
       " Async adapters for running Vim's compiler plugins, or arbitrary commands.
-      NeoBundle 'tpope/vim-dispatch', {
-        \ 'lazy': 1,
-        \ 'autoload': {
-        \   'commands': ['Dispatch', 'Start', 'Make', 'FocusDispatch', 'Focus']
-        \ }
-      \ }
+      Plug 'tpope/vim-dispatch'
 
-
+      " Psuedo-command line support.
+      Plug 'junegunn/vim-pseudocl'
       " Repeat support for arbitrary plugins.
-      NeoBundle 'tpope/vim-repeat', {
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['.']}
-      \ }
+      Plug 'tpope/vim-repeat'
       " A library for making text objects.
-      NeoBundle 'kana/vim-textobj-user', {
-        \ 'lazy': 1
-      \ }
+      Plug 'kana/vim-textobj-user'
     " }}}
 
     " Fixes/Tweaks {{{
       " Sane defaults.
-      NeoBundle 'tpope/vim-sensible'
+      Plug 'tpope/vim-sensible'
+
+      " Restore/preserve views.
+      Plug 'kopischke/vim-stay'
+      " More conservative fold updates.
+      Plug 'Konfekt/FastFold'
 
       " Auto-detect indent settings.
-      NeoBundle 'tpope/vim-sleuth'
+      Plug 'tpope/vim-sleuth'
       " Auto detect the build command.
-      NeoBundle 'johnsyweb/vim-makeshift'
-
-      " Let Tmux notify Vim of changed environmental variables.
-      NeoBundle 'buztard/vim-nomad', {
-        \ 'lazy': 1,
-        \ 'autoload': {'commands': ['UpdateEnv']}
-      \ }
+      Plug 'johnsyweb/vim-makeshift'
+      " Open files to line:column.
+      Plug 'kopischke/vim-fetch'
 
       " Close buffers without changing the layout.
-      NeoBundle 'moll/vim-bbye', {
-        \ 'lazy': 1,
-        \ 'autoload': {'commands': ['Bdelete', 'Bd']}
-      \ }
+      Plug 'moll/vim-bbye'
+      " Use intuitive resize directions.
+      Plug 'talek/obvious-resize'
 
       " Smooth scrolling.
-      NeoBundle 'terryma/vim-smooth-scroll', {
-        \ 'lazy': '1'
-      \ }
+      Plug 'terryma/vim-smooth-scroll'
       " Fix terminal key sequences.
-      NeoBundle 'drmikehenry/vim-fixkey', {
-        \ 'terminal': '1'
-      \ }
+      Plug 'drmikehenry/vim-fixkey'
 
       " Make Vim's build in character info command support more things.
-      NeoBundle 'tpope/vim-characterize', {
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['ga']}
-      \ }
+      Plug 'tpope/vim-characterize'
     " }}}
 
     " Unite {{{
       " Unified fuzzy interface to any (implemented) source.
-      NeoBundle 'Shougo/unite.vim', {
-        \ 'lazy': 1,
-        \ 'autoload': {
-        \   'commands': [{'name': 'Unite', 'complete': 'customlist,unite#complete_source'},
-        \                'UniteWithCursorWord', 'UniteWithInput']
-        \ }
-      \ }
+      Plug 'Shougo/unite.vim'
 
-      NeoBundle 'Shougo/neomru.vim', {
-        \ 'depends': ['Shougo/unite.vim'],
-        \ 'lazy': 1,
-        \ 'autoload': {'unite_sources': ['file_mru', 'directory_mru', 'neomru/file', 'neomru/directory']}
-      \ }
-      NeoBundle 'tsukkee/unite-tag', {
-        \ 'depends': ['Shougo/unite.vim'],
-        \ 'lazy': 1,
-        \ 'autoload': {'unite_sources': ['tag']}
-      \ }
-      NeoBundle 'thinca/vim-unite-history', {
-        \ 'depends': ['Shougo/unite.vim'],
-        \ 'lazy': 1,
-        \ 'autoload': {'unite_sources': ['history/command', 'history/search']}
-      \ }
-      NeoBundle 'Shougo/unite-help', {
-        \ 'depends': ['Shougo/unite.vim'],
-        \ 'lazy': 1,
-        \ 'autoload': {'unite_sources': ['help']}
-      \ }
-    " }}}
+      Plug 'Shougo/unite-session'
+      Plug 'Shougo/neomru.vim'
+      Plug 'Shougo/unite-outline'
+      Plug 'tsukkee/unite-tag'
+      Plug 'thinca/vim-unite-history'
+      Plug 'Shougo/unite-help'
+" }}}
 
     " Editing {{{
       " Commentary adds key bindings to easily comment and uncomment code.
-      NeoBundle 'tpope/vim-commentary', {
-        \ 'lazy': 1,
-        \ 'autoload': {
-        \   'mappings': ['gc', 'gcc', 'gcgc', 'gcu']
-        \ }
-      \ }
+      Plug 'tpope/vim-commentary'
       " Align text with verbs!
-      NeoBundle 'tommcdo/vim-lion', {
-        \ 'lazy': 1,
-        \ 'autoload': {
-        \   'mappings': ['gl', 'gL']
-        \ }
-      \ }
+      Plug 'tommcdo/vim-lion'
 
       " Surround.vim adds support for manipulating the surroundings of a text object,
       " such as adding/removing quotes, replacing in brackets, and more.
-      NeoBundle 'tpope/vim-surround', {
-        \ 'lazy': 1,
-        \ 'autoload': {
-        \   'mappings': ['ds', 'cs', 'ys', 'yS', 'yss', 'ySs', 'ySS']
-        \ }
-      \ }
+      Plug 'tpope/vim-surround'
       " Automatically close quotes, parenthesis, braces, and other delimiters.
-      NeoBundle 'Raimondi/delimitMate', {
-        \ 'lazy': 1,
-        \ 'augroup': 'delimitMate',
-        \ 'autoload': {'insert': 1}
-      \ }
+      Plug 'Raimondi/delimitMate'
       " Automatically end block constructs in supported languages.
-      NeoBundle 'tpope/vim-endwise', {
-        \ 'lazy': 1,
-        \ 'augroup': 'endwise',
-        \ 'autoload': {
-        \   'filetypes': ['lua', 'elixir', 'ruby', 'sh', 'zsh', 'vb', 'vbnet',
-        \                 'aspvbs', 'vim', 'c', 'cpp,', 'xdefaults', 'objc', 'matlab'],
-        \ }
-      \ }
+      Plug 'tpope/vim-endwise'
 
-      " Force a paste mode regardless of the yank type.
-      NeoBundle 'UnconditionalPaste', {
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['gcp', 'gcP', 'glp', 'glP', 'gbp', 'gbP']}
-      \ }
-      " Replace a text object with a register.
-      NeoBundle 'ReplaceWithRegister', {
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['gr', 'grr']}
-      \ }
       " Easy exchange operator.
-      NeoBundle 'tommcdo/vim-exchange', {
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['cx', 'cxx', 'X', 'cxc']}
-      \ }
-
+      Plug 'tommcdo/vim-exchange'
       " Split and join statements intelligently.
-      NeoBundle 'AndrewRadev/splitjoin.vim', {
-        \ 'lazy': 1,
-        \ 'autoload': {'commands': ['SplitjoinJoin', 'SplitjoinSplit']}
-      \ }
+      Plug 'AndrewRadev/splitjoin.vim'
       " Speeddating adds support for incrementing and decrementing dates.
-      NeoBundle 'tpope/vim-speeddating', {
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['<c-a>', '<c-x>']}
-      \ }
+      Plug 'tpope/vim-speeddating'
       " Handy bracket-prefixed pairs of mappings that @tpope finds useful.
-      NeoBundle 'tpope/vim-unimpaired'
+      Plug 'tpope/vim-unimpaired'
 
       " Abolish brings bracket substitutions to Vim abbreviations, searches, and
       " substitutions.
-      NeoBundle 'tpope/vim-abolish', {
-        \ 'lazy': 1,
-        \ 'autoload': {
-        \   'commands': ['Abolish', 'Subvert'],
-        \   'mappings': ['crc', 'crm', 'cr_', 'crs', 'cru', 'crU', 'cr-', 'crk', 'cr.']
-        \ }
-      \ }
+      Plug 'tpope/vim-abolish'
     " }}}
 
     " Completion {{{
       " Completion engine supporting almost anything. Also it's fast.
-      NeoBundle 'Shougo/neocomplete.vim', {
-        \ 'depends': ['Shougo/unite.vim', 'Shougo/context_filetype.vim'],
-        \ 'lazy': 1,
-        \ 'augroup': 'neocomplete',
-        \ 'autoload': {'insert': 1}
-      \ }
-
-      " Python completion source.
-      NeoBundle 'davidhalter/jedi-vim', {
-        \ 'lazy': 1,
-        \ 'autoload': {'filetypes': ['python']}
-      \ }
+      Plug 'Shougo/neocomplete.vim'
 
       " A powerful snippet engine, with support for nested snippets.
-      NeoBundle 'Shougo/neosnippet', {
-        \ 'depends': ['Shougo/neocomplete.vim', 'Shougo/context_filetype.vim',
-        \             'Shougo/neosnippet-snippets', 'honza/vim-snippets'],
-        \ 'lazy': 1,
-        \ 'augroup': 'neosnippet',
-        \ 'autoload': {
-        \   'insert': 1,
-        \   'unite_sources': ['neosnippet', 'neosnippet/user', 'neosnippet/runtime']
-        \ }
-      \ }
+      Plug 'Shougo/neosnippet.vim'
+      Plug 'Shougo/neosnippet-snippets'
+      Plug 'honza/vim-snippets'
     " }}}
 
+    " Support {{{
+      " Tools for working with Go, and a powerful Go completion engine.
+      Plug 'fatih/vim-go', { 'for': 'go' }
+      " Tools for working with Node.js.
+      Plug 'moll/vim-node', { 'for': 'javascript' }
+      " Tools for working with Python.
+      Plug 'klen/python-mode', { 'for': 'python' }
+      " A powerful Python completion engine.
+      Plug 'davidhalter/jedi-vim', { 'for': 'python', 'do': 'git submodule update --init --recursive' }
+      " Tools for working with Ruby on Rails.
+      Plug 'tpope/vim-rails', { 'for': 'ruby' }
+      " A powerful Ruby completion engine.
+      Plug 'supermomonga/neocomplete-rsense.vim', { 'for': 'ruby' }
+
+      " A combination of common syntax and support files.
+      Plug 'sheerun/vim-polyglot'
+      " Syntax for Ansible YAML files.
+      Plug 'chase/vim-ansible-yaml', { 'for':  'yaml' }
+      " Syntax for BrightScript, the Roku programming language.
+      Plug 'chooh/brightscript.vim'
+      " Syntax for Fish, the Friendly Interactive SHell.
+      Plug 'dag/vim-fish', { 'for': 'fish' }
+
+      " Support for GnuPG/PGP-encrypted files.
+      Plug 'jamessan/vim-gnupg'
+    " }}}
+
+
     " Movement {{{
-      " Sneak is the missing motion(tm) for Vim.
-      NeoBundle 'justinmk/vim-sneak', {
-        \ 'lazy': 1,
-        \ 'autoload': {
-        \   'mappings': ['<plug>Sneak_s', '<plug>Sneak_S',
-        \                '<plug>Sneak_f', '<plug>Sneak_F',
-        \                '<plug>Sneak_t', '<plug>Sneak_T',
-        \                '<plug>SneakNext', '<plug>SneakPrevious',
-        \                '<plug>(SneakStreak)', '<plug>(SneakStreakBackward)']
-        \ }
-      \ }
+     " Sneak is the missing motion(tm) for Vim.
+      Plug 'justinmk/vim-sneak'
       " Movements to the end of a motions/text object.
-      NeoBundle 'tommcdo/vim-ninja-feet', {
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': [']i', '[i', ']a', '[a', 'z]', 'z[']}
-      \ }
-
+      Plug 'tommcdo/vim-ninja-feet'
       " A better /...
-      NeoBundle 'junegunn/vim-oblique', {
-        \ 'depends': ['junegunn/vim-pseudocl'],
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['/', '?', 'z/', 'z?', '*', '#']}
-      \ }
-
+      Plug 'junegunn/vim-oblique'
       " Simple, manual jump-stack.
-      NeoBundle 'tommcdo/vim-kangaroo', {
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['zp', 'zP']}
-      \ }
+      Plug 'tommcdo/vim-kangaroo'
 
       " Multiple cursors and selection.
-      NeoBundle 'terryma/vim-multiple-cursors', {
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['<c-n>']}
-      \ }
+      Plug 'terryma/vim-multiple-cursors'
       " Syntactically expand the selection.
-      NeoBundle 'terryma/vim-expand-region', {
-        \ 'lazy': 1,
-        \ 'autoload': {
-        \   'mappings': ['<plug>(expand_region_expand)',
-        \                '<plug>(expand_region_shrink)']
-        \ }
-      \ }
+      Plug 'terryma/vim-expand-region'
 
       " A collection of useful text objects (including 'remote' and
       " 'delimiter'-based objects).
-      " NeoBundle 'wellle/targets.vim'
-      " Text object for the last search.
-      NeoBundle 'kana/vim-textobj-lastpat', {
-        \ 'depends': ['kana/vim-textobj-user'],
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['i/', 'i?', 'a/', 'a?']}
-      \ }
+      Plug 'wellle/targets.vim'
       " Text object for between two characters.
-      NeoBundle 'thinca/vim-textobj-between', {
-        \ 'depends': ['kana/vim-textobj-user'],
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['if', 'af']}
-      \ }
-      " Text object for any punctuations.
-      NeoBundle 'beloglazov/vim-textobj-punctuation', {
-        \ 'depends': ['kana/vim-textobj-user'],
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['iu', 'au']}
-      \ }
-      " Text object for between any kind of brace.
-      NeoBundle 'Julian/vim-textobj-brace', {
-        \ 'depends': ['kana/vim-textobj-user'],
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['ij', 'aj']}
-      \ }
+      Plug 'thinca/vim-textobj-between'
       " Text object for comments.
-      NeoBundle 'glts/vim-textobj-comment', {
-        \ 'depends': ['kana/vim-textobj-user'],
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['ic', 'ac', 'aC']}
-      \ }
+      Plug 'glts/vim-textobj-comment',
       " Text object for the current indent level.
-      NeoBundle 'kana/vim-textobj-indent', {
-        \ 'depends': ['kana/vim-textobj-user'],
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['ii', 'iI', 'ai', 'aI']}
-      \ }
+      Plug 'kana/vim-textobj-indent'
       " Text object for the indent block (whitespace).
-      NeoBundle 'glts/vim-textobj-indblock', {
-        \ 'depends': ['kana/vim-textobj-user'],
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['io', 'iO', 'ao', 'aO']}
-      \ }
+      Plug 'glts/vim-textobj-indblock'
       " Text object for the entire line.
-      NeoBundle 'kana/vim-textobj-line', {
-        \ 'depends': ['kana/vim-textobj-user'],
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['il', 'al']}
-      \ }
+      Plug 'kana/vim-textobj-line'
       " Text object for the entire file.
-      NeoBundle 'kana/vim-textobj-entire', {
-        \ 'depends': ['kana/vim-textobj-user'],
-        \ 'lazy': 1,
-        \ 'autoload': {'mappings': ['ie', 'ae']}
-      \ }
+      Plug 'kana/vim-textobj-entire'
     " }}}
 
     " Navigation {{{
-      " A shell... in Vim!
-      NeoBundle 'Shougo/vimshell', {
-        \ 'depends': ['Shougo/vimproc'],
-        \ 'lazy': 1,
-        \ 'autoload': {
-        \   'commands': [{'name': 'VimShell', 'complete': 'customlist,vimshell#complete'},
-        \                'VimShellExecute', 'VimShellInteractive', 'VimShellTerminal', 'VimShellPop']
-        \ }
-      \ }
       " A file browser and sidebar for Vim.
-      NeoBundle 'Shougo/vimfiler', {
-        \ 'depends': ['Shougo/unite.vim'],
-        \ 'lazy': 1,
-        \ 'augroup': 'vimfiler',
-        \ 'autoload': {
-        \   'commands': [{'name': 'VimFiler', 'complete': 'customlist,vimfiler#complete'},
-        \                {'name': 'VimFilerTab', 'complete': 'customlist,vimfiler#complete'},
-        \                {'name': 'VimFilerExplorer', 'complete': 'customlist,vimfiler#complete'},
-        \                {'name': 'Edit', 'complete': 'customlist,vimfiler#complete'},
-        \                {'name': 'Write', 'complete': 'customlist,vimfiler#complete'},
-        \                'Read', 'Source'],
-        \   'explorer': 1
-        \ }
-      \ }
+      Plug 'Shougo/vimfiler'
       " A ctags browser as a sidebar.
-      NeoBundle 'majutsushi/tagbar', {
-        \ 'lazy': 1,
-        \ 'augroup': 'TagbarAutoCmds',
-        \ 'autoload': {
-        \   'commands': ['TagbarOpen', 'TagbarClose', 'TagbarSetFoldlevel',
-        \                'TagbarToggle', 'TagbarOpenAutoClose', 'TagbarTogglePause',
-        \                'TagbarShowTag', 'TagbarCurrentTag', 'TagbarGetTypeConfig',
-        \                'TagbarDebug', 'TagbarDebugEnd']
-        \ }
-      \ }
+      Plug 'majutsushi/tagbar'
       " A undo tree as a sidebar.
-      NeoBundle 'mbbill/undotree', {
-        \ 'lazy': 1,
-        \ 'augroup': 'Undotree',
-        \ 'autoload': {
-        \   'commands': ['UndotreeShow', 'UndotreeHide',
-        \                'UndotreeToggle', 'UndotreeFocus']
-        \ }
-      \ }
+      Plug 'mbbill/undotree'
 
       " Quick access to a file browser.
-      NeoBundle 'tpope/vim-vinegar', {
-        \ 'depends': ['Shougo/vimfiler'],
-        \ 'lazy': 1,
-        \ 'augroup': 'vinegar',
-        \ 'autoload': {'mappings': ['-']}
-      \ }
+      Plug 'tpope/vim-vinegar'
 
       " Various utilities for *nix (and maybe Windows) systems, such as renaming and
       " deleting files, or changing file permissions.
-      NeoBundle 'tpope/vim-eunuch', {
-        \ 'lazy': 1,
-        \ 'autoload': {
-        \   'commands': ['Unlink', 'Remove', 'Move', 'Rename', 'Mkdir',
-        \                'Locate', 'Find', 'Wall', 'W',
-        \                'Chmod', 'SudoEdit', 'SudoWrite']
-        \ }
-      \ }
+      Plug 'tpope/vim-eunuch'
     " }}}
 
     " Collaboration {{{
       " A Git wrapper so awesome, it should be illegal.  Add mappings for working
       " with Git meta-files and diffs, and wrap common Git commands.
-      NeoBundle 'tpope/vim-fugitive'
+      Plug 'tpope/vim-fugitive'
       " A Fugitive extension to browse commits (basically gitk).
-      NeoBundle 'int3/vim-extradite', {
-        \ 'depends': ['tpope/vim-fugitive'],
-        \ 'lazy': 1,
-        \ 'autoload': {'commands': ['Extradite']}
-      \ }
+      Plug 'int3/vim-extradite'
       " A Fugitive extension to manage and merge/rebase branches.
-      NeoBundle 'idanarye/vim-merginal', {
-        \ 'depends': ['tpope/vim-fugitive'],
-        \ 'lazy': 1,
-        \ 'autoload': {'commands': ['Merginal']}
-      \ }
+      Plug 'idanarye/vim-merginal'
     " }}}
 
     " UI {{{
-      " A nice status screen.
-      NeoBundle 'mhinz/vim-startify'
-
       " A sweet, lightweight status bar.
-      NeoBundle 'bling/vim-airline'
+      Plug 'bling/vim-airline'
 
       " Show markers for indents.
-      NeoBundle 'Yggdroot/indentLine'
+      Plug 'Yggdroot/indentLine'
       " Color parenthesis differently.
-      NeoBundle 'oblitum/rainbow'
+      Plug 'oblitum/rainbow'
 
       " Signature.vim adds visual marks in the gutter, as well as shortcuts for
       " managing marks.
-      NeoBundle 'kshenoy/vim-signature'
+      Plug 'kshenoy/vim-signature'
       " Git diff in the gutter.
-      NeoBundle 'airblade/vim-gitgutter'
-    " }}}
-
-    " Support {{{
-      " A combination of common syntax and support files.
-      NeoBundle 'sheerun/vim-polyglot'
-
-      " Ansible is a modern, simple IT automation tool.
-      NeoBundle 'chase/vim-ansible-yaml'
-      " Bundler, the Ruby dependency manager.
-      NeoBundle 'tpope/vim-bundler', {
-        \ 'lazy': 1,
-        \ 'autoload': {'filetypes': 'ruby'}
-      \ }
-      " BrightScript, the programming language used by Roku.
-      NeoBundle 'chooh/brightscript.vim'
-      " Fish is a non-POSIX compatible shell for the 21st century.
-      NeoBundle 'dag/vim-fish', {
-        \ 'lazy': 1,
-        \ 'autoload': {'filetypes': 'fish'}
-      \ }
-      " GnuPG support in Vim.
-      NeoBundle 'jamessan/vim-gnupg', {
-        \ 'lazy': 1,
-        \ 'augroup': 'GnuPG',
-        \ 'autoload': {'filename_paterns': ['*.gpg', '*.asc']}
-      \ }
-      " Tools for working with Node.js.
-      NeoBundle 'moll/vim-node', {
-        \ 'lazy': 1,
-        \ 'autoload': {'filetypes': 'javascript'}
-      \ }
-      " Tools for working with Ruby on Rails.
-      NeoBundle 'tpope/vim-rails', {
-        \ 'lazy': 1,
-        \ 'depends': ['tpope/vim-dispatch'],
-        \ 'autoload': {'filetypes': 'ruby'}
-      \ }
-      " Tools for working with virtualenv.
-      NeoBundle 'jmcantrell/vim-virtualenv', {
-        \ 'lazy': 1,
-        \ 'autoload': {'filetypes': 'python'}
-      \ }
+      Plug 'airblade/vim-gitgutter'
     " }}}
 
     " Colors {{{
       " The best colorscheme, ever.
-      NeoBundle 'altercation/vim-colors-solarized'
+      Plug 'altercation/vim-colors-solarized'
     " }}}
 
     " Unused {{{
     " }}}
   " }}}
-  NeoBundleSaveCache
-endif
 
-" End Neobundle {{{
-  NeoBundleCheck
-  call neobundle#end()
+" End vim-plug {{{
+  call plug#end()
 " }}}
 
 "
@@ -645,11 +375,14 @@ endif
 " }}}
 
 " Editing {{{
-  " Search {{{
+  " Search/Replace {{{
     " Enable escape characters.
     set magic
     " Show searches as they are typed.
     set hlsearch incsearch
+
+    " Quick substitute.
+    nnoremap <leader>s :%s/<c-r><c-w>//gc<left><left><left>
   " }}}
 
   " Selection {{{
@@ -657,7 +390,7 @@ endif
       set clipboard=unnamedplus
 
     " Allow the cursor to go beyond the line and to make true blocks.
-    set virtualedit=onemore,block
+    set virtualedit+=all
 
     " Yank from cursor to end of line.
     nnoremap Y y$
@@ -665,117 +398,114 @@ endif
     nnoremap pv V`]
     vnoremap p p`]
 
-    " Toggle paste mode.
-    nnoremap <silent> <leader>p :setlocal paste! paste?<cr>
-    set pastetoggle=<leader>p
+    " Region expansion.
+    vmap K <Plug>(expand_region_expand)
+    vmap J <Plug>(expand_region_shrink)
+  " }}}
 
-    if neobundle#tap('vim-expand-region') " {{{
-      vmap K <Plug>(expand_region_expand)
-      vmap J <Plug>(expand_region_shrink)
-
-      call neobundle#untap()
-    endif " }}}
-
-    if neobundle#tap('vim-unimpaired') " {{{
-      " Line bubbling (sugar for ]e/[e).
-      nmap <m-k> <plug>unimpairedMoveUp
-      nmap <m-j> <plug>unimpairedMoveDown
-      vmap <m-k> <plug>unimpairedMoveSelectionUpgv
-      vmap <m-j> <plug>unimpairedMoveSelectionDowngv
-      " Blank line insertion.
-      nmap <m-s-k> <plug>unimpairedBlankUp
-      nmap <m-s-j> <plug>unimpairedBlankDown
-      " Paste above/below.
-      nmap <m-s-p> <Plug>unimpairedPutAbove
-      nmap <m-p> <Plug>unimpairedPutBelow
-
-      call neobundle#untap()
-    endif " }}}
+  " Split/Join {{{
+    " Use splitjoin
+    nnoremap <silent> J :SplitjoinJoin<cr>
+    nnoremap <silent> S :SplitjoinSplit<cr>
   " }}}
 
   " Indent {{{
     " Retain selection when indenting in Visual mode (sugar for gv).
     vnoremap < <gv
     vnoremap > >gv
-
-    " Toggle automatic indenting.
-    nnoremap <silent> <leader>i :setlocal autoindent! autoindent?<cr>
-  " }}}
-
-  " Formatting {{{
-    " Format a line.
-    nnoremap Q gq
-    " Split a line (complements J).
-    nnoremap K i<cr><esc>
-
-    if neobundle#tap('splitjoin.vim') " {{{
-      " Use custom mappings.
-      let g:splitjoin_split_mapping = ''
-      let g:splitjoin_join_mapping = ''
-
-      nmap sj :SplitjoinJoin<cr>
-      nmap sk :SplitjoinSplit<cr>
-    end " }}}
   " }}}
 
   " Completion {{{
-    if neobundle#tap('neocomplete.vim') " {{{
-      " Enable automatically and at startup.
-      let g:neocomplete#enable_at_startup = 1
-      let g:neocomplete#enable_smart_case = 1
-      " Require 3 characters to complete.
-      let g:neocomplete#sources#syntax#min_keyword_length = 3
-      " Buffers to not complete in.
-      let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+    " Enable automatically and at startup.
+    let g:neocomplete#enable_at_startup = 1
 
-      " Set up dicts.
-      let g:neocomplete#keyword_patterns = {
-            \ 'default': '\h\w*'
-            \ }
+    " Auto-select the first completion.
+    let g:neocomplete#enable_auto_select = 1
+    " Use smart-case.
+    let g:neocomplete#enable_smart_case = 1
+    " Require 3 characters to complete.
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
 
-      " Don't conflict with endwise.
-      let g:endwise_no_mappings = 1
+    " Buffers to not complete in.
+    let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
-      function! s:tab()
-        if neosnippet#jumpable()
-          return "\<plug>(neosnippet_jump)"
-        elseif pumvisible()
-          return "\<c-n>"
-        elseif neocomplete#complete_common_string() != ''
-          return neocomplete#complete_common_string()
+    " Set up dicts.
+    let g:neocomplete#keyword_patterns = {
+          \ 'default': '\h\w*'
+          \ }
+
+    " Don't conflict with endwise.
+    let g:endwise_no_mappings = 1
+
+    function! s:tab()
+      if neosnippet#jumpable()
+        return "\<plug>(neosnippet_jump)"
+      elseif pumvisible()
+        return "\<c-n>"
+      elseif neocomplete#complete_common_string() != ''
+        return neocomplete#complete_common_string()
+      else
+        return "\<tab>"
+      endif
+    endfunction
+    function! s:cr()
+      if pumvisible()
+        if neosnippet#expandable()
+          return "\<plug>(neosnippet_expand)"
         else
-          return "\<tab>"
+          return neocomplete#close_popup()
         endif
-      endfunction
-      function! s:cr()
-        if pumvisible()
-          if neosnippet#expandable()
-            return "\<plug>(neosnippet_expand)"
-          else
-            return neocomplete#close_popup()
-          endif
-        else
-          if neobundle#is_sourced('vim-endwise')
-            return "\<cr>\<plug>DiscretionaryEnd"
-          else
-            return "\<cr>"
-          end
-        endif
-      endfunction
+      else
+        return "\<cr>\<plug>DiscretionaryEnd"
+      endif
+    endfunction
 
-      imap <expr> <cr> <sid>cr()
-      imap <expr> <tab> <sid>tab()
-      inoremap <expr> <esc> pumvisible() ? neocomplete#cancel_popup() : '<esc>'
-      inoremap <expr> <c-c> pumvisible() ? neocomplete#cancel_popup() : '<c-c>'
-      inoremap <expr> <c-f> neocomplete#complete_common_string()
+    imap <expr> <cr> <sid>cr()
+    imap <expr> <tab> <sid>tab()
+    inoremap <expr> <esc> pumvisible() ? neocomplete#cancel_popup() : '<esc>'
+    inoremap <expr> <c-c> pumvisible() ? neocomplete#cancel_popup() : '<c-c>'
+    inoremap <expr> <c-f> neocomplete#complete_common_string()
 
-      call neobundle#untap()
-    endif " }}}
-    if neobundle#tap('neosnippet.vim') " {{{
-      let g:neosnippet#snippets_directory = s:bundle_cache."/vim-snippets/snippets"
+    " Set up extra snippets.
+    let g:neosnippet#enable_snipmate_compatibility = 1
+    let g:neosnippet#snippets_directory = s:plug_cache . '/vim-snippets/snippets'
 
-      call neobundle#untap()
-    endif " }}}
+    " Set up filetype-specific options.
+    let g:neocomplete#sources#omni#functions = {}
+    let g:neocomplete#force_omni_input_patterns = {}
+
+    " Go {{{
+      " Set up neocomplete to use gocode.
+      let g:neocomplete#sources#omni#functions.go = 'go#complete#Complete'
+    " }}}
+
+    " Python {{{
+      " Set up neocomplete to use Jedi.
+      autocmd vimrc FileType python setlocal omnifunc=jedi#completions
+      let g:neocomplete#force_omni_input_patterns.python =
+            \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+
+      " Disable Pymode Rope so Jedi doesn't have a fit.
+      let g:pymode_rope = 0
+
+      " Tame Jedi to not hijack neocomplete.
+      let g:jedi#auto_vim_configuration = 0
+      let g:jedi#completions_enabled    = 0
+
+      " Use buffers and splits.
+      let g:jedi#use_tabs_not_buffers   = 0
+      let g:jedi#use_splits_not_buffers = "left"
+
+      " Don't show call signatures.
+      let g:jedi#show_call_signatures = 0
+      " Don't show docstrings when completing.
+      autocmd vimrc FileType python setlocal completeopt-=preview
+    " }}}
+
+    " Vim {{{
+      " Make vim help work.
+      autocmd vimrc FileType vim setlocal keywordprg=:help
+    " }}}
   " }}}
 
   " Spelling {{{
@@ -785,9 +515,6 @@ endif
     autocmd vimrc FileType gitcommit setlocal spell
     autocmd vimrc FileType markdown setlocal spell
     autocmd vimrc FileType text setlocal spell
-
-    " Toggle spell checking.
-    nnoremap <silent> <leader>z :setlocal spell! spell?<cr>
   " }}}
 
   " Case {{{
@@ -807,9 +534,6 @@ endif
     " Move over virtual lines (wrapped lines).
     nnoremap j gj
     nnoremap k gk
-
-    " Toggle forced line wrapping.
-    nnoremap <silent> <leader>q :setlocal wrap! wrap?<cr>
   " }}}
 
   " Splits {{{
@@ -817,6 +541,12 @@ endif
     set splitright
     " Allow squishing splits.
     set winminheight=0
+
+    " Resize intiuitively!
+    noremap <silent> <c-w>+ :ObviousResizeUp<cr>
+    noremap <silent> <c-w>- :ObviousResizeDown<cr>
+    noremap <silent> <c-w>< :ObviousResizeLeft<cr>
+    noremap <silent> <c-w>> :ObviousResizeRight<cr>
   " }}}
 " }}}
 
@@ -828,57 +558,33 @@ endif
     nnoremap <right> <nop>
   " }}}
 
-  " Seeking {{{
-    if neobundle#tap('vim-sneak') " {{{
-      " Be clever: if I press s in a match, seek to the next match.
-      let g:sneak#s_next = 1
+  " Sneaking {{{
+    " Enable streak (EasyMotion) mode.
+    let g:sneak#streak = 1
+    " Be clever: if I press s in a match, seek to the next match.
+    let g:sneak#s_next = 1
 
-      " Map Sneak-Streak.
-      nmap <m-cr> <plug>(SneakStreak)
-
-      " Map Sneak.
-      nmap s <plug>Sneak_s
-      nmap S <plug>Sneak_S
-      xmap s <plug>Sneak_s
-      xmap S <plug>Sneak_S
-      omap s <plug>Sneak_s
-      omap S <plug>Sneak_S
-      " Map Sneak next/previous.
-      nmap ; <plug>SneakNext
-      omap ; <plug>SneakNext
-      xmap ; <plug>SneakNext
-      nmap , <plug>SneakPrevious
-      omap , <plug>SneakPrevious
-      xmap , <plug>SneakPrevious
-
-      " Remap f to use Sneak.
-      nmap f <plug>Sneak_f
-      nmap F <plug>Sneak_F
-      xmap f <plug>Sneak_f
-      xmap F <plug>Sneak_F
-      omap f <plug>Sneak_f
-      omap F <plug>Sneak_F
-      " Remap t to use Sneak.
-      nmap t <plug>Sneak_t
-      nmap T <plug>Sneak_T
-      xmap t <plug>Sneak_t
-      xmap T <plug>Sneak_T
-      omap t <plug>Sneak_t
-      omap T <plug>Sneak_T
-
-      call neobundle#untap()
-    endif " }}}
+    " Replace f with sneak.
+    nmap f <Plug>Sneak_s
+    nmap F <Plug>Sneak_S
+    xmap f <Plug>Sneak_s
+    xmap F <Plug>Sneak_S
+    omap f <Plug>Sneak_s
+    omap F <Plug>Sneak_S
+    " Replace t with sneak.
+    nmap t <Plug>Sneak_t
+    nmap T <Plug>Sneak_T
+    xmap t <Plug>Sneak_t
+    xmap T <Plug>Sneak_T
+    omap t <Plug>Sneak_t
+    omap T <Plug>Sneak_T
   " }}}
 
   " Scrolling {{{
-    if neobundle#tap('vim-smooth-scroll') " {{{
-      noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<cr>
-      noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<cr>
-      noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<cr>
-      noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<cr>
-
-      call neobundle#untap()
-    endif " }}}
+    noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<cr>
+    noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<cr>
+    noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<cr>
+    noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<cr>
   " }}}
 
   " Jumping {{{
@@ -888,84 +594,115 @@ endif
 
 " Navigation {{{
   " Unite {{{
-    if neobundle#tap('unite.vim') " {{{
-      function! s:unite_settings()
-        nnoremap <buffer> <esc> <plug>(unite_exit)
-      endfunction
-      if has('autocmd')
-        autocmd vimrc FileType unite call s:unite_settings()
+    " Set the unite cache.
+    let g:unite_data_directory      = s:cache_for('unite')
+    " Set the neomru cache.
+    let g:neomru#file_mru_path      = s:cache_for('unite/neomru') . '/file'
+    let g:neomru#directory_mru_path = s:cache_for('unite/neomru') . '/directory'
+
+    " Save sessions automatically.
+    let g:unite_source_session_enable_auto_save = 1
+
+    " Use the fuzzy matcher for everything
+    call unite#filters#matcher_default#use(['matcher_fuzzy'])
+    " Use the rank sorter for everything
+    call unite#filters#sorter_default#use(['sorter_rank'])
+
+    " Enable history yank source.
+    let g:unite_source_history_yank_enable = 1
+
+    " Grep with ag.
+    let g:unite_source_grep_command = 'ag'
+    let g:unite_source_grep_default_opts = '--line-numbers --nocolor --nogroup --hidden'
+    let g:unite_source_grep_recursive_opt = ''
+
+    " Shorten the default update time of 500ms.
+    let g:unite_update_time = 200
+
+    " Use defaults like CtrlP.
+    call unite#custom#profile('default', 'context', {
+    \   'start_insert': 1,
+    \   'direction': 'botright',
+    \   'winheight': 10,
+    \ })
+
+    " Make the prompt nicer.
+    let g:unite_prompt = '>>> '
+
+    " Set Unite prefix.
+    nnoremap [unite] <Nop>
+    nmap <space> [unite]
+
+    " General fuzzy finder.
+    nnoremap <silent> [unite]<space> :Unite -buffer-name=fuzzy -no-split buffer bookmark file_mru file_rec/async:!<cr>
+    " Quick access to buffers.
+    nnoremap <silent> [unite]b :Unite -buffer-name=buffers -quick-match buffer<cr>
+    " Quick access to commands.
+    nnoremap <silent> [unite]c :Unite -buffer-name=commands command<cr>
+    " Quick access to cd.
+    nnoremap <silent> [unite]d :Unite -buffer-name=directories directory_mru directory_rec/async:!<cr>
+    " Quick access to files.
+    nnoremap <silent> [unite]f :Unite -buffer-name=files file_mru file_rec/async:!<cr>
+    " Quick access to help.
+    nnoremap <silent> [unite]h :Unite -buffer-name=help help<cr>
+    " Quick access to includes.
+    nnoremap <silent> [unite]i :Unite -buffer-name=include file_include<cr>
+    " Quick access to bookmarks.
+    nnoremap <silent> [unite]k :Unite -buffer-name=bookmarks bookmark<cr>
+    " Quick access to lines.
+    nnoremap <silent> [unite]l :Unite -buffer-name=line line<cr>
+    " Quick access to MRU files.
+    nnoremap <silent> [unite]m :Unite -buffer-name=mru file_mru<cr>
+    " Quick access to new files.
+    nnoremap <silent> [unite]n :Unite -buffer-name=new file/new<cr>
+    " Quick access to an outline.
+    nnoremap <silent> [unite]o :Unite -buffer-name=outline -vertical -auto-preview outline<cr>
+    " Quick access to registers.
+    nnoremap <silent> [unite]r :Unite -buffer-name=register register<cr>
+    " Quick access to sessions.
+    nnoremap <silent> [unite]s :Unite -buffer-name=sessions session<cr>
+    " Quick access to tags.
+    nnoremap <silent> [unite]t :Unite -buffer-name=tags -vertical -auto-preview tag/include<cr>
+    " Quick access to sources.
+    nnoremap <silent> [unite]u :Unite -buffer-name=sources source<cr>
+    " Quick access to yanks.
+    nnoremap <silent> [unite]y :Unite -buffer-name=yanks history/yank<cr>
+    " Quick snippets.
+    nnoremap <silent> [unite]<tab> :Unite -buffer-name=snippets neosnippet<cr>
+    " Quick grep.
+    nnoremap <silent> [unite]/ :Unite -buffer-name=grep grep:.<cr>
+    " Quick find.
+    nnoremap <silent> [unite]\ :Unite -buffer-name=find find:.<cr>
+
+    " Load settings in Unite buffers.
+    function! s:unite_settings()
+      nnoremap <buffer> <esc> <plug>(unite_exit)
+    endfunction
+    autocmd vimrc FileType unite call s:unite_settings()
+
+    " Pop up session selection if no file is specified.
+    function! s:unite_session_on_enter()
+      if !argc() && !exists("g:start_session_from_cmdline")
+        Unite -buffer-name=sessions session
       endif
-
-      let g:unite_source_history_yank_enable = 1
-        if executable('ag')
-          let g:unite_source_grep_command = 'ag'
-          let g:unite_source_grep_default_opts = '--column --smart-case --nogroup --noheading --nocolor --follow'
-          let g:unite_source_grep_recursive_opt = ''
-        elseif executable('ack')
-          let g:unite_source_grep_command = 'ack'
-          let g:unite_source_grep_default_opts = '--column --smart-case --nogroup --noheading --nocolor --follow'
-          let g:unite_source_grep_recursive_opt = ''
-        elseif executable('ack-grep')
-          let g:unite_source_grep_command = 'ack-grep'
-          let g:unite_source_grep_default_opts = '--column --smart-case --nogroup --noheading --nocolor --follow'
-          let g:unite_source_grep_recursive_opt = ''
-        endif
-
-        nnoremap <silent> <leader>f :Unite -buffer-name=files -start-insert file_rec/async file_mru<cr>
-        nnoremap <silent> <leader>/ :Unite -buffer-name=grep -auto-preview grep:.<cr>
-        nnoremap <silent> <leader>d :Unite -bufer-name=cd --default-action=cd directory_rec/assync directory_mru<cr>
-        nnoremap <silent> <leader>b :Unite -buffer-name=buffers -auto-preview -quick-match buffer<cr>
-        nnoremap <silent> <leader>y :Unite -buffer-name=tags tag<cr>
-        nnoremap <silent> <leader>y :Unite -buffer-name=yanks history/yank<cr>
-
-      call neobundle#untap()
-    endif " }}}
-  " }}}
-
-  " Shell {{{
-      if neobundle#tap('vimshell') " {{{
-        nnoremap <silent> <leader>s :VimShell<cr>
-
-        call neobundle#untap()
-      endif " }}}
+    endfunction
+    autocmd vimrc VimEnter * call s:unite_session_on_enter()
   " }}}
 
   " Grep {{{
-    if executable('ag')
-      set grepprg=ag\ --column\ --smart-case\ --nogroup\ --noheading\ --nocolor\ --follow
-      set grepformat=%f:%l:%c:%m
-    elseif executable('ack')
-      set grepprg=ack\ --column\ --smart-case\ --nogroup\ --noheading\ --nocolor\ --follow
-      set grepformat=%f:%l:%c:%m
-    elseif executable('ack-grep')
-      set grepprg=ack-grep\ --column\ --smart-case\ --nogroup\ --noheading\ --nocolor\ --follow
-      set grepformat=%f:%l:%c:%m
-    endif
+    set grepprg=ag\ ---column\ --line-numbers\ --nocolor\ --nogroup
+    set grepformat=%f:%l:%c%m
   " }}}
 
   " Files {{{
-    if neobundle#tap('vimfiler') " {{{
-      " Use vimfiler instead of netrw.
-      let g:vimfiler_as_default_explorer = 1
-
-      call neobundle#untap()
-    endif " }}}
+    " Use vimfiler instead of netrw.
+    let g:vimfiler_as_default_explorer = 1
   " }}}
-
-  " Buffers {{{
-    " Map meta-h/l to switch buffers.
-    nnoremap <silent> <m-h> :bp<cr>
-    nnoremap <silent> <m-l> :bn<cr>
-    " ...and meta-c/meta-shift-c to quit and delete.
-    nnoremap <silent> <m-c> :Bdelete<cr>
-    nnoremap <silent> <m-s-c> :q<cr>
-  " }}}
-" }}}
 
 " Appearance {{{
   " Font {{{
     if s:is_macvim
-      set guifont=Source_Code_Pro_Light:h10
+      set guifont=Source_Code_Pro_Light:h11
       set antialias
     else
       set guifont=Source\ Code\ Pro\ Light\ 7.5
@@ -974,52 +711,19 @@ endif
 
   " Colorscheme {{{
     " A amazing colorscheme.
-    if neobundle#tap('vim-colors-solarized') " {{{
-      colorscheme solarized
-
-      call neobundle#untap()
-    endif " }}}
-
-    " Color Switching {{{
-      " Quick bind to toggle the background.
-      nnoremap <silent> <leader>x let &background = ( &background == "dark"? "light" : "dark" )<cr>
-
-      " Change colors based on the time of day.
-      function! RecolorBackground()
-        if strftime("%H") >= 5 && strftime("%H") <= 22
-          set background=light
-          silent! AirlineRefresh
-          return 'light'
-        else
-          set background=dark
-          silent! AirlineRefresh
-          return 'dark'
-        endif
-      endfunction
-
-      autocmd vimrc BufWritePost * call RecolorBackground()
-      call RecolorBackground()
-    " }}}
+    colorscheme solarized
   " }}}
 
   " Syntax {{{
     " Turn on syntax highlighting.
     syntax on
 
-    " Toggle syntax highlighting.
-    nnoremap <silent> <leader>h :if exists("g:syntax_on") <bar> syntax off <bar> else <bar> syntax on <bar> endif<cr>
-
     " Less annoying MatchParen.
     highlight MatchParen cterm=bold ctermbg=NONE ctermfg=NONE
     highlight MatchParen gui=bold guibg=NONE guifg=NONE
 
-    if neobundle#tap('rainbow') " {{{
-      " Rainbow delimiters!
-      let g:rainbow_active = 1
-
-
-      call neobundle#untap()
-    endif " }}}
+    " Rainbow delimiters!
+    let g:rainbow_active = 1
   " }}}
 
   " Hidden {{{
@@ -1028,14 +732,8 @@ endif
     set listchars=tab:»·,trail:·,eol:¬,nbsp:_
     " Totally conceal if no replacement exists, but in normal/command mode.
     set conceallevel=2 concealcursor=nc
-    " Toggle hidden characters.
-    nnoremap <silent> <leader>l :setlocal list! list?<cr>
 
-    if neobundle#tap('indentLine') " {{{
-      let g:indentLine_char = '┊'
-
-      call neobundle#untap()
-    endif " }}}
+    let g:indentLine_char = '┊'
   " }}}
 
   " Search {{{
@@ -1049,8 +747,12 @@ endif
     " ...and unfold when needed.
     set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 
-    " Open and close folds.
-    nnoremap <space> za
+    " Enable some syntax folding methods.
+    let g:tex_fold_enabled=1
+    let g:vimsyn_folding='af'
+    let g:xml_syntax_folding = 1
+    let g:php_folding = 1
+    let g:perl_fold = 1
   " }}}
 
   " Wrapping {{{
@@ -1069,24 +771,17 @@ endif
     set colorcolumn=+1
     " ...but not in help files.
     autocmd vimrc FileType help setlocal colorcolumn=
-
-    " Toggle line numbers.
-    nnoremap <silent> <leader>n :setlocal number! relativenumber!<cr>
   " }}}
 
   " Status Bar " {{{
     " Disable the built in mode indicator, and don't show the last command.
     set noshowmode noshowcmd
 
-    if neobundle#tap('vim-airline') " {{{
-      " Use the pretty fonts.
-      let g:airline_powerline_fonts = 1
-      " Enable some nice extensions.
-      let g:airline#extensions#tabline#enabled = 1
-      let g:airline#extensions#whitespace#enabled = 1
-
-      call neobundle#untap()
-    endif " }}}
+    " Use the pretty fonts.
+    let g:airline_powerline_fonts = 1
+    " Enable some nice extensions.
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline#extensions#whitespace#enabled = 1
   " }}}
 
   " Messages {{{
@@ -1105,56 +800,6 @@ endif
     set guioptions-=L
   " }}}
 
-  " Startup {{{
-    " A nice splash screen.
-    if neobundle#tap('vim-startify') " {{{
-      " Save sessions.
-      let g:startify_session_dir = s:get_cache('session')
-      let g:startify_session_persistence = 1
-      let g:startify_session_autoload    = 1
-
-      " Show relative paths.
-      let g:startify_relative_path = 1
-      " Trim entries.
-      let g:startify_files_number        = 5
-      let g:startify_enable_special      = 0
-      let g:startify_skiplist = ['COMMIT_EDITMSG',
-                              \ 'bundle/.*/doc',
-                              \  $VIMRUNTIME.'/doc']
-
-      " Tidy menu.
-      let g:startify_list_order = [['   Recent:'],
-                                 \ 'files',
-                                 \ ['   Sessions:'],
-                                 \ 'sessions',
-                                 \ ['   Bookmarks:'],
-                                 \ 'bookmarks']
-      let g:startify_bookmarks = ['~/prj',
-                                \ '~/tmp',
-                                \ '~/.dotfiles',
-                                \ '~/.freshrc']
-
-      " Start numbering at 1.
-      let g:startify_custom_indices = map(range(1,100), 'string(v:val)')
-
-      " Pretty.
-      let g:startify_custom_header = [ '',
-                                    \ '   __      ___           ',
-                                    \ '   \ \    / (_)          ',
-                                    \ '    \ \  / / _ _ __ ___  ',
-                                    \ '     \ \/ / | | ''_ ` _ \',
-                                    \ '      \  /  | | | | | | |',
-                                    \ '       \/   |_|_| |_| |_|',
-                                    \ '']
-
-      " Disable color column in startify.
-      autocmd vimrc FileType startify setlocal colorcolumn=
-
-      call neobundle#untap()
-    endif " }}}
-  " }}}
-" }}}
-
 " Caches {{{
   " Use swapfiles, backups, and persist undo data.
   set swapfile backup undofile
@@ -1164,22 +809,11 @@ endif
   " Save 100 lines of command-line and search history.
   set history=100
   " Save view/session to view/session files.
-  set viewoptions=cursor,folds
+  set viewoptions=cursor,folds,slash,unix
   set sessionoptions=curdir,folds,blank,buffers,tabpages,resize,winsize,winpos
 
-  let &directory = s:get_cache('swap')
-  let &backupdir = s:get_cache('backup')
-  if has("persistent_undo")
-    let &undodir = s:get_cache('undo')
-  endif
-  if has("mksession")
-    let &viewdir = s:get_cache('view')
-  endif
-
-  " Load the last cursor position.
-  autocmd vimrc BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe 'normal! g`"' | endif
-  " Clear Neobundle's cache when we write out vimrc.
-  autocmd vimrc BufWritePost *vimrc* NeoBundleClearCache
+  let &directory = s:cache_for('swap')
+  let &backupdir = s:cache_for('backup')
+  let &undodir   = s:cache_for('undo')
+  let &viewdir   = s:cache_for('view')
 " }}}
-
-" vim:foldmethod=marker
