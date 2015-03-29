@@ -180,7 +180,7 @@ let s:plug_cache = s:cache_for('plugged')
       " Commentary adds key bindings to easily comment and uncomment code.
       Plug 'tpope/vim-commentary'
       " Align text with verbs!
-      Plug 'tommcdo/vim-lion'
+      Plug 'junegunn/vim-easy-align'
 
       " Surround.vim adds support for manipulating the surroundings of a text object,
       " such as adding/removing quotes, replacing in brackets, and more.
@@ -215,6 +215,8 @@ let s:plug_cache = s:cache_for('plugged')
     " }}}
 
     " Support {{{
+      " A powerful C/C++ completion enegine.
+      Plug 'Rip-Rip/clang_complete', { 'for': ['c','cpp'], 'do': 'make' }
       " Tools for working with Go, and a powerful Go completion engine.
       Plug 'fatih/vim-go', { 'for': 'go' }
       " Tools for working with Node.js.
@@ -239,6 +241,9 @@ let s:plug_cache = s:cache_for('plugged')
 
       " Support for GnuPG/PGP-encrypted files.
       Plug 'jamessan/vim-gnupg'
+
+      " Tools and syntax for working with the Git DVCS.
+      Plug 'tpope/vim-fugitive'
     " }}}
 
 
@@ -290,16 +295,6 @@ let s:plug_cache = s:cache_for('plugged')
       Plug 'tpope/vim-eunuch'
     " }}}
 
-    " Collaboration {{{
-      " A Git wrapper so awesome, it should be illegal.  Add mappings for working
-      " with Git meta-files and diffs, and wrap common Git commands.
-      Plug 'tpope/vim-fugitive'
-      " A Fugitive extension to browse commits (basically gitk).
-      Plug 'int3/vim-extradite'
-      " A Fugitive extension to manage and merge/rebase branches.
-      Plug 'idanarye/vim-merginal'
-    " }}}
-
     " UI {{{
       " A sweet, lightweight status bar.
       Plug 'bling/vim-airline'
@@ -307,7 +302,7 @@ let s:plug_cache = s:cache_for('plugged')
       " Show markers for indents.
       Plug 'Yggdroot/indentLine'
       " Color parenthesis differently.
-      Plug 'oblitum/rainbow'
+      Plug 'junegunn/rainbow_parentheses.vim'
 
       " Signature.vim adds visual marks in the gutter, as well as shortcuts for
       " managing marks.
@@ -403,6 +398,12 @@ let s:plug_cache = s:cache_for('plugged')
     vmap J <Plug>(expand_region_shrink)
   " }}}
 
+  " Alignment {{{
+    " Interactive alignment of text.
+    nmap ga <Plug>(EasyAlign)
+    vmap <Enter> <Plug>(EasyAlign)
+  " }}]
+
   " Split/Join {{{
     " Use splitjoin
     nnoremap <silent> J :SplitjoinJoin<cr>
@@ -471,23 +472,42 @@ let s:plug_cache = s:cache_for('plugged')
     let g:neosnippet#snippets_directory = s:plug_cache . '/vim-snippets/snippets'
 
     " Set up filetype-specific options.
-    let g:neocomplete#sources#omni#functions = {}
-    let g:neocomplete#force_omni_input_patterns = {}
+    let g:neocomplete#sources#omni#functions      = {}
+    let g:neocomplete#sources#omni#input_patterns = {}
+    let g:neocomplete#force_omni_input_patterns   = {}
+
+    " C/C++ {{{
+      " Set up neocomplete to use clang_complete.
+      let g:neocomplete#force_omni_input_patterns.c =
+            \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+      let g:neocomplete#force_omni_input_patterns.cpp =
+            \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+      let g:neocomplete#force_omni_input_patterns.objc =
+            \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
+      let g:neocomplete#force_omni_input_patterns.objcpp =
+            \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+
+      " Tell clang_complete to not hijack neocomplete.
+      let g:clang_default_keymappings = 0
+      let g:clang_complete_auto       = 0
+      let g:clang_auto_select         = 0
+    " }}}
 
     " Go {{{
       " Set up neocomplete to use gocode.
-      let g:neocomplete#sources#omni#functions.go = 'go#complete#Complete'
+      let g:neocomplete#sources#omni#functions.go      = 'go#complete#Complete'
+      let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
     " }}}
 
     " Python {{{
       " Set up neocomplete to use Jedi.
-      autocmd vimrc FileType python setlocal omnifunc=jedi#completions
       let g:neocomplete#force_omni_input_patterns.python =
             \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
+      " Override PythonComplete.
+      autocmd vimrc FileType python setlocal omnifunc=jedi#completions
       " Disable Pymode Rope so Jedi doesn't have a fit.
       let g:pymode_rope = 0
-
       " Tame Jedi to not hijack neocomplete.
       let g:jedi#auto_vim_configuration = 0
       let g:jedi#completions_enabled    = 0
@@ -722,8 +742,8 @@ let s:plug_cache = s:cache_for('plugged')
     highlight MatchParen cterm=bold ctermbg=NONE ctermfg=NONE
     highlight MatchParen gui=bold guibg=NONE guifg=NONE
 
-    " Rainbow delimiters!
-    let g:rainbow_active = 1
+    " Enable rainbow delimiters!
+    autocmd vimrc VimEnter * RainbowParentheses
   " }}}
 
   " Hidden {{{

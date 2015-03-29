@@ -34,8 +34,8 @@ build() {
     --with-x=yes \
     --enable-gui=gtk2 \
     --enable-rubyinterp \
-    --disable-pythoninterp \
-    --enable-python3interp \
+    --enable-pythoninterp \
+    --disable-python3interp \
     --enable-perlinterp \
     --enable-luainterp \
     --enable-acl \
