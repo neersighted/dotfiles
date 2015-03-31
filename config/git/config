@@ -34,6 +34,6 @@
 #
 
 [url "git@github.com:"]
-     pushInsteadOf = git://github.com/
+    pushInsteadOf = git://github.com/
 [credential "https://github.com"]
-     username = neersighted
+    username = neersighted

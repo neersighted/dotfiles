@@ -37,10 +37,10 @@
     browser = /usr/bin/google-chrome
 
 [shortcuts]
-    close = mod4+grave
-    close_all = mod4+ctrl+grave
-    history = mod4+shift+grave
-    context = mod4+mod1+grave
+    close = mod4+n
+    close_all = mod4+shift+n
+    history = mod4+ctrl+n
+    context = mod4+shift+ctrl+n
 
 [frame]
     width = 1

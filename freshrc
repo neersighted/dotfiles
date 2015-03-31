@@ -33,6 +33,7 @@ fresh config/fish/functions --file=~/.config/fish/functions/
 
 # vim: vi improved
 fresh config/vim/vimrc --file
+fresh scripts/xvim --bin
 
 # neovim: vim improved
 fresh config/vim/vimrc --file=~/.nvimrc
@@ -115,6 +116,7 @@ fresh scripts/aurdiff --bin
 # git: the stupid content tracker
 fresh-options --file=~/.config/git/config --marker
     fresh config/git/config
+    fresh config/git/aliases
     fresh config/git/colors
 fresh-options
 fresh config/git/attributes --file=~/.config/git/attributes
@@ -136,6 +138,7 @@ fresh pengwynn/dotfiles bin/hide --bin
 
 # htop: interactive process monitor
 fresh config/htoprc --file=~/.config/htop/htoprc
+fresh scripts/xhtop --bin
 
 # jruby: ruby-on-jvm interperter
 fresh config/jrubyrc --file

@@ -23,7 +23,7 @@ static const unsigned int snap = 8;
 static char dmenumon[2] = "0";
 
 static const char *dmenucmd[]      = { "dmenu_run.pl", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]       = { "st", NULL };
+static const char *termcmd[]       = { "st", "-c", "fish", NULL };
 static const char *lockcmd[]       = { "xautolock", "-locknow", NULL };
 static const char *locktogglecmd[] = { "xautolock", "-toggle", NULL };
 
@@ -52,24 +52,34 @@ static const Rule rules[] = {
 	*	WM_CLASS(STRING) = instance, class
 	*	WM_NAME(STRING) = title
 	*/
-	/* class               instance    title       tags mask     isfloating   monitor */
-	{ "st",                NULL,       NULL,       1 << 0,       False,       -1 },
-	{ "st-256color",       NULL,       NULL,       1 << 0,       False,       -1 },
-	{ "st-meta",           NULL,       NULL,       1 << 0,       False,       -1 },
-	{ "st-meta-256color",  NULL,       NULL,       1 << 0,       False,       -1 },
-	{ "Gvim",              NULL,       NULL,       1 << 1,       False,       -1 },
-	{ "Spacefm",           NULL,       NULL,       1 << 2,       False,       -1 },
-	{ "Google-chrome",     NULL,       NULL,       1 << 3,       False,       -1 },
-	{ "Chromium",          NULL,       NULL,       1 << 3,       False,       -1 },
-	{ "Thunderbird",       NULL,       NULL,       1 << 4,       False,       -1 },
-	{ "libreoffice",       NULL,       NULL,       1 << 5,       False,       -1 },
-	{ "Spotify",           NULL,       NULL,       1 << 6,       False,       -1 },
-	{ "Vlc",               NULL,       NULL,       1 << 7,       False,       -1 },
-	{ "Pavucontrol",       NULL,       NULL,       1 << 8,       False,       -1 },
-	{ "Paprefs",           NULL,       NULL,       1 << 8,       False,       -1 },
-	{ "feh",               NULL,       NULL,       0,            True,        -1 },
-	{ "Gimp",              NULL,       NULL,       0,            True,        -1 },
-	{ "Zenity",            NULL,       NULL,       0,            True,        -1 },
+	/* class                      instance    title       tags mask     isfloating   monitor */
+	{ "st-meta-256color",         "fish",     NULL,       1 << 0,       False,       0 },
+	{ "Gvim",                     NULL,       NULL,       1 << 1,       False,       0 },
+	{ "st-meta-256color",         "vim",      NULL,       1 << 1,       False,       0 },
+	{ "Spacefm",                  NULL,       NULL,       1 << 2,       False,       0 },
+	{ "st-meta-256color",         "ranger",   NULL,       1 << 2,       False,       0 },
+	{ "Transmission-remote-gtk",  NULL,       NULL,       1 << 3,       False,       0 },
+	{ "Virt-manager",             NULL,       NULL,       1 << 6,       False,       0 },
+	{ "VirtualBox",               NULL,       NULL,       1 << 6,       False,       0 },
+	{ "st-meta-256color",         "htop",     NULL,       1 << 8,       False,       0 },
+
+	{ "Google-chrome",            NULL,       NULL,       1 << 0,       False,       1 },
+	{ "Chromium",                 NULL,       NULL,       1 << 0,       False,       1 },
+	{ "Telegram",                 NULL,       NULL,       1 << 1,       False,       1 },
+	{ "st-meta-256color",         "irssi",    NULL,       1 << 1,       False,       1 },
+	{ "Thunderbird",              NULL,       NULL,       1 << 2,       False,       1 },
+	{ "st-meta-256color",         "mutt",     NULL,       1 << 2,       False,       1 },
+	{ "libreoffice",              NULL,       NULL,       1 << 3,       False,       1 },
+	{ "Spotify",                  NULL,       NULL,       1 << 6,       False,       1 },
+	{ "Vlc",                      NULL,       NULL,       1 << 7,       False,       1 },
+	{ "mpv",                      NULL,       NULL,       1 << 7,       False,       1 },
+	{ "Popcorntime",              NULL,       NULL,       1 << 7,       False,       1 },
+	{ "Pavucontrol",              NULL,       NULL,       1 << 8,       False,       1 },
+	{ "Paprefs",                  NULL,       NULL,       1 << 8,       False,       1 },
+
+	{ "feh",                      NULL,       NULL,       0,            True,        -1 },
+	{ "Gimp",                     NULL,       NULL,       0,            True,        -1 },
+	{ "Zenity",                   NULL,       NULL,       0,            True,        -1 },
 };
 
 #define MODKEY Mod4Mask
