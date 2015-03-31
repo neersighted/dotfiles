@@ -1,0 +1,42 @@
+diff --git a/dwm.c b/dwm.c
+index 169adcb..605901d 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -693,6 +693,7 @@ void
+ drawbar(Monitor *m) {
+ 	int x, xx, w;
+ 	unsigned int i, occ = 0, urg = 0;
++	unsigned int a = 0, s = 0;
+ 	Client *c;
+ 
+ 	for(c = m->clients; c; c = c->next) {
+@@ -709,6 +710,14 @@ drawbar(Monitor *m) {
+ 		           occ & 1 << i, urg & 1 << i);
+ 		x += w;
+ 	}
++	 if(m->lt[m->sellt]->arrange == monocle) {
++		 for(a = 0, s = 0, c= nexttiled(m->clients); c; c= nexttiled(c->next), a++)
++			 if(c == m->stack)
++				 s = a;
++		 if(!s && a)
++			 s = a;
++		 snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d/%d]", s, a);
++	 }
+ 	w = blw = TEXTW(m->ltsymbol);
+ 	drw_setscheme(drw, &scheme[SchemeNorm]);
+ 	drw_text(drw, x, 0, w, bh, m->ltsymbol, 0);
+@@ -1088,14 +1097,8 @@ maprequest(XEvent *e) {
+ 
+ void
+ monocle(Monitor *m) {
+-	unsigned int n = 0;
+ 	Client *c;
+ 
+-	for(c = m->clients; c; c = c->next)
+-		if(ISVISIBLE(c))
+-			n++;
+-	if(n > 0) /* override layout symbol */
+-		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
+ 	for(c = nexttiled(m->clients); c; c = nexttiled(c->next))
+ 		resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, False);
+ }

@@ -123,3 +123,10 @@ set -e fish_greeting
 if [ -f $HOME/.config/fish/config.local.fish ]
    source $HOME/.config/fish/config.local.fish
 end
+
+# Start X at login on VT 1.
+if status --is-login
+    if test -z "$DISPLAY" -a $XDG_VTNR = 1
+        exec startx
+    end
+end

@@ -9,15 +9,25 @@ url='http://dwm.suckless.org'
 license=('MIT')
 source=('git://git.suckless.org/dwm'
         'config.h'
+        'btile.c'
+        'cyclelayout.c'
+        'gaplessgrid.c'
         'push.c'
+        'autoresize.diff'
         'default_source.diff'
+        'monoclecount.diff'
         'multistatus.diff'
         'restart.diff'
         'smartborders.diff')
 sha256sums=('SKIP'
-            '08c921879f89a84d9935f38ced06c6c91c915fe5466341a6b76e6edf1897eed8'
+            'd21c16043c934da18cf22f8ebd7150f07bd266f0ffd6846ceaa0870ad5e17381'
+            '747b2fcf1fcb62370e4748e93da1884cfa1b66b636078bedd9730a0f1b053ecd'
+            '7a0bf96614ff56637ebd3a062fd5fe967e5485bccfa1d24ea8d68ab499c9402f'
+            'd1b8559b3ba36fd36c2bfe9928a80df2458e0136e52ffb0384f0f05f0263a58a'
             '195c8c9f2c0af9f862b398a306bb1a791931beaf541e37df41f13cb44438301c'
+            '314648a93a25a5cc87ee163dd9f5a0fe27cef8c772f0e53607fa53a15c23f934'
             'c50ff4b5292b6e8793bfe03a87ba96bfeed17ba64d1d4f9344c60da26221d363'
+            '23b8667e42e60afe562871e66399c859fa62b5d824ae536f0ec769cedaf98176'
             '87d08f78025f70e99ee2e080d0804c38ee8f0c133d0c317dcf8954b74f6717b5'
             '0cdb0478f2c218083a750f6e1be10efcba00b0a1fbd5d00dd5131b35e8ea38aa'
             'b3da389451be20fc185b7cf3f5eca9034eefdb8bb734fd435117d1cd03da201d')
@@ -38,13 +48,26 @@ build() {
 
   # Apply config.
   cp "${srcdir}/config.h" ./config.h
+  cp "${srcdir}/btile.c" ./btile.c
+  cp "${srcdir}/cyclelayout.c" ./cyclelayout.c
+  cp "${srcdir}/gaplessgrid.c" ./gaplessgrid.c
   cp "${srcdir}/push.c" ./push.c
 
   # Apply patches.
+  git apply "${srcdir}/autoresize.diff"
   git apply "${srcdir}/default_source.diff"
+  git apply "${srcdir}/monoclecount.diff"
   git apply "${srcdir}/multistatus.diff"
   git apply "${srcdir}/restart.diff"
   git apply "${srcdir}/smartborders.diff"
+
+  # Un-hard-code flags.
+  sed -i 's/CPPFLAGS =/CPPFLAGS +=/g' config.mk
+  sed -i 's/^CFLAGS = -g/#CFLAGS += -g/g' config.mk
+  sed -i 's/^#CFLAGS = -std/CFLAGS += -std/g' config.mk
+  sed -i 's/^LDFLAGS = -g/#LDFLAGS += -g/g' config.mk
+  sed -i 's/^#LDFLAGS = -s/LDFLAGS += -s/g' config.mk
+  sed -i 's/^CC =/#CC =/g' config.mk
 
   # Build it!
   make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11

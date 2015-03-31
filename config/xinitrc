@@ -42,7 +42,7 @@ devmon --info-on-mount &
 # Start dunst (notification daemon).
 dunst -mon $(($(xrandr -q | grep '\sconnected\s' | wc -l) - 1)) &
 # Start lightweight polkit agent.
-lxpolkit
+lxpolkit &
 # Start PulseAudio (sound server).
 start-pulseaudio-x11 &
 # Start Redshift (screen tinter).
@@ -57,6 +57,14 @@ xautolock -locker xlock -time 5 -corners ---- &
 xbindkeys &
 # Load keymap.
 xmodmap ~/.Xmodmap &
+
+
+#
+# Foreground
+#
+
+# Start a terminal.
+st &
 
 
 #

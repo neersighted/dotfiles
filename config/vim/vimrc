@@ -400,7 +400,7 @@ let s:plug_cache = s:cache_for('plugged')
 
   " Alignment {{{
     " Interactive alignment of text.
-    nmap ga <Plug>(EasyAlign)
+    nmap gl <Plug>(EasyAlign)
     vmap <Enter> <Plug>(EasyAlign)
   " }}]
 
