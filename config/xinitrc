@@ -65,6 +65,17 @@ xmodmap ~/.Xmodmap &
 
 # Start a terminal.
 st &
+# Start vim.
+gvim &
+# Start a file manager.
+spacefm &
+
+# Start a browser.
+google-chrome &
+# Start a music player.
+spotify &
+# Start a volume panel.
+pavucontrol &
 
 
 #

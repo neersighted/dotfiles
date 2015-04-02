@@ -34,8 +34,8 @@ sha256sums=('SKIP'
             '0cdb0478f2c218083a750f6e1be10efcba00b0a1fbd5d00dd5131b35e8ea38aa'
             'b3da389451be20fc185b7cf3f5eca9034eefdb8bb734fd435117d1cd03da201d')
 arch=('i686' 'x86_64')
-depends=('libxext' 'libxft')
-makedepends=('ncurses')
+depends=('libxft' 'libxinerama')
+makedepends=('git' 'ncurses')
 conflicts=('dwm')
 provides=('dwm')
 
