@@ -39,6 +39,16 @@ fresh scripts/xvim --bin
 fresh config/vim/vimrc --file=~/.nvimrc
 
 #
+# Compilers
+#
+
+# clang: llvm c front-end
+fresh scripts/clang-flags-native --bin
+
+# gcc: gnu compiler collection
+fresh scripts/gcc-flags-native --bin
+
+#
 # Search
 #
 

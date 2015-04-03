@@ -6,10 +6,10 @@
 tput smkx
 
 # Enable colors in ls.
-source (dircolors -c ~/.dircolorsrc|psub)
+source (dircolors --c-shell ~/.dircolorsrc|psub)
 
 # Enable color in less.
-set -gx LESS -R
+set --global --export LESS -R
 set -xU LESS_TERMCAP_mb (printf "\e[01;31m")      # begin blinking
 set -xU LESS_TERMCAP_md (printf "\e[01;31m")      # begin bold
 set -xU LESS_TERMCAP_me (printf "\e[0m")          # end mode
@@ -19,11 +19,22 @@ set -xU LESS_TERMCAP_ue (printf "\e[0m")          # end underline
 set -xU LESS_TERMCAP_us (printf "\e[01;32m")      # begin underline
 
 #
-# Paths
+# Environment
 #
 
-# Set up $PATH.
-set -gx PATH \
+# Locale/language.
+set --global --export LANG en_US.UTF-8
+
+# XDG.
+set --global --export XDG_DATA_HOME   $HOME/.local/share
+set --global --export XDG_CACHE_HOME  $HOME/.cache
+set --global --export XDG_CONFIG_HOME $HOME/.config
+
+# Tmp.
+set --global --export TMP /tmp
+
+# Path.
+set --global --export PATH \
     $HOME/bin \
     /usr/local/{,s}bin \
     /usr/{,s}bin \
@@ -31,39 +42,39 @@ set -gx PATH \
 
 # Ccache
 if [ -d /usr/lib/ccache/bin ]
-    set -gx PATH \
+    set --global --export PATH \
     /usr/lib/ccache/bin \
     $PATH
 end
 
 # rbenv
 if [ -d $HOME/.rbenv ]
-    set -gx PATH \
+    set --global --export PATH \
     $HOME/.rbenv/{bin,shims} \
     $PATH
 end
 # pyenv
 if [ -d $HOME/.pyenv ]
-    set -gx PATH \
+    set --global --export PATH \
     $HOME/.pyenv/{bin,shims} \
     $PATH
 end
 # ndenv
 if [ -d $ndenv ]
-    set -gx PATH \
+    set --global --export PATH \
     $HOME/.ndenv/{bin,shims} \
     $PATH
 end
 # perl
 if [ -d /usr/bin/core_perl ]
-   set -gx PATH \
+   set --global --export PATH \
    /usr/bin/{core,site,vendor}_perl \
    $PATH
 end
 # go
 if type -fp go >/dev/null
-   set -gx GOPATH $HOME/.go
-   set -gx PATH \
+   set --global --export GOPATH $HOME/.go
+   set --global --export PATH \
    $HOME/.go/bin \
    $PATH
 
@@ -77,9 +88,15 @@ end
 #
 
 # Set programs.
-set -gx PAGER less
-set -gx EDITOR vim
-set -gx BROWSER google-chrome
+set --global --export EDITOR vim
+set --global --export PAGER less
+set --global --export GREPER ag
+set --global --export EXPLORER spacefm
+set --global --export MEDIA_PLAYER mpv
+set --global --export IMAGE_VIEWER feh
+set --global --export BROWSER google-chrome
+set --global --export MAILER thunderbird
+set --global --export TERMINAL st
 
 #
 # Startup
@@ -102,7 +119,7 @@ end
 # Connect to envoy.
 if type -fp envoy >/dev/null
    envoy -t gpg-agent
-   source (envoy -p|sed -e 's/export/set -gx/' -e 's/=/ /'|psub)
+   source (envoy -p|sed -e 's/export/set --global --export/' -e 's/=/ /'|psub)
 end
 
 # Check that we are an not a login shell and are an interactive shell.

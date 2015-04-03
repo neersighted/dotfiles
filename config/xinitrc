@@ -69,13 +69,19 @@ st &
 gvim &
 # Start a file manager.
 spacefm &
+# Start a system monitor.
+xhtop &
 
 # Start a browser.
 google-chrome &
+# Start an email client.
+thunderbird &
 # Start a music player.
 spotify &
 # Start a volume panel.
 pavucontrol &
+# Start Steam.
+steam &
 
 
 #
