@@ -64,6 +64,7 @@ fresh config/agrc --file
 
 # compton: x compositor
 fresh config/compton.conf --file=~/.config/compton.conf
+fresh scripts/compton-toggle --bin
 
 # dwm: dynamic window manager
 fresh scripts/dwmstatus --bin
@@ -111,6 +112,10 @@ fresh config/xserverrc --file
 
 # alsa: advanced linux sound architecture
 fresh config/asoundrc --file
+
+# pulse: pulseaudio sound server
+fresh config/pulse/default.pa --file=~/.config/pulse/default.pa
+fresh config/pulse/daemon.conf --file=~/.config/pulse/daemon.conf
 
 #
 # Utilities
@@ -203,5 +208,8 @@ fresh-options --file=~/.tmux.conf --marker
         fresh config/tmux/linux.conf
     fi
 fresh-options
+
+# youtube: video sharing site (how quaint)
+fresh scripts/yt --bin
 
 # vi:ft=sh:

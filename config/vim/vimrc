@@ -233,7 +233,7 @@ let s:plug_cache = s:cache_for('plugged')
       " A combination of common syntax and support files.
       Plug 'sheerun/vim-polyglot'
       " Syntax for Ansible YAML files.
-      Plug 'chase/vim-ansible-yaml', { 'for':  'yaml' }
+      Plug 'chase/vim-ansible-yaml', { 'for':  'ansible' }
       " Syntax for BrightScript, the Roku programming language.
       Plug 'chooh/brightscript.vim'
       " Syntax for Fish, the Friendly Interactive SHell.

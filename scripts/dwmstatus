@@ -50,23 +50,6 @@ load() {
   echo "${load}"
 }
 
-net() {
-  if [ "$(_get_active_iface)" != "none" ]; then
-    rxbn="$(cat /sys/class/net/$(_get_active_iface)/statistics/rx_bytes)"
-    txbn="$(cat /sys/class/net/$(_get_active_iface)/statistics/tx_bytes)"
-
-    rxrate=$(( ( rxbn - rxb ) / 1024 / INTERVAL ))
-    txrate=$(( ( txbn - txb ) / 1024 / INTERVAL ))
-
-    echo "${rxrate}K / ${txrate}K"
-
-    rxb="$rxbn"
-    txb="$txbn"
-  else
-    echo "nocarrier"
-  fi
-}
-
 mem() {
   mem="$(free -m | awk 'NR==2 {print $3}')"
 
@@ -81,17 +64,9 @@ swap() {
 
 
 main() {
-  xsetroot -name "CPU $(cpu) LOAD $(load) • MEM $(mem) SWAP $(swap) • HDD $(hdd) • INT $(int) NET $(net) • $(datetime)"
+  xsetroot -name "CPU $(cpu) LOAD $(load) • MEM $(mem) SWAP $(swap) • HDD $(hdd) • INT $(int) • $(datetime)"
 }
 
-
-if [ "$(_get_active_iface)" != "none" ]; then
-  rxb="$(cat /sys/class/net/$(_get_active_iface)/statistics/rx_bytes)"
-  txb="$(cat /sys/class/net/$(_get_active_iface)/statistics/tx_bytes)"
-else
-  rxb=0
-  txb=0
-fi
 
 while true; do
   main

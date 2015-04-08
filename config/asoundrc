@@ -5,11 +5,13 @@ pcm.!default {
     capture.pcm {
         @func getenv
         vars [ ALSA_IN ]
-        default "sysdefault"
+        default "pulse"
+        fallback "sysdefault"
     }
     playback.pcm {
         @func getenv
         vars [ ALSA_OUT ]
-        default "sysdefault"
+        default "pulse"
+        fallback "sysdefault"
     }
 }

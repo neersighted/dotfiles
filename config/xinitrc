@@ -63,24 +63,18 @@ xmodmap ~/.Xmodmap &
 # Foreground
 #
 
-# Start a terminal.
 st &
-# Start vim.
 gvim &
-# Start a file manager.
 spacefm &
-# Start a system monitor.
+transmission-remote-gtk &
 xhtop &
 
-# Start a browser.
 google-chrome &
-# Start an email client.
+skype &
+telegram &
 thunderbird &
-# Start a music player.
 spotify &
-# Start a volume panel.
 pavucontrol &
-# Start Steam.
 steam &
 
 
