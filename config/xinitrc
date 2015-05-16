@@ -36,7 +36,7 @@ xset s off
 # Load the background with nitrogen.
 nitrogen --restore &
 # Start compton (X compositor).
-compton -b &
+compton &
 # Start devmon (userspace auto-mounter).
 devmon --info-on-mount &
 # Start dunst (notification daemon).
@@ -63,19 +63,21 @@ xmodmap ~/.Xmodmap &
 # Foreground
 #
 
-st &
-gvim &
-spacefm &
-transmission-remote-gtk &
-xhtop &
+if [ "$NO_AUTOSTART" != 1 ]; then
+  st &
+  gvim &
+  spacefm &
+  transmission-remote-gtk &
+  xhtop &
 
-google-chrome &
-skype &
-telegram &
-thunderbird &
-spotify &
-pavucontrol &
-steam &
+  google-chrome &
+  skype &
+  telegram &
+  thunderbird &
+  spotify &
+  pavucontrol &
+  steam &
+fi
 
 
 #

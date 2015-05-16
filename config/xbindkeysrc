@@ -1,3 +1,7 @@
+# Toggle Compositing.
+"compton-toggle"
+    Mod4 + b
+
 # Play/Pause
 "playerctl play-pause"
     XF86AudioPlay

@@ -13,13 +13,15 @@ load-module module-switch-on-port-available
 
 # Automatically load driver modules.
 load-module module-udev-detect
-# Create some null outputs.
+# Create a null output.
 load-module module-null-sink sink_name=null0
-load-module module-null-sink sink_name=null1 sink_properties="device.description='Microphone + Auxilary'"
-load-module module-null-sink sink_name=null2 sink_properties="device.description='Auxiliary'"
 # Create a combined output sink.
 load-module module-combine-sink
-# Create some loopbacks.
+
+# Create named nulls for micspam.
+load-module module-null-sink sink_name=null1 sink_properties="device.description='Microphone + Auxilary'"
+load-module module-null-sink sink_name=null2 sink_properties="device.description='Auxiliary'"
+# And create loopbacks to connect them to things.
 load-module module-loopback sink=null1
 load-module module-loopback source=null2.monitor sink=null1
 load-module module-loopback sink=combined

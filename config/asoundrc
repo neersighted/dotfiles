@@ -6,12 +6,10 @@ pcm.!default {
         @func getenv
         vars [ ALSA_IN ]
         default "pulse"
-        fallback "sysdefault"
     }
     playback.pcm {
         @func getenv
         vars [ ALSA_OUT ]
         default "pulse"
-        fallback "sysdefault"
     }
 }
