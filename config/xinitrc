@@ -40,7 +40,7 @@ compton &
 # Start devmon (userspace auto-mounter).
 devmon --info-on-mount &
 # Start dunst (notification daemon).
-dunst -mon $(($(xrandr -q | grep '\sconnected\s' | wc -l) - 1)) &
+dunst &
 # Start lightweight polkit agent.
 lxpolkit &
 # Start PulseAudio (sound server).
@@ -64,7 +64,7 @@ xmodmap ~/.Xmodmap &
 #
 
 if [ "$NO_AUTOSTART" != 1 ]; then
-  st &
+  xfish &
   gvim &
   spacefm &
   transmission-remote-gtk &

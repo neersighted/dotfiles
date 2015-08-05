@@ -13,7 +13,7 @@ source=('git+https://github.com/vim/vim.git'
 sha256sums=('SKIP'
             '46dff79072746c2199b8d6ab77936ee72beb4abea83a4c03a7b9174379e8e56a')
 arch=('i686' 'x86_64')
-depends=('gtk2' 'gdk-pixbuf2' 'pango' 'glib2' 'libsm' 'libice' 'libxt' 'libx11' 'glibc' 'ncurses' 'acl' 'lua' 'perl' 'python')
+depends=('gtk2' 'gdk-pixbuf2' 'pango' 'glib2' 'libsm' 'libice' 'libxt' 'libx11' 'glibc' 'ncurses' 'acl' 'lua' 'perl' 'python' 'ruby')
 makedepends=('git')
 conflicts=('vim' 'gvim' 'vim-runtime')
 provides=('vim' 'gvim' 'vim-runtime')

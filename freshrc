@@ -26,6 +26,7 @@ fresh-options --file=~/.config/fish/config.fish --marker
     fresh config/fish/colors.fish
 fresh-options
 fresh config/fish/functions --file=~/.config/fish/functions/
+fresh scripts/xfish --bin
 
 #
 # Editing

@@ -19,23 +19,18 @@ load-module module-null-sink sink_name=null0
 load-module module-combine-sink
 
 # Create named nulls for micspam.
-load-module module-null-sink sink_name=null1 sink_properties="device.description='Microphone + Auxilary'"
-load-module module-null-sink sink_name=null2 sink_properties="device.description='Auxiliary'"
+load-module module-null-sink sink_name=mic_aux sink_properties="device.description='Microphone + Auxilary'"
+load-module module-null-sink sink_name=aux sink_properties="device.description='Auxiliary'"
 # And create loopbacks to connect them to things.
-load-module module-loopback sink=null1
-load-module module-loopback source=null2.monitor sink=null1
+load-module module-loopback sink=mic_aux
+load-module module-loopback source=aux.monitor sink=mic_aux
 load-module module-loopback sink=combined
 
 # Load protocols.
 load-module module-native-protocol-unix
-load-module module-dbus-protocol
 
 # Discover over the network.
-load-module module-zeroconf-publish
-load-module module-zeroconf-discover
 load-module module-raop-discover
-# Recieve over the network.
-load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1;192.168.0.0/24;10.0.0.0/24 auth-anonymous=1
 
 # Auto-restore default sink.
 load-module module-default-device-restore

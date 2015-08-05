@@ -1,30 +1,29 @@
 # Maintainer: Bjorn Neergaard (neersighted) <bjorn@neersighted.com>
 
-_pkgname=dmenu
-pkgname=dmenu-neersighted
-pkgver=d6742ef
+_pkgname=slock
+pkgname=slock-neersighted
+pkgver=0edbd2e
 pkgrel=1
-pkgdesc='A dynamic menu for X'
-url='http://tools.suckless.org/dmenu'
+pkgdesc='Simple screen locker'
+url='http://tools.suckless.org/slock'
 license=('MIT')
-source=('git://git.suckless.org/dmenu'
+source=('git://git.suckless.org/slock'
         'config.h')
 sha256sums=('SKIP'
             'SKIP')
 arch=('i686' 'x86_64')
-depends=('libxext' 'libxft')
-makedepends=('ncurses')
-conflicts=('dmenu')
-provides=('dmenu')
+depends=('libxext')
+conflicts=('slock')
+provides=('slock')
 
 pkgver() {
-  cd "${srcdir}/dmenu"
+  cd "${srcdir}/slock"
 
   git describe --always | sed 's/^v//;s/-/./g'
 }
 
 build() {
-  cd "${srcdir}/dmenu"
+  cd "${srcdir}/slock"
 
   # Apply config.
   cp "${srcdir}/config.h" ./config.h
@@ -34,10 +33,10 @@ build() {
 }
 
 package() {
-  cd "${srcdir}/dmenu"
+  cd "${srcdir}/slock"
 
   # Install the program.
-  make PREFIX=/usr DESTDIR="${pkgdir}" TERMINFO="${pkgdir}/usr/share/terminfo" install
+  make PREFIX=/usr DESTDIR="${pkgdir}" install
 
   # Install the license.
   install -Dm644 LICENSE \
