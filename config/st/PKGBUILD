@@ -2,17 +2,15 @@
 
 _pkgname=st
 pkgname=st-neersighted
-pkgver=288f80c
+pkgver=ee5cad4
 pkgrel=1
 pkgdesc='A simple virtual terminal emulator for X'
 url='http://st.suckless.org'
 license=('MIT')
 source=('git://git.suckless.org/st'
-        'config.h'
-        'no-bold.diff')
+        'config.h')
 sha256sums=('SKIP'
-            'SKIP'
-            'f15b3802d7cec6a809fe498833077e02ad3b0b6f384ddd83c46c3da84fc1b480')
+            'SKIP')
 arch=('i686' 'x86_64')
 depends=('libxext' 'libxft')
 makedepends=('ncurses')
@@ -30,9 +28,6 @@ build() {
 
   # Apply config.
   cp "${srcdir}/config.h" ./config.h
-
-  # Apply patches.
-  git apply "${srcdir}/no-bold.diff"
 
   # Build it!
   make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11

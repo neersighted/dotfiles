@@ -2,17 +2,15 @@
 
 _pkgname=dmenu
 pkgname=dmenu-neersighted
-pkgver=13a529c
+pkgver=d6742ef
 pkgrel=1
 pkgdesc='The dynamic window manager'
 url='http://tools.suckless.org/dmenu'
 license=('MIT')
 source=('git://git.suckless.org/dmenu'
-        'config.h'
-        'xft.diff')
+        'config.h')
 sha256sums=('SKIP'
-            'SKIP'
-            'a27b475bfa124ce4b4b45fd8047de0948ed466e1fe63c3223417305ea3016a8b')
+            'SKIP')
 arch=('i686' 'x86_64')
 depends=('libxext' 'libxft')
 makedepends=('ncurses')
@@ -30,9 +28,6 @@ build() {
 
   # Apply config.
   cp "${srcdir}/config.h" ./config.h
-
-  # Apply patches.
-  git apply "${srcdir}/xft.diff"
 
   # Build it!
   make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11

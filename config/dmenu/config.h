@@ -1,7 +1,9 @@
 static Bool topbar        = True;
 static unsigned int lines = 0;
 
-static const char *font   = "Source Code Pro Light-7.5";
+static const char *fonts[] = {
+	"Source Code Pro Light-7.5"
+};
 static const char *prompt = NULL;
 
 static const char *normbgcolor = "#002b36";

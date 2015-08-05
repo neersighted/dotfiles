@@ -41,10 +41,14 @@ static unsigned int defaultcs        = 14;
 static unsigned int defaultitalic    = 11;
 static unsigned int defaultunderline = 7;
 
+static unsigned int mouseshape = XC_xterm;
+static unsigned int mousefg = 7;
+static unsigned int mousebg = 0;
+
 static int borderpx = 1;
+static unsigned int cursorthickness = 2;
 
 static unsigned int tabspaces = 4;
-
 static char worddelimiters[] = " `'\"()[]{}";
 
 static unsigned int doubleclicktimeout = 300;
@@ -60,10 +64,11 @@ static unsigned int xfps      = 120;
 static unsigned int actionfps = 30;
 
 static char termname[]     = "st-meta-256color";
-static bool allowaltscreen = true;
+static int allowaltscreen = 1;
 static char vtiden[]       = "\033[?6c";
 
 static char shell[]        = "/usr/bin/fish";
+static char stty_args[]    = "stty raw -echo -iexten echonl";
 static char *utmp          = NULL;
 
 #define MODKEY Mod1Mask
