@@ -47,6 +47,7 @@ static unsigned int mousebg = 0;
 
 static int borderpx = 1;
 static unsigned int cursorthickness = 2;
+static unsigned int cursorshape = 2;
 
 static unsigned int tabspaces = 4;
 static char worddelimiters[] = " `'\"()[]{}";

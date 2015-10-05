@@ -65,9 +65,7 @@ xmodmap ~/.Xmodmap &
 
 if [ "$NO_AUTOSTART" != 1 ]; then
   xfish &
-  gvim &
   spacefm &
-  transmission-remote-gtk &
   xhtop &
 
   google-chrome &

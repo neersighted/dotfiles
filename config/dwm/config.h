@@ -30,7 +30,7 @@ static const char *locktogglecmd[] = { "xautolock", "-toggle", NULL };
 // Number of master windows.
 static const int nmaster = 1;
 // Size of master windows.
-static const float mfact = 0.5;
+static const float mfact = 0.66;
 // Ignore resize/window size hints.
 static const Bool resizehints = False;
 
@@ -53,34 +53,33 @@ static const Rule rules[] = {
 	*	WM_NAME(STRING) = title
 	*/
 	/* class                      instance    title       tags mask     isfloating   monitor */
-	{ "Thunderbird",              NULL,       NULL,       1 << 0,       False,       3 },
-	{ "st-meta-256color",         "mutt",     NULL,       1 << 0,       False,       3 },
-	{ "Telegram",                 NULL,       NULL,       1 << 1,       False,       3 },
-	{ "telegram",                 NULL,       NULL,       1 << 1,       False,       3 },
-	{ "Skype",                    NULL,       NULL,       1 << 1,       False,       3 },
-	{ "st-meta-256color",         "irssi",    NULL,       1 << 2,       False,       3 },
-	{ "Spacefm",                  NULL,       NULL,       1 << 3,       False,       3 },
-	{ "st-meta-256color",         "ranger",   NULL,       1 << 3,       False,       3 },
-	{ "Transmission-remote-gtk",  NULL,       NULL,       1 << 4,       False,       3 },
-	{ "st-meta-256color",         "htop",     NULL,       1 << 5,       False,       3 },
-
 	{ "st-meta-256color",         "fish",     NULL,       1 << 0,       False,       0 },
 	{ "st-meta-256color",         "vim",      NULL,       1 << 1,       False,       0 },
 	{ "Gvim",                     NULL,       NULL,       1 << 1,       False,       0 },
+	{ "libreoffice",              NULL,       NULL,       1 << 1,       False,       0 },
+	{ "Spacefm",                  NULL,       NULL,       1 << 2,       False,       0 },
+	{ "st-meta-256color",         "ranger",   NULL,       1 << 2,       False,       0 },
+	{ "Transmission-remote-gtk",  NULL,       NULL,       1 << 3,       False,       0 },
+	{ "st-meta-256color",         "htop",     NULL,       1 << 4,       False,       0 },
+	{ "Pavucontrol",              NULL,       NULL,       1 << 3,       False,       0 },
+	{ "Paprefs",                  NULL,       NULL,       1 << 3,       False,       0 },
+	{ "Virt-manager",             NULL,       NULL,       1 << 6,       False,       0 },
+	{ "VirtualBox",               NULL,       NULL,       1 << 6,       False,       0 },
+
 
 	{ "Google-chrome",            NULL,       NULL,       1 << 0,       False,       1 },
 	{ "Chromium",                 NULL,       NULL,       1 << 0,       False,       1 },
-	{ "libreoffice",              NULL,       NULL,       1 << 1,       False,       1 },
-
-	{ "Spotify",                  NULL,       NULL,       1 << 0,       False,       2 },
-	{ "Vlc",                      NULL,       NULL,       1 << 1,       False,       2 },
-	{ "mpv",                      NULL,       NULL,       1 << 1,       False,       2 },
-	{ "Popcorntime",              NULL,       NULL,       1 << 1,       False,       2 },
-	{ "Steam",                    NULL,       NULL,       1 << 2,       False,       2 },
-	{ "Pavucontrol",              NULL,       NULL,       1 << 3,       False,       2 },
-	{ "Paprefs",                  NULL,       NULL,       1 << 3,       False,       2 },
-	{ "Virt-manager",             NULL,       NULL,       1 << 6,       False,       2 },
-	{ "VirtualBox",               NULL,       NULL,       1 << 6,       False,       2 },
+	{ "Spotify",                  NULL,       NULL,       1 << 1,       False,       1 },
+	{ "Vlc",                      NULL,       NULL,       1 << 2,       False,       1 },
+	{ "mpv",                      NULL,       NULL,       1 << 2,       False,       1 },
+	{ "Popcorntime",              NULL,       NULL,       1 << 2,       False,       1 },
+	{ "Steam",                    NULL,       NULL,       1 << 3,       False,       1 },
+	{ "Thunderbird",              NULL,       NULL,       1 << 4,       False,       1 },
+	{ "st-meta-256color",         "mutt",     NULL,       1 << 4,       False,       1 },
+	{ "Telegram",                 NULL,       NULL,       1 << 5,       False,       1 },
+	{ "telegram",                 NULL,       NULL,       1 << 5,       False,       1 },
+	{ "Skype",                    NULL,       NULL,       1 << 5,       False,       1 },
+	{ "st-meta-256color",         "irssi",    NULL,       1 << 5,       False,       1 },
 
 	{ "feh",                      NULL,       NULL,       0,            True,       -1 },
 	{ "Gimp",                     NULL,       NULL,       0,            True,       -1 },
