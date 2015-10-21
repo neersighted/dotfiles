@@ -2,7 +2,7 @@
 
 _pkgname=st
 pkgname=st-neersighted
-pkgver=bf8c71e
+pkgver=f56c58a
 pkgrel=1
 pkgdesc='A simple virtual terminal emulator for X'
 url='http://st.suckless.org'

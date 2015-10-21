@@ -2,7 +2,7 @@
 
 _pkgname=slock
 pkgname=slock-neersighted
-pkgver=0edbd2e
+pkgver=b95ee11
 pkgrel=1
 pkgdesc='Simple screen locker'
 url='http://tools.suckless.org/slock'

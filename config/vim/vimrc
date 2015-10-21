@@ -216,7 +216,7 @@ let s:plug_cache = s:cache_for('plugged')
 
     " Support {{{
       " A powerful C/C++ completion enegine.
-      Plug 'Rip-Rip/clang_complete', { 'for': ['c','cpp'], 'do': 'make' }
+      "Plug 'Rip-Rip/clang_complete', { 'for': ['c','cpp'], 'do': 'make' }
       " Tools for working with Go, and a powerful Go completion engine.
       Plug 'fatih/vim-go', { 'for': 'go' }
       " Tools for working with Node.js.

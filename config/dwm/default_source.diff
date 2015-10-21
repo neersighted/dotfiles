@@ -1,9 +1,9 @@
 diff --git a/config.mk b/config.mk
-index cf95913..eac7997 100644
+index 4eefb71..0927d93 100644
 --- a/config.mk
 +++ b/config.mk
-@@ -19,7 +19,7 @@ INCS = -I${X11INC} -I/usr/include/freetype2
- LIBS = -L${X11LIB} -lX11 ${XINERAMALIBS} -lfontconfig -lXft
+@@ -25,7 +25,7 @@ INCS = -I${X11INC} -I${FREETYPEINC}
+ LIBS = -L${X11LIB} -lX11 ${XINERAMALIBS} ${FREETYPELIBS}
  
  # flags
 -CPPFLAGS = -D_BSD_SOURCE -D_POSIX_C_SOURCE=2 -DVERSION=\"${VERSION}\" ${XINERAMAFLAGS}
