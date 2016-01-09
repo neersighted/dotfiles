@@ -12,3 +12,5 @@ static const char *selbgcolor  = "#073642";
 static const char *selfgcolor  = "#93a1a1";
 static const char *outbgcolor  = "#00ffff";
 static const char *outfgcolor  = "#000000";
+
+static const char worddelimiters[] = " ";

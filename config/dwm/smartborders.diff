@@ -1,87 +1,86 @@
 diff --git a/dwm.c b/dwm.c
-index f896170..a856c53 100644
+index 0362114..03fddb6 100644
 --- a/dwm.c
 +++ b/dwm.c
-@@ -308,6 +308,34 @@ applyrules(Client *c) {
- 	c->tags = c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
+@@ -393,9 +393,24 @@ arrange(Monitor *m)
+ void
+ arrangemon(Monitor *m)
+ {
++	int n = 0;
++	Client *c;
+ 	strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
+-	if (m->lt[m->sellt]->arrange)
+-		m->lt[m->sellt]->arrange(m);
++	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
++	if (n > 1 || !m->lt[m->sellt]->arrange) {
++		for (c = m->clients; c; c = c->next) {
++			if (ISVISIBLE(c) && (!m->lt[m->sellt]->arrange || !c->isfloating) && (c->bw != borderpx)) {
++				c->oldbw = c->oldbw;
++				c->bw = borderpx;
++				resizeclient(c, m->wx, m->wy, m->ww - (2 * c->bw), m->wh - (2 * c->bw));
++			}
++		}
++		if (m->lt[m->sellt]->arrange) {
++			m->lt[m->sellt]->arrange(m);
++		}
++	} else {
++		monocle(m);
++	}
  }
  
-+void
-+adjustborders(Monitor *m) {
-+	Client *c, *l = NULL;
-+	int visible = 0;
-+
-+	for(c = m->clients; c; c = c->next) {
-+		if (ISVISIBLE(c) && !c->isfloating && m->lt[m->sellt]->arrange) {
-+			if (m->lt[m->sellt]->arrange == monocle) {
-+				visible = 1;
-+				c->oldbw = c->bw;
-+				c->bw = 0;
-+			} else {
-+				visible++;
-+				c->oldbw = c->bw;
-+				c->bw = borderpx;
-+			}
-+
-+			l = c;
+ void
+@@ -1117,16 +1132,25 @@ maprequest(XEvent *e)
+ void
+ monocle(Monitor *m)
+ {
+-	unsigned int n = 0;
++	unsigned int n = 0, r = 0;
+ 	Client *c;
+ 
+ 	for (c = m->clients; c; c = c->next)
+ 		if (ISVISIBLE(c))
+ 			n++;
+-	if (n > 0) /* override layout symbol */
++	if (n > 0 && m->lt[m->sellt]->arrange == monocle) /* override layout symbol */
+ 		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
+-	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
+-		resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
++	for(c = nexttiled(m->clients); c; c = nexttiled(c->next)) {
++		if (c->bw) {
++			c->oldbw = c->bw;
++			c->bw = 0;
++			r = 1;
++		}
++		resize(c, m->wx, m->wy, m->ww - (2 * c->bw), m->wh - (2 * c->bw), False);
++		if(r) {
++			resizeclient(c, m->wx, m->wy, m->ww - (2 * c->bw), m->wh - (2 * c->bw));
 +		}
 +	}
-+
-+	if (l && visible == 1 && l->bw) {
-+		l->oldbw = l->bw;
-+		l->bw = 0;
-+		resizeclient(l, l->x, l->y, l->w, l->h);
-+	}
-+}
-+
- Bool
- applysizehints(Client *c, int *x, int *y, int *w, int *h, Bool interact) {
- 	Bool baseismin;
-@@ -376,10 +404,13 @@ applysizehints(Client *c, int *x, int *y, int *w, int *h, Bool interact) {
+ }
  
  void
- arrange(Monitor *m) {
--	if(m)
-+	if(m) {
-+		adjustborders(m);
- 		showhide(m->stack);
--	else for(m = mons; m; m = m->next)
-+	} else for(m = mons; m; m = m->next) {
-+		adjustborders(m);
- 		showhide(m->stack);
+@@ -1706,9 +1730,11 @@ togglefloating(const Arg *arg)
+ 	if (selmon->sel->isfullscreen) /* no support for fullscreen windows */
+ 		return;
+ 	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
+-	if (selmon->sel->isfloating)
+-		resize(selmon->sel, selmon->sel->x, selmon->sel->y,
+-		       selmon->sel->w, selmon->sel->h, 0);
++	if (selmon->sel->isfloating) {
++		selmon->sel->oldbw = selmon->sel->bw;
++		selmon->sel->bw = borderpx;
++		resizeclient(selmon->sel, selmon->wx, selmon->wy, selmon->ww - (2 * selmon->sel->bw), selmon->wh - (2 * selmon->sel->bw));
 +	}
- 	if(m) {
- 		arrangemon(m);
- 		restack(m);
-@@ -1036,7 +1067,20 @@ manage(Window w, XWindowAttributes *wa) {
- 	/* only fix client y-offset, if the client center might cover the bar */
- 	c->y = MAX(c->y, ((c->mon->by == c->mon->my) && (c->x + (c->w / 2) >= c->mon->wx)
- 	           && (c->x + (c->w / 2) < c->mon->wx + c->mon->ww)) ? bh : c->mon->my);
--	c->bw = borderpx;
-+
-+	updatewindowtype(c);
-+	if (c->isfloating) {
-+		c->bw = c->isfullscreen ? 0 : borderpx;
-+	} else {
-+		c->bw = 0;
-+		for(t = c->mon->clients; t; t = c->next) {
-+			if (!t->isfloating && c != t && c->tags & t->tags) {
-+				c->bw = borderpx;
-+				break;
-+			}
-+		}
-+		adjustborders(c->mon);
-+	}
+ 	arrange(selmon);
+ }
  
- 	wc.border_width = c->bw;
- 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
-@@ -1942,7 +1986,8 @@ updatewindowtype(Client *c) {
+@@ -2003,7 +2029,8 @@ updatewindowtype(Client *c)
  	Atom state = getatomprop(c, netatom[NetWMState]);
  	Atom wtype = getatomprop(c, netatom[NetWMWindowType]);
  
--	if(state == netatom[NetWMFullscreen])
+-	if (state == netatom[NetWMFullscreen])
 +	if(state == netatom[NetWMFullscreen] ||
-+			(WIDTH(c) == (c->mon->mx + c->mon->mw) && (HEIGHT(c) == (c->mon->my + c->mon->mh))))
- 		setfullscreen(c, True);
- 	if(wtype == netatom[NetWMWindowTypeDialog])
- 		c->isfloating = True;
++			(WIDTH(c) >= (c->mon->mx + c->mon->mw) && (HEIGHT(c) >= (c->mon->my + c->mon->mh))))
+ 		setfullscreen(c, 1);
+ 	if (wtype == netatom[NetWMWindowTypeDialog])
+ 		c->isfloating = 1;

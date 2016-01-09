@@ -67,7 +67,7 @@ static const Rule rules[] = {
 	{ "VirtualBox",               NULL,       NULL,       1 << 6,       False,       0 },
 
 
-	{ "Google-chrome",            NULL,       NULL,       1 << 0,       False,       1 },
+	{ "google-chrome",            NULL,       NULL,       1 << 0,       False,       1 },
 	{ "Chromium",                 NULL,       NULL,       1 << 0,       False,       1 },
 	{ "Spotify",                  NULL,       NULL,       1 << 1,       False,       1 },
 	{ "Vlc",                      NULL,       NULL,       1 << 2,       False,       1 },

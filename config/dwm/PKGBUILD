@@ -2,7 +2,7 @@
 
 _pkgname=dwm
 pkgname=dwm-neersighted
-pkgver=646b351
+pkgver=3465bed
 pkgrel=1
 pkgdesc='The dynamic window manager'
 url='http://dwm.suckless.org'
@@ -13,24 +13,16 @@ source=('git://git.suckless.org/dwm'
         'cyclelayout.c'
         'gaplessgrid.c'
         'push.c'
-        'attachaside.diff'
-        'autoresize.diff'
-        'default_source.diff'
-        'multistatus.diff'
         'restart.diff'
         'smartborders.diff')
 sha256sums=('SKIP'
-            '37a786d719933b69c8ac4a1b9fd49d0ad156924d9c7d009d2f81663b03ab5e09'
+            'c1b1b21675e44c2c2e28a23f1a6c96dc4592a205ffb9a3c70b67510e3cd4f8e7'
             '747b2fcf1fcb62370e4748e93da1884cfa1b66b636078bedd9730a0f1b053ecd'
             '7a0bf96614ff56637ebd3a062fd5fe967e5485bccfa1d24ea8d68ab499c9402f'
             'd1b8559b3ba36fd36c2bfe9928a80df2458e0136e52ffb0384f0f05f0263a58a'
             '195c8c9f2c0af9f862b398a306bb1a791931beaf541e37df41f13cb44438301c'
-            '552aec3b55972c6d54d9e7d84b5edb892c03904ba8fce668be5e0159684e2ff8'
-            '314648a93a25a5cc87ee163dd9f5a0fe27cef8c772f0e53607fa53a15c23f934'
-            '2419537792d03fa7311b6518497fe316b9e210bd3363838697cf8e96a2256131'
-            '87d08f78025f70e99ee2e080d0804c38ee8f0c133d0c317dcf8954b74f6717b5'
-            '0cdb0478f2c218083a750f6e1be10efcba00b0a1fbd5d00dd5131b35e8ea38aa'
-            'b3da389451be20fc185b7cf3f5eca9034eefdb8bb734fd435117d1cd03da201d')
+            '89eb5b4703ce6a3b62cafe53ab6dc015a2a263cbb7c52dc12e613c5db0591f81'
+            '04fa055f36f206308b349cbbc2eccd8202237f628cd4ab0c704b7b0f9e3d2579')
 arch=('i686' 'x86_64')
 depends=('libxft' 'libxinerama')
 makedepends=('git' 'ncurses')
@@ -54,10 +46,6 @@ build() {
   cp "${srcdir}/push.c" ./push.c
 
   # Apply patches.
-  git apply "${srcdir}/attachaside.diff"
-  git apply "${srcdir}/autoresize.diff"
-  git apply "${srcdir}/default_source.diff"
-  git apply "${srcdir}/multistatus.diff"
   git apply "${srcdir}/restart.diff"
   git apply "${srcdir}/smartborders.diff"
 
