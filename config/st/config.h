@@ -52,6 +52,11 @@ static unsigned int cursorshape = 2;
 
 static unsigned int tabspaces = 4;
 static char worddelimiters[] = " `'\"()[]{}";
+static char ascii_printable[] =
+  " !\"#$%&'()*+,-./0123456789:;<=>?"
+  "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
+  "`abcdefghijklmnopqrstuvwxyz{|}~";
+
 
 static unsigned int doubleclicktimeout = 300;
 static unsigned int tripleclicktimeout = 600;

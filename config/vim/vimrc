@@ -209,8 +209,8 @@ let s:plug_cache = s:cache_for('plugged')
       Plug 'Shougo/neocomplete.vim'
 
       " A powerful snippet engine, with support for nested snippets.
-      Plug 'Shougo/neosnippet.vim'
-      Plug 'Shougo/neosnippet-snippets'
+      " Plug 'Shougo/neosnippet.vim'
+      " Plug 'Shougo/neosnippet-snippets'
       Plug 'honza/vim-snippets'
     " }}}
 
@@ -227,8 +227,6 @@ let s:plug_cache = s:cache_for('plugged')
       Plug 'davidhalter/jedi-vim', { 'for': 'python', 'do': 'git submodule update --init --recursive' }
       " Tools for working with Ruby on Rails.
       Plug 'tpope/vim-rails', { 'for': 'ruby' }
-      " A powerful Ruby completion engine.
-      Plug 'supermomonga/neocomplete-rsense.vim', { 'for': 'ruby' }
 
       " A combination of common syntax and support files.
       Plug 'sheerun/vim-polyglot'
@@ -298,6 +296,7 @@ let s:plug_cache = s:cache_for('plugged')
     " UI {{{
       " A sweet, lightweight status bar.
       Plug 'bling/vim-airline'
+      Plug 'vim-airline/vim-airline-themes'
 
       " Show markers for indents.
       Plug 'Yggdroot/indentLine'
@@ -385,7 +384,7 @@ let s:plug_cache = s:cache_for('plugged')
       set clipboard=unnamedplus
 
     " Allow the cursor to go beyond the line and to make true blocks.
-    set virtualedit+=all
+    set virtualedit=block,onemore
 
     " Yank from cursor to end of line.
     nnoremap Y y$
@@ -418,7 +417,7 @@ let s:plug_cache = s:cache_for('plugged')
 
   " Completion {{{
     " Enable automatically and at startup.
-    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_at_startup = 0
 
     " Auto-select the first completion.
     let g:neocomplete#enable_auto_select = 1
@@ -439,9 +438,9 @@ let s:plug_cache = s:cache_for('plugged')
     let g:endwise_no_mappings = 1
 
     function! s:tab()
-      if neosnippet#jumpable()
-        return "\<plug>(neosnippet_jump)"
-      elseif pumvisible()
+      " if neosnippet#jumpable()
+        " return "\<plug>(neosnippet_jump)"
+      if pumvisible()
         return "\<c-n>"
       elseif neocomplete#complete_common_string() != ''
         return neocomplete#complete_common_string()
@@ -451,10 +450,10 @@ let s:plug_cache = s:cache_for('plugged')
     endfunction
     function! s:cr()
       if pumvisible()
-        if neosnippet#expandable()
-          return "\<plug>(neosnippet_expand)"
-        else
-          return neocomplete#close_popup()
+        " if neosnippet#expandable()
+          " return "\<plug>(neosnippet_expand)"
+        " else
+        return neocomplete#close_popup()
         endif
       else
         return "\<cr>\<plug>DiscretionaryEnd"
@@ -468,8 +467,8 @@ let s:plug_cache = s:cache_for('plugged')
     inoremap <expr> <c-f> neocomplete#complete_common_string()
 
     " Set up extra snippets.
-    let g:neosnippet#enable_snipmate_compatibility = 1
-    let g:neosnippet#snippets_directory = s:plug_cache . '/vim-snippets/snippets'
+    " let g:neosnippet#enable_snipmate_compatibility = 1
+    " let g:neosnippet#snippets_directory = s:plug_cache . '/vim-snippets/snippets'
 
     " Set up filetype-specific options.
     let g:neocomplete#sources#omni#functions      = {}
@@ -486,11 +485,6 @@ let s:plug_cache = s:cache_for('plugged')
             \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
       let g:neocomplete#force_omni_input_patterns.objcpp =
             \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
-
-      " Tell clang_complete to not hijack neocomplete.
-      let g:clang_default_keymappings = 0
-      let g:clang_complete_auto       = 0
-      let g:clang_auto_select         = 0
     " }}}
 
     " Go {{{
@@ -688,7 +682,7 @@ let s:plug_cache = s:cache_for('plugged')
     " Quick access to yanks.
     nnoremap <silent> [unite]y :Unite -buffer-name=yanks history/yank<cr>
     " Quick snippets.
-    nnoremap <silent> [unite]<tab> :Unite -buffer-name=snippets neosnippet<cr>
+    " nnoremap <silent> [unite]<tab> :Unite -buffer-name=snippets neosnippet<cr>
     " Quick grep.
     nnoremap <silent> [unite]/ :Unite -buffer-name=grep grep:.<cr>
     " Quick find.
