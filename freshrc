@@ -148,6 +148,8 @@ fresh pengwynn/dotfiles bin/gitio --bin
 # gnupg: the gnu privacy guard
 fresh config/gnupg/gpg.conf --file=~/.gnupg/gpg.conf
 fresh config/gnupg/gpg-agent.conf --file=~/.gnupg/gpg-agent.conf
+fresh config/gnupg/dirmngr.conf --file=~/.gnupg/dirmngr.conf
+fresh config/gnupg/sks-keyservers.netCA.pem --file=~/.gnupg/sks-keyservers.netCA.pem
 
 # hide: quickly hide a file (by prepending a dot)
 fresh pengwynn/dotfiles bin/hide --bin

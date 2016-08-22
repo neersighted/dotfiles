@@ -134,11 +134,9 @@ if type -fp ndenv >/dev/null 2>&1
    #source (ndenv init -|psub)
 end
 
-# Connect to envoy.
-if type -fp envoy >/dev/null 2>&1
-   envoy -t gpg-agent
-   source (envoy -p|sed -e 's/export/set --global --export/' -e 's/=/ /'|psub)
-end
+# Start gpg-agent...
+gpgconf --launch gpg-agent
+set --global --export SSH_AUTH_SOCK $HOME/.gnupg/S.gpg-agent.ssh
 
 # Check that we are a login shell and are an interactive shell.
 if not [ $TMUX ]; and status --is-login; and status --is-interactive
