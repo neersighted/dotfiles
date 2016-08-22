@@ -134,9 +134,11 @@ if type -fp ndenv >/dev/null 2>&1
    #source (ndenv init -|psub)
 end
 
-# Start gpg-agent...
-gpgconf --launch gpg-agent
+# Set agent variables.
+set --export GPG_TTY (tty)
 set --global --export SSH_AUTH_SOCK $HOME/.gnupg/S.gpg-agent.ssh
+# Ensure the agent is running.
+gpg-connect-agent updatestartuptty /bye >/dev/null
 
 # Check that we are a login shell and are an interactive shell.
 if not [ $TMUX ]; and status --is-login; and status --is-interactive
