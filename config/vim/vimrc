@@ -23,16 +23,12 @@ endif
   let s:is_macvim = has('gui_macvim')
   let s:is_neovim = has('nvim')
 
-  if s:is_windows && !s:is_cygwin
-    let g:vim = '~/Application Data/Vim'
-  elseif s:is_mac
-    let g:vim = '~/Library/Application Support/Vim'
+  if s:is_mac || s:is_windows
+    let g:vim = '~/.vim'
+  elseif exists($XDG_DATA_HOME)
+    let g:vim = $XDG_DATA_HOME . '/vim'
   else
-    if exists($XDG_DATA_HOME)
-      let g:vim = $XDG_DATA_HOME . '/vim'
-    else
-      let g:vim = '~/.local/share/vim'
-    endif
+    let g:vim = '~/.local/share/vim'
   endif
 " }}}
 
@@ -105,10 +101,10 @@ let s:plug_cache = s:cache_for('plugged')
 
 " Install vim-plug {{{
   " Clone vim-plug if we can.
-  if s:is_empty(s:plug)
-    silent execute '!curl -fLo ' . s:plug . 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    autocmd VimEnter * PlugInstall
-  endif
+"  if s:is_empty(s:plug)
+ "   silent execute '!curl -fLo ' . s:plug . ' https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  "  autocmd VimEnter * PlugInstall
+  "endif
 " }}}
 
 " Run vim-plug {{{
@@ -381,7 +377,7 @@ let s:plug_cache = s:cache_for('plugged')
 
   " Selection {{{
     " Use the system clipboard.
-      set clipboard=unnamedplus
+    set clipboard^=unnamed,unnamedplus
 
     " Allow the cursor to go beyond the line and to make true blocks.
     set virtualedit=block,onemore
@@ -708,10 +704,10 @@ let s:plug_cache = s:cache_for('plugged')
 " Appearance {{{
   " Font {{{
     if s:is_macvim
-      set guifont=Source_Code_Pro_Light:h11
+      set guifont=Source_Code_Pro:h11
       set antialias
     else
-      set guifont=Source\ Code\ Pro\ Light\ 7.5
+      set guifont=Source\ Code\ Pro\ 7.5
     endif
   " }}}
 

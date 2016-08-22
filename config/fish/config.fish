@@ -6,7 +6,11 @@
 tput smkx
 
 # Enable colors in ls.
-source (dircolors --c-shell ~/.dircolorsrc|psub)
+if type -fp dircolors >/dev/null 2>&1
+  source (dircolors --c-shell ~/.dircolorsrc|psub)
+else if type -fp gdircolors >/dev/null 2>&1
+  source (gdircolors --c-shell ~/.dircolorsrc|psub)
+end
 
 # Enable color in less.
 set --global --export LESS -R
@@ -43,39 +47,50 @@ set --global --export PATH \
     /usr/{,s}bin \
     /{,s}bin
 
-# Ccache
-if [ -d /usr/lib/ccache/bin ]
+# coreutils
+if test -d /usr/local/opt/coreutils/libexec/gnubin
+    set --global --export PATH \
+    /usr/local/opt/coreutils/libexec/gnubin \
+    $PATH
+end
+
+# ccache
+if test -d /usr/lib/ccache/bin
     set --global --export PATH \
     /usr/lib/ccache/bin \
+    $PATH
+else if test -d /usr/local/opt/ccache/libexec
+    set --global --export PATH \
+    /usr/local/opt/ccache/libexec \
     $PATH
 end
 
 # rbenv
-if [ -d $HOME/.rbenv ]
+if test -d $HOME/.rbenv/bin
     set --global --export PATH \
     $HOME/.rbenv/{bin,shims} \
     $PATH
 end
 # pyenv
-if [ -d $HOME/.pyenv ]
+if test -d $HOME/.pyenv/bin
     set --global --export PATH \
     $HOME/.pyenv/{bin,shims} \
     $PATH
 end
 # ndenv
-if [ -d $ndenv ]
+if test -d $HOME/.ndenv/bin
     set --global --export PATH \
     $HOME/.ndenv/{bin,shims} \
     $PATH
 end
 # perl
-if [ -d /usr/bin/core_perl ]
+if test -d /usr/bin/core_perl
    set --global --export PATH \
    /usr/bin/{core,site,vendor}_perl \
    $PATH
 end
 # go
-if type -fp go >/dev/null
+if type -fp go >/dev/null 2>&1
    set --global --export GOPATH $HOME/.go
    set --global --export PATH \
    $HOME/.go/bin \
@@ -106,31 +121,31 @@ set --global --export TERMINAL st
 #
 
 # Load rbenv.
-if type -fp rbenv >/dev/null
+if type -fp rbenv >/dev/null 2>&1
    source (rbenv init -|psub)
 end
 # Load pyenv.
-if type -fp pyenv >/dev/null
+if type -fp pyenv >/dev/null 2>&1
    source (pyenv init -|psub)
    source (pyenv virtualenv-init -|psub)
 end
 # Load ndenv.
-if type -fp ndenv >/dev/null
+if type -fp ndenv >/dev/null 2>&1
    #source (ndenv init -|psub)
 end
 
 # Connect to envoy.
-if type -fp envoy >/dev/null
+if type -fp envoy >/dev/null 2>&1
    envoy -t gpg-agent
    source (envoy -p|sed -e 's/export/set --global --export/' -e 's/=/ /'|psub)
 end
 
-# Check that we are an not a login shell and are an interactive shell.
-if not status --is-login; and not status --is-interactive
+# Check that we are a login shell and are an interactive shell.
+if not [ $TMUX ]; and status --is-login; and status --is-interactive
    # Run Tmux.
-   if type -fp tmux >/dev/null
+   if type -fp tmux >/dev/null 2>&1
       if tmux has-session -t 0
-         tmux new -t 0
+         tmux new-session -t 0 \; set-option destroy-unattached
       else
          tmux new-session -s 0
       end
@@ -140,7 +155,7 @@ end
 # Clear the startup message.
 set -e fish_greeting
 
-if [ -f $HOME/.config/fish/config.local.fish ]
+if test -f $HOME/.config/fish/config.local.fish
    source $HOME/.config/fish/config.local.fish
 end
 
