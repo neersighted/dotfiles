@@ -76,10 +76,6 @@ fresh config/dunstrc --file=~/.config/dunst/dunstrc
 # dmenu: simple 'graphical' menu
 fresh scripts/dmenu_run.pl --bin
 
-# fonts: those things that let you read words
-fresh config/fonts.conf --file=~/.config/fontconfig/fonts.conf
-fresh fonts --file=~/.local/share/fonts/
-
 # gtk: widget toolkit
 fresh config/gtk/settings.ini --file=~/.config/gtk-3.0/settings.ini
 fresh config/gtk/gtkrc-2.0 --file
