@@ -5,6 +5,7 @@
 [user]
     name = Bjorn Neergaard
     email = bjorn@neersighted.com
+    signingkey = 0x08AAA409549C0EC5
 [credential]
     helper = cache --timeout=3600
 
@@ -14,6 +15,8 @@
 
 [init]
     templatedir = ~/.config/git/template
+[commit]
+    gpgsign = true
 [branch]
     autosetuprebase = always
 [push]
