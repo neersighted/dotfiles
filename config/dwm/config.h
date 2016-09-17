@@ -53,14 +53,11 @@ static const Rule rules[] = {
 	*	WM_NAME(STRING) = title
 	*/
 	/* class                      instance    title       tags mask     isfloating   monitor */
-	{ "st-meta-256color",         "fish",     NULL,       1 << 0,       False,       0 },
-	{ "st-meta-256color",         "vim",      NULL,       1 << 1,       False,       0 },
+	{ "st-meta-256color",         NULL,     NULL,         1 << 0,       False,       0 },
 	{ "Gvim",                     NULL,       NULL,       1 << 1,       False,       0 },
 	{ "libreoffice",              NULL,       NULL,       1 << 1,       False,       0 },
 	{ "Spacefm",                  NULL,       NULL,       1 << 2,       False,       0 },
-	{ "st-meta-256color",         "ranger",   NULL,       1 << 2,       False,       0 },
 	{ "Transmission-remote-gtk",  NULL,       NULL,       1 << 3,       False,       0 },
-	{ "st-meta-256color",         "htop",     NULL,       1 << 4,       False,       0 },
 	{ "Pavucontrol",              NULL,       NULL,       1 << 3,       False,       0 },
 	{ "Paprefs",                  NULL,       NULL,       1 << 3,       False,       0 },
 	{ "Virt-manager",             NULL,       NULL,       1 << 6,       False,       0 },
@@ -75,11 +72,9 @@ static const Rule rules[] = {
 	{ "Popcorntime",              NULL,       NULL,       1 << 2,       False,       1 },
 	{ "Steam",                    NULL,       NULL,       1 << 3,       False,       1 },
 	{ "Thunderbird",              NULL,       NULL,       1 << 4,       False,       1 },
-	{ "st-meta-256color",         "mutt",     NULL,       1 << 4,       False,       1 },
 	{ "Telegram",                 NULL,       NULL,       1 << 5,       False,       1 },
 	{ "telegram",                 NULL,       NULL,       1 << 5,       False,       1 },
 	{ "Skype",                    NULL,       NULL,       1 << 5,       False,       1 },
-	{ "st-meta-256color",         "irssi",    NULL,       1 << 5,       False,       1 },
 
 	{ "feh",                      NULL,       NULL,       0,            True,       -1 },
 	{ "Gimp",                     NULL,       NULL,       0,            True,       -1 },

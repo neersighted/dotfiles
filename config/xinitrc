@@ -58,26 +58,6 @@ xbindkeys &
 # Load keymap.
 xmodmap ~/.Xmodmap &
 
-
-#
-# Foreground
-#
-
-if [ "$NO_AUTOSTART" != 1 ]; then
-  xfish &
-  spacefm &
-  xhtop &
-
-  google-chrome &
-  skype &
-  telegram &
-  thunderbird &
-  spotify &
-  pavucontrol &
-  steam &
-fi
-
-
 #
 # Session
 #
