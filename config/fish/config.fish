@@ -136,7 +136,11 @@ end
 
 # Set agent variables.
 set --export GPG_TTY (tty)
-set --global --export SSH_AUTH_SOCK $HOME/.gnupg/S.gpg-agent.ssh
+if test -e /run/user/(id -u)/gnupg/S.gpg-agent.ssh
+  set --global --export SSH_AUTH_SOCK /run/user/(id -u)/gnupg/S.gpg-agent.ssh
+else
+  set --global --export SSH_AUTH_SOCK $HOME/.gnupg/S.gpg-agent.ssh
+end
 # Ensure the agent is running.
 gpg-connect-agent updatestartuptty /bye >/dev/null
 
