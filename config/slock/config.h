@@ -1,3 +1,6 @@
+static const char *user  = "nobody";
+static const char *group = "nogroup";
+
 static const char *colorname[NUMCOLS] = {
 	"black",   /* after initialization */
 	"#268bd2", /* during input */

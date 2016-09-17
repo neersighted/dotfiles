@@ -1,13 +1,11 @@
 static const char *fonts[] = {
     "Source Code Pro Light:size=7.5",
 };
-static const char dmenufont[]       = "Source Code Pro Light-7.5";
-static const char normbordercolor[] = "#073642";
-static const char normbgcolor[]     = "#002b36";
-static const char normfgcolor[]     = "#93a1a1";
-static const char selbordercolor[]  = "#586e75";
-static const char selbgcolor[]      = "#073642";
-static const char selfgcolor[]      = "#93a1a1";
+static const char *colors[SchemeLast][3]      = {
+	/*               fg         bg         border   */
+	[SchemeNorm] = { "#93a1a1", "#002b36", "#073642" },
+	[SchemeSel] =  { "#93a1a1", "#073642", "#586e75" },
+};
 
 // Status bar.
 static const Bool showbar     = True;
@@ -22,7 +20,7 @@ static const unsigned int snap = 8;
 // Monitor to open dmenu on.
 static char dmenumon[2] = "0";
 
-static const char *dmenucmd[]      = { "dmenu_run.pl", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+static const char *dmenucmd[]      = { "dmenu_run.pl", "-m", dmenumon, NULL };
 static const char *termcmd[]       = { "st", "-c", "fish", NULL };
 static const char *lockcmd[]       = { "xautolock", "-locknow", NULL };
 static const char *locktogglecmd[] = { "xautolock", "-toggle", NULL };

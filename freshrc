@@ -26,7 +26,6 @@ fresh-options --file=~/.config/fish/config.fish --marker
     fresh config/fish/colors.fish
 fresh-options
 fresh config/fish/functions --file=~/.config/fish/functions/
-fresh scripts/xfish --bin
 
 #
 # Editing
@@ -34,7 +33,6 @@ fresh scripts/xfish --bin
 
 # vim: vi improved
 fresh config/vim/vimrc --file
-fresh scripts/xvim --bin
 
 # neovim: vim improved
 fresh config/vim/vimrc --file=~/.nvimrc
@@ -152,7 +150,6 @@ fresh pengwynn/dotfiles bin/hide --bin
 
 # htop: interactive process monitor
 fresh config/htoprc --file=~/.config/htop/htoprc
-fresh scripts/xhtop --bin
 
 # jruby: ruby-on-jvm interperter
 fresh config/jrubyrc --file

@@ -1,16 +1,16 @@
 diff --git a/dwm.c b/dwm.c
-index ff7e096..01e910f 100644
+index 421bf27..06460ba 100644
 --- a/dwm.c
 +++ b/dwm.c
-@@ -260,6 +260,7 @@ static void (*handler[LASTEvent]) (XEvent *) = {
+@@ -262,6 +262,7 @@ static void (*handler[LASTEvent]) (XEvent *) = {
  };
  static Atom wmatom[WMLast], netatom[NetLast];
  static int running = 1;
 +static int restart = 0;
  static Cur *cursor[CurLast];
- static ClrScheme scheme[SchemeLast];
+ static Scm scheme[SchemeLast];
  static Display *dpy;
-@@ -1270,6 +1271,8 @@ propertynotify(XEvent *e)
+@@ -1268,6 +1269,8 @@ propertynotify(XEvent *e)
  void
  quit(const Arg *arg)
  {
@@ -19,7 +19,7 @@ index ff7e096..01e910f 100644
  	running = 0;
  }
  
-@@ -2140,6 +2143,8 @@ main(int argc, char *argv[])
+@@ -2134,6 +2137,8 @@ main(int argc, char *argv[])
  	setup();
  	scan();
  	run();

@@ -2,7 +2,7 @@
 
 _pkgname=gvim
 pkgname=gvim-neersighted
-pkgver=7.4.1577.r0.gab1fa39
+pkgver=8.0.0005.r1.gd079690
 pkgrel=1
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor'
 url='http://www.vim.org/'

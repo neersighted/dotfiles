@@ -2,7 +2,7 @@
 
 _pkgname=dmenu
 pkgname=dmenu-neersighted
-pkgver=bf3deb6
+pkgver=026827f
 pkgrel=1
 pkgdesc='A dynamic menu for X'
 url='http://tools.suckless.org/dmenu'
