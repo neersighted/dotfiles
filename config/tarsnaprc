@@ -1,6 +1,0 @@
-print-stats
-humanize-numbers
-
-nodump
-
-checkpoint-bytes 1G

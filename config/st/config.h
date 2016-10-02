@@ -70,12 +70,12 @@ static float chscale = 1.0;
 static unsigned int xfps      = 120;
 static unsigned int actionfps = 30;
 
-static char termname[]     = "st-meta-256color";
-static int allowaltscreen = 1;
+static char termname[]     = "st-256color";
+static int allowaltscreen  = 1;
 static char vtiden[]       = "\033[?6c";
 
 static char shell[]        = "/usr/bin/fish";
-static char stty_args[]    = "stty raw -echo -iexten echonl";
+static char stty_args[]    = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 static char *utmp          = NULL;
 
 #define MODKEY Mod1Mask

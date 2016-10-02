@@ -48,16 +48,6 @@ fresh scripts/clang-flags-native --bin
 fresh scripts/gcc-flags-native --bin
 
 #
-# Search
-#
-
-# ack: better than grep
-fresh config/agrc --file=~/.ackrc
-
-# ag: better than ack
-fresh config/agrc --file
-
-#
 # Graphical
 #
 
@@ -187,9 +177,6 @@ fresh config/gemrc --file
 
 # sprunge: curl-based pastebin
 fresh falconindy/bin-scripts sprunge --bin
-
-# tarsnap: encrypted backups for the truly paranoid
-fresh config/tarsnaprc --file
 
 # trunc: truncate files
 fresh pengwynn/dotfiles bin/trunc --bin

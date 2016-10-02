@@ -108,12 +108,11 @@ end
 # Set programs.
 set --global --export EDITOR vim
 set --global --export PAGER less
-set --global --export GREPER ag
+set --global --export GREPER rg
 set --global --export EXPLORER spacefm
 set --global --export MEDIA_PLAYER mpv
 set --global --export IMAGE_VIEWER feh
 set --global --export BROWSER google-chrome
-set --global --export MAILER thunderbird
 set --global --export TERMINAL st
 
 #
