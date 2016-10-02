@@ -145,7 +145,7 @@ end
 gpg-connect-agent updatestartuptty /bye >/dev/null
 
 # Check that we are a login shell and are an interactive shell.
-if not [ $TMUX ]; and status --is-login; and status --is-interactive
+if not [ $TMUX ]; and not status --is-login; and status --is-interactive
    # Run Tmux.
    if type -fp tmux >/dev/null 2>&1
       if tmux has-session -t 0

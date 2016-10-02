@@ -37,7 +37,7 @@ package() {
   cd "${srcdir}/st"
 
   # Install the program.
-  make PREFIX=/usr DESTDIR="${pkgdir}" TERMINFO="${pkgdir}/usr/share/terminfo" install
+  make PREFIX=/usr DESTDIR="${pkgdir}" install
 
   # Install the license.
   install -Dm644 LICENSE \
