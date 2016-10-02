@@ -145,15 +145,17 @@ end
 gpg-connect-agent updatestartuptty /bye >/dev/null
 
 # Check that we are a login shell and are an interactive shell.
-if not [ $TMUX ]; and not status --is-login; and status --is-interactive
-   # Run Tmux.
-   if type -fp tmux >/dev/null 2>&1
+if type -fp tmux >/dev/null 2>&1
+  if not [ $TMUX ]; and status --is-interactive
+    if [ (uname) != "Darwin" ]; and not status --is-login; or [ (uname) = "Darwin" ]
+      # Run Tmux.
       if tmux has-session -t 0
-         tmux new-session -t 0 \; set-option destroy-unattached
+        tmux new-session -t 0 \; set-option destroy-unattached
       else
-         tmux new-session -s 0
+        tmux new-session -s 0
       end
-   end
+    end
+  end
 end
 
 # Clear the startup message.
