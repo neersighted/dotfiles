@@ -92,17 +92,6 @@ fresh config/xinitrc --file=~/.xsession
 fresh config/xserverrc --file
 
 #
-# Audio
-#
-
-# alsa: advanced linux sound architecture
-fresh config/asoundrc --file
-
-# pulse: pulseaudio sound server
-fresh config/pulse/default.pa --file=~/.config/pulse/default.pa
-fresh config/pulse/daemon.conf --file=~/.config/pulse/daemon.conf
-
-#
 # Utilities
 #
 

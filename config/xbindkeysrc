@@ -1,31 +1,13 @@
-# Toggle Compositing.
-"compton-toggle"
-    Mod4 + b
+# Adjust audio.
+"amixer set PCM 5%+"
+    XF86AudioRaiseVolume
+"amixer set PCM 5%-"
+    XF86AudioLowerVolume
+"amixer set PCM toggle"
+    XF86AudioMute
 
-# Play/Pause
-"playerctl play-pause"
-    XF86AudioPlay
-    Mod4 + Insert
-
-# Stop
-"playerctl stop"
-    XF86AudioStop
-    Mod4 + Delete
-
-# Next
-"playerctl next"
-    XF86AudioNext
-    Mod4 + End
-
-# Previous
-"playerctl previous"
-    XF86AudioPrev
-    Mod4 + Home
-
-# Toggle CD/DVD drive 1
+# Toggle CD/DVD drive
 "eject -T /dev/sr0"
     XF86Eject
-
-# Toggle CD/DVD drive 2
 "eject -T /dev/sr1"
     Shift + XF86Eject

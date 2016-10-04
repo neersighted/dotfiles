@@ -456,8 +456,8 @@ let s:plug_cache = s:cache_for('plugged')
       endif
     endfunction
 
-    imap <expr> <cr> <sid>cr()
-    imap <expr> <tab> <sid>tab()
+    "imap <expr> <cr> <sid>cr()
+    "imap <expr> <tab> <sid>tab()
     inoremap <expr> <esc> pumvisible() ? neocomplete#cancel_popup() : '<esc>'
     inoremap <expr> <c-c> pumvisible() ? neocomplete#cancel_popup() : '<c-c>'
     inoremap <expr> <c-f> neocomplete#complete_common_string()

@@ -2,7 +2,7 @@
 
 _pkgname=gvim
 pkgname=gvim-neersighted
-pkgver=8.0.0019.r1.g2ec618c
+pkgver=8.0.0020.r0.g6100d02
 pkgrel=1
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor'
 url='http://www.vim.org/'
@@ -13,10 +13,10 @@ source=('git+https://github.com/vim/vim.git'
 sha256sums=('SKIP'
             '46dff79072746c2199b8d6ab77936ee72beb4abea83a4c03a7b9174379e8e56a')
 arch=('i686' 'x86_64')
-depends=('gtk2' 'gdk-pixbuf2' 'pango' 'glib2' 'libsm' 'libice' 'libxt'; 'libx11'; 'glibc' 'ncurses' 'acl' 'lua' 'perl' 'python' 'python2' 'ruby')
+depends=('gtk2' 'gdk-pixbuf2' 'pango' 'glib2' 'libsm' 'libice' 'libxt' 'libx11' 'glibc' 'ncurses' 'acl' 'lua' 'perl' 'python' 'python2' 'ruby')
 makedepends=('git')
-conflicts=('vim' 'gvim' 'vim-runtime')
-provides=('vim' 'gvim' 'vim-runtime')
+conflicts=('vi' 'vim' 'gvim' 'vim-runtime')
+provides=('vi' 'vim' 'gvim' 'vim-runtime')
 
 pkgver() {
   cd vim
@@ -56,13 +56,7 @@ package() {
   # Install the program.
   make DESTDIR=${pkgdir} install
 
-  # These are provided by (n)vi.
-  rm ${pkgdir}/usr/bin/ex
-  rm ${pkgdir}/usr/bin/view
-  shopt -s globstar
-    rm ${pkgdir}/usr/share/man/**/ex.1*
-    rm ${pkgdir}/usr/share/man/**/view.1*
-  shopt -u globstar
+  ln -s /usr/bin/vim ${pkgdir}/usr/bin/vi
 
   # Install the XDG files.
   install -Dm644 ${srcdir}/gvim.desktop ${pkgdir}/usr/share/applications/gvim.desktop

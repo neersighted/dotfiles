@@ -43,8 +43,6 @@ devmon --info-on-mount &
 dunst &
 # Start lightweight polkit agent.
 lxpolkit &
-# Start PulseAudio (sound server).
-start-pulseaudio-x11 &
 # Start Redshift (screen tinter).
 redshift &
 # Start SpaceFM daemon (file manager).
