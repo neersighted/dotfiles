@@ -114,7 +114,7 @@ fresh pengwynn/dotfiles bin/gitio --bin
 # gnupg: the gnu privacy guard
 fresh scripts/pinentry --bin
 fresh config/gnupg/gpg.conf --file=~/.gnupg/gpg.conf
-fresh config/gnupg/gpg-agent.conf --filter=erb --file=~/.gnupg/gpg-agent.conf
+fresh config/gnupg/gpg-agent.conf --filter="sed s#HOME#$HOME#" --file=~/.gnupg/gpg-agent.conf
 fresh config/gnupg/dirmngr.conf --file=~/.gnupg/dirmngr.conf
 fresh config/gnupg/sks-keyservers.netCA.pem --file=~/.gnupg/sks-keyservers.netCA.pem
 
