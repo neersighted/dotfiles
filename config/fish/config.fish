@@ -25,9 +25,6 @@ test -d /usr/local/opt/coreutils/libexec/gnubin; and set --global --export PATH 
 
 for xenv in rbenv pyenv ndenv
   test -d $HOME/.$xenv/bin; and set --global --export PATH $HOME/.$xenv/{bin,shims} $PATH
-  if type -fp $xenv >/dev/null 2>&1
-    source (eval "$xenv init -|psub")
-  end
 end
 test -d /usr/bin/core_perl; and set --global --export PATH /usr/bin/{core,site,vendor}_perl $PATH
 type -fp go >/dev/null 2>&1; and set --global --export GOPATH $HOME/.go; and set --global --export PATH $GOPATH/bin $PATH
