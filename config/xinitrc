@@ -1,75 +1,44 @@
 #!/usr/bin/env bash
 
+# Default to dwm.
+export DESKTOP_SESSION=${1:-dwm}
+
+# Load profile.
+for f in "/etc/profile" "$HOME/.profile" "/etc/xprofile" "$HOME/.xprofile"; do
+  [ -f "$f" ] && . "$f"
+done
+
+# Load resources.
+for f in "/etc/X11/Xresources" "$HOME/.Xresources"; do
+  [ -f "$f" ] && xrdb -merge "$f"
+done
+
+# Load keymaps.
+for f in "/etc/X11/Xkbmap" "$HOME/.Xkbmap"; do
+  [ -f "$file" ] && setxkbmap < "$f" && XKB=1
+done
+# Load xmodmap if not using keymaps.
+if [ ! "$XKB" -eq 1 ]; then
+  for f in "/etc/X11/Xmodmap" "$HOME/.Xmodmap"; do
+    [ -f "$f" ] && xmodmap "$f"
+  done
+fi
+unset XKB
+
 # Load global config.
 if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
   [ -x "$f" ] && . "$f"
  done
- unset f
 fi
 
-# Load local config.
-if [ -f $HOME/.xinitrc.local ]; then
-  source $HOME/.xinitrc.local
-fi
+# Load user config.
+for f in "$HOME/.xsession" "$HOME/.xsession.local"; do
+  [ -f "$file" ] && . "$f"
+done
 
-#
-# Environment
-#
-
-# Make sure to allow tmux.
-unset TMUX
-
-#
-# Hardware
-#
-
-# Disable DPMS; xautolock manages this.
-xset dpms 0 0 0
-# Disable screen blanking; xautolock/slock manages this.
-xset s off
-
-#
-# Background
-#
-
-# Load the background with nitrogen.
-nitrogen --restore &
-# Start compton (X compositor).
-compton &
-# Start devmon (userspace auto-mounter).
-devmon --info-on-mount &
-# Start dunst (notification daemon).
-dunst &
-# Start lightweight polkit agent.
-lxpolkit &
-# Start Redshift (screen tinter).
-redshift &
-# Start SpaceFM daemon (file manager).
-spacefm -d &
-# Start unclutter (mouse hiding daemon).
-unclutter &
-# Start xautolock (screen locker/timer).
-xautolock -locker xlock -time 5 -corners ---- &
-# Start xbindkeys (keyboard mapping daemon).
-xbindkeys &
-# Load keymap.
-xmodmap ~/.Xmodmap &
-
-#
-# Session
-#
-
-# Default to dwm.
-session=${1:-dwm}
-
-# Run dwm status daemon if we're running dwm.
-if [ $session == "dwm" ]; then
-  dwmstatus &
-fi
-
-case $session in
+case $DESKTOP_SESSION in
     dwm) exec dwm;;
     i3 ) exec i3;;
-    *  ) exec $session;;
+    *  ) exec $DESKTOP_SESSION;;
 esac

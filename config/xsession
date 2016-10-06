@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+#
+# Environment
+#
+
+# Get my path in there.
+export PATH="$HOME/bin:$PATH"
+# Make sure to allow tmux.
+unset TMUX
+
+#
+# Hardware
+#
+
+# Set display timeout.
+xset s 300 300
+xset dpms 300 300 300
+
+#
+# Background
+#
+
+# Start unclutter (mouse hiding daemon).
+pgrep -f unclutter >/dev/null || unclutter &
+# Start xss-lock (screen locker daemon).
+pgrep -f xss-lock >/dev/null || xss-lock -- xlock &
+# Start xbindkeys (keyboard mapping daemon).
+pgrep -f xbindkeys >/dev/null || xbindkeys &
+
+# Start compton (X compositor).
+pgrep -f compton >/dev/null || compton &
+# Start Redshift (screen tinter).
+pgrep -f redshift >/dev/null || redshift &
+
+# Start devmon (userspace auto-mounter).
+pgrep -f devmon >/dev/null || devmon --info-on-mount &
+# Start SpaceFM daemon (file manager).
+pgrep -f 'spacefm -d' >/dev/null || spacefm -d &
+
+# Start dunst (notification daemon).
+pgrep -f dunst >/dev/null || dunst &
+# Start lightweight polkit agent.
+pgrep -f lxpolkit >/dev/null || lxpolkit &
+
+# Run dwm status daemon if we're running dwm.
+test "$DESKTOP_SESSION" = "dwm" && pgrep -f dwmstatus >/dev/null || dwmstatus &

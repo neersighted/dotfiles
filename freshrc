@@ -88,7 +88,7 @@ fresh config/Xresources --file
 
 # x: the x display server
 fresh config/xinitrc --file
-fresh config/xinitrc --file=~/.xsession
+fresh config/xsession --file
 fresh config/xserverrc --file
 
 #
@@ -183,5 +183,9 @@ fresh-options
 
 # youtube: video sharing site (how quaint)
 fresh scripts/yt --bin
+
+fresh_after_build () {
+    chmod +x ~/.fresh/build/xsession
+}
 
 # vi:ft=sh:

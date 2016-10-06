@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-( slock && xset force on ) &
-( xset dpms force off )
+( slock ) &
+( sleep 1; xset dpms force off )

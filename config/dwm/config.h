@@ -22,8 +22,7 @@ static char dmenumon[2] = "0";
 
 static const char *dmenucmd[]      = { "dmenu_run.pl", "-m", dmenumon, NULL };
 static const char *termcmd[]       = { "st", "-c", "fish", NULL };
-static const char *lockcmd[]       = { "xautolock", "-locknow", NULL };
-static const char *locktogglecmd[] = { "xautolock", "-toggle", NULL };
+static const char *lockcmd[]       = { "loginctl", "lock-session", NULL };
 
 // Number of master windows.
 static const int nmaster = 1;
@@ -92,7 +91,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = dmenucmd} },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd} },
 	{ MODKEY,                       XK_grave,  spawn,          {.v = lockcmd} },
-	{ MODKEY|ShiftMask,             XK_grave,  spawn,          {.v = locktogglecmd} },
 	{ MODKEY,                       XK_Escape, killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_Escape, quit,           {0} },
 	{ MODKEY|ControlMask|ShiftMask, XK_Escape, quit,           {1} },

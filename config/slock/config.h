@@ -3,7 +3,7 @@ static const char *group = "nobody";
 
 static const char *colorname[NUMCOLS] = {
 	"black",   /* after initialization */
-	"#268bd2", /* during input */
+	"#002b36", /* during input */
 	"#dc322f", /* failed/cleared the input */
 };
 static const Bool failonclear = True;
