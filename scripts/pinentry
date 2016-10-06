@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+case $PINENTRY_USER_DATA in
+  curses) exec pinentry-curses "$@";;
+  gnome ) exec pinentry-gnome3 "$@";;
+  gtk   ) exec pinentry-gtk-2 "$@";;
+  mac   ) exec pinentry-mac "$@";;
+  qt    ) exec pinentry-qt "$@";;
+  tty   ) exec pinentry-tty "$@";;
+  *     ) exec pinentry-curses "$@";;
+esac

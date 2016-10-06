@@ -38,7 +38,7 @@ for f in "$HOME/.xsession" "$HOME/.xsession.local"; do
 done
 
 case $DESKTOP_SESSION in
-    dwm) exec dwm;;
-    i3 ) exec i3;;
-    *  ) exec $DESKTOP_SESSION;;
+  dwm) exec dwm;;
+  i3 ) exec i3;;
+  *  ) exec $DESKTOP_SESSION;;
 esac
