@@ -24,6 +24,7 @@ test -d /usr/local/opt/ccache/libexec; and set --global --export PATH /usr/local
 test -d /usr/local/opt/coreutils/libexec/gnubin; and set --global --export PATH /usr/local/opt/coreutils/libexec/gnubin $PATH # osx
 
 for xenv in rbenv pyenv ndenv
+  test -d $HOME/.$xenv/shims; or mkdir -p $HOME/.$xenv/shims
   test -d $HOME/.$xenv/bin; and set --global --export PATH $HOME/.$xenv/{bin,shims} $PATH
 end
 test -d /usr/bin/core_perl; and set --global --export PATH /usr/bin/{core,site,vendor}_perl $PATH
@@ -41,7 +42,6 @@ test -f $HOME/.config/fish/config.local.fish; and source $HOME/.config/fish/conf
 # Startup
 
 set -e fish_greeting # shut up
-tput smkx # fix backspace in st
 
 gpg-connect-agent /bye >/dev/null 2>&1
 set --global --export GPG_TTY (tty)
@@ -51,4 +51,12 @@ if type -fp tmux >/dev/null 2>&1; and not [ $TMUX ]; and status --is-interactive
   if [ (uname) != "Darwin" ]; and not status --is-login; or [ (uname) = "Darwin" ]
     tmux has-session -t 0; and tmux new-session -t 0 \; set-option destroy-unattached; or tmux new-session -s 0
   end
+end
+
+tput smkx ^/dev/null # fix backspace in st
+function fish_enable_keypad_transmit --on-event fish_postexec
+    tput smkx ^/dev/null
+end
+function fish_disable_keypad_transmit --on-event fish_preexec
+    tput rmkx ^/dev/null
 end

@@ -30,6 +30,9 @@ fresh config/vim/vimrc --file
 # neovim: vim improved
 fresh config/vim/vimrc --file=~/.nvimrc
 
+# readline: terminal-based input
+fresh config/inputrc --file
+
 #
 # Compilers
 #
