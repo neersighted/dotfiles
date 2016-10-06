@@ -1,8 +1,0 @@
-[Unit]
-Description  = User Programs
-Wants        = window-manager.target
-After        = window-manager.target
-AllowIsolate = true
-
-[Install]
-Alias = default.target
