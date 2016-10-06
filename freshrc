@@ -6,13 +6,6 @@
 fresh freshshell/fresh bin/fresh --bin
 
 #
-# System
-#
-
-# bcache: block device cache
-fresh scripts/bcache-status --bin
-
-#
 # Shell
 #
 
