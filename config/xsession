@@ -9,6 +9,9 @@ export PATH="$HOME/bin:$PATH"
 # Make sure to allow tmux.
 unset TMUX
 
+# Let GPG know we're in X now (it grabs $DISPLAY)...
+unset GPG_TTY; gpg-connect-agent updatestartuptty /bye >/dev/null
+
 #
 # Hardware
 #
