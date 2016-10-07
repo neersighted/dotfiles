@@ -28,8 +28,8 @@ for xenv in rbenv pyenv ndenv
   test -d $HOME/.$xenv/bin; and set --global --export PATH $HOME/.$xenv/{bin,shims} $PATH
 end
 test -d /usr/bin/core_perl; and set --global --export PATH /usr/bin/{core,site,vendor}_perl $PATH
-type -fp go >/dev/null 2>&1; and set --global --export GOPATH $HOME/.go; and set --global --export PATH $GOPATH/bin $PATH
-test -d $GOPATH; or mkdir -p $GOPATH
+set --global --export GOPATH $HOME/.go; test -d $GOPATH/bin; or mkdir -p $GOPATH/bin
+set --global --export PATH $GOPATH/bin $PATH
 
 for dircolors in {,g}dircolors
   type -fp $dircolors >/dev/null 2>&1; and source (eval "$dircolors --c-shell ~/.dircolorsrc|psub")
@@ -43,20 +43,22 @@ test -f $HOME/.config/fish/config.local.fish; and source $HOME/.config/fish/conf
 
 set -e fish_greeting # shut up
 
-gpg-connect-agent /bye >/dev/null 2>&1
-set --global --export GPG_TTY (tty)
-set --global --export SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+if status --is-interactive
+  set --global --export GPG_TTY (tty)
+  set --global --export SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+  gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
 
-if type -fp tmux >/dev/null 2>&1; and not [ $TMUX ]; and status --is-interactive
-  if [ (uname) != "Darwin" ]; and not status --is-login; or [ (uname) = "Darwin" ]
-    tmux has-session -t 0; and tmux new-session -t 0 \; set-option destroy-unattached; or tmux new-session -s 0
+  if test -z "$TMUX"; and test -z "$SSH_CLIENT" ]; and test -z "$SSH_TTY"
+    if not status --is-login; or test (uname) = "Darwin"
+      tmux has-session -t 0; and tmux new-session -t 0 \; set-option destroy-unattached; or tmux new-session -s 0
+    end
   end
-end
 
-tput smkx ^/dev/null # fix backspace in st
-function fish_enable_keypad_transmit --on-event fish_postexec
+  tput smkx ^/dev/null # fix backspace in st
+  function fish_enable_keypad_transmit --on-event fish_postexec
     tput smkx ^/dev/null
-end
-function fish_disable_keypad_transmit --on-event fish_preexec
+  end
+  function fish_disable_keypad_transmit --on-event fish_preexec
     tput rmkx ^/dev/null
+  end
 end
