@@ -48,7 +48,7 @@ if status --is-interactive
   set --global --export SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
   gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
 
-  if test -z "$TMUX"; and test -z "$SSH_CLIENT" ]; and test -z "$SSH_TTY"
+  if test -z "$TMUX"; and test -z "$SSH_CLIENT"; and test -z "$SSH_TTY"
     if not status --is-login; or test (uname) = "Darwin"
       tmux has-session -t 0; and tmux new-session -t 0 \; set-option destroy-unattached; or tmux new-session -s 0
     end
