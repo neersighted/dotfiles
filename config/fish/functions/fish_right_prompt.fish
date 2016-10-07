@@ -1,22 +1,18 @@
 function fish_right_prompt --description 'right prompt'
   set -l last_status $status
-
-  if set -q minimal; return; end
-
-  set_color normal
+  set -q minimal; and return
 
   set_color $fish_color_cwd
   printf ' %s' (prompt_pwd)
-
   set_color normal
+
   printf '%s' (__fish_git_prompt)
 
   if not test $last_status -eq 0
     set_color $fish_color_error
     printf ' [%i]' $last_status
+    set_color normal
   end
-
-  set_color normal
 end
 
 set -g __fish_git_prompt_show_informative_status 1
