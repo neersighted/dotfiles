@@ -1,313 +1,158 @@
-"
-" Profiling
-"
-
+" Profile startup time.
 if has('vim_starting')
-    let startup = reltime()
-    autocmd VimEnter * let ready = reltime(startup) | redraw | echo reltimestr(ready)
+  let startup = reltime()
+  autocmd VimEnter * let ready = reltime(startup) | redraw | echo reltimestr(ready)
 endif
 
-"
-" System Detection
-"
+" Variables
 
-" Platform Variables {{{
-  let s:is_windows = has('win32') || has('win64')
-  let s:is_cygwin  = has('win32unix')
-  let s:is_mac     = match(system('uname'), 'Darwin') != -1
+if !empty($XDG_DATA_HOME)
+  let g:vim = $XDG_DATA_HOME . '/vim'
+else
+  let g:vim = '~/.vim'
+endif
 
-  let s:is_gui    = has('gui_running')
-  let s:is_gtk    = has('gui_gtk2')
-  let s:is_macvim = has('gui_macvim')
-  let s:is_neovim = has('nvim')
+let s:is_linux   = match(system('uname'), 'Linux') != -1
+let s:is_mac     = match(system('uname'), 'Darwin') != -1
+let s:is_windows = has('win32') || has('win64')
+let s:is_cygwin  = has('win32unix')
 
-  if !empty($XDG_DATA_HOME)
-    let g:vim = $XDG_DATA_HOME . '/vim'
-  else
-    let g:vim = '~/.vim'
-  endif
-" }}}
+let s:is_gui     = has('gui_running')
+let s:is_gtk     = has('gui_gtk2')
+let s:is_macvim  = has('gui_macvim')
+let s:is_neovim  = has('nvim')
 
-"
 " Functions
-"
 
-" Platform Functions {{{
-  " Check if a directory is empty/does not exist.
-  function! s:is_empty(dir)
-    return empty(glob(expand(a:dir)))
-  endfunction
+function! s:is_empty(dir) " Checks if a directory is empty.
+  return empty(glob(expand(a:dir)))
+endfunction
 
-  " Make sure a directory exists.
-  function! s:mkdir_p(dir)
-    let dir = expand(a:dir)
+function! s:mkdir_p(dir) " Ensures a directory exists.
+  let dir = expand(a:dir)
+  if s:is_empty(dir) && !isdirectory(dir)
+    try
+      call mkdir(target, 'p')
+    catch
+      " On some platforms mkdir() does not exist.
+      silent execute '!mkdir -p ' . dir
+    endtry
+  endif
+endfunction
 
-    if s:is_empty(dir) && !isdirectory(dir)
-      try
-        call mkdir(target, 'p')
-      catch
-        " On some platforms mkdir() does not exist.
-        silent execute '!mkdir -p ' . dir
-      endtry
+function! s:cache_for(for) " Provides a named folder in the Vim cache.
+  let dir = resolve(expand(g:vim . '/' . a:for))
+  call s:mkdir_p(dir)
+  return dir
+endfunction
+
+function! s:try(cmd, default) " Try a command, and if it fails try another.
+  if exists(':' . a:cmd) && !v:count
+    let tick = b:changedtick
+    execute a:cmd
+    if tick == b:changedtick
+      execute join(['normal!', a:default])
     endif
-  endfunction
+  else
+    execute join(['normal! ', v:count, a:default], '')
+  endif
+endfunction
 
-  " Get the (platform dependant) cache location.
-  function! s:cache_for(for)
-    let dir = resolve(expand(g:vim . '/' . a:for))
+function! s:preserve(cmd) " Execute a command without altering position/history.
+  let old_search = @/
+  let cursor_l = line('.')
+  let cursor_c = col('.')
+  execute a:cmd
+  let @/ = old_search
+  call cursor(cursor_l, cursor_c)
+endfunction
 
-    call s:mkdir_p(dir)
-    return dir
-  endfunction
-" }}}
-
-" Utility Functions {{{
-  " Execute a command without moving or clobbering search.
-  " Stolen from bling.vim <3
-  function! Preserve(command)
-    " Preserve the position and search.
-    let old_search = @/
-    let cursor_l = line('.')
-    let cursor_c = col('.')
-
-    " Do the dirty work.
-    execute a:command
-
-    " Restore the old data.
-    let @/ = old_search
-    call cursor(cursor_l, cursor_c)
-  endfunction
-
-  function! KillTrailingWhitespace()
-      call Preserve('%s/\s\+$//e')
-  endfunction
-" }}}
-
-"
 " Plugins
-"
 
-" Set runtimepath.
+if s:is_empty(g:vim . '/autoload/plug.vim')
+  silent execute '!curl -fLo ' . g:vim . '/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
+
 silent execute 'set runtimepath+=' . g:vim
+call plug#begin(s:cache_for('plugged'))
 
-" Set paths.
-let s:autoload   = s:cache_for('autoload')
-let s:plug       = s:autoload . '/plug.vim'
-let s:plug_cache = s:cache_for('plugged')
+" Dependencies...
+Plug 'tpope/vim-dispatch' " Async adapters for running Vim's compiler plugins, or arbitrary commands.
+Plug 'tpope/vim-repeat' " Repeat support for arbitrary plugins.
 
-" Install vim-plug {{{
-  " Clone vim-plug if we can.
-"  if s:is_empty(s:plug)
- "   silent execute '!curl -fLo ' . s:plug . ' https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  "  autocmd VimEnter * PlugInstall
-  "endif
-" }}}
+" Fixes and Tweaks
+Plug 'tpope/vim-sensible' " Sane defaults for Vim.
+Plug 'drmikehenry/vim-fixkey' " Hacks to fix escape sequences (in tmux, etc).
+Plug 'talek/obvious-resize' " Intiutive split resizing.
+Plug 'tpope/vim-vinegar' " Enhancements for netrw.
+Plug 'tpope/vim-characterize' " Modernize 'ga', the character info command.
+Plug 'kopischke/vim-stay' " Restore/preserve views.
 
-" Run vim-plug {{{
-  " Set defaults.
-  set nocompatible
+" Integration
+Plug 'kopischke/vim-fetch' " Open files to line:column.
+Plug 'tpope/vim-eunuch' " Helpers for unix commands.
+Plug 'johnsyweb/vim-makeshift' " Auto detect the build command.
+Plug 'ludovicchabant/vim-gutentags' " Automatic tag generation.
 
-  " Load vim-plug.
-  call plug#begin(s:plug_cache)
-" }}}
+" Interface
+Plug 'mhinz/vim-startify' " A simple startup screen.
+Plug 'vim-airline/vim-airline' " A lightweight, well-integrated status bar.
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-ctrlspace/vim-ctrlspace' " A fuzzy-search driven interface for Vim.
+Plug 'mhinz/vim-grepper' " A wrapper around all things grep.
+Plug 'mbbill/undotree' " A visualization of Vim's undo branches.
+Plug 'mhinz/vim-signify' " VCS diffs directly in the gutter.
 
-  " Plugins {{{
-    " Libraries {{{
-      " Background and asynchronous process support.
-      Plug 'Shougo/vimproc', { 'do': 'make' }
-      " Async adapters for running Vim's compiler plugins, or arbitrary commands.
-      Plug 'tpope/vim-dispatch'
+" Editing
+Plug 'tpope/vim-unimpaired' " Pairs of complementary mappings.
+Plug 'tpope/vim-commentary' " Bindings to comment/uncomment code.
+Plug 'tpope/vim-speeddating' " Easily increment and decrement dates.
+Plug 'tommcdo/vim-exchange' " Exchange text based on motions.
+Plug 'AndrewRadev/splitjoin.vim' " Split and join statements intelligently.
 
-      " Psuedo-command line support.
-      Plug 'junegunn/vim-pseudocl'
-      " Repeat support for arbitrary plugins.
-      Plug 'tpope/vim-repeat'
-      " A library for making text objects.
-      Plug 'kana/vim-textobj-user'
-    " }}}
+" Selection
+Plug 'terryma/vim-multiple-cursors' " Multiple cursors and selection.
+Plug 'terryma/vim-expand-region' " Syntactically expand the selection.
 
-    " Fixes/Tweaks {{{
-      " Sane defaults.
-      Plug 'tpope/vim-sensible'
+" Formatting
+Plug 'tpope/vim-sleuth' " Auto-detect indent settings.
+Plug 'junegunn/vim-easy-align' " Align text objects using verbs.
+Plug 'jiangmiao/auto-pairs' " Automatically close delimiters (incl quotes, parenthesis, etc).
+Plug 'tpope/vim-endwise' " Automatically end block constructs in supported languages.
 
-      " Restore/preserve views.
-      Plug 'kopischke/vim-stay'
-      " More conservative fold updates.
-      Plug 'Konfekt/FastFold'
+" Navigation
+Plug 'pgdouyon/vim-evanesco' " A better, auto-clearing /...
+Plug 'kshenoy/vim-signature' " Simple tool to manage and visualize marks.
+Plug 'tommcdo/vim-kangaroo' " Simple, manual jump-stack.
 
-      " Auto-detect indent settings.
-      Plug 'tpope/vim-sleuth'
-      " Auto detect the build command.
-      Plug 'johnsyweb/vim-makeshift'
-      " Open files to line:column.
-      Plug 'kopischke/vim-fetch'
+" Motions/Text Objects
+Plug 'justinmk/vim-sneak' " The missing motion, a mid-range two-character seek (and EasyMotion replacement).
+Plug 'tpope/vim-surround' " Motions to manipulate the surroundings of a text object.
+Plug 'tommcdo/vim-ninja-feet' " Motions to the ends of a text object.
+Plug 'wellle/targets.vim' " A collection of many useful text objects (such as remote, next, etc).
 
-      " Close buffers without changing the layout.
-      Plug 'moll/vim-bbye'
-      " Use intuitive resize directions.
-      Plug 'talek/obvious-resize'
+" Support
+Plug 'sheerun/vim-polyglot' " Batterie-included language support pack.
+Plug 'tpope/vim-fugitive' " Tools and syntax highlighting for Git.
+Plug 'jamessan/vim-gnupg' " Support for GnuPG/PGP-encrypted files.
 
-      " Smooth scrolling.
-      Plug 'terryma/vim-smooth-scroll'
-      " Fix terminal key sequences.
-      Plug 'drmikehenry/vim-fixkey'
+" Highlighting
+Plug 'altercation/vim-colors-solarized' " My preffered colorscheme.
+Plug 'luochen1990/rainbow', { 'on': 'RainbowToggle' } " Parenthesis visualization.
+Plug 'Yggdroot/indentLine' " Show markers for indents.
 
-      " Make Vim's build in character info command support more things.
-      Plug 'tpope/vim-characterize'
-    " }}}
+call plug#end()
 
-    " Unite {{{
-      " Unified fuzzy interface to any (implemented) source.
-      Plug 'Shougo/unite.vim'
+" Configuration
 
-      Plug 'Shougo/unite-session'
-      Plug 'Shougo/neomru.vim'
-      Plug 'Shougo/unite-outline'
-      Plug 'tsukkee/unite-tag'
-      Plug 'thinca/vim-unite-history'
-      Plug 'Shougo/unite-help'
-" }}}
+" Core
+set hidden " Allow backgrounding buffers.
 
-    " Editing {{{
-      " Commentary adds key bindings to easily comment and uncomment code.
-      Plug 'tpope/vim-commentary'
-      " Align text with verbs!
-      Plug 'junegunn/vim-easy-align'
-
-      " Surround.vim adds support for manipulating the surroundings of a text object,
-      " such as adding/removing quotes, replacing in brackets, and more.
-      Plug 'tpope/vim-surround'
-      " Automatically close quotes, parenthesis, braces, and other delimiters.
-      Plug 'Raimondi/delimitMate'
-      " Automatically end block constructs in supported languages.
-      Plug 'tpope/vim-endwise'
-
-      " Easy exchange operator.
-      Plug 'tommcdo/vim-exchange'
-      " Split and join statements intelligently.
-      Plug 'AndrewRadev/splitjoin.vim'
-      " Speeddating adds support for incrementing and decrementing dates.
-      Plug 'tpope/vim-speeddating'
-      " Handy bracket-prefixed pairs of mappings that @tpope finds useful.
-      Plug 'tpope/vim-unimpaired'
-
-      " Abolish brings bracket substitutions to Vim abbreviations, searches, and
-      " substitutions.
-      Plug 'tpope/vim-abolish'
-    " }}}
-
-    " Completion {{{
-      " Completion engine supporting almost anything. Also it's fast.
-      Plug 'Shougo/neocomplete.vim'
-
-      " A powerful snippet engine, with support for nested snippets.
-      Plug 'Shougo/neosnippet.vim'
-      Plug 'Shougo/neosnippet-snippets'
-      Plug 'honza/vim-snippets'
-    " }}}
-
-    " Support {{{
-      " A powerful C/C++ completion enegine.
-      Plug 'Rip-Rip/clang_complete', { 'for': ['c','cpp'], 'do': 'make' }
-      " Tools for working with Go, and a powerful Go completion engine.
-      Plug 'fatih/vim-go', { 'for': 'go' }
-      " Tools for working with Node.js.
-      Plug 'moll/vim-node', { 'for': 'javascript' }
-      " Tools for working with Python.
-      Plug 'klen/python-mode', { 'for': 'python' }
-      " A powerful Python completion engine.
-      Plug 'davidhalter/jedi-vim', { 'for': 'python', 'do': 'git submodule update --init --recursive' }
-      " Tools for working with Ruby on Rails.
-      Plug 'tpope/vim-rails', { 'for': 'ruby' }
-
-      " A combination of common syntax and support files.
-      Plug 'sheerun/vim-polyglot'
-
-      " Support for GnuPG/PGP-encrypted files.
-      Plug 'jamessan/vim-gnupg'
-
-      " Tools and syntax for working with the Git DVCS.
-      Plug 'tpope/vim-fugitive'
-    " }}}
-
-
-    " Movement {{{
-     " Sneak is the missing motion(tm) for Vim.
-      Plug 'justinmk/vim-sneak'
-      " Movements to the end of a motions/text object.
-      Plug 'tommcdo/vim-ninja-feet'
-      " A better /...
-      Plug 'junegunn/vim-oblique'
-      " Simple, manual jump-stack.
-      Plug 'tommcdo/vim-kangaroo'
-
-      " Multiple cursors and selection.
-      Plug 'terryma/vim-multiple-cursors'
-      " Syntactically expand the selection.
-      Plug 'terryma/vim-expand-region'
-
-      " A collection of useful text objects (including 'remote' and
-      " 'delimiter'-based objects).
-      Plug 'wellle/targets.vim'
-      " Text object for between two characters.
-      Plug 'thinca/vim-textobj-between'
-      " Text object for comments.
-      Plug 'glts/vim-textobj-comment',
-      " Text object for the current indent level.
-      Plug 'kana/vim-textobj-indent'
-      " Text object for the indent block (whitespace).
-      Plug 'glts/vim-textobj-indblock'
-      " Text object for the entire line.
-      Plug 'kana/vim-textobj-line'
-      " Text object for the entire file.
-      Plug 'kana/vim-textobj-entire'
-    " }}}
-
-    " Navigation {{{
-      " A file browser and sidebar for Vim.
-      Plug 'Shougo/vimfiler'
-      " A ctags browser as a sidebar.
-      Plug 'majutsushi/tagbar'
-      " A undo tree as a sidebar.
-      Plug 'mbbill/undotree'
-
-      " Quick access to a file browser.
-      Plug 'tpope/vim-vinegar'
-
-      " Various utilities for *nix (and maybe Windows) systems, such as renaming and
-      " deleting files, or changing file permissions.
-      Plug 'tpope/vim-eunuch'
-    " }}}
-
-    " UI {{{
-      " A sweet, lightweight status bar.
-      Plug 'vim-airline/vim-airline'
-      Plug 'vim-airline/vim-airline-themes'
-
-      " Show markers for indents.
-      Plug 'Yggdroot/indentLine'
-      " Color parenthesis differently.
-      Plug 'junegunn/rainbow_parentheses.vim'
-
-      " Signature.vim adds visual marks in the gutter, as well as shortcuts for
-      " managing marks.
-      Plug 'kshenoy/vim-signature'
-      " Git diff in the gutter.
-      Plug 'airblade/vim-gitgutter'
-    " }}}
-
-    " Colors {{{
-      " The best colorscheme, ever.
-      Plug 'altercation/vim-colors-solarized'
-    " }}}
-
-    " Unused {{{
-    " }}}
-  " }}}
-
-" End vim-plug {{{
-  call plug#end()
-" }}}
+" Input
+set ttimeoutlen=50 timeoutlen=300 " Make escape/keybinds faster.
+set mouse=a " Enable mouse support.
+if s:is_macvim | set macmeta | endif " Fix the Mac option key.
 
 "
 " Settings
@@ -318,35 +163,17 @@ let s:plug_cache = s:cache_for('plugged')
   augroup vimrc
     autocmd!
   augroup end
-
-  " Don't load a bunch of 'standard' plains.
-  let g:loaded_netrwPlugin   = 1
-  let g:loaded_2html_plugin  = 1
-  let g:loaded_vimballPlugin = 1
 " }}}
 
 " Input {{{
   " Timeout {{{
-    " Make escape/keybinds faster.
-    set ttimeoutlen=50 timeoutlen=300
-" }}}
-
-  " Mouse {{{
-    " Enable the mouse, but hide it when typing.
-    set mouse=a mousehide
   " }}}
 
   " Keyboard {{{
-    " Fix the Mac option key.
-    if s:is_macvim
-      set macmeta
-    endif
   " }}}
 " }}}
 
 " Output {{{
-  " Allow backgrounding buffers.
-  set hidden
 
   " Assume a fast TTY.
   set ttyfast
@@ -355,6 +182,15 @@ let s:plug_cache = s:cache_for('plugged')
 " }}}
 
 " Editing {{{
+  " Grep {{{
+
+    " Use a faster grep for CtrlSpace.
+    if executable("rg")
+      let g:CtrlSpaceGlobCommand = 'rg -g ""'
+    elseif executable("ag")
+      let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
+    endif
+  " }}}
   " Search/Replace {{{
     " Enable escape characters.
     set magic
@@ -367,7 +203,7 @@ let s:plug_cache = s:cache_for('plugged')
 
   " Selection {{{
     " Use the system clipboard.
-    set clipboard^=unnamed,unnamedplus
+    set clipboard=unnamedplus
 
     " Allow the cursor to go beyond the line and to make true blocks.
     set virtualedit=block,onemore
@@ -389,123 +225,10 @@ let s:plug_cache = s:cache_for('plugged')
     vmap <Enter> <Plug>(EasyAlign)
   " }}]
 
-  " Split/Join {{{
-    " Use splitjoin
-    nnoremap <silent> J :SplitjoinJoin<cr>
-    nnoremap <silent> S :SplitjoinSplit<cr>
-  " }}}
-
   " Indent {{{
     " Retain selection when indenting in Visual mode (sugar for gv).
     vnoremap < <gv
     vnoremap > >gv
-  " }}}
-
-  " Completion {{{
-    " Enable automatically and at startup.
-    let g:neocomplete#enable_at_startup = 0
-
-    " Auto-select the first completion.
-    let g:neocomplete#enable_auto_select = 1
-    " Use smart-case.
-    let g:neocomplete#enable_smart_case = 1
-    " Require 3 characters to complete.
-    let g:neocomplete#sources#syntax#min_keyword_length = 3
-
-    " Buffers to not complete in.
-    let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-    " Set up dicts.
-    let g:neocomplete#keyword_patterns = {
-          \ 'default': '\h\w*'
-          \ }
-
-    " Don't conflict with endwise.
-    let g:endwise_no_mappings = 1
-
-    function! s:tab()
-      if neosnippet#jumpable()
-        return "\<plug>(neosnippet_jump)"
-      elseif pumvisible()
-        return "\<c-n>"
-      elseif neocomplete#complete_common_string() != ''
-        return neocomplete#complete_common_string()
-      else
-        return "\<tab>"
-      endif
-    endfunction
-    function! s:cr()
-      if pumvisible()
-        if neosnippet#expandable()
-          return "\<plug>(neosnippet_expand)"
-        else
-          return neocomplete#close_popup()
-        endif
-      else
-        return "\<cr>\<plug>DiscretionaryEnd"
-      endif
-    endfunction
-
-    imap <expr> <cr> <sid>cr()
-    imap <expr> <tab> <sid>tab()
-    inoremap <expr> <esc> pumvisible() ? neocomplete#cancel_popup() : '<esc>'
-    inoremap <expr> <c-c> pumvisible() ? neocomplete#cancel_popup() : '<c-c>'
-    inoremap <expr> <c-f> neocomplete#complete_common_string()
-
-    " Set up extra snippets.
-    " let g:neosnippet#enable_snipmate_compatibility = 1
-    " let g:neosnippet#snippets_directory = s:plug_cache . '/vim-snippets/snippets'
-
-    " Set up filetype-specific options.
-    let g:neocomplete#sources#omni#functions      = {}
-    let g:neocomplete#sources#omni#input_patterns = {}
-    let g:neocomplete#force_omni_input_patterns   = {}
-
-    " C/C++ {{{
-      " Set up neocomplete to use clang_complete.
-      let g:neocomplete#force_omni_input_patterns.c =
-            \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-      let g:neocomplete#force_omni_input_patterns.cpp =
-            \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-      let g:neocomplete#force_omni_input_patterns.objc =
-            \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
-      let g:neocomplete#force_omni_input_patterns.objcpp =
-            \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
-    " }}}
-
-    " Go {{{
-      " Set up neocomplete to use gocode.
-      let g:neocomplete#sources#omni#functions.go      = 'go#complete#Complete'
-      let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
-    " }}}
-
-    " Python {{{
-      " Set up neocomplete to use Jedi.
-      let g:neocomplete#force_omni_input_patterns.python =
-            \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-
-      " Override PythonComplete.
-      autocmd vimrc FileType python setlocal omnifunc=jedi#completions
-      " Disable Pymode Rope so Jedi doesn't have a fit.
-      let g:pymode_rope = 0
-      " Tame Jedi to not hijack neocomplete.
-      let g:jedi#auto_vim_configuration = 0
-      let g:jedi#completions_enabled    = 0
-
-      " Use buffers and splits.
-      let g:jedi#use_tabs_not_buffers   = 0
-      let g:jedi#use_splits_not_buffers = "left"
-
-      " Don't show call signatures.
-      let g:jedi#show_call_signatures = 0
-      " Don't show docstrings when completing.
-      autocmd vimrc FileType python setlocal completeopt-=preview
-    " }}}
-
-    " Vim {{{
-      " Make vim help work.
-      autocmd vimrc FileType vim setlocal keywordprg=:help
-    " }}}
   " }}}
 
   " Spelling {{{
@@ -543,10 +266,10 @@ let s:plug_cache = s:cache_for('plugged')
     set winminheight=0
 
     " Resize intiuitively!
-    noremap <silent> <c-w>+ :ObviousResizeUp<cr>
-    noremap <silent> <c-w>- :ObviousResizeDown<cr>
-    noremap <silent> <c-w>< :ObviousResizeLeft<cr>
-    noremap <silent> <c-w>> :ObviousResizeRight<cr>
+    noremap <silent> <c-up> :ObviousResizeUp<cr>
+    noremap <silent> <c-down> :ObviousResizeDown<cr>
+    noremap <silent> <c-left> :ObviousResizeLeft<cr>
+    noremap <silent> <c-right> :ObviousResizeRight<cr>
   " }}}
 " }}}
 
@@ -579,117 +302,12 @@ let s:plug_cache = s:cache_for('plugged')
     omap t <Plug>Sneak_t
     omap T <Plug>Sneak_T
   " }}}
-
   " Scrolling {{{
-    noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<cr>
-    noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<cr>
-    noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<cr>
-    noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<cr>
-  " }}}
 
   " Jumping {{{
     nmap <tab> %
   " }}}
 " }}}
-
-" Navigation {{{
-  " Unite {{{
-    " Set the unite cache.
-    let g:unite_data_directory      = s:cache_for('unite')
-    " Set the neomru cache.
-    let g:neomru#file_mru_path      = s:cache_for('unite/neomru') . '/file'
-    let g:neomru#directory_mru_path = s:cache_for('unite/neomru') . '/directory'
-
-    " Save sessions automatically.
-    let g:unite_source_session_enable_auto_save = 1
-
-    " Use the fuzzy matcher for everything
-    call unite#filters#matcher_default#use(['matcher_fuzzy'])
-    " Use the rank sorter for everything
-    call unite#filters#sorter_default#use(['sorter_rank'])
-
-    " Enable history yank source.
-    let g:unite_source_history_yank_enable = 1
-
-    " Grep with ag.
-    let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts = '--line-numbers --nocolor --nogroup --hidden'
-    let g:unite_source_grep_recursive_opt = ''
-
-    " Shorten the default update time of 500ms.
-    let g:unite_update_time = 200
-
-    " Use defaults like CtrlP.
-    call unite#custom#profile('default', 'context', {
-    \   'start_insert': 1,
-    \   'direction': 'botright',
-    \   'winheight': 10,
-    \ })
-
-    " Make the prompt nicer.
-    let g:unite_prompt = '>>> '
-
-    " Set Unite prefix.
-    nnoremap [unite] <Nop>
-    nmap <space> [unite]
-
-    " General fuzzy finder.
-    nnoremap <silent> [unite]<space> :Unite -buffer-name=fuzzy -no-split buffer bookmark file_mru file_rec/async:!<cr>
-    " Quick access to buffers.
-    nnoremap <silent> [unite]b :Unite -buffer-name=buffers -quick-match buffer<cr>
-    " Quick access to commands.
-    nnoremap <silent> [unite]c :Unite -buffer-name=commands command<cr>
-    " Quick access to cd.
-    nnoremap <silent> [unite]d :Unite -buffer-name=directories directory_mru directory_rec/async:!<cr>
-    " Quick access to files.
-    nnoremap <silent> [unite]f :Unite -buffer-name=files file_mru file_rec/async:!<cr>
-    " Quick access to help.
-    nnoremap <silent> [unite]h :Unite -buffer-name=help help<cr>
-    " Quick access to includes.
-    nnoremap <silent> [unite]i :Unite -buffer-name=include file_include<cr>
-    " Quick access to bookmarks.
-    nnoremap <silent> [unite]k :Unite -buffer-name=bookmarks bookmark<cr>
-    " Quick access to lines.
-    nnoremap <silent> [unite]l :Unite -buffer-name=line line<cr>
-    " Quick access to MRU files.
-    nnoremap <silent> [unite]m :Unite -buffer-name=mru file_mru<cr>
-    " Quick access to new files.
-    nnoremap <silent> [unite]n :Unite -buffer-name=new file/new<cr>
-    " Quick access to an outline.
-    nnoremap <silent> [unite]o :Unite -buffer-name=outline -vertical -auto-preview outline<cr>
-    " Quick access to registers.
-    nnoremap <silent> [unite]r :Unite -buffer-name=register register<cr>
-    " Quick access to sessions.
-    nnoremap <silent> [unite]s :Unite -buffer-name=sessions session<cr>
-    " Quick access to tags.
-    nnoremap <silent> [unite]t :Unite -buffer-name=tags -vertical -auto-preview tag/include<cr>
-    " Quick access to sources.
-    nnoremap <silent> [unite]u :Unite -buffer-name=sources source<cr>
-    " Quick access to yanks.
-    nnoremap <silent> [unite]y :Unite -buffer-name=yanks history/yank<cr>
-    " Quick snippets.
-    " nnoremap <silent> [unite]<tab> :Unite -buffer-name=snippets neosnippet<cr>
-    " Quick grep.
-    nnoremap <silent> [unite]/ :Unite -buffer-name=grep grep:.<cr>
-    " Quick find.
-    nnoremap <silent> [unite]\ :Unite -buffer-name=find find:.<cr>
-
-    " Load settings in Unite buffers.
-    function! s:unite_settings()
-      nnoremap <buffer> <esc> <plug>(unite_exit)
-    endfunction
-    autocmd vimrc FileType unite call s:unite_settings()
-  " }}}
-
-  " Grep {{{
-    set grepprg=ag\ ---column\ --line-numbers\ --nocolor\ --nogroup
-    set grepformat=%f:%l:%c%m
-  " }}}
-
-  " Files {{{
-    " Use vimfiler instead of netrw.
-    let g:vimfiler_as_default_explorer = 1
-  " }}}
 
 " Appearance {{{
   " Font {{{
@@ -697,7 +315,7 @@ let s:plug_cache = s:cache_for('plugged')
       set guifont=Source_Code_Pro:h11
       set antialias
     else
-      set guifont=Source\ Code\ Pro\ 7.5
+      set guifont=Source\ Code\ Pro\ 10
     endif
   " }}}
 
@@ -713,9 +331,6 @@ let s:plug_cache = s:cache_for('plugged')
     " Less annoying MatchParen.
     highlight MatchParen cterm=bold ctermbg=NONE ctermfg=NONE
     highlight MatchParen gui=bold guibg=NONE guifg=NONE
-
-    " Enable rainbow delimiters!
-    autocmd vimrc VimEnter * RainbowParentheses
   " }}}
 
   " Hidden {{{
@@ -731,20 +346,6 @@ let s:plug_cache = s:cache_for('plugged')
   " Search {{{
     " Show matched characters.
     set showmatch
-  " }}}
-
-  " Folding {{{
-    " Turn on folding based on syntax plugins.
-    set foldenable foldmethod=syntax
-    " ...and unfold when needed.
-    set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
-
-    " Enable some syntax folding methods.
-    let g:tex_fold_enabled=1
-    let g:vimsyn_folding='af'
-    let g:xml_syntax_folding = 1
-    let g:php_folding = 1
-    let g:perl_fold = 1
   " }}}
 
   " Wrapping {{{
@@ -765,7 +366,7 @@ let s:plug_cache = s:cache_for('plugged')
     autocmd vimrc FileType help setlocal colorcolumn=
   " }}}
 
-  " Status Bar " {{{
+  " Status Bar {{{
     " Disable the built in mode indicator, and don't show the last command.
     set noshowmode noshowcmd
 
@@ -781,6 +382,11 @@ let s:plug_cache = s:cache_for('plugged')
     set noerrorbells novisualbell
     " Use abbreviations and disable 'Press Enter to Continue' messages.
     set shortmess+=filmnrxoOtT
+  " }}}
+
+  " Help {{{
+    " Make vim help work.
+    autocmd vimrc FileType vim setlocal keywordprg=:help
   " }}}
 
   " GUI {{{
@@ -809,3 +415,9 @@ let s:plug_cache = s:cache_for('plugged')
   let &undodir   = s:cache_for('undo')
   let &viewdir   = s:cache_for('view')
 " }}}
+"
+
+nnoremap <silent> J :call <sid>try('SplitjoinJoin',  'J')<cr>
+nnoremap <silent> S :call <sid>try('SplitjoinSplit', "r\015")<cr>
+
+command! -bang -nargs=* KillTrailingWhitespace call s:preserve('%s/\s\+$//e')

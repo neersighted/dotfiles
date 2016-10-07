@@ -35,6 +35,8 @@ for dircolors in {,g}dircolors
   type -fp $dircolors >/dev/null 2>&1; and source (eval "$dircolors --c-shell ~/.dircolorsrc|psub")
 end
 
+set --global --export FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*"' # fzf <3 rg
+
 set --global --export _JAVA_AWT_WM_NONREPARENTING 1 # dwm/java hacks
 
 test -f $HOME/.config/fish/config.local.fish; and source $HOME/.config/fish/config.local.fish
