@@ -9,7 +9,7 @@ endif
 if !empty($XDG_CONFIG_HOME)
   let g:vim = $XDG_CONFIG_HOME . '/vim'
 else
-  let g:vim = '~/.vim'
+  let g:vim = '~/.config/vim'
 endif
 
 let s:is_linux   = match(system('uname'), 'Linux') != -1
@@ -168,7 +168,7 @@ set colorcolumn=80 " Indicate column 80.
 set wrap linebreak wrapmargin=0 " Enable virtual wrapping.
 set showbreak=⇇ breakindent " Indicate wrapping with an icon and indent.
 set winminheight=0 splitright " Allow squishing splits, open splits to the right.
-noremap <silent> <c-w>+ :<c-u>ObviousResizeUp<cr> " Resize intiuitively!
+noremap <silent> <c-w>+ :<c-u>ObviousResizeUp<cr>
 noremap <silent> <c-w>- :<c-u>ObviousResizeDown<cr>
 noremap <silent> <c-w>< :<c-u>ObviousResizeLeft<cr>
 noremap <silent> <c-w>> :<c-u>ObviousResizeRight<cr>
@@ -185,8 +185,8 @@ highlight MatchParen cterm=bold ctermbg=NONE ctermfg=NONE gui=bold guibg=NONE gu
 
 " Selection
 set clipboard=unnamedplus " Use the system clipboard.
-nnoremap Y y$ " Yank from cursor to end of line.
-nnoremap pv V`] " Reselect pasted text in visual mode.
+nnoremap Y y$
+nnoremap pv V`]
 vnoremap p p`]
 
 " Editing
@@ -195,15 +195,15 @@ autocmd FileType text,gitcommit,markdown setlocal textwidth=78 " ...except some 
 set virtualedit=block,onemore " Allow the cursor to select the end of the line/form blocks.
 set whichwrap=h,l,<,>,[,],b,s " Wrap the cursor over line.
 set backspace=indent,eol,start " Backspace over lines.
-nnoremap j gj " Move over virtual lines (wrapped lines).
+nnoremap j gj
 nnoremap k gk
-vnoremap < <gv " Retain selection when indenting in Visual mode.
+vnoremap < <gv
 vnoremap > >gv
 set nospell spelllang=en " Disable spell checking by default.
 autocmd FileType text,gitcommit,markdown setlocal spell " ...but start it on some filetypes.
 
 " Formatting
-nmap gl <Plug>(EasyAlign) " Easily align text around objects.
+nmap gl <Plug>(EasyAlign)
 xmap gl <Plug>(EasyAlign)
 
 " Search/Navigation
@@ -211,18 +211,18 @@ set magic " Enable escape characters.
 set hlsearch incsearch " Show searches as they are typed.
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
 let g:CtrlSpaceGlobCommand = 'rg -g ""' " Use a faster grep for CtrlSpace.
-nmap <tab> % " Jump between delimiters.
+nmap <tab> %
 
 " Motions
 let g:sneak#streak = 1 " Enable streak (EasyMotion) mode.
 let g:sneak#s_next = 1 " Press again to skip to the next match.
-nmap f <Plug>Sneak_f " Replace f with sneak.
+nmap f <Plug>Sneak_f
 nmap F <Plug>Sneak_F
 xmap f <Plug>Sneak_f
 xmap F <Plug>Sneak_F
 omap f <Plug>Sneak_f
 omap F <Plug>Sneak_F
-nmap t <Plug>Sneak_t " Replace t with sneak.
+nmap t <Plug>Sneak_t
 nmap T <Plug>Sneak_T
 xmap t <Plug>Sneak_t
 xmap T <Plug>Sneak_T

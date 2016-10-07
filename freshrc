@@ -25,6 +25,7 @@ fresh config/fish/functions --file=~/.config/fish/functions/
 #
 
 # vim: vi improved
+fresh scripts/vimprofile --bin
 fresh config/vim/vimrc --file
 
 # neovim: vim improved
