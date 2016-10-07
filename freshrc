@@ -95,8 +95,8 @@ fresh config/xserverrc --file
 fresh pengwynn/dotfiles bin/+x --bin
 
 # aur: the arch user repository
-fresh falconindy/bin-scripts aurcomm --bin
 fresh scripts/aurdiff --bin
+fresh scripts/aurget --bin
 
 # git: the stupid content tracker
 fresh-options --file=~/.config/git/config --marker
@@ -145,12 +145,6 @@ fresh scripts/pyenv-install --bin
 # rbenv: ruby version manager
 fresh scripts/rbenv-install --bin
 fresh config/rbenv/default-gems --file=~/.rbenv/default-gems
-
-# repl: sometimes you need a repl
-fresh defunkt/repl bin/repl --bin
-
-# sprunge: curl-based pastebin
-fresh falconindy/bin-scripts sprunge --bin
 
 # trunc: truncate files
 fresh pengwynn/dotfiles bin/trunc --bin

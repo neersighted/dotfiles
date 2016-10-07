@@ -12,8 +12,6 @@ endif
 "
 
 " Platform Variables {{{
-  let s:is_tmux = exists($TMUX)
-
   let s:is_windows = has('win32') || has('win64')
   let s:is_cygwin  = has('win32unix')
   let s:is_mac     = match(system('uname'), 'Darwin') != -1
@@ -23,12 +21,10 @@ endif
   let s:is_macvim = has('gui_macvim')
   let s:is_neovim = has('nvim')
 
-  if s:is_mac || s:is_windows
-    let g:vim = '~/.vim'
-  elseif exists($XDG_DATA_HOME)
+  if !empty($XDG_DATA_HOME)
     let g:vim = $XDG_DATA_HOME . '/vim'
   else
-    let g:vim = '~/.local/share/vim'
+    let g:vim = '~/.vim'
   endif
 " }}}
 
@@ -205,14 +201,14 @@ let s:plug_cache = s:cache_for('plugged')
       Plug 'Shougo/neocomplete.vim'
 
       " A powerful snippet engine, with support for nested snippets.
-      " Plug 'Shougo/neosnippet.vim'
-      " Plug 'Shougo/neosnippet-snippets'
+      Plug 'Shougo/neosnippet.vim'
+      Plug 'Shougo/neosnippet-snippets'
       Plug 'honza/vim-snippets'
     " }}}
 
     " Support {{{
       " A powerful C/C++ completion enegine.
-      "Plug 'Rip-Rip/clang_complete', { 'for': ['c','cpp'], 'do': 'make' }
+      Plug 'Rip-Rip/clang_complete', { 'for': ['c','cpp'], 'do': 'make' }
       " Tools for working with Go, and a powerful Go completion engine.
       Plug 'fatih/vim-go', { 'for': 'go' }
       " Tools for working with Node.js.
@@ -226,12 +222,6 @@ let s:plug_cache = s:cache_for('plugged')
 
       " A combination of common syntax and support files.
       Plug 'sheerun/vim-polyglot'
-      " Syntax for Ansible YAML files.
-      Plug 'chase/vim-ansible-yaml', { 'for':  'ansible' }
-      " Syntax for BrightScript, the Roku programming language.
-      Plug 'chooh/brightscript.vim'
-      " Syntax for Fish, the Friendly Interactive SHell.
-      Plug 'dag/vim-fish', { 'for': 'fish' }
 
       " Support for GnuPG/PGP-encrypted files.
       Plug 'jamessan/vim-gnupg'
@@ -291,7 +281,7 @@ let s:plug_cache = s:cache_for('plugged')
 
     " UI {{{
       " A sweet, lightweight status bar.
-      Plug 'bling/vim-airline'
+      Plug 'vim-airline/vim-airline'
       Plug 'vim-airline/vim-airline-themes'
 
       " Show markers for indents.
@@ -324,7 +314,7 @@ let s:plug_cache = s:cache_for('plugged')
 "
 
 " Setup {{{
-  " Set up and clear my autocmmand group.
+  " Set up and clear my autocommand group.
   augroup vimrc
     autocmd!
   augroup end
@@ -434,9 +424,9 @@ let s:plug_cache = s:cache_for('plugged')
     let g:endwise_no_mappings = 1
 
     function! s:tab()
-      " if neosnippet#jumpable()
-        " return "\<plug>(neosnippet_jump)"
-      if pumvisible()
+      if neosnippet#jumpable()
+        return "\<plug>(neosnippet_jump)"
+      elseif pumvisible()
         return "\<c-n>"
       elseif neocomplete#complete_common_string() != ''
         return neocomplete#complete_common_string()
@@ -446,18 +436,18 @@ let s:plug_cache = s:cache_for('plugged')
     endfunction
     function! s:cr()
       if pumvisible()
-        " if neosnippet#expandable()
-          " return "\<plug>(neosnippet_expand)"
-        " else
-        return neocomplete#close_popup()
+        if neosnippet#expandable()
+          return "\<plug>(neosnippet_expand)"
+        else
+          return neocomplete#close_popup()
         endif
       else
         return "\<cr>\<plug>DiscretionaryEnd"
       endif
     endfunction
 
-    "imap <expr> <cr> <sid>cr()
-    "imap <expr> <tab> <sid>tab()
+    imap <expr> <cr> <sid>cr()
+    imap <expr> <tab> <sid>tab()
     inoremap <expr> <esc> pumvisible() ? neocomplete#cancel_popup() : '<esc>'
     inoremap <expr> <c-c> pumvisible() ? neocomplete#cancel_popup() : '<c-c>'
     inoremap <expr> <c-f> neocomplete#complete_common_string()
@@ -536,7 +526,7 @@ let s:plug_cache = s:cache_for('plugged')
 
   " Wrapping {{{
     " Hard wrap at 80 characters by default.
-    set textwidth=79
+    "set textwidth=79
     " Wrap over lines.
     set whichwrap=h,l,<,>,[,],b,s
     set backspace=indent,eol,start
@@ -575,12 +565,12 @@ let s:plug_cache = s:cache_for('plugged')
     let g:sneak#s_next = 1
 
     " Replace f with sneak.
-    nmap f <Plug>Sneak_s
-    nmap F <Plug>Sneak_S
-    xmap f <Plug>Sneak_s
-    xmap F <Plug>Sneak_S
-    omap f <Plug>Sneak_s
-    omap F <Plug>Sneak_S
+    nmap f <Plug>Sneak_f
+    nmap F <Plug>Sneak_F
+    xmap f <Plug>Sneak_f
+    xmap F <Plug>Sneak_F
+    omap f <Plug>Sneak_f
+    omap F <Plug>Sneak_F
     " Replace t with sneak.
     nmap t <Plug>Sneak_t
     nmap T <Plug>Sneak_T
