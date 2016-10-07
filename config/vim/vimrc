@@ -6,8 +6,8 @@ endif
 
 " Variables
 
-if !empty($XDG_DATA_HOME)
-  let g:vim = $XDG_DATA_HOME . '/vim'
+if !empty($XDG_CONFIG_HOME)
+  let g:vim = $XDG_CONFIG_HOME . '/vim'
 else
   let g:vim = '~/.vim'
 endif
@@ -46,19 +46,12 @@ function! s:cache_for(for) " Provides a named folder in the Vim cache.
   return dir
 endfunction
 
-function! s:try(cmd, default) " Try a command, and if it fails try another.
-  if exists(':' . a:cmd) && !v:count
-    let tick = b:changedtick
-    execute a:cmd
-    if tick == b:changedtick
-      execute join(['normal!', a:default])
-    endif
-  else
-    execute join(['normal! ', v:count, a:default], '')
-  endif
+function! Cond(cond, ...) " Conditionally enable a plugin.
+  let opts = get(a:000, 0, {})
+  return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
 endfunction
 
-function! s:preserve(cmd) " Execute a command without altering position/history.
+function! Preserve(cmd) " Execute a command without altering position/history.
   let old_search = @/
   let cursor_l = line('.')
   let cursor_c = col('.')
@@ -78,18 +71,19 @@ silent execute 'set runtimepath+=' . g:vim
 call plug#begin(s:cache_for('plugged'))
 
 " Dependencies...
-Plug 'tpope/vim-dispatch' " Async adapters for running Vim's compiler plugins, or arbitrary commands.
 Plug 'tpope/vim-repeat' " Repeat support for arbitrary plugins.
 
 " Fixes and Tweaks
 Plug 'tpope/vim-sensible' " Sane defaults for Vim.
-Plug 'drmikehenry/vim-fixkey' " Hacks to fix escape sequences (in tmux, etc).
-Plug 'talek/obvious-resize' " Intiutive split resizing.
+Plug 'drmikehenry/vim-fixkey', Cond(!has('nvim')) " Hacks to fix escape sequences (in tmux, etc).
+Plug 'talek/obvious-resize', { 'on': ['ObviousResizeUp', 'ObviousResizeDown', 'ObviousResizeLeft', 'ObviousResizeRight'] } " Intiutive split resizing.
+Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' } " Intiuitive buffer closing.
 Plug 'tpope/vim-vinegar' " Enhancements for netrw.
 Plug 'tpope/vim-characterize' " Modernize 'ga', the character info command.
 Plug 'kopischke/vim-stay' " Restore/preserve views.
 
 " Integration
+Plug 'tpope/vim-dispatch', { 'on': ['Make', 'Dispatch'] } " Async adapters for running Vim's compiler plugins, or arbitrary commands.
 Plug 'kopischke/vim-fetch' " Open files to line:column.
 Plug 'tpope/vim-eunuch' " Helpers for unix commands.
 Plug 'johnsyweb/vim-makeshift' " Auto detect the build command.
@@ -100,8 +94,8 @@ Plug 'mhinz/vim-startify' " A simple startup screen.
 Plug 'vim-airline/vim-airline' " A lightweight, well-integrated status bar.
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-ctrlspace/vim-ctrlspace' " A fuzzy-search driven interface for Vim.
-Plug 'mhinz/vim-grepper' " A wrapper around all things grep.
-Plug 'mbbill/undotree' " A visualization of Vim's undo branches.
+Plug 'mhinz/vim-grepper', { 'on': 'Grepper' } " A wrapper around all things grep.
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " A visualization of Vim's undo branches.
 Plug 'mhinz/vim-signify' " VCS diffs directly in the gutter.
 
 " Editing
@@ -121,7 +115,7 @@ Plug 'junegunn/vim-easy-align' " Align text objects using verbs.
 Plug 'jiangmiao/auto-pairs' " Automatically close delimiters (incl quotes, parenthesis, etc).
 Plug 'tpope/vim-endwise' " Automatically end block constructs in supported languages.
 
-" Navigation
+" Search/Navigation
 Plug 'pgdouyon/vim-evanesco' " A better, auto-clearing /...
 Plug 'kshenoy/vim-signature' " Simple tool to manage and visualize marks.
 Plug 'tommcdo/vim-kangaroo' " Simple, manual jump-stack.
@@ -148,276 +142,97 @@ call plug#end()
 
 " Core
 set hidden " Allow backgrounding buffers.
+augroup vimrc | autocmd!
 
-" Input
+" State
+set swapfile backup undofile " Use swapfiles, backups, and persist undo data.
+set viminfo='50,<1000,h history=1000 " Save a decent amount of history.
+set viewoptions=cursor,folds,slash,unix " Save view/session data.
+let &directory = s:cache_for('swap')
+let &backupdir = s:cache_for('backup')
+let &undodir   = s:cache_for('undo')
+let &viewdir   = s:cache_for('view')
+
+" Interface
+silent colorscheme solarized " Use my colorscheme of choice.
+if strftime("%H") >= 5 && strftime("%H") <= 17 | set background=light | else | set background=dark | endif " Set colors based on the time of day.
+if s:is_macvim | set guifont=Source_Code_Pro:h11 antialias | else | set guifont=Source\ Code\ Pro\ 10 | endif " Use my font of choice as well.
+set guioptions=ai shortmess+=filmnrxoOtT " Minimal GUI: selection and icon only, abbreviate as much as possible.
+set ttyfast lazyredraw " Assume a fast TTY, optimize render performance.
+set noerrorbells novisualbell " Turn off bells.
 set ttimeoutlen=50 timeoutlen=300 " Make escape/keybinds faster.
 set mouse=a " Enable mouse support.
 if s:is_macvim | set macmeta | endif " Fix the Mac option key.
+set number relativenumber " Use relative line numbering.
+set colorcolumn=80 " Indicate column 80.
+set wrap linebreak wrapmargin=0 " Enable virtual wrapping.
+set showbreak=⇇ breakindent " Indicate wrapping with an icon and indent.
+set winminheight=0 splitright " Allow squishing splits, open splits to the right.
+noremap <silent> <c-w>+ :<c-u>ObviousResizeUp<cr> " Resize intiuitively!
+noremap <silent> <c-w>- :<c-u>ObviousResizeDown<cr>
+noremap <silent> <c-w>< :<c-u>ObviousResizeLeft<cr>
+noremap <silent> <c-w>> :<c-u>ObviousResizeRight<cr>
+set noshowmode noshowcmd " Disable the built in status indicators
+let g:airline_powerline_fonts = 1 " Use pretty fonts for airline.
+let g:airline#extensions#tabline#enabled = 1 " Show buffers as tabs.
+let g:airline#extensions#whitespace#enabled = 1 " Show trailing whitespace.
+set list listchars=tab:»·,trail:·,eol:¬,nbsp:_ " Show hidden characters.
+set conceallevel=2 concealcursor=nc " Enable conceal support.
+let g:indentLine_char = '┊' " Use a small line to show space-based indentation.
+let g:rainbow_active = 0 " Manually enable rainbow parenthesis.
+set showmatch " Indicate when a matched delimiter pair is created.
+highlight MatchParen cterm=bold ctermbg=NONE ctermfg=NONE gui=bold guibg=NONE guifg=NONE " Less annoying MatchParen.
 
-"
-" Settings
-"
+" Selection
+set clipboard=unnamedplus " Use the system clipboard.
+nnoremap Y y$ " Yank from cursor to end of line.
+nnoremap pv V`] " Reselect pasted text in visual mode.
+vnoremap p p`]
 
-" Setup {{{
-  " Set up and clear my autocommand group.
-  augroup vimrc
-    autocmd!
-  augroup end
-" }}}
+" Editing
+set textwidth=0 " Disable automatic wrapping...
+autocmd FileType text,gitcommit,markdown setlocal textwidth=78 " ...except some filetypes.
+set virtualedit=block,onemore " Allow the cursor to select the end of the line/form blocks.
+set whichwrap=h,l,<,>,[,],b,s " Wrap the cursor over line.
+set backspace=indent,eol,start " Backspace over lines.
+nnoremap j gj " Move over virtual lines (wrapped lines).
+nnoremap k gk
+vnoremap < <gv " Retain selection when indenting in Visual mode.
+vnoremap > >gv
+set nospell spelllang=en " Disable spell checking by default.
+autocmd FileType text,gitcommit,markdown setlocal spell " ...but start it on some filetypes.
 
-" Input {{{
-  " Timeout {{{
-  " }}}
+" Formatting
+nmap gl <Plug>(EasyAlign) " Easily align text around objects.
+xmap gl <Plug>(EasyAlign)
 
-  " Keyboard {{{
-  " }}}
-" }}}
+" Search/Navigation
+set magic " Enable escape characters.
+set hlsearch incsearch " Show searches as they are typed.
+set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
+let g:CtrlSpaceGlobCommand = 'rg -g ""' " Use a faster grep for CtrlSpace.
+nmap <tab> % " Jump between delimiters.
 
-" Output {{{
+" Motions
+let g:sneak#streak = 1 " Enable streak (EasyMotion) mode.
+let g:sneak#s_next = 1 " Press again to skip to the next match.
+nmap f <Plug>Sneak_f " Replace f with sneak.
+nmap F <Plug>Sneak_F
+xmap f <Plug>Sneak_f
+xmap F <Plug>Sneak_F
+omap f <Plug>Sneak_f
+omap F <Plug>Sneak_F
+nmap t <Plug>Sneak_t " Replace t with sneak.
+nmap T <Plug>Sneak_T
+xmap t <Plug>Sneak_t
+xmap T <Plug>Sneak_T
+omap t <Plug>Sneak_t
+omap T <Plug>Sneak_T
 
-  " Assume a fast TTY.
-  set ttyfast
-  " Postpone redraws.
-  set lazyredraw
-" }}}
+" Documentation
+autocmd FileType vim setlocal keywordprg=:help
 
-" Editing {{{
-  " Grep {{{
+" Commands
+command! -bang -nargs=* KillTrailingWhitespace call Preserve('%s/\s\+$//e')
 
-    " Use a faster grep for CtrlSpace.
-    if executable("rg")
-      let g:CtrlSpaceGlobCommand = 'rg -g ""'
-    elseif executable("ag")
-      let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
-    endif
-  " }}}
-  " Search/Replace {{{
-    " Enable escape characters.
-    set magic
-    " Show searches as they are typed.
-    set hlsearch incsearch
-
-    " Quick substitute.
-    nnoremap <leader>s :%s/<c-r><c-w>//gc<left><left><left>
-  " }}}
-
-  " Selection {{{
-    " Use the system clipboard.
-    set clipboard=unnamedplus
-
-    " Allow the cursor to go beyond the line and to make true blocks.
-    set virtualedit=block,onemore
-
-    " Yank from cursor to end of line.
-    nnoremap Y y$
-    " Reselect pasted text in visual mode.
-    nnoremap pv V`]
-    vnoremap p p`]
-
-    " Region expansion.
-    vmap K <Plug>(expand_region_expand)
-    vmap J <Plug>(expand_region_shrink)
-  " }}}
-
-  " Alignment {{{
-    " Interactive alignment of text.
-    nmap gl <Plug>(EasyAlign)
-    vmap <Enter> <Plug>(EasyAlign)
-  " }}]
-
-  " Indent {{{
-    " Retain selection when indenting in Visual mode (sugar for gv).
-    vnoremap < <gv
-    vnoremap > >gv
-  " }}}
-
-  " Spelling {{{
-    " Disable spell checking by default.
-    set nospell spelllang=en
-    " ...but start it on some filetypes.
-    autocmd vimrc FileType gitcommit setlocal spell
-    autocmd vimrc FileType markdown setlocal spell
-    autocmd vimrc FileType text setlocal spell
-  " }}}
-
-  " Case {{{
-    " Ignore case when searching, unless a uppercase letter is present.
-    set ignorecase smartcase
-    " When completing infer case.
-    set infercase
-  " }}}
-
-  " Wrapping {{{
-    " Hard wrap at 80 characters by default.
-    "set textwidth=79
-    " Wrap over lines.
-    set whichwrap=h,l,<,>,[,],b,s
-    set backspace=indent,eol,start
-
-    " Move over virtual lines (wrapped lines).
-    nnoremap j gj
-    nnoremap k gk
-  " }}}
-
-  " Splits {{{
-    " Open to the right.
-    set splitright
-    " Allow squishing splits.
-    set winminheight=0
-
-    " Resize intiuitively!
-    noremap <silent> <c-up> :ObviousResizeUp<cr>
-    noremap <silent> <c-down> :ObviousResizeDown<cr>
-    noremap <silent> <c-left> :ObviousResizeLeft<cr>
-    noremap <silent> <c-right> :ObviousResizeRight<cr>
-  " }}}
-" }}}
-
-" Movement {{{
-  " Arrow Keys {{{
-    nnoremap <left> <nop>
-    nnoremap <down> <nop>
-    nnoremap <up> <nop>
-    nnoremap <right> <nop>
-  " }}}
-
-  " Sneaking {{{
-    " Enable streak (EasyMotion) mode.
-    let g:sneak#streak = 1
-    " Be clever: if I press s in a match, seek to the next match.
-    let g:sneak#s_next = 1
-
-    " Replace f with sneak.
-    nmap f <Plug>Sneak_f
-    nmap F <Plug>Sneak_F
-    xmap f <Plug>Sneak_f
-    xmap F <Plug>Sneak_F
-    omap f <Plug>Sneak_f
-    omap F <Plug>Sneak_F
-    " Replace t with sneak.
-    nmap t <Plug>Sneak_t
-    nmap T <Plug>Sneak_T
-    xmap t <Plug>Sneak_t
-    xmap T <Plug>Sneak_T
-    omap t <Plug>Sneak_t
-    omap T <Plug>Sneak_T
-  " }}}
-  " Scrolling {{{
-
-  " Jumping {{{
-    nmap <tab> %
-  " }}}
-" }}}
-
-" Appearance {{{
-  " Font {{{
-    if s:is_macvim
-      set guifont=Source_Code_Pro:h11
-      set antialias
-    else
-      set guifont=Source\ Code\ Pro\ 10
-    endif
-  " }}}
-
-  " Colorscheme {{{
-    " A amazing colorscheme.
-    colorscheme solarized
-  " }}}
-
-  " Syntax {{{
-    " Turn on syntax highlighting.
-    syntax on
-
-    " Less annoying MatchParen.
-    highlight MatchParen cterm=bold ctermbg=NONE ctermfg=NONE
-    highlight MatchParen gui=bold guibg=NONE guifg=NONE
-  " }}}
-
-  " Hidden {{{
-    " Show hidden characters.
-    set list
-    set listchars=tab:»·,trail:·,eol:¬,nbsp:_
-    " Totally conceal if no replacement exists, but in normal/command mode.
-    set conceallevel=2 concealcursor=nc
-
-    let g:indentLine_char = '┊'
-  " }}}
-
-  " Search {{{
-    " Show matched characters.
-    set showmatch
-  " }}}
-
-  " Wrapping {{{
-    " Enable virtual wrapping, but only between words and only when out of room.
-    set wrap linebreak wrapmargin=0
-    set showbreak=⇇
-    " Wrap to the current indent level.
-    set breakindent
-  " }}}
-
-  " Ruler {{{
-    " Turn on line numbers.
-    set number relativenumber
-
-    " Color the column we wrap on.
-    set colorcolumn=+1
-    " ...but not in help files.
-    autocmd vimrc FileType help setlocal colorcolumn=
-  " }}}
-
-  " Status Bar {{{
-    " Disable the built in mode indicator, and don't show the last command.
-    set noshowmode noshowcmd
-
-    " Use the pretty fonts.
-    let g:airline_powerline_fonts = 1
-    " Enable some nice extensions.
-    let g:airline#extensions#tabline#enabled = 1
-    let g:airline#extensions#whitespace#enabled = 1
-  " }}}
-
-  " Messages {{{
-    " Turn off bells.
-    set noerrorbells novisualbell
-    " Use abbreviations and disable 'Press Enter to Continue' messages.
-    set shortmess+=filmnrxoOtT
-  " }}}
-
-  " Help {{{
-    " Make vim help work.
-    autocmd vimrc FileType vim setlocal keywordprg=:help
-  " }}}
-
-  " GUI {{{
-    " Get rid of GUI cruft.
-    set guioptions-=m
-    set guioptions-=T
-    set guioptions-=e
-    set guioptions-=r
-    set guioptions-=L
-  " }}}
-
-" Caches {{{
-  " Use swapfiles, backups, and persist undo data.
-  set swapfile backup undofile
-
-  " Save the marks for the last 50 files, and 1000 register lines.
-  set viminfo='50,<1000,h
-  " Save 100 lines of command-line and search history.
-  set history=100
-  " Save view/session to view/session files.
-  set viewoptions=cursor,folds,slash,unix
-  set sessionoptions=curdir,folds,blank,buffers,tabpages,resize,winsize,winpos
-
-  let &directory = s:cache_for('swap')
-  let &backupdir = s:cache_for('backup')
-  let &undodir   = s:cache_for('undo')
-  let &viewdir   = s:cache_for('view')
-" }}}
-"
-
-nnoremap <silent> J :call <sid>try('SplitjoinJoin',  'J')<cr>
-nnoremap <silent> S :call <sid>try('SplitjoinSplit', "r\015")<cr>
-
-command! -bang -nargs=* KillTrailingWhitespace call s:preserve('%s/\s\+$//e')
+augroup end

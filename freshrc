@@ -28,7 +28,7 @@ fresh config/fish/functions --file=~/.config/fish/functions/
 fresh config/vim/vimrc --file
 
 # neovim: vim improved
-fresh config/vim/vimrc --file=~/.nvimrc
+fresh config/vim/vimrc --file=~/.config/nvim/init.vim
 
 # readline: terminal-based input
 fresh config/inputrc --file
