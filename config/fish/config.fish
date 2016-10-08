@@ -17,6 +17,7 @@ set --global --export EDITOR vim
 set --global --export BROWSER google-chrome-stable
 set --global --export LESS -R
 set --global --export PINENTRY_USER_DATA gtk
+set --global --export FZF_TMUX 1
 
 test -d /usr/lib/ccache/bin; and set --global --export PATH /usr/lib/ccache/bin $PATH # arch
 test -d /usr/local/opt/ccache/libexec; and set --global --export PATH /usr/local/opt/ccache/libexec $PATH # osx
@@ -55,10 +56,6 @@ if status --is-interactive
     if not status --is-login; or test (uname) = "Darwin"
       tmux has-session -t 0; and tmux new-session -t 0 \; set-option destroy-unattached; or tmux new-session -s 0
     end
-  end
-
-  if test -n "$TMUX"
-    set --global --export FZF_TMUX 1
   end
 
   tput smkx ^/dev/null # fix backspace in st
