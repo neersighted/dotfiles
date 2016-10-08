@@ -18,9 +18,12 @@ fresh-options --file=~/.config/fish/config.fish --marker
     fresh config/fish/aliases.fish
     fresh config/fish/colors.fish
 fresh-options
-fresh fisherman/fisherman fisher.fish --file=~/.config/fish/functions/fisher.fish
 fresh config/fish/prompt.fish --file=~/.config/fish/functions/fish_prompt.fish
 fresh config/fish/right_prompt.fish --file=~/.config/fish/functions/fish_right_prompt.fish
+
+# fisherman: package manager for fish
+fresh config/fish/fishfile --file=~/.config/fish/fishfile
+fresh fisherman/fisherman fisher.fish --file=~/.config/fish/functions/fisher.fish
 
 #
 # Editing
@@ -29,6 +32,7 @@ fresh config/fish/right_prompt.fish --file=~/.config/fish/functions/fish_right_p
 # vim: vi improved
 fresh scripts/vimprofile --bin
 fresh config/vim/vimrc --file
+fresh junegunn/vim-plug plug.vim --file=~/.config/vim/autoload/plug.vim
 
 # neovim: vim improved
 fresh config/vim/vimrc --file=~/.config/nvim/init.vim
@@ -167,6 +171,7 @@ fresh-options
 fresh scripts/yt --bin
 
 fresh_after_build () {
+    chmod +w ~/.fresh/build/config-fish-fishfile
     chmod +x ~/.fresh/build/xsession
 }
 
