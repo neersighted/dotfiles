@@ -140,9 +140,6 @@ fresh config/makepkg.conf --file=~/.makepkg.conf
 # man.cx: open manpages in man.cx
 fresh pengwynn/dotfiles bin/man.cx --bin
 
-# ndenv: node version manager
-fresh scripts/ndenv-install --bin
-
 # notes: view notes in a file (ie todo/xxx/fixme)
 fresh pengwynn/dotfiles bin/notes --bin
 

@@ -23,9 +23,8 @@ test -d /usr/lib/ccache/bin; and set --global --export PATH /usr/lib/ccache/bin 
 test -d /usr/local/opt/ccache/libexec; and set --global --export PATH /usr/local/opt/ccache/libexec $PATH # osx
 test -d /usr/local/opt/coreutils/libexec/gnubin; and set --global --export PATH /usr/local/opt/coreutils/libexec/gnubin $PATH # osx
 
-for xenv in rbenv pyenv ndenv
-  test -d $HOME/.$xenv/shims; or mkdir -p $HOME/.$xenv/shims
-  test -d $HOME/.$xenv/bin; and set --global --export PATH $HOME/.$xenv/{bin,shims} $PATH
+for xenv in rbenv pyenv
+  test -d $HOME/.$xenv/bin; and set --global --export PATH $HOME/.$xenv/bin $PATH
 end
 test -d /usr/bin/core_perl; and set --global --export PATH /usr/bin/{core,site,vendor}_perl $PATH
 set --global --export GOPATH $HOME/.go; test -d $GOPATH/bin; or mkdir -p $GOPATH/bin
