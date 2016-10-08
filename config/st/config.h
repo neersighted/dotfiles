@@ -70,7 +70,7 @@ static float chscale = 1.0;
 static unsigned int xfps      = 120;
 static unsigned int actionfps = 30;
 
-static char termname[]     = "st-256color";
+static char termname[]     = "st-meta-256color";
 static int allowaltscreen  = 1;
 static char vtiden[]       = "\033[?6c";
 
