@@ -153,6 +153,9 @@ fresh config/rbenv/default-gems --file=~/.rbenv/default-gems
 # trunc: truncate files
 fresh pengwynn/dotfiles bin/trunc --bin
 
+# terminfo: terminal database
+fresh config/terminfo --file=~/.terminfo/
+
 # tmux: terminal multiplexer
 fresh-options --file=~/.tmux.conf --marker
     fresh config/tmux/main.conf

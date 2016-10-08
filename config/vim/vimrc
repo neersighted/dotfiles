@@ -80,9 +80,10 @@ Plug 'tpope/vim-characterize' " Modernize 'ga', the character info command.
 Plug 'kopischke/vim-stay' " Restore/preserve views.
 
 " Integration
+Plug 'christoomey/vim-tmux-navigator' " Unified movement in Vim and Tmux panes.
+Plug 'tpope/vim-eunuch' " Helpers for unix commands.
 Plug 'tpope/vim-dispatch', { 'on': ['Make', 'Dispatch'] } " Async adapters for running Vim's compiler plugins, or arbitrary commands.
 Plug 'kopischke/vim-fetch' " Open files to line:column.
-Plug 'tpope/vim-eunuch' " Helpers for unix commands.
 Plug 'johnsyweb/vim-makeshift' " Auto detect the build command.
 Plug 'ludovicchabant/vim-gutentags' " Automatic tag generation.
 
@@ -169,9 +170,8 @@ noremap <silent> <c-w>+ :<c-u>ObviousResizeUp<cr>
 noremap <silent> <c-w>- :<c-u>ObviousResizeDown<cr>
 noremap <silent> <c-w>< :<c-u>ObviousResizeLeft<cr>
 noremap <silent> <c-w>> :<c-u>ObviousResizeRight<cr>
-set noshowmode noshowcmd " Disable the built in status indicators
+set noshowmode noshowcmd showtabline=0 " Disable the built in status indicators/tab line.
 let g:airline_powerline_fonts = 1 " Use pretty fonts for airline.
-let g:airline#extensions#tabline#enabled = 1 " Show buffers as tabs.
 let g:airline#extensions#whitespace#enabled = 1 " Show trailing whitespace.
 set list listchars=tab:»·,trail:·,eol:¬,nbsp:_ " Show hidden characters.
 set conceallevel=2 concealcursor=nc " Enable conceal support.
