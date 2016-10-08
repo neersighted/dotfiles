@@ -20,7 +20,6 @@ set --global --export PINENTRY_USER_DATA gtk
 
 test -d /usr/lib/ccache/bin; and set --global --export PATH /usr/lib/ccache/bin $PATH # arch
 test -d /usr/local/opt/ccache/libexec; and set --global --export PATH /usr/local/opt/ccache/libexec $PATH # osx
-
 test -d /usr/local/opt/coreutils/libexec/gnubin; and set --global --export PATH /usr/local/opt/coreutils/libexec/gnubin $PATH # osx
 
 for xenv in rbenv pyenv ndenv
@@ -30,6 +29,8 @@ end
 test -d /usr/bin/core_perl; and set --global --export PATH /usr/bin/{core,site,vendor}_perl $PATH
 set --global --export GOPATH $HOME/.go; test -d $GOPATH/bin; or mkdir -p $GOPATH/bin
 set --global --export PATH $GOPATH/bin $PATH
+
+test -d $HOME/.fzf/bin; and set --global --export PATH $HOME/.fzf/bin $PATH
 
 for dircolors in {,g}dircolors
   type -fp $dircolors >/dev/null 2>&1; and source (eval "$dircolors --c-shell ~/.dircolorsrc|psub")
@@ -54,6 +55,10 @@ if status --is-interactive
     if not status --is-login; or test (uname) = "Darwin"
       tmux has-session -t 0; and tmux new-session -t 0 \; set-option destroy-unattached; or tmux new-session -s 0
     end
+  end
+
+  if test -n "$TMUX"
+    set --global --export FZF_TMUX 1
   end
 
   tput smkx ^/dev/null # fix backspace in st
