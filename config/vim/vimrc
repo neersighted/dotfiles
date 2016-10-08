@@ -92,6 +92,8 @@ Plug 'mhinz/vim-startify' " A simple startup screen.
 Plug 'vim-airline/vim-airline' " A lightweight, well-integrated status bar.
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-ctrlspace/vim-ctrlspace' " A fuzzy-search driven interface for Vim.
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.
 Plug 'mhinz/vim-grepper', { 'on': 'Grepper' } " A wrapper around all things grep.
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " A visualization of Vim's undo branches.
 Plug 'mhinz/vim-signify' " VCS diffs directly in the gutter.
@@ -207,7 +209,8 @@ xmap gl <Plug>(EasyAlign)
 set magic " Enable escape characters.
 set hlsearch " Highlight matches.
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
-let g:CtrlSpaceGlobCommand = 'rg -g ""' " Use a faster grep for CtrlSpace.
+set grepprg=rg\ --vimgrep " Use a faster grep.
+let g:CtrlSpaceGlobCommand = 'rg -g ""' " For ctrlspace as well...
 nmap <tab> %
 
 " Motions
@@ -231,5 +234,6 @@ autocmd FileType vim setlocal keywordprg=:help
 
 " Commands
 command! -bang -nargs=* KillTrailingWhitespace call Preserve('%s/\s\+$//e')
+command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 
 augroup end
