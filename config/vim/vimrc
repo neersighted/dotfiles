@@ -166,10 +166,10 @@ set colorcolumn=80 " Indicate column 80.
 set wrap linebreak wrapmargin=0 " Enable virtual wrapping.
 set showbreak=⇇ breakindent " Indicate wrapping with an icon and indent.
 set winminheight=0 splitright " Allow squishing splits, open splits to the right.
-noremap <silent> <c-w>+ :<c-u>ObviousResizeUp<cr>
-noremap <silent> <c-w>- :<c-u>ObviousResizeDown<cr>
-noremap <silent> <c-w>< :<c-u>ObviousResizeLeft<cr>
-noremap <silent> <c-w>> :<c-u>ObviousResizeRight<cr>
+noremap <silent> <c-up>    :<c-u>ObviousResizeUp<cr>
+noremap <silent> <c-down>  :<c-u>ObviousResizeDown<cr>
+noremap <silent> <c-left>  :<c-u>ObviousResizeLeft<cr>
+noremap <silent> <c-right> :<c-u>ObviousResizeRight<cr>
 set noshowmode noshowcmd showtabline=0 " Disable the built in status indicators/tab line.
 let g:airline_powerline_fonts = 1 " Use pretty fonts for airline.
 let g:airline#extensions#whitespace#enabled = 1 " Show trailing whitespace.
