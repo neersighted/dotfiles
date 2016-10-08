@@ -209,7 +209,7 @@ xmap gl <Plug>(EasyAlign)
 set magic " Enable escape characters.
 set hlsearch " Highlight matches.
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
-set grepprg=rg\ --vimgrep " Use a faster grep.
+set grepprg=rg\ --vimgrep grepformat=%f:%l:%c:%m " Use a faster grep.
 let g:CtrlSpaceGlobCommand = 'rg -g ""' " For ctrlspace as well...
 nmap <tab> %
 
