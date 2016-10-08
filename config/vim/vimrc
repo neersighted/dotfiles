@@ -64,7 +64,7 @@ endfunction
 
 autocmd VimEnter * if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall | source $MYVIMRC | q | endif
 
-silent execute 'set runtimepath+=' . g:vim
+let &runtimepath=g:vim . ',' . &runtimepath
 call plug#begin(s:cache_for('plugged'))
 
 " Dependencies...
@@ -136,6 +136,8 @@ Plug 'Yggdroot/indentLine' " Show markers for indents.
 
 call plug#end()
 
+runtime plugin/sensible.vim " Load sensible now so we can override things.
+
 " Configuration
 
 " Core
@@ -144,7 +146,6 @@ augroup vimrc | autocmd!
 
 " State
 set swapfile backup undofile " Use swapfiles, backups, and persist undo data.
-set viminfo='50,<1000,h history=1000 " Save a decent amount of history.
 set viewoptions=cursor,folds,slash,unix " Save view/session data.
 let &directory = s:cache_for('swap')
 let &backupdir = s:cache_for('backup')
@@ -152,7 +153,7 @@ let &undodir   = s:cache_for('undo')
 let &viewdir   = s:cache_for('view')
 
 " Interface
-silent colorscheme solarized " Use my colorscheme of choice.
+silent! colorscheme solarized " Use my colorscheme of choice.
 if strftime("%H") >= 5 && strftime("%H") <= 17 | set background=light | else | set background=dark | endif " Set colors based on the time of day.
 if s:is_macvim | set guifont=Source_Code_Pro:h11 antialias | else | set guifont=Source\ Code\ Pro\ 10 | endif " Use my font of choice as well.
 set guioptions=ai shortmess+=filmnrxoOtT " Minimal GUI: selection and icon only, abbreviate as much as possible.
@@ -191,7 +192,6 @@ set textwidth=0 " Disable automatic wrapping...
 autocmd FileType text,gitcommit,markdown setlocal textwidth=78 " ...except some filetypes.
 set virtualedit=block,onemore " Allow the cursor to select the end of the line/form blocks.
 set whichwrap=h,l,<,>,[,],b,s " Wrap the cursor over line.
-set backspace=indent,eol,start " Backspace over lines.
 nnoremap j gj
 nnoremap k gk
 vnoremap < <gv
@@ -205,7 +205,7 @@ xmap gl <Plug>(EasyAlign)
 
 " Search/Navigation
 set magic " Enable escape characters.
-set hlsearch incsearch " Show searches as they are typed.
+set hlsearch " Highlight matches.
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
 let g:CtrlSpaceGlobCommand = 'rg -g ""' " Use a faster grep for CtrlSpace.
 nmap <tab> %
