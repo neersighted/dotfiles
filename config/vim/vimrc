@@ -129,7 +129,7 @@ Plug 'tpope/vim-fugitive' " Tools and syntax highlighting for Git.
 Plug 'jamessan/vim-gnupg' " Support for GnuPG/PGP-encrypted files.
 
 " Highlighting
-Plug 'altercation/vim-colors-solarized' " My preffered colorscheme.
+Plug 'flazz/vim-colorschemes' " A collection of colorschemes.
 Plug 'luochen1990/rainbow', { 'on': 'RainbowToggle' } " Parenthesis visualization.
 Plug 'Yggdroot/indentLine' " Show markers for indents.
 

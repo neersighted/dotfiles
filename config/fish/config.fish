@@ -24,8 +24,11 @@ test -d /usr/local/opt/ccache/libexec; and set --global --export PATH /usr/local
 test -d /usr/local/opt/coreutils/libexec/gnubin; and set --global --export PATH /usr/local/opt/coreutils/libexec/gnubin $PATH # osx
 test -d /usr/bin/core_perl; and set --global --export PATH /usr/bin/{core,site,vendor}_perl $PATH
 
-test -d $HOME/.rbenv/bin; and set --global --export PATH $HOME/.rbenv/bin $PATH; or rbenv-install
-test -d $HOME/.pyenv/bin; and set --global --export PATH $HOME/.pyenv/bin $PATH; or pyenv-install
+test -d $HOME/.rbenv/bin; and set --global --export PATH $HOME/.rbenv/bin $PATH
+status --is-interactive; and source (rbenv init -|psub)
+test -d $HOME/.pyenv/bin; and set --global --export PATH $HOME/.pyenv/bin $PATH
+status --is-interactive; and source (pyenv init -|psub)
+
 set --global --export GOPATH $HOME/.go; test -d $GOPATH/bin; or mkdir -p $GOPATH/bin
 set --global --export PATH $GOPATH/bin $PATH
 
