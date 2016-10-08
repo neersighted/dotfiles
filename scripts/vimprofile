@@ -24,7 +24,7 @@ end
 maximum   = times.values.max
 total     = times.values.inject(:+)
 justify   = times.keys.map(&:length).max
-relatives = times.map { |k, v| [k, v/maximum] }.to_h
+relatives = Hash[ times.map { |k, v| [k, v/maximum] } ]
 
 relatives.sort_by { |k, v| -v }.each do |k, v|
   name  = k.rjust(justify)
