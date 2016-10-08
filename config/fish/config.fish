@@ -16,7 +16,6 @@ set --global --export PATH \
 set --global --export EDITOR vim
 set --global --export BROWSER google-chrome-stable
 set --global --export LESS -R
-set --global --export PINENTRY_USER_DATA gtk
 set --global --export FZF_TMUX 1
 
 test -d /usr/lib/ccache/bin; and set --global --export PATH /usr/lib/ccache/bin $PATH # arch
