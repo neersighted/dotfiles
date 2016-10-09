@@ -20,6 +20,17 @@ Plug 'tpope/vim-fugitive' " Tools and syntax highlighting for Git.
 Plug 'airblade/vim-gitgutter' " git-diff directly in the gutter.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.
+  function! s:fzf_statusline() " Solarized the FZF statusline.
+    if g:colors_name =~ 'dark'
+      highlight caret ctermfg=1 ctermbg=4 guifg=#dc322f guibg=#073642
+      highlight fzf ctermfg=14 ctermbg=4 guifg=#93a1a1 guibg=#073642
+    else
+      highlight caret ctermfg=4 ctermbg=4 guifg=#268bd2 guibg=#eee8d5
+      highlight fzf ctermfg=14 ctermbg=4 guifg=#586e75 guibg=#eee8d5
+    endif
+    setlocal statusline=%#caret#\ >\ %#fzf#fzf
+  endfunction
+  autocmd! User FzfStatusLine call <sid>fzf_statusline()
 Plug 'mhinz/vim-grepper', { 'on': 'Grepper' } " A wrapper around all things grep.
   let g:grepper = { 'tools': ['rg', 'git', 'grep'], 'open':  1, 'jump':  0 } " Use rg for grepper as well.
 Plug 'jamessan/vim-gnupg' " Support for GnuPG/PGP-encrypted files.

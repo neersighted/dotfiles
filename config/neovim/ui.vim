@@ -48,4 +48,5 @@ set winminheight=0 " Allow squishing splits.
 set virtualedit=onemore,all " Allow the cursor to select the end of the line, or form blocks in empty space.
 set lazyredraw " Redraw less for performance's sake.
 set noerrorbells novisualbell " Turn off bells.
+set undofile " Keep persistent undo information.
 set hidden " Allow backgrounding buffers.
