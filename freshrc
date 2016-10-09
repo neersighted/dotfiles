@@ -38,9 +38,6 @@ fresh junegunn/vim-plug plug.vim --file=~/.config/vim/autoload/plug.vim
 # neovim: vim improved
 fresh config/vim/vimrc --file=~/.config/nvim/init.vim
 
-# readline: terminal-based input
-fresh config/inputrc --file
-
 #
 # Compilers
 #
@@ -101,6 +98,9 @@ fresh config/xserverrc --file
 
 # +x: quickly make a file executable
 fresh pengwynn/dotfiles bin/+x --bin
+
+# 24bit: check a terminal for true color support
+fresh scripts/24bit --bin
 
 # aur: the arch user repository
 fresh scripts/aurdiff --bin

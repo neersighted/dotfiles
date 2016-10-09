@@ -91,13 +91,12 @@ Plug 'tpope/vim-dispatch', { 'on': ['Make', 'Dispatch'] } " Async adapters for r
 Plug 'kopischke/vim-fetch' " Open files to line:column.
 Plug 'johnsyweb/vim-makeshift' " Auto detect the build command.
 Plug 'ludovicchabant/vim-gutentags' " Automatic tag generation.
-Plug 'mhinz/vim-signify' " VCS diffs directly in the gutter.
+Plug 'airblade/vim-gitgutter' " git-diff directly in the gutter.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.
 Plug 'mhinz/vim-grepper', { 'on': 'Grepper' } " A wrapper around all things grep.
 
 " Interface
-Plug 'mhinz/vim-startify' " A simple startup screen.
 Plug 'vim-airline/vim-airline' " A lightweight, well-integrated statusline.
 Plug 'vim-airline/vim-airline-themes'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " A visualization of Vim's undo branches.
