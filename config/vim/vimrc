@@ -123,7 +123,6 @@ Plug 'tommcdo/vim-kangaroo' " Simple, manual jump-stack.
 Plug 'justinmk/vim-sneak' " The missing motion, a mid-range two-character seek (and EasyMotion replacement).
 Plug 'tpope/vim-surround' " Motions to manipulate the surroundings of a text object.
 Plug 'tommcdo/vim-ninja-feet' " Motions to the ends of a text object.
-Plug 'wellle/targets.vim' " A collection of many useful text objects (such as remote, next, etc).
 
 " Support
 Plug 'sheerun/vim-polyglot' " Batterie-included language support pack.
