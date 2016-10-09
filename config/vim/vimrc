@@ -76,7 +76,6 @@ call plug#begin(s:storage_for('bundles', g:config))
 " Fixes and Tweaks
 Plug 'tpope/vim-sensible' " Sane defaults for Vim.
 Plug 'tpope/vim-repeat' " Repeat support for arbitrary plugins.
-Plug 'drmikehenry/vim-fixkey', Cond(!has('nvim')) " Hacks to fix escape sequences (in tmux, etc).
 Plug 'talek/obvious-resize', { 'on': ['ObviousResizeUp', 'ObviousResizeDown', 'ObviousResizeLeft', 'ObviousResizeRight'] } " Intiutive split resizing.
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' } " Intiuitive buffer closing.
 Plug 'tpope/vim-vinegar' " Enhancements for netrw.
@@ -232,9 +231,9 @@ nnoremap <leader>` :Marks<cr>
 nnoremap <leader>h :Helptags<cr>
 nnoremap <leader>a :Ag<cr>
 nnoremap <leader>g :Rg<cr>
-nnoremap <leader><tab> <plug>(fzf-maps-n)
-xnoremap <leader><tab> <plug>(fzf-maps-x)
-onoremap <leader><tab> <plug>(fzf-maps-o)
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
 inoremap <expr> <c-x><c-t> fzf#vim#complete('tmuxwords.rb --all-but-current --scroll 500 --min 5')
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word()
 inoremap <expr> <c-x><c-f> fzf#vim#complete#path('rg --files')
