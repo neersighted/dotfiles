@@ -6,13 +6,13 @@ endif
 
 " Variables
 
-if !empty($XDG_CONFIG_HOME)
+if exists('$XDG_CONFIG_HOME')
   let g:config = $XDG_CONFIG_HOME . '/vim'
 else
   let g:config = '~/.config/vim'
 endif
 
-if !empty($XDG_CONFIG_HOME)
+if exists('$XDG_CONFIG_HOME')
   let g:cache = $XDG_DATA_HOME . '/vim'
 else
   let g:cache = '~/.local/share/vim'
@@ -149,6 +149,8 @@ set hidden " Allow backgrounding buffers.
 augroup vimrc | autocmd!
 let mapleader      = ' ' " Use an easy leader.
 let maplocalleader = ' '
+set t_8f=[38;2;%lu;%lu;%lum " Fix 24-bit color escape sequences.
+set t_8b=[48;2;%lu;%lu;%lum " This supports st, tmux, and iterm2.
 
 " State
 set swapfile backup undofile " Use swapfiles, backups, and persist undo data.
