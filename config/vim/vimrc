@@ -76,7 +76,7 @@ Plug 'drmikehenry/vim-fixkey', Cond(!has('nvim')) " Hacks to fix escape sequence
 Plug 'talek/obvious-resize', { 'on': ['ObviousResizeUp', 'ObviousResizeDown', 'ObviousResizeLeft', 'ObviousResizeRight'] } " Intiutive split resizing.
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' } " Intiuitive buffer closing.
 Plug 'tpope/vim-vinegar' " Enhancements for netrw.
-Plug 'tpope/vim-characterize' " Modernize 'ga', the character info command.
+Plug 'romainl/vim-qf' " Enhancements for the quickfix window.
 Plug 'kopischke/vim-stay' " Restore/preserve views.
 
 " Integration
@@ -95,7 +95,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.
 Plug 'mhinz/vim-grepper', { 'on': 'Grepper' } " A wrapper around all things grep.
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " A visualization of Vim's undo branches.
-Plug 'mhinz/vim-signify' " VCS diffs directly in the gutter.
+Plug 'mhinz/vim-signify', { 'on': 'SignifyToggle' }" VCS diffs directly in the gutter.
 
 " Editing
 Plug 'tpope/vim-unimpaired' " Pairs of complementary mappings.
