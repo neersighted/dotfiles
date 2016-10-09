@@ -7,15 +7,15 @@ endif
 " Variables
 
 if exists('$XDG_CONFIG_HOME')
-  let g:config = $XDG_CONFIG_HOME . '/vim'
+  let g:config = $XDG_CONFIG_HOME . '/nvim'
 else
-  let g:config = '~/.config/vim'
+  let g:config = '~/.config/nvim'
 endif
 
-if exists('$XDG_CONFIG_HOME')
-  let g:cache = $XDG_DATA_HOME . '/vim'
+if exists('$XDG_DATA_HOME')
+  let g:cache = $XDG_DATA_HOME . '/nvim'
 else
-  let g:cache = '~/.local/share/vim'
+  let g:cache = '~/.local/share/nvim'
 endif
 
 let s:is_linux   = match(system('uname'), 'Linux') != -1
@@ -30,25 +30,9 @@ let s:is_neovim  = has('nvim')
 
 " Functions
 
-function! s:is_empty(dir) " Checks if a directory is empty.
-  return empty(glob(expand(a:dir)))
-endfunction
-
-function! s:mkdir_p(dir) " Ensures a directory exists.
-  let dir = expand(a:dir)
-  if s:is_empty(dir) && !isdirectory(dir)
-    try
-      call mkdir(target, 'p')
-    catch
-      " On some platforms mkdir() does not exist.
-      silent execute '!mkdir -p ' . dir
-    endtry
-  endif
-endfunction
-
-function! s:storage_for(for, storage) " Provides a named folder in the named storage location.
-  let dir = resolve(expand(a:storage . '/' . a:for))
-  call s:mkdir_p(dir)
+function! Cache(for) " Provides a named folder in the named storage location.
+  let dir = resolve(expand(g:cache . '/' . a:for))
+  call mkdir(dir, 'p')
   return dir
 endfunction
 
@@ -70,8 +54,7 @@ endfunction
 
 autocmd VimEnter * if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall | endif
 
-let &runtimepath=g:config . ',' . $VIMRUNTIME
-call plug#begin(s:storage_for('bundles', g:config))
+call plug#begin(g:config . '/bundles')
 
 " Fixes and Tweaks
 Plug 'tpope/vim-sensible' " Sane defaults for Vim.
@@ -156,10 +139,10 @@ if s:is_neovim | set termguicolors | endif " Use termguicolors on neovim only (v
 " State
 set swapfile backup undofile " Use swapfiles, backups, and persist undo data.
 set viewoptions=cursor,folds,slash,unix " Save view/session data.
-let &directory = s:storage_for('swap', g:cache) . '/' " / means use full path.
-let &backupdir = s:storage_for('backup', g:cache)
-let &undodir   = s:storage_for('undo', g:cache)
-let &viewdir   = s:storage_for('view', g:cache)
+let &directory = Cache('swap') . '/' " / means use full path.
+let &backupdir = Cache('backup')
+let &undodir   = Cache('undo')
+let &viewdir   = Cache('view')
 
 " Interface
 if strftime("%H") >= 5 && strftime("%H") <= 17 | colorscheme flattened_light | else | colorscheme flattened_dark | endif " Set colors based on the time of day.

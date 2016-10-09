@@ -13,7 +13,7 @@ set --global --export PATH \
   /usr/{,s}bin \
   /{,s}bin
 
-set --global --export EDITOR vim
+set --global --export EDITOR nvim
 set --global --export BROWSER google-chrome-stable
 set --global --export LESS -R
 

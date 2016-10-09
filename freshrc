@@ -30,13 +30,12 @@ fresh fisherman/fisherman fisher.fish --file=~/.config/fish/functions/fisher.fis
 # Editing
 #
 
-# vim: vi improved
-fresh scripts/vimprofile --bin
-fresh config/vim/vimrc --file
-fresh junegunn/vim-plug plug.vim --file=~/.config/vim/autoload/plug.vim
-
 # neovim: vim improved
-fresh config/vim/vimrc --file=~/.config/nvim/init.vim
+fresh scripts/vimprofile --bin
+for config in ~/.dotfiles/config/neovim/*.vim; do
+    fresh config/neovim/$(basename $config) --file=~/.config/nvim/$(basename $config)
+done
+fresh junegunn/vim-plug plug.vim --file=~/.config/nvim/autoload/plug.vim
 
 #
 # Compilers

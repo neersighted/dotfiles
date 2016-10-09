@@ -2,13 +2,14 @@
 
 require 'tempfile'
 
-vim = ARGV.first || 'vim'
-config = ENV['XDG_CONFIG_HOME'] || File.join(ENV['HOME'], '.config')
-vimfiles = File.join(config, 'vim', 'bundles')
-log = Tempfile.new("#{vim}profile")
+VIM = 'nvim'
 
-puts "Profiling #{vim} plugin startup performance (from #{vimfiles})..."
-system(vim, '--startuptime', log.path, '-c', 'q')
+config = ENV['XDG_CONFIG_HOME'] || File.join(ENV['HOME'], '.config')
+vimfiles = File.join(config, VIM, 'bundles')
+log = Tempfile.new()
+
+puts "Profiling plugin startup performance (from #{vimfiles})..."
+system(VIM, '--startuptime', log.path, '-c', 'q')
 
 times = Hash.new(0)
 lines = log.readlines.select { |line| line =~ /sourcing.*#{Regexp.escape(vimfiles)}/ }
