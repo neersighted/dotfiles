@@ -10,7 +10,7 @@ fresh freshshell/fresh bin/fresh --bin
 #
 
 # dircolors: colorized ls
-fresh config/dircolorsrc --file
+fresh seebi/dircolors-solarized dircolors.ansi-dark --file=~/.dircolorsrc
 
 # fish: the friendly interactive shell, for humans
 fresh-options --file=~/.config/fish/config.fish --marker
