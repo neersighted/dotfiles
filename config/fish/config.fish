@@ -25,6 +25,7 @@ set --global --export FZF_ALT_C_COMMAND 'find -L . -type d -mindepth 1 -printf "
 test -d /usr/lib/ccache/bin; and set --global --export PATH /usr/lib/ccache/bin $PATH # arch
 test -d /usr/local/opt/ccache/libexec; and set --global --export PATH /usr/local/opt/ccache/libexec $PATH # osx
 test -d /usr/local/opt/coreutils/libexec/gnubin; and set --global --export PATH /usr/local/opt/coreutils/libexec/gnubin $PATH # osx
+test -d /usr/local/opt/findutils/libexec/gnubin; and set --global --export PATH /usr/local/opt/findutils/libexec/gnubin $PATH # osx
 test -d /usr/bin/core_perl; and set --global --export PATH /usr/bin/{core,site,vendor}_perl $PATH
 
 test -d $HOME/.rbenv/bin; and set --global --export PATH $HOME/.rbenv/bin $PATH
