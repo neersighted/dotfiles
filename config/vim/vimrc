@@ -131,7 +131,7 @@ Plug 'tpope/vim-fugitive' " Tools and syntax highlighting for Git.
 Plug 'jamessan/vim-gnupg' " Support for GnuPG/PGP-encrypted files.
 
 " Highlighting
-Plug 'lifepillar/vim-solarized8' " A optimized, modern solarized.
+Plug 'romainl/flattened' " A optimized, modern solarized.
 Plug 'luochen1990/rainbow', { 'on': 'RainbowToggle' } " Parenthesis visualization.
 Plug 'Yggdroot/indentLine' " Show markers for indents.
 
@@ -156,7 +156,7 @@ let &undodir   = s:cache_for('undo')
 let &viewdir   = s:cache_for('view')
 
 " Interface
-if strftime("%H") >= 5 && strftime("%H") <= 17 | colorscheme solarized8_light | else | colorscheme solarized8_dark | endif " Set colors based on the time of day.
+if strftime("%H") >= 5 && strftime("%H") <= 17 | colorscheme flattened_light | else | colorscheme flattened_dark | endif " Set colors based on the time of day.
 if s:is_macvim | set guifont=Source_Code_Pro:h11 antialias | else | set guifont=Source\ Code\ Pro\ 10 | endif " Use my font of choice as well.
 set guioptions=ai shortmess+=filmnrxoOtT " Minimal GUI: selection and icon only, abbreviate as much as possible.
 set ttyfast lazyredraw " Assume a fast TTY, optimize render performance.
@@ -174,6 +174,7 @@ noremap <silent> <c-down>  :<c-u>ObviousResizeDown<cr>
 noremap <silent> <c-left>  :<c-u>ObviousResizeLeft<cr>
 noremap <silent> <c-right> :<c-u>ObviousResizeRight<cr>
 set noshowmode noshowcmd " Disable the built in status indicators.
+let g:airline_theme='solarized' " Use solarized/flattened with airline.
 let g:airline_powerline_fonts = 1 " Use pretty fonts for airline.
 let g:airline#extensions#whitespace#enabled = 1 " Show trailing whitespace.
 let g:airline#extensions#tabline#enabled = 1 " Show trailing whitespace.
