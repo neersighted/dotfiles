@@ -134,7 +134,7 @@ Plug 'tpope/vim-fugitive' " Tools and syntax highlighting for Git.
 Plug 'jamessan/vim-gnupg' " Support for GnuPG/PGP-encrypted files.
 
 " Highlighting
-Plug 'romainl/flattened' " A optimized, modern solarized.
+Plug 'neersighted/flattened' " A optimized, modern solarized.
 Plug 'luochen1990/rainbow', { 'on': 'RainbowToggle' } " Parenthesis visualization.
 Plug 'Yggdroot/indentLine' " Show markers for indents.
 
@@ -156,7 +156,7 @@ if s:is_neovim | set termguicolors | endif " Use termguicolors on neovim only (v
 " State
 set swapfile backup undofile " Use swapfiles, backups, and persist undo data.
 set viewoptions=cursor,folds,slash,unix " Save view/session data.
-let &directory = s:storage_for('swap', g:cache)
+let &directory = s:storage_for('swap', g:cache) . '/' " / means use full path.
 let &backupdir = s:storage_for('backup', g:cache)
 let &undodir   = s:storage_for('undo', g:cache)
 let &viewdir   = s:storage_for('view', g:cache)

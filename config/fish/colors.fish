@@ -28,6 +28,8 @@ set -g fish_color_search_match "--background=$base02"
 set -g fish_color_operator $orange
 set -g fish_color_escape $cyan
 
+set -g fish_color_user $base0
+set -g fish_color_root $red
 set -g fish_color_hostname $cyan
 set -g fish_color_cwd $yellow
 set -g fish_color_git $green

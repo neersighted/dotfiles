@@ -21,6 +21,7 @@ set --global --export FZF_TMUX 1
 set --global --export FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*" ^/dev/null' # fzf <3 rg
 set --global --export FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
 set --global --export FZF_ALT_C_COMMAND 'find -L . -type d -mindepth 1 -printf "%P\n" ^/dev/null'
+set --global --export FZF_DEFAULT_OPTS '--color fg:-1,bg:-1,hl:4,fg+:7,bg+:0,hl+:4 --color info:3,prompt:3,pointer:15,marker:15,spinner:3'
 
 test -d /usr/lib/ccache/bin; and set --global --export PATH /usr/lib/ccache/bin $PATH # arch
 test -d /usr/local/opt/ccache/libexec; and set --global --export PATH /usr/local/opt/ccache/libexec $PATH # osx
