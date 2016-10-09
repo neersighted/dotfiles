@@ -81,6 +81,7 @@ Plug 'kopischke/vim-stay' " Restore/preserve views.
 
 " Integration
 Plug 'christoomey/vim-tmux-navigator' " Unified movement in Vim and Tmux panes.
+Plug 'tmux-plugins/vim-tmux-focus-events' " Fix focus events in Vim under Tmux.
 Plug 'tpope/vim-eunuch' " Helpers for unix commands.
 Plug 'tpope/vim-dispatch', { 'on': ['Make', 'Dispatch'] } " Async adapters for running Vim's compiler plugins, or arbitrary commands.
 Plug 'kopischke/vim-fetch' " Open files to line:column.
@@ -185,7 +186,7 @@ set showmatch " Indicate when a matched delimiter pair is created.
 highlight MatchParen cterm=bold ctermbg=NONE ctermfg=NONE gui=bold guibg=NONE guifg=NONE " Less annoying MatchParen.
 
 " Selection
-set clipboard=unnamedplus " Use the system clipboard.
+set clipboard=unnamed,unnamedplus " Use the system clipboard.
 nnoremap Y y$
 nnoremap pv V`]
 vnoremap p p`]
