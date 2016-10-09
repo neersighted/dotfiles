@@ -174,9 +174,10 @@ noremap <silent> <c-up>    :<c-u>ObviousResizeUp<cr>
 noremap <silent> <c-down>  :<c-u>ObviousResizeDown<cr>
 noremap <silent> <c-left>  :<c-u>ObviousResizeLeft<cr>
 noremap <silent> <c-right> :<c-u>ObviousResizeRight<cr>
-set noshowmode noshowcmd showtabline=0 " Disable the built in status indicators/tab line.
+set noshowmode noshowcmd " Disable the built in status indicators.
 let g:airline_powerline_fonts = 1 " Use pretty fonts for airline.
 let g:airline#extensions#whitespace#enabled = 1 " Show trailing whitespace.
+let g:airline#extensions#tabline#enabled = 1 " Show trailing whitespace.
 set list listchars=tab:»·,trail:·,eol:¬,nbsp:_ " Show hidden characters.
 set conceallevel=2 concealcursor=nc " Enable conceal support.
 let g:indentLine_char = '┊' " Use a small line to show space-based indentation.
