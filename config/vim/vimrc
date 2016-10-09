@@ -81,6 +81,7 @@ Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' } " Intiuitive buffer closing.
 Plug 'tpope/vim-vinegar' " Enhancements for netrw.
 Plug 'romainl/vim-qf' " Enhancements for the quickfix window.
 Plug 'kopischke/vim-stay' " Restore/preserve views.
+Plug 'takac/vim-hardtime', { 'on': 'HardTimeOn' } " Hard mode (restrict hjkl).
 
 " Integration
 Plug 'christoomey/vim-tmux-navigator' " Unified movement in Vim and Tmux panes.
