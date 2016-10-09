@@ -1,8 +1,7 @@
 # Maintainer: Bjorn Neergaard (neersighted) <bjorn@neersighted.com>
 
-_pkgname=gvim
 pkgname=gvim-neersighted
-pkgver=8.0.0022.r0.gec68a99
+pkgver=8.0.0027.r0.gdc0ccae
 pkgrel=1
 pkgdesc='Vi Improved, a highly configurable, improved version of the vi text editor'
 url='http://www.vim.org/'
@@ -45,8 +44,7 @@ build() {
     --enable-python3interp \
     --enable-perlinterp \
     --enable-luainterp \
-    --enable-fail-if-missing \
-    --with-compiledby="neersighted"
+    --enable-fail-if-missing
   make
 }
 
