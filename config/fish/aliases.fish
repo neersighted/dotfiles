@@ -5,7 +5,7 @@ else
   alias ls 'ls -Alh -G'
 end
 
-if which nvim >/dev/null 2>&1 # Neovim if we got it.
+if type nvim >/dev/null 2>&1 # Neovim if we got it.
   alias vim nvim
 end
 

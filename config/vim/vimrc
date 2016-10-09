@@ -68,7 +68,7 @@ endfunction
 
 " Plugins
 
-autocmd VimEnter * if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall | source $MYVIMRC | q | endif
+autocmd VimEnter * if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall | endif
 
 let &runtimepath=g:config . ',' . $VIMRUNTIME
 call plug#begin(s:storage_for('bundles', g:config))

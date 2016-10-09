@@ -32,9 +32,8 @@ build() {
   cd ${_pkgname}/build
 
   cmake -G 'Unix Makefiles' \
-    -DCMAKE_BUILD_TYPE=Dev \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     -DCMAKE_INSTALL_PREFIX=/usr \
-    -DENABLE_JEMALLOC=ON \
     ..
   make
 }
