@@ -211,7 +211,7 @@ set hlsearch " Highlight matches.
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
 set grepprg=rg\ --vimgrep grepformat=%f:%l:%c:%m " Use a faster grep.
 let g:grepper = { 'tools': ['rg', 'git', 'grep'], 'open':  1, 'jump':  0 } " Use rg for grepper as well.
-let g:CtrlSpaceGlobCommand = 'rg -g ""' " For ctrlspace as well...
+let g:CtrlSpaceGlobCommand = 'rg --files' " For ctrlspace as well...
 let g:fzf_launcher = 'st -c fzf -g 50x25 -e bash -ic %s' " Use st for graphical GUIs.
 nmap <tab> %
 
