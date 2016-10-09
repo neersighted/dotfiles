@@ -167,6 +167,7 @@ fresh-options --file=~/.tmux.conf --marker
         fresh config/tmux/linux.conf
     fi
 fresh-options
+fresh junegunn/dotfiles bin/tmuxwords.rb --bin
 
 # youtube: video sharing site (how quaint)
 fresh scripts/yt --bin

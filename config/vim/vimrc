@@ -91,7 +91,6 @@ Plug 'ludovicchabant/vim-gutentags' " Automatic tag generation.
 Plug 'mhinz/vim-startify' " A simple startup screen.
 Plug 'vim-airline/vim-airline' " A lightweight, well-integrated status bar.
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-ctrlspace/vim-ctrlspace' " A fuzzy-search driven interface for Vim.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.
 Plug 'mhinz/vim-grepper', { 'on': 'Grepper' } " A wrapper around all things grep.
@@ -111,7 +110,7 @@ Plug 'terryma/vim-expand-region' " Syntactically expand the selection.
 
 " Formatting
 Plug 'tpope/vim-sleuth' " Auto-detect indent settings.
-Plug 'junegunn/vim-easy-align' " Align text objects using verbs.
+Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] } " Align text objects using verbs.
 Plug 'jiangmiao/auto-pairs' " Automatically close delimiters (incl quotes, parenthesis, etc).
 Plug 'tpope/vim-endwise' " Automatically end block constructs in supported languages.
 
@@ -145,6 +144,8 @@ runtime plugin/sensible.vim " Load sensible now so we can override things.
 " Core
 set hidden " Allow backgrounding buffers.
 augroup vimrc | autocmd!
+let mapleader      = ' ' " Use an easy leader.
+let maplocalleader = ' '
 
 " State
 set swapfile backup undofile " Use swapfiles, backups, and persist undo data.
@@ -211,9 +212,29 @@ set hlsearch " Highlight matches.
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
 set grepprg=rg\ --vimgrep grepformat=%f:%l:%c:%m " Use a faster grep.
 let g:grepper = { 'tools': ['rg', 'git', 'grep'], 'open':  1, 'jump':  0 } " Use rg for grepper as well.
-let g:CtrlSpaceGlobCommand = 'rg --files' " For ctrlspace as well...
 let g:fzf_launcher = 'st -c fzf -g 50x25 -e bash -ic %s' " Use st for graphical GUIs.
 nmap <tab> %
+nnoremap <backspace> :b#<cr>
+
+" FZF
+nnoremap <leader><leader> :Buffers<cr>
+nnoremap <leader>o :Files<cr>
+nnoremap <leader>O :GFiles<cr>
+nnoremap <leader>f :BTags<cr>
+nnoremap <leader>F :Tags<cr>
+nnoremap <leader>` :Marks<cr>
+nnoremap <leader>h :Helptags<cr>
+nnoremap <leader>a :Ag<cr>
+nnoremap <leader>g :Rg<cr>
+nnoremap <leader><tab> <plug>(fzf-maps-n)
+xnoremap <leader><tab> <plug>(fzf-maps-x)
+onoremap <leader><tab> <plug>(fzf-maps-o)
+inoremap <expr> <c-x><c-t> fzf#vim#complete('tmuxwords.rb --all-but-current --scroll 500 --min 5')
+inoremap <expr> <c-x><c-k> fzf#vim#complete#word()
+inoremap <expr> <c-x><c-f> fzf#vim#complete#path('rg --files')
+inoremap <expr> <c-x><c-d> fzf#vim#complete#path('find -L . -type d -mindepth 1 -print')
+inoremap <expr> <c-x><c-l> fzf#vim#complete#line()
+inoremap <expr> <c-x><c-b> fzf#vim#complete#buffer_line()
 
 " Motions
 let g:sneak#streak = 1 " Enable streak (EasyMotion) mode.
@@ -236,5 +257,6 @@ autocmd FileType vim setlocal keywordprg=:help
 
 " Commands
 command! -bang -nargs=* KillTrailingWhitespace call Preserve('%s/\s\+$//e')
+command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 
 augroup end
