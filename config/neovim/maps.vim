@@ -50,6 +50,9 @@ noremap <silent> <c-down>  :<c-u>ObviousResizeDown<cr>
 noremap <silent> <c-left>  :<c-u>ObviousResizeLeft<cr>
 noremap <silent> <c-right> :<c-u>ObviousResizeRight<cr>
 
+" Sayonara
+nnoremap <leader>x :Sayonara<cr>
+
 " Sneak
 nmap f <Plug>Sneak_f
 nmap F <Plug>Sneak_F

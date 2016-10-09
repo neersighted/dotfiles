@@ -1,6 +1,6 @@
 call plug#begin($XDG_CONFIG_HOME . '/nvim/bundles')
 
-"Plug 'tpope/vim-sensible' " Sane defaults for Vim.
+" Enhancements/Tweaks
 Plug 'tpope/vim-repeat' " Repeat support for arbitrary plugins.
 Plug 'talek/obvious-resize', { 'on': ['ObviousResizeUp', 'ObviousResizeDown', 'ObviousResizeLeft', 'ObviousResizeRight'] } " Intiutive split resizing.
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' } " Intiuitive buffer closing.
@@ -11,20 +11,21 @@ Plug 'takac/vim-hardtime', { 'on': 'HardTimeOn' } " Hard mode (restrict hjkl).
 
 " Integration
 Plug 'christoomey/vim-tmux-navigator' " Unified movement in Vim and Tmux panes.
-Plug 'tmux-plugins/vim-tmux-focus-events' " Fix focus events in Vim under Tmux.
 Plug 'tpope/vim-eunuch' " Helpers for unix commands.
 Plug 'tpope/vim-dispatch', { 'on': ['Make', 'Dispatch'] } " Async adapters for running Vim's compiler plugins, or arbitrary commands.
 Plug 'kopischke/vim-fetch' " Open files to line:column.
 Plug 'johnsyweb/vim-makeshift' " Auto detect the build command.
 Plug 'ludovicchabant/vim-gutentags' " Automatic tag generation.
+Plug 'tpope/vim-fugitive' " Tools and syntax highlighting for Git.
 Plug 'airblade/vim-gitgutter' " git-diff directly in the gutter.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.
-  let g:fzf_launcher = 'st -c fzf -g 50x25 -e bash -ic %s' " Use st for graphical GUIs.
 Plug 'mhinz/vim-grepper', { 'on': 'Grepper' } " A wrapper around all things grep.
   let g:grepper = { 'tools': ['rg', 'git', 'grep'], 'open':  1, 'jump':  0 } " Use rg for grepper as well.
+Plug 'jamessan/vim-gnupg' " Support for GnuPG/PGP-encrypted files.
 
 " Interface
+Plug 'romainl/flattened' " A optimized, modern solarized.
 Plug 'vim-airline/vim-airline' " A lightweight, well-integrated statusline.
 Plug 'vim-airline/vim-airline-themes'
   let g:airline_theme='solarized' " Use solarized/flattened with airline.
@@ -61,17 +62,12 @@ Plug 'justinmk/vim-sneak' " The missing motion, a mid-range two-character seek (
 Plug 'tpope/vim-surround' " Motions to manipulate the surroundings of a text object.
 Plug 'tommcdo/vim-ninja-feet' " Motions to the ends of a text object.
 
-" Support
-Plug 'sheerun/vim-polyglot' " Batterie-included language support pack.
-Plug 'tpope/vim-fugitive' " Tools and syntax highlighting for Git.
-Plug 'jamessan/vim-gnupg' " Support for GnuPG/PGP-encrypted files.
-
-" Highlighting
-Plug 'romainl/flattened' " A optimized, modern solarized.
+" Syntax/Highlighting
 Plug 'luochen1990/rainbow', { 'on': 'RainbowToggle' } " Parenthesis visualization.
   let g:rainbow_active = 0 " Manually enable rainbow parenthesis.
 Plug 'Yggdroot/indentLine' " Show markers for indents.
   let g:indentLine_char = '┊' " Use a small line to show space-based indentation.
+Plug 'sheerun/vim-polyglot' " Batterie-included language support pack.
 
 call plug#end()
 
