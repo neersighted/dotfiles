@@ -151,6 +151,7 @@ let mapleader      = ' ' " Use an easy leader.
 let maplocalleader = ' '
 set t_8f=[38;2;%lu;%lu;%lum " Fix 24-bit color escape sequences.
 set t_8b=[48;2;%lu;%lu;%lum " This supports st, tmux, and iterm2.
+if s:is_neovim | set termguicolors | endif " Use termguicolors on neovim only (vim is somewhat broken).
 
 " State
 set swapfile backup undofile " Use swapfiles, backups, and persist undo data.
