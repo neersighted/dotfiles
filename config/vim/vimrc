@@ -73,11 +73,9 @@ autocmd VimEnter * if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)')) |
 let &runtimepath=g:config . ',' . $VIMRUNTIME
 call plug#begin(s:storage_for('bundles', g:config))
 
-" Dependencies...
-Plug 'tpope/vim-repeat' " Repeat support for arbitrary plugins.
-
 " Fixes and Tweaks
 Plug 'tpope/vim-sensible' " Sane defaults for Vim.
+Plug 'tpope/vim-repeat' " Repeat support for arbitrary plugins.
 Plug 'drmikehenry/vim-fixkey', Cond(!has('nvim')) " Hacks to fix escape sequences (in tmux, etc).
 Plug 'talek/obvious-resize', { 'on': ['ObviousResizeUp', 'ObviousResizeDown', 'ObviousResizeLeft', 'ObviousResizeRight'] } " Intiutive split resizing.
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' } " Intiuitive buffer closing.
@@ -93,16 +91,16 @@ Plug 'tpope/vim-dispatch', { 'on': ['Make', 'Dispatch'] } " Async adapters for r
 Plug 'kopischke/vim-fetch' " Open files to line:column.
 Plug 'johnsyweb/vim-makeshift' " Auto detect the build command.
 Plug 'ludovicchabant/vim-gutentags' " Automatic tag generation.
+Plug 'mhinz/vim-signify' " VCS diffs directly in the gutter.
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.
+Plug 'mhinz/vim-grepper', { 'on': 'Grepper' } " A wrapper around all things grep.
 
 " Interface
 Plug 'mhinz/vim-startify' " A simple startup screen.
 Plug 'vim-airline/vim-airline' " A lightweight, well-integrated statusline.
 Plug 'vim-airline/vim-airline-themes'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.
-Plug 'mhinz/vim-grepper', { 'on': 'Grepper' } " A wrapper around all things grep.
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " A visualization of Vim's undo branches.
-Plug 'mhinz/vim-signify' " VCS diffs directly in the gutter.
 
 " Editing
 Plug 'tpope/vim-unimpaired' " Pairs of complementary mappings.
