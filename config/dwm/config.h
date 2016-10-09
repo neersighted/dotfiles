@@ -50,32 +50,8 @@ static const Rule rules[] = {
 	*	WM_NAME(STRING) = title
 	*/
 	/* class                      instance    title       tags mask     isfloating   monitor */
-	{ "st-meta-256color",         NULL,     NULL,         1 << 0,       False,       0 },
-	{ "Gvim",                     NULL,       NULL,       1 << 1,       False,       0 },
-	{ "libreoffice",              NULL,       NULL,       1 << 1,       False,       0 },
-	{ "Spacefm",                  NULL,       NULL,       1 << 2,       False,       0 },
-	{ "Transmission-remote-gtk",  NULL,       NULL,       1 << 3,       False,       0 },
-	{ "Pavucontrol",              NULL,       NULL,       1 << 3,       False,       0 },
-	{ "Paprefs",                  NULL,       NULL,       1 << 3,       False,       0 },
-	{ "Virt-manager",             NULL,       NULL,       1 << 6,       False,       0 },
-	{ "VirtualBox",               NULL,       NULL,       1 << 6,       False,       0 },
-
-
-	{ "google-chrome",            NULL,       NULL,       1 << 0,       False,       1 },
-	{ "Chromium",                 NULL,       NULL,       1 << 0,       False,       1 },
-	{ "Spotify",                  NULL,       NULL,       1 << 1,       False,       1 },
-	{ "Vlc",                      NULL,       NULL,       1 << 2,       False,       1 },
-	{ "mpv",                      NULL,       NULL,       1 << 2,       False,       1 },
-	{ "Popcorntime",              NULL,       NULL,       1 << 2,       False,       1 },
-	{ "Steam",                    NULL,       NULL,       1 << 3,       False,       1 },
-	{ "Thunderbird",              NULL,       NULL,       1 << 4,       False,       1 },
-	{ "Telegram",                 NULL,       NULL,       1 << 5,       False,       1 },
-	{ "telegram",                 NULL,       NULL,       1 << 5,       False,       1 },
-	{ "Skype",                    NULL,       NULL,       1 << 5,       False,       1 },
-
+	{ "fzf",                      NULL,       NULL,       0,            True,       -1 },
 	{ "feh",                      NULL,       NULL,       0,            True,       -1 },
-	{ "Gimp",                     NULL,       NULL,       0,            True,       -1 },
-	{ "Zenity",                   NULL,       NULL,       0,            True,       -1 },
 };
 
 #define MODKEY Mod4Mask

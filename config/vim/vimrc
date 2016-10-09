@@ -210,7 +210,9 @@ set magic " Enable escape characters.
 set hlsearch " Highlight matches.
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
 set grepprg=rg\ --vimgrep grepformat=%f:%l:%c:%m " Use a faster grep.
+let g:grepper = { 'tools': ['rg', 'git', 'grep'], 'open':  1, 'jump':  0 } " Use rg for grepper as well.
 let g:CtrlSpaceGlobCommand = 'rg -g ""' " For ctrlspace as well...
+let g:fzf_launcher = 'st -c fzf -g 50x25 -e bash -ic %s' " Use st for graphical GUIs.
 nmap <tab> %
 
 " Motions
@@ -234,6 +236,5 @@ autocmd FileType vim setlocal keywordprg=:help
 
 " Commands
 command! -bang -nargs=* KillTrailingWhitespace call Preserve('%s/\s\+$//e')
-command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 
 augroup end
