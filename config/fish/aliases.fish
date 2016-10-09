@@ -7,5 +7,5 @@ end
 
 # Open in existing Gvim.
 function gvim
-  test -n "$argv"; and gvim --remote-silent $argv; or gvim
+  test -n "$argv"; and command gvim --remote-silent $argv; or command gvim
 end
