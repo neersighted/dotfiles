@@ -4,7 +4,7 @@ require 'tempfile'
 
 vim = ARGV.first || 'vim'
 config = ENV['XDG_CONFIG_HOME'] || File.join(ENV['HOME'], '.config')
-vimfiles = File.join(config, 'vim', 'plugged')
+vimfiles = File.join(config, 'vim', 'bundles')
 log = Tempfile.new("#{vim}profile")
 
 puts "Profiling #{vim} plugin startup performance (from #{vimfiles})..."

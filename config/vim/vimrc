@@ -7,9 +7,15 @@ endif
 " Variables
 
 if !empty($XDG_CONFIG_HOME)
-  let g:vim = $XDG_CONFIG_HOME . '/vim'
+  let g:config = $XDG_CONFIG_HOME . '/vim'
 else
-  let g:vim = '~/.config/vim'
+  let g:config = '~/.config/vim'
+endif
+
+if !empty($XDG_CONFIG_HOME)
+  let g:cache = $XDG_DATA_HOME . '/vim'
+else
+  let g:cache = '~/.local/share/vim'
 endif
 
 let s:is_linux   = match(system('uname'), 'Linux') != -1
@@ -40,8 +46,8 @@ function! s:mkdir_p(dir) " Ensures a directory exists.
   endif
 endfunction
 
-function! s:cache_for(for) " Provides a named folder in the Vim cache.
-  let dir = resolve(expand(g:vim . '/' . a:for))
+function! s:storage_for(for, storage) " Provides a named folder in the named storage location.
+  let dir = resolve(expand(a:storage . '/' . a:for))
   call s:mkdir_p(dir)
   return dir
 endfunction
@@ -64,8 +70,8 @@ endfunction
 
 autocmd VimEnter * if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall | source $MYVIMRC | q | endif
 
-let &runtimepath=g:vim . ',' . &runtimepath
-call plug#begin(s:cache_for('plugged'))
+let &runtimepath=g:config . ',' . &runtimepath
+call plug#begin(s:storage_for('bundles', g:config))
 
 " Dependencies...
 Plug 'tpope/vim-repeat' " Repeat support for arbitrary plugins.
@@ -150,10 +156,10 @@ let maplocalleader = ' '
 " State
 set swapfile backup undofile " Use swapfiles, backups, and persist undo data.
 set viewoptions=cursor,folds,slash,unix " Save view/session data.
-let &directory = s:cache_for('swap')
-let &backupdir = s:cache_for('backup')
-let &undodir   = s:cache_for('undo')
-let &viewdir   = s:cache_for('view')
+let &directory = s:storage_for('swap', g:cache)
+let &backupdir = s:storage_for('backup', g:cache)
+let &undodir   = s:storage_for('undo', g:cache)
+let &viewdir   = s:storage_for('view', g:cache)
 
 " Interface
 if strftime("%H") >= 5 && strftime("%H") <= 17 | colorscheme flattened_light | else | colorscheme flattened_dark | endif " Set colors based on the time of day.
