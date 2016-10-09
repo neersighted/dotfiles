@@ -1,251 +1,38 @@
-" Profile startup time.
-if has('vim_starting')
-  let startup = reltime()
-  autocmd VimEnter * let ready = reltime(startup) | redraw | echo reltimestr(ready)
-endif
+augroup vimrc
+autocmd!
 
-" Variables
-
-if exists('$XDG_CONFIG_HOME')
-  let g:config = $XDG_CONFIG_HOME . '/nvim'
-else
-  let g:config = '~/.config/nvim'
-endif
-
-if exists('$XDG_DATA_HOME')
-  let g:cache = $XDG_DATA_HOME . '/nvim'
-else
-  let g:cache = '~/.local/share/nvim'
-endif
-
-let s:is_linux   = match(system('uname'), 'Linux') != -1
-let s:is_mac     = match(system('uname'), 'Darwin') != -1
-let s:is_windows = has('win32') || has('win64')
-let s:is_cygwin  = has('win32unix')
-
-let s:is_gui     = has('gui_running')
-let s:is_gtk     = has('gui_gtk2')
-let s:is_macvim  = has('gui_macvim')
-let s:is_neovim  = has('nvim')
-
-" Functions
-
-function! Cache(for) " Provides a named folder in the named storage location.
-  let dir = resolve(expand(g:cache . '/' . a:for))
-  call mkdir(dir, 'p')
-  return dir
-endfunction
-
-function! Cond(cond, ...) " Conditionally enable a plugin.
-  let opts = get(a:000, 0, {})
-  return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
-endfunction
-
-function! Preserve(cmd) " Execute a command without altering position/history.
-  let old_search = @/
-  let cursor_l = line('.')
-  let cursor_c = col('.')
-  execute a:cmd
-  let @/ = old_search
-  call cursor(cursor_l, cursor_c)
-endfunction
-
-" Plugins
-
-autocmd VimEnter * if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall | endif
-
-call plug#begin(g:config . '/bundles')
-
-" Fixes and Tweaks
-Plug 'tpope/vim-sensible' " Sane defaults for Vim.
-Plug 'tpope/vim-repeat' " Repeat support for arbitrary plugins.
-Plug 'talek/obvious-resize', { 'on': ['ObviousResizeUp', 'ObviousResizeDown', 'ObviousResizeLeft', 'ObviousResizeRight'] } " Intiutive split resizing.
-Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' } " Intiuitive buffer closing.
-Plug 'tpope/vim-vinegar' " Enhancements for netrw.
-Plug 'romainl/vim-qf' " Enhancements for the quickfix window.
-Plug 'kopischke/vim-stay' " Restore/preserve views.
-Plug 'takac/vim-hardtime', { 'on': 'HardTimeOn' } " Hard mode (restrict hjkl).
-
-" Integration
-Plug 'christoomey/vim-tmux-navigator' " Unified movement in Vim and Tmux panes.
-Plug 'tmux-plugins/vim-tmux-focus-events' " Fix focus events in Vim under Tmux.
-Plug 'tpope/vim-eunuch' " Helpers for unix commands.
-Plug 'tpope/vim-dispatch', { 'on': ['Make', 'Dispatch'] } " Async adapters for running Vim's compiler plugins, or arbitrary commands.
-Plug 'kopischke/vim-fetch' " Open files to line:column.
-Plug 'johnsyweb/vim-makeshift' " Auto detect the build command.
-Plug 'ludovicchabant/vim-gutentags' " Automatic tag generation.
-Plug 'airblade/vim-gitgutter' " git-diff directly in the gutter.
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.
-Plug 'mhinz/vim-grepper', { 'on': 'Grepper' } " A wrapper around all things grep.
-
-" Interface
-Plug 'vim-airline/vim-airline' " A lightweight, well-integrated statusline.
-Plug 'vim-airline/vim-airline-themes'
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " A visualization of Vim's undo branches.
-
-" Editing
-Plug 'tpope/vim-unimpaired' " Pairs of complementary mappings.
-Plug 'tpope/vim-commentary' " Bindings to comment/uncomment code.
-Plug 'tpope/vim-speeddating' " Easily increment and decrement dates.
-Plug 'tommcdo/vim-exchange' " Exchange text based on motions.
-Plug 'AndrewRadev/splitjoin.vim' " Split and join statements intelligently.
-
-" Selection
-Plug 'terryma/vim-multiple-cursors' " Multiple cursors and selection.
-Plug 'terryma/vim-expand-region' " Syntactically expand the selection.
-
-" Formatting
-Plug 'tpope/vim-sleuth' " Auto-detect indent settings.
-Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] } " Align text objects using verbs.
-Plug 'jiangmiao/auto-pairs' " Automatically close delimiters (incl quotes, parenthesis, etc).
-Plug 'tpope/vim-endwise' " Automatically end block constructs in supported languages.
-
-" Search/Navigation
-Plug 'pgdouyon/vim-evanesco' " A better, auto-clearing /...
-Plug 'kshenoy/vim-signature' " Simple tool to manage and visualize marks.
-Plug 'tommcdo/vim-kangaroo' " Simple, manual jump-stack.
-
-" Motions/Text Objects
-Plug 'justinmk/vim-sneak' " The missing motion, a mid-range two-character seek (and EasyMotion replacement).
-Plug 'tpope/vim-surround' " Motions to manipulate the surroundings of a text object.
-Plug 'tommcdo/vim-ninja-feet' " Motions to the ends of a text object.
-
-" Support
-Plug 'sheerun/vim-polyglot' " Batterie-included language support pack.
-Plug 'tpope/vim-fugitive' " Tools and syntax highlighting for Git.
-Plug 'jamessan/vim-gnupg' " Support for GnuPG/PGP-encrypted files.
-
-" Highlighting
-Plug 'neersighted/flattened' " A optimized, modern solarized.
-Plug 'luochen1990/rainbow', { 'on': 'RainbowToggle' } " Parenthesis visualization.
-Plug 'Yggdroot/indentLine' " Show markers for indents.
-
-call plug#end()
-
-runtime plugin/sensible.vim " Load sensible now so we can override things.
-
-" Configuration
-
-" Core
 set hidden " Allow backgrounding buffers.
-augroup vimrc | autocmd!
-let mapleader      = ' ' " Use an easy leader.
-let maplocalleader = ' '
-set t_8f=[38;2;%lu;%lu;%lum " Fix 24-bit color escape sequences.
-set t_8b=[48;2;%lu;%lu;%lum " This supports st, tmux, and iterm2.
-if s:is_neovim | set termguicolors | endif " Use termguicolors on neovim only (vim is somewhat broken).
 
-" State
-set swapfile backup undofile " Use swapfiles, backups, and persist undo data.
-set viewoptions=cursor,folds,slash,unix " Save view/session data.
-let &directory = Cache('swap') . '/' " / means use full path.
-let &backupdir = Cache('backup')
-let &undodir   = Cache('undo')
-let &viewdir   = Cache('view')
+runtime plugs.vim
+runtime ui.vim
+runtime cmd.vim
+runtime maps.vim
 
 " Interface
-if strftime("%H") >= 5 && strftime("%H") <= 17 | colorscheme flattened_light | else | colorscheme flattened_dark | endif " Set colors based on the time of day.
-if s:is_macvim | set guifont=Source_Code_Pro:h11 antialias | else | set guifont=Source\ Code\ Pro\ 10 | endif " Use my font of choice as well.
-set guioptions=ai shortmess+=filmnrxoOtT " Minimal GUI: selection and icon only, abbreviate as much as possible.
-set ttyfast lazyredraw " Assume a fast TTY, optimize render performance.
-set noerrorbells novisualbell " Turn off bells.
-set ttimeoutlen=50 timeoutlen=300 " Make escape/keybinds faster.
-set mouse=a " Enable mouse support.
-if s:is_macvim | set macmeta | endif " Fix the Mac option key.
 set number relativenumber " Use relative line numbering.
 set colorcolumn=80 " Indicate column 80.
 set wrap linebreak wrapmargin=0 " Enable virtual wrapping.
 set showbreak=⇇ breakindent " Indicate wrapping with an icon and indent.
 set winminheight=0 splitright " Allow squishing splits, open splits to the right.
-noremap <silent> <c-up>    :<c-u>ObviousResizeUp<cr>
-noremap <silent> <c-down>  :<c-u>ObviousResizeDown<cr>
-noremap <silent> <c-left>  :<c-u>ObviousResizeLeft<cr>
-noremap <silent> <c-right> :<c-u>ObviousResizeRight<cr>
-set noshowmode noshowcmd " Disable the built in status indicators.
-let g:airline_theme='solarized' " Use solarized/flattened with airline.
-let g:airline_powerline_fonts = 1 " Use pretty fonts for airline.
-let g:airline#extensions#tabline#enabled = 1 " Use a simple tab/buffer line.
 set list listchars=tab:»·,trail:·,eol:¬,nbsp:_ " Show hidden characters.
 set conceallevel=2 concealcursor=nc " Enable conceal support.
-let g:indentLine_char = '┊' " Use a small line to show space-based indentation.
-let g:rainbow_active = 0 " Manually enable rainbow parenthesis.
-set showmatch " Indicate when a matched delimiter pair is created.
-highlight MatchParen cterm=bold ctermbg=NONE ctermfg=NONE gui=bold guibg=NONE guifg=NONE " Less annoying MatchParen.
+set showmatch " Jump when a matched delimiter pair is created.
 
 " Selection
-set clipboard=unnamed,unnamedplus " Use the system clipboard.
-nnoremap Y y$
-nnoremap pv V`]
-vnoremap p p`]
 
 " Editing
 set textwidth=0 " Disable automatic wrapping...
 autocmd FileType text,gitcommit,markdown setlocal textwidth=78 " ...except some filetypes.
 set virtualedit=block,onemore " Allow the cursor to select the end of the line/form blocks.
 set whichwrap=h,l,<,>,[,],b,s " Wrap the cursor over line.
-nnoremap j gj
-nnoremap k gk
-vnoremap < <gv
-vnoremap > >gv
 set nospell spelllang=en " Disable spell checking by default.
 autocmd FileType text,gitcommit,markdown setlocal spell " ...but start it on some filetypes.
-
-" Formatting
-nmap gl <Plug>(EasyAlign)
-xmap gl <Plug>(EasyAlign)
-
-" Search/Navigation
-set magic " Enable escape characters.
-set hlsearch " Highlight matches.
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
 set grepprg=rg\ --vimgrep grepformat=%f:%l:%c:%m " Use a faster grep.
-let g:grepper = { 'tools': ['rg', 'git', 'grep'], 'open':  1, 'jump':  0 } " Use rg for grepper as well.
-let g:fzf_launcher = 'st -c fzf -g 50x25 -e bash -ic %s' " Use st for graphical GUIs.
-nmap <tab> %
-nnoremap <backspace> :b#<cr>
 
-" FZF
-nnoremap <leader><leader> :Buffers<cr>
-nnoremap <leader>o :Files<cr>
-nnoremap <leader>O :GFiles<cr>
-nnoremap <leader>f :BTags<cr>
-nnoremap <leader>F :Tags<cr>
-nnoremap <leader>` :Marks<cr>
-nnoremap <leader>h :Helptags<cr>
-nnoremap <leader>a :Ag<cr>
-nnoremap <leader>g :Rg<cr>
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
-inoremap <expr> <c-x><c-t> fzf#vim#complete('tmuxwords.rb --all-but-current --scroll 500 --min 5')
-inoremap <expr> <c-x><c-k> fzf#vim#complete#word()
-inoremap <expr> <c-x><c-f> fzf#vim#complete#path('rg --files')
-inoremap <expr> <c-x><c-d> fzf#vim#complete#path('find -L . -type d -mindepth 1 -print')
-inoremap <expr> <c-x><c-l> fzf#vim#complete#line()
-inoremap <expr> <c-x><c-b> fzf#vim#complete#buffer_line()
-
-" Motions
-let g:sneak#streak = 1 " Enable streak (EasyMotion) mode.
-let g:sneak#s_next = 1 " Press again to skip to the next match.
-nmap f <Plug>Sneak_f
-nmap F <Plug>Sneak_F
-xmap f <Plug>Sneak_f
-xmap F <Plug>Sneak_F
-omap f <Plug>Sneak_f
-omap F <Plug>Sneak_F
-nmap t <Plug>Sneak_t
-nmap T <Plug>Sneak_T
-xmap t <Plug>Sneak_t
-xmap T <Plug>Sneak_T
-omap t <Plug>Sneak_t
-omap T <Plug>Sneak_T
-
-" Documentation
-autocmd FileType vim setlocal keywordprg=:help
-
-" Commands
-command! -bang -nargs=* KillTrailingWhitespace call Preserve('%s/\s\+$//e')
-command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+if has('vim_starting')
+  let startup = reltime()
+  autocmd VimEnter * let ready = reltime(startup) | redraw | echo reltimestr(ready)
+endif
 
 augroup end
