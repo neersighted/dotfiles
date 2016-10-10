@@ -3,8 +3,8 @@ augroup vimrc " Clear autocommands.
 augroup end
 
 if has('vim_starting') " Echo how long it took to start up.
-  let startup = reltime()
-  autocmd VimEnter * let ready = reltime(startup) | redraw | echo reltimestr(ready)
+  let g:startup = reltime()
+  autocmd VimEnter * let ready = reltime(g:startup) | redraw | echo reltimestr(ready)
 endif
 
 runtime plugs.vim

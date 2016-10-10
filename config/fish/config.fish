@@ -29,10 +29,8 @@ test -d /usr/local/opt/coreutils/libexec/gnubin; and set --global --export PATH 
 test -d /usr/local/opt/findutils/libexec/gnubin; and set --global --export PATH /usr/local/opt/findutils/libexec/gnubin $PATH # osx
 test -d /usr/bin/core_perl; and set --global --export PATH /usr/bin/{core,site,vendor}_perl $PATH
 
-test -d $HOME/.rbenv/bin; and set --global --export PATH $HOME/.rbenv/bin $PATH
-status --is-interactive; and source (rbenv init -|psub)
-test -d $HOME/.pyenv/bin; and set --global --export PATH $HOME/.pyenv/bin $PATH
-status --is-interactive; and source (pyenv init -|psub); and source (pyenv virtualenv-init -|psub)
+test -d $HOME/.rbenv/bin; and set --global --export PATH $HOME/.rbenv/bin $PATH; and source (rbenv init -|psub)
+test -d $HOME/.pyenv/bin; and set --global --export PATH $HOME/.pyenv/bin $PATH; and source (pyenv init -|psub); and source (pyenv virtualenv-init -|psub)
 
 set --global --export GOPATH $HOME/.go; test -d $GOPATH/bin; or mkdir -p $GOPATH/bin
 set --global --export PATH $GOPATH/bin $PATH

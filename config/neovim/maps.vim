@@ -1,4 +1,4 @@
-let mapleader      = ' ' " Use an easy leader.
+let g:mapleader = ' ' " Use an easy leader.
 
 " Core
 " move across delimiters

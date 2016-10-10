@@ -1,10 +1,10 @@
 function! Preserve(cmd) " Execute a command without altering position/history.
-  let old_search = @/
-  let cursor_l = line('.')
-  let cursor_c = col('.')
+  let l:old_search = @/
+  let l:cursor_l = line('.')
+  let l:cursor_c = col('.')
   execute a:cmd
-  let @/ = old_search
-  call cursor(cursor_l, cursor_c)
+  let @/ = l:old_search
+  call cursor(l:cursor_l, l:cursor_c)
 endfunction
 
 " kill trailing whitespace
