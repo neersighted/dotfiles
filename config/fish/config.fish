@@ -32,7 +32,7 @@ test -d /usr/bin/core_perl; and set --global --export PATH /usr/bin/{core,site,v
 test -d $HOME/.rbenv/bin; and set --global --export PATH $HOME/.rbenv/bin $PATH
 status --is-interactive; and source (rbenv init -|psub)
 test -d $HOME/.pyenv/bin; and set --global --export PATH $HOME/.pyenv/bin $PATH
-status --is-interactive; and source (pyenv init -|psub)
+status --is-interactive; and source (pyenv init -|psub); and source (pyenv virtualenv-init -|psub)
 
 set --global --export GOPATH $HOME/.go; test -d $GOPATH/bin; or mkdir -p $GOPATH/bin
 set --global --export PATH $GOPATH/bin $PATH

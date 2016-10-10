@@ -1,3 +1,5 @@
+scriptencoding utf8
+
 call plug#begin($XDG_CONFIG_HOME . '/nvim/bundles')
 
 " Enhancements/Tweaks
@@ -12,17 +14,20 @@ Plug 'takac/vim-hardtime', { 'on': 'HardTimeOn' } " Hard mode (restrict hjkl).
 
 " Integration
 Plug 'w0rp/ale' " Async lint engine.
+  let g:ale_sign_warning = '⚠'
+  let g:ale_sign_error = '✖'
 Plug 'tpope/vim-dispatch', { 'on': ['Make', 'Dispatch'] } " Async adapters for running Vim's compiler plugins, or arbitrary commands.
 Plug 'johnsyweb/vim-makeshift' " Auto detect the build command.
 Plug 'tpope/vim-eunuch' " Helpers for unix commands.
 Plug 'christoomey/vim-tmux-navigator' " Unified movement in Vim and Tmux panes.
+Plug 'justinmk/vim-gtfo' " Quickly open a terminal or a file manager.
 Plug 'ludovicchabant/vim-gutentags' " Automatic tag generation.
 Plug 'tpope/vim-fugitive' " Tools and syntax highlighting for Git.
 Plug 'airblade/vim-gitgutter' " git-diff directly in the gutter.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.
   function! s:fzf_statusline() " Solarized the FZF statusline.
-    if g:colors_name =~ 'dark'
+    if g:colors_name =~# 'dark'
       highlight caret ctermfg=1 ctermbg=4 guifg=#dc322f guibg=#073642
       highlight fzf ctermfg=14 ctermbg=4 guifg=#93a1a1 guibg=#073642
     else
@@ -84,7 +89,7 @@ Plug 'sheerun/vim-polyglot' " Batterie-included language support pack.
 call plug#end()
 
 " Install missing plugins at start.
-autocmd VimEnter * if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall | endif
+autocmd vimrc VimEnter * if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall | endif
 " Don't load unused cruft.
 let g:loaded_netrw         = 1
 let g:loaded_netrwPlugin   = 1

@@ -1,6 +1,8 @@
+scriptencoding utf8
+
 " Color
 set termguicolors " Use true colors.
-if strftime("%H") >= 5 && strftime("%H") <= 17 " Set colors based on the time of day.
+if strftime('%H') >= 5 && strftime('%H') <= 17 " Set colors based on the time of day.
   colorscheme flattened_light
 else
   colorscheme flattened_dark
@@ -46,7 +48,6 @@ set winminheight=0 " Allow squishing splits.
 
 " Misc
 set virtualedit=onemore,all " Allow the cursor to select the end of the line, or form blocks in empty space.
-set lazyredraw " Redraw less for performance's sake.
 set noerrorbells novisualbell " Turn off bells.
 set undofile " Keep persistent undo information.
 set hidden " Allow backgrounding buffers.
