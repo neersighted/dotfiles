@@ -5,7 +5,7 @@ Plug 'tpope/vim-repeat' " Repeat support for arbitrary plugins.
 Plug 'talek/obvious-resize', { 'on': ['ObviousResizeUp', 'ObviousResizeDown', 'ObviousResizeLeft', 'ObviousResizeRight'] } " Intiutive split resizing.
 Plug 'kopischke/vim-fetch' " Open files to line:column.
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' } " Intiuitive buffer closing.
-Plug 'tpope/vim-vinegar' " Enhancements for netrw.
+Plug 'justinmk/vim-dirvish' " A leaner, meaner file browser.
 Plug 'romainl/vim-qf' " Enhancements for the quickfix window.
 Plug 'kopischke/vim-stay' " Restore/preserve views.
 Plug 'takac/vim-hardtime', { 'on': 'HardTimeOn' } " Hard mode (restrict hjkl).
@@ -85,5 +85,8 @@ call plug#end()
 
 " Install missing plugins at start.
 autocmd VimEnter * if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall | endif
-" Load sensible now so we can override things.
-runtime plugin/sensible.vim
+" Don't load unused cruft.
+let g:loaded_netrw         = 1
+let g:loaded_netrwPlugin   = 1
+let g:loaded_vimballPlugin = 1
+let g:loaded_2html_plugin  = 1
