@@ -18,6 +18,9 @@ vnoremap p p`]
 set pastetoggle=<f1>
 " alternate between buffers
 nnoremap <backspace> :buffer #<cr>
+" open location/quickfix list
+nnoremap <leader>l :lopen<cr>
+nnoremap <leader>q :copen<cr>
 
 " EasyAlign
 nmap gl   <Plug>(EasyAlign)
