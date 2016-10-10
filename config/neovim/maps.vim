@@ -14,6 +14,8 @@ nnoremap Y y$
 " keep paste in visual mode
 nnoremap pv V`]
 vnoremap p p`]
+" toggle paste mode
+set pastetoggle=<f1>
 " alternate between buffers
 nnoremap <backspace> :buffer #<cr>
 

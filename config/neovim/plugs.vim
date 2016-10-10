@@ -3,6 +3,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/bundles')
 " Enhancements/Tweaks
 Plug 'tpope/vim-repeat' " Repeat support for arbitrary plugins.
 Plug 'talek/obvious-resize', { 'on': ['ObviousResizeUp', 'ObviousResizeDown', 'ObviousResizeLeft', 'ObviousResizeRight'] } " Intiutive split resizing.
+Plug 'kopischke/vim-fetch' " Open files to line:column.
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' } " Intiuitive buffer closing.
 Plug 'tpope/vim-vinegar' " Enhancements for netrw.
 Plug 'romainl/vim-qf' " Enhancements for the quickfix window.
@@ -10,11 +11,11 @@ Plug 'kopischke/vim-stay' " Restore/preserve views.
 Plug 'takac/vim-hardtime', { 'on': 'HardTimeOn' } " Hard mode (restrict hjkl).
 
 " Integration
-Plug 'christoomey/vim-tmux-navigator' " Unified movement in Vim and Tmux panes.
-Plug 'tpope/vim-eunuch' " Helpers for unix commands.
+Plug 'w0rp/ale' " Async lint engine.
 Plug 'tpope/vim-dispatch', { 'on': ['Make', 'Dispatch'] } " Async adapters for running Vim's compiler plugins, or arbitrary commands.
-Plug 'kopischke/vim-fetch' " Open files to line:column.
 Plug 'johnsyweb/vim-makeshift' " Auto detect the build command.
+Plug 'tpope/vim-eunuch' " Helpers for unix commands.
+Plug 'christoomey/vim-tmux-navigator' " Unified movement in Vim and Tmux panes.
 Plug 'ludovicchabant/vim-gutentags' " Automatic tag generation.
 Plug 'tpope/vim-fugitive' " Tools and syntax highlighting for Git.
 Plug 'airblade/vim-gitgutter' " git-diff directly in the gutter.

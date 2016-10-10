@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 #
 # Bootstrapping
 #
@@ -19,7 +21,7 @@ fresh-options --file=~/.config/fish/config.fish --marker
     fresh config/fish/colors.fish
 fresh-options
 for function in ~/.dotfiles/config/fish/functions/*.fish; do
-    fresh config/fish/functions/$(basename $function) --file=~/.config/fish/functions/$(basename $function)
+    fresh config/fish/functions/"$(basename "$function")" --file=~/.config/fish/functions/"$(basename "$function")"
 done
 
 # fisherman: package manager for fish
@@ -33,7 +35,7 @@ fresh fisherman/fisherman fisher.fish --file=~/.config/fish/functions/fisher.fis
 # neovim: vim improved
 fresh scripts/vimprofile --bin
 for config in ~/.dotfiles/config/neovim/*.vim; do
-    fresh config/neovim/$(basename $config) --file=~/.config/nvim/$(basename $config)
+    fresh config/neovim/"$(basename "$config")" --file=~/.config/nvim/"$(basename "$config")"
 done
 fresh junegunn/vim-plug plug.vim --file=~/.config/nvim/autoload/plug.vim
 
@@ -167,9 +169,6 @@ fresh-options --file=~/.tmux.conf --marker
     fi
 fresh-options
 fresh junegunn/dotfiles bin/tmuxwords.rb --bin
-
-# youtube: video sharing site (how quaint)
-fresh scripts/yt --bin
 
 fresh_after_build () {
     chmod +w ~/.fresh/build/config-fish-fishfile
