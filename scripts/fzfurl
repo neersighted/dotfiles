@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+FZF_URL_REGEX='((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)'
+
+if [ -n "$*" ]; then
+  exec sh -c "cat $* | $0"
+fi
+
+tmux unbind -na
+grep -oP "$FZF_URL_REGEX" | fzf-tmux -m --tac | while read -r url; do
+  message=$(sh -c "$BROWSER $url") || tmux display-message "$message"
+done
+tmux source ~/.tmux.conf

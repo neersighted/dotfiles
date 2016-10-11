@@ -28,6 +28,9 @@ done
 fresh config/fish/fishfile --file=~/.config/fish/fishfile
 fresh fisherman/fisherman fisher.fish --file=~/.config/fish/functions/fisher.fish
 
+# fzf: universal fuzzy finder
+fresh scripts/fzfurl --bin
+
 #
 # Editing
 #
