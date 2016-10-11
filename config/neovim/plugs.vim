@@ -16,7 +16,8 @@ Plug 'takac/vim-hardtime', { 'on': 'HardTimeOn' } " Hard mode (restrict hjkl).
 Plug 'w0rp/ale' " Async lint engine.
   let g:ale_sign_warning = '⚠'
   let g:ale_sign_error = '✖'
-Plug 'tpope/vim-dispatch', { 'on': ['Make', 'Dispatch'] } " Async adapters for running Vim's compiler plugins, or arbitrary commands.
+Plug 'tpope/vim-dispatch' " Async adapters for running Vim's compiler plugins, or arbitrary commands.
+Plug 'radenling/vim-dispatch-neovim' " Neovim support for dispatch.
 Plug 'johnsyweb/vim-makeshift' " Auto detect the build command.
 Plug 'tpope/vim-eunuch' " Helpers for unix commands.
 Plug 'christoomey/vim-tmux-navigator' " Unified movement in Vim and Tmux panes.
@@ -36,7 +37,7 @@ Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.
     endif
     setlocal statusline=%#caret#\ >\ %#fzf#fzf
   endfunction
-  autocmd! User FzfStatusLine call <sid>fzf_statusline()
+  autocmd! vimrc User FzfStatusLine call <sid>fzf_statusline()
 Plug 'mhinz/vim-grepper', { 'on': 'Grepper' } " A wrapper around all things grep.
   let g:grepper = { 'tools': ['rg', 'git', 'grep'], 'open':  1, 'jump':  0 } " Use rg for grepper as well.
 Plug 'jamessan/vim-gnupg' " Support for GnuPG/PGP-encrypted files.

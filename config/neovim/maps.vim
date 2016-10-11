@@ -27,6 +27,10 @@ nmap gl   <Plug>(EasyAlign)
 xmap gl   <Plug>(EasyAlign)
 vmap <cr> <Plug>(EasyAlign)
 
+" Fugitive
+nnoremap <leader>g :Gstatus<cr>
+nnoremap <leader>G :Gdiff<cr>
+
 " FZF
 nnoremap <leader><leader> :Buffers<cr>
 nnoremap <leader>o :Files<cr>
@@ -36,7 +40,7 @@ nnoremap <leader>F :Tags<cr>
 nnoremap <leader>` :Marks<cr>
 nnoremap <leader>h :Helptags<cr>
 nnoremap <leader>a :Ag<cr>
-nnoremap <leader>g :Rg<cr>
+nnoremap <leader>r :Rg<cr>
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
