@@ -46,12 +46,11 @@ xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
 
 " FZF Completion
-inoremap <expr> <c-x><c-t> fzf#vim#complete('tmuxwords.rb --all-but-current --scroll 500 --min 5')
-inoremap <expr> <c-x><c-k> fzf#vim#complete#word()
+inoremap <expr> <c-x><c-x> fzf#vim#complete('tmuxwords.rb --all-but-current --scroll 500 --min 5')
 inoremap <expr> <c-x><c-f> fzf#vim#complete#path('rg --files')
-inoremap <expr> <c-x><c-d> fzf#vim#complete#path('find -L . -type d -mindepth 1 -print')
+inoremap <expr> <c-x><c-g> fzf#vim#complete#path('find -L . -type d -mindepth 1 -print')
+inoremap <expr> <c-x><c-k> fzf#vim#complete#word()
 inoremap <expr> <c-x><c-l> fzf#vim#complete#line()
-inoremap <expr> <c-x><c-b> fzf#vim#complete#buffer_line()
 
 " Obvious Resize
 noremap <silent> <c-up>    :<c-u>ObviousResizeUp<cr>
