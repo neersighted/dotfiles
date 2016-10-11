@@ -14,6 +14,7 @@ Plug 'takac/vim-hardtime', { 'on': 'HardTimeOn' } " Hard mode (restrict hjkl).
 
 " Integration
 Plug 'w0rp/ale' " Async lint engine.
+  let g:ale_echo_msg_format = '[%linter%] %s'
   let g:ale_sign_warning = '⚠'
   let g:ale_sign_error = '✖'
 Plug 'tpope/vim-dispatch' " Async adapters for running Vim's compiler plugins, or arbitrary commands.

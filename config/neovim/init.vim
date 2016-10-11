@@ -10,5 +10,6 @@ endif
 runtime plugs.vim
 runtime ui.vim
 runtime cmd.vim
+runtime ft.vim
 runtime maps.vim
 runtime local.vim
