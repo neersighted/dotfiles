@@ -16,9 +16,15 @@ Plug 'takac/vim-hardtime', { 'on': 'HardTimeOn' } " Hard mode (restrict hjkl).
 
 " Integration
 Plug 'w0rp/ale' " Async lint engine.
+  let g:ale_lint_on_text_changed = 1
+  let g:ale_lint_on_enter = 1
+  let g:ale_lint_on_save = 1
+  let g:ale_lint_delay = 100
   let g:ale_echo_msg_format = '[%linter%] %s'
-  let g:ale_sign_warning = '⚠'
-  let g:ale_sign_error = '✖'
+  let g:ale_statusline_format = ['E:%s', 'W:%s', '']
+  let g:ale_sign_warning = '❢'
+  let g:ale_sign_error = '✗'
+  autocmd vimrc User ALELint call lightline#update()
 Plug 'tpope/vim-dispatch' " Async adapters for running Vim's compiler plugins, or arbitrary commands.
 Plug 'radenling/vim-dispatch-neovim' " Neovim support for dispatch.
 Plug 'johnsyweb/vim-makeshift' " Auto detect the build command.
@@ -26,32 +32,17 @@ Plug 'tpope/vim-eunuch' " Helpers for unix commands.
 Plug 'christoomey/vim-tmux-navigator' " Unified movement in Vim and Tmux panes.
 Plug 'justinmk/vim-gtfo' " Quickly open a terminal or a file manager.
 Plug 'ludovicchabant/vim-gutentags' " Automatic tag generation.
-Plug 'tpope/vim-fugitive' " Tools and syntax highlighting for Git.
+Plug 'lambdalisue/vim-gita' " A toolgit for working with git, from vim.
 Plug 'airblade/vim-gitgutter' " git-diff directly in the gutter.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.
-  function! s:fzf_statusline() " Solarized the FZF statusline.
-    if g:colors_name =~# 'dark'
-      highlight caret ctermfg=1 ctermbg=4 guifg=#dc322f guibg=#073642
-      highlight fzf ctermfg=14 ctermbg=4 guifg=#93a1a1 guibg=#073642
-    else
-      highlight caret ctermfg=4 ctermbg=4 guifg=#268bd2 guibg=#eee8d5
-      highlight fzf ctermfg=14 ctermbg=4 guifg=#586e75 guibg=#eee8d5
-    endif
-    setlocal statusline=%#caret#\ >\ %#fzf#fzf
-  endfunction
-  autocmd! vimrc User FzfStatusLine call <sid>fzf_statusline()
 Plug 'mhinz/vim-grepper', { 'on': 'Grepper' } " A wrapper around all things grep.
   let g:grepper = { 'tools': ['rg', 'git', 'grep'], 'open':  1, 'jump':  0 } " Use rg for grepper as well.
 Plug 'jamessan/vim-gnupg' " Support for GnuPG/PGP-encrypted files.
 
 " Interface
 Plug 'romainl/flattened' " A optimized, modern solarized.
-Plug 'vim-airline/vim-airline' " A lightweight, well-integrated statusline.
-Plug 'vim-airline/vim-airline-themes'
-  let g:airline_theme='solarized' " Use solarized/flattened with airline.
-  let g:airline_powerline_fonts = 1 " Use pretty fonts for airline.
-  let g:airline#extensions#tabline#enabled = 1 " Use a simple tab/buffer line.
+Plug 'itchyny/lightline.vim' " An ultra-minimal statusline builder.
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " A visualization of Vim's undo branches.
 
 " Editing
@@ -94,8 +85,22 @@ call plug#end()
 
 " Install missing plugins at start.
 autocmd vimrc VimEnter * if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall | endif
+
 " Don't load unused cruft.
-let g:loaded_netrw         = 1
-let g:loaded_netrwPlugin   = 1
-let g:loaded_vimballPlugin = 1
-let g:loaded_2html_plugin  = 1
+let g:loaded_gzip              = 1
+let g:loaded_tar               = 1
+let g:loaded_tarPlugin         = 1
+let g:loaded_zip               = 1
+let g:loaded_zipPlugin         = 1
+let g:loaded_rrhelper          = 1
+let g:loaded_2html_plugin      = 1
+let g:loaded_vimball           = 1
+let g:loaded_vimballPlugin     = 1
+let g:loaded_getscript         = 1
+let g:loaded_getscriptPlugin   = 1
+let g:loaded_logipat           = 1
+let g:loaded_matchparen        = 1
+let g:loaded_netrw             = 1 " Used to download spellfiles. Oh well.
+let g:loaded_netrwPlugin       = 1
+let g:loaded_netrwSettings     = 1
+let g:loaded_netrwFileHandlers = 1

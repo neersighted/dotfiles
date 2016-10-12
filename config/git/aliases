@@ -2,7 +2,7 @@
     up = pull --rebase --autostash
     co = "!f() { git checkout $(git branch -v | grep -v '^*' | fzf-tmux -q ${1:-\\ } | awk '{print $1}'); }; f"
     tr = "!f() { git branch --set-upstream-to $(git branch -r -v | grep -v '^*' | fzf-tmux -q ${1:-\\ } | awk '{print $1}'); }; f"
-    new = "!f() { git fetch; git checkout -b $1 origin/master }; f"
+    new = "checkout -b"
     cam = commit -a -m
     wip = commit -a -m "WIP"
     oop = commit --amend --no-edit

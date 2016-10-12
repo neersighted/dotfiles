@@ -28,15 +28,14 @@ xmap gl   <Plug>(EasyAlign)
 vmap <cr> <Plug>(EasyAlign)
 
 " Fugitive
-nnoremap <leader>g :Gstatus<cr>
-nnoremap <leader>G :Gdiff<cr>
+nnoremap <leader>g :Gita status<cr>
+nnoremap <leader>G :Gita patch<cr>
 
 " FZF
 nnoremap <leader><leader> :Buffers<cr>
 nnoremap <leader>o :Files<cr>
-nnoremap <leader>O :GFiles<cr>
-nnoremap <leader>f :BTags<cr>
-nnoremap <leader>F :Tags<cr>
+nnoremap <leader>t :BTags<cr>
+nnoremap <leader>T :Tags<cr>
 nnoremap <leader>` :Marks<cr>
 nnoremap <leader>h :Helptags<cr>
 nnoremap <leader>a :Ag<cr>

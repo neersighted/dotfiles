@@ -17,6 +17,8 @@ set guioptions=ai " Hide all GUI widgets.
 
 " Status
 set noshowmode noshowcmd " Disable the built in-status indicators.
+set showtabline=2 " Always show the tabline.
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1 " Enable cursor shape changing.
 
 " Numbering
 set number relativenumber " Use relative line numbering.

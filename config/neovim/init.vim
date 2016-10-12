@@ -8,8 +8,9 @@ if has('vim_starting') " Echo how long it took to start up.
 endif
 
 runtime plugs.vim
-runtime ui.vim
+runtime status.vim
 runtime cmd.vim
 runtime ft.vim
 runtime maps.vim
+runtime pref.vim
 runtime local.vim
