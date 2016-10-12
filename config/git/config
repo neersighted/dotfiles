@@ -24,10 +24,9 @@
     gpgSign = true
 [push]
     default = current
-    gpgSign = if-asked
 [pull]
     rebase = true
-    ff = never
+    ff = only
 [diff]
     tool = vimdiff
     renames = copies
