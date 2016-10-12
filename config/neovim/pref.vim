@@ -16,6 +16,7 @@ set guifont=Source\ Code\ Pro\ 10 " Use my font of choice.
 set guioptions=ai " Hide all GUI widgets.
 
 " Status
+set noerrorbells novisualbell " Turn off bells.
 set noshowmode noshowcmd " Disable the built in-status indicators.
 set showtabline=2 " Always show the tabline.
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1 " Enable cursor shape changing.
@@ -45,11 +46,11 @@ set grepprg=rg\ --vimgrep grepformat=%f:%l:%c:%m " Use a faster grep.
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
 
 " Splits
-set splitright " Open vertical splits to the right.
+set splitright splitbelow " Open vertical splits to the right, horizontal below.
 set winminheight=0 " Allow squishing splits.
 
 " Misc
+set diffopt=filler,vertical
 set virtualedit=onemore,all " Allow the cursor to select the end of the line, or form blocks in empty space.
-set noerrorbells novisualbell " Turn off bells.
 set undofile " Keep persistent undo information.
 set hidden " Allow backgrounding buffers.

@@ -34,6 +34,7 @@ nnoremap <leader>G :Gita patch<cr>
 " FZF
 nnoremap <leader><leader> :Buffers<cr>
 nnoremap <leader>o :Files<cr>
+nnoremap <leader>O :GFiles<cr>
 nnoremap <leader>t :BTags<cr>
 nnoremap <leader>T :Tags<cr>
 nnoremap <leader>` :Marks<cr>
@@ -59,6 +60,7 @@ noremap <silent> <c-right> :<c-u>ObviousResizeRight<cr>
 
 " Sayonara
 nnoremap <leader>x :Sayonara<cr>
+nnoremap <leader>X :tabclose<cr>
 
 " Sneak
 nmap f <Plug>Sneak_f

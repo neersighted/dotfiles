@@ -62,6 +62,7 @@ function! status#mode()
   return &buftype ==# 'quickfix' ? 'QF' :
     \ &filetype ==# 'help' ? 'HELP' :
     \ &filetype ==# 'fzf' ? 'FZF' :
+    \ &filetype ==# 'gita-status' ? 'GITA' :
     \ winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
