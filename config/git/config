@@ -5,30 +5,57 @@
 [user]
     name = Bjorn Neergaard
     email = bjorn@neersighted.com
-    signingkey = 0x08AAA409549C0EC5
+    signingKey = 0x08AAA409549C0EC5
 [credential]
     helper = cache --timeout=3600
+    username = neersighted
 
 #
 # General Config
 #
 
+[core]
+    excludesfile = ~/.config/git/ignore
+    attributesfile = ~/.config/git/attributes
 [init]
     templatedir = ~/.config/git/template
-[commit]
-    gpgsign = true
-[branch]
-    autosetuprebase = always
-[push]
-    default = simple
-[merge]
-    summary = true
-    ff = false
 
-[log]
-    abbrevCommit = true
+[commit]
+    gpgSign = true
+[push]
+    default = current
+    gpgSign = if-asked
+[pull]
+    rebase = true
+    ff = never
+[diff]
+    tool = vimdiff
+    renames = copies
+[merge]
+    tool = vimdiff
+    stat = true
+    defaultToUpstream = true
+[rebase]
+    stat = true
+    autoSquash = true
+    autoStash = true
+    missingCommitsCheck = warn
+
+[difftool]
+    prompt = false
+[mergetool]
+    prompt = false
+
+[help]
+    autoCorrect = 1
 [status]
     short = true
+    branch = true
+    submoduleSummary = true
+    showUntrackedFiles = normal
+[log]
+    date = relative
+    abbrevCommit = true
 [format]
     pretty = "format:%C(blue)%h%C(cyan)%d : %C(reset)%s%+b %C(white)-- %aN, %ar%n"
 
@@ -38,5 +65,3 @@
 
 [url "git@github.com:"]
     pushInsteadOf = git://github.com/
-[credential "https://github.com"]
-    username = neersighted
