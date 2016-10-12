@@ -170,25 +170,22 @@ endfunction
 
 let g:lightline.component_function.branch = 'status#branch'
 function status#branch() abort
-  let l:branch = gita#statusline#format(' %{|/}ln%lb%{ ⇄ |}rn%{/|}rb')
-  return s:is_filelike() && !empty(l:branch)
-    \ ? ' ' . l:branch
+  return exists('*gita#statusline#format')
+    \ ? gita#statusline#format(' %{|/}ln%lb%{ ⇄ |}rn%{/|}rb')
     \ : ''
 endfunction
 
 let g:lightline.component_function.gstatus = 'status#gstatus'
 function status#gstatus() abort
-  let l:status = gita#statusline#format('%{!| }nc%{+| }na%{-| }nd%{"| }nr%{*| }nm%{@|}nu')
-  return s:is_filelike() && !empty(l:status)
-    \ ? l:status
+  return exists('*gita#statusline#format')
+    \ ? gita#statusline#format('%{!| }nc%{+| }na%{-| }nd%{"| }nr%{*| }nm%{@|}nu')
     \ : ''
 endfunction
 
 let g:lightline.component_function.gtraffic = 'status#gtraffic'
 function status#gtraffic() abort
-  let l:traffic = gita#statusline#format('%{↓| }ic%{↑|}og')
-  return s:is_filelike() && !empty(l:traffic)
-    \ ? l:traffic
+  return exists('*gita#statusline#format')
+    \ ? gita#statusline#format('%{↓| }ic%{↑|}og')
     \ : ''
 endfunction
 

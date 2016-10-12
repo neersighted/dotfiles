@@ -32,7 +32,7 @@ Plug 'tpope/vim-eunuch' " Helpers for unix commands.
 Plug 'christoomey/vim-tmux-navigator' " Unified movement in Vim and Tmux panes.
 Plug 'justinmk/vim-gtfo' " Quickly open a terminal or a file manager.
 Plug 'ludovicchabant/vim-gutentags' " Automatic tag generation.
-Plug 'lambdalisue/vim-gita' " A toolgit for working with git, from vim.
+Plug 'lambdalisue/vim-gita', { 'on': 'Gita'} " A toolgit for working with git, from vim.
 Plug 'airblade/vim-gitgutter' " git-diff directly in the gutter.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.

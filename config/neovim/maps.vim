@@ -27,10 +27,6 @@ nmap gl   <Plug>(EasyAlign)
 xmap gl   <Plug>(EasyAlign)
 vmap <cr> <Plug>(EasyAlign)
 
-" Fugitive
-nnoremap <leader>g :Gita status<cr>
-nnoremap <leader>G :Gita patch<cr>
-
 " FZF
 nnoremap <leader><leader> :Buffers<cr>
 nnoremap <leader>o :Files<cr>
@@ -51,6 +47,12 @@ inoremap <expr> <c-x><c-f> fzf#vim#complete#path('rg --files')
 inoremap <expr> <c-x><c-g> fzf#vim#complete#path('find -L . -type d -mindepth 1 -print')
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word()
 inoremap <expr> <c-x><c-l> fzf#vim#complete#line()
+
+" Gita
+nnoremap <leader>g :Gita status<cr>
+nnoremap <leader>G :Gita patch<cr>
+nnoremap <leader>d :Gita diff-ls<cr>
+nnoremap <leader>D :Gita diff<cr>
 
 " Obvious Resize
 noremap <silent> <c-up>    :<c-u>ObviousResizeUp<cr>
