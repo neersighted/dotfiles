@@ -12,7 +12,7 @@ Plug 'talek/obvious-resize', { 'on': ['ObviousResizeUp', 'ObviousResizeDown', 'O
 Plug 'justinmk/vim-dirvish' " A leaner, meaner file browser.
 Plug 'romainl/vim-qf' " Enhancements for the quickfix window.
 Plug 'airblade/vim-rooter' " Change to the project directory automatically.
-Plug 'kopischke/vim-stay' " Restore/preserve views.
+Plug 'dietsche/vim-lastplace' " Restore/preserve views.
 Plug 'takac/vim-hardtime', { 'on': 'HardTimeOn' } " Hard mode (restrict hjkl).
 
 " Integration
