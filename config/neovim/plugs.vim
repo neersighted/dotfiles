@@ -40,9 +40,11 @@ Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.
 Plug 'mhinz/vim-grepper', { 'on': 'Grepper' } " A wrapper around all things grep.
   let g:grepper = { 'tools': ['rg', 'git', 'grep'], 'open':  1, 'jump':  0 } " Use rg for grepper as well.
 Plug 'jamessan/vim-gnupg' " Support for GnuPG/PGP-encrypted files.
+Plug 'junegunn/vader.vim' " Testing for vim plugins.
 
 " Interface
 Plug 'romainl/flattened' " A optimized, modern solarized.
+Plug 'mhinz/vim-startify' " A elegant startup screen.
 Plug 'itchyny/lightline.vim' " An ultra-minimal statusline builder.
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " A visualization of Vim's undo branches.
 
