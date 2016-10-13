@@ -11,6 +11,7 @@ Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' } " Intiuitive buffer closing.
 Plug 'talek/obvious-resize', { 'on': ['ObviousResizeUp', 'ObviousResizeDown', 'ObviousResizeLeft', 'ObviousResizeRight'] } " Intiutive split resizing.
 Plug 'justinmk/vim-dirvish' " A leaner, meaner file browser.
 Plug 'romainl/vim-qf' " Enhancements for the quickfix window.
+Plug 'airblade/vim-rooter' " Change to the project directory automatically.
 Plug 'kopischke/vim-stay' " Restore/preserve views.
 Plug 'takac/vim-hardtime', { 'on': 'HardTimeOn' } " Hard mode (restrict hjkl).
 
