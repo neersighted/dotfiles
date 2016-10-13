@@ -11,7 +11,6 @@ Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' } " Intiuitive buffer closing.
 Plug 'talek/obvious-resize', { 'on': ['ObviousResizeUp', 'ObviousResizeDown', 'ObviousResizeLeft', 'ObviousResizeRight'] } " Intiutive split resizing.
 Plug 'justinmk/vim-dirvish' " A leaner, meaner file browser.
 Plug 'romainl/vim-qf' " Enhancements for the quickfix window.
-Plug 'airblade/vim-rooter' " Change to the project directory automatically.
 Plug 'dietsche/vim-lastplace' " Restore/preserve views.
 Plug 'takac/vim-hardtime', { 'on': 'HardTimeOn' } " Hard mode (restrict hjkl).
 
@@ -26,12 +25,11 @@ Plug 'w0rp/ale' " Async lint engine.
   let g:ale_sign_warning = '❢'
   let g:ale_sign_error = '✗'
   autocmd vimrc User ALELint call lightline#update()
-Plug 'tpope/vim-dispatch' " Async adapters for running Vim's compiler plugins, or arbitrary commands.
-Plug 'radenling/vim-dispatch-neovim' " Neovim support for dispatch.
 Plug 'johnsyweb/vim-makeshift' " Auto detect the build command.
+Plug 'airblade/vim-rooter' " Change to the project directory automatically.
+Plug 'justinmk/vim-gtfo' " Quickly open a terminal or a file manager.
 Plug 'tpope/vim-eunuch' " Helpers for unix commands.
 Plug 'christoomey/vim-tmux-navigator' " Unified movement in Vim and Tmux panes.
-Plug 'justinmk/vim-gtfo' " Quickly open a terminal or a file manager.
 Plug 'ludovicchabant/vim-gutentags' " Automatic tag generation.
 Plug 'lambdalisue/vim-gita', { 'on': 'Gita'} " A toolgit for working with git, from vim.
 Plug 'airblade/vim-gitgutter' " git-diff directly in the gutter.
