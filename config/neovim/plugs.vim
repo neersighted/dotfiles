@@ -45,6 +45,8 @@ Plug 'junegunn/vader.vim' " Testing for vim plugins.
 " Interface
 Plug 'romainl/flattened' " A optimized, modern solarized.
 Plug 'mhinz/vim-startify' " A elegant startup screen.
+  let g:startify_session_dir = $XDG_DATA_HOME . '/nvim/session'
+  let g:startify_bookmarks = [ {'c': '~/.dotfiles/config/neovim'}, {'f': '~/.dotfiles/config/fish/config.fish'}, {'m': '~/.dotfiles/config/tmux/main.conf'} ]
 Plug 'itchyny/lightline.vim' " An ultra-minimal statusline builder.
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " A visualization of Vim's undo branches.
 

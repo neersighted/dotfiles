@@ -61,6 +61,7 @@ let g:lightline.component_function.mode = 'status#mode'
 function! status#mode()
   return &buftype ==# 'quickfix' ? 'QF' :
     \ &filetype ==# 'help' ? 'HELP' :
+    \ &filetype ==# 'startify' ? 'START' :
     \ &filetype ==# 'fzf' ? 'FZF' :
     \ &filetype ==# 'gita-status' ? 'GITA' :
     \ winwidth(0) > 60 ? lightline#mode() : ''
@@ -104,9 +105,7 @@ function status#filename() abort
     \ ? expand('%:~:.')
     \ : pathshorten(expand('%:~:.'))
 
-  return &filetype ==# 'fzf' ? '' :
-    \  empty(l:filename) ? '[No Name]' :
-    \  l:filename
+  return empty(l:filename) ? '[No Name]' : l:filename
 endfunction
 
 let g:lightline.component_function.modified = 'status#modified'
