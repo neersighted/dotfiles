@@ -38,7 +38,7 @@ Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.
 Plug 'mhinz/vim-grepper', { 'on': 'Grepper' } " A wrapper around all things grep.
   let g:grepper = { 'tools': ['rg', 'git', 'grep'], 'open':  1, 'jump':  0 } " Use rg for grepper as well.
 Plug 'jamessan/vim-gnupg' " Support for GnuPG/PGP-encrypted files.
-Plug 'junegunn/vader.vim' " Testing for vim plugins.
+Plug 'junegunn/vader.vim',  { 'on': 'Vader', 'for': 'vader' } " Testing for vim plugins.
 
 " Interface
 Plug 'romainl/flattened' " A optimized, modern solarized.
@@ -86,9 +86,6 @@ Plug 'sheerun/vim-polyglot' " Batterie-included language support pack.
 
 call plug#end()
 
-" Install missing plugins at start.
-autocmd vimrc VimEnter * if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall | endif
-
 " Don't load unused cruft.
 let g:loaded_gzip              = 1
 let g:loaded_tar               = 1
@@ -107,3 +104,10 @@ let g:loaded_netrw             = 1 " Used to download spellfiles. Oh well.
 let g:loaded_netrwPlugin       = 1
 let g:loaded_netrwSettings     = 1
 let g:loaded_netrwFileHandlers = 1
+
+" Install missing plugins at start.
+"autocmd vimrc VimEnter * nested if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall1 | quit | source $MYVIMRC | endif
+ if has('vim_starting') && !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)'))
+   PlugInstall
+   source $MYVIMRC
+ endif

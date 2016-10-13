@@ -68,14 +68,14 @@ function! status#mode()
 endfunction
 
 let g:lightline.component_function.paste = 'status#paste'
-function status#paste() abort
+function! status#paste() abort
   return &paste && s:is_filelike()
     \ ? 'PASTE'
     \ : ''
 endfunction
 
 let g:lightline.component_function.fileinfo = 'status#fileinfo'
-function status#fileinfo() abort
+function! status#fileinfo() abort
   let l:readonly = status#readonly()
   let l:filename = status#filename()
   let l:nomodifiable = status#nomodifiable()
@@ -89,14 +89,14 @@ function status#fileinfo() abort
 endfunction
 
 let g:lightline.component_function.readonly = 'status#readonly'
-function status#readonly() abort
+function! status#readonly() abort
   return &readonly && s:is_filelike()
     \ ? ''
     \ : ''
 endfunction
 
 let g:lightline.component_function.filename = 'status#filename'
-function status#filename() abort
+function! status#filename() abort
   if !s:is_filelike()
     return ''
   endif
@@ -109,26 +109,26 @@ function status#filename() abort
 endfunction
 
 let g:lightline.component_function.modified = 'status#modified'
-function status#modified() abort
+function! status#modified() abort
   return &modified && s:is_filelike()
     \ ? '+'
     \ : ''
 endfunction
 
 let g:lightline.component_function.nomodifiable = 'status#nomodifiable'
-function status#nomodifiable() abort
+function! status#nomodifiable() abort
   return !&modifiable && s:is_filelike()
     \ ? '#'
     \ : ''
 endfunction
 
 let g:lightline.component_function.fileformat = 'status#fileformat'
-function status#fileformat() abort
+function! status#fileformat() abort
   return s:is_filelike() && winwidth(0) > 70 ? &fileformat : ''
 endfunction
 
 let g:lightline.component_function.fileencoding = 'status#fileencoding'
-function status#fileencoding() abort
+function! status#fileencoding() abort
   return s:is_filelike() && winwidth(0) > 70
     \ ? (!empty(&fileencoding)
       \ ? &fileencoding
@@ -137,7 +137,7 @@ function status#fileencoding() abort
 endfunction
 
 let g:lightline.component_function.filetype = 'status#filetype'
-function status#filetype() abort
+function! status#filetype() abort
   return s:is_filelike() && winwidth(0) > 70
     \ ? (!empty(&filetype)
       \ ? &filetype
@@ -146,14 +146,14 @@ function status#filetype() abort
 endfunction
 
 let g:lightline.component_expand.percent = 'status#percent'
-function status#percent() abort
+function! status#percent() abort
   return s:has_lines()
     \ ? '%p%%'
     \ : ''
 endfunction
 
 let g:lightline.component_expand.lineinfo = 'status#lineinfo'
-function status#lineinfo() abort
+function! status#lineinfo() abort
   return s:has_lines()
     \ ? '%l:%c'
     \ : ''
@@ -163,26 +163,26 @@ let g:lightline.component_type.ale = 'error'
 let g:lightline.component_expand.ale = 'ale#statusline#Status'
 
 let g:lightline.component_function.cwd = 'status#cwd'
-function status#cwd() abort
+function! status#cwd() abort
   return fnamemodify(getcwd(), ':~')
 endfunction
 
 let g:lightline.component_function.branch = 'status#branch'
-function status#branch() abort
+function! status#branch() abort
   return exists('*gita#statusline#format')
     \ ? gita#statusline#format(' %{|/}ln%lb%{ ⇄ |}rn%{/|}rb')
     \ : ''
 endfunction
 
 let g:lightline.component_function.gstatus = 'status#gstatus'
-function status#gstatus() abort
+function! status#gstatus() abort
   return exists('*gita#statusline#format')
     \ ? gita#statusline#format('%{!| }nc%{+| }na%{-| }nd%{"| }nr%{*| }nm%{@|}nu')
     \ : ''
 endfunction
 
 let g:lightline.component_function.gtraffic = 'status#gtraffic'
-function status#gtraffic() abort
+function! status#gtraffic() abort
   return exists('*gita#statusline#format')
     \ ? gita#statusline#format('%{↓| }ic%{↑|}og')
     \ : ''
