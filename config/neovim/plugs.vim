@@ -106,8 +106,8 @@ let g:loaded_netrwSettings     = 1
 let g:loaded_netrwFileHandlers = 1
 
 " Install missing plugins at start.
-"autocmd vimrc VimEnter * nested if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall1 | quit | source $MYVIMRC | endif
- if has('vim_starting') && !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)'))
-   PlugInstall
-   source $MYVIMRC
- endif
+if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)'))
+  PlugInstall
+  quit
+  source $MYVIMRC
+endif
