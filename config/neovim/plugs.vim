@@ -33,7 +33,7 @@ Plug 'christoomey/vim-tmux-navigator' " Unified movement in Vim and Tmux panes.
 Plug 'ludovicchabant/vim-gutentags' " Automatic tag generation.
 Plug 'lambdalisue/vim-gita', { 'on': 'Gita'} " A toolgit for working with git, from vim.
 Plug 'airblade/vim-gitgutter' " git-diff directly in the gutter.
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim' " The do-it-all fuzzy finder.
 Plug 'mhinz/vim-grepper', { 'on': 'Grepper' } " A wrapper around all things grep.
   let g:grepper = { 'tools': ['rg', 'git', 'grep'], 'open':  1, 'jump':  0 } " Use rg for grepper as well.
