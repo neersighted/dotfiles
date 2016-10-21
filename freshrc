@@ -42,6 +42,9 @@ for config in ~/.dotfiles/config/neovim/*.vim; do
 done
 fresh junegunn/vim-plug plug.vim --file=~/.config/nvim/autoload/plug.vim
 
+# nyaovim: electron gui for neovim
+fresh config/nyaovimrc.html --file=~/.config/nyaovim/nyaovimrc.html
+
 #
 # Compilers
 #

@@ -4,8 +4,8 @@ scriptencoding utf-8
 
 let g:lightline = {
   \ 'colorscheme': 'solarized',
-  \ 'separator': { 'left': '', 'right': '' },
-  \ 'subseparator': { 'left': '', 'right': '' },
+  \ 'separator': { 'left': '', 'right': '' },
+  \ 'subseparator': { 'left': '|', 'right': '|' },
   \ 'mode_map': {
   \   'n': 'N', 'i': 'I', 'R': 'R', 'v': 'V', 'V': '-V-', "\<C-v>": '[V]',
   \   'c': ':', 's': 'S', 'S': '-S-', "\<C-s>": '[S]', 't': '$'
@@ -170,7 +170,7 @@ endfunction
 let g:lightline.component_function.branch = 'status#branch'
 function! status#branch() abort
   return exists('*gita#statusline#format')
-    \ ? gita#statusline#format(' %{|/}ln%lb%{ ⇄ |}rn%{/|}rb')
+    \ ? gita#statusline#format('%{|/}ln%lb%{ ⇄  |}rn%{/|}rb')
     \ : ''
 endfunction
 
