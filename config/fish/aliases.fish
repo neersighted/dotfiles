@@ -1,5 +1,11 @@
 # Vim improved!
-alias vim nvim
+function vim
+  if test -n "$NVIM_LISTEN_ADDRESS"
+    command nvr --remote $argv
+  else
+    command nvim $argv
+  end
+end
 
 # Real man's LS.
 if ls --color=auto >/dev/null 2>&1
