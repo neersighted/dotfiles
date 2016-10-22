@@ -1,6 +1,6 @@
 [alias]
     up = pull --rebase --autostash
-    co = "!f() { git checkout $(git branch -v | grep -v '^*' | fzf-tmux -q ${1:-\\ } | awk '{print $1}'); }; f"
+    co = "!f() { branch=${@-$(git branch -v | grep -v '^*' | fzf-tmux -q ${1:-\\ } | awk '{print $1}')}; git checkout $branch; }; f"
     tr = "!f() { git branch --set-upstream-to $(git branch -r -v | grep -v '^*' | fzf-tmux -q ${1:-\\ } | awk '{print $1}'); }; f"
     new = "checkout -b"
     cam = commit -a -m
