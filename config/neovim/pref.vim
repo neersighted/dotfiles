@@ -1,8 +1,10 @@
 scriptencoding utf8
 
 " Color
-set termguicolors " Use true colors.
-if strftime('%H') >= 5 && strftime('%H') <= 17 " Set colors based on the time of day.
+if !exists('$MOSH')
+  set termguicolors " Use true colors.
+endif
+  if strftime('%H') >= 5 && strftime('%H') <= 17 " Set colors based on the time of day.
   colorscheme flattened_light
 else
   colorscheme flattened_dark

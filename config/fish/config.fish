@@ -49,6 +49,10 @@ test -f $HOME/.config/fish/config.local.fish; and source $HOME/.config/fish/conf
 
 set -e fish_greeting # shut up
 
+if [ (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]')) = "mosh-server" ]
+  set --global --export MOSH 1
+end
+
 if status --is-interactive
   set --global --export GPG_TTY (tty)
   set --global --export SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
