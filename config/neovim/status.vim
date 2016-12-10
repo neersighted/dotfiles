@@ -3,7 +3,7 @@ scriptencoding utf-8
 " Lightline Configuration
 
 let g:lightline = {
-  \ 'colorscheme': 'solarized',
+  \ 'colorscheme': 'flattened_light',
   \ 'separator': { 'left': '', 'right': '' },
   \ 'subseparator': { 'left': '|', 'right': '|' },
   \ 'mode_map': {
