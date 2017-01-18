@@ -9,8 +9,8 @@ endif
 else
   colorscheme flattened_dark
 endif
-set t_8f=[38;2;%lu;%lu;%lum " Fix 24-bit color escape sequences.
-set t_8b=[48;2;%lu;%lu;%lum " This supports st, tmux, and iterm2.
+execute "set t_8f=\e[38;2;%lu;%lu;%lum"
+execute "set t_8b=\e[48;2;%lu;%lu;%lum"
 set colorcolumn=+1 " Highlight the wrapping column.
 
 " Font

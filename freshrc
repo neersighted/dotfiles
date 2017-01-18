@@ -59,6 +59,9 @@ fresh scripts/gcc-flags-native --bin
 # Graphical
 #
 
+# alacritty: a fast terminal emulator
+fresh config/alacritty.yml --file=~/.config/alacritty/alacritty.yml
+
 # compton: x compositor
 fresh config/compton.conf --file=~/.config/compton.conf
 fresh scripts/compton-toggle --bin

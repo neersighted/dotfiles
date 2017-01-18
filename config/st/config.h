@@ -39,12 +39,15 @@ static unsigned int defaultfg        = 12;
 static unsigned int defaultbg        = 8;
 static unsigned int defaultcs        = 14;
 static unsigned int defaultrcs       = 257;
-static unsigned int defaultitalic    = 11;
-static unsigned int defaultunderline = 7;
 
 static unsigned int mouseshape = XC_xterm;
 static unsigned int mousefg = 7;
 static unsigned int mousebg = 0;
+
+static unsigned int defaultattr = 11;
+
+static unsigned int cols = 80;
+static unsigned int rows = 24;
 
 static int borderpx = 1;
 static unsigned int cursorthickness = 2;

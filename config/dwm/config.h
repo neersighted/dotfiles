@@ -1,7 +1,7 @@
 static const char *fonts[] = {
     "Source Code Pro Light:size=7.5",
 };
-static const char *colors[SchemeLast][3]      = {
+static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { "#93a1a1", "#002b36", "#073642" },
 	[SchemeSel] =  { "#93a1a1", "#073642", "#586e75" },
