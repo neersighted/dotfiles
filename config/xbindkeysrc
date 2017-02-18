@@ -1,3 +1,13 @@
+# Control playback.
+"mpc toggle"
+    XF86AudioPlay
+"mpc stop"
+    XF86AudioStop
+"mpc next"
+    XF86AudioNext
+"mpc prev"
+    XF86AudioPrev
+
 # Adjust audio.
 "amixer set PCM 5%+"
     XF86AudioRaiseVolume

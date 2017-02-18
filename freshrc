@@ -103,6 +103,19 @@ fresh config/xsession --file
 fresh config/xserverrc --file
 
 #
+# Audio
+#
+
+# alsa: advanced linux sound architecture
+fresh config/asoundrc --file=~/.asoundrc
+
+# mpd: music player daemon
+fresh config/mpd.conf --file=~/.mpd/mpd.conf
+
+# ncmpcpp: mpd client
+fresh config/ncmpcpp.conf --file=~/.ncmpcpp/config
+
+#
 # Utilities
 #
 
