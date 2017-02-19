@@ -1,0 +1,4 @@
+Window ""
+"Griffin PowerMate" "" none rel/7/1 "XKey/XF86AudioRaiseVolume"
+"Griffin PowerMate" "" none rel/7/-1 "XKey/XF86AudioLowerVolume"
+"Griffin PowerMate" "" none key/256 "XKey/XF86AudioMute"

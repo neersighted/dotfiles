@@ -31,8 +31,11 @@ xset dpms 300 300 300
 pgrep -f unclutter >/dev/null || unclutter &
 # Start xss-lock (screen locker daemon).
 pgrep -f xss-lock >/dev/null || xss-lock -- xlock &
+
 # Start xbindkeys (keyboard mapping daemon).
 pgrep -f xbindkeys >/dev/null || xbindkeys &
+# Start evrouter (input event daemon).
+pgrep -f evrouter >/dev/null || evrouter -c ~/.evrouterrc /dev/input/event*
 
 # Start compton (X compositor).
 pgrep -f compton >/dev/null || compton &
