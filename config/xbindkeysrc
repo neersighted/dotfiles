@@ -9,9 +9,9 @@
     XF86AudioPrev
 
 # Adjust audio.
-"amixer set PCM 5%+"
+"amixer set PCM 1+"
     XF86AudioRaiseVolume
-"amixer set PCM 5%-"
+"amixer set PCM 1-"
     XF86AudioLowerVolume
 "amixer set PCM toggle"
     XF86AudioMute
