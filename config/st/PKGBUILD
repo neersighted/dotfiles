@@ -23,11 +23,18 @@ pkgver() {
   git describe --always | sed 's/^v//;s/-/./g'
 }
 
-build() {
+prepare() {
   cd "${srcdir}/st"
 
   # Apply config.
   cp "${srcdir}/config.h" ./config.h
+  # Skip terminfo conflict.
+  sed -i '/\@tic /d' Makefile
+
+}
+
+build() {
+  cd "${srcdir}/st"
 
   # Build it!
   make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
@@ -37,7 +44,7 @@ package() {
   cd "${srcdir}/st"
 
   # Install the program.
-  make PREFIX=/usr DESTDIR="${pkgdir}" install
+  make PREFIX=/usr DESTDIR="${pkgdir}" TERMINFO="${pkgdir}/usr/share/terminfo" install
 
   # Install the license.
   install -Dm644 LICENSE \

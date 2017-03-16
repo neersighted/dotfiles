@@ -116,7 +116,8 @@ fresh config/asoundrc --file=~/.asoundrc
 fresh config/mpd.conf --file=~/.mpd/mpd.conf
 
 # ncmpcpp: mpd client
-fresh config/ncmpcpp.conf --file=~/.ncmpcpp/config
+fresh config/ncmpcpp/config --file=~/.ncmpcpp/config
+fresh config/ncmpcpp/bindings --file=~/.ncmpcpp/bindings
 
 #
 # Utilities
@@ -179,9 +180,6 @@ fresh config/rbenv/default-gems --file=~/.rbenv/default-gems
 
 # trunc: truncate files
 fresh pengwynn/dotfiles bin/trunc --bin
-
-# terminfo: terminal database
-fresh config/terminfo --file=~/.terminfo/
 
 # tmux: terminal multiplexer
 fresh-options --file=~/.tmux.conf --marker

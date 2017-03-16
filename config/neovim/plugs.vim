@@ -100,10 +100,10 @@ let g:loaded_getscript         = 1
 let g:loaded_getscriptPlugin   = 1
 let g:loaded_logipat           = 1
 let g:loaded_matchparen        = 1
-let g:loaded_netrw             = 1 " Used to download spellfiles. Oh well.
-let g:loaded_netrwPlugin       = 1
-let g:loaded_netrwSettings     = 1
-let g:loaded_netrwFileHandlers = 1
+"let g:loaded_netrw             = 1 " Used to download spellfiles. Oh well.
+"let g:loaded_netrwPlugin       = 1
+"let g:loaded_netrwSettings     = 1
+"let g:loaded_netrwFileHandlers = 1
 
 " Install missing plugins at start.
 if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)'))
