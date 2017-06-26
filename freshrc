@@ -123,9 +123,6 @@ fresh config/ncmpcpp/bindings --file=~/.ncmpcpp/bindings
 # Utilities
 #
 
-# +x: quickly make a file executable
-fresh pengwynn/dotfiles bin/+x --bin
-
 # 24bit: check a terminal for true color support
 fresh scripts/24bit --bin
 
@@ -146,9 +143,6 @@ fresh config/git/template --file=~/.config/git/template/
 # gibo: gitignore boilerplates
 fresh simonwhitaker/gitignore-boilerplates gibo --bin
 
-# gitio: github's url shortener
-fresh pengwynn/dotfiles bin/gitio --bin
-
 # gnupg: the gnu privacy guard
 fresh scripts/pinentry --bin
 fresh config/gnupg/gpg.conf --file=~/.gnupg/gpg.conf
@@ -156,20 +150,11 @@ fresh config/gnupg/gpg-agent.conf --filter="sed s#HOME#$HOME#" --file=~/.gnupg/g
 fresh config/gnupg/dirmngr.conf --file=~/.gnupg/dirmngr.conf
 fresh config/gnupg/sks-keyservers.netCA.pem --file=~/.gnupg/sks-keyservers.netCA.pem
 
-# hide: quickly hide a file (by prepending a dot)
-fresh pengwynn/dotfiles bin/hide --bin
-
 # htop: interactive process monitor
 fresh config/htoprc --file=~/.config/htop/htoprc
 
 # makepkg: arch linux packager
 fresh config/makepkg.conf --file=~/.makepkg.conf
-
-# man.cx: open manpages in man.cx
-fresh pengwynn/dotfiles bin/man.cx --bin
-
-# notes: view notes in a file (ie todo/xxx/fixme)
-fresh pengwynn/dotfiles bin/notes --bin
 
 # pyenv: python version manager
 fresh scripts/pyenv-install --bin
@@ -177,9 +162,6 @@ fresh scripts/pyenv-install --bin
 # rbenv: ruby version manager
 fresh scripts/rbenv-install --bin
 fresh config/rbenv/default-gems --file=~/.rbenv/default-gems
-
-# trunc: truncate files
-fresh pengwynn/dotfiles bin/trunc --bin
 
 # tmux: terminal multiplexer
 fresh-options --file=~/.tmux.conf --marker

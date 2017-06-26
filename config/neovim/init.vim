@@ -4,7 +4,7 @@ augroup end
 
 if has('vim_starting') " Echo how long it took to start up.
   let g:startup = reltime()
-  autocmd VimEnter * let ready = reltime(g:startup) | echo reltimestr(ready)
+  autocmd vimrc VimEnter * let ready = reltime(g:startup) | echo reltimestr(ready)
 endif
 
 runtime plugs.vim

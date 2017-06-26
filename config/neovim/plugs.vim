@@ -24,7 +24,7 @@ Plug 'w0rp/ale' " Async lint engine.
   let g:ale_statusline_format = ['E:%s', 'W:%s', '']
   let g:ale_sign_warning = '❢'
   let g:ale_sign_error = '✗'
-  autocmd vimrc User ALELint call lightline#update()
+  autocmd vimrc User ALELint call lightline#update() " Update status bar on lint.
 Plug 'johnsyweb/vim-makeshift' " Auto detect the build command.
 Plug 'airblade/vim-rooter' " Change to the project directory automatically.
 Plug 'justinmk/vim-gtfo' " Quickly open a terminal or a file manager.
@@ -82,7 +82,7 @@ Plug 'luochen1990/rainbow', { 'on': 'RainbowToggle' } " Parenthesis visualizatio
   let g:rainbow_active = 0 " Manually enable rainbow parenthesis.
 Plug 'Yggdroot/indentLine' " Show markers for indents.
   let g:indentLine_char = '┊' " Use a small line to show space-based indentation.
-Plug 'sheerun/vim-polyglot' " Batterie-included language support pack.
+Plug 'sheerun/vim-polyglot' " Batteries-included language support pack.
 
 call plug#end()
 
@@ -106,8 +106,8 @@ let g:loaded_matchparen        = 1
 "let g:loaded_netrwFileHandlers = 1
 
 " Install missing plugins at start.
-if !empty(filter(copy(g:plugs), '!isdirectory(v:val.dir)'))
+if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
   PlugInstall
   quit
   source $MYVIMRC
-endif
+end

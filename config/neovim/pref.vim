@@ -21,7 +21,13 @@ set guioptions=ai " Hide all GUI widgets.
 set noerrorbells novisualbell " Turn off bells.
 set noshowmode noshowcmd " Disable the built in-status indicators.
 set showtabline=2 " Always show the tabline.
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1 " Enable cursor shape changing.
+set guicursor= " Enable cursor shape changing.
+  \n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+  \,sm:block-blinkwait175-blinkoff150-blinkon175
+
+" Previews
+set inccommand=split " Show incomplete commands in a split.
 
 " Numbering
 set number relativenumber " Use relative line numbering.
