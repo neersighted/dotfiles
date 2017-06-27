@@ -160,7 +160,19 @@ function! status#lineinfo() abort
 endfunction
 
 let g:lightline.component_type.ale = 'error'
-let g:lightline.component_expand.ale = 'ale#statusline#Status'
+let g:lightline.component_expand.ale = 'status#ale'
+function! status#ale() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? '' : printf(
+    \   'W:%d E:%d',
+    \   all_non_errors,
+    \   all_errors
+    \)
+endfunction
 
 let g:lightline.component_function.cwd = 'status#cwd'
 function! status#cwd() abort
