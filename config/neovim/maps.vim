@@ -1,6 +1,9 @@
 let g:mapleader = ' ' " Use an easy leader.
 
+"
 " Core
+"
+
 " move across delimiters
 nmap <tab> %
 " move over virtual lines
@@ -21,6 +24,10 @@ nnoremap <backspace> :buffer #<cr>
 " open location/quickfix list
 nnoremap <leader>l :lopen<cr>
 nnoremap <leader>q :copen<cr>
+
+"
+" Plugins
+"
 
 " EasyAlign
 nmap gl   <Plug>(EasyAlign)

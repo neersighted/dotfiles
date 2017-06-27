@@ -1,5 +1,9 @@
 scriptencoding utf8
 
+"
+" Core
+"
+
 " Color
 if !exists('$MOSH')
   set termguicolors " Use true colors.
@@ -62,3 +66,37 @@ set diffopt=filler,vertical
 set virtualedit=onemore,all " Allow the cursor to select the end of the line, or form blocks in empty space.
 set undofile " Keep persistent undo information.
 set hidden " Allow backgrounding buffers.
+
+"
+" Plugins
+"
+
+" ALE
+let g:ale_lint_on_text_changed = 1
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
+let g:ale_lint_delay = 100
+let g:ale_echo_msg_format = '[%linter%] %s'
+let g:ale_statusline_format = ['E:%s', 'W:%s', '']
+let g:ale_sign_warning = '❢'
+let g:ale_sign_error = '✗'
+
+" Grepper
+let g:grepper = { 'tools': ['rg', 'git', 'grep'], 'open':  1, 'jump':  0 } " Use rg for grepper as well.
+
+" indentLine
+let g:indentLine_char = '┊' " Use a small line to show space-based indentation.
+
+" Rainbow
+let g:rainbow_active = 0 " Manually enable rainbow parenthesis.
+
+" Sneak
+let g:sneak#streak = 1 " Enable streak (EasyMotion) mode.
+let g:sneak#s_next = 1 " Press again to skip to the next match.
+
+" Startify
+let g:startify_session_dir = $XDG_DATA_HOME . '/nvim/session'
+let g:startify_bookmarks = [ {'c': '~/.dotfiles/config/neovim'}, {'f': '~/.dotfiles/config/fish/config.fish'}, {'m': '~/.dotfiles/config/tmux/main.conf'} ]
+
+" Lightline
+autocmd vimrc User ALELint call lightline#update() " Update status bar on lint.

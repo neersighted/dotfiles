@@ -1,10 +1,14 @@
+if has('vim_starting') " Echo how long it took to start up.
+  let g:startup = reltime()
+  autocmd VimEnter * let ready = reltime(g:startup) | echo reltimestr(ready)
+endif
+
 augroup vimrc " Clear autocommands.
   autocmd!
 augroup end
 
-if has('vim_starting') " Echo how long it took to start up.
-  let g:startup = reltime()
-  autocmd vimrc VimEnter * let ready = reltime(g:startup) | echo reltimestr(ready)
+if &compatible " Ensure nocompatible is set once.
+  set nocompatible
 endif
 
 runtime plugs.vim
