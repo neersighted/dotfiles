@@ -48,13 +48,16 @@ nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
 
-" Gina
+" Fugitive
 nnoremap <leader>c :Gcommit<cr>
 nnoremap <leader>p :Gpush<cr>
 nnoremap <leader>P :Gpull<cr>
 nnoremap <leader>g :Gstatus<cr>
 nnoremap <leader>d :Gdiff<cr>
 nnoremap <leader>b :Gblame<cr>
+
+" Mundo
+nnoremap <leader>u :MundoToggle<cr>
 
 " Obvious Resize
 noremap <silent> <c-up>    :<c-u>ObviousResizeUp<cr>

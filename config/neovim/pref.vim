@@ -13,8 +13,6 @@ endif
 else
   colorscheme flattened_dark
 endif
-execute "set t_8f=\e[38;2;%lu;%lu;%lum"
-execute "set t_8b=\e[48;2;%lu;%lu;%lum"
 set colorcolumn=+1 " Highlight the wrapping column.
 
 " Font
@@ -80,14 +78,8 @@ let g:ale_echo_msg_format = '[%linter%] %s'
 let g:ale_sign_warning = '❢'
 let g:ale_sign_error = '✗'
 
-" Grepper
-let g:grepper = { 'tools': ['rg', 'git', 'grep'], 'open':  1, 'jump':  0 } " Use rg for grepper as well.
-
 " indentLine
 let g:indentLine_char = '┊' " Use a small line to show space-based indentation.
-
-" Rainbow
-let g:rainbow_active = 0 " Manually enable rainbow parenthesis.
 
 " Sneak
 let g:sneak#streak = 1 " Enable streak (EasyMotion) mode.

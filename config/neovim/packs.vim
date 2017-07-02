@@ -5,68 +5,57 @@ if exists('*minpac#init')
   call minpac#init() " minpac is updated using fresh
 
   " Enhancements/Tweaks
-  call minpac#add('tpope/vim-repeat')
-  call minpac#add('tpope/vim-rsi')
-  call minpac#add('ajh17/VimCompletesMe')
-  call minpac#add('kopischke/vim-fetch')
-  call minpac#add('mhinz/vim-sayonara')
-  call minpac#add('talek/obvious-resize')
-  call minpac#add('justinmk/vim-dirvish')
-  call minpac#add('romainl/vim-qf')
-  call minpac#add('dietsche/vim-lastplace')
+  call minpac#add('justinmk/vim-dirvish') " ultra-minimal directory browser
+  call minpac#add('kopischke/vim-fetch') " open file:line:col
+  call minpac#add('dietsche/vim-lastplace') " re-open files in the sample place
+  call minpac#add('talek/obvious-resize') " simple window resizing
+  call minpac#add('romainl/vim-qf') " simple defaults for the quickfix window
+  call minpac#add('tpope/vim-repeat') " repeat support for plugins
+  call minpac#add('tpope/vim-rsi') " readline-style insert
+  call minpac#add('mhinz/vim-sayonara') " simple window closing
+  call minpac#add('tpope/vim-unimpaired') " simple complementary map pairs
 
   " Integration
-  call minpac#add('w0rp/ale')
-  call minpac#add('airblade/vim-rooter')
-  call minpac#add('justinmk/vim-gtfo')
-  call minpac#add('tpope/vim-eunuch')
-  call minpac#add('christoomey/vim-tmux-navigator')
-  call minpac#add('ludovicchabant/vim-gutentags')
-  call minpac#add('tpope/vim-fugitive')
-  call minpac#add('airblade/vim-gitgutter')
-  call minpac#add('junegunn/fzf')
-  call minpac#add('junegunn/fzf.vim')
-  call minpac#add('mhinz/vim-grepper')
-  call minpac#add('jamessan/vim-gnupg')
-  call minpac#add('junegunn/vader.vim')
+  call minpac#add('w0rp/ale') " async lint engine
+  call minpac#add('tpope/vim-eunuch') " unix addons
+  call minpac#add('tpope/vim-fugitive') " git addons
+  call minpac#add('junegunn/fzf') " fuzzy finder
+  call minpac#add('junegunn/fzf.vim') " fuzzy finder
+  call minpac#add('airblade/vim-gitgutter') " git diff gutter
+  call minpac#add('justinmk/vim-gtfo') " open terminal or file manager
+  call minpac#add('ludovicchabant/vim-gutentags') " seamless ctags
+  call minpac#add('airblade/vim-rooter') " auto-cd to project root
+  call minpac#add('christoomey/vim-tmux-navigator') " seamless vim/tmux splits
 
   " Interface
-  call minpac#add('romainl/flattened')
-  call minpac#add('mhinz/vim-startify')
-  call minpac#add('itchyny/lightline.vim')
-  call minpac#add('mbbill/undotree')
+  call minpac#add('romainl/flattened') " simplified solarized port
+  call minpac#add('itchyny/lightline.vim') " stupid light statusline framework
+  call minpac#add('simnalamburt/vim-mundo') " undo tree gui
+  call minpac#add('mhinz/vim-startify') " simple start screen
 
   " Editing
-  call minpac#add('tpope/vim-unimpaired')
-  call minpac#add('tpope/vim-commentary')
-  call minpac#add('tpope/vim-speeddating')
-  call minpac#add('tommcdo/vim-exchange')
-  call minpac#add('AndrewRadev/splitjoin.vim')
-
-  " Selection
-  call minpac#add('terryma/vim-multiple-cursors')
-  call minpac#add('terryma/vim-expand-region')
+  call minpac#add('tpope/vim-commentary') " quickly comment/uncomment
+  call minpac#add('tpope/vim-speeddating') " increment/decrement dates
+  call minpac#add('tommcdo/vim-exchange') " exchange lines
 
   " Formatting
-  call minpac#add('tpope/vim-sleuth')
-  call minpac#add('junegunn/vim-easy-align')
-  call minpac#add('jiangmiao/auto-pairs')
-  call minpac#add('tpope/vim-endwise')
+  call minpac#add('jiangmiao/auto-pairs') " auto-close delimiters
+  call minpac#add('junegunn/vim-easy-align') " align text objects
+  call minpac#add('tpope/vim-sleuth') " auto-determine buffer formatting
 
   " Search/Navigation
-  call minpac#add('pgdouyon/vim-evanesco')
-  call minpac#add('kshenoy/vim-signature')
-  call minpac#add('tommcdo/vim-kangaroo')
+  call minpac#add('tommcdo/vim-kangaroo') " small manual jump-stack
+  call minpac#add('kshenoy/vim-signature') " enhanced mark navigation
+  call minpac#add('junegunn/vim-slash') " enhanced '/'
 
   " Motions/Text Objects
-  call minpac#add('justinmk/vim-sneak')
-  call minpac#add('tpope/vim-surround')
-  call minpac#add('tommcdo/vim-ninja-feet')
+  call minpac#add('justinmk/vim-sneak') " enhanced character seeking
+  call minpac#add('tpope/vim-surround') " (un)surround with delimiters
+  call minpac#add('tommcdo/vim-ninja-feet') " motions to the end of text objects
 
   " Syntax/Highlighting
-  call minpac#add('luochen1990/rainbow')
-  call minpac#add('Yggdroot/indentLine')
-  call minpac#add('sheerun/vim-polyglot')
+  call minpac#add('Yggdroot/indentLine') " indentation visual aide
+  call minpac#add('sheerun/vim-polyglot') " compilation of language files
 
 endif
 
@@ -84,7 +73,7 @@ let g:loaded_getscript         = 1
 let g:loaded_getscriptPlugin   = 1
 let g:loaded_logipat           = 1
 let g:loaded_matchparen        = 1
-"let g:loaded_netrw             = 1 " Used to download spellfiles. Oh well.
+"let g:loaded_netrw             = 1
 "let g:loaded_netrwPlugin       = 1
 "let g:loaded_netrwSettings     = 1
 "let g:loaded_netrwFileHandlers = 1

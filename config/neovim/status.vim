@@ -63,6 +63,8 @@ function! status#mode()
     \ &filetype ==# 'startify' ? 'START' :
     \ &filetype ==# 'fzf' ? 'FZF' :
     \ &filetype ==# 'fugitiveblame' ? 'BLAME' :
+    \ &filetype ==# 'Mundo' ? 'UNDO' :
+    \ &filetype ==# 'MundoDiff' ? 'DIFF' :
     \ winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
@@ -178,5 +180,5 @@ function! status#cwd() abort
   return fnamemodify(getcwd(), ':~')
 endfunction
 
-let g:lightline.component_function.branch = 'fugitive#statusline'
+let g:lightline.component_function.branch = 'fugitive#head'
 
