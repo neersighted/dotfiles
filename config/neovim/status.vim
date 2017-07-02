@@ -36,7 +36,6 @@ let g:lightline = {
   \     'right': [
   \       [ 'cwd' ],
   \       [ 'branch' ],
-  \       [ 'gstatus', 'gtraffic' ],
   \     ],
   \   },
   \   'component': {},
@@ -63,7 +62,7 @@ function! status#mode()
     \ &filetype ==# 'help' ? 'HELP' :
     \ &filetype ==# 'startify' ? 'START' :
     \ &filetype ==# 'fzf' ? 'FZF' :
-    \ &filetype ==# 'gina-status' ? 'gina' :
+    \ &filetype ==# 'fugitiveblame' ? 'BLAME' :
     \ winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
@@ -179,9 +178,5 @@ function! status#cwd() abort
   return fnamemodify(getcwd(), ':~')
 endfunction
 
-let g:lightline.component_function.branch = 'gina#component#repo#branch'
-
-let g:lightline.component_function.gstatus = 'gina#component#status#preset'
-
-let g:lightline.component_function.gtraffic = 'gina#component#traffic#preset'
+let g:lightline.component_function.branch = 'fugitive#statusline'
 

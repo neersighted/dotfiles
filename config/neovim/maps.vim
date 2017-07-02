@@ -48,22 +48,13 @@ nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
 
-" FZF Completion
-inoremap <expr> <c-x><c-x> fzf#vim#complete('tmuxwords.rb --all-but-current --scroll 500 --min 5')
-inoremap <expr> <c-x><c-f> fzf#vim#complete#path('rg --files')
-inoremap <expr> <c-x><c-g> fzf#vim#complete#path('find -L . -type d -mindepth 1 -print')
-inoremap <expr> <c-x><c-k> fzf#vim#complete#word()
-inoremap <expr> <c-x><c-l> fzf#vim#complete#line()
-
 " Gina
-nnoremap <leader>c :Gina commit<cr>
-nnoremap <leader>g :Gina status<cr>
-nnoremap <leader>G :Gina log<cr>
-nnoremap <leader>d :Gina compare<cr>
-nnoremap <leader>D :Gina changes<cr>
-nnoremap <leader>b :Gina blame :<cr>
-nnoremap <leader>B :Gina branch<cr>
-nnoremap <leader>w :Gina browse<cr>
+nnoremap <leader>c :Gcommit<cr>
+nnoremap <leader>p :Gpush<cr>
+nnoremap <leader>P :Gpull<cr>
+nnoremap <leader>g :Gstatus<cr>
+nnoremap <leader>d :Gdiff<cr>
+nnoremap <leader>b :Gblame<cr>
 
 " Obvious Resize
 noremap <silent> <c-up>    :<c-u>ObviousResizeUp<cr>
