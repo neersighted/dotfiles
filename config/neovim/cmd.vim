@@ -1,4 +1,5 @@
-function! KillTrailingWhitespace(lines) " Kill trailing whitespace/lines.
+" Kill trailing whitespace (bang for lines).
+function! KillTrailingWhitespace(lines)
   let l:search = @/
   let l:view = winsaveview()
   execute '%s/\s\+$//e'
@@ -8,10 +9,22 @@ function! KillTrailingWhitespace(lines) " Kill trailing whitespace/lines.
   let @/ = l:search
   call winrestview(l:view)
 endfunction
-
-" kill trailing whitespace (bang for lines)
 command! -bang -nargs=* KillTrailingWhitespace call KillTrailingWhitespace(<bang>0)
-" rehash configuration
-command! -bang -nargs=* Rehash terminal fresh; nvr -c 'source \$MYVIMRC' -c Sayonara
-" ripgrep
+
+" Rebuild configuration using Fresh.
+function! Fresh()
+  let l:opts = {}
+  function! l:opts.on_exit(job_id, exit_code, _)
+    if a:exit_code == 0
+      bdelete!
+      source $MYVIMRC
+    endif
+  endfunction
+
+  new
+  call termopen('fresh', l:opts)
+endfunction
+command! Fresh call Fresh()
+
+" Grep using rg.
 command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)

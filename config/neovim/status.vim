@@ -63,7 +63,7 @@ function! status#mode()
     \ &filetype ==# 'help' ? 'HELP' :
     \ &filetype ==# 'startify' ? 'START' :
     \ &filetype ==# 'fzf' ? 'FZF' :
-    \ &filetype ==# 'gita-status' ? 'GITA' :
+    \ &filetype ==# 'gina-status' ? 'gina' :
     \ winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
@@ -179,24 +179,9 @@ function! status#cwd() abort
   return fnamemodify(getcwd(), ':~')
 endfunction
 
-let g:lightline.component_function.branch = 'status#branch'
-function! status#branch() abort
-  return exists('*gita#statusline#format')
-    \ ? gita#statusline#format('%{|/}ln%lb%{ ⇄  |}rn%{/|}rb')
-    \ : ''
-endfunction
+let g:lightline.component_function.branch = 'gina#component#repo#branch'
 
-let g:lightline.component_function.gstatus = 'status#gstatus'
-function! status#gstatus() abort
-  return exists('*gita#statusline#format')
-    \ ? gita#statusline#format('%{!| }nc%{+| }na%{-| }nd%{"| }nr%{*| }nm%{@|}nu')
-    \ : ''
-endfunction
+let g:lightline.component_function.gstatus = 'gina#component#status#preset'
 
-let g:lightline.component_function.gtraffic = 'status#gtraffic'
-function! status#gtraffic() abort
-  return exists('*gita#statusline#format')
-    \ ? gita#statusline#format('%{↓| }ic%{↑|}og')
-    \ : ''
-endfunction
+let g:lightline.component_function.gtraffic = 'gina#component#traffic#preset'
 

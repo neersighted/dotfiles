@@ -1,13 +1,14 @@
 diff --git a/dwm.c b/dwm.c
-index 0362114..03fddb6 100644
+index a5ce993..e235c8c 100644
 --- a/dwm.c
 +++ b/dwm.c
-@@ -393,9 +393,24 @@ arrange(Monitor *m)
+@@ -395,9 +395,25 @@ arrange(Monitor *m)
  void
  arrangemon(Monitor *m)
  {
-+	int n = 0;
++	unsigned int n = 0;
 +	Client *c;
++
  	strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
 -	if (m->lt[m->sellt]->arrange)
 -		m->lt[m->sellt]->arrange(m);
@@ -29,7 +30,7 @@ index 0362114..03fddb6 100644
  }
  
  void
-@@ -1117,16 +1132,25 @@ maprequest(XEvent *e)
+@@ -1105,16 +1121,25 @@ maprequest(XEvent *e)
  void
  monocle(Monitor *m)
  {
@@ -59,13 +60,13 @@ index 0362114..03fddb6 100644
  }
  
  void
-@@ -1706,9 +1730,11 @@ togglefloating(const Arg *arg)
+@@ -1715,9 +1740,11 @@ togglefloating(const Arg *arg)
  	if (selmon->sel->isfullscreen) /* no support for fullscreen windows */
  		return;
  	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
 -	if (selmon->sel->isfloating)
 -		resize(selmon->sel, selmon->sel->x, selmon->sel->y,
--		       selmon->sel->w, selmon->sel->h, 0);
+-			selmon->sel->w, selmon->sel->h, 0);
 +	if (selmon->sel->isfloating) {
 +		selmon->sel->oldbw = selmon->sel->bw;
 +		selmon->sel->bw = borderpx;
@@ -74,13 +75,12 @@ index 0362114..03fddb6 100644
  	arrange(selmon);
  }
  
-@@ -2003,7 +2029,8 @@ updatewindowtype(Client *c)
+@@ -2008,7 +2035,7 @@ updatewindowtype(Client *c)
  	Atom state = getatomprop(c, netatom[NetWMState]);
  	Atom wtype = getatomprop(c, netatom[NetWMWindowType]);
  
 -	if (state == netatom[NetWMFullscreen])
-+	if(state == netatom[NetWMFullscreen] ||
-+			(WIDTH(c) >= (c->mon->mx + c->mon->mw) && (HEIGHT(c) >= (c->mon->my + c->mon->mh))))
++	if (state == netatom[NetWMFullscreen] || (WIDTH(c) >= (c->mon->mx + c->mon->mw) && (HEIGHT(c) >= (c->mon->my + c->mon->mh))))
  		setfullscreen(c, 1);
  	if (wtype == netatom[NetWMWindowTypeDialog])
  		c->isfloating = 1;

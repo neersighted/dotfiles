@@ -55,11 +55,15 @@ inoremap <expr> <c-x><c-g> fzf#vim#complete#path('find -L . -type d -mindepth 1 
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word()
 inoremap <expr> <c-x><c-l> fzf#vim#complete#line()
 
-" Gita
-nnoremap <leader>g :Gita status<cr>
-nnoremap <leader>G :Gita patch<cr>
-nnoremap <leader>d :Gita diff-ls<cr>
-nnoremap <leader>D :Gita diff<cr>
+" Gina
+nnoremap <leader>c :Gina commit<cr>
+nnoremap <leader>g :Gina status<cr>
+nnoremap <leader>G :Gina log<cr>
+nnoremap <leader>d :Gina compare<cr>
+nnoremap <leader>D :Gina changes<cr>
+nnoremap <leader>b :Gina blame :<cr>
+nnoremap <leader>B :Gina branch<cr>
+nnoremap <leader>w :Gina browse<cr>
 
 " Obvious Resize
 noremap <silent> <c-up>    :<c-u>ObviousResizeUp<cr>

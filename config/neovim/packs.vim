@@ -1,5 +1,3 @@
-scriptencoding utf8
-
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
 command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
 
@@ -26,7 +24,7 @@ if exists('*minpac#init')
   call minpac#add('tpope/vim-eunuch')
   call minpac#add('christoomey/vim-tmux-navigator')
   call minpac#add('ludovicchabant/vim-gutentags')
-  call minpac#add('lambdalisue/vim-gita')
+  call minpac#add('lambdalisue/gina.vim')
   call minpac#add('airblade/vim-gitgutter')
   call minpac#add('junegunn/fzf')
   call minpac#add('junegunn/fzf.vim')

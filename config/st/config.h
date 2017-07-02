@@ -1,113 +1,115 @@
-static char font[]                   = "Source Code Pro Light-10";
-static const char *colorname[]       = {
+char font[]                   = "Source Code Pro Light-10";
+const char *colorname[]       = {
 /* Solarized Dark */
-	"#073642",  /*  0: black    */
-	"#dc322f",  /*  1: red      */
-	"#859900",  /*  2: green    */
-	"#b58900",  /*  3: yellow   */
-	"#268bd2",  /*  4: blue     */
-	"#d33682",  /*  5: magenta  */
-	"#2aa198",  /*  6: cyan     */
-	"#eee8d5",  /*  7: white    */
-	"#002b36",  /*  8: brblack  */
-	"#cb4b16",  /*  9: brred    */
-	"#586e75",  /* 10: brgreen  */
-	"#657b83",  /* 11: bryellow */
-	"#839496",  /* 12: brblue   */
-	"#6c71c4",  /* 13: brmagenta*/
-	"#93a1a1",  /* 14: brcyan   */
-	"#fdf6e3",  /* 15: brwhite  */
+  "#073642",  /*  0: black    */
+  "#dc322f",  /*  1: red      */
+  "#859900",  /*  2: green    */
+  "#b58900",  /*  3: yellow   */
+  "#268bd2",  /*  4: blue     */
+  "#d33682",  /*  5: magenta  */
+  "#2aa198",  /*  6: cyan     */
+  "#eee8d5",  /*  7: white    */
+  "#002b36",  /*  8: brblack  */
+  "#cb4b16",  /*  9: brred    */
+  "#586e75",  /* 10: brgreen  */
+  "#657b83",  /* 11: bryellow */
+  "#839496",  /* 12: brblue   */
+  "#6c71c4",  /* 13: brmagenta*/
+  "#93a1a1",  /* 14: brcyan   */
+  "#fdf6e3",  /* 15: brwhite  */
 /* Solarized Light */
-	//"#eee8d5",  /*  0: black    */
-	//"#dc322f",  /*  1: red      */
-	//"#859900",  /*  2: green    */
-	//"#b58900",  /*  3: yellow   */
-	//"#268bd2",  /*  4: blue     */
-	//"#d33682",  /*  5: magenta  */
-	//"#2aa198",  /*  6: cyan     */
-	//"#073642",  /*  7: white    */
-	//"#fdf6e3",  /*  8: brblack  */
-	//"#cb4b16",  /*  9: brred    */
-	//"#93a1a1",  /* 10: brgreen  */
-	//"#839496",  /* 11: bryellow */
-	//"#657b83",  /* 12: brblue   */
-	//"#6c71c4",  /* 13: brmagenta*/
-	//"#586e75",  /* 14: brcyan   */
-	//"#002b36",  /* 15: brwhite  */
+  //"#eee8d5",  /*  0: black    */
+  //"#dc322f",  /*  1: red      */
+  //"#859900",  /*  2: green    */
+  //"#b58900",  /*  3: yellow   */
+  //"#268bd2",  /*  4: blue     */
+  //"#d33682",  /*  5: magenta  */
+  //"#2aa198",  /*  6: cyan     */
+  //"#073642",  /*  7: white    */
+  //"#fdf6e3",  /*  8: brblack  */
+  //"#cb4b16",  /*  9: brred    */
+  //"#93a1a1",  /* 10: brgreen  */
+  //"#839496",  /* 11: bryellow */
+  //"#657b83",  /* 12: brblue   */
+  //"#6c71c4",  /* 13: brmagenta*/
+  //"#586e75",  /* 14: brcyan   */
+  //"#002b36",  /* 15: brwhite  */
 };
-static unsigned int defaultfg        = 12;
-static unsigned int defaultbg        = 8;
-static unsigned int defaultcs        = 14;
-static unsigned int defaultrcs       = 257;
+unsigned int defaultfg        = 12;
+unsigned int defaultbg        = 8;
+unsigned int defaultcs        = 14;
+unsigned int defaultrcs       = 257;
 
-static unsigned int mouseshape = XC_xterm;
-static unsigned int mousefg = 7;
-static unsigned int mousebg = 0;
+unsigned int mouseshape = XC_xterm;
+unsigned int mousefg = 7;
+unsigned int mousebg = 0;
 
-static unsigned int defaultattr = 11;
+unsigned int defaultattr = 11;
 
-static unsigned int cols = 80;
-static unsigned int rows = 24;
+unsigned int cols = 80;
+unsigned int rows = 24;
 
-static int borderpx = 1;
-static unsigned int cursorthickness = 2;
-static unsigned int cursorshape = 2;
+int borderpx = 1;
+unsigned int cursorthickness = 2;
+unsigned int cursorshape = 2;
 
-static unsigned int tabspaces = 4;
-static char worddelimiters[] = " `'\"()[]{}";
-static char ascii_printable[] =
+unsigned int tabspaces = 4;
+char worddelimiters[] = " `'\"()[]{}";
+char ascii_printable[] =
   " !\"#$%&'()*+,-./0123456789:;<=>?"
   "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
   "`abcdefghijklmnopqrstuvwxyz{|}~";
 
 
-static unsigned int doubleclicktimeout = 300;
-static unsigned int tripleclicktimeout = 600;
+unsigned int doubleclicktimeout = 300;
+unsigned int tripleclicktimeout = 600;
 
-static int bellvolume            = 0;
-static unsigned int blinktimeout = 800;
+int bellvolume            = 0;
+unsigned int blinktimeout = 800;
 
-static float cwscale = 1.0;
-static float chscale = 1.0;
+float cwscale = 1.0;
+float chscale = 1.0;
 
-static unsigned int xfps      = 120;
-static unsigned int actionfps = 30;
+unsigned int xfps      = 120;
+unsigned int actionfps = 30;
 
-static char termname[]     = "st-256color";
-static int allowaltscreen  = 1;
-static char vtiden[]       = "\033[?6c";
+char termname[]     = "st-256color";
+int allowaltscreen  = 1;
+char vtiden[]       = "\033[?6c";
 
-static char shell[]        = "/usr/bin/fish";
-static char stty_args[]    = "stty raw pass8 nl -echo -iexten -cstopb 38400";
-static char *utmp          = NULL;
+char shell[]        = "/usr/bin/fish";
+char stty_args[]    = "stty raw pass8 nl -echo -iexten -cstopb 38400";
+char *utmp          = NULL;
 
 #define MODKEY Mod1Mask
-static uint ignoremod   = Mod2Mask|XK_SWITCH_MOD;
-static uint forceselmod = ShiftMask;
+#define TERMMOD (ControlMask|ShiftMask)
+uint ignoremod   = Mod2Mask|XK_SWITCH_MOD;
+uint forceselmod = ShiftMask;
 
-static uint selmasks[] = {
+uint selmasks[] = {
 	[SEL_RECTANGULAR] = Mod1Mask,
 };
-static Shortcut shortcuts[] = {
+Shortcut shortcuts[] = {
 	/* mask                 keysym          function        argument */
+	{ XK_ANY_MOD,           XK_Break,       sendbreak,      {.i =  0} },
 	{ ControlMask,          XK_Print,       toggleprinter,  {.i =  0} },
 	{ ShiftMask,            XK_Print,       printscreen,    {.i =  0} },
 	{ XK_ANY_MOD,           XK_Print,       printsel,       {.i =  0} },
-	{ MODKEY|ShiftMask,     XK_Prior,       xzoom,          {.i = +1} },
-	{ MODKEY|ShiftMask,     XK_Next,        xzoom,          {.i = -1} },
-	{ MODKEY|ShiftMask,     XK_Home,        xzoomreset,     {.i =  0} },
-	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
-	{ MODKEY|ShiftMask,     XK_Insert,      clippaste,      {.i =  0} },
-	{ MODKEY|ShiftMask,     XK_C,           clipcopy,       {.i =  0} },
-	{ MODKEY|ShiftMask,     XK_V,           clippaste,      {.i =  0} },
-	{ MODKEY,               XK_Num_Lock,    numlock,        {.i =  0} },
+	{ TERMMOD,              XK_Prior,       zoom,           {.f = +1} },
+	{ TERMMOD,              XK_Next,        zoom,           {.f = -1} },
+	{ TERMMOD,              XK_Home,        zoomreset,      {.f =  0} },
+	{ TERMMOD,              XK_C,           clipcopy,       {.i =  0} },
+	{ TERMMOD,              XK_V,           clippaste,      {.i =  0} },
+	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
+	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
+	{ TERMMOD,              XK_I,           iso14755,       {.i =  0} },
 };
-static MouseShortcut mshortcuts[] = {
+MouseShortcut mshortcuts[] = {
 	/* button               mask            string */
 	{ Button4,              XK_ANY_MOD,     "\031" },
 	{ Button5,              XK_ANY_MOD,     "\005" },
 };
-static KeySym mappedkeys[] = { -1 };
+KeySym mappedkeys[] = { -1 };
 static Key key[] = {
 	/* keysym           mask            string      appkey appcursor crlf */
 	{ XK_KP_Home,       ShiftMask,      "\033[2J",       0,   -1,    0},

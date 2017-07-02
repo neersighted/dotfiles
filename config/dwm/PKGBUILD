@@ -2,7 +2,7 @@
 
 _pkgname=dwm
 pkgname=dwm-neersighted
-pkgver=bb3bd6f
+pkgver=ceac8c9
 pkgrel=1
 pkgdesc='The dynamic window manager'
 url='http://dwm.suckless.org'
@@ -22,7 +22,7 @@ sha256sums=('SKIP'
             'd1b8559b3ba36fd36c2bfe9928a80df2458e0136e52ffb0384f0f05f0263a58a'
             '195c8c9f2c0af9f862b398a306bb1a791931beaf541e37df41f13cb44438301c'
             '1458ec1007f39573486dd7c01ebf021d87c82e0e45cac86acfa69ba8fd89d69c'
-            '04fa055f36f206308b349cbbc2eccd8202237f628cd4ab0c704b7b0f9e3d2579')
+            'd11937763dcf3cc09e1324c0d31473789a5db0b75cfb32ac709b3a71a1330961')
 arch=('i686' 'x86_64')
 depends=('libxft' 'libxinerama')
 makedepends=('git' 'ncurses')

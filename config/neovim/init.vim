@@ -11,7 +11,7 @@ if &compatible " Ensure nocompatible is set once.
   set nocompatible
 endif
 
-runtime plugs.vim
+runtime packs.vim
 runtime status.vim
 runtime cmd.vim
 runtime ft.vim
