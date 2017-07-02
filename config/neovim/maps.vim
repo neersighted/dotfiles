@@ -14,6 +14,8 @@ vnoremap < <gv
 vnoremap > >gv
 " yank to end of line
 nnoremap Y y$
+" format instead of ex mode
+nnoremap Q gq
 " keep paste in visual mode
 nnoremap pv V`]
 vnoremap p p`]

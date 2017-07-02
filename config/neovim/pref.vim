@@ -20,16 +20,20 @@ set guifont=Source\ Code\ Pro\ 10 " Use my font of choice.
 set guioptions=ai " Hide all GUI widgets.
 
 " Status
-set noerrorbells novisualbell " Turn off bells.
 set noshowmode noshowcmd " Disable the built in-status indicators.
 set showtabline=2 " Always show the tabline.
-set guicursor= " Enable cursor shape changing.
-  \n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
-  \,sm:block-blinkwait175-blinkoff150-blinkon175
+"set guicursor= " Enable cursor shape changing.
+  "\n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+  "\,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+  "\,sm:block-blinkwait175-blinkoff150-blinkon175
+set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+autocmd vimrc VimLeave * set guicursor=a:block-blinkon0 " Reset on exit.
 
 " Previews
 set inccommand=split " Show incomplete commands in a split.
+
+" Cursor
+set virtualedit=onemore,all " Allow the cursor to select the end of the line, or form blocks in empty space.
 
 " Numbering
 set number relativenumber " Use relative line numbering.
@@ -44,10 +48,6 @@ set list " Show hidden characters...
 set listchars=tab:»·,trail:·,eol:¬,nbsp:_ " ...with nice indicators.
 set conceallevel=1 " Enable conceal support.
 
-" Input
-set timeoutlen=300 " Tighten binding timings.
-set ttimeoutlen=50 " Make escape sequences shorter as well.
-
 " Clipboard
 set clipboard=unnamedplus " Use the system clipboard.
 
@@ -60,8 +60,7 @@ set splitright splitbelow " Open vertical splits to the right, horizontal below.
 set winminheight=0 " Allow squishing splits.
 
 " Misc
-set diffopt=filler,vertical
-set virtualedit=onemore,all " Allow the cursor to select the end of the line, or form blocks in empty space.
+set timeoutlen=300 ttimeoutlen=50 " Tighten map/keycode timings.
 set undofile " Keep persistent undo information.
 set hidden " Allow backgrounding buffers.
 
@@ -70,10 +69,6 @@ set hidden " Allow backgrounding buffers.
 "
 
 " ALE
-let g:ale_lint_on_text_changed = 1
-let g:ale_lint_on_enter = 1
-let g:ale_lint_on_save = 1
-let g:ale_lint_delay = 100
 let g:ale_echo_msg_format = '[%linter%] %s'
 let g:ale_sign_warning = '❢'
 let g:ale_sign_error = '✗'

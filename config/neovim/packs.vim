@@ -11,7 +11,6 @@ if exists('*minpac#init')
   call minpac#add('talek/obvious-resize') " simple window resizing
   call minpac#add('romainl/vim-qf') " simple defaults for the quickfix window
   call minpac#add('tpope/vim-repeat') " repeat support for plugins
-  call minpac#add('tpope/vim-rsi') " readline-style insert
   call minpac#add('mhinz/vim-sayonara') " simple window closing
   call minpac#add('tpope/vim-unimpaired') " simple complementary map pairs
 
@@ -35,7 +34,6 @@ if exists('*minpac#init')
 
   " Editing
   call minpac#add('tpope/vim-commentary') " quickly comment/uncomment
-  call minpac#add('tpope/vim-speeddating') " increment/decrement dates
   call minpac#add('tommcdo/vim-exchange') " exchange lines
 
   " Formatting
