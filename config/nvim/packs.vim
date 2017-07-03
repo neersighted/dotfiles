@@ -10,7 +10,6 @@ if exists('*minpac#init')
   call minpac#add('tpope/vim-repeat') " repeat support for plugins
   call minpac#add('airblade/vim-rooter') " auto-cd to project root
   call minpac#add('mhinz/vim-sayonara') " simple window closing
-  call minpac#add('tpope/vim-unimpaired') " simple complementary map pairs
 
   " Interface
   call minpac#add('tpope/vim-eunuch') " unix addons

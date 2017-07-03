@@ -37,8 +37,8 @@ fresh scripts/fzfurl --bin
 
 # neovim: vim improved
 fresh scripts/vimprofile --bin
-for config in ~/.dotfiles/config/neovim/*.vim; do
-    fresh config/neovim/"$(basename "$config")" --file=~/.config/nvim/"$(basename "$config")"
+for config in ~/.dotfiles/config/nvim/*.vim; do
+    fresh config/nvim/"$(basename "$config")" --file=~/.config/nvim/"$(basename "$config")"
 done
 fresh k-takata/minpac . --file=~/.config/nvim/pack/minpac/opt/minpac/
 

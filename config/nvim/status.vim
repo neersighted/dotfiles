@@ -44,7 +44,7 @@ let g:lightline = {
       \     'fileinfo':     'status#fileinfo',
       \     'filename':     'status#filename',
       \     'filetype':     'status#filetype',
-      \     'fugitive':       'fugitive#head',
+      \     'fugitive':     'fugitive#head',
       \     'mode':         'status#mode',
       \     'paste':        'status#paste',
       \   },

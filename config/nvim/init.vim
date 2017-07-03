@@ -12,5 +12,5 @@ runtime status.vim
 runtime cmd.vim
 runtime ft.vim
 runtime maps.vim
-runtime pref.vim
+runtime prefs.vim
 runtime local.vim

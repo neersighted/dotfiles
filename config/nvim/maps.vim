@@ -4,8 +4,6 @@ let g:mapleader = ' ' " Use an easy leader.
 " Core
 "
 
-" move across delimiters
-nmap <tab> %
 " move over virtual lines
 nnoremap j gj
 nnoremap k gk
@@ -19,25 +17,66 @@ nnoremap Q gq
 " keep paste in visual mode
 nnoremap pv V`]
 vnoremap p p`]
-" toggle paste mode
-set pastetoggle=<f1>
+
+" move across delimiters
+nmap <tab> %
 " alternate between buffers
 nnoremap <backspace> :buffer #<cr>
+
 " open location/quickfix list
 nnoremap <leader>l :LocToggle<cr>
 nnoremap <leader>q :QFToggle<cr>
 
-" close loclist when the parent is closed
-autocmd vimrc QuitPre * if &filetype != 'qf' | silent! lclose | endif
+" unimapired-style pairs
+" argument list
+nnoremap [a :previous<cr>
+nnoremap ]a :next<cr>
+" buffer list
+nnoremap [b :bprevious<cr>
+nnoremap ]b :bnext<cr>
+nnoremap [B :bfirst<cr>
+nnoremap ]B :blast<cr>
+" tab list
+nnoremap [t :tprevious<cr>
+nnoremap ]t :tnext<cr>
+nnoremap [T :tfirst<cr>
+nnoremap ]T :tlast<cr>
+" quickfix list
+nnoremap ]q :cnext<cr>
+nnoremap [q :cprevious<cr>
+nnoremap ]Q :clast<cr>
+nnoremap [Q :cfirst<cr>
+" loclist
+nnoremap ]l :lnext<cr>
+nnoremap [l :lprevious<cr>
+nnoremap ]l :llast<cr>
+nnoremap [l :lfirst<cr>
+" exchange lines up/down
+nnoremap [e :move .-2<cr>==
+nnoremap ]e :move .+1<cr>==
+vnoremap [e :move '<-2<cr>gv=gv
+vnoremap ]e :move '>+1<cr>gv=gv
+" insert whitespace
+nnoremap [<space> m`o<esc>``
+nnoremap ]<space> m`O<esc>``
+" ale errors
+nmap ]w <plug>(ale_next)
+nmap [w <plug>(ale_previous)
+nmap ]W <plug>(ale_first)
+nmap ]W <plug>(ale_last)
+
+" paste and leave when finished (You Only Paste Once)
+nnoremap yo :PasteOnce<cr>o
+nnoremap yO :PasteOnce<cr>O
 
 "
 " Plugins
 "
 
 " EasyAlign
-nmap gl   <Plug>(EasyAlign)
-xmap gl   <Plug>(EasyAlign)
-vmap <cr> <Plug>(EasyAlign)
+nmap gl   <plug>(EasyAlign)
+xmap gl   <plug>(EasyAlign)
+vmap <cr> <plug>(EasyAlign)
 
 " FZF
 nnoremap <leader><leader> :Buffers<cr>

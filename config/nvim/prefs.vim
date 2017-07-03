@@ -47,6 +47,9 @@ set winminheight=0 " Allow squishing splits.
 set undofile " Keep persistent undo information.
 set hidden " Allow backgrounding buffers.
 
+" Quickfix
+autocmd vimrc QuitPre * if &filetype != 'qf' | silent! lclose | endif " Autoclose.
+
 "
 " Plugins
 "
