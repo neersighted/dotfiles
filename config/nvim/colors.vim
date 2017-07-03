@@ -9,12 +9,20 @@ let s:night = 'flattened_dark'
 function! s:colorscheme() abort
   if strftime('%H') < s:dawn || strftime('%H') + 1 > s:dusk
     if g:colors_name !=# s:night
-      execute 'colorscheme '.s:night
+      let l:newscheme = s:night
     endif
   else
     if g:colors_name !=# s:day
-      execute 'colorscheme '.s:day
+      let l:newscheme = s:day
     endif
+  endif
+
+  if exists('l:newscheme')
+    execute 'colorscheme' l:newscheme
+
+    " Cleanup to make the change stick.
+    let &syntax = &syntax
+    silent! call lightline#colorscheme()
   endif
 endfunction
 
