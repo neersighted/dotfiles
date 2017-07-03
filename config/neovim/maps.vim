@@ -24,8 +24,11 @@ set pastetoggle=<f1>
 " alternate between buffers
 nnoremap <backspace> :buffer #<cr>
 " open location/quickfix list
-nnoremap <leader>l :lopen<cr>
-nnoremap <leader>q :copen<cr>
+nnoremap <leader>l :LocToggle<cr>
+nnoremap <leader>q :QFToggle<cr>
+
+" close loclist when the parent is closed
+autocmd vimrc QuitPre * if &filetype != 'qf' | silent! lclose | endif
 
 "
 " Plugins

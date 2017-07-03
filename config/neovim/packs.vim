@@ -5,32 +5,24 @@ if exists('*minpac#init')
   call minpac#init() " minpac is updated using fresh
 
   " Enhancements/Tweaks
-  call minpac#add('justinmk/vim-dirvish') " ultra-minimal directory browser
-  call minpac#add('kopischke/vim-fetch') " open file:line:col
+  call minpac#add('ludovicchabant/vim-gutentags') " seamless ctags
   call minpac#add('dietsche/vim-lastplace') " re-open files in the sample place
-  call minpac#add('talek/obvious-resize') " simple window resizing
-  call minpac#add('romainl/vim-qf') " simple defaults for the quickfix window
   call minpac#add('tpope/vim-repeat') " repeat support for plugins
+  call minpac#add('airblade/vim-rooter') " auto-cd to project root
   call minpac#add('mhinz/vim-sayonara') " simple window closing
   call minpac#add('tpope/vim-unimpaired') " simple complementary map pairs
 
-  " Integration
-  call minpac#add('w0rp/ale') " async lint engine
-  call minpac#add('tpope/vim-eunuch') " unix addons
-  call minpac#add('tpope/vim-fugitive') " git addons
-  call minpac#add('junegunn/fzf') " fuzzy finder
-  call minpac#add('junegunn/fzf.vim') " fuzzy finder
-  call minpac#add('airblade/vim-gitgutter') " git diff gutter
-  call minpac#add('justinmk/vim-gtfo') " open terminal or file manager
-  call minpac#add('ludovicchabant/vim-gutentags') " seamless ctags
-  call minpac#add('airblade/vim-rooter') " auto-cd to project root
-  call minpac#add('christoomey/vim-tmux-navigator') " seamless vim/tmux splits
-
   " Interface
+  call minpac#add('tpope/vim-eunuch') " unix addons
   call minpac#add('romainl/flattened') " simplified solarized port
+  call minpac#add('tpope/vim-fugitive') " git integration
+  call minpac#add('airblade/vim-gitgutter') " git diff gutter
+  call minpac#add('justinmk/vim-gtfo') " quickly open terminal or file manager
   call minpac#add('itchyny/lightline.vim') " stupid light statusline framework
   call minpac#add('simnalamburt/vim-mundo') " undo tree gui
+  call minpac#add('talek/obvious-resize') " simple window resizing
   call minpac#add('mhinz/vim-startify') " simple start screen
+  call minpac#add('christoomey/vim-tmux-navigator') " seamless vim/tmux splits
 
   " Editing
   call minpac#add('tpope/vim-commentary') " quickly comment/uncomment
@@ -42,6 +34,10 @@ if exists('*minpac#init')
   call minpac#add('tpope/vim-sleuth') " auto-determine buffer formatting
 
   " Search/Navigation
+  call minpac#add('yuttie/comfortable-motion.vim') " intertia-based scrolling
+  call minpac#add('justinmk/vim-dirvish') " ultra-minimal directory browser
+  call minpac#add('junegunn/fzf') " fuzzy finder
+  call minpac#add('junegunn/fzf.vim') " fuzzy finder
   call minpac#add('tommcdo/vim-kangaroo') " small manual jump-stack
   call minpac#add('kshenoy/vim-signature') " enhanced mark navigation
   call minpac#add('junegunn/vim-slash') " enhanced '/'
@@ -51,7 +47,8 @@ if exists('*minpac#init')
   call minpac#add('tpope/vim-surround') " (un)surround with delimiters
   call minpac#add('tommcdo/vim-ninja-feet') " motions to the end of text objects
 
-  " Syntax/Highlighting
+  " Syntax/Linting/Highlighting/Completion
+  call minpac#add('w0rp/ale') " async lint engine
   call minpac#add('Yggdroot/indentLine') " indentation visual aide
   call minpac#add('sheerun/vim-polyglot') " compilation of language files
 

@@ -27,4 +27,17 @@ endfunction
 command! Fresh call Fresh()
 
 " Grep using rg.
-command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1, <bang>0)
+
+" Toggle quickfix/loclist.
+function! QFToggle(loc) abort
+  let l:count = winnr('$')
+
+  if a:loc | lclose | else | cclose | endif
+
+  if winnr('$') == l:count
+    if a:loc | lopen | else | copen | endif
+  endif
+endfunction
+command! QFToggle call QFToggle(0)
+command! LocToggle call QFToggle(1)
