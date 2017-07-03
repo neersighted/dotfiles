@@ -16,7 +16,7 @@ source=('git://git.suckless.org/dwm'
         'restart.diff'
         'smartborders.diff')
 sha256sums=('SKIP'
-            '83d9ddc570da56f85da9e728ec6afffa87b2c88dd581f50ffb3f9864f2dd8edb'
+            'ee35ac198ed6485b64102e3216edb3ef5a61c635e1a6c3137153a74be7fb8ce5'
             '747b2fcf1fcb62370e4748e93da1884cfa1b66b636078bedd9730a0f1b053ecd'
             '7a0bf96614ff56637ebd3a062fd5fe967e5485bccfa1d24ea8d68ab499c9402f'
             'd1b8559b3ba36fd36c2bfe9928a80df2458e0136e52ffb0384f0f05f0263a58a'

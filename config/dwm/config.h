@@ -21,7 +21,7 @@ static const unsigned int snap = 8;
 static char dmenumon[2] = "0";
 
 static const char *dmenucmd[]      = { "dmenu_run.pl", "-m", dmenumon, NULL };
-static const char *termcmd[]       = { "st", "-c", "fish", NULL };
+static const char *termcmd[]       = { "alacritty", NULL };
 static const char *lockcmd[]       = { "loginctl", "lock-session", NULL };
 
 // Number of master windows.
