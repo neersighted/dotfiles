@@ -17,11 +17,12 @@ set --global --export EDITOR nvim
 set --global --export BROWSER google-chrome-stable
 set --global --export LESS -R
 
-set --global --export FZF_TMUX 1
 set --global --export FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*" ^/dev/null' # fzf <3 rg
-set --global --export FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
-set --global --export FZF_ALT_C_COMMAND 'find -L . -type d -mindepth 1 -printf "%P\n" ^/dev/null'
 set --global --export FZF_DEFAULT_OPTS '--color fg:-1,bg:-1,hl:4,fg+:7,bg+:0,hl+:4 --color info:3,prompt:3,pointer:15,marker:15,spinner:3'
+
+set --global --export FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND
+set --global --export FZF_LEGACY_KEYBINDINGS 0
+set --global --export FZF_TMUX 1
 
 test -d /usr/lib/ccache/bin; and set --global --export PATH /usr/lib/ccache/bin $PATH # arch
 test -d /usr/local/opt/ccache/libexec; and set --global --export PATH /usr/local/opt/ccache/libexec $PATH # osx
@@ -35,8 +36,6 @@ test -d $HOME/.pyenv/bin; and set --global --export PATH $HOME/.pyenv/bin $PATH;
 set --global --export GOPATH $HOME/.go; test -d $GOPATH/bin; or mkdir -p $GOPATH/bin
 set --global --export PATH $GOPATH/bin $PATH
 
-test -d $HOME/.fzf/bin; and set --global --export PATH $HOME/.fzf/bin $PATH
-
 for dircolors in {,g}dircolors
   type -fp $dircolors >/dev/null 2>&1; and source (eval "$dircolors --c-shell ~/.dircolorsrc|psub")
 end
@@ -45,9 +44,31 @@ set --global --export _JAVA_AWT_WM_NONREPARENTING 1 # dwm/java hacks
 
 test -f $HOME/.config/fish/config.local.fish; and source $HOME/.config/fish/config.local.fish
 
+# Plugins
+
+fundle plugin 'fisherman/await'
+fundle plugin 'fisherman/choices'
+fundle plugin 'fisherman/get'
+fundle plugin 'fisherman/getopts'
+fundle plugin 'fisherman/get_file_age'
+fundle plugin 'fisherman/last_job_id'
+fundle plugin 'fisherman/menu'
+
+fundle plugin 'fisherman/anicode'
+fundle plugin 'edc/bass'
+fundle plugin 'tuvistavie/fish-completion-helpers'
+fundle plugin 'fisherman/fnm'
+fundle plugin 'fisherman/fzf'
+fundle plugin 'fisherman/shark'
+fundle plugin 'fisherman/spin'
+fundle plugin 'oh-my-fish/plugin-thefuck'
+fundle plugin 'fisherman/z'
+
+fundle init
+
 # Startup
 
-set -e fish_greeting # shut up
+set fish_greeting # shut up
 
 if [ (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]')) = "mosh-server" ]
   set --global --export MOSH 1
