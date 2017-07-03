@@ -18,10 +18,6 @@ set showtabline=2 " Always show the tabline.
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor " Change the cursor between modes.
 autocmd vimrc VimLeave * set guicursor=a:block-blinkon0 " Reset on exit.
 
-" Previews
-set inccommand=split " Show incomplete commands in a split.
-set colorcolumn=+1 " Highlight the wrapping column.
-
 " Cursor
 set virtualedit=onemore,block " Allow cursor to the end of the line (and anywhere in visual-block.)
 
@@ -38,6 +34,13 @@ set clipboard=unnamedplus " Use the system clipboard.
 
 " Search
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
+
+" Completion
+set completeopt=menu,menuone,preview,longest
+
+" Previews
+set inccommand=split " Show incomplete commands in a split.
+set colorcolumn=+1 " Highlight the wrapping column.
 
 " Splits
 set splitright splitbelow " Open vertical splits to the right, horizontal below.
@@ -59,8 +62,21 @@ let g:ale_echo_msg_format = '[%linter%] %s'
 let g:ale_sign_warning = '!'
 let g:ale_sign_error = 'x'
 
+" Go
+let g:go_auto_type_info=1 " Show info for word under cursor.
+let g:go_highlight_functions = 1 " Highlight all the things.
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+
 " indentLine
 let g:indentLine_char = '┊' " Use a small line to show space-based indentation.
+
+" Jedi
+let g:jedi#auto_initialization = 0 " Disable autoconfig.
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#show_call_signatures = 0
 
 " Sneak
 let g:sneak#streak = 1 " Enable streak (EasyMotion) mode.
@@ -82,6 +98,9 @@ let g:startify_commands = [
       \ ]
 autocmd vimrc User Startified setlocal cursorline " Show the cursorline in Startify.
 autocmd vimrc User Startified setlocal buftype=nofile " Set the startup buffer to nofile.
+
+" SnipMate
+let g:snips_no_mappings = 1
 
 " Lightline
 autocmd vimrc User ALELint call lightline#update() " Update status bar on lint.

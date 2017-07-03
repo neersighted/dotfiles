@@ -4,10 +4,14 @@ command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
 if exists('*minpac#init')
   call minpac#init() " minpac is updated using fresh
 
+  " Libraries
+  call minpac#add('MarcWeber/vim-addon-mw-utils') " utility functions
+  call minpac#add('tpope/vim-repeat') " repeat support for plugins
+  call minpac#add('tomtom/tlib_vim') " utility functions
+
   " Enhancements/Tweaks
   call minpac#add('ludovicchabant/vim-gutentags') " seamless ctags
   call minpac#add('dietsche/vim-lastplace') " re-open files in the sample place
-  call minpac#add('tpope/vim-repeat') " repeat support for plugins
   call minpac#add('airblade/vim-rooter') " auto-cd to project root
   call minpac#add('mhinz/vim-sayonara') " simple window closing
 
@@ -46,11 +50,28 @@ if exists('*minpac#init')
   call minpac#add('tpope/vim-surround') " (un)surround with delimiters
   call minpac#add('tommcdo/vim-ninja-feet') " motions to the end of text objects
 
-  " Syntax/Linting/Highlighting/Completion
+  " Language Support/Integration
   call minpac#add('w0rp/ale') " async lint engine
+  call minpac#add('roxma/clang_complete') " c/c++ completion
+  call minpac#add('dag/vim-fish') " fish syntax
+  call minpac#add('fatih/vim-go') " enhanced go support
+  call minpac#add('PotatoesMaster/i3-vim-syntax') " i3 config syntax
   call minpac#add('Yggdroot/indentLine') " indentation visual aide
-  call minpac#add('sheerun/vim-polyglot') " compilation of language files
-
+  call minpac#add('davidhalter/jedi-vim') " python autocompletion
+  call minpac#add('roxma/ncm-github') " completion for github
+  call minpac#add('chr4/nginx.vim') " nginx syntax
+  call minpac#add('roxma/nvim-completion-manager') " async completion engine
+  call minpac#add('Shougo/neco-vim') " vim completion
+  call minpac#add('Shougo/neco-syntax') " syntax-based completion
+  call minpac#add('exu/pgsql.vim') " postgres syntax
+  call minpac#add('vim-python/python-syntax') " enhanced python syntax
+  call minpac#add('vim-ruby/vim-ruby') " enhanced ruby support
+  call minpac#add('honza/vim-snippets') " snippet collection
+  call minpac#add('garbas/vim-snipmate') " snippet engine
+  call minpac#add('chr4/sslsecure.vim') " cipher highlighting
+  call minpac#add('kurayama/systemd-vim-syntax') " systemd syntax
+  call minpac#add('keith/tmux.vim') " tmux config syntax
+  call minpac#add('cespare/vim-toml') " toml syntax
 endif
 
 " Don't load unused cruft.

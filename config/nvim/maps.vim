@@ -18,8 +18,6 @@ nnoremap Q gq
 nnoremap pv V`]
 vnoremap p p`]
 
-" move across delimiters
-nmap <tab> %
 " alternate between buffers
 nnoremap <backspace> :buffer #<cr>
 
@@ -103,6 +101,12 @@ nnoremap <leader>b :Gblame<cr>
 " Mundo
 nnoremap <leader>u :MundoToggle<cr>
 
+" nvim-completion-manager
+imap <c-g> <plug>(cm_force_refresh)
+inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<cr>"
+
 " Obvious Resize
 noremap <silent> <c-up>    :<c-u>ObviousResizeUp<cr>
 noremap <silent> <c-down>  :<c-u>ObviousResizeDown<cr>
@@ -114,16 +118,24 @@ nnoremap <leader>x :Sayonara<cr>
 nnoremap <leader>X :tabclose<cr>
 
 " Sneak
-nmap f <Plug>Sneak_f
-nmap F <Plug>Sneak_F
-xmap f <Plug>Sneak_f
-xmap F <Plug>Sneak_F
-omap f <Plug>Sneak_f
-omap F <Plug>Sneak_F
-nmap t <Plug>Sneak_t
-nmap T <Plug>Sneak_T
-xmap t <Plug>Sneak_t
-xmap T <Plug>Sneak_T
-omap t <Plug>Sneak_t
-omap T <Plug>Sneak_T
+nmap f <plug>Sneak_f
+nmap F <plug>Sneak_F
+xmap f <plug>Sneak_f
+xmap F <plug>Sneak_F
+omap f <plug>Sneak_f
+omap F <plug>Sneak_F
+nmap t <plug>Sneak_t
+nmap T <plug>Sneak_T
+xmap t <plug>Sneak_t
+xmap T <plug>Sneak_T
+omap t <plug>Sneak_t
+omap T <plug>Sneak_T
 
+" SnipMate
+imap <expr> <plug>snipMateForceTrigger pumvisible() ? "\<c-y>\<plug>snipMateTrigger" : "\<plug>snipMateTrigger"
+inoremap <silent> <c-u> <c-r>=cm#sources#snipmate#trigger_or_popup("\<plug>snipMateForceTrigger")<cr>
+vmap <c-u> <plug>snipMateTrigger
+imap <expr> <c-j> pumvisible() ? "\<c-y>\<plug>snipMateNextOrTrigger" : "\<plug>snipMateNextOrTrigger"
+vmap <c-j> <plug>snipMateNextOrTrigger
+imap <expr> <c-k> pumvisible() ? "\<c-y>\<plug>snipMateBack" : "\<plug>snipMateBack"
+vmap <c-k> <plug>snipMateBack
