@@ -26,6 +26,10 @@ function! s:killtrailingwhitespace(lines) abort
 endfunction
 command! -bang -nargs=* KillTrailingWhitespace call s:killtrailingwhitespace(<bang>0)
 
+" Manage packs with minpac.
+command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
+command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
+
 " Enter paste mode and leave once insert is finished.
 function! s:pasteonce() abort
   set paste

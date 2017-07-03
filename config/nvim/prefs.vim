@@ -2,16 +2,6 @@
 " Core
 "
 
-" Color
-if !exists('$MOSH')
-  set termguicolors " Use true colors.
-endif
-if strftime('%H') >= 5 && strftime('%H') <= 17 " Set colors based on the time of day.
-  colorscheme flattened_light
-else
-  colorscheme flattened_dark
-endif
-
 " Status
 set noshowmode noshowcmd " Disable the built in-status indicators.
 set showtabline=2 " Always show the tabline.

@@ -1,6 +1,3 @@
-command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
-command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
-
 if exists('*minpac#init')
   call minpac#init() " minpac is updated using fresh
 
@@ -10,6 +7,7 @@ if exists('*minpac#init')
   call minpac#add('tomtom/tlib_vim') " utility functions
 
   " Enhancements/Tweaks
+  call minpac#add('jamessan/vim-gnupg') " encrypted file editing
   call minpac#add('ludovicchabant/vim-gutentags') " seamless ctags
   call minpac#add('dietsche/vim-lastplace') " re-open files in the sample place
   call minpac#add('airblade/vim-rooter') " auto-cd to project root
