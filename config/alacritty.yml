@@ -1,51 +1,74 @@
-render_timer: false
+env:
+  TERM: xterm-256color
 
+render_timer: false
 dpi:
   x: 96.0
   y: 96.0
-
-tabspaces: 4
+padding:
+  x: 1
+  y: 1
 
 font:
-  size: 10.0
+  size: 10.5
   offset:
-    x: 2
-    y: -7
+    x: 0
+    y: 0
   normal:
     family: Source Code Pro
-    style: Regular
+    style: Light
   bold:
     family: Source Code Pro
-    style: Bold
+    style: Regular
   italic:
     family: Source Code Pro
     style: Italic
   use_thin_strokes: true
 
-draw_bold_text_with_bright_colors: false
+visual_bell:
+  animation: EaseOutExpo
+  duration: 0
+
+tabspaces: 4
+selection:
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
+
+hide_cursor_when_typing: false
+custom_cursor_colors: true
 
 colors:
+  cursor:
+    text:       '0x073642'
+    cursor:     '0x93a1a1'
   primary:
     background: '0x002b36'
     foreground: '0x839496'
   normal:
-    black:   '0x073642'
-    red:     '0xdc322f'
-    green:   '0x859900'
-    yellow:  '0xb58900'
-    blue:    '0x268bd2'
-    magenta: '0xd33682'
-    cyan:    '0x2aa198'
-    white:   '0xeee8d5'
+    black:      '0x073642'
+    red:        '0xdc322f'
+    green:      '0x859900'
+    yellow:     '0xb58900'
+    blue:       '0x268bd2'
+    magenta:    '0xd33682'
+    cyan:       '0x2aa198'
+    white:      '0xeee8d5'
   bright:
-    black:   '0x002b36'
-    red:     '0xcb4b16'
-    green:   '0x586e75'
-    yellow:  '0x657b83'
-    blue:    '0x839496'
-    magenta: '0x6c71c4'
-    cyan:    '0x93a1a1'
-    white:   '0xfdf6e3'
+    black:      '0x002b36'
+    red:        '0xcb4b16'
+    green:      '0x586e75'
+    yellow:     '0x657b83'
+    blue:       '0x839496'
+    magenta:    '0x6c71c4'
+    cyan:       '0x93a1a1'
+    white:      '0xfdf6e3'
+draw_bold_text_with_bright_colors: false
+
+mouse:
+  double_click: { threshold: 300 }
+  triple_click: { threshold: 300 }
+
+mouse_bindings:
+  - { mouse: Middle, action: PasteSelection }
 
 key_bindings:
   - { key: V,        mods: Control|Shift,    action: Paste               }
@@ -57,7 +80,11 @@ key_bindings:
   - { key: Home,                    chars: "\x1b[1~",  mode: ~AppCursor  }
   - { key: End,                     chars: "\x1bOF",   mode: AppCursor   }
   - { key: End,                     chars: "\x1b[4~",  mode: ~AppCursor  }
+  - { key: PageUp,   mods: Shift,   chars: "\x1b[5;2~"                   }
+  - { key: PageUp,   mods: Control, chars: "\x1b[5;5~"                   }
   - { key: PageUp,                  chars: "\x1b[5~"                     }
+  - { key: PageDown, mods: Shift,   chars: "\x1b[6;2~"                   }
+  - { key: PageDown, mods: Control, chars: "\x1b[6;5~"                   }
   - { key: PageDown,                chars: "\x1b[6~"                     }
   - { key: Left,     mods: Shift,   chars: "\x1b[1;2D"                   }
   - { key: Left,     mods: Control, chars: "\x1b[1;5D"                   }
@@ -95,17 +122,4 @@ key_bindings:
   - { key: Back,                    chars: "\x7f"                        }
   - { key: Back,     mods: Alt,     chars: "\x1b\x7f"                    }
   - { key: Insert,                  chars: "\x1b[2~"                     }
-  - { key: Delete,                  chars: "\x1b[3~",  mode: AppKeypad   }
-  - { key: Delete,                  chars: "\x1b[P",   mode: ~AppKeypad  }
-
-mouse_bindings:
-  - { mouse: Middle, action: PasteSelection }
-
-mouse:
-  double_click: { threshold: 300 }
-  triple_click: { threshold: 300 }
-
-selection:
-  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
-
-hide_cursor_when_typing: false
+  - { key: Delete,                  chars: "\x1b[3~"                     }

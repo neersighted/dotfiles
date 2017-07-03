@@ -57,8 +57,8 @@ nnoremap ]e :move .+1<cr>==
 vnoremap [e :move '<-2<cr>gv=gv
 vnoremap ]e :move '>+1<cr>gv=gv
 " insert whitespace
-nnoremap [<space> m`o<esc>``
-nnoremap ]<space> m`O<esc>``
+nnoremap [<space> m`O<esc>``
+nnoremap ]<space> m`o<esc>``
 " ale errors
 nmap ]w <plug>(ale_next)
 nmap [w <plug>(ale_previous)

@@ -16,7 +16,7 @@ end
 
 # Quick Vim benchmark.
 function vimstart
-  vim --startuptime /dev/stdout +qall | sort -k3 | grep --color=never -oP "(\d{3}\.\d{3}): sourcing /([[:alnum:][:punct:]]+)"
+  vim --startuptime /dev/stdout +qall | rg -o "(\d{3}\.\d{3}): sourcing /([[:alnum:][:punct:]]+)" | sort
 end
 
 # Fix backspace in ncmpcpp.
