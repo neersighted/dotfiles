@@ -25,9 +25,6 @@ set clipboard=unnamedplus " Use the system clipboard.
 " Search
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
 
-" Completion
-set completeopt=menu,menuone,preview,longest
-
 " Previews
 set inccommand=split " Show incomplete commands in a split.
 set colorcolumn=+1 " Highlight the wrapping column.
@@ -88,6 +85,7 @@ let g:startify_commands = [
       \ ]
 autocmd vimrc User Startified setlocal cursorline " Show the cursorline in Startify.
 autocmd vimrc User Startified setlocal buftype=nofile " Set the startup buffer to nofile.
+
 
 " Lightline
 autocmd vimrc User ALELint call lightline#update() " Update status bar on lint.
