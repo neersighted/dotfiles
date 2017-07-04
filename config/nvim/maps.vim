@@ -131,11 +131,3 @@ xmap T <plug>Sneak_T
 omap t <plug>Sneak_t
 omap T <plug>Sneak_T
 
-" SnipMate
-imap <expr> <plug>snipMateForceTrigger pumvisible() ? "\<c-y>\<plug>snipMateTrigger" : "\<plug>snipMateTrigger"
-inoremap <silent> <c-u> <c-r>=cm#sources#snipmate#trigger_or_popup("\<plug>snipMateForceTrigger")<cr>
-vmap <c-u> <plug>snipMateTrigger
-imap <expr> <c-j> pumvisible() ? "\<c-y>\<plug>snipMateNextOrTrigger" : "\<plug>snipMateNextOrTrigger"
-vmap <c-j> <plug>snipMateNextOrTrigger
-imap <expr> <c-k> pumvisible() ? "\<c-y>\<plug>snipMateBack" : "\<plug>snipMateBack"
-vmap <c-k> <plug>snipMateBack

@@ -23,6 +23,7 @@ fresh-options
 for function in ~/.dotfiles/config/fish/functions/*.fish; do
     fresh config/fish/functions/"$(basename "$function")" --file=~/.config/fish/functions/"$(basename "$function")"
 done
+fresh oh-my-fish/plugin-foreign-env functions --file=vendor/fenv/
 
 # fundle: package manager for fish
 fresh neersighted/fundle functions/fundle.fish --file=~/.config/fish/functions/fundle.fish
@@ -170,7 +171,6 @@ fresh-options --file=~/.tmux.conf --marker
         fresh config/tmux/linux.conf
     fi
 fresh-options
-fresh junegunn/dotfiles bin/tmuxwords.rb --bin
 
 fresh_after_build () {
     chmod +x ~/.fresh/build/xsession

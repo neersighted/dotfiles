@@ -64,8 +64,6 @@ if exists('*minpac#init')
   call minpac#add('exu/pgsql.vim') " postgres syntax
   call minpac#add('vim-python/python-syntax') " enhanced python syntax
   call minpac#add('vim-ruby/vim-ruby') " enhanced ruby support
-  call minpac#add('honza/vim-snippets') " snippet collection
-  call minpac#add('garbas/vim-snipmate') " snippet engine
   call minpac#add('chr4/sslsecure.vim') " cipher highlighting
   call minpac#add('kurayama/systemd-vim-syntax') " systemd syntax
   call minpac#add('keith/tmux.vim') " tmux config syntax

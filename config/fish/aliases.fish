@@ -1,20 +1,12 @@
-#
-# Aliases
-#
-
-# Real man's LS.
-if ls --color=auto >/dev/null 2>&1
-  alias ls 'command ls -Alh --color=auto'
-else
-  alias ls 'command ls -Alh -G'
-end
+alias ls 'command ls --color=auto'
+alias la 'command ls -A --color=auto'
+alias ll 'command ls -Alh --color=auto'
 
 # Fix backspace in ncmpcpp.
-alias ncmpcpp 'tput smkx; command ncmpcpp'
-
-#
-# Functions
-#
+function ncmpcpp -d "ncurses mpd client"
+  tput smkx
+  command ncmpcpp
+end
 
 function pyserve -d "serve files using python"
   if test -n "$argv"

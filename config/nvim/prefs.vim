@@ -89,8 +89,5 @@ let g:startify_commands = [
 autocmd vimrc User Startified setlocal cursorline " Show the cursorline in Startify.
 autocmd vimrc User Startified setlocal buftype=nofile " Set the startup buffer to nofile.
 
-" SnipMate
-let g:snips_no_mappings = 1
-
 " Lightline
 autocmd vimrc User ALELint call lightline#update() " Update status bar on lint.
