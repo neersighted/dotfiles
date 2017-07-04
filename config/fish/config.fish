@@ -1,7 +1,7 @@
-# Environment
-
 if status --is-login
-  # load fenv
+  # Environment
+
+  # bootstrap fenv
   set fish_function_path ~/.fresh/build/vendor/fenv $fish_function_path
   
   # load profile
@@ -14,6 +14,11 @@ if status --is-login
   set -x EDITOR nvim
   set -x BROWSER google-chrome-stable
   set -x LESS -R
+
+  # xdg
+  set -x XDG_CONFIG_HOME $HOME/.config
+  set -x XDG_DATA_HOME $HOME/.local/share
+  set -x XDG_CACHE_HOME $HOME/.cache
 
   # fzf
   set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*" ^/dev/null' # fzf <3 rg
@@ -46,9 +51,9 @@ if status --is-login
   path_prepend ~/bin
 end
 
-# Plugins
-
 if status --is-interactive
+  # Plugins
+
   # deps
   fundle plugin 'fisherman/await'
   fundle plugin 'fisherman/choices'
@@ -75,7 +80,7 @@ if status --is-interactive
 
   fundle init
 
-# Startup
+  # Startup
 
   # shut up
   set fish_greeting
@@ -115,3 +120,4 @@ if status --is-login; and status --is-interactive; and test -z "$TMUX"; and test
   tmux has-session -t 0; and tmux new-session -t 0 \; set-option destroy-unattached; or tmux new-session -s 0
 end
 
+# vim:ft=fish
