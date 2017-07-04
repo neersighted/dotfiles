@@ -2,17 +2,6 @@
 
 set --global --export LANG en_US.UTF-8
 
-set --global --export XDG_DATA_HOME   $HOME/.local/share
-set --global --export XDG_CACHE_HOME  $HOME/.cache
-set --global --export XDG_CONFIG_HOME $HOME/.config
-
-set --global --export TMP /tmp
-set --global --export PATH \
-  $HOME/bin \
-  /usr/local/{,s}bin \
-  /usr/{,s}bin \
-  /{,s}bin
-
 set --global --export EDITOR nvim
 set --global --export BROWSER google-chrome-stable
 set --global --export LESS -R
@@ -24,23 +13,40 @@ set --global --export FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND
 set --global --export FZF_LEGACY_KEYBINDINGS 0
 set --global --export FZF_TMUX 1
 
-test -d /usr/lib/ccache/bin; and set --global --export PATH /usr/lib/ccache/bin $PATH # arch
-test -d /usr/local/opt/ccache/libexec; and set --global --export PATH /usr/local/opt/ccache/libexec $PATH # osx
-test -d /usr/local/opt/coreutils/libexec/gnubin; and set --global --export PATH /usr/local/opt/coreutils/libexec/gnubin $PATH # osx
-test -d /usr/local/opt/findutils/libexec/gnubin; and set --global --export PATH /usr/local/opt/findutils/libexec/gnubin $PATH # osx
+set --global --export GOPATH $HOME/.go
+
+set --global --export _JAVA_AWT_WM_NONREPARENTING 1 # dwm/java hacks
+
+set --global --export XDG_DATA_HOME   $HOME/.local/share
+set --global --export XDG_CACHE_HOME  $HOME/.cache
+set --global --export XDG_CONFIG_HOME $HOME/.config
+
+set --global --export TMP /tmp
+set --global --export PATH \
+  $HOME/bin \
+  /usr/local/{,s}bin \
+  /usr/{,s}bin \
+  /{,s}bin
+
+# ccache
+test -d /usr/lib/ccache/bin; and set --global --export PATH /usr/lib/ccache/bin $PATH
+test -d /usr/local/opt/ccache/libexec; and set --global --export PATH /usr/local/opt/ccache/libexec $PATH
+
+# gnu utilities (osx)
+for util in {core,find}utils
+  test -d /usr/local/opt/{$util}utils/libexec/gnubin; and set --global --export PATH /usr/local/opt/{$util}utils/libexec/gnubin $PATH
+end
+
+# languages
+test -d $HOME/.rbenv/bin; and set --global --export PATH $HOME/.rbenv/bin $PATH
+test -d $HOME/.pyenv/bin; and set --global --export PATH $HOME/.pyenv/bin $PATH
+test -d $GOPATH/bin; set --global --export PATH $GOPATH/bin $PATH
+test -d /usr/lib/jvm/default/bin; and set --global --export PATH /usr/lib/jvm/default/bin $PATH
 test -d /usr/bin/core_perl; and set --global --export PATH /usr/bin/{core,site,vendor}_perl $PATH
-
-test -d $HOME/.rbenv/bin; and set --global --export PATH $HOME/.rbenv/bin $PATH; and source (rbenv init -|psub)
-test -d $HOME/.pyenv/bin; and set --global --export PATH $HOME/.pyenv/bin $PATH; and source (pyenv init -|psub); and source (pyenv virtualenv-init -|psub)
-
-set --global --export GOPATH $HOME/.go; test -d $GOPATH/bin; or mkdir -p $GOPATH/bin
-set --global --export PATH $GOPATH/bin $PATH
 
 for dircolors in {,g}dircolors
   type -fp $dircolors >/dev/null 2>&1; and source (eval "$dircolors --c-shell ~/.dircolorsrc|psub")
 end
-
-set --global --export _JAVA_AWT_WM_NONREPARENTING 1 # dwm/java hacks
 
 test -f $HOME/.config/fish/config.local.fish; and source $HOME/.config/fish/config.local.fish
 
@@ -55,12 +61,19 @@ fundle plugin 'fisherman/last_job_id'
 fundle plugin 'fisherman/menu'
 
 fundle plugin 'fisherman/anicode'
+fundle plugin 'oh-my-fish/plugin-bang-bang'
 fundle plugin 'edc/bass'
 fundle plugin 'tuvistavie/fish-completion-helpers'
+fundle plugin 'fisherman/docker-completion'
 fundle plugin 'fisherman/fnm'
 fundle plugin 'fisherman/fzf'
+fundle plugin 'oh-my-fish/plugin-gi'
+fundle plugin 'oh-my-fish/plugin-license'
+fundle plugin 'fisherman/pyenv'
+fundle plugin 'fisherman/rbenv'
 fundle plugin 'fisherman/shark'
 fundle plugin 'fisherman/spin'
+fundle plugin 'oh-my-fish/plugin-sudope'
 fundle plugin 'oh-my-fish/plugin-thefuck'
 fundle plugin 'fisherman/z'
 
@@ -83,6 +96,10 @@ if status --is-interactive
     if not status --is-login; or test (uname) = "Darwin"
       tmux has-session -t 0; and tmux new-session -t 0 \; set-option destroy-unattached; or tmux new-session -s 0
     end
+  end
+
+  if test -z "$MOSH" # enable 24bit color
+    set --global fish_term24bit 1
   end
 
   tput smkx ^/dev/null # fix backspace in st

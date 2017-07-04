@@ -26,10 +26,6 @@ function pyserve -d "serve files using python"
   python3 -m http.server $port
 end
 
-function sdl -d "run the last command with sudo"
-    eval command sudo $history[1]
-end
-
 function vim -d "vi improved"
   if test -n "$NVIM_LISTEN_ADDRESS"
     command nvr --remote $argv

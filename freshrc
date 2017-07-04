@@ -140,9 +140,6 @@ fresh config/git/attributes --file=~/.config/git/attributes
 fresh config/git/ignore --file=~/.config/git/ignore
 fresh config/git/template --file=~/.config/git/template/
 
-# gibo: gitignore boilerplates
-fresh simonwhitaker/gitignore-boilerplates gibo --bin
-
 # gnupg: the gnu privacy guard
 fresh scripts/pinentry --bin
 fresh config/gnupg/gpg.conf --file=~/.gnupg/gpg.conf
