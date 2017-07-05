@@ -1,31 +1,11 @@
 #!/usr/bin/env bash
 
-#
-# Environment
-#
-
-# Get my path in there.
-export PATH="$HOME/bin:$PATH"
-# Make sure to allow tmux.
-unset TMUX
-
-# Let GPG know we're in X now (it grabs $DISPLAY)...
-unset GPG_TTY; gpg-connect-agent updatestartuptty /bye >/dev/null
-
 # Bail if we're not X11
 test "$XDG_SESSION_TYPE" = "x11" || exit
-
-#
-# Hardware
-#
 
 # Set display timeout.
 xset s 300 300
 xset dpms 300 300 300
-
-#
-# Background
-#
 
 # Start unclutter (mouse hiding daemon).
 pgrep -f unclutter >/dev/null || unclutter &

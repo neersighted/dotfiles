@@ -1,0 +1,13 @@
+diff --git a/st.c b/st.c
+index 8d4a9f2..b501de3 100644
+--- a/st.c
++++ b/st.c
+@@ -689,7 +689,7 @@ execsh(void)
+ 		prog = utmp;
+ 	else
+ 		prog = sh;
+-	args = (opt_cmd) ? opt_cmd : (char *[]) {prog, NULL};
++	args = (opt_cmd) ? opt_cmd : (char *[]) {prog, "-l", NULL};
+ 
+ 	unsetenv("COLUMNS");
+ 	unsetenv("LINES");

@@ -8,6 +8,13 @@
 fresh freshshell/fresh bin/fresh --bin
 
 #
+# System
+#
+
+# pam_environment: environmental variables on login
+fresh config/pam_environment --file
+
+#
 # Shell
 #
 
@@ -77,7 +84,7 @@ fresh config/dunstrc --file=~/.config/dunst/dunstrc
 fresh scripts/dmenu_run.pl --bin
 
 # evrouter: input event daemon
-fresh config/evrouterrc --file=~/.evrouterrc
+fresh config/evrouterrc --file
 
 # gtk: widget toolkit
 fresh config/gtk/settings.ini --file=~/.config/gtk-3.0/settings.ini
@@ -102,8 +109,9 @@ fresh config/Xmodmap --file
 fresh config/Xresources --file
 
 # x: the x display server
-fresh config/xinitrc --file
+fresh config/xprofile --file
 fresh config/xsession --file
+fresh config/xinitrc --file
 fresh config/xserverrc --file
 
 #
@@ -111,7 +119,7 @@ fresh config/xserverrc --file
 #
 
 # alsa: advanced linux sound architecture
-fresh config/asoundrc --file=~/.asoundrc
+fresh config/asoundrc --file
 
 # mpd: music player daemon
 fresh config/mpd.conf --file=~/.mpd/mpd.conf
@@ -152,14 +160,13 @@ fresh config/gnupg/sks-keyservers.netCA.pem --file=~/.gnupg/sks-keyservers.netCA
 fresh config/htoprc --file=~/.config/htop/htoprc
 
 # makepkg: arch linux packager
-fresh config/makepkg.conf --file=~/.makepkg.conf
+fresh config/makepkg.conf --file
 
 # pyenv: python version manager
 fresh scripts/pyenv-install --bin
 
 # rbenv: ruby version manager
 fresh scripts/rbenv-install --bin
-fresh config/rbenv/default-gems --file=~/.rbenv/default-gems
 
 # tmux: terminal multiplexer
 fresh-options --file=~/.tmux.conf --marker

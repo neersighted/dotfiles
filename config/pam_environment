@@ -1,0 +1,6 @@
+VISUAL  DEFAULT=nvim
+BROWSER DEFAULT=google-chrome-stable
+
+XDG_CONFIG_HOME DEFAULT=@{HOME}/.config
+XDG_DATA_HOME   DEFAULT=@{HOME}/.local/share
+XDG_CACHE_HOME  DEFAULT=@{HOME}/.cache
