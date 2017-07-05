@@ -1,0 +1,9 @@
+[Unit]
+Description=X11 Key Grabber
+Documentation=man:xbindkeys(1)
+
+[Service]
+ExecStart=/usr/bin/xbindkeys -n
+
+[Install]
+WantedBy=x11.target

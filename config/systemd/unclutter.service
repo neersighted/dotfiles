@@ -1,0 +1,9 @@
+[Unit]
+Description=Idle Cursor Hiding Daemon
+Documentation=man:unclutter(1)
+
+[Service]
+ExecStart=/usr/bin/unclutter
+
+[Install]
+WantedBy=x11.target

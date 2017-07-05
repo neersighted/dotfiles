@@ -1,40 +1,22 @@
 #!/usr/bin/env bash
 
-# Bail if we're not X11
-test "$XDG_SESSION_TYPE" = "x11" || exit
-
-# Set display timeout.
-xset s 300 300
-xset dpms 300 300 300
+# Notify systemd of startup.
+systemctl --user start $XDG_SESSION_TYPE.target
 
 # Notify gpg-agent of a graphical session.
 unset GPG_TTY
 gpg-connect-agent updatestartuptty /bye
 
-# Start unclutter (mouse hiding daemon).
-pgrep -f unclutter >/dev/null || unclutter &
-# Start xss-lock (screen locker daemon).
-pgrep -f xss-lock >/dev/null || xss-lock -- xlock &
+if [ "$XDG_SESSION_TYPE" = "x11" ]; then
+  # Set display timeout.
+  xset s 300 300
+  xset dpms 300 300 300
 
-# Start xbindkeys (keyboard mapping daemon).
-pgrep -f xbindkeys >/dev/null || xbindkeys &
-# Start evrouter (input event daemon).
-pgrep -f evrouter >/dev/null || evrouter -c ~/.evrouterrc /dev/input/event*
+  if [[ "$DESKTOP_SESSION" =~ "dwm" ]]; then
+    pkill -f dwmstatus >/dev/null; dwmstatus &
+  fi
+  pkill -f lxpolkit >/dev/null; lxpolkit &
+  pkill -f xss-lock >/dev/null; xss-lock -- xlock &
 
-# Start compton (X compositor).
-pgrep -f compton >/dev/null || compton &
-# Start Redshift (screen tinter).
-pgrep -f redshift >/dev/null || redshift &
-
-# Start devmon (userspace auto-mounter).
-pgrep -f devmon >/dev/null || devmon --info-on-mount &
-# Start SpaceFM daemon (file manager).
-pgrep -f 'spacefm -d' >/dev/null || spacefm -d &
-
-# Start dunst (notification daemon).
-pgrep -f dunst >/dev/null || dunst &
-# Start lightweight polkit agent.
-pgrep -f lxpolkit >/dev/null || lxpolkit &
-
-# Run dwm status daemon if we're running dwm.
-test "$DESKTOP_SESSION" = "dwm" && pgrep -f dwmstatus >/dev/null || dwmstatus &
+  test -f ~/.fehbg && sh ~/.fehbg
+fi

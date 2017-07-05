@@ -1,0 +1,10 @@
+[Unit]
+Description=SpaceFM Tinter
+Documentation=https://wiki.archlinux.org/index.php/SpaceFM
+Conflicts=devmon.service
+
+[Service]
+ExecStart=/usr/bin/spacefm -d
+
+[Install]
+WantedBy=gui.target

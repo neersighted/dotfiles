@@ -96,9 +96,10 @@ if status --is-interactive
 
     # autostart tmux (for login shells only)
     if status --is-login; and test -z "$TMUX"
-      tmux has-session -t 0
-      and tmux new-session -t 0 \; set-option destroy-unattached
-      or tmux new-session -s 0
+      set -l session (hostname)
+      tmux has-session -t $session
+      and tmux new-session -t $session \; set-option destroy-unattached
+      or tmux new-session -s $session
     end
   end
 end

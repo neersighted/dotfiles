@@ -101,35 +101,8 @@ bindsym $mod+Shift+r restart
 
 # Run Stuff
 bindsym $mod+Return exec dmenu_run
-bindsym $mod+Shift+Return exec i3-dmenu-desktop
-
-# Lock the screen.
-bindsym $mod+Ctrl+L exec i3lock -d
-
-# Music: Play/Pause
-bindsym $mod+Insert exec mpc toggle
-# Music: Stop
-bindsym $mod+Home exec mpc stop
-# Music: Next
-bindsym $mod+End exec mpc next
-# Music: Previous
-bindsym $mod+Delete exec mpc prev
-# Music: Random
-bindsym $mod+Print exec mpc random
-bindsym $mod+Shift+Print exec mpc shuffle
-# Music: Repeat
-bindsym $mod+Scroll_Lock exec mpc repeat
-bindsym $mod+Shift+Scroll_Lock exec mpc single
-
-# Volume: Up
-bindsym $mod+Prior exec amixer set PCM 5+
-bindsym $mod+Shift+Prior exec amixer set PCM 10+
-# Volume: Down
-bindsym $mod+Next exec amixer set PCM 5-
-bindsym $mod+Shift+Next exec amixer set PCM 10-
-# Volume: Mute
-bindsym $mod+Pause exec amixer set PCM toggle
-bindsym $mod+Shift+Pause exec amixer set PCM PCM 0
+bindsym $mod+Shift+Return exec alacritty
+bindsym $mod+Ctrl+Return exec i3-dmenu-desktop
 
 #
 # Appearance
@@ -158,7 +131,7 @@ bar {
     status_command /usr/bin/true
 
     mode dock
-    position bottom
+    position top
 
     tray_output primary
     workspace_buttons yes

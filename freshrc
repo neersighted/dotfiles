@@ -14,6 +14,11 @@ fresh freshshell/fresh bin/fresh --bin
 # pam_environment: environmental variables on login
 fresh config/pam_environment --file
 
+# systemd: system daemon
+for unit in ~/.dotfiles/config/systemd/*.{service,socket,target}; do
+    fresh config/systemd/$(basename $unit) --file=systemd/$(basename $unit)
+done
+
 #
 # Shell
 #
@@ -28,7 +33,7 @@ fresh-options --file=~/.config/fish/config.fish --marker
     fresh config/fish/colors.fish
 fresh-options
 for function in ~/.dotfiles/config/fish/functions/*.fish; do
-    fresh config/fish/functions/"$(basename "$function")" --file=~/.config/fish/functions/"$(basename "$function")"
+    fresh config/fish/functions/$(basename $function) --file=~/.config/fish/functions/$(basename $function)
 done
 fresh oh-my-fish/plugin-foreign-env functions --file=vendor/fenv/
 
@@ -46,7 +51,7 @@ fresh scripts/fzfurl --bin
 # neovim: vim improved
 fresh scripts/vimprofile --bin
 for config in ~/.dotfiles/config/nvim/*.vim; do
-    fresh config/nvim/"$(basename "$config")" --file=~/.config/nvim/"$(basename "$config")"
+    fresh config/nvim/$(basename $config) --file=~/.config/nvim/$(basename $config)
 done
 fresh k-takata/minpac . --file=~/.config/nvim/pack/minpac/opt/minpac/
 
@@ -85,6 +90,7 @@ fresh scripts/dmenu_run.pl --bin
 
 # evrouter: input event daemon
 fresh config/evrouterrc --file
+fresh scripts/evroutercleanup --bin
 
 # gtk: widget toolkit
 fresh config/gtk/settings.ini --file=~/.config/gtk-3.0/settings.ini
@@ -181,6 +187,10 @@ fresh-options
 
 fresh_after_build () {
     chmod +x ~/.fresh/build/xsession
+
+    for unit in ~/.fresh/build/systemd/*; do
+        ln -sf $unit ~/.config/systemd/user/$(basename $unit)
+    done
 }
 
 # vi:ft=sh:

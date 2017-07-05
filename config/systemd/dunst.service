@@ -1,0 +1,9 @@
+[Unit]
+Description=Lightweight Notification Daemon
+Documentation=man:dunst(1)
+
+[Service]
+ExecStart=/usr/bin/dunst
+
+[Install]
+WantedBy=gui.target

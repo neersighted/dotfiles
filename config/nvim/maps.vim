@@ -47,8 +47,8 @@ nnoremap [Q :cfirst<cr>
 " loclist
 nnoremap ]l :lnext<cr>
 nnoremap [l :lprevious<cr>
-nnoremap ]l :llast<cr>
-nnoremap [l :lfirst<cr>
+nnoremap ]L :llast<cr>
+nnoremap [L :lfirst<cr>
 " exchange lines up/down
 nnoremap [e :move .-2<cr>==
 nnoremap ]e :move .+1<cr>==

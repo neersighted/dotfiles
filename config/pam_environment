@@ -1,4 +1,5 @@
 VISUAL  DEFAULT=nvim
+EDITOR  DEFAULT=nvim
 BROWSER DEFAULT=google-chrome-stable
 
 XDG_CONFIG_HOME DEFAULT=@{HOME}/.config

@@ -1,0 +1,4 @@
+[Unit]
+Description=X11 GUI
+Requires=gui.target
+After=gui.target

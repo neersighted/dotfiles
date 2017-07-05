@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-if [ $(pidof compton) ]; then
-  killall compton
+if systemctl --user status compton >/dev/null 2>&1; then
+  systemctl --user stop compton
 else
-  compton &
+  systemctl --user start compton
 fi
