@@ -4,7 +4,7 @@
 export DESKTOP_SESSION=${1:-dwm}
 
 # Load profile.
-for f in "/etc/profile" "$HOME/.profile" "/etc/xprofile" "$HOME/.xprofile"; do
+for f in "/etc/profile" "$HOME/.profile" "/etc/xprofile" "$HOME/.xprofile" "$HOME/.xprofile.local"; do
   [ -f "$f" ] && . "$f"
 done
 

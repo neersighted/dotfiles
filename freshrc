@@ -102,17 +102,17 @@ fresh scripts/xlock --bin
 # xbindkeys: global keyboard bindings
 fresh config/xbindkeysrc --file
 
+# x11: the x display server
+fresh config/x11/xprofile --file
+fresh config/x11/xsession --file
+fresh config/x11/xinitrc --file
+fresh config/x11/xserverrc --file
+
 # xmodmap: x keysym configuration
-fresh config/Xmodmap --file
+fresh config/x11/Xmodmap --file
 
 # xrdb: x resources database
-fresh config/Xresources --file
-
-# x: the x display server
-fresh config/xprofile --file
-fresh config/xsession --file
-fresh config/xinitrc --file
-fresh config/xserverrc --file
+fresh config/x11/Xresources --file
 
 #
 # Audio

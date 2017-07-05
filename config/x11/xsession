@@ -7,6 +7,10 @@ test "$XDG_SESSION_TYPE" = "x11" || exit
 xset s 300 300
 xset dpms 300 300 300
 
+# Notify gpg-agent of a graphical session.
+unset GPG_TTY
+gpg-connect-agent updatestartuptty /bye
+
 # Start unclutter (mouse hiding daemon).
 pgrep -f unclutter >/dev/null || unclutter &
 # Start xss-lock (screen locker daemon).

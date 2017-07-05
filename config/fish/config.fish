@@ -29,9 +29,9 @@ if status --is-login
     set -x MOSH 1
   end
 
-  # notify gpg-agent of our login
-  set -x GPG_TTY (tty)
-  gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
+  # notify gpg-agent of non-graphical sessions
+  test -z "$DISPLAY"
+  and set -x GPG_TTY (tty)
 
   # connect ssh to gpg-agent
   set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
@@ -86,14 +86,19 @@ if status --is-interactive
   # dedupliate $PATH (just in case)
   path_dedupe
 
-  # local login actions (no ssh)
-  if status --is-login; and test -z "$SSH_CLIENT"; and test -z "$MOSH"
+  # local actions (no ssh)
+  if test -z "$SSH_CLIENT"; and test -z "$MOSH"
+    # notify gpg-agent of our login
+    gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
+
     # notify systemd of path
     systemctl --user import-environment PATH
 
-    # autostart tmux
-    if test -z "$TMUX"
-      tmux has-session -t 0; and tmux new-session -t 0 \; set-option destroy-unattached; or tmux new-session -s 0
+    # autostart tmux (for login shells only)
+    if status --is-login; and test -z "$TMUX"
+      tmux has-session -t 0
+      and tmux new-session -t 0 \; set-option destroy-unattached
+      or tmux new-session -s 0
     end
   end
 end
