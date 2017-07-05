@@ -16,7 +16,7 @@ if [ "$XDG_SESSION_TYPE" = "x11" ]; then
     pkill -f dwmstatus >/dev/null; dwmstatus &
   fi
   pkill -f lxpolkit >/dev/null; lxpolkit &
-  pkill -f xss-lock >/dev/null; xss-lock -- xlock &
+  pkill -f xss-lock >/dev/null; xss-lock -- lockx &
 
   test -f ~/.fehbg && sh ~/.fehbg
 fi

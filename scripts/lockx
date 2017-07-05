@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+IMAGE=$(mktemp --tmpdir lockx-XXX.png)
+
+# Take and blur a screenshot
+scrot $IMAGE
+convert $IMAGE -scale 10% -scale 1000% $IMAGE
+
+# Pause music and lock.
+mpc pause
+i3lock -i $IMAGE
+
+# Turn off the screen and clean up.
+xset dpms force off
+rm $IMAGE

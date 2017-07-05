@@ -98,12 +98,10 @@ fresh config/gtk/gtkrc-2.0 --file
 
 # i3: tiling/tabbed window manger
 fresh config/i3/config --file=~/.config/i3/config
+fresh scripts/lockx --bin
 
 # redshift: screen tinter
 fresh config/redshift.conf --file=~/.config/redshift.conf
-
-# slock: simple screen locker
-fresh scripts/xlock --bin
 
 # xbindkeys: global keyboard bindings
 fresh config/xbindkeysrc --file
