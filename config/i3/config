@@ -1,6 +1,7 @@
-workspace_layout tabbed
 focus_follows_mouse no
-#hide_edge_borders both
+
+workspace_layout tabbed
+default_orientation horizontal
 
 set $mod Mod4
 floating_modifier $mod
@@ -10,6 +11,13 @@ bindsym $mod+Shift+Return exec alacritty
 bindsym $mod+Ctrl+Return exec i3-dmenu-desktop
 bindsym $mod+Escape exec loginctl lock-session
 bindsym $mod+b exec compton-toggle
+set $menu MENU THINGY
+mode "$menu" {
+    bindsym space exec --no-startup-id notify-send "test", mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+space mode "$menu"
 
 bindsym $mod+q kill
 bindsym $mod+Shift+q exit
@@ -20,15 +28,15 @@ bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
-bindsym $mod+i focus child
 bindsym $mod+o focus parent
-bindsym $mod+f focus mode_toggle
+bindsym $mod+i focus child
+bindsym $mod+semicolon focus mode_toggle
 
+bindsym $mod+f fullscreen
 bindsym $mod+Shift+f floating toggle
 bindsym $mod+Shift+s sticky toggle
-bindsym $mod+space fullscreen
 
-bindsym $mod+Srave scratchpad show
+bindsym $mod+grave scratchpad show
 bindsym $mod+Shift+grave move scratchpad
 
 bindsym $mod+Shift+h move left
@@ -41,13 +49,14 @@ bindsym $mod+Up resize grow height 10 px or 10 ppt
 bindsym $mod+Down resize shrink height 10 px or 10 ppt
 bindsym $mod+Right resize grow width 10 px or 10 ppt
 
-bindsym $mod+x layout toggle split
-bindsym $mod+Shift+x layout toggle
-bindsym $mod+Shift+z layout tabbed
-bindsym $mod+Shift+c layout stacking
-
 bindsym $mod+s split vertical
 bindsym $mod+v split horizontal
+
+bindsym $mod+d layout default
+bindsym $mod+a layout toggle
+bindsym $mod+z layout stacking
+bindsym $mod+x layout toggle split
+bindsym $mod+c layout tabbed
 
 bindsym $mod+Tab workspace back_and_forth
 bindsym $mod+1 workspace 1
@@ -92,10 +101,10 @@ set $cyan    #2aa198
 set $green   #859900
 
 # type                   border   background  text     indicator  child_border
-client.focused           $base02  $base03     $base0   $base01    $base03
-client.focused_inactive  $base03  $base02     $base00  $base01    $base03
-client.unfocused         $base02  $base02     $base00  $base01    $base03
-client.urgent            $base02  $base00     $base02  $base01    $base03
+client.focused           $base03  $base02     $base0   $base01    $base03
+client.focused_inactive  $base03  $base03     $base00  $base01    $base03
+client.unfocused         $base03  $base03     $base00  $base01    $base03
+client.urgent            $base03  $base00     $base03  $base01    $base03
 client.placeholder       #000000  $base03     $base00  #000000    $base03
 client.background        $base03
 
