@@ -67,6 +67,9 @@ nmap ]W <plug>(ale_last)
 nnoremap yo :PasteOnce<cr>o
 nnoremap yO :PasteOnce<cr>O
 
+" terminal escape
+tnoremap <esc> <c-\><c-n>
+
 "
 " Plugins
 "
@@ -118,16 +121,8 @@ nnoremap <leader>x :Sayonara<cr>
 nnoremap <leader>X :tabclose<cr>
 
 " Sneak
-nmap f <plug>Sneak_f
-nmap F <plug>Sneak_F
-xmap f <plug>Sneak_f
-xmap F <plug>Sneak_F
-omap f <plug>Sneak_f
-omap F <plug>Sneak_F
-nmap t <plug>Sneak_t
-nmap T <plug>Sneak_T
-xmap t <plug>Sneak_t
-xmap T <plug>Sneak_T
-omap t <plug>Sneak_t
-omap T <plug>Sneak_T
+map f <plug>Sneak_f
+map F <plug>Sneak_F
+map t <plug>Sneak_t
+map T <plug>Sneak_T
 

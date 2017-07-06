@@ -66,8 +66,11 @@ let g:jedi#auto_vim_configuration = 0
 let g:jedi#show_call_signatures = 0
 
 " Sneak
-let g:sneak#streak = 1 " Enable streak (EasyMotion) mode.
-let g:sneak#s_next = 1 " Press again to skip to the next match.
+let g:sneak#label = 1 " Enable EasyMotion-style mode.
+let g:sneak#s_next = 1 " Press 's' again to skip to the next match.
+let g:sneak#f_reset = 1 " Set ; and , when f is used...
+let g:sneak#t_reset = 1 " ...same for t.
+let g:sneak#absolute_dir = 0 " ; always goes forward, , always goes back.
 
 " Startify
 let g:startify_session_dir = $XDG_DATA_HOME . '/nvim/session'

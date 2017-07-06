@@ -58,6 +58,9 @@ fresh k-takata/minpac . --file=~/.config/nvim/pack/minpac/opt/minpac/
 # nyaovim: electron gui for neovim
 fresh config/nyaovimrc.html --file=~/.config/nyaovim/nyaovimrc.html
 
+# oni: neovim-based ide
+fresh config/oni/config.js --file=~/.oni/config.js
+
 #
 # Compilers
 #
@@ -91,6 +94,9 @@ fresh scripts/dmenu_run.pl --bin
 # evrouter: input event daemon
 fresh config/evrouterrc --file
 fresh scripts/evroutercleanup --bin
+
+# fontconfig: font selection
+fresh config/fontconfig/fonts.conf --file=~/.config/fontconfig/fonts.conf
 
 # gtk: widget toolkit
 fresh config/gtk/settings.ini --file=~/.config/gtk-3.0/settings.ini
@@ -192,6 +198,8 @@ fresh_after_build () {
     for unit in ~/.fresh/build/systemd/*; do
         ln -sf $unit ~/.config/systemd/user/$(basename $unit)
     done
+
+    fc-cache
 }
 
 # vi:ft=sh:
