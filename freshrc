@@ -112,8 +112,8 @@ fresh config/polybar/config --file=~/.config/polybar/config
 # redshift: screen tinter
 fresh config/redshift.conf --file=~/.config/redshift.conf
 
-# xbindkeys: global keyboard bindings
-fresh config/xbindkeysrc --file
+# sxhkd: global keyboard bindings
+fresh config/sxhkdrc --file=~/.config/sxhkd/sxhkdrc
 
 # x11: the x display server
 fresh config/x11/xprofile --file

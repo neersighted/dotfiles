@@ -82,9 +82,10 @@ let g:startify_bookmarks = [
       \ {'g': '~/.dotfiles/config/git/config'}, 
       \ ]
 let g:startify_commands = [
-      \ {'h': 'CheckHealth'},
-      \ {'p': 'PackUpdate'},
-      \ {'P': 'PackClean'},
+      \ {'h': ':CheckHealth'},
+      \ {'p': ':PackUpdate'},
+      \ {'P': ':PackClean'},
+      \ {'T': ':terminal'},
       \ ]
 autocmd vimrc User Startified setlocal cursorline " Show the cursorline in Startify.
 autocmd vimrc User Startified setlocal buftype=nofile " Set the startup buffer to nofile.

@@ -2,6 +2,7 @@ if exists('*minpac#init')
   call minpac#init() " minpac is updated using fresh
 
   " Libraries
+  call minpac#add('equalsraf/neovim-gui-shim') " gui configuration support
   call minpac#add('MarcWeber/vim-addon-mw-utils') " utility functions
   call minpac#add('tpope/vim-repeat') " repeat support for plugins
   call minpac#add('tomtom/tlib_vim') " utility functions

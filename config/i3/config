@@ -1,4 +1,4 @@
-exec_always systemctl --user restart polybar@main
+exec_always --no-startup-id systemctl --user restart polybar@main
 
 focus_follows_mouse no
 
@@ -16,21 +16,21 @@ mode "$qlaunch" {
 set $system system: [l]ogout, [p]oweroff, [r]eboot
 mode "$system" {
     bindsym l exit
-    bindsym p exec systemctl poweroff
-    bindsym r exec systemctl reboot
+    bindsym p exec --no-startup-id systemctl poweroff
+    bindsym r exec --no-startup-id systemctl reboot
     bindsym Escape mode "default"
 }
 
-bindsym $mod+Return exec dmenu_run.pl
-bindsym $mod+Ctrl+Return exec i3-dmenu-desktop
-bindsym $mod+Shift+Return exec i3-sensible-terminal
-bindsym $mod+space mode "$qlaunch"
+bindsym $mod+Return exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+Shift+Return exec --no-startup-id dmenu_run.pl
+bindsym $mod+space exec i3-sensible-terminal
+bindsym $mod+Shift+space mode "$qlaunch"
 
-bindsym $mod+Escape exec loginctl lock-session
+bindsym $mod+Escape exec --no-startup-id loginctl lock-session
 bindsym $mod+Shift+Escape mode "$system"
 
-bindsym $mod+b exec systemd-toggle polybar@main
-bindsym $mod+shift+b exec systemd-toggle compton
+bindsym $mod+b exec --no-startup-id systemd-toggle polybar@main
+bindsym $mod+shift+b exec --no-startup-id systemd-toggle compton
 
 bindsym $mod+q kill
 bindsym $mod+Shift+q exit
@@ -98,6 +98,11 @@ bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
+
+bindsym button2 kill
+bindsym --whole-window $mod+button2 kill
+bindsym button3 floating toggle
+bindsym --whole-window $mod+button3 floating toggle
 
 # Solarized Dark
 set $base03  #002b36
