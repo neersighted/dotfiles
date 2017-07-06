@@ -5,8 +5,13 @@ set fish_greeting
 set fish_function_path ~/.fresh/build/vendor/fenv $fish_function_path
 
 if status --is-login
-  # load profile
-  fenv source /etc/profile
+  # load system profile
+  test -f /etc/profile
+  and fenv source /etc/profile
+
+  # and our profile
+  test -f ~/.profile
+  and fenv source ~/.profile
 end
 
 if status --is-interactive
@@ -100,9 +105,5 @@ if status --is-interactive
     end
   end
 end
-
-# load local configuration if available
-test -f $HOME/.config/fish/config.local.fish
-and source $HOME/.config/fish/config.local.fish
 
 # vim:ft=fish

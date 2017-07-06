@@ -8,7 +8,7 @@ floating_modifier $mod
 
 set $qlaunch launch: [c]hrome
 mode "$qlaunch" {
-    bindsym c exec google-chrome-stable, mode "default"
+    bindsym c exec google-chrome-stable ; mode "default"
     bindsym Escape mode "default"
 }
 set $system system: [l]ogout, [p]oweroff, [r]eboot
@@ -39,27 +39,31 @@ bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
-bindsym $mod+o focus parent
-bindsym $mod+i focus child
-bindsym $mod+semicolon focus mode_toggle
-
-bindsym $mod+f fullscreen
-bindsym $mod+Shift+f floating toggle
-bindsym $mod+Shift+s sticky toggle
-
-bindsym $mod+grave scratchpad show
-bindsym $mod+Shift+grave move scratchpad
-
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
+
+bindsym $mod+comma focus output left
+bindsym $mod+period focus output right
+bindsym $mod+Shift+comma move workspace to output left
+bindsym $mod+Shift+period move workspace to output right
+
+bindsym $mod+f fullscreen
+bindsym $mod+Shift+f floating toggle
+bindsym $mod+Shift+s sticky toggle
+bindsym $mod+semicolon focus mode_toggle
+
+bindsym $mod+grave scratchpad show
+bindsym $mod+Shift+grave move scratchpad
 
 bindsym $mod+Left resize shrink width 10 px or 10 ppt
 bindsym $mod+Up resize grow height 10 px or 10 ppt
 bindsym $mod+Down resize shrink height 10 px or 10 ppt
 bindsym $mod+Right resize grow width 10 px or 10 ppt
 
+bindsym $mod+o focus parent
+bindsym $mod+i focus child
 bindsym $mod+s split vertical
 bindsym $mod+v split horizontal
 

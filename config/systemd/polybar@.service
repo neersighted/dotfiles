@@ -3,7 +3,7 @@ Description=Lightweight Status Bar
 Documentation=man:polybar(1)
 
 [Service]
-ExecStart=/usr/bin/polybar %i
+ExecStart=/usr/bin/polybar -r %i
 
 [Install]
 WantedBy=x11.target

@@ -16,12 +16,23 @@ blue    = #268bd2
 cyan    = #2aa198
 green   = #859900
 
+[colors]
+background           = ${solarized.base03}
+background-highlight = ${solarized.base02}
+foreground           = ${solarized.base0}
+foreground-warn      = ${solarized.orange}
+foreground-dimmed    = ${solarized.base00}
+underline-active     = ${solarized.blue}
+underline-warn       = ${solarized.red}
+underline-1          = ${solarized.violet}
+underline-2          = ${solarized.orange}
+
 [bar/main]
 width  = 100%
 height = 18
 
-background = ${solarized.base03}
-foreground = ${solarized.base0}
+background = ${colors.background}
+foreground = ${colors.foreground}
 
 underline-size = 1
 padding-left   = 1
@@ -34,7 +45,7 @@ font-1 = "FontAwesome-10;2"
 
 modules-left   = i3
 modules-center = mpd
-modules-right  = volume clock
+modules-right  = cpu temperature memory filesystem network volume clock
 
 scroll-up   = i3wm-wsnext
 scroll-down = i3wm-wsprev
@@ -43,12 +54,23 @@ scroll-down = i3wm-wsprev
 type     = internal/date
 time     = %r
 date-alt = %Y-%m-%d
-interval = 1
 
 label           = %date%%time%
-label-underline = ${solarized.blue}
+label-underline = ${colors.underline-1}
 
-label-mode-background = ${solarized.base03}
+[module/cpu]
+type = internal/cpu
+
+label           =  %percentage:2%%
+label-underline = ${colors.underline-1}
+
+[module/filesystem]
+type     = internal/fs
+mount-0  = /
+spacing  = 1
+
+label-mounted           =  %mountpoint%: %percentage_used%%
+label-mounted-underline = ${colors.underline-2}
 
 [module/i3]
 type      = internal/i3
@@ -59,54 +81,82 @@ ws-icon-3 = 4;
 ws-icon-4 = 5;
 ws-icon-5 = 6;
 ws-icon-6 = 7;
-ws-icon-7 = 8;
+ws-icon-7 = 8;
 ws-icon-8 = 9;
 ws-icon-9 = 10;
 
-label-focused-underline  = ${solarized.blue}
-label-focused-background = ${solarized.base02}
-label-focused-foreground = ${solarized.base0}
+label-focused-underline  = ${colors.underline-active}
+label-focused-background = ${colors.background-highlight}
 label-focused-padding    = 1
 
-label-visible-background = ${solarized.base03}
-label-visible-foreground = ${solarized.base00}
+label-visible-foreground = ${colors.foreground-dimmed}
 label-visible-padding    = 1
 
-label-unfocused-background = ${solarized.base03}
-label-unfocused-foreground = ${solarized.base00}
+label-unfocused-foreground = ${colors.foreground-dimmed}
 label-unfocused-padding    = 1
 
-label-urgent-background = ${solarized.base00}
-label-urgent-foreground = ${solarized.base03}
+label-urgent-background = ${colors.foreground-dimmed}
+label-urgent-foreground = ${colors.background}
 label-urgent-padding    = 1
 
-label-mode-underline = ${solarized.red}
+label-mode-underline = ${colors.underline-warn}
+
+[module/memory]
+type = internal/memory
+
+label =  %percentage_used%%
+label-underline = ${colors.underline-1}
 
 [module/mpd]
-type     = internal/mpd
-host     = localhost
-port     = 6600
-interval = 1
-
-format-online            = <toggle> <label-song> <label-time>
-format-playing-underline = ${solarized.blue}
-format-paused-underline  = ${solarized.blue}
-format-stopped           =
+type = internal/mpd
+host = localhost
+port = 6600
 
 label-song = %{A1:mpc toggle:}%artist% - %title%%{A}
-label-time = %{A1:mpc stop:}%elapsed% / %total%%{A}
+label-time = %{A1:mpc stop:}[%elapsed% / %total%]%{A}
 
 icon-pause = 
 icon-play  = 
+
+format-online            = <toggle> <label-song> <label-time>
+format-playing-underline = ${colors.underline-active}
+format-paused-underline  = ${colors.underline-warn}
+format-stopped           =
+
+[module/network]
+type = internal/network
+interface = eno1
+
+label-connected               =  %upspeed:8%  %downspeed:8%
+label-connected-underline     = ${colors.underline-1}
+label-disconnected            =  NO CARRIER
+label-disconnected-foreground = ${colors.foreground-warn}
+label-disconnected-underline  = ${colors.underline-warn}
+
+[module/temperature]
+type = internal/temperature
+
+label-warn-foreground = ${colors.foreground-warn}
+label-warn-underline  = ${colors.underline-warn}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 
+
+format           = <ramp> <label>
+format-warn      = <ramp> <label-warn>
+format-underline = ${colors.underline-2}
 
 [module/volume]
 type         = internal/volume
 master-mixer = PCM
 
-label-volume           =  %percentage%
-label-volume-underline = ${solarized.red}
+label-volume           =  %percentage%%
+label-volume-underline = ${colors.underline-2}
 
-label-muted           = 
-label-muted-underline = ${solarized.red}
+label-muted           =  -
+label-muted-underline = ${colors.underline-2}
 
 ; vi:ft=dosini
