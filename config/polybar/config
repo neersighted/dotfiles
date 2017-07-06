@@ -28,6 +28,9 @@ underline-1          = ${solarized.violet}
 underline-2          = ${solarized.orange}
 
 [bar/main]
+monitor = ${env:POLYBAR_MONITOR_MAIN}
+monitor-fallback =
+
 width  = 100%
 height = 18
 
@@ -46,6 +49,9 @@ font-1 = "FontAwesome-10;2"
 modules-left   = i3
 modules-center = mpd
 modules-right  = cpu temperature memory filesystem network volume clock
+
+tray-position = right
+tray-padding = 1
 
 scroll-up   = i3wm-wsnext
 scroll-down = i3wm-wsprev
@@ -125,7 +131,7 @@ format-stopped           =
 
 [module/network]
 type = internal/network
-interface = eno1
+interface = ${env:POLYBAR_WIRED_NIC}
 
 label-connected               =  %upspeed:8%  %downspeed:8%
 label-connected-underline     = ${colors.underline-1}
@@ -151,7 +157,7 @@ format-underline = ${colors.underline-2}
 
 [module/volume]
 type         = internal/volume
-master-mixer = PCM
+master-mixer = ${env:ALSA_MIXER}
 
 label-volume           =  %percentage%%
 label-volume-underline = ${colors.underline-2}

@@ -9,11 +9,11 @@
     XF86AudioPrev
 
 # Adjust audio.
-"amixer set PCM 1+"
+"amixer set $ALSA_MIXER 1+"
     XF86AudioRaiseVolume
-"amixer set PCM 1-"
+"amixer set $ALSA_MIXER 1-"
     XF86AudioLowerVolume
-"amixer set PCM toggle"
+"amixer set $ALSA_MIXER toggle"
     XF86AudioMute
 
 # Toggle CD/DVD drive

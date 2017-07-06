@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+UNIT=$1
+
+[ -n "$UNIT" ] || exit 1
+
+if systemctl --user status "$UNIT" >/dev/null 2>&1; then
+  systemctl --user stop "$UNIT"
+else
+  systemctl --user start "$UNIT"
+fi

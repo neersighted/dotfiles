@@ -12,14 +12,24 @@ pcm.dmixed {
         channels 2
         pcm {
             format S16_LE
-            rate 48000
-
             nonblock true
 
             type hw
-            card 0
-            device 0
-            subdevice 0
+            card {
+                @func getenv
+                vars [ ALSA_CARD ]
+                default 0
+            }
+            device {
+                @func getenv
+                vars [ ALSA_DEVICE ]
+                default 0
+            }
+            subdevice {
+                @func getenv
+                vars [ ALSA_SUBDEVICE ]
+                default 0
+            }
         }
 
         period_size 1024
@@ -30,4 +40,13 @@ pcm.dmixed {
 pcm.!default {
     type plug
     slave.pcm "dmixed"
+}
+
+ctl.!default {
+    type hw
+    card {
+        @func getenv
+        vars [ ALSA_CARD ]
+        default 0
+    }
 }

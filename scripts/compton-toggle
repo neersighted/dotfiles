@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-if systemctl --user status compton >/dev/null 2>&1; then
-  systemctl --user stop compton
-else
-  systemctl --user start compton
-fi

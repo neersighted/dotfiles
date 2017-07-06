@@ -36,19 +36,6 @@ if status --is-interactive
   # connect ssh to gpg-agent
   set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 
-  # configure less
-  set -x LESS '-R'
-
-  # configure fzf
-  set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*" ^/dev/null' # fzf <3 rg
-  set -x FZF_DEFAULT_OPTS '--color fg:-1,bg:-1,hl:4,fg+:7,bg+:0,hl+:4 --color info:3,prompt:3,pointer:15,marker:15,spinner:3'
-  set -x FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND
-  set -x FZF_LEGACY_KEYBINDINGS 0
-  set -x FZF_TMUX 1
-
-  # configure go
-  set -x GOPATH $HOME/.go
-
   # set path
   path_prepend /usr/lib/ccache/bin # ccache
   path_prepend ~/bin # fresh

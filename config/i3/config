@@ -1,3 +1,5 @@
+exec_always systemctl --user restart polybar@main
+
 focus_follows_mouse no
 
 workspace_layout tabbed
@@ -21,14 +23,14 @@ mode "$system" {
 
 bindsym $mod+Return exec dmenu_run.pl
 bindsym $mod+Ctrl+Return exec i3-dmenu-desktop
-bindsym $mod+Shift+Return exec alacritty
+bindsym $mod+Shift+Return exec i3-sensible-terminal
 bindsym $mod+space mode "$qlaunch"
 
 bindsym $mod+Escape exec loginctl lock-session
 bindsym $mod+Shift+Escape mode "$system"
 
-bindsym $mod+b exec polybar-toggle main
-bindsym $mod+shift+b exec compton-toggle
+bindsym $mod+b exec systemd-toggle polybar@main
+bindsym $mod+shift+b exec systemd-toggle compton
 
 bindsym $mod+q kill
 bindsym $mod+Shift+q exit
