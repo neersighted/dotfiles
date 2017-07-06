@@ -7,9 +7,29 @@ set fish_function_path ~/.fresh/build/vendor/fenv $fish_function_path
 if status --is-login
   # load profile
   fenv source /etc/profile
+end
+
+if status --is-interactive
+  if status --is-login
+    # check for mosh
+    if [ (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]')) = "mosh-server" ]
+      set -x MOSH 1
+    end
+
+    # notify gpg-agent of non-graphical sessions
+    test -z "$DISPLAY"
+    and set -x GPG_TTY (tty)
+  end
 
   # load dircolors
   fenv eval `dircolors ~/.dircolorsrc`
+
+  # enable 24bit color (if mosh is not detected)
+  test -z "$MOSH"
+  and set -g fish_term24bit 1
+
+  # connect ssh to gpg-agent
+  set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 
   # configure less
   set -x LESS '-R'
@@ -24,35 +44,12 @@ if status --is-login
   # configure go
   set -x GOPATH $HOME/.go
 
-  # check for mosh
-  if [ (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]')) = "mosh-server" ]
-    set -x MOSH 1
-  end
-
-  # notify gpg-agent of non-graphical sessions
-  test -z "$DISPLAY"
-  and set -x GPG_TTY (tty)
-
-  # connect ssh to gpg-agent
-  set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
-
   # set path
   path_prepend /usr/lib/ccache/bin # ccache
   path_prepend ~/bin # fresh
   path_prepend $GOPATH/bin # go
   path_prepend ~/.pyenv/bin # pyenv
   path_prepend ~/.rbenv/bin # rbenv
-end
-
-# load local configuration if available
-test -f $HOME/.config/fish/config.local.fish
-and source $HOME/.config/fish/config.local.fish
-
-if status --is-interactive
-  # enable 24bit color (if mosh is not detected)
-  if test -z "$MOSH"
-    set -g fish_term24bit 1
-  end
 
   # list plugin dependencies
   fundle plugin 'fisherman/await'
@@ -86,8 +83,8 @@ if status --is-interactive
   # dedupliate $PATH (just in case)
   path_dedupe
 
-  # local actions (no ssh)
-  if test -z "$SSH_CLIENT"; and test -z "$MOSH"
+  # local login actions (no ssh)
+  if status --is-login; and test -z "$SSH_CLIENT"; and test -z "$MOSH"
     # notify gpg-agent of our login
     gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
 
@@ -95,7 +92,7 @@ if status --is-interactive
     systemctl --user import-environment PATH
 
     # autostart tmux (for login shells only)
-    if status --is-login; and test -z "$TMUX"
+    if test -z "$TMUX"
       set -l session (hostname)
       tmux has-session -t $session
       and tmux new-session -t $session \; set-option destroy-unattached
@@ -103,5 +100,9 @@ if status --is-interactive
     end
   end
 end
+
+# load local configuration if available
+test -f $HOME/.config/fish/config.local.fish
+and source $HOME/.config/fish/config.local.fish
 
 # vim:ft=fish

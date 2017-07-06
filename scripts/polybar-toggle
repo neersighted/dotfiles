@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+BAR=$1
+
+[ -n "$BAR" ] || exit
+
+if systemctl --user status polybar@$BAR >/dev/null 2>&1; then
+  systemctl --user stop polybar@$BAR
+else
+  systemctl --user start polybar@$BAR
+fi

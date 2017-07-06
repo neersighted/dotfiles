@@ -17,28 +17,41 @@ cyan    = #2aa198
 green   = #859900
 
 [bar/main]
-;bottom       = true
-width        = 100%
-height       = 18
-fixed-center = true
+width  = 100%
+height = 18
 
-background     = ${solarized.base03}
-foreground     = ${solarized.base0}
+background = ${solarized.base03}
+foreground = ${solarized.base0}
+
 underline-size = 1
+padding-left   = 1
 padding-right  = 1
+module-margin  = 1
+fixed-center   = true
 
 font-0 = "Source Code Pro-10;2"
 font-1 = "FontAwesome-10;2"
 
-modules-left = i3
-modules-right = volume
+modules-left   = i3
+modules-center = mpd
+modules-right  = volume clock
 
 scroll-up   = i3wm-wsnext
 scroll-down = i3wm-wsprev
 
-[module/i3]
-type = internal/i3
+[module/clock]
+type     = internal/date
+time     = %r
+date-alt = %Y-%m-%d
+interval = 1
 
+label           = %date%%time%
+label-underline = ${solarized.blue}
+
+label-mode-background = ${solarized.base03}
+
+[module/i3]
+type      = internal/i3
 ws-icon-0 = 1;
 ws-icon-1 = 2;
 ws-icon-2 = 3;
@@ -53,28 +66,47 @@ ws-icon-9 = 10;
 label-focused-underline  = ${solarized.blue}
 label-focused-background = ${solarized.base02}
 label-focused-foreground = ${solarized.base0}
-label-focused-padding = 1
+label-focused-padding    = 1
 
 label-visible-background = ${solarized.base03}
 label-visible-foreground = ${solarized.base00}
-label-visible-padding = 1
+label-visible-padding    = 1
 
 label-unfocused-background = ${solarized.base03}
 label-unfocused-foreground = ${solarized.base00}
-label-unfocused-padding = 1
+label-unfocused-padding    = 1
 
 label-urgent-background = ${solarized.base00}
 label-urgent-foreground = ${solarized.base03}
-label-urgent-padding = 1
+label-urgent-padding    = 1
 
-label-mode-foreground = ${solarized.base0}
-label-mode-background = ${solarized.base03}
+label-mode-underline = ${solarized.red}
+
+[module/mpd]
+type     = internal/mpd
+host     = localhost
+port     = 6600
+interval = 1
+
+format-online            = <toggle> <label-song> <label-time>
+format-playing-underline = ${solarized.blue}
+format-paused-underline  = ${solarized.blue}
+format-stopped           =
+
+label-song = %{A1:mpc toggle:}%artist% - %title%%{A}
+label-time = %{A1:mpc stop:}%elapsed% / %total%%{A}
+
+icon-pause = 
+icon-play  = 
 
 [module/volume]
-type = internal/volume
+type         = internal/volume
 master-mixer = PCM
 
-label-volume =  %percentage%
-label-muted = 
+label-volume           =  %percentage%
+label-volume-underline = ${solarized.red}
+
+label-muted           = 
+label-muted-underline = ${solarized.red}
 
 ; vi:ft=dosini

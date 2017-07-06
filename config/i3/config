@@ -6,18 +6,29 @@ default_orientation horizontal
 set $mod Mod4
 floating_modifier $mod
 
-bindsym $mod+Return exec dmenu_run
-bindsym $mod+Shift+Return exec alacritty
-bindsym $mod+Ctrl+Return exec i3-dmenu-desktop
-bindsym $mod+Escape exec loginctl lock-session
-bindsym $mod+b exec compton-toggle
-set $menu MENU THINGY
-mode "$menu" {
-    bindsym space exec --no-startup-id notify-send "test", mode "default"
-    bindsym Return mode "default"
+set $qlaunch launch: [c]hrome
+mode "$qlaunch" {
+    bindsym c exec google-chrome-stable, mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+space mode "$menu"
+set $system system: [l]ogout, [p]oweroff, [r]eboot
+mode "$system" {
+    bindsym l exit
+    bindsym p exec systemctl poweroff
+    bindsym r exec systemctl reboot
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+Return exec dmenu_run.pl
+bindsym $mod+Ctrl+Return exec i3-dmenu-desktop
+bindsym $mod+Shift+Return exec alacritty
+bindsym $mod+space mode "$qlaunch"
+
+bindsym $mod+Escape exec loginctl lock-session
+bindsym $mod+Shift+Escape mode "$system"
+
+bindsym $mod+b exec polybar-toggle main
+bindsym $mod+shift+b exec compton-toggle
 
 bindsym $mod+q kill
 bindsym $mod+Shift+q exit

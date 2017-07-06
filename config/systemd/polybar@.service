@@ -1,0 +1,9 @@
+[Unit]
+Description=Lightweight Status Bar
+Documentation=man:polybar(1)
+
+[Service]
+ExecStart=/usr/bin/polybar %i
+
+[Install]
+WantedBy=x11.target

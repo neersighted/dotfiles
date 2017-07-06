@@ -108,6 +108,7 @@ fresh scripts/lockx --bin
 
 # polybar: fast/easy status bar
 fresh config/polybar/config --file=~/.config/polybar/config
+fresh scripts/polybar-toggle --bin
 
 # redshift: screen tinter
 fresh config/redshift.conf --file=~/.config/redshift.conf
