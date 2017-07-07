@@ -30,9 +30,7 @@ export GOPATH=$HOME/.go
 # examples:
 
 # alsa
-# export ALSA_CARD=USB
-# export ALSA_DEVICE=0
-# export ALSA_SUBDEVICE=0
+# export ALSA_PCM=hw:Audio
 # export ALSA_MIXER=Speaker
 
 # gpg-agent

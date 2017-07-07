@@ -4,12 +4,13 @@ CLASS="$0"
 
 # Check if the terminal exists.
 if id=$(xdo id -N "$CLASS"); then
-  # If it is the current window, hide it.
   if [[ $id == $(xdo id) ]]; then
+    # If it is the current window, hide it.
     xdo hide "$id"
-  # Otherwise, it must be hidden; show it.
   else
+    # Otherwise make it visible/active.
     xdo show "$id"
+    xdo activate "$id"
   fi
 else
   # It's not running, so start a new one.
