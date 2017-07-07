@@ -45,6 +45,10 @@ fresh neersighted/fundle completions/fundle.fish --file=~/.config/fish/completio
 # fzf: universal fuzzy finder
 fresh scripts/fzfurl --bin
 
+# neofetch: screenfetch replacement
+fresh config/neofetch/config --file=~/.config/neofetch/config
+
+
 #
 # Editing
 #

@@ -95,9 +95,7 @@ bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
 bindsym button2 kill
-bindsym --whole-window $mod+button2 kill
 bindsym button3 floating toggle
-bindsym --whole-window $mod+button3 floating toggle
 
 # Solarized Dark
 set $base03  #002b36
