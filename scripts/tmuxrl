@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+URL_REGEX="[a-z]+://[a-zA-Z0-9_%./\[\],~?&=-]+"
+
+pane="$1"
+type="$2"
+
+[[ -n $pane ]] || exit 1
+
+if [[ $type == "full" ]]; then
+  data=$(tmux capture-pane -Jp -S- -E- -t "$pane")
+else
+  data=$(tmux capture-pane -Jp -t "$pane")
+fi
+
+(grep -Po "$URL_REGEX" | fzf -m --tac) <<< """$data""" | while read -r url; do
+  $BROWSER "$url"
+done
+

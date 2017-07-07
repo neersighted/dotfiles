@@ -42,9 +42,6 @@ fresh oh-my-fish/plugin-foreign-env functions --file=vendor/fenv/
 fresh neersighted/fundle functions/fundle.fish --file=~/.config/fish/functions/fundle.fish
 fresh neersighted/fundle completions/fundle.fish --file=~/.config/fish/completions/fundle.fish
 
-# fzf: universal fuzzy finder
-fresh scripts/fzfurl --bin
-
 # neofetch: screenfetch replacement
 fresh config/neofetch/config --file=~/.config/neofetch/config
 
@@ -198,6 +195,7 @@ fresh-options --file=~/.tmux.conf --marker
         fresh config/tmux/linux.conf
     fi
 fresh-options
+fresh scripts/tmuxrl --bin
 
 fresh_after_build () {
     chmod +x ~/.fresh/build/xsession
