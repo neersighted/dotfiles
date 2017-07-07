@@ -2,9 +2,17 @@
 
 CLASS="$0"
 
-if xdo id -N "$CLASS"; then
-  xdo kill -N "$CLASS"
+# Check if the terminal exists.
+if id=$(xdo id -N "$CLASS"); then
+  # If it is the current window, hide it.
+  if [[ $id == $(xdo id) ]]; then
+    xdo hide "$id"
+  # Otherwise, it must be hidden; show it.
+  else
+    xdo show "$id"
+  fi
 else
+  # It's not running, so start a new one.
   exec "$TERMINAL" -t "$CLASS" -e "$SHELL"
 fi
 
