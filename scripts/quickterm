@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+CLASS="$0"
+
+if xdo id -N "$CLASS"; then
+  xdo kill -N "$CLASS"
+else
+  exec "$TERMINAL" -t "$CLASS" -e "$SHELL"
+fi
+

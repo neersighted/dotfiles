@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# Default to dwm.
-export DESKTOP_SESSION=${1:-dwm}
+# Default to i3.
+export DESKTOP_SESSION=${1:-i3}
 # Assume X11 by default.
 export XDG_SESSION_TYPE=${XDG_SESSION_TYPE:-x11}
 

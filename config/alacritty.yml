@@ -1,3 +1,5 @@
+render_timer: false
+
 shell:
   program: /usr/bin/fish
   args:
@@ -5,10 +7,12 @@ shell:
 env:
   TERM: xterm-256color
 
-render_timer: false
 dpi:
   x: 96.0
   y: 96.0
+dimensions:
+  columns: 80
+  lines: 24
 padding:
   x: 1
   y: 1

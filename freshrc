@@ -109,6 +109,9 @@ fresh scripts/lockx --bin
 # polybar: fast/easy status bar
 fresh config/polybar/config --file=~/.config/polybar/config
 
+# quickterm: a toggled scratch terminal
+fresh scripts/quickterm --bin
+
 # redshift: screen tinter
 fresh config/redshift.conf --file=~/.config/redshift.conf
 

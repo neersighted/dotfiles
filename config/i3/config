@@ -1,5 +1,3 @@
-exec_always --no-startup-id systemctl --user restart polybar@main
-
 focus_follows_mouse no
 
 workspace_layout tabbed
@@ -8,11 +6,13 @@ default_orientation horizontal
 set $mod Mod4
 floating_modifier $mod
 
-set $qlaunch launch: [c]hrome
-mode "$qlaunch" {
-    bindsym c exec google-chrome-stable ; mode "default"
-    bindsym Escape mode "default"
-}
+for_window [class="quickterm"] floating enable
+
+bindsym $mod+Return exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+Shift+Return exec --no-startup-id dmenu_run.pl
+bindsym $mod+grave exec --no-startup-id quickterm
+bindsym $mod+Shift+grave exec $TERMINAL
+
 set $system system: [l]ogout, [p]oweroff, [r]eboot
 mode "$system" {
     bindsym l exit
@@ -20,11 +20,6 @@ mode "$system" {
     bindsym r exec --no-startup-id systemctl reboot
     bindsym Escape mode "default"
 }
-
-bindsym $mod+Return exec --no-startup-id i3-dmenu-desktop
-bindsym $mod+Shift+Return exec --no-startup-id dmenu_run.pl
-bindsym $mod+space exec i3-sensible-terminal
-bindsym $mod+Shift+space mode "$qlaunch"
 
 bindsym $mod+Escape exec --no-startup-id loginctl lock-session
 bindsym $mod+Shift+Escape mode "$system"
@@ -56,8 +51,8 @@ bindsym $mod+Shift+f floating toggle
 bindsym $mod+Shift+s sticky toggle
 bindsym $mod+semicolon focus mode_toggle
 
-bindsym $mod+grave scratchpad show
-bindsym $mod+Shift+grave move scratchpad
+bindsym $mod+space scratchpad show
+bindsym $mod+Shift+space move scratchpad
 
 bindsym $mod+Left resize shrink width 10 px or 10 ppt
 bindsym $mod+Up resize grow height 10 px or 10 ppt
@@ -131,3 +126,5 @@ client.placeholder       #000000  $base03     $base00  #000000    $base03
 client.background        $base03
 
 font pango:Source Code Pro Light 7
+
+exec_always --no-startup-id systemctl --user restart polybar@main
