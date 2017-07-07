@@ -2,43 +2,46 @@
 " Core
 "
 
+" Clipboard
+set clipboard=unnamedplus " Use the system clipboard.
+
+" Cursor
+set virtualedit=onemore,block " Allow cursor to the end of the line (and anywhere in visual-block.)
+
+" Backend
+set undofile " Keep persistent undo information.
+set hidden " Allow backgrounding buffers.
+
+" Mouse
+set mouse=a mousemodel=popup " Enable full mouse support.
+
+" Numbering
+set number relativenumber " Use relative line numbering.
+
+" Previews
+set inccommand=split " Show incomplete commands in a split.
+set colorcolumn=+1 " Highlight the wrapping column.
+
+" Quickfix
+autocmd vimrc QuitPre * if &filetype != 'qf' | silent! lclose | endif " Autoclose.
+
+" Search
+set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
+
 " Status
 set noshowmode noshowcmd " Disable the built in-status indicators.
 set showtabline=2 " Always show the tabline.
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor " Change the cursor between modes.
 autocmd vimrc VimLeave * set guicursor=a:block-blinkon0 " Reset on exit.
 
-" Cursor
-set virtualedit=onemore,block " Allow cursor to the end of the line (and anywhere in visual-block.)
-
-" Numbering
-set number relativenumber " Use relative line numbering.
+" Splits
+set splitright splitbelow " Open vertical splits to the right, horizontal below.
+set winminheight=0 " Allow squishing splits.
 
 " Wrapping
 set linebreak breakindent showbreak=\\ " Visually wrap (and indent wrapped lines).
 set list listchars=tab:..,nbsp:~,trail:_,extends:>,precedes:< " Show hidden characters.
 set conceallevel=1 " Enable conceal support.
-
-" Clipboard
-set clipboard=unnamedplus " Use the system clipboard.
-
-" Search
-set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
-
-" Previews
-set inccommand=split " Show incomplete commands in a split.
-set colorcolumn=+1 " Highlight the wrapping column.
-
-" Splits
-set splitright splitbelow " Open vertical splits to the right, horizontal below.
-set winminheight=0 " Allow squishing splits.
-
-" Misc
-set undofile " Keep persistent undo information.
-set hidden " Allow backgrounding buffers.
-
-" Quickfix
-autocmd vimrc QuitPre * if &filetype != 'qf' | silent! lclose | endif " Autoclose.
 
 "
 " Plugins
