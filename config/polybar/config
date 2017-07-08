@@ -140,7 +140,8 @@ label-disconnected-foreground = ${colors.foreground-warn}
 label-disconnected-underline  = ${colors.underline-warn}
 
 [module/temperature]
-type = internal/temperature
+type         = internal/temperature
+thermal-zone = ${env:POLYBAR_THERMAL_ZONE}
 
 label-warn-foreground = ${colors.foreground-warn}
 label-warn-underline  = ${colors.underline-warn}

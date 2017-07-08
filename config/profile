@@ -39,3 +39,4 @@ export GOPATH=$HOME/.go
 # polybar
 # export POLYBAR_MONITOR_MAIN=DP-1
 # export POLYBAR_WIRED_NIC=eth0
+# export POLYBAR_THERMAL_ZONE=0
