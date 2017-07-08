@@ -1,17 +1,13 @@
 # ALSA Audio
-XF86AudioRaiseVolume
-  amixer set $ALSA_MIXER 1+
-XF86AudioLowerVolume
-  amixer set $ALSA_MIXER 1-
+{_,shift,shift + ctrl} + XF86Audio{Raise,Lower}Volume
+  amixer set $ALSA_MIXER {1+,5+,10+,1-,5-,10-}
 XF86AudioMute
   amixer set $ALSA_MIXER toggle
 
+# Flameshot
+{_,shift} + Print
+  flameshot {gui,full -c}
+
 # MPD Playback
-XF86AudioPlay
-  mpc toggle
-XF86AudioStop
-  mpc stop
-XF86AudioNext
-  mpc next
-XF86AudioPrev
-  mpc prev
+XF86Audio{Play,Stop,Next,Prev}
+  mpc {toggle,stop,next,prev}

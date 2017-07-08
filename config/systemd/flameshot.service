@@ -1,0 +1,9 @@
+[Unit]
+Description=Simple but Powerful Screenshots
+Documentation=https://github.com/lupoDharkael/flameshot
+
+[Service]
+ExecStart=/usr/bin/flameshot
+
+[Install]
+WantedBy=x11.target
