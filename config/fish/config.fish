@@ -83,6 +83,11 @@ if status --is-interactive
     # notify systemd of path
     systemctl --user import-environment PATH
 
+    # autostart X (on tty1 only)
+    if test -z "$DISPLAY" -a $XDG_VTNR = 1
+        exec startx -- -keeptty
+    end
+
     # autostart tmux (for login shells only)
     if test -z "$TMUX"
       set -l session (hostname)
