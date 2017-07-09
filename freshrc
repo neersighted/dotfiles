@@ -86,9 +86,6 @@ fresh config/compton.conf --file=~/.config/compton.conf
 # dwm: dynamic window manager
 fresh scripts/dwmstatus --bin
 
-# dunst: simple notification daemon
-fresh config/dunstrc --file=~/.config/dunst/dunstrc
-
 # dmenu: simple 'graphical' menu
 fresh scripts/dmenu_run.pl --bin
 
@@ -118,6 +115,9 @@ fresh config/redshift.conf --file=~/.config/redshift.conf
 
 # sxhkd: global keyboard bindings
 fresh config/sxhkdrc --file=~/.config/sxhkd/sxhkdrc
+
+# twmn: simple notification daemon
+fresh config/twmn.conf --file=~/.config/twmn/twmn.conf
 
 # x11: the x display server
 fresh config/x11/xprofile --file

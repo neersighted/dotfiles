@@ -85,14 +85,13 @@ if status --is-interactive
 
     # autostart X (on tty1 only)
     if test -z "$DISPLAY" -a $XDG_VTNR = 1
-        exec startx -- -keeptty
+        exec startx
     end
 
     # autostart tmux (for login shells only)
     if test -z "$TMUX"
       set -l session (hostname)
-      tmux has-session -t $session
-      and tmux new-session -t $session \; set-option destroy-unattached
+      tmux new-session -t $session \; set-option destroy-unattached
       or tmux new-session -s $session
     end
   end
