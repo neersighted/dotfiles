@@ -117,7 +117,7 @@ background_color=
 
 
 scrot="off"
-scrot_cmd="auto"
+scrot_cmd="maim"
 scrot_name="neofetch-$(date +%F-%I-%M-%S-${RANDOM}).png"
 image_host="teknik"
 

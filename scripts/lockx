@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 
-IMAGE=$(mktemp --tmpdir lockx-XXX.png)
+IMAGE=$(mktemp --suffix=.png)
+trap "rm $IMAGE" EXIT
 
-# Take and blur a screenshot
-scrot $IMAGE
-convert $IMAGE -scale 10% -scale 1000% $IMAGE
+maim | convert -scale 10% -scale 1000% - $IMAGE
 
-# Pause music and lock.
-mpc pause
-i3lock -i $IMAGE
+i3lock -n -i $IMAGE &
+xset dpms force off &
+mpc pause &
 
-# Turn off the screen and clean up.
-xset dpms force off
-rm $IMAGE
+wait
