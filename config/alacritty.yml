@@ -14,8 +14,8 @@ dimensions:
   columns: 80
   lines: 24
 padding:
-  x: 1
-  y: 1
+  x: 2
+  y: 2
 
 font:
   size: 10.5
