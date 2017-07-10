@@ -8,8 +8,9 @@ floating_modifier $mod
 
 for_window [class="quickterm"] floating enable
 
-bindsym $mod+Return exec --no-startup-id i3-dmenu-desktop
-bindsym $mod+Shift+Return exec --no-startup-id dmenu_run.pl
+bindsym Mod1+Tab exec --no-startup-id rofi-tab
+bindsym $mod+Return exec --no-startup-id rofi -show drun
+bindsym $mod+Shift+Return exec --no-startup-id rofi -show run
 bindsym $mod+grave exec --no-startup-id quickterm
 bindsym $mod+Shift+grave exec $TERMINAL
 
@@ -70,7 +71,6 @@ bindsym $mod+z layout stacking
 bindsym $mod+x layout toggle split
 bindsym $mod+c layout tabbed
 
-bindsym $mod+Tab workspace back_and_forth
 bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace 2
 bindsym $mod+3 workspace 3
@@ -81,8 +81,8 @@ bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
+bindsym $mod+Tab workspace back_and_forth
 
-bindsym $mod+Shift+Tab move container to workspace back_and_forth
 bindsym $mod+Shift+1 move container to workspace 1
 bindsym $mod+Shift+2 move container to workspace 2
 bindsym $mod+Shift+3 move container to workspace 3
@@ -93,6 +93,7 @@ bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+Tab move container to workspace back_and_forth
 
 bindsym button2 kill
 bindsym button3 floating toggle

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+rofi \
+  -show window  \
+  -kb-cancel "Escape" \
+  -kb-accept-entry "!Alt+Tab"\
+  -kb-row-up "Alt+Shift+Tab" \
+  -kb-row-down "Alt+Tab"

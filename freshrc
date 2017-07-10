@@ -86,9 +86,6 @@ fresh config/compton.conf --file=~/.config/compton.conf
 # dwm: dynamic window manager
 fresh scripts/dwmstatus --bin
 
-# dmenu: simple 'graphical' menu
-fresh scripts/dmenu_run.pl --bin
-
 # evrouter: input event daemon
 fresh config/evrouterrc --file
 fresh scripts/evroutercleanup --bin
@@ -112,6 +109,10 @@ fresh scripts/quickterm --bin
 
 # redshift: screen tinter
 fresh config/redshift.conf --file=~/.config/redshift.conf
+
+# rofi: dmenu-replacement/run tool/window switcher
+fresh config/rofi/config --file=~/.config/rofi/config
+fresh scripts/rofi-tab --bin
 
 # sxhkd: global keyboard bindings
 fresh config/sxhkdrc --file=~/.config/sxhkd/sxhkdrc
