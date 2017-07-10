@@ -14,9 +14,6 @@ if [ "$XDG_SESSION_TYPE" = "x11" ]; then
   xset s 300 300
   xset dpms 300 300 300
 
-  if [[ "$DESKTOP_SESSION" =~ "dwm" ]]; then
-    pkill -f dwmstatus >/dev/null; dwmstatus &
-  fi
   pkill -f lxpolkit >/dev/null; lxpolkit &
   pkill -f xss-lock >/dev/null; xss-lock -- lockx &
 

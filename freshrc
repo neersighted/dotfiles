@@ -83,9 +83,6 @@ fresh config/alacritty.yml --file=~/.config/alacritty/alacritty.yml
 # compton: x compositor
 fresh config/compton.conf --file=~/.config/compton.conf
 
-# dwm: dynamic window manager
-fresh scripts/dwmstatus --bin
-
 # evrouter: input event daemon
 fresh config/evrouterrc --file
 fresh scripts/evroutercleanup --bin
