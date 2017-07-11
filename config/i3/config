@@ -9,8 +9,9 @@ floating_modifier $mod
 for_window [class="quickterm"] floating enable
 
 bindsym Mod1+Tab exec --no-startup-id rofi-tab
-bindsym $mod+Return exec --no-startup-id rofi -show drun
-bindsym $mod+Shift+Return exec --no-startup-id rofi -show run
+bindsym $mod+Return exec --no-startup-id rofi -show drun -kb-cancel "Super+Return"
+bindsym $mod+Shift+Return exec --no-startup-id rofi -show run -kb-cancel "Super+Shift+Return"
+
 bindsym $mod+grave exec --no-startup-id quickterm
 bindsym $mod+Shift+grave exec $TERMINAL
 bindsym $mod+BackSpace exec --no-startup-id quickterm ncmpcpp
