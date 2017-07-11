@@ -91,8 +91,9 @@ fresh scripts/evroutercleanup --bin
 fresh config/fontconfig/fonts.conf --file=~/.config/fontconfig/fonts.conf
 
 # gtk: widget toolkit
-fresh config/gtk/settings.ini --file=~/.config/gtk-3.0/settings.ini
 fresh config/gtk/gtkrc-2.0 --file
+fresh config/gtk/settings.ini --file=~/.config/gtk-3.0/settings.ini
+fresh config/gtk/index.theme --file=~/.icons/default/index.theme
 
 # i3: tiling/tabbed window manger
 fresh config/i3 --file=~/.config/i3/config
