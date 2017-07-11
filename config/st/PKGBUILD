@@ -1,0 +1,67 @@
+# Maintainer: Bjorn Neergaard <bjorn@neersighted.com>
+
+_pkgname=st
+pkgname=st-neersighted
+pkgver=b331da5
+pkgrel=1
+pkgdesc='A simple virtual terminal emulator for X'
+url='http://st.suckless.org'
+license=('MIT')
+source=('git://git.suckless.org/st'
+        'boldcolors.diff'
+        'fixterms.diff'
+        'login.diff'
+        'source-code-pro.diff'
+        'solarized.diff')
+sha256sums=('SKIP'
+            '71e1211189d9e11da93ee49388379c5f8469fcd3e1f48bb4d791ddaf161f5845'
+            'eae6c1bd3ef92e77f399a5501a4ffcd22cb234fdaf3920afd96f0f0aef5ae965'
+            'c9d3fcafa93f6bd04618ef32594eebef72f2a2f1deb9d28ebf82937e59651903'
+            '0bd8cd56c46a6edd843232888054ba1933b031f4aba47beb9fff82efac641a90'
+            '56e3b19ef04d4782e383931a37cf8778933492b620ac4f32a998a55eebc110cb')
+arch=('i686' 'x86_64')
+depends=('libxft' 'libxext')
+makedepends=('ncurses')
+conflicts=('st')
+provides=('st')
+
+pkgver() {
+  cd "${srcdir}/st"
+
+  git describe --always | sed 's/^v//;s/-/./g'
+}
+
+prepare() {
+  cd "${srcdir}/st"
+
+  # Apply patches.
+  git apply "${srcdir}/boldcolors.diff"
+  git apply "${srcdir}/fixterms.diff"
+  git apply "${srcdir}/login.diff"
+  git apply "${srcdir}/source-code-pro.diff"
+  git apply "${srcdir}/solarized.diff"
+
+  # Skip terminfo (conflict with ncurses).
+  sed -i '/\@tic/d' Makefile
+}
+
+build() {
+  cd "${srcdir}/st"
+
+  # Build it!
+  make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
+}
+
+package() {
+  cd "${srcdir}/st"
+
+  # Install the program.
+  make PREFIX=/usr DESTDIR="${pkgdir}" TERMINFO="${pkgdir}/usr/share/terminfo" install
+
+  # Install the license.
+  install -Dm644 LICENSE \
+                    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  # Install the readme.
+  install -Dm644 README \
+                    "${pkgdir}/usr/share/doc/${pkgname}/README"
+}
