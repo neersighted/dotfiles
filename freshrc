@@ -136,8 +136,7 @@ fresh config/asoundrc --file
 fresh config/mpd.conf --file=~/.mpd/mpd.conf
 
 # ncmpcpp: mpd client
-fresh config/ncmpcpp/config --file=~/.ncmpcpp/config
-fresh config/ncmpcpp/bindings --file=~/.ncmpcpp/bindings
+fresh config/ncmpcpp --file=~/.ncmpcpp/config
 
 #
 # Utilities
