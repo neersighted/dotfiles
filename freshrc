@@ -43,7 +43,7 @@ fresh neersighted/fundle functions/fundle.fish --file=~/.config/fish/functions/f
 fresh neersighted/fundle completions/fundle.fish --file=~/.config/fish/completions/fundle.fish
 
 # neofetch: screenfetch replacement
-fresh config/neofetch/config --file=~/.config/neofetch/config
+fresh config/neofetch --file=~/.config/neofetch/config
 
 
 #
@@ -95,10 +95,10 @@ fresh config/gtk/settings.ini --file=~/.config/gtk-3.0/settings.ini
 fresh config/gtk/gtkrc-2.0 --file
 
 # i3: tiling/tabbed window manger
-fresh config/i3/config --file=~/.config/i3/config
+fresh config/i3 --file=~/.config/i3/config
 
 # polybar: fast/easy status bar
-fresh config/polybar/config --file=~/.config/polybar/config
+fresh config/polybar --file=~/.config/polybar/config
 
 # quickterm: a toggled scratch terminal
 fresh scripts/quickterm --bin
@@ -107,7 +107,7 @@ fresh scripts/quickterm --bin
 fresh config/redshift.conf --file=~/.config/redshift.conf
 
 # rofi: dmenu-replacement/run tool/window switcher
-fresh config/rofi/config --file=~/.config/rofi/config
+fresh config/rofi --file=~/.config/rofi/config
 fresh scripts/rofi-tab --bin
 
 # sxhkd: global keyboard bindings
@@ -177,10 +177,7 @@ fresh scripts/pyenv-install --bin
 fresh scripts/rbenv-install --bin
 
 # tmux: terminal multiplexer
-fresh-options --file=~/.tmux.conf --marker
-    fresh config/tmux/main.conf
-    fresh config/tmux/statusline.conf
-fresh-options
+fresh config/tmux.conf --file
 fresh scripts/tmuxrl --bin
 
 fresh_after_build () {

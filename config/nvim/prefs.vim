@@ -81,7 +81,7 @@ let g:startify_bookmarks = [
       \ {'f': '~/.dotfiles/freshrc'}, 
       \ {'v': '~/.dotfiles/config/neovim/init.vim'}, 
       \ {'s': '~/.dotfiles/config/fish/config.fish'}, 
-      \ {'t': '~/.dotfiles/config/tmux/main.conf'}, 
+      \ {'t': '~/.dotfiles/config/tmux.conf'}, 
       \ {'g': '~/.dotfiles/config/git/config'}, 
       \ ]
 let g:startify_commands = [
