@@ -150,10 +150,6 @@ fresh config/ncmpcpp/bindings --file=~/.ncmpcpp/bindings
 # 24bit: check a terminal for true color support
 fresh scripts/24bit --bin
 
-# aur: the arch user repository
-fresh scripts/aurdiff --bin
-fresh scripts/aurget --bin
-
 # git: the stupid content tracker
 fresh-options --file=~/.config/git/config --marker
     fresh config/git/config
@@ -187,11 +183,6 @@ fresh scripts/rbenv-install --bin
 fresh-options --file=~/.tmux.conf --marker
     fresh config/tmux/main.conf
     fresh config/tmux/statusline.conf
-    if [[ "$(uname)" == "Darwin" ]]; then
-        fresh config/tmux/osx.conf
-    elif [[ "$(uname)" == "Linux" ]]; then
-        fresh config/tmux/linux.conf
-    fi
 fresh-options
 fresh scripts/tmuxrl --bin
 

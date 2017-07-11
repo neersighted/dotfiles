@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-git clone aur@aur.archlinux.org:$1.git

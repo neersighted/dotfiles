@@ -17,7 +17,8 @@ end
 if status --is-interactive
   if status --is-login
     # check for mosh
-    if [ (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]')) = "mosh-server" ]
+    set parent (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]'))
+    if test $parent = "mosh-server"
       set -x MOSH 1
     end
 
@@ -91,7 +92,8 @@ if status --is-interactive
     # autostart tmux (for login shells only)
     if test -z "$TMUX"
       set -l session (hostname)
-      tmux new-session -t $session \; set-option destroy-unattached
+      tmux has-session -t $session
+      and tmux new-session -t $session \; set-option destroy-unattached
       or tmux new-session -s $session
     end
   end

@@ -1,23 +1,52 @@
 #!/usr/bin/env bash
 
-CLASS="$0"
+WIDTH=120
+HEIGHT=36
 
-# Check if the terminal exists.
-if id=$(xdo id -N "$CLASS"); then
+cmd=$1
+class=quickterm-$cmd
+
+# Default to $SHELL.
+if [[ -z $cmd ]]; then
+  cmd=$SHELL
+fi
+
+# Check if quickterm already is running.
+if id=$(xdo id -N "$class"); then
   if [[ $id == $(xdo id) ]]; then
-    # If it is the current window, hide it.
+    # A quickterm is running and active, hide it.
     xdo hide "$id"
   else
-    # Otherwise make it visible/active.
+    # A quickterm is running and hidden, show it.
     xdo show "$id"
     xdo activate "$id"
   fi
 else
-  # It's not running, so start a new one.
+  # No quickterm is running, run one.
   if [[ $TERMINAL =~ "alacritty" ]]; then
-    exec "$TERMINAL" -t "$CLASS" -e "$SHELL"
+    "$TERMINAL" -t "$class" -d $WIDTH $HEIGHT -e "$cmd" &
   else
-    exec "$TERMINAL" -c "$CLASS" -e "$SHELL"
+    "$TERMINAL" -c "$class" -g ${WIDTH}x${HEIGHT} -e "$cmd" &
   fi
 fi
 
+# Block until the terminal is ready.
+while ! id=$(xdo id -N "$class"); do
+  sleep 0.2
+done
+
+# Center the window.
+if [[ $DESKTOP_SESSION =~ i3 ]]; then
+  i3-msg "[id=$id] move position center"
+fi
+
+(
+  # Loop until quickterm exits or we lose focus.
+  while id=$(xdo id -N "$class"); do
+    if [[ $id != $(xdo id) ]]; then
+      # Hide quickterm on focus lost, then exit.
+      xdo hide "$id"
+      exit
+    fi
+  done
+) &

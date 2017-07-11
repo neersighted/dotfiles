@@ -7,7 +7,7 @@ export XDG_CACHE_HOME=~/.cache
 export VISUAL=nvim
 export EDITOR=nvim
 export BROWSER=google-chrome-stable
-export TERMINAL=alacritty
+export TERMINAL=st
 export LESS='-R'
 
 # libvirt
@@ -25,7 +25,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export GOPATH=$HOME/.go
 
 # local variables
-[ -f ~/.profile.local ] && source ~/.profile.local
+test -f ~/.profile.local && source ~/.profile.local
 
 # examples:
 
@@ -40,3 +40,5 @@ export GOPATH=$HOME/.go
 # export POLYBAR_MONITOR_MAIN=DP-1
 # export POLYBAR_WIRED_NIC=eth0
 # export POLYBAR_THERMAL_ZONE=0
+
+# vim:ft=sh
