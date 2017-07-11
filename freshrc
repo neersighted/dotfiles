@@ -122,6 +122,9 @@ fresh config/x11/xsession --file
 fresh config/x11/xinitrc --file
 fresh config/x11/xserverrc --file
 
+# xdg: configuration for xdg-compliant software
+fresh config/mimeapps.list --file=~/.config/mimeapps.list
+
 #
 # Audio
 #
