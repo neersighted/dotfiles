@@ -6,6 +6,7 @@ shell:
     - -l
 env:
   TERM: xterm-256color
+  COLORTERM : truecolor
 
 dpi:
   x: 96.0

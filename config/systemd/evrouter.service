@@ -3,7 +3,7 @@ Description=Input Event Daemon
 Documentation=man:evrouter(1)
 
 [Service]
-ExecStart=/usr/bin/evrouter -f -c %h/.evrouterrc /dev/input/by-id/usb-Griffin_Technology_Inc._Griffin_PowerMate-event-if00
+ExecStart=/usr/bin/evrouter -f -c %h/.evrouterrc /dev/input/powermate
 ExecStopPost=%h/bin/evroutercleanup
 Restart=always
 
