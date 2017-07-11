@@ -122,12 +122,6 @@ fresh config/x11/xsession --file
 fresh config/x11/xinitrc --file
 fresh config/x11/xserverrc --file
 
-# xmodmap: x keysym configuration
-fresh config/x11/Xmodmap --file
-
-# xrdb: x resources database
-fresh config/x11/Xresources --file
-
 #
 # Audio
 #
@@ -195,8 +189,6 @@ fresh_after_build () {
     for unit in ~/.fresh/build/systemd/*; do
         ln -sf $unit ~/.config/systemd/user/$(basename $unit)
     done
-
-    xrdb ~/.Xresources
 
     fc-cache
 }

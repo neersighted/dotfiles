@@ -1,6 +1,0 @@
-! Set Caps Lock to Escape.
-clear Lock
-keycode 66 = Escape
-
-! Set Menu to Audio Record.
-keycode 135 = XF86AudioRecord

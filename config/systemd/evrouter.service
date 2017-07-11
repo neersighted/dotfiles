@@ -6,6 +6,7 @@ Documentation=man:evrouter(1)
 ExecStart=/usr/bin/evrouter -f -c %h/.evrouterrc /dev/input/powermate
 ExecStopPost=%h/bin/evroutercleanup
 Restart=always
+RestartSec=10
 
 [Install]
 WantedBy=default.target

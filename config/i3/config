@@ -1,6 +1,6 @@
 focus_follows_mouse no
 
-workspace_layout tabbed
+workspace_layout stacked
 default_orientation horizontal
 
 set $mod Mod4
