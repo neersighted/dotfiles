@@ -96,7 +96,6 @@ fresh config/gtk/gtkrc-2.0 --file
 
 # i3: tiling/tabbed window manger
 fresh config/i3/config --file=~/.config/i3/config
-fresh scripts/lockx --bin
 
 # polybar: fast/easy status bar
 fresh config/polybar/config --file=~/.config/polybar/config
@@ -169,6 +168,10 @@ fresh config/gnupg/sks-keyservers.netCA.pem --file=~/.gnupg/sks-keyservers.netCA
 
 # htop: interactive process monitor
 fresh config/htoprc --file=~/.config/htop/htoprc
+
+# lockers: screen-locking programs
+fresh scripts/lockvt --bin
+fresh scripts/lockx --bin
 
 # makepkg: arch linux packager
 fresh config/makepkg.conf --file
