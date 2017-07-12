@@ -1,0 +1,12 @@
+[Unit]
+Description=Sound Service
+Documentation=man:pulseaudio(1)
+Requires=pulseaudio.socket
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/pulseaudio --daemonize=no
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

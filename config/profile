@@ -29,10 +29,6 @@ test -f ~/.profile.local && source ~/.profile.local
 
 # examples:
 
-# alsa
-# export ALSA_PCM=hw:Audio
-# export ALSA_MIXER=Speaker
-
 # gpg-agent
 # export PINENTRY_USER_DATA=gtk
 

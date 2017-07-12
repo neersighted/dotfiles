@@ -1,8 +1,10 @@
-# ALSA Audio
-{_,shift,shift + ctrl} + XF86Audio{Raise,Lower}Volume
-  amixer set $ALSA_MIXER {1+,5+,10+,1-,5-,10-}
+# PulseAudio
+{_,ctrl,shift,shift + ctrl} + XF86AudioRaiseVolume
+  ponymix -N increase {1,2,5,10}
+{_,ctrl,shift,shift + ctrl} + XF86AudioLowerVolume
+  ponymix -N decrease {1,2,5,10}
 XF86AudioMute
-  amixer set $ALSA_MIXER toggle
+  ponymix toggle
 
 # Flameshot
 {_,shift} + Print

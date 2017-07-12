@@ -2,12 +2,11 @@
 Description=Music Player Daemon
 Documentation=man:mpd(1) man:mpd.conf(5)
 Requires=mpd.socket
-After=mpd.socket
-RefuseManualStart=true
 
 [Service]
 Type=notify
 ExecStart=/usr/bin/mpd --no-daemon
+Restart=on-failure
 
 LimitRTPRIO=50
 LimitRTTIME=infinity

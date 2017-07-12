@@ -99,7 +99,8 @@ fresh config/gtk/index.theme --file=~/.icons/default/index.theme
 fresh config/i3 --file=~/.config/i3/config
 
 # polybar: fast/easy status bar
-fresh config/polybar --file=~/.config/polybar/config
+fresh config/polybar/config --file=~/.config/polybar/config
+fresh config/polybar/volume.sh --file=~/.config/polybar/volume.sh
 
 # quickterm: a toggled scratch terminal
 fresh scripts/quickterm --bin
@@ -114,9 +115,6 @@ fresh scripts/rofi-tab --bin
 # sxhkd: global keyboard bindings
 fresh config/sxhkdrc --file=~/.config/sxhkd/sxhkdrc
 
-# twmn: simple notification daemon
-fresh config/twmn.conf --file=~/.config/twmn/twmn.conf
-
 # x11: the x display server
 fresh config/x11/xprofile --file
 fresh config/x11/xsession --file
@@ -130,14 +128,16 @@ fresh config/mimeapps.list --file=~/.config/mimeapps.list
 # Audio
 #
 
-# alsa: advanced linux sound architecture
-fresh config/asoundrc --file
-
 # mpd: music player daemon
 fresh config/mpd.conf --file=~/.mpd/mpd.conf
 
 # ncmpcpp: mpd client
 fresh config/ncmpcpp --file=~/.ncmpcpp/config
+
+# pulseaudio: user-space sound server
+fresh config/pulse/client.conf --file=~/.config/pulse/client.conf
+fresh config/pulse/daemon.conf --file=~/.config/pulse/daemon.conf
+fresh config/pulse/default.pa --file=~/.config/pulse/default.pa
 
 #
 # Utilities
@@ -185,9 +185,10 @@ fresh scripts/tmuxrl --bin
 
 fresh_after_build () {
     chmod +x ~/.fresh/build/xsession
+    chmod +x ~/.fresh/build/config-polybar-*.sh
 
     for unit in ~/.fresh/build/systemd/*; do
-        ln -sf $unit ~/.config/systemd/user/$(basename $unit)
+        ln -sf "$unit" ~/.config/systemd/user/"$(basename "$unit")"
     done
 
     fc-cache

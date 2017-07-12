@@ -157,13 +157,13 @@ format-warn      = <ramp> <label-warn>
 format-underline = ${colors.underline-2}
 
 [module/volume]
-type         = internal/volume
-master-mixer = ${env:ALSA_MIXER}
+type        = custom/script
+exec        = ~/.config/polybar/volume.sh
+click-right = exec pavucontrol-qt
+click-left  = ponymix toggle
+scroll-up   = ponymix -N increase 1
+scroll-down = ponymix -N decrease 1
 
-label-volume           =  %percentage%%
-label-volume-underline = ${colors.underline-2}
-
-label-muted           =  -
-label-muted-underline = ${colors.underline-2}
+label-underline = ${colors.underline-2}
 
 ; vi:ft=dosini

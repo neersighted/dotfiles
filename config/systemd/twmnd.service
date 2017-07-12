@@ -1,9 +1,0 @@
-[Unit]
-Description=Tiling Window Manager Notification Daemon
-Documentation=https://github.com/sboli/twmn
-
-[Service]
-ExecStart=/usr/bin/twmnd twmn
-
-[Install]
-WantedBy=gui.target
