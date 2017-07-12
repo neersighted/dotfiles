@@ -17,7 +17,8 @@ fresh config/profile --file
 # systemd: system daemon
 fresh scripts/systemd-toggle --bin
 for unit in ~/.dotfiles/config/systemd/*.{service,socket,target}; do
-    fresh config/systemd/$(basename $unit) --file=systemd/$(basename $unit)
+    unit=$(basename "$unit")
+    fresh "config/systemd/$unit" --file="systemd/$unit"
 done
 
 #
@@ -34,7 +35,8 @@ fresh-options --file=~/.config/fish/config.fish --marker
     fresh config/fish/colors.fish
 fresh-options
 for function in ~/.dotfiles/config/fish/functions/*.fish; do
-    fresh config/fish/functions/$(basename $function) --file=~/.config/fish/functions/$(basename $function)
+    function=$(basename "$function")
+    fresh "config/fish/functions/$function" --file="~/.config/fish/functions/$function"
 done
 fresh oh-my-fish/plugin-foreign-env functions --file=vendor/fenv/
 
@@ -53,7 +55,8 @@ fresh config/neofetch --file=~/.config/neofetch/config
 # neovim: vim improved
 fresh scripts/vimprofile --bin
 for config in ~/.dotfiles/config/nvim/*.vim; do
-    fresh config/nvim/$(basename $config) --file=~/.config/nvim/$(basename $config)
+    config=$(basename "$config")
+    fresh "config/nvim/$config" --file="~/.config/nvim/$config"
 done
 fresh k-takata/minpac . --file=~/.config/nvim/pack/minpac/opt/minpac/
 
@@ -191,7 +194,8 @@ fresh_after_build () {
     chmod +x ~/.fresh/build/config-polybar-*.sh
 
     for unit in ~/.fresh/build/systemd/*; do
-        ln -sf "$unit" ~/.config/systemd/user/"$(basename "$unit")"
+        unitname=$(basename "$unit")
+        ln -sf "$unit" "$HOME/.config/systemd/user/$unitname"
     done
 
     fc-cache
