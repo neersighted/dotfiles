@@ -52,10 +52,10 @@ bindsym $mod+Shift+period move workspace to output right
 bindsym $mod+f fullscreen
 bindsym $mod+Shift+f floating toggle
 bindsym $mod+Shift+s sticky toggle
-bindsym $mod+semicolon focus mode_toggle
+bindsym $mod+t focus mode_toggle
 
-bindsym $mod+space scratchpad show
-bindsym $mod+Shift+space move scratchpad
+bindsym $mod+semicolon scratchpad show
+bindsym $mod+Shift+semicolon move scratchpad
 
 bindsym $mod+Left resize shrink width 10 px or 10 ppt
 bindsym $mod+Up resize grow height 10 px or 10 ppt
@@ -129,3 +129,5 @@ client.background        $base03
 font pango:Source Code Pro Light 7
 
 exec_always --no-startup-id systemctl --user restart polybar@main
+
+# vim:ft=i3

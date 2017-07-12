@@ -1,0 +1,77 @@
+[global]
+    monitor = 0
+    follow  = keyboard
+
+    geometry            = 300x5-10+28
+    notification_height = 0
+    shrink              = yes
+
+    padding            = 8
+    horizontal_padding = 8
+
+    frame_width      = 1
+    frame_color      = "#657b83"
+    separator_height = 1
+    separator_color  = frame
+    transparency     = 0
+
+    font        = Source Code Pro 10
+    format      = "<b>%s</b>\n%b"
+    alignment   = center
+    line_height = 0
+
+    markup         = full
+    ignore_newline = no
+    word_wrap      = yes
+
+    show_indicators      = no
+    indicate_hidden      = yes
+    stack_duplicates     = yes
+    hide_duplicate_count = false
+
+    sort               = yes
+    idle_threshold     = 120
+    show_age_threshold = 60
+
+    sticky_history = yes
+    history_length = 20
+
+    dmenu   = /usr/bin/rofi -dmenu -p dunst:
+    browser = /usr/bin/google-chrome-stable
+
+    icon_position = off
+    icon_folders  = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+    max_icon_size = 32
+
+    always_run_script    = true
+    startup_notification = false
+    title                = Dunst
+    class                = Dunst
+
+[shortcuts]
+    context   = mod4+space
+    history   = mod4+ctrl+space
+    close     = mod4+shift+space
+    close_all = mod4+shift+ctrl+space
+
+[urgency_low]
+    background = "#002b36"
+    foreground = "#657b83"
+    timeout    = 15
+
+[urgency_normal]
+    background = "#002b36"
+    foreground = "#839496"
+    timeout    = 30
+
+[urgency_critical]
+    background = "#839496"
+    foreground = "#073642"
+    timeout    = 0
+
+[ponymix]
+    appname = ponymix
+    format  = "vol: <b>%n%</b>"
+    timeout = 1
+
+# vim: ft=cfg
