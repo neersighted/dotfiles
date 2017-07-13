@@ -1,9 +1,5 @@
 render_timer: false
 
-shell:
-  program: /usr/bin/fish
-  args:
-    - -l
 env:
   TERM: xterm-256color
   COLORTERM : truecolor
@@ -19,7 +15,7 @@ padding:
   y: 2
 
 font:
-  size: 10.5
+  size: 10.0
   offset:
     x: 0
     y: 0

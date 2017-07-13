@@ -121,6 +121,9 @@ fresh scripts/rofi-tab --bin
 # sxhkd: global keyboard bindings
 fresh config/sxhkdrc --file=~/.config/sxhkd/sxhkdrc
 
+# termite: vte-based terminal emulator
+fresh config/termite --file=~/.config/termite/config
+
 # x11: the x display server
 fresh config/x11/xprofile --file
 fresh config/x11/xsession --file

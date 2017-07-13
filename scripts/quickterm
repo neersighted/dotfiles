@@ -4,15 +4,28 @@ WIDTH=120
 HEIGHT=36
 
 cmd=$1
-class=quickterm-$cmd
-
 # Default to $SHELL.
 if [[ -z $cmd ]]; then
   cmd=$SHELL
 fi
 
+class=quickterm-$cmd
+
+quickterm_id () {
+  id=$(xdo id -N "$class")
+  status=$?
+
+  if [[ $TERMINAL =~ "termite" ]]; then
+    badids=$(xdo id -a "termite")
+    id=$(echo "$id" | grep -v "$badids")
+  fi
+
+  echo "$id"
+  return $status
+}
+
 # Check if quickterm already is running.
-if id=$(xdo id -N "$class"); then
+if id=$(quickterm_id); then
   if [[ $id == $(xdo id) ]]; then
     # A quickterm is running and active, hide it.
     xdo hide "$id"
@@ -25,13 +38,17 @@ else
   # No quickterm is running, run one.
   if [[ $TERMINAL =~ "alacritty" ]]; then
     "$TERMINAL" -t "$class" -d $WIDTH $HEIGHT -e "$cmd" &
+  elif [[ $TERMINAL =~ "termite" ]]; then
+    WIDTH=$((WIDTH*8))
+    HEIGHT=$((HEIGHT*18))
+    "$TERMINAL" --class="$class" --geometry=${WIDTH}x${HEIGHT} -e "$cmd" &
   else
     "$TERMINAL" -class "$class" -geometry ${WIDTH}x${HEIGHT} -e "$cmd" &
   fi
 fi
 
 # Block until the terminal is ready.
-while ! id=$(xdo id -N "$class"); do
+while ! id=$(quickterm_id); do
   sleep 0.2
 done
 
@@ -42,7 +59,7 @@ fi
 
 (
   # Loop until quickterm exits or we lose focus.
-  while id=$(xdo id -N "$class"); do
+  while id=$(quickterm_id); do
     if [[ $id != $(xdo id) ]]; then
       # Hide quickterm on focus lost, then exit.
       xdo hide "$id"
