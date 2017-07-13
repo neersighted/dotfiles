@@ -1,5 +1,6 @@
 [options]
 font                  = Source Code Pro 10
+geometry              = 640x480
 mouse_autohide        = true
 cursor_blink          = false
 clickable_url         = true
@@ -36,3 +37,4 @@ color12         = #839496
 color13         = #6c71c4
 color14         = #93a1a1
 color15         = #fdf6e3
+

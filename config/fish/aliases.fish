@@ -1,7 +1,3 @@
-alias ls 'command ls --color=auto'
-alias la 'command ls -A --color=auto'
-alias ll 'command ls -Alh --color=auto'
-
 function pyserve -d "serve files using python"
   if test -n "$argv"
     set -l port $argv

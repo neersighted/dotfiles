@@ -26,7 +26,7 @@ done
 #
 
 # dircolors: colorized ls
-fresh seebi/dircolors-solarized dircolors.ansi-dark --file=~/.dircolorsrc
+fresh seebi/dircolors-solarized dircolors.ansi-dark --file=~/.dircolors
 
 # fish: the friendly interactive shell, for humans
 fresh-options --file=~/.config/fish/config.fish --marker

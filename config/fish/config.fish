@@ -7,11 +7,11 @@ set fish_function_path ~/.fresh/build/vendor/fenv $fish_function_path
 if status --is-login
   # load system profile
   test -f /etc/profile
-  and fenv source /etc/profile
+    and fenv source /etc/profile
 
   # and our profile
   test -f ~/.profile
-  and fenv source ~/.profile
+    and fenv source ~/.profile
 end
 
 if status --is-interactive
@@ -24,15 +24,12 @@ if status --is-interactive
 
     # notify gpg-agent of non-graphical sessions
     test -z "$DISPLAY"
-    and set -x GPG_TTY (tty)
+      and set -x GPG_TTY (tty)
   end
-
-  # load dircolors
-  fenv eval `dircolors ~/.dircolorsrc`
 
   # enable 24bit color (if mosh is not detected)
   test -z "$MOSH"
-  and set -g fish_term24bit 1
+    and set -g fish_term24bit 1
 
   # connect ssh to gpg-agent
   set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
@@ -93,8 +90,8 @@ if status --is-interactive
     if test -z "$TMUX"
       set -l session (hostname)
       tmux has-session -t $session
-      and tmux new-session -t $session \; set-option destroy-unattached
-      or tmux new-session -s $session
+        and tmux new-session -t $session \; set-option destroy-unattached
+        or tmux new-session -s $session
     end
   end
 end
