@@ -31,13 +31,13 @@ if status --is-interactive
   test -z "$MOSH"
     and set -g fish_term24bit 1
 
-  # connect ssh to gpg-agent
-  set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+  # connect ssh to gpg-agent (if another agent doesn't already exist)
+  test -z "$SSH_AUTH_SOCK"
+    and set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 
   # set path
   path_prepend /usr/lib/ccache/bin # ccache
   path_prepend ~/bin # fresh
-  path_prepend $GOPATH/bin # go
   path_prepend ~/.pyenv/bin # pyenv
   path_prepend ~/.rbenv/bin # rbenv
 
@@ -70,24 +70,21 @@ if status --is-interactive
   # load plugins
   fundle init
 
-  # dedupliate $PATH (just in case)
-  path_dedupe
-
   # local login actions (no ssh)
   if status --is-login; and test -z "$SSH_CLIENT"; and test -z "$MOSH"
     # notify gpg-agent of our login
     gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
 
     # notify systemd of path
-    systemctl --user import-environment PATH
+    systemctl --user import-environment PATH >/dev/null 2>&1
 
     # autostart X (on tty1 only)
-    if test -z "$DISPLAY" -a $XDG_VTNR = 1
+    if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
         exec startx
     end
 
     # autostart tmux (for login shells only)
-    if test -z "$TMUX"
+    if test -z "$TMUX"; and command -sq tmux
       set -l session (hostname)
       tmux has-session -t $session
         and tmux new-session -t $session \; set-option destroy-unattached

@@ -21,7 +21,7 @@
     templatedir = ~/.config/git/template
 
 [commit]
-    gpgSign = true
+    gpgSign = false
 [push]
     default = simple
 [pull]
