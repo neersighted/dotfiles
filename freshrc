@@ -196,6 +196,7 @@ fresh_after_build () {
     chmod +x ~/.fresh/build/xsession
     chmod +x ~/.fresh/build/config-polybar-*.sh
 
+    mkdir -p ~/.config/systemd/user
     for unit in ~/.fresh/build/systemd/*; do
         unitname=$(basename "$unit")
         ln -sf "$unit" "$HOME/.config/systemd/user/$unitname"
