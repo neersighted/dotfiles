@@ -1,3 +1,6 @@
+functions -q prompt_hostname
+  or alias prompt_hostname 'hostname'
+
 function pyserve -d "serve files using python"
   if test -n "$argv"
     set -l port $argv
