@@ -64,8 +64,8 @@ if status --is-interactive
   fundle plugin 'fisherman/z'
 
   # conditional plugins (only if installed)
-  command -sq pyenv; and fundle plugin 'fisherman/pyenv'
-  command -sq rbenv; and fundle plugin 'fisherman/rbenv'
+  command -s pyenv >/dev/null 2>&1; and fundle plugin 'fisherman/pyenv'
+  command -s rbenv >/dev/null 2>&1; and fundle plugin 'fisherman/rbenv'
 
   # load plugins
   fundle init
