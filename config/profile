@@ -6,7 +6,7 @@ export XDG_CACHE_HOME=~/.cache
 # programs
 export VISUAL=nvim
 export EDITOR=nvim
-export BROWSER=google-chrome-stable
+export BROWSER=firefox-nightly
 export TERMINAL=termite
 export LESS='-R'
 
