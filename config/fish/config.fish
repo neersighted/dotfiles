@@ -84,7 +84,7 @@ if status --is-interactive
     end
 
     # autostart tmux (for login shells only)
-    if test -z "$TMUX"; and command -sq tmux
+    if test -z "$TMUX"; and command -s tmux >/dev/null 2>&1
       set -l session (hostname)
       tmux has-session -t $session
         and tmux new-session -t $session \; set-option destroy-unattached
