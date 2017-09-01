@@ -51,6 +51,7 @@ if exists('*minpac#init')
 
   " Language Support/Integration
   call minpac#add('w0rp/ale') " async lint engine
+  call minpac#add('stevearc/vim-arduino') " arduino syntax/integration
   call minpac#add('roxma/clang_complete') " c/c++ completion
   call minpac#add('dag/vim-fish') " fish syntax
   call minpac#add('fatih/vim-go') " enhanced go support
