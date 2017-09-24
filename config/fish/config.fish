@@ -38,6 +38,7 @@ if status --is-interactive
   # set path
   path_prepend /usr/lib/ccache/bin # ccache
   path_prepend ~/bin # fresh
+  path_prepend ~/.go/bin # go
   path_prepend ~/.pyenv/bin # pyenv
   path_prepend ~/.rbenv/bin # rbenv
 
