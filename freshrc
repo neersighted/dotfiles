@@ -76,6 +76,9 @@ fresh scripts/clang-flags-native --bin
 # gcc: gnu compiler collection
 fresh scripts/gcc-flags-native --bin
 
+# gdb: gnu debugger
+fresh cyrus-and/gdb-dashboard .gdbinit --file=~/.gdbinit
+
 #
 # Graphical
 #
