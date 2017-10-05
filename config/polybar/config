@@ -119,8 +119,8 @@ type = internal/mpd
 host = localhost
 port = 6600
 
-label-song = %{A1:mpc toggle:}%artist% - %title%%{A}
-label-time = %{A1:mpc stop:}[%elapsed% / %total%]%{A}
+label-song = %artist% - %title%
+label-time = [%elapsed% / %total%]
 
 icon-pause = 
 icon-play  = 
