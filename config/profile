@@ -7,7 +7,7 @@ export XDG_CACHE_HOME=~/.cache
 export VISUAL=nvim
 export EDITOR=nvim
 export BROWSER=firefox-nightly
-export TERMINAL=termite
+export TERMINAL=alacritty
 export LESS='-R'
 
 # libvirt
