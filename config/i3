@@ -13,7 +13,7 @@ bindsym $mod+Return exec --no-startup-id rofi -show drun -kb-cancel "Super+Retur
 bindsym $mod+Shift+Return exec --no-startup-id rofi -show run -kb-cancel "Super+Shift+Return"
 
 bindsym $mod+grave exec --no-startup-id quickterm
-bindsym $mod+Shift+grave exec $TERMINAL -e \\"$SHELL -l\\"
+bindsym $mod+Shift+grave exec $TERMINAL -e $SHELL -l
 bindsym $mod+BackSpace exec --no-startup-id quickterm ncmpcpp
 
 set $system system: [l]ogout, [p]oweroff, [r]eboot
