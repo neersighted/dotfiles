@@ -192,7 +192,12 @@ fresh scripts/pyenv-install --bin
 fresh scripts/rbenv-install --bin
 
 # tmux: terminal multiplexer
-fresh config/tmux.conf --file
+fresh-options --file=~/.tmux.conf --marker
+    fresh config/tmux/tmux.conf
+    test $(uname) = "Darwin" && fresh config/tmux/mac.conf
+    test $(uname) = "Linux" && fresh config/tmux/linux.conf
+fresh-options
+
 fresh scripts/tmuxrl --bin
 
 fresh_after_build () {
@@ -205,7 +210,7 @@ fresh_after_build () {
         ln -sf "$unit" "$HOME/.config/systemd/user/$unitname"
     done
 
-    fc-cache
+    fc-cache >/dev/null 2>&1
 }
 
 # vi:ft=sh:

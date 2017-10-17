@@ -31,11 +31,11 @@ if status --is-interactive
   test -z "$MOSH"
     and set -g fish_term24bit 1
 
-  # connect ssh to gpg-agent (if another agent doesn't already exist)
-  test -z "$SSH_AUTH_SOCK"
-    and set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+  # connect ssh to gpg-agent
+  set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 
   # set path
+  path_prepend /usr/local/bin # homebrew
   path_prepend /usr/lib/ccache/bin # ccache
   path_prepend ~/bin # fresh
   path_prepend ~/.go/bin # go
@@ -77,7 +77,8 @@ if status --is-interactive
     gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
 
     # notify systemd of path
-    systemctl --user import-environment PATH >/dev/null 2>&1
+    command -s systemctl >/dev/null 2>&1; and systemctl --user import-environment PATH >/dev/null 2>&1
+
 
     # autostart X (on tty1 only)
     if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
