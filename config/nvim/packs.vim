@@ -52,7 +52,6 @@ if exists('*minpac#init')
   " Language Support/Integration
   call minpac#add('w0rp/ale') " async lint engine
   call minpac#add('stevearc/vim-arduino') " arduino syntax/integration
-  call minpac#add('roxma/clang_complete') " c/c++ completion
   call minpac#add('dag/vim-fish') " fish syntax
   call minpac#add('fatih/vim-go') " enhanced go support
   call minpac#add('PotatoesMaster/i3-vim-syntax') " i3 config syntax
@@ -60,6 +59,7 @@ if exists('*minpac#init')
   call minpac#add('davidhalter/jedi-vim') " python autocompletion
   call minpac#add('roxma/ncm-github') " completion for github
   call minpac#add('chr4/nginx.vim') " nginx syntax
+  call minpac#add('roxma/ncm-clang') " c/c++ completion
   call minpac#add('roxma/nvim-completion-manager') " async completion engine
   call minpac#add('Shougo/neco-vim') " vim completion
   call minpac#add('Shougo/neco-syntax') " syntax-based completion

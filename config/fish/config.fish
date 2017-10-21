@@ -57,7 +57,6 @@ if status --is-interactive
   fundle plugin 'oh-my-fish/plugin-bang-bang'
   fundle plugin 'edc/bass'
   fundle plugin 'fisherman/docker-completion'
-  fundle plugin 'fisherman/fnm'
   fundle plugin 'fisherman/fzf'
   fundle plugin 'oh-my-fish/plugin-gi'
   fundle plugin 'oh-my-fish/plugin-license'
