@@ -10,6 +10,10 @@ export BROWSER=firefox-nightly
 export TERMINAL=alacritty
 export LESS='-R'
 
+# programs: osx overrides
+
+[ `uname` = "Darwin" ] && export BROWSER=open
+
 # libvirt
 export LIBVIRT_DEFAULT_URI=qemu:///system
 

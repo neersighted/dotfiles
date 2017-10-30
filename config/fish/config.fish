@@ -18,14 +18,19 @@ if status --is-interactive
   if status --is-login
     # check for mosh
     set parent (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]'))
-    if test $parent = "mosh-server"
-      set -x MOSH 1
-    end
+    test $parent = "mosh-server"
+      and set -x MOSH 1
 
     # notify gpg-agent of non-graphical sessions
     test -z "$DISPLAY"
       and set -x GPG_TTY (tty)
   end
+
+  # enable iterm2 support
+  test (uname) = "Darwin"; and test -d ~/.iterm2
+    and set -x ITERM2 1
+    and source $XDG_CONFIG_HOME/fish/iterm2_shell_integration.fish
+  iterm2_touchbar
 
   # enable 24bit color (if mosh is not detected)
   test -z "$MOSH"
@@ -38,6 +43,7 @@ if status --is-interactive
   path_prepend /usr/local/bin # homebrew
   path_prepend /usr/lib/ccache/bin # ccache
   path_prepend ~/bin # fresh
+  path_prepend ~/.iterm2 # iterm2
   path_prepend ~/.go/bin # go
   path_prepend ~/.pyenv/bin # pyenv
   path_prepend ~/.rbenv/bin # rbenv
@@ -64,8 +70,10 @@ if status --is-interactive
   fundle plugin 'fisherman/z'
 
   # conditional plugins (only if installed)
-  command -s pyenv >/dev/null 2>&1; and fundle plugin 'fisherman/pyenv'
-  command -s rbenv >/dev/null 2>&1; and fundle plugin 'fisherman/rbenv'
+  command -s pyenv >/dev/null 2>&1
+    and fundle plugin 'fisherman/pyenv'
+  command -s rbenv >/dev/null 2>&1
+    and fundle plugin 'fisherman/rbenv'
 
   # load plugins
   fundle init
