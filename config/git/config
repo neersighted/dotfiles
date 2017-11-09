@@ -56,7 +56,7 @@
     date = relative
     abbrevCommit = true
 [format]
-    pretty = "format:%C(blue)%h%C(cyan)%d : %C(reset)%s%+b %C(white)-- %aN, %ar%n"
+    pretty = "format:%C(blue)%h - %C(cyan)(%ar) %C(white)%s%C(reset) - %aN%C(magenta)%d"
 
 #
 # Servers
