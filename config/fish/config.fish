@@ -37,7 +37,8 @@ if status --is-interactive
     and set -g fish_term24bit 1
 
   # connect ssh to gpg-agent
-  set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+  test -z "$SSH_AUTH_SOCK"
+    and set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 
   # set path
   path_prepend /usr/local/bin # homebrew
