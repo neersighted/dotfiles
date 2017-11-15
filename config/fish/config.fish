@@ -36,8 +36,8 @@ if status --is-interactive
   test -z "$MOSH"
     and set -g fish_term24bit 1
 
-  # connect ssh to gpg-agent
-  test -z "$SSH_AUTH_SOCK"
+  # connect ssh to gpg-agent (if connected locally)
+  test -z "$SSH_CLIENT"; and test -z "$MOSH"
     and set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 
   # set path
@@ -86,7 +86,6 @@ if status --is-interactive
 
     # notify systemd of path
     command -s systemctl >/dev/null 2>&1; and systemctl --user import-environment PATH >/dev/null 2>&1
-
 
     # autostart X (on tty1 only)
     if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
