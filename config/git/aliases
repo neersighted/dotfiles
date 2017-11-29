@@ -2,18 +2,6 @@
     up = pull --rebase --autostash
     co = "!f() { branch=${@-$(git branch -v | grep -v '^*' | fzf-tmux -q ${1:-\\ } | awk '{print $1}')}; git checkout $branch; }; f"
     tr = "!f() { git branch --set-upstream-to $(git branch -r -v | grep -v '^*' | fzf-tmux -q ${1:-\\ } | awk '{print $1}'); }; f"
-    new = "checkout -b"
-    cam = commit -a -m
-    wip = commit -a -m "WIP"
-    oop = commit --amend --no-edit
-    fix = commit --fixup
-    adn = commit --squash
-    wipe = reset --hard
-    undo = reset --mixed
-    roll = reset --soft
-    diffs = diff --staged
-    difft = difftool
-    reb = rebase
-    rebi = rebase --interactive
-    cont = rebase --continue
-    abrt = rebase --abort
+    change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
+    # from https://help.github.com/articles/remove-sensitive-data
+    remove-file = "!f() { git filter-branch -f --index-filter \"git rm --cached --ignore-unmatch $1\" --prune-empty --tag-name-filter cat -- --all; }; f"
