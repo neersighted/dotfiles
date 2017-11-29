@@ -64,3 +64,6 @@
 
 [url "git@github.com:"]
     pushInsteadOf = git://github.com/
+
+[include]
+    path = ~/.config/git/config.local
