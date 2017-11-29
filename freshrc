@@ -78,6 +78,7 @@ fresh scripts/gcc-flags-native --bin
 
 # gdb: gnu debugger
 fresh cyrus-and/gdb-dashboard .gdbinit --file=~/.gdbinit
+fresh config/gdbinit --file=~/.gdbinit.d/config
 
 #
 # Graphical
