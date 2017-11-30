@@ -23,7 +23,7 @@
 [commit]
     gpgSign = false
 [push]
-    default = simple
+    default = current
 [pull]
     rebase = true
     ff = only
