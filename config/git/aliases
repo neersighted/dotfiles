@@ -1,5 +1,5 @@
 [alias]
-    up = pull --rebase --autostash
+    up = pull --rebase --recurse-submodules --autostash
     co = "!f() { branch=${@-$(git branch -v | grep -v '^*' | fzf-tmux -q ${1:-\\ } | awk '{print $1}')}; git checkout $branch; }; f"
     tr = "!f() { git branch --set-upstream-to $(git branch -r -v | grep -v '^*' | fzf-tmux -q ${1:-\\ } | awk '{print $1}'); }; f"
     change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
