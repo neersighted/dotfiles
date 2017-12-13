@@ -42,6 +42,11 @@ if status --is-interactive
 
   # set path
   path_prepend /usr/local/bin # homebrew
+  path_prepend /usr/local/opt/coreutils/libexec/gnubin # homebrew coreutils
+  path_prepend /usr/local/opt/findutils/libexec/gnubin # homebrew findutils
+  path_prepend /usr/local/opt/gnu-sed/libexec/gnubin # homebrew sed
+  path_prepend /usr/local/opt/gnu-tar/libexec/gnubin # homebrew tar
+  path_prepend /usr/local/opt/gnu-getopt/bin # homebrew getopt
   path_prepend /usr/lib/ccache/bin # ccache
   path_prepend ~/bin # fresh
   path_prepend ~/.iterm2 # iterm2
