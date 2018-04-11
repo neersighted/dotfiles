@@ -11,8 +11,9 @@ export TERMINAL=alacritty
 export LESS='-R'
 
 # programs: osx overrides
-
-[ `uname` = "Darwin" ] && export BROWSER=open
+if [ `uname` = "Darwin" ]; then
+  export BROWSER=open
+fi
 
 # libvirt
 export LIBVIRT_DEFAULT_URI=qemu:///system
@@ -30,6 +31,8 @@ export GOPATH=$HOME/.go
 
 # local variables
 test -f ~/.profile.local && source ~/.profile.local
+
+: # dummy to reset $?
 
 # examples:
 

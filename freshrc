@@ -199,9 +199,9 @@ fresh scripts/rbenv-install --bin
 # tmux: terminal multiplexer
 fresh-options --file=~/.tmux.conf --marker
     fresh config/tmux/tmux.conf
-    if test $(uname -r|cut -d- -f3) = "Microsoft"; then
+    if [ "$(uname -r|cut -d- -f3)" = "Microsoft" ]; then
         fresh config/tmux/wsl.conf
-    elif test $(uname) = "Darwin"; then
+    elif [ "$(uname)" = "Darwin" ]; then
         fresh config/tmux/mac.conf
     else
         fresh config/tmux/linux.conf
