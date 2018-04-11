@@ -19,10 +19,14 @@ fi
   if [ "$op" = "open" ]; then
     $BROWSER "$url"
   elif [ "$op" = "copy" ]; then
-    case $(uname) in
-      Darwin) echo "$url" | pbcopy;;
-      Linux) echo "$url" | xsel -b -i;;
-    esac
+    if [ "$(uname -r|cut -d- -f3)" = "Microsoft" ]; then
+      echo "$url" | win32yank -i --crlf
+    else
+      case $(uname) in
+        Darwin) echo "$url" | pbcopy;;
+        Linux) echo "$url" | xsel -b -i;;
+      esac
+    fi
   fi
 done
 
