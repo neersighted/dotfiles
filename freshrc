@@ -98,9 +98,6 @@ fresh config/dunstrc --file=~/.config/dunst/dunstrc
 fresh config/evrouterrc --file
 fresh scripts/evroutercleanup --bin
 
-# fontconfig: font selection
-fresh config/fontconfig/fonts.conf --file=~/.config/fontconfig/fonts.conf
-
 # gtk: widget toolkit
 fresh config/gtk/gtkrc-2.0 --file
 fresh config/gtk/settings.ini --file=~/.config/gtk-3.0/settings.ini
