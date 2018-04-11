@@ -29,6 +29,7 @@ done
 fresh seebi/dircolors-solarized dircolors.ansi-dark --file=~/.dircolors
 
 # fish: the friendly interactive shell, for humans
+fresh config/fish/init.fish --file=~/.config/fish/conf.d/00-init.fish
 fresh-options --file=~/.config/fish/config.fish --marker
     fresh config/fish/config.fish
     fresh config/fish/aliases.fish
@@ -38,16 +39,15 @@ for function in ~/.dotfiles/config/fish/functions/*.fish; do
     function=$(basename "$function")
     fresh "config/fish/functions/$function" --file="~/.config/fish/functions/$function"
 done
-fresh edc/bass functions/bass.fish --file=~/.config/fish/functions/bass.fish
-fresh edc/bass functions/__bass.py --file=~/.config/fish/functions/__bass.py
+fresh edc/bass functions/bass.fish --file=~/.config/fish/vendor/functions/bass.fish
+fresh edc/bass functions/__bass.py --file=~/.config/fish/vendor/functions/__bass.py
 
-# fundle: package manager for fish
-fresh tuvistavie/fundle functions/fundle.fish --file=~/.config/fish/functions/fundle.fish
-fresh tuvistavie/fundle completions/fundle.fish --file=~/.config/fish/completions/fundle.fish
+# fisher: package manager for fish
+fresh fisherman/fisherman fisher.fish --file=~/.config/fish/vendor/functions/fisher.fish
+fresh config/fish/fishfile --file=~/.config/fish/fishfile
 
 # neofetch: screenfetch replacement
 fresh config/neofetch --file=~/.config/neofetch/config
-
 
 #
 # Editing
@@ -204,6 +204,7 @@ fresh scripts/tmuxrl --bin
 fresh scripts/toolchain-install --bin
 
 fresh_after_build () {
+    chmod +w ~/.fresh/build/config-fish-fishfile
     chmod +x ~/.fresh/build/config-polybar-*.sh
     chmod +x ~/.fresh/build/xsession
 
