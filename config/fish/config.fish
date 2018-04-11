@@ -54,24 +54,33 @@ if status --is-interactive
     end
   end
 
-  # enable 24bit color (if mosh is not detected)
-  test -z "$MOSH"
-    and set -g fish_term24bit 1
-
-  # path/version managers
-  command -s pyenv >/dev/null 2>&1
-    and source (pyenv init -|psub)
-    and source (pyenv virtualenv-init -|psub)
-  command -s rbenv >/dev/null 2>&1
-    and source (rbenv init -|psub)
-
   # fish plugins
   fundle plugin 'oh-my-fish/plugin-bang-bang'
   fundle plugin 'oh-my-fish/plugin-cd'
   fundle plugin 'fisherman/fzf'
   fundle plugin 'oh-my-fish/plugin-sudope'
   fundle plugin 'fisherman/z'
+
+  # version managers
+  command -s pyenv >/dev/null 2>&1; and set -l pyenv 1
+    and fundle plugin 'fisherman/pyenv' --url 'https://github.com/neersighted/pyenv/#patch-1'
+  command -s rbenv >/dev/null 2>&1; and set -l rbenv 1
+    and fundle plugin 'fisherman/rbenv'
+  test -d ~/.nvm; and set -l nvm 1
+    and fundle plugin 'fisherman/nvm'
+
+  # load plugins
   fundle init
+
+  # version managers (post-init)
+  test -n $pyenv
+    and source (pyenv virtualenv-init -|psub)
+  test -n $nvm
+    and set -g nvm_alias_output ~/bin
+
+  # enable 24bit color (if mosh is not detected)
+  test -z "$MOSH"
+    and set -g fish_term24bit 1
 
   # autostart actions (login, local, root shells only)
   if status --is-login; and test -z "$SSH_CLIENT"; and test -z "$MOSH"; and test -z "$TMUX"
