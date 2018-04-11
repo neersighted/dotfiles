@@ -187,12 +187,6 @@ fresh scripts/lockx --bin
 # makepkg: arch linux packager
 fresh config/makepkg.conf --file
 
-# pyenv: python version manager
-fresh scripts/pyenv-install --bin
-
-# rbenv: ruby version manager
-fresh scripts/rbenv-install --bin
-
 # tmux: terminal multiplexer
 fresh-options --file=~/.tmux.conf --marker
     fresh config/tmux/tmux.conf
@@ -204,8 +198,10 @@ fresh-options --file=~/.tmux.conf --marker
         fresh config/tmux/linux.conf
     fi
 fresh-options
-
 fresh scripts/tmuxrl --bin
+
+# toolchain-install: set up development environments for different languages
+fresh scripts/toolchain-install --bin
 
 fresh_after_build () {
     chmod +x ~/.fresh/build/config-polybar-*.sh

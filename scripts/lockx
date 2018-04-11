@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 IMAGE=$(mktemp --suffix=.png)
 trap "rm $IMAGE" EXIT
@@ -10,3 +10,4 @@ xset dpms force off &
 mpc pause &
 
 wait
+

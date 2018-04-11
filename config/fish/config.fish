@@ -73,9 +73,9 @@ if status --is-interactive
   fundle init
 
   # version managers (post-init)
-  test -n $pyenv
+  test -n "$pyenv"
     and source (pyenv virtualenv-init -|psub)
-  test -n $nvm
+  test -n "$nvm"
     and set -g nvm_alias_output ~/bin
 
   # enable 24bit color (if mosh is not detected)

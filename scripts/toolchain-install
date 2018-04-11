@@ -1,0 +1,43 @@
+#!/bin/sh
+
+case $1 in
+  node)
+    git clone https://github.com/creationix/nvm ~/.nvm
+    ;;
+  python)
+    PYENV_ROOT=~/.pyenv
+
+    git clone https://github.com/yyuu/pyenv $PYENV_ROOT
+    git clone https://github.com/pyenv/pyenv-ccache $PYENV_ROOT/plugins/pyenv-ccache
+    git clone https://github.com/pyenv/pyenv-doctor $PYENV_ROOT/plugins/pyenv-doctor
+    git clone https://github.com/pyenv/pyenv-installer $PYENV_ROOT/plugins/pyenv-installer
+    git clone https://github.com/pyenv/pyenv-pip-migrate $PYENV_ROOT/plugins/pyenv-pip-migrate
+    git clone https://github.com/pyenv/pyenv-pip-rehash $PYENV_ROOT/plugins/pyenv-pip-rehash
+    git clone https://github.com/massongit/pyenv-pip-update $PYENV_ROOT/plugins/pyenv-pip-update
+    git clone https://github.com/pyenv/pyenv-update $PYENV_ROOT/plugins/pyenv-update
+    git clone https://github.com/pyenv/pyenv-virtualenv $PYENV_ROOT/plugins/pyenv-virtualenv
+    ;;
+  ruby)
+    RBENV_ROOT=~/.rbenv
+
+    git clone https://github.com/rbenv/rbenv $RBENV_ROOT
+    git clone https://github.com/rbenv/ruby-build $RBENV_ROOT/plugins/ruby-build
+    git clone https://github.com/tpope/rbenv-aliases $RBENV_ROOT/plugins/rbenv-aliases
+    git clone https://github.com/ianheggie/rbenv-binstubs $RBENV_ROOT/plugins/rbenv-binstubs
+    git clone https://github.com/yyuu/rbenv-ccache $RBENV_ROOT/plugins/rbenv-ccache
+    git clone https://github.com/tpope/rbenv-communal-gems $RBENV_ROOT/plugins/rbenv-communal-gems
+    git clone https://github.com/tpope/rbenv-ctags $RBENV_ROOT/plugins/rbenv-ctags
+    git clone https://github.com/rbenv/rbenv-each $RBENV_ROOT/plugins/rbenv-each
+    git clone https://github.com/rbenv/rbenv-installer $RBENV_ROOT/plugins/rbenv-installer
+    git clone https://github.com/rkh/rbenv-update $RBENV_ROOT/plugins/rbenv-update
+    git clone https://github.com/mislav/rbenv-user-gems $RBENV_ROOT/plugins/rbenv-user-gems
+    ;;
+  rust)
+    curl https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path --default-toolchain nightly
+    ;;
+  *)
+    echo "USAGE: $0 [toolchain]"
+    echo "AVAILABLE TOOLCHAINS: node, python, ruby, rust"
+    ;;
+esac
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 case $PINENTRY_USER_DATA in
   curses) exec pinentry-curses "$@";;

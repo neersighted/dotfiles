@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 UNIT=$1
 
-[[ -n $UNIT ]] || exit 1
+test -n "$UNIT" || exit 1
 
 if systemctl --user status "$UNIT" >/dev/null 2>&1; then
   systemctl --user stop "$UNIT"

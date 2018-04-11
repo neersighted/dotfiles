@@ -1,3 +1,3 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-rm /tmp/.evrouter${DISPLAY}
+rm /tmp/.evrouter$DISPLAY

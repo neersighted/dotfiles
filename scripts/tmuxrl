@@ -6,8 +6,8 @@ pane="$1"
 op="$2"
 type="$3"
 
-[ -n "$pane" ] || exit 1
-[ -n "$op" ] || op="open"
+test -n "$pane" || exit 1
+test -n "$op" || op="open"
 
 if [ "$type" = "full" ]; then
   data=$(tmux capture-pane -Jp -S- -E- -t "$pane")
