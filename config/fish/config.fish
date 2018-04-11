@@ -26,11 +26,11 @@ if status --is-interactive
         and set -x MOSH 1
 
       # notify gpg-agent of non-graphical sessions
-      test -z "$DISPLAY"
+      not set -q DISPLAY
         and set -x GPG_TTY (tty)
 
       # connect ssh to gpg-agent and inform gpg-agent of our TTY
-      test -z "$SSH_CLIENT"; and test -z "$MOSH"
+      not set -q SSH_CLIENT; and not set -q MOSH
         and set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
         and gpg-connect-agent updatestartuptty /bye >/dev/null ^&1
     end
@@ -43,15 +43,15 @@ if status --is-interactive
     and set -g nvm_alias_output ~/bin
 
   # enable 24bit color (if mosh is not detected)
-  test -z "$MOSH"
+  not set -q MOSH
     and set -g fish_term24bit 1
 
   # autostart actions (login, local, root shells only)
   if status --is-login
-    and test -z "$SSH_CLIENT"; and test -z "$MOSH"; and test -z "$TMUX"
+    and not set -q SSH_CLIENT; and not set -q MOSH; and not set -q TMUX
 
     # exec X (on tty1 only)
-    test -z "$DISPLAY" -a "$XDG_VTNR" = 1
+    not set -q DISPLAY -a "$XDG_VTNR" = 1
       and exec startx
 
     # start tmux (or attach if already running)

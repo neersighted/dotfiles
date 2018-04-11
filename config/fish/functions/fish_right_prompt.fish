@@ -8,6 +8,12 @@ function fish_right_prompt --description 'right prompt'
   printf ' %s' (prompt_pwd)
   set_color normal
 
+  set_color $fish_color_venv
+  if set -q VIRTUAL_ENV
+    printf ' [%s]' (basename "$VIRTUAL_ENV")
+  end
+  set_color normal
+
   printf '%s' (__fish_vcs_prompt)
 
   if not test $last_status -eq 0
