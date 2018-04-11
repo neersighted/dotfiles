@@ -17,8 +17,6 @@
 [core]
     excludesfile = ~/.config/git/ignore
     attributesfile = ~/.config/git/attributes
-[init]
-    templatedir = ~/.config/git/template
 
 [commit]
     gpgSign = false

@@ -159,6 +159,9 @@ fresh config/pulse/default.pa --file=~/.config/pulse/default.pa
 # 24bit: check a terminal for true color support
 fresh scripts/24bit --bin
 
+# gibo: gitignore boilerplate
+fresh simonwhitaker/gibo gibo --bin
+
 # git: the stupid content tracker
 fresh-options --file=~/.config/git/config --marker
     fresh config/git/config
@@ -167,7 +170,6 @@ fresh-options --file=~/.config/git/config --marker
 fresh-options
 fresh config/git/attributes --file=~/.config/git/attributes
 fresh config/git/ignore --file=~/.config/git/ignore
-fresh config/git/template --file=~/.config/git/template/
 
 # gnupg: the gnu privacy guard
 fresh scripts/pinentry --bin
@@ -202,8 +204,8 @@ fresh-options
 fresh scripts/tmuxrl --bin
 
 fresh_after_build () {
-    chmod +x ~/.fresh/build/xsession
     chmod +x ~/.fresh/build/config-polybar-*.sh
+    chmod +x ~/.fresh/build/xsession
 
     mkdir -p ~/.config/systemd/user
     for unit in ~/.fresh/build/systemd/*; do
