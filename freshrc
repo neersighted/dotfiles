@@ -38,11 +38,12 @@ for function in ~/.dotfiles/config/fish/functions/*.fish; do
     function=$(basename "$function")
     fresh "config/fish/functions/$function" --file="~/.config/fish/functions/$function"
 done
-fresh oh-my-fish/plugin-foreign-env functions --file=vendor/fenv/
+fresh edc/bass functions/bass.fish --file=~/.config/fish/functions/bass.fish
+fresh edc/bass functions/__bass.py --file=~/.config/fish/functions/__bass.py
 
 # fundle: package manager for fish
-fresh neersighted/fundle functions/fundle.fish --file=~/.config/fish/functions/fundle.fish
-fresh neersighted/fundle completions/fundle.fish --file=~/.config/fish/completions/fundle.fish
+fresh tuvistavie/fundle functions/fundle.fish --file=~/.config/fish/functions/fundle.fish
+fresh tuvistavie/fundle completions/fundle.fish --file=~/.config/fish/completions/fundle.fish
 
 # neofetch: screenfetch replacement
 fresh config/neofetch --file=~/.config/neofetch/config
@@ -161,6 +162,7 @@ fresh scripts/24bit --bin
 
 # gibo: gitignore boilerplate
 fresh simonwhitaker/gibo gibo --bin
+fresh simonwhitaker/gibo gibo-completion.fish --file=~/.config/fish/completions/gibo.fish
 
 # git: the stupid content tracker
 fresh-options --file=~/.config/git/config --marker

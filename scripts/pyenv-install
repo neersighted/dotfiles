@@ -1,22 +1,13 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-mkdir -p ~/.pyenv
-cd ~/.pyenv
+PYENV_ROOT="$HOME/.pyenv"
 
-git init
-git remote add origin git://github.com/yyuu/pyenv
-git fetch
-git checkout -t origin/master
-
-mkdir ~/.pyenv/plugins
-cd ~/.pyenv/plugins
-
-git clone git://github.com/yyuu/pyenv-ccache
-git clone git://github.com/yyuu/pyenv-doctor
-git clone git://github.com/concordusapps/pyenv-implict
-git clone git://github.com/yyuu/pyenv-pip-migrate
-git clone git://github.com/yyuu/pyenv-pip-rehash
-git clone git://github.com/tonyseek/pyenv-up
-git clone git://github.com/yyuu/pyenv-update
-git clone git://github.com/yyuu/pyenv-virtualenv
-git clone git://github.com/yyuu/pyenv-which-ext
+git clone https://github.com/yyuu/pyenv $PYENV_ROOT
+git clone https://github.com/pyenv/pyenv-ccache $PYENV_ROOT/plugins/pyenv-ccache
+git clone https://github.com/pyenv/pyenv-doctor $PYENV_ROOT/plugins/pyenv-doctor
+git clone https://github.com/pyenv/pyenv-installer $PYENV_ROOT/plugins/pyenv-installer
+git clone https://github.com/pyenv/pyenv-pip-migrate $PYENV_ROOT/plugins/pyenv-pip-migrate
+git clone https://github.com/pyenv/pyenv-pip-rehash $PYENV_ROOT/plugins/pyenv-pip-rehash
+git clone https://github.com/massongit/pyenv-pip-update $PYENV_ROOT/plugins/pyenv-pip-update
+git clone https://github.com/pyenv/pyenv-update $PYENV_ROOT/plugins/pyenv-update
+git clone https://github.com/pyenv/pyenv-virtualenv $PYENV_ROOT/plugins/pyenv-virtualenv

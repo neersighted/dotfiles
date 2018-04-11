@@ -1,32 +1,15 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-mkdir -p ~/.rbenv
-cd ~/.rbenv
+RBENV_ROOT="$HOME/.rbenv"
 
-git init
-git remote add origin git://github.com/sstephenson/rbenv
-git fetch
-git checkout -t origin/master
-
-mkdir ~/.rbenv/plugins
-cd ~/.rbenv/plugins
-
-git clone git://github.com/sstephenson/ruby-build
-
-git clone git://github.com/tpope/rbenv-aliases
-git clone git://github.com/ianheggie/rbenv-binstubs
-git clone git://github.com/yyuu/rbenv-ccache
-git clone git://github.com/tpope/rbenv-communal-gems
-git clone git://github.com/tpope/rbenv-ctags
-git clone git://github.com/sstephenson/rbenv-default-gems
-git clone git://github.com/chriseppstein/rbenv-each
-git clone git://github.com/ianheggie/rbenv-env
-git clone git://github.com/sstephenson/rbenv-gem-rehash
-git clone git://github.com/mlafeldt/rbenv-man
-git clone git://github.com/tpope/rbenv-sentience
-git clone git://github.com/dcarley/rbenv-sudo
-git clone git://github.com/rkh/rbenv-update
-git clone git://github.com/rkh/rbenv-use
-git clone git://github.com/mislav/rbenv-user-gems
-git clone git://github.com/sstephenson/rbenv-vars
-git clone git://github.com/rkh/rbenv-whatis
+git clone https://github.com/rbenv/rbenv $RBENV_ROOT
+git clone https://github.com/rbenv/ruby-build $RBENV_ROOT/plugins/ruby-build
+git clone https://github.com/tpope/rbenv-aliases $RBENV_ROOT/plugins/rbenv-aliases
+git clone https://github.com/ianheggie/rbenv-binstubs $RBENV_ROOT/plugins/rbenv-binstubs
+git clone https://github.com/yyuu/rbenv-ccache $RBENV_ROOT/plugins/rbenv-ccache
+git clone https://github.com/tpope/rbenv-communal-gems $RBENV_ROOT/plugins/rbenv-communal-gems
+git clone https://github.com/tpope/rbenv-ctags $RBENV_ROOT/plugins/rbenv-ctags
+git clone https://github.com/rbenv/rbenv-each $RBENV_ROOT/plugins/rbenv-each
+git clone https://github.com/rbenv/rbenv-installer $RBENV_ROOT/plugins/rbenv-installer
+git clone https://github.com/rkh/rbenv-update $RBENV_ROOT/plugins/rbenv-update
+git clone https://github.com/mislav/rbenv-user-gems $RBENV_ROOT/plugins/rbenv-user-gems
