@@ -13,19 +13,6 @@ function! s:fresh() abort
 endfunction
 command! Fresh call s:fresh()
 
-" Kill trailing whitespace (bang for lines).
-function! s:killtrailingwhitespace(lines) abort
-  let l:search = @/
-  let l:view = winsaveview()
-  execute '%s/\s\+$//e'
-  if a:lines
-    execute '%s/\($\n\s*\)\+\%$//e'
-  endif
-  let @/ = l:search
-  call winrestview(l:view)
-endfunction
-command! -bang -nargs=* KillTrailingWhitespace call s:killtrailingwhitespace(<bang>0)
-
 " Manage packs with minpac.
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
 command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()

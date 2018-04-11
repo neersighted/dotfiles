@@ -26,18 +26,12 @@ if status --is-interactive
       and set -x GPG_TTY (tty)
   end
 
-  # enable iterm2 support
-  test (uname) = "Darwin"; and test -d ~/.iterm2
-    and set -x ITERM2 1
-    and source $XDG_CONFIG_HOME/fish/iterm2_shell_integration.fish
-  iterm2_touchbar
-
   # enable 24bit color (if mosh is not detected)
   test -z "$MOSH"
     and set -g fish_term24bit 1
 
   # connect ssh to gpg-agent (if connected locally)
-  test -z "$SSH_CLIENT"; and test -z "$MOSH"
+  test -z "$SSH_CLIENT"; and test -z "$MOSH"; and test -z "$SSH_AUTH_SOCK"
     and set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 
   # set path
@@ -49,8 +43,8 @@ if status --is-interactive
   path_prepend /usr/local/opt/gnu-getopt/bin # homebrew getopt
   path_prepend /usr/lib/ccache/bin # ccache
   path_prepend ~/bin # fresh
-  path_prepend ~/.iterm2 # iterm2
   path_prepend ~/.go/bin # go
+  path_prepend ~/.cargo/bin # rust
   path_prepend ~/.pyenv/bin # pyenv
   path_prepend ~/.rbenv/bin # rbenv
 

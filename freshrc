@@ -108,9 +108,6 @@ fresh config/gtk/index.theme --file=~/.icons/default/index.theme
 # i3: tiling/tabbed window manger
 fresh config/i3 --file=~/.config/i3/config
 
-# iterm2: osx terminal
-fresh gnachman/iterm2-website source/misc/fish_startup.in --file=~/.config/fish/iterm2_shell_integration.fish
-
 # polybar: fast/easy status bar
 fresh config/polybar/config --file=~/.config/polybar/config
 fresh config/polybar/volume.sh --file=~/.config/polybar/volume.sh

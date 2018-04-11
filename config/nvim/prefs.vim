@@ -48,9 +48,10 @@ set conceallevel=1 " Enable conceal support.
 "
 
 " ALE
-let g:ale_echo_msg_format = '[%linter%] %s'
+let g:ale_echo_msg_format = '[%linter%:%severity%] %s'
 let g:ale_sign_warning = '!'
 let g:ale_sign_error = 'x'
+let g:ale_linters = {'rust': ['rls', 'rustfmt']}
 
 " Go
 let g:go_auto_type_info=1 " Show info for word under cursor.

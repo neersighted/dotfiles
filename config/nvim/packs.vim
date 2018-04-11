@@ -52,6 +52,8 @@ if exists('*minpac#init')
   " Language Support/Integration
   call minpac#add('w0rp/ale') " async lint engine
   call minpac#add('stevearc/vim-arduino') " arduino syntax/integration
+  call minpac#add('ap/vim-css-color') " highlight CSS colors
+  call minpac#add('ccraciun/vim-dreammaker') " dream maker syntax
   call minpac#add('dag/vim-fish') " fish syntax
   call minpac#add('fatih/vim-go') " enhanced go support
   call minpac#add('PotatoesMaster/i3-vim-syntax') " i3 config syntax
@@ -63,9 +65,12 @@ if exists('*minpac#init')
   call minpac#add('roxma/nvim-completion-manager') " async completion engine
   call minpac#add('Shougo/neco-vim') " vim completion
   call minpac#add('Shougo/neco-syntax') " syntax-based completion
+  call minpac#add('pangloss/vim-javascript') " enhanced javascript syntax
   call minpac#add('exu/pgsql.vim') " postgres syntax
   call minpac#add('vim-python/python-syntax') " enhanced python syntax
   call minpac#add('vim-ruby/vim-ruby') " enhanced ruby support
+  call minpac#add('rust-lang/rust.vim') " enhanced rust support
+  call minpac#add('iloginow/vim-stylus') " stylus support
   call minpac#add('chr4/sslsecure.vim') " cipher highlighting
   call minpac#add('kurayama/systemd-vim-syntax') " systemd syntax
   call minpac#add('keith/tmux.vim') " tmux config syntax

@@ -11,6 +11,9 @@ autocmd vimrc FileType python nnoremap <buffer> <c-]> :call jedi#goto_definition
 " enable numbering, disable visual wrapping
 autocmd vimrc FileType qf setlocal number norelativenumber nowrap
 
+" Ractive
+autocmd vimrc BufNewFile,BufRead *.ract set filetype=html
+
 " Text
 " enable spellchecking
 autocmd vimrc FileType gitcommit,markdown,text setlocal spell

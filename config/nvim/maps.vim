@@ -74,6 +74,11 @@ tnoremap <esc> <c-\><c-n>
 " Plugins
 "
 
+"
+" ALE
+"
+nnoremap <leader>f <plug>(ale_fix)
+
 " EasyAlign
 nmap gl   <plug>(EasyAlign)
 xmap gl   <plug>(EasyAlign)
