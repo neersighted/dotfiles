@@ -27,7 +27,10 @@ export FZF_FIND_FILE_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # go
-export GOPATH=$HOME/.go
+export GOPATH=~/.go
+
+# fresh
+export FRESH_BIN_PATH=~/.local/bin
 
 # examples:
 

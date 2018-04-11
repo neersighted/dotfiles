@@ -14,7 +14,7 @@ if status --is-login
   path_prepend /usr/local/opt/gnu-tar/libexec/gnubin # homebrew tar
   path_prepend /usr/local/opt/gnu-getopt/bin # homebrew getopt
   path_prepend /usr/lib/ccache/bin # ccache
-  path_prepend ~/bin # fresh
+  path_prepend ~/.local/bin # fresh
   path_prepend ~/.go/bin # go
   path_prepend ~/.cargo/bin # rust
   path_prepend ~/.pyenv/bin # pyenv
