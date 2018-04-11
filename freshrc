@@ -216,8 +216,6 @@ fresh_after_build () {
         unitname=$(basename "$unit")
         ln -sf "$unit" "$HOME/.config/systemd/user/$unitname"
     done
-
-    fc-cache >/dev/null 2>&1
 }
 
 # vi:ft=sh:
