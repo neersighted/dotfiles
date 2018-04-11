@@ -51,8 +51,8 @@ if status --is-interactive
     and not set -q SSH_CLIENT; and not set -q MOSH; and not set -q TMUX
 
     # exec X (on tty1 only)
-    not set -q DISPLAY -a "$XDG_VTNR" = 1
-      and exec startx
+    test -z "$DISPLAY" -a "$XDG_VTNR" = 1
+      or exec startx
 
     # start tmux (or attach if already running)
     if command -s tmux >/dev/null ^&1
