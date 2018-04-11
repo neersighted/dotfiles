@@ -16,23 +16,31 @@ end
 
 if status --is-interactive
   if status --is-login
-    # check for mosh
-    set parent (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]'))
-    test $parent = "mosh-server"
-      and set -x MOSH 1
+    if test (uname -r | cut -d- -f3) = "Microsoft"
+      # connect ssh to the windows ssh-agent
+      eval (weasel-pageant -S fish)
 
-    # notify gpg-agent of non-graphical sessions
-    test -z "$DISPLAY"
-      and set -x GPG_TTY (tty)
+      # connect X applications to the windows X11 server
+      set -x DISPLAY :0
+    else
+      # check for mosh
+      set parent (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]'))
+      test $parent = "mosh-server"
+        and set -x MOSH 1
+
+      # notify gpg-agent of non-graphical sessions
+      test -z "$DISPLAY"
+        and set -x GPG_TTY (tty)
+
+      # connect ssh to gpg-agent
+      test -z "$SSH_CLIENT"; and test -z "$MOSH"
+        and set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+    end
   end
 
   # enable 24bit color (if mosh is not detected)
   test -z "$MOSH"
     and set -g fish_term24bit 1
-
-  # connect ssh to gpg-agent (if connected locally)
-  test -z "$SSH_CLIENT"; and test -z "$MOSH"; and test -z "$SSH_AUTH_SOCK"
-    and set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 
   # set path
   path_prepend /usr/local/bin # homebrew
@@ -101,4 +109,4 @@ if status --is-interactive
   end
 end
 
-# vim:ft=fish
+# vi:ft=fish:
