@@ -15,12 +15,13 @@ toolchains: $(TOOLCHAINS)
 # nvm/node
 NVM_ROOT = $(HOME)/.nvm
 NVM = $(NVM_ROOT)/nvm.sh
+nvm-run = . $(NVM); nvm $(1)
 $(NVM):
 	$(call clone-or-update,https://github.com/creationix/nvm,$(NVM_ROOT))
 NODE_VERSION = v9.11.1
 NPM = $(NVM_ROOT)/versions/node/$(NODE_VERSION)/bin/npm
 $(NPM): $(NVM)
-	. $(NVM); nvm install $(NODE_VERSION)
+	$(call nvm-run,install $(NODE_VERSION))
 node: $(NPM)
 
 # Python
@@ -121,8 +122,8 @@ NEOVIM2 = $(PYENV_ROOT)/versions/neovim2/bin/python
 $(NEOVIM2): $(PYTHON2)
 	$(call if-exists,$(NEOVIM2),true,$(PYENV) virtualenv $(PYTHON2_VERSION) neovim2)
 NEOVIM_CONFIG = $(HOME)/.config/nvim/local.vim
-$(NEOVIM_CONFIG):
-	$(NPM) install -g neovim
+$(NEOVIM_CONFIG): $(NPM) $(NEOVIM3) $(NEOVIM2) $(GEM)
+	$(call nvm-run,exec $(NODE_VERSION) npm install -g neovim)
 	$(GEM) install neovim && $(RBENV) rehash
 	$(NEOVIM3) -m pip install neovim
 	$(NEOVIM2) -m pip install neovim
@@ -130,7 +131,7 @@ $(NEOVIM_CONFIG):
 	chmod +x ~/.local/bin/neovim-node-host
 	echo "let g:python3_host_prog = '$(NEOVIM3)'" > $(NEOVIM_CONFIG)
 	echo "let g:python_host_prog = '$(NEOVIM2)'" >> $(NEOVIM_CONFIG)
-neovim: $(GEM) $(NEOVIM3) $(NEOVIM2) $(NEOVIM_CONFIG)
+neovim: $(NEOVIM_CONFIG)
 
 # ripgrep
 RIPGREP = $(CARGO_ROOT)/bin/rg
