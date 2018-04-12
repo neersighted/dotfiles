@@ -189,8 +189,4 @@ neovim: neovim.js neovim-node-host.nvmshim $(NEOVIMPY2) $(NEOVIMPY3) neovim.gem 
 
 
 # ripgrep
-RIPGREP = $(CARGO_ROOT)/bin/rg
-$(RIPGREP): $(CARGO)
-	$(CARGO) install-update ripgrep || $(CARGO) install ripgrep
-
-ripgrep rg: $(RIPGREP)
+ripgrep: ripgrep.rs
