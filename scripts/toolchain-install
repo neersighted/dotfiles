@@ -38,8 +38,8 @@ NODE_VERSION = v9.11.1
 NODE_ROOT = $(NVM_ROOT)/versions/node/$(NODE_VERSION)
 NODE = $(NODE_ROOT)/bin/node
 $(NODE): $(NVM)
-	sh -c ". $(NVM) && nvm install $(NODE_VERSION)"
-	sh -c ". $(NVM) && nvm alias default $(NODE_VERSION)"
+	bash -c ". $(NVM) && nvm install $(NODE_VERSION)"
+	bash -c ". $(NVM) && nvm alias default $(NODE_VERSION)"
 
 NPM = $(NODE_ROOT)/bin/npm
 $(NPM): $(NODE)
