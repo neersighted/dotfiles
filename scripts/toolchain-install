@@ -1,5 +1,7 @@
 #!/usr/bin/make -f
 
+unexport MAKEFLAGS
+
 if-exists = test -e $(1) && $(2) || $(3)
 clone-or-update = git -C $(2) pull || git clone $(1) $(2)
 
