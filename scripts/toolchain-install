@@ -114,6 +114,7 @@ RUBY_VERSION = 2.5.1
 RUBY = $(RBENV_ROOT)/versions/$(RUBY_VERSION)/bin/ruby
 $(RUBY): rbenv
 	$(RBENV) install -s $(RUBY_VERSION)
+	$(RBENV) global $(RUBY_VERSION)
 
 GEM = $(RBENV_ROOT)/shims/gem
 $(GEM): $(RUBY)
@@ -122,7 +123,6 @@ $(GEM): $(RUBY)
 	$(GEM) install $*
 
 ruby: $(GEM) bundler.gem rubocop.gem reek.gem
-	$(RBENV) global $(RUBY_VERSION)
 
 
 # Rust
