@@ -73,6 +73,7 @@ $(PIP3): $(PYTHON3)
 
 %.py3: $(PIP3)
 	$(PIP3) install -U $*
+	$(PYENV) rehash
 
 PYTHON2_VERSION = 2.7.14
 PYTHON2 = $(PYENV_ROOT)/versions/$(PYTHON2_VERSION)/bin/python
@@ -84,6 +85,7 @@ $(PIP2): $(PYTHON2)
 
 %.py2: $(PIP2)
 	$(PIP2) install -U $*
+	$(PYENV) rehash
 
 PIPSI = $(HOME)/.local/bin/pipsi
 $(PIPSI): $(PYTHON3)
@@ -114,15 +116,16 @@ RUBY_VERSION = 2.5.1
 RUBY = $(RBENV_ROOT)/versions/$(RUBY_VERSION)/bin/ruby
 $(RUBY): rbenv
 	$(RBENV) install -s $(RUBY_VERSION)
-	$(RBENV) global $(RUBY_VERSION)
 
-GEM = $(RBENV_ROOT)/shims/gem
+GEM = $(RBENV_ROOT)/versions/$(RUBY_VERSION)/bin/gem
 $(GEM): $(RUBY)
 
 %.gem: $(GEM)
 	$(GEM) install $*
+	$(RBENV) rehash
 
 ruby: $(GEM) bundler.gem rubocop.gem reek.gem
+	$(RBENV) global $(RUBY_VERSION)
 
 
 # Rust
