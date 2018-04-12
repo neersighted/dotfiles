@@ -28,6 +28,12 @@ NVM = $(NVM_ROOT)/nvm.sh
 $(NVM):
 	git -C $(NVM_ROOT) pull || git clone https://github.com/creationix/nvm $(NVM_ROOT)
 
+NVM_SHIM = $(HOME)/.local/bin/$*
+%.nvmshim:
+	echo '#! /usr/bin/env fish\n__nvm_run "$*" $$argv' > $(NVM_SHIM)
+	chmod +x $(NVM_SHIM)
+
+
 NODE_VERSION = v9.11.1
 NODE_ROOT = $(NVM_ROOT)/versions/node/$(NODE_VERSION)
 NODE = $(NODE_ROOT)/bin/node
@@ -38,7 +44,10 @@ $(NODE): $(NVM)
 NPM = $(NODE_ROOT)/bin/npm
 $(NPM): $(NODE)
 
-node: $(NPM)
+%.js: $(NPM)
+	$(NODE) $(NPM) install -g $*
+
+node: $(NPM) yarn.js pnpm.js pnpm.nvmshim pnpx.nvmshim
 
 
 # Python
@@ -159,12 +168,6 @@ fzf: $(FZF)
 
 
 # neovim (rplugin providers)
-NEOVIMND = $(HOME)/.local/bin/neovim-node-host
-$(NEOVIMND): $(NPM)
-	$(NODE) $(NPM) install -g neovim
-	echo '#! /usr/bin/env fish\n__nvm_run "neovim-node-host" $$argv' > $(NEOVIMND)
-	chmod +x $(NEOVIMND)
-
 NEOVIMPY3_ROOT = $(PYENV_ROOT)/versions/neovim3
 NEOVIMPY3 = $(NEOVIMPY3_ROOT)/bin/python
 $(NEOVIMPY3): $(PYTHON3)
@@ -177,17 +180,12 @@ $(NEOVIMPY2): $(PYTHON2)
 	test -e $(NEOVIMPY2) || $(PYENV) virtualenv $(PYTHON2_VERSION) neovim2
 	$(NEOVIMPY2) -m pip install -U neovim
 
-NEOVIMRB = $(RBENV_ROOT)/shims/neovim-ruby-host
-$(NEOVIMRB): $(GEM)
-	$(GEM) install neovim
-	$(RBENV) rehash
-
 NEOVIM_CONFIG = $(HOME)/.config/nvim/local.vim
 $(NEOVIM_CONFIG): $(NEOVIMPY2) $(NEOVIMPY3)
 	echo "let g:python3_host_prog = '$(NEOVIMPY3)'" > $(NEOVIM_CONFIG)
 	echo "let g:python_host_prog = '$(NEOVIMPY2)'" >> $(NEOVIM_CONFIG)
 
-neovim: $(NEOVIMND) $(NEOVIMPY2) $(NEOVIMPY3) $(NEOVIMRB) $(NEOVIM_CONFIG)
+neovim: neovim.js neovim-node-host.nvmshim $(NEOVIMPY2) $(NEOVIMPY3) neovim.gem $(NEOVIM_CONFIG)
 
 
 # ripgrep
