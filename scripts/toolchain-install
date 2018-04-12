@@ -15,7 +15,7 @@ toolchains: $(TOOLCHAINS)
 # nvm/node
 NVM_ROOT = $(HOME)/.nvm
 NVM = $(NVM_ROOT)/nvm.sh
-nvm-run = . $(NVM); nvm $(1)
+nvm-run = bash -c "source $(NVM); nvm $(1)"
 $(NVM):
 	$(call clone-or-update,https://github.com/creationix/nvm,$(NVM_ROOT))
 NODE_VERSION = v9.11.1
