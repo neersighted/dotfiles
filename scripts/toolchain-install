@@ -72,17 +72,14 @@ $(PYTHON2): pyenv
 PIP2 = $(PYENV_ROOT)/versions/$(PYTHON2_VERSION)/bin/pip
 $(PIP2): $(PYTHON2)
 
-%.py2: $(PIP2)
-	$(PIP2) install -U $*
-	$(PYENV) rehash
+PIPSI = $(HOME)/.local/bin/pipsi
+$(PIPSI):
+	curl http://git.io/get-pipsi -fsSL | $(PYTHON3) - --src=git+https://github.com/mitsuhiko/pipsi.git
 
-%.py3: $(PIP3)
-	$(PIP3) install -U $*
-	$(PYENV) rehash
+%.py: $(PIPSI)
+	$(PIPSI) install $* || $(PIPSI) upgrade $*
 
-%.py: %.py2 %.py3 ;
-
-python: $(PIP2) $(PIP3) pipenv.py flake8.py mypy.py3
+python: $(PIP2) $(PIP3) $(PIPSI) pylint.py flake8.py mypy.py pipenv.py
 
 
 # Ruby
@@ -172,7 +169,7 @@ NEOVIMPY3_ROOT = $(PYENV_ROOT)/versions/neovim3
 NEOVIMPY3 = $(NEOVIMPY3_ROOT)/bin/python
 $(NEOVIMPY3): $(PYTHON3)
 	test -e $(NEOVIMPY3) || $(PYENV) virtualenv $(PYTHON3_VERSION) neovim3
-	$(NEOVIMPY3) -m pip install -U neovim flake8 mypy pylint
+	$(NEOVIMPY3) -m pip install -U neovim
 
 NEOVIMPY2_ROOT = $(PYENV_ROOT)/versions/neovim2
 NEOVIMPY2 = $(NEOVIMPY2_ROOT)/bin/python
@@ -189,9 +186,6 @@ NEOVIM_CONFIG = $(HOME)/.config/nvim/local.vim
 $(NEOVIM_CONFIG): $(NEOVIMPY2) $(NEOVIMPY3)
 	echo "let g:python3_host_prog = '$(NEOVIMPY3)'" > $(NEOVIM_CONFIG)
 	echo "let g:python_host_prog = '$(NEOVIMPY2)'" >> $(NEOVIM_CONFIG)
-	echo "let g:ale_python_flake8_executable = '$(NEOVIMPY3_ROOT)/bin/flake8'" >> $(NEOVIM_CONFIG)
-	echo "let g:ale_python_mypy_executable = '$(NEOVIMPY3_ROOT)/bin/mypy'" >> $(NEOVIM_CONFIG)
-	echo "let g:ale_python_pylint_executable = '$(NEOVIMPY3_ROOT)/bin/pylint'" >> $(NEOVIM_CONFIG)
 
 neovim: $(NEOVIMND) $(NEOVIMPY2) $(NEOVIMPY3) $(NEOVIMRB) $(NEOVIM_CONFIG)
 
