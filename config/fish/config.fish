@@ -36,11 +36,8 @@ if status --is-interactive
     end
   end
 
-  # version managers (post-init)
-  test -d ~/.pyenv/plugins/pyenv-virtualenv
-    and source (pyenv virtualenv-init -|psub)
-  test -d ~/.nvm
-    and set -g nvm_alias_output ~/.local/bin
+  # nvm settings (TODO: better place for this?)
+  set -g nvm_alias_output ~/.local/bin
 
   # enable 24bit color (if mosh is not detected)
   not set -q MOSH

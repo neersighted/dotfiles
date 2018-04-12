@@ -61,34 +61,41 @@ pyenv-%: $(PYENV)
 	git -C $(PYENV_PLUGIN) pull || git clone https://github.com/$@ $(PYENV_PLUGIN)
 
 pyenv: $(PYENV) pyenv/pyenv-ccache pyenv/pyenv-doctor pyenv/pyenv-installer \
-	pyenv/pyenv-pip-migrate pyenv/pyenv-pip-rehash \
-	massongit/pyenv-pip-update pyenv/pyenv-update pyenv/pyenv-virtualenv
+	pyenv/pyenv-pip-migrate massongit/pyenv-pip-update pyenv/pyenv-update
 
 PYTHON3_VERSION = 3.6.5
 PYTHON3 = $(PYENV_ROOT)/versions/$(PYTHON3_VERSION)/bin/python
 $(PYTHON3): pyenv
 	$(PYENV) install -s $(PYTHON3_VERSION)
-	$(PYENV) global $(PYTHON3_VERSION)
 
-PIP3 = $(PYENV_ROOT)/versions/$(PYTHON3_VERSION)/bin/pip
-$(PIP3): $(PYTHON3)
+pythons: $(PYTHON2) $(PYTHON3)
+	$(PYENV) global $(PYTHON3_VERSION) $(PYTHON2_VERSION)
+
+PIP3 = $(PYENV_ROOT)/shims/pip3
+$(PIP3): pythons
+
+%.py3: $(PIP3)
+	$(PIP3) install -U $*
 
 PYTHON2_VERSION = 2.7.14
 PYTHON2 = $(PYENV_ROOT)/versions/$(PYTHON2_VERSION)/bin/python
 $(PYTHON2): pyenv
 	$(PYENV) install -s $(PYTHON2_VERSION)
 
-PIP2 = $(PYENV_ROOT)/versions/$(PYTHON2_VERSION)/bin/pip
-$(PIP2): $(PYTHON2)
+PIP2 = $(PYENV_ROOT)/shims/pip2
+$(PIP2): pythons
+
+%.py2: $(PIP2)
+	$(PIP2) install -U $*
 
 PIPSI = $(HOME)/.local/bin/pipsi
-$(PIPSI):
+$(PIPSI): $(PYTHON3)
 	curl http://git.io/get-pipsi -fsSL | $(PYTHON3) - --src=git+https://github.com/mitsuhiko/pipsi.git
 
-%.py: $(PIPSI)
+%.pipsi: $(PIPSI)
 	$(PIPSI) install $* || $(PIPSI) upgrade $*
 
-python: $(PIP2) $(PIP3) $(PIPSI) pylint.py flake8.py mypy.py pipenv.py
+python: $(PIP2) $(PIP3) $(PIPSI) pylint.pipsi flake8.pipsi mypy.pipsi pipenv.pipsi
 
 
 # Ruby
@@ -102,9 +109,8 @@ RBENV_PLUGIN = $(RBENV_ROOT)/plugins/$(shell basename $@)
 rbenv-%: $(RBENV)
 	git -C $(RBENV_PLUGIN) pull || git clone https://github.com/$@ $(RBENV_PLUGIN)
 
-rbenv: $(RBENV) ianheggie/rbenv-binstubs yyuu/rbenv-ccache \
-	tpope/rbenv-communal-gems tpope/rbenv-ctags rbenv/rbenv-each \
-	rbenv/rbenv-installer rkh/rbenv-update mislav/rbenv-user-gems
+rbenv: $(RBENV) ianheggie/rbenv-binstubs yyuu/rbenv-ccache rbenv/rbenv-each \
+	ianheggie/rbenv-env rbenv/rbenv-installer rkh/rbenv-update
 
 RUBY_VERSION = 2.5.1
 RUBY = $(RBENV_ROOT)/versions/$(RUBY_VERSION)/bin/ruby
@@ -112,12 +118,11 @@ $(RUBY): rbenv
 	$(RBENV) install -s $(RUBY_VERSION)
 	$(RBENV) global $(RUBY_VERSION)
 
-GEM = $(RBENV_ROOT)/versions/$(RUBY_VERSION)/bin/gem
+GEM = $(RBENV_ROOT)/shims/gem
 $(GEM): $(RUBY)
 
 %.gem: $(GEM)
 	$(GEM) install $*
-	$(RBENV) rehash
 
 ruby: $(GEM) bundler.gem rubocop.gem reek.gem
 
@@ -168,24 +173,12 @@ fzf: $(FZF)
 
 
 # neovim (rplugin providers)
-NEOVIMPY3_ROOT = $(PYENV_ROOT)/versions/neovim3
-NEOVIMPY3 = $(NEOVIMPY3_ROOT)/bin/python
-$(NEOVIMPY3): $(PYTHON3)
-	test -e $(NEOVIMPY3) || $(PYENV) virtualenv $(PYTHON3_VERSION) neovim3
-	$(NEOVIMPY3) -m pip install -U neovim
-
-NEOVIMPY2_ROOT = $(PYENV_ROOT)/versions/neovim2
-NEOVIMPY2 = $(NEOVIMPY2_ROOT)/bin/python
-$(NEOVIMPY2): $(PYTHON2)
-	test -e $(NEOVIMPY2) || $(PYENV) virtualenv $(PYTHON2_VERSION) neovim2
-	$(NEOVIMPY2) -m pip install -U neovim
-
 NEOVIM_CONFIG = $(HOME)/.config/nvim/local.vim
 $(NEOVIM_CONFIG): $(NEOVIMPY2) $(NEOVIMPY3)
-	echo "let g:python3_host_prog = '$(NEOVIMPY3)'" > $(NEOVIM_CONFIG)
-	echo "let g:python_host_prog = '$(NEOVIMPY2)'" >> $(NEOVIM_CONFIG)
+	echo "let g:python3_host_prog = '$(PYTHON3)'" > $(NEOVIM_CONFIG)
+	echo "let g:python_host_prog = '$(PYTHON2)'" >> $(NEOVIM_CONFIG)
 
-neovim: neovim.js neovim-node-host.nvmshim $(NEOVIMPY2) $(NEOVIMPY3) neovim.gem $(NEOVIM_CONFIG)
+neovim: neovim.js neovim-node-host.nvmshim neovim.py2 neovim.py3 neovim.gem $(NEOVIM_CONFIG)
 
 
 # ripgrep
