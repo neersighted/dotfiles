@@ -11,18 +11,24 @@ clone-or-update = git -C $(2) pull || git clone $(1) $(2)
 TOOLCHAINS = node python ruby rust
 toolchains: $(TOOLCHAINS)
 
-# node.js
+
+# Node.js
 NVM_ROOT = $(HOME)/.nvm
 NVM = $(NVM_ROOT)/nvm.sh
-nvm-run = sh -c ". $(NVM) && nvm $(1)"
 $(NVM):
 	$(call clone-or-update,https://github.com/creationix/nvm,$(NVM_ROOT))
+
 NODE_VERSION = v9.11.1
+NODE = $(NVM_ROOT)/versions/node/$(NODE_VERSION)/bin/node
+$(NODE): $(NVM)
+	sh -c ". $(NVM) && nvm install $(NODE_VERSION)"
+	sh -c ". $(NVM) && nvm alias default $(NODE_VERSION)"
+
 NPM = $(NVM_ROOT)/versions/node/$(NODE_VERSION)/bin/npm
-$(NPM): $(NVM)
-	$(call nvm-run,install $(NODE_VERSION))
-	$(call nvm-run,alias default $(NODE_VERSION))
+$(NPM): $(NODE)
+
 node: $(NPM)
+
 
 # Python
 PYENV_ROOT = $(HOME)/.pyenv
@@ -38,25 +44,38 @@ $(PYENV):
 	$(call pyenv-plugin,massongit/pyenv-pip-update)
 	$(call pyenv-plugin,pyenv/pyenv-update)
 	$(call pyenv-plugin,pyenv/pyenv-virtualenv)
+
 PYTHON3_VERSION = 3.6.5
-PIP3 = $(PYENV_ROOT)/versions/$(PYTHON3_VERSION)/bin/pip
-$(PIP3): $(PYENV)
+PYTHON3 = $(PYENV_ROOT)/versions/$(PYTHON3_VERSION)/bin/python
+$(PYTHON3): $(PYENV)
 	$(PYENV) install -s $(PYTHON3_VERSION)
 	$(PYENV) global $(PYTHON3_VERSION)
+
+PIP3 = $(PYENV_ROOT)/versions/$(PYTHON3_VERSION)/bin/pip
+$(PIP3): $(PYTHON3)
+
 PYTHON2_VERSION = 2.7.14
-PIP2 = $(PYENV_ROOT)/versions/$(PYTHON2_VERSION)/bin/pip
-$(PIP2): $(PYENV)
+PYTHON2 = $(PYENV_ROOT)/versions/$(PYTHON2_VERSION)/bin/python
+$(PYTHON2): $(PYENV)
 	$(PYENV) install -s $(PYTHON2_VERSION)
+
+PIP2 = $(PYENV_ROOT)/versions/$(PYTHON2_VERSION)/bin/pip
+$(PIP2): $(PYTHON2)
+
 PIPSI = $(HOME)/.local/bin/pipsi
 $(PIPSI): $(PIP3)
-	test -e $(PIPSI) || curl -fsSL https://git.io/get-pipsi | python && ($(PIPSI) upgrade pipsi; true)
+	test -e $(PIPSI) || curl -fsSL https://git.io/get-pipsi | $(PYTHON3) && ($(PIPSI) upgrade pipsi; true)
+
 PIPENV = $(HOME)/.local/bin/pipenv
 $(PIPENV): $(PIPSI)
 	test -e $(PIPENV) || $(PIPSI) install pipenv && ($(PIPSI) upgrade pipenv; true)
+
 FLAKE8 = $(HOME)/.local/bin/flake8
 $(FLAKE8): $(PIPSI)
 	test -e $(FLAKE8) || $(PIPSI) install flake8 && ($(PIPSI) upgrade flake8; true)
+
 python: $(PIP2) $(PIP3) $(PIPSI) $(PIPENV) $(FLAKE8)
+
 
 # Ruby
 RBENV_ROOT = $(HOME)/.rbenv
@@ -73,32 +92,47 @@ $(RBENV):
 	$(call rbenv-plugin,rbenv/rbenv-installer)
 	$(call rbenv-plugin,rkh/rbenv-update)
 	$(call rbenv-plugin,mislav/rbenv-user-gems)
+
 RUBY_VERSION = 2.5.1
-GEM = $(RBENV_ROOT)/shims/gem
-$(GEM): $(RBENV)
+RUBY = $(RBENV_ROOT)/versions/$(RUBY_VERSION)/bin/ruby
+$(RUBY): $(RBENV)
 	$(RBENV) install -s $(RUBY_VERSION)
 	$(RBENV) global $(RUBY_VERSION)
+
+GEM = $(RBENV_ROOT)/versions/$(RUBY_VERSION)/bin/gem
+$(GEM): $(RUBY)
+
 BUNDLER = $(RBENV_ROOT)/shims/bundle
 $(BUNDLER):
 	$(GEM) install bundler
+
 ruby: $(GEM) $(BUNDLER)
+
 
 # Rust
 CARGO_ROOT = $(HOME)/.cargo
-CARGO = $(CARGO_ROOT)/bin/cargo
-$(CARGO):
+RUSTUP = $(CARGO_ROOT)/bin/rustup
+$(RUSTUP):
 	curl https://sh.rustup.rs -fsSL | sh -s -- -y --no-modify-path --default-toolchain nightly
-	$(CARGO_ROOT)/bin/rustup component add rustfmt-preview rls-preview
+	$(RUSTUP) component add rustfmt-preview rls-preview
+
+CARGO = $(CARGO_ROOT)/bin/cargo
+$(CARGO): $(RUSTUP)
+
 CARGO_UPDATE = $(CARGO_ROOT)/bin/cargo-install-update
 $(CARGO_UPDATE): $(CARGO)
 	test -e $(CARGO_UPDATE) && $(CARGO) install-update cargo-update || $(CARGO) install cargo-update
+
 CARGO_WATCH = $(CARGO_ROOT)/bin/cargo-watch
 $(CARGO_WATCH): $(CARGO) $(CARGO_UPDATE)
 	test -e $(CARGO_WATCH) && $(CARGO) install-update cargo-watch || $(CARGO) install cargo-watch
+
 CARGO_CLIPPY = $(CARGO_ROOT)/bin/cargo-clippy
 $(CARGO_CLIPPY): $(CARGO) $(CARGO_UPDATE)
 	test -e $(CARGO_CLIPPY) && $(CARGO) install-update clippy || $(CARGO) install clippy
+
 rust: $(CARGO) $(CARGO_CLIPPY) $(CARGO_UPDATE) $(CARGO_WATCH)
+
 
 #
 # Tools
@@ -106,6 +140,7 @@ rust: $(CARGO) $(CARGO_CLIPPY) $(CARGO_UPDATE) $(CARGO_WATCH)
 
 TOOLS = fish fzf neovim ripgrep
 tools: $(TOOLS)
+
 
 # fish (fisherman)
 FISH_CONFIG = $(HOME)/.config/fish
@@ -122,7 +157,9 @@ $(FISHER):
 	$(call fisher-plugin,neersighted/rbenv@patch-1)
 	$(call fisher-plugin,oh-my-fish/plugin-sudope)
 	$(call fisher-plugin,fisherman/z)
+
 fish: $(FISHER)
+
 
 # fzf
 FZF_ROOT = $(HOME)/.fzf
@@ -130,32 +167,40 @@ FZF = $(FZF_ROOT)/bin/fzf
 $(FZF):
 	$(call clone-or-update,https://github.com/junegunn/fzf.git,$(FZF_ROOT))
 	$(FZF_ROOT)/install --bin
+
 fzf: $(FZF)
 
+
 # neovim (rplugin providers)
-NEOVIM3 = $(PYENV_ROOT)/versions/neovim3/bin/python
-$(NEOVIM3): $(PIP3)
-	test -e $(NEOVIM3) || $(PYENV) virtualenv $(PYTHON3_VERSION) neovim3
-NEOVIM2 = $(PYENV_ROOT)/versions/neovim2/bin/python
-$(NEOVIM2): $(PIP2)
-	test -e $(NEOVIM2) || $(PYENV) virtualenv $(PYTHON2_VERSION) neovim2
+NEOVIMENV3 = $(PYENV_ROOT)/versions/neovim3/bin/python
+$(NEOVIMENV3): $(PYTHON3)
+	test -e $(NEOVIMENV3) || $(PYENV) virtualenv $(PYTHON3_VERSION) neovim3
+
+NEOVIMENV2 = $(PYENV_ROOT)/versions/neovim2/bin/python
+$(NEOVIMENV2): $(PYTHON2)
+	test -e $(NEOVIMENV2) || $(PYENV) virtualenv $(PYTHON2_VERSION) neovim2
+
 NEOVIM_CONFIG = $(HOME)/.config/nvim/local.vim
-$(NEOVIM_CONFIG): $(NPM) $(NEOVIM3) $(NEOVIM2) $(GEM)
-	$(call nvm-run,exec $(NODE_VERSION) npm install -g neovim)
-	$(GEM) install neovim && $(RBENV) rehash
-	$(NEOVIM3) -m pip install neovim
-	$(NEOVIM2) -m pip install neovim
+$(NEOVIM_CONFIG): $(NPM) $(NEOVIMENV3) $(NEOVIMENV2) $(GEM)
+	$(NODE) $(NPM) install -g neovim
 	echo '#! /usr/bin/env fish\n__nvm_run "neovim-node-host" $$argv' > ~/.local/bin/neovim-node-host
 	chmod +x ~/.local/bin/neovim-node-host
-	echo "let g:python3_host_prog = '$(NEOVIM3)'" > $(NEOVIM_CONFIG)
-	echo "let g:python_host_prog = '$(NEOVIM2)'" >> $(NEOVIM_CONFIG)
+	$(GEM) install neovim && $(RBENV) rehash
+	$(NEOVIMENV3) -m pip install neovim
+	$(NEOVIMENV2) -m pip install neovim
+	echo "let g:python3_host_prog = '$(NEOVIMENV3)'" > $(NEOVIM_CONFIG)
+	echo "let g:python_host_prog = '$(NEOVIMENV2)'" >> $(NEOVIM_CONFIG)
+
 neovim: $(NEOVIM_CONFIG)
+
 
 # ripgrep
 RIPGREP = $(CARGO_ROOT)/bin/rg
 $(RIPGREP):
 	test -e $(RIPGREP) && $(CARGO) install ripgrep || $(CARGO) install-update ripgrep
+
 ripgrep rg: $(CARGO) $(RIPGREP)
+
 
 #
 # Other Targets
