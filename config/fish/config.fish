@@ -36,9 +36,6 @@ if status --is-interactive
     end
   end
 
-  # nvm settings (TODO: better place for this?)
-  set -g nvm_alias_output ~/.local/bin
-
   # enable 24bit color (if mosh is not detected)
   not set -q MOSH
     and set -g fish_term24bit 1
@@ -52,7 +49,7 @@ if status --is-interactive
       and exec startx
 
     # start tmux (or attach if already running)
-    if command -s tmux >/dev/null ^&1
+    if type -q tmux >/dev/null ^&1
       set -l session (hostname)
       tmux has-session -t $session
         and tmux new-session -t $session \; set-option destroy-unattached

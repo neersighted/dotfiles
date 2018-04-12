@@ -19,6 +19,10 @@ if status --is-login
   path_prepend ~/.pyenv/bin # pyenv
   path_prepend ~/.rbenv/bin # rbenv
 
+  # have nvm initialize our path as well
+  type -q nvm
+    and nvm use default
+
   # notify systemd of path
   command -s systemctl >/dev/null 2>&1
     and systemctl --user import-environment PATH >/dev/null 2>&1

@@ -157,8 +157,8 @@ $(FISHER):
 %.fisher:
 	fish -c "fisher $*"
 
-fish: $(FISHER) oh-my-fish/plugin-bang-bang.fisher edc/bass.fisher \
-	fisherman/fzf.fisher fisherman/nvm.fisher fisherman/pipenv.fisher \
+fish: $(FISHER) oh-my-fish/plugin-bang-bang.fisher brigand/fast-nvm-fish.fisher \
+	fisherman/fzf.fisher fisherman/pipenv.fisher \
 	neersighted/pyenv@patch-1.fisher neersighted/rbenv@patch-1.fisher \
 	oh-my-fish/plugin-sudope.fisher fisherman/z.fisher
 
