@@ -106,7 +106,7 @@ ripgrep rg: $(CARGO) $(RIPGREP)
 $(RIPGREP):
 	$(CARGO) install --force ripgrep
 
-TOOLS = clippy fzf ripgrep
+TOOLS = clippy fzf neovim ripgrep
 
 tools: $(TOOLS)
 
