@@ -1,19 +1,26 @@
 #!/usr/bin/make -f
 
-if-exists = test -e $(1) && $(2) || $(2)
+if-exists = test -e $(1) && $(2) || $(3)
 clone-or-update = git -C $(2) pull || git clone $(1) $(2)
 
+#
+# Toolchains
+#
+
+TOOLCHAINS = node python ruby rust
+toolchains: $(TOOLCHAINS)
+
+# nvm/node
 NVM_ROOT = $(HOME)/.nvm
 NVM = $(NVM_ROOT)/nvm.sh
-
 node: $(NVM)
 $(NVM):
 	$(call clone-or-update,https://github.com/creationix/nvm,$(NVM_ROOT))
 
+# pyenv/Python
 PYENV_ROOT = $(HOME)/.pyenv
 PYENV = $(PYENV_ROOT)/bin/pyenv
 pyenv-plugin = $(call clone-or-update,https://github.com/$(1),$(PYENV_ROOT)/plugins/$(shell basename $(1)))
-
 python: $(PYENV)
 $(PYENV):
 	$(call clone-or-update,https://github.com/yyuu/pyenv,$(PYENV_ROOT))
@@ -25,21 +32,19 @@ $(PYENV):
 	$(call pyenv-plugin,massongit/pyenv-pip-update)
 	$(call pyenv-plugin,pyenv/pyenv-update)
 	$(call pyenv-plugin,pyenv/pyenv-virtualenv)
-
 PYTHON3_VERSION = 3.6.5
-PYTHON2_VERSION = 2.7.14
 PYTHON3 = $(PYENV_ROOT)/versions/$(PYTHON3_VERSION)/bin/python
-PYTHON2 = $(PYENV_ROOT)/versions/$(PYTHON2_VERSION)/bin/python
-
 $(PYTHON3): $(PYENV)
 	$(PYENV) install -s $(PYTHON3_VERSION)
+PYTHON2_VERSION = 2.7.14
+PYTHON2 = $(PYENV_ROOT)/versions/$(PYTHON2_VERSION)/bin/python
 $(PYTHON2): $(PYENV)
 	$(PYENV) install -s $(PYTHON2_VERSION)
 
+# rbenv/Ruby
 RBENV_ROOT = $(HOME)/.rbenv
 RBENV = $(RBENV_ROOT)/bin/rbenv
 rbenv-plugin = $(call clone-or-update,https://github.com/$(1),$(RBENV_ROOT)/plugins/$(shell basename $(1)))
-
 ruby: $(RBENV)
 $(RBENV):
 	$(call clone-or-update,https://github.com/rbenv/rbenv,$(RBENV_ROOT))
@@ -52,37 +57,36 @@ $(RBENV):
 	$(call rbenv-plugin,rbenv/rbenv-installer)
 	$(call rbenv-plugin,rkh/rbenv-update)
 	$(call rbenv-plugin,mislav/rbenv-user-gems)
-
 RUBY_VERSION = 2.5.1
-RUBY = $(RBENV_ROOT)/versions/$(RUBY_VERSION)/bin/ruby
 GEM = $(RBENV_ROOT)/versions/$(RUBY_VERSION)/bin/gem
-$(RUBY) $(GEM): $(RBENV)
+$(GEM): $(RBENV)
 	$(RBENV) install -s $(RUBY_VERSION)
 
-
+# rustup/Rust
 CARGO_ROOT = $(HOME)/.cargo
 CARGO = $(CARGO_ROOT)/bin/cargo
-
 rust: $(CARGO)
 $(CARGO):
 	curl https://sh.rustup.rs -fsSL | sh -s -- -y --no-modify-path --default-toolchain nightly
 	$(CARGO_ROOT)/bin/rustup component add rustfmt-preview rls-preview
 
-TOOLCHAINS = node python ruby rust
+#
+# Tools
+#
 
-toolchains: $(TOOLCHAINS)
+TOOLS = clippy fish fzf neovim ripgrep
+tools: $(TOOLS)
 
-
+# cargo-clippy
 CLIPPY = $(CARGO_ROOT)/bin/cargo-clippy
-
 clippy: $(CARGO) $(CLIPPY)
 $(CLIPPY):
 	$(call if-exists,$(CLIPPY),true,$(CARGO) install clippy)
 
+# fish (fisherman)
 FISH_CONFIG = $(HOME)/.config/fish
 FISHER = $(FISH_CONFIG)/functions/fisher.fish
 fisher-plugin = fish -c "fisher $(1)"
-
 fish: $(FISHER)
 $(FISHER):
 	curl https://git.io/fisher -fsSLo ~/.config/fish/functions/fisher.fish
@@ -95,23 +99,22 @@ $(FISHER):
 	$(call fisher-plugin,oh-my-fish/plugin-sudope)
 	$(call fisher-plugin,fisherman/z)
 
+# fzf
 FZF_ROOT = $(HOME)/.fzf
 FZF = $(FZF_ROOT)/bin/fzf
-
 fzf: $(FZF)
 $(FZF):
 	$(call clone-or-update,https://github.com/junegunn/fzf.git,$(FZF_ROOT))
 	$(FZF_ROOT)/install --bin
 
-NEOVIM_CONFIG = $(HOME)/.config/nvim/local.vim
+# neovim (rplugin providers)
 NEOVIM3 = $(PYENV_ROOT)/versions/neovim3/bin/python
-NEOVIM2 = $(PYENV_ROOT)/versions/neovim2/bin/python
-
 $(NEOVIM3): $(PYTHON3)
 	$(call if-exists,$(NEOVIM3),true,$(PYENV) virtualenv $(PYTHON3_VERSION) neovim3)
+NEOVIM2 = $(PYENV_ROOT)/versions/neovim2/bin/python
 $(NEOVIM2): $(PYTHON2)
 	$(call if-exists,$(NEOVIM2),true,$(PYENV) virtualenv $(PYTHON2_VERSION) neovim2)
-
+NEOVIM_CONFIG = $(HOME)/.config/nvim/local.vim
 neovim: $(GEM) $(NEOVIM3) $(NEOVIM2) $(NEOVIM_CONFIG)
 $(NEOVIM_CONFIG):
 	$(GEM) install neovim && $(RBENV) rehash
@@ -120,16 +123,15 @@ $(NEOVIM_CONFIG):
 	echo "let g:python3_host_prog = '$(NEOVIM3)'" > $(NEOVIM_CONFIG)
 	echo "let g:python_host_prog = '$(NEOVIM2)'" >> $(NEOVIM_CONFIG)
 
+# ripgrep
 RIPGREP = $(CARGO_ROOT)/bin/rg
-
 ripgrep rg: $(CARGO) $(RIPGREP)
 $(RIPGREP):
 	$(call if-exists,$(RIPGREP),true,$(CARGO) install ripgrep)
 
-TOOLS = clippy fish fzf neovim ripgrep
-
-tools: $(TOOLS)
-
+#
+# Other Targets
+#
 
 ALL = $(TOOLS) $(TOOLCHAINS)
 TARGETS = toolchains tools all
