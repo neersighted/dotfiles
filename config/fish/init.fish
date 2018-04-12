@@ -1,8 +1,7 @@
-# search vendored functions last
-set fish_function_path $fish_function_path ~/.config/fish/vendor/functions
-
 # shell init (core environmental variables)
 if status --is-login
+  set fish_function_path $fish_function_path ~/.config/fish/vendor/functions
+
   # load system profile
   test -f /etc/profile
     and bass source /etc/profile

@@ -1,26 +1,29 @@
 #!/usr/bin/make -f
 
+if-exists = test -e $(1) && $(2) || $(2)
+clone-or-update = git -C $(2) pull || git clone $(1) $(2)
+
 NVM_ROOT = $(HOME)/.nvm
 NVM = $(NVM_ROOT)/nvm.sh
 
 node: $(NVM)
 $(NVM):
-	-git clone https://github.com/creationix/nvm $(NVM_ROOT)
+	$(call clone-or-update,https://github.com/creationix/nvm,$(NVM_ROOT))
 
 PYENV_ROOT = $(HOME)/.pyenv
 PYENV = $(PYENV_ROOT)/bin/pyenv
 
 python: $(PYENV)
 $(PYENV):
-	-git clone https://github.com/yyuu/pyenv $(PYENV_ROOT)
-	-git clone https://github.com/pyenv/pyenv-ccache $(PYENV_ROOT)/plugins/pyenv-ccache
-	-git clone https://github.com/pyenv/pyenv-doctor $(PYENV_ROOT)/plugins/pyenv-doctor
-	-git clone https://github.com/pyenv/pyenv-installer $(PYENV_ROOT)/plugins/pyenv-installer
-	-git clone https://github.com/pyenv/pyenv-pip-migrate $(PYENV_ROOT)/plugins/pyenv-pip-migrate
-	-git clone https://github.com/pyenv/pyenv-pip-rehash $(PYENV_ROOT)/plugins/pyenv-pip-rehash
-	-git clone https://github.com/massongit/pyenv-pip-update $(PYENV_ROOT)/plugins/pyenv-pip-update
-	-git clone https://github.com/pyenv/pyenv-update $(PYENV_ROOT)/plugins/pyenv-update
-	-git clone https://github.com/pyenv/pyenv-virtualenv $(PYENV_ROOT)/plugins/pyenv-virtualenv
+	$(call clone-or-update,https://github.com/yyuu/pyenv,$(PYENV_ROOT))
+	$(call clone-or-update,https://github.com/pyenv/pyenv-ccache,$(PYENV_ROOT)/plugins/pyenv-ccache)
+	$(call clone-or-update,https://github.com/pyenv/pyenv-doctor,$(PYENV_ROOT)/plugins/pyenv-doctor)
+	$(call clone-or-update,https://github.com/pyenv/pyenv-installer,$(PYENV_ROOT)/plugins/pyenv-installer)
+	$(call clone-or-update,https://github.com/pyenv/pyenv-pip-migrate,$(PYENV_ROOT)/plugins/pyenv-pip-migrate)
+	$(call clone-or-update,https://github.com/pyenv/pyenv-pip-rehash,$(PYENV_ROOT)/plugins/pyenv-pip-rehash)
+	$(call clone-or-update,https://github.com/massongit/pyenv-pip-update,$(PYENV_ROOT)/plugins/pyenv-pip-update)
+	$(call clone-or-update,https://github.com/pyenv/pyenv-update,$(PYENV_ROOT)/plugins/pyenv-update)
+	$(call clone-or-update,https://github.com/pyenv/pyenv-virtualenv,$(PYENV_ROOT)/plugins/pyenv-virtualenv)
 
 PYTHON3_VERSION = 3.6.5
 PYTHON2_VERSION = 2.7.14
@@ -37,16 +40,16 @@ RBENV = $(RBENV_ROOT)/bin/rbenv
 
 ruby: $(RBENV)
 $(RBENV):
-	-git clone https://github.com/rbenv/rbenv $(RBENV_ROOT)
-	-git clone https://github.com/rbenv/ruby-build $(RBENV_ROOT)/plugins/ruby-build
-	-git clone https://github.com/ianheggie/rbenv-binstubs $(RBENV_ROOT)/plugins/rbenv-binstubs
-	-git clone https://github.com/yyuu/rbenv-ccache $(RBENV_ROOT)/plugins/rbenv-ccache
-	-git clone https://github.com/tpope/rbenv-communal-gems $(RBENV_ROOT)/plugins/rbenv-communal-gems
-	-git clone https://github.com/tpope/rbenv-ctags $(RBENV_ROOT)/plugins/rbenv-ctags
-	-git clone https://github.com/rbenv/rbenv-each $(RBENV_ROOT)/plugins/rbenv-each
-	-git clone https://github.com/rbenv/rbenv-installer $(RBENV_ROOT)/plugins/rbenv-installer
-	-git clone https://github.com/rkh/rbenv-update $(RBENV_ROOT)/plugins/rbenv-update
-	-git clone https://github.com/mislav/rbenv-user-gems $(RBENV_ROOT)/plugins/rbenv-user-gems
+	$(call clone-or-update,https://github.com/rbenv/rbenv,$(RBENV_ROOT))
+	$(call clone-or-update,https://github.com/rbenv/ruby-build,$(RBENV_ROOT)/plugins/ruby-build)
+	$(call clone-or-update,https://github.com/ianheggie/rbenv-binstubs,$(RBENV_ROOT)/plugins/rbenv-binstubs)
+	$(call clone-or-update,https://github.com/yyuu/rbenv-ccache,$(RBENV_ROOT)/plugins/rbenv-ccache)
+	$(call clone-or-update,https://github.com/tpope/rbenv-communal-gems,$(RBENV_ROOT)/plugins/rbenv-communal-gems)
+	$(call clone-or-update,https://github.com/tpope/rbenv-ctags,$(RBENV_ROOT)/plugins/rbenv-ctags)
+	$(call clone-or-update,https://github.com/rbenv/rbenv-each,$(RBENV_ROOT)/plugins/rbenv-each)
+	$(call clone-or-update,https://github.com/rbenv/rbenv-installer,$(RBENV_ROOT)/plugins/rbenv-installer)
+	$(call clone-or-update,https://github.com/rkh/rbenv-update,$(RBENV_ROOT)/plugins/rbenv-update)
+	$(call clone-or-update,https://github.com/mislav/rbenv-user-gems,$(RBENV_ROOT)/plugins/rbenv-user-gems)
 
 RUBY_VERSION = 2.5.1
 RUBY = $(RBENV_ROOT)/versions/$(RUBY_VERSION)/bin/ruby
@@ -73,14 +76,29 @@ CLIPPY = $(CARGO_ROOT)/bin/cargo-clippy
 
 clippy: $(CARGO) $(CLIPPY)
 $(CLIPPY):
-	$(CARGO) install --force clippy
+	$(call if-exists,$(CLIPPY),true,$(CARGO) install clippy)
+
+FISH_CONFIG = $(HOME)/.config/fish
+FISHER = $(FISH_CONFIG)/functions/fisher.fish
+
+fish: $(FISHER)
+$(FISHER):
+	curl https://git.io/fisher -fsSLo ~/.config/fish/functions/fisher.fish
+	fish -c "fisher oh-my-fish/plugin-bang-bang"
+	fish -c "fisher edc/bass"
+	fish -c "fisher fisherman/fzf"
+	fish -c "fisher fisherman/nvm"
+	fish -c "fisher neersighted/pyenv@patch-1"
+	fish -c "fisher neersighted/rbenv@patch-1"
+	fish -c "fisher oh-my-fish/plugin-sudope"
+	fish -c "fisher fisherman/z"
 
 FZF_ROOT = $(HOME)/.fzf
 FZF = $(FZF_ROOT)/bin/fzf
 
 fzf: $(FZF)
 $(FZF):
-	-git clone https://github.com/junegunn/fzf.git $(FZF_ROOT)
+	$(call clone-or-update,https://github.com/junegunn/fzf.git,$(FZF_ROOT))
 	$(FZF_ROOT)/install --bin
 
 NEOVIM_CONFIG = $(HOME)/.config/nvim/local.vim
@@ -88,9 +106,9 @@ NEOVIM3 = $(PYENV_ROOT)/versions/neovim3/bin/python
 NEOVIM2 = $(PYENV_ROOT)/versions/neovim2/bin/python
 
 $(NEOVIM3): $(PYTHON3)
-	-$(PYENV) virtualenv $(PYTHON3_VERSION) neovim3
+	$(call if-exists,$(NEOVIM3),true,$(PYENV) virtualenv $(PYTHON3_VERSION) neovim3)
 $(NEOVIM2): $(PYTHON2)
-	-$(PYENV) virtualenv $(PYTHON2_VERSION) neovim2
+	$(call if-exists,$(NEOVIM2),true,$(PYENV) virtualenv $(PYTHON2_VERSION) neovim2)
 
 neovim: $(GEM) $(NEOVIM3) $(NEOVIM2) $(NEOVIM_CONFIG)
 $(NEOVIM_CONFIG):
@@ -104,9 +122,9 @@ RIPGREP = $(CARGO_ROOT)/bin/rg
 
 ripgrep rg: $(CARGO) $(RIPGREP)
 $(RIPGREP):
-	$(CARGO) install --force ripgrep
+	$(call if-exists,$(RIPGREP),true,$(CARGO) install ripgrep)
 
-TOOLS = clippy fzf neovim ripgrep
+TOOLS = clippy fish fzf neovim ripgrep
 
 tools: $(TOOLS)
 

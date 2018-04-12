@@ -42,10 +42,6 @@ done
 fresh edc/bass functions/bass.fish --file=~/.config/fish/vendor/functions/bass.fish
 fresh edc/bass functions/__bass.py --file=~/.config/fish/vendor/functions/__bass.py
 
-# fisher: package manager for fish
-fresh fisherman/fisherman fisher.fish --file=~/.config/fish/vendor/functions/fisher.fish
-fresh config/fish/fishfile --file=~/.config/fish/fishfile
-
 # neofetch: screenfetch replacement
 fresh config/neofetch --file=~/.config/neofetch/config
 
@@ -204,7 +200,6 @@ fresh scripts/tmuxrl --bin
 fresh scripts/toolchain-install --bin
 
 fresh_after_build () {
-    chmod +w ~/.fresh/build/config-fish-fishfile
     chmod +x ~/.fresh/build/config-polybar-*.sh
     chmod +x ~/.fresh/build/xsession
 
