@@ -2,7 +2,6 @@
 
 unexport MAKEFLAGS
 
-if-exists = test -e $(1) && $(2) || $(3)
 clone-or-update = git -C $(2) pull || git clone $(1) $(2)
 
 #
@@ -12,16 +11,17 @@ clone-or-update = git -C $(2) pull || git clone $(1) $(2)
 TOOLCHAINS = node python ruby rust
 toolchains: $(TOOLCHAINS)
 
-# nvm/node
+# node.js
 NVM_ROOT = $(HOME)/.nvm
 NVM = $(NVM_ROOT)/nvm.sh
-nvm-run = bash -c "source $(NVM); nvm $(1)"
+nvm-run = sh -c ". $(NVM) && nvm $(1)"
 $(NVM):
 	$(call clone-or-update,https://github.com/creationix/nvm,$(NVM_ROOT))
 NODE_VERSION = v9.11.1
 NPM = $(NVM_ROOT)/versions/node/$(NODE_VERSION)/bin/npm
 $(NPM): $(NVM)
 	$(call nvm-run,install $(NODE_VERSION))
+	$(call nvm-run,alias default $(NODE_VERSION))
 node: $(NPM)
 
 # Python
@@ -39,14 +39,24 @@ $(PYENV):
 	$(call pyenv-plugin,pyenv/pyenv-update)
 	$(call pyenv-plugin,pyenv/pyenv-virtualenv)
 PYTHON3_VERSION = 3.6.5
-PYTHON3 = $(PYENV_ROOT)/versions/$(PYTHON3_VERSION)/bin/python
-$(PYTHON3): $(PYENV)
+PIP3 = $(PYENV_ROOT)/versions/$(PYTHON3_VERSION)/bin/pip
+$(PIP3): $(PYENV)
 	$(PYENV) install -s $(PYTHON3_VERSION)
+	$(PYENV) global $(PYTHON3_VERSION)
 PYTHON2_VERSION = 2.7.14
-PYTHON2 = $(PYENV_ROOT)/versions/$(PYTHON2_VERSION)/bin/python
-$(PYTHON2): $(PYENV)
+PIP2 = $(PYENV_ROOT)/versions/$(PYTHON2_VERSION)/bin/pip
+$(PIP2): $(PYENV)
 	$(PYENV) install -s $(PYTHON2_VERSION)
-python: $(PYTHON2) $(PYTHON3)
+PIPSI = $(HOME)/.local/bin/pipsi
+$(PIPSI): $(PIP3)
+	test -e $(PIPSI) || curl -fsSL https://git.io/get-pipsi | python && ($(PIPSI) upgrade pipsi; true)
+PIPENV = $(HOME)/.local/bin/pipenv
+$(PIPENV): $(PIPSI)
+	test -e $(PIPENV) || $(PIPSI) install pipenv && ($(PIPSI) upgrade pipenv; true)
+FLAKE8 = $(HOME)/.local/bin/flake8
+$(FLAKE8): $(PIPSI)
+	test -e $(FLAKE8) || $(PIPSI) install flake8 && ($(PIPSI) upgrade flake8; true)
+python: $(PIP2) $(PIP3) $(PIPSI) $(PIPENV) $(FLAKE8)
 
 # Ruby
 RBENV_ROOT = $(HOME)/.rbenv
@@ -64,10 +74,14 @@ $(RBENV):
 	$(call rbenv-plugin,rkh/rbenv-update)
 	$(call rbenv-plugin,mislav/rbenv-user-gems)
 RUBY_VERSION = 2.5.1
-GEM = $(RBENV_ROOT)/versions/$(RUBY_VERSION)/bin/gem
+GEM = $(RBENV_ROOT)/shims/gem
 $(GEM): $(RBENV)
 	$(RBENV) install -s $(RUBY_VERSION)
-ruby: $(GEM)
+	$(RBENV) global $(RUBY_VERSION)
+BUNDLER = $(RBENV_ROOT)/shims/bundle
+$(BUNDLER):
+	$(GEM) install bundler
+ruby: $(GEM) $(BUNDLER)
 
 # Rust
 CARGO_ROOT = $(HOME)/.cargo
@@ -75,20 +89,23 @@ CARGO = $(CARGO_ROOT)/bin/cargo
 $(CARGO):
 	curl https://sh.rustup.rs -fsSL | sh -s -- -y --no-modify-path --default-toolchain nightly
 	$(CARGO_ROOT)/bin/rustup component add rustfmt-preview rls-preview
-rust: $(CARGO)
+CARGO_UPDATE = $(CARGO_ROOT)/bin/cargo-install-update
+$(CARGO_UPDATE): $(CARGO)
+	test -e $(CARGO_UPDATE) && $(CARGO) install-update cargo-update || $(CARGO) install cargo-update
+CARGO_WATCH = $(CARGO_ROOT)/bin/cargo-watch
+$(CARGO_WATCH): $(CARGO) $(CARGO_UPDATE)
+	test -e $(CARGO_WATCH) && $(CARGO) install-update cargo-watch || $(CARGO) install cargo-watch
+CARGO_CLIPPY = $(CARGO_ROOT)/bin/cargo-clippy
+$(CARGO_CLIPPY): $(CARGO) $(CARGO_UPDATE)
+	test -e $(CARGO_CLIPPY) && $(CARGO) install-update clippy || $(CARGO) install clippy
+rust: $(CARGO) $(CARGO_CLIPPY) $(CARGO_UPDATE) $(CARGO_WATCH)
 
 #
 # Tools
 #
 
-TOOLS = clippy fish fzf neovim ripgrep
+TOOLS = fish fzf neovim ripgrep
 tools: $(TOOLS)
-
-# cargo-clippy
-CLIPPY = $(CARGO_ROOT)/bin/cargo-clippy
-$(CLIPPY):
-	$(call if-exists,$(CLIPPY),true,$(CARGO) install clippy)
-clippy: $(CARGO) $(CLIPPY)
 
 # fish (fisherman)
 FISH_CONFIG = $(HOME)/.config/fish
@@ -117,11 +134,11 @@ fzf: $(FZF)
 
 # neovim (rplugin providers)
 NEOVIM3 = $(PYENV_ROOT)/versions/neovim3/bin/python
-$(NEOVIM3): $(PYTHON3)
-	$(call if-exists,$(NEOVIM3),true,$(PYENV) virtualenv $(PYTHON3_VERSION) neovim3)
+$(NEOVIM3): $(PIP3)
+	test -e $(NEOVIM3) || $(PYENV) virtualenv $(PYTHON3_VERSION) neovim3
 NEOVIM2 = $(PYENV_ROOT)/versions/neovim2/bin/python
-$(NEOVIM2): $(PYTHON2)
-	$(call if-exists,$(NEOVIM2),true,$(PYENV) virtualenv $(PYTHON2_VERSION) neovim2)
+$(NEOVIM2): $(PIP2)
+	test -e $(NEOVIM2) || $(PYENV) virtualenv $(PYTHON2_VERSION) neovim2
 NEOVIM_CONFIG = $(HOME)/.config/nvim/local.vim
 $(NEOVIM_CONFIG): $(NPM) $(NEOVIM3) $(NEOVIM2) $(GEM)
 	$(call nvm-run,exec $(NODE_VERSION) npm install -g neovim)
@@ -137,7 +154,7 @@ neovim: $(NEOVIM_CONFIG)
 # ripgrep
 RIPGREP = $(CARGO_ROOT)/bin/rg
 $(RIPGREP):
-	$(call if-exists,$(RIPGREP),true,$(CARGO) install ripgrep)
+	test -e $(RIPGREP) && $(CARGO) install ripgrep || $(CARGO) install-update ripgrep
 ripgrep rg: $(CARGO) $(RIPGREP)
 
 #
