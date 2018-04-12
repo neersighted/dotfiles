@@ -59,13 +59,12 @@ $(RUBY) $(GEM): $(RBENV)
 
 
 CARGO_ROOT = $(HOME)/.cargo
-RUSTUP = $(CARGO_ROOT)/bin/rustup
 CARGO = $(CARGO_ROOT)/bin/cargo
 
-rust: $(RUSTUP)
-$(RUSTUP) $(CARGO):
+rust: $(CARGO)
+$(CARGO):
 	curl https://sh.rustup.rs -fsSL | sh -s -- -y --no-modify-path --default-toolchain nightly
-	$(RUSTUP) component add rustfmt-preview rls-preview
+	$(CARGO_ROOT)/bin/rustup component add rustfmt-preview rls-preview
 
 TOOLCHAINS = node python ruby rust
 
