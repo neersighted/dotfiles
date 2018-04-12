@@ -12,18 +12,19 @@ $(NVM):
 
 PYENV_ROOT = $(HOME)/.pyenv
 PYENV = $(PYENV_ROOT)/bin/pyenv
+pyenv-plugin = $(call clone-or-update,https://github.com/$(1),$(PYENV_ROOT)/plugins/$(shell basename $(1)))
 
 python: $(PYENV)
 $(PYENV):
 	$(call clone-or-update,https://github.com/yyuu/pyenv,$(PYENV_ROOT))
-	$(call clone-or-update,https://github.com/pyenv/pyenv-ccache,$(PYENV_ROOT)/plugins/pyenv-ccache)
-	$(call clone-or-update,https://github.com/pyenv/pyenv-doctor,$(PYENV_ROOT)/plugins/pyenv-doctor)
-	$(call clone-or-update,https://github.com/pyenv/pyenv-installer,$(PYENV_ROOT)/plugins/pyenv-installer)
-	$(call clone-or-update,https://github.com/pyenv/pyenv-pip-migrate,$(PYENV_ROOT)/plugins/pyenv-pip-migrate)
-	$(call clone-or-update,https://github.com/pyenv/pyenv-pip-rehash,$(PYENV_ROOT)/plugins/pyenv-pip-rehash)
-	$(call clone-or-update,https://github.com/massongit/pyenv-pip-update,$(PYENV_ROOT)/plugins/pyenv-pip-update)
-	$(call clone-or-update,https://github.com/pyenv/pyenv-update,$(PYENV_ROOT)/plugins/pyenv-update)
-	$(call clone-or-update,https://github.com/pyenv/pyenv-virtualenv,$(PYENV_ROOT)/plugins/pyenv-virtualenv)
+	$(call pyenv-plugin,pyenv/pyenv-ccache)
+	$(call pyenv-plugin,pyenv/pyenv-doctor)
+	$(call pyenv-plugin,pyenv/pyenv-installer)
+	$(call pyenv-plugin,pyenv/pyenv-pip-migrate)
+	$(call pyenv-plugin,pyenv/pyenv-pip-rehash)
+	$(call pyenv-plugin,massongit/pyenv-pip-update)
+	$(call pyenv-plugin,pyenv/pyenv-update)
+	$(call pyenv-plugin,pyenv/pyenv-virtualenv)
 
 PYTHON3_VERSION = 3.6.5
 PYTHON2_VERSION = 2.7.14
@@ -37,19 +38,20 @@ $(PYTHON2): $(PYENV)
 
 RBENV_ROOT = $(HOME)/.rbenv
 RBENV = $(RBENV_ROOT)/bin/rbenv
+rbenv-plugin = $(call clone-or-update,https://github.com/$(1),$(RBENV_ROOT)/plugins/$(shell basename $(1)))
 
 ruby: $(RBENV)
 $(RBENV):
 	$(call clone-or-update,https://github.com/rbenv/rbenv,$(RBENV_ROOT))
-	$(call clone-or-update,https://github.com/rbenv/ruby-build,$(RBENV_ROOT)/plugins/ruby-build)
-	$(call clone-or-update,https://github.com/ianheggie/rbenv-binstubs,$(RBENV_ROOT)/plugins/rbenv-binstubs)
-	$(call clone-or-update,https://github.com/yyuu/rbenv-ccache,$(RBENV_ROOT)/plugins/rbenv-ccache)
-	$(call clone-or-update,https://github.com/tpope/rbenv-communal-gems,$(RBENV_ROOT)/plugins/rbenv-communal-gems)
-	$(call clone-or-update,https://github.com/tpope/rbenv-ctags,$(RBENV_ROOT)/plugins/rbenv-ctags)
-	$(call clone-or-update,https://github.com/rbenv/rbenv-each,$(RBENV_ROOT)/plugins/rbenv-each)
-	$(call clone-or-update,https://github.com/rbenv/rbenv-installer,$(RBENV_ROOT)/plugins/rbenv-installer)
-	$(call clone-or-update,https://github.com/rkh/rbenv-update,$(RBENV_ROOT)/plugins/rbenv-update)
-	$(call clone-or-update,https://github.com/mislav/rbenv-user-gems,$(RBENV_ROOT)/plugins/rbenv-user-gems)
+	$(call rbenv-plugin,rbenv/ruby-build)
+	$(call rbenv-plugin,ianheggie/rbenv-binstubs)
+	$(call rbenv-plugin,yyuu/rbenv-ccache)
+	$(call rbenv-plugin,tpope/rbenv-communal-gems)
+	$(call rbenv-plugin,tpope/rbenv-ctags)
+	$(call rbenv-plugin,rbenv/rbenv-each)
+	$(call rbenv-plugin,rbenv/rbenv-installer)
+	$(call rbenv-plugin,rkh/rbenv-update)
+	$(call rbenv-plugin,mislav/rbenv-user-gems)
 
 RUBY_VERSION = 2.5.1
 RUBY = $(RBENV_ROOT)/versions/$(RUBY_VERSION)/bin/ruby
@@ -79,18 +81,19 @@ $(CLIPPY):
 
 FISH_CONFIG = $(HOME)/.config/fish
 FISHER = $(FISH_CONFIG)/functions/fisher.fish
+fisher-plugin = fish -c "fisher $(1)"
 
 fish: $(FISHER)
 $(FISHER):
 	curl https://git.io/fisher -fsSLo ~/.config/fish/functions/fisher.fish
-	fish -c "fisher oh-my-fish/plugin-bang-bang"
-	fish -c "fisher edc/bass"
-	fish -c "fisher fisherman/fzf"
-	fish -c "fisher fisherman/nvm"
-	fish -c "fisher neersighted/pyenv@patch-1"
-	fish -c "fisher neersighted/rbenv@patch-1"
-	fish -c "fisher oh-my-fish/plugin-sudope"
-	fish -c "fisher fisherman/z"
+	$(call fisher-plugin,oh-my-fish/plugin-bang-bang)
+	$(call fisher-plugin,edc/bass)
+	$(call fisher-plugin,fisherman/fzf)
+	$(call fisher-plugin,fisherman/nvm)
+	$(call fisher-plugin,neersighted/pyenv@patch-1)
+	$(call fisher-plugin,neersighted/rbenv@patch-1)
+	$(call fisher-plugin,oh-my-fish/plugin-sudope)
+	$(call fisher-plugin,fisherman/z)
 
 FZF_ROOT = $(HOME)/.fzf
 FZF = $(FZF_ROOT)/bin/fzf
