@@ -2,29 +2,40 @@
 
 unexport MAKEFLAGS
 
-clone-or-update = git -C $(2) pull || git clone $(1) $(2)
+TOOLCHAINS = node python ruby rust
+TOOLS = fish fzf neovim ripgrep
+
+
+help:
+	@echo "TARGETS: $(TARGETS)"
+	@echo "AVAILABLE TOOLCHAINS: $(TOOLCHAINS)"
+	@echo "AVAILABLE TOOLS: $(TOOLS)"
+
+toolchains: $(TOOLCHAINS)
+tools: $(TOOLS)
+all: toolchains tools
+
+.PHONY: $(TOOLCHAINS) $(TOOLS) toolchains tools all help
 
 #
 # Toolchains
 #
-
-TOOLCHAINS = node python ruby rust
-toolchains: $(TOOLCHAINS)
 
 
 # Node.js
 NVM_ROOT = $(HOME)/.nvm
 NVM = $(NVM_ROOT)/nvm.sh
 $(NVM):
-	$(call clone-or-update,https://github.com/creationix/nvm,$(NVM_ROOT))
+	git -C $(NVM_ROOT) pull || git clone https://github.com/creationix/nvm $(NVM_ROOT)
 
 NODE_VERSION = v9.11.1
-NODE = $(NVM_ROOT)/versions/node/$(NODE_VERSION)/bin/node
+NODE_ROOT = $(NVM_ROOT)/versions/node/$(NODE_VERSION)
+NODE = $(NODE_ROOT)/bin/node
 $(NODE): $(NVM)
 	sh -c ". $(NVM) && nvm install $(NODE_VERSION)"
 	sh -c ". $(NVM) && nvm alias default $(NODE_VERSION)"
 
-NPM = $(NVM_ROOT)/versions/node/$(NODE_VERSION)/bin/npm
+NPM = $(NODE_ROOT)/bin/npm
 $(NPM): $(NODE)
 
 node: $(NPM)
@@ -33,21 +44,20 @@ node: $(NPM)
 # Python
 PYENV_ROOT = $(HOME)/.pyenv
 PYENV = $(PYENV_ROOT)/bin/pyenv
-pyenv-plugin = $(call clone-or-update,https://github.com/$(1),$(PYENV_ROOT)/plugins/$(shell basename $(1)))
 $(PYENV):
-	$(call clone-or-update,https://github.com/yyuu/pyenv,$(PYENV_ROOT))
-	$(call pyenv-plugin,pyenv/pyenv-ccache)
-	$(call pyenv-plugin,pyenv/pyenv-doctor)
-	$(call pyenv-plugin,pyenv/pyenv-installer)
-	$(call pyenv-plugin,pyenv/pyenv-pip-migrate)
-	$(call pyenv-plugin,pyenv/pyenv-pip-rehash)
-	$(call pyenv-plugin,massongit/pyenv-pip-update)
-	$(call pyenv-plugin,pyenv/pyenv-update)
-	$(call pyenv-plugin,pyenv/pyenv-virtualenv)
+	git -C $(PYENV_ROOT) pull || git clone https://github.com/pyenv/pyenv $(PYENV_ROOT)
+
+PYENV_PLUGIN = $(PYENV_ROOT)/plugins/$(shell basename $@)
+pyenv-%: $(PYENV)
+	git -C $(PYENV_PLUGIN) pull || git clone https://github.com/$@ $(PYENV_PLUGIN)
+
+pyenv: $(PYENV) pyenv/pyenv-ccache pyenv/pyenv-doctor pyenv/pyenv-installer \
+	pyenv/pyenv-pip-migrate pyenv/pyenv-pip-rehash \
+	massongit/pyenv-pip-update pyenv/pyenv-update pyenv/pyenv-virtualenv
 
 PYTHON3_VERSION = 3.6.5
 PYTHON3 = $(PYENV_ROOT)/versions/$(PYTHON3_VERSION)/bin/python
-$(PYTHON3): $(PYENV)
+$(PYTHON3): pyenv
 	$(PYENV) install -s $(PYTHON3_VERSION)
 	$(PYENV) global $(PYTHON3_VERSION)
 
@@ -56,73 +66,54 @@ $(PIP3): $(PYTHON3)
 
 PYTHON2_VERSION = 2.7.14
 PYTHON2 = $(PYENV_ROOT)/versions/$(PYTHON2_VERSION)/bin/python
-$(PYTHON2): $(PYENV)
+$(PYTHON2): pyenv
 	$(PYENV) install -s $(PYTHON2_VERSION)
 
 PIP2 = $(PYENV_ROOT)/versions/$(PYTHON2_VERSION)/bin/pip
 $(PIP2): $(PYTHON2)
 
-PIPENV = $(PYENV_ROOT)/shims/pipenv
-$(PIPENV): $(PIP2) $(PIP3)
-	$(PIP2) install -U pipenv
-	$(PIP3) install -U pipenv
+%.py2: $(PIP2)
+	$(PIP2) install -U $*
 	$(PYENV) rehash
 
-FLAKE8 = $(PYENV_ROOT)/shims/flake8
-$(FLAKE8): $(PIP2) $(PIP3)
-	$(PIP2) install -U flake8
-	$(PIP3) install -U flake8
+%.py3: $(PIP3)
+	$(PIP3) install -U $*
 	$(PYENV) rehash
 
-MYPY = $(PYENV_ROOT)/shims/mypy
-$(MYPY): $(PIP3)
-	$(PIP3) install -U mypy
-	$(PYENV) rehash
+%.py: %.py2 %.py3 ;
 
-python: $(PIP2) $(PIP3) $(PIPENV) $(FLAKE8) $(MYPY)
+python: $(PIP2) $(PIP3) pipenv.py flake8.py mypy.py3
 
 
 # Ruby
 RBENV_ROOT = $(HOME)/.rbenv
 RBENV = $(RBENV_ROOT)/bin/rbenv
-rbenv-plugin = $(call clone-or-update,https://github.com/$(1),$(RBENV_ROOT)/plugins/$(shell basename $(1)))
 $(RBENV):
-	$(call clone-or-update,https://github.com/rbenv/rbenv,$(RBENV_ROOT))
-	$(call rbenv-plugin,rbenv/ruby-build)
-	$(call rbenv-plugin,ianheggie/rbenv-binstubs)
-	$(call rbenv-plugin,yyuu/rbenv-ccache)
-	$(call rbenv-plugin,tpope/rbenv-communal-gems)
-	$(call rbenv-plugin,tpope/rbenv-ctags)
-	$(call rbenv-plugin,rbenv/rbenv-each)
-	$(call rbenv-plugin,rbenv/rbenv-installer)
-	$(call rbenv-plugin,rkh/rbenv-update)
-	$(call rbenv-plugin,mislav/rbenv-user-gems)
+	git -C $(RBENV_ROOT) pull || git clone https://github.com/rbenv/rbenv $(RBENV_ROOT)
+	git -C $(RBENV_ROOT)/plugins/ruby-build pull || git clone https://github.com/rbenv/ruby-build $(RBENV_ROOT)/plugins/ruby-build
+
+RBENV_PLUGIN = $(RBENV_ROOT)/plugins/$(shell basename $@)
+rbenv-%: $(RBENV)
+	git -C $(RBENV_PLUGIN) pull || git clone https://github.com/$@ $(RBENV_PLUGIN)
+
+rbenv: $(RBENV) ianheggie/rbenv-binstubs yyuu/rbenv-ccache \
+	tpope/rbenv-communal-gems tpope/rbenv-ctags rbenv/rbenv-each \
+	rbenv/rbenv-installer rkh/rbenv-update mislav/rbenv-user-gems
 
 RUBY_VERSION = 2.5.1
 RUBY = $(RBENV_ROOT)/versions/$(RUBY_VERSION)/bin/ruby
-$(RUBY): $(RBENV)
+$(RUBY): rbenv
 	$(RBENV) install -s $(RUBY_VERSION)
 	$(RBENV) global $(RUBY_VERSION)
 
 GEM = $(RBENV_ROOT)/versions/$(RUBY_VERSION)/bin/gem
 $(GEM): $(RUBY)
 
-BUNDLER = $(RBENV_ROOT)/shims/bundle
-$(BUNDLER):
-	$(GEM) install bundler
+%.gem: $(GEM)
+	$(GEM) install $*
 	$(RBENV) rehash
 
-REEK = $(RBENV_ROOT)/shims/reek
-$(REEK):
-	$(GEM) install reek
-	$(RBENV) rehash
-
-RUBOCOP = $(RBENV_ROOT)/shims/rubocop
-$(RUBOCOP):
-	$(GEM) install rubocop
-	$(RBENV) rehash
-
-ruby: $(GEM) $(BUNDLER) $(REEK) $(RUBOCOP)
+ruby: $(GEM) bundler.gem rubocop.gem reek.gem
 
 
 # Rust
@@ -135,61 +126,44 @@ $(RUSTUP):
 CARGO = $(CARGO_ROOT)/bin/cargo
 $(CARGO): $(RUSTUP)
 
-CARGO_UPDATE = $(CARGO_ROOT)/bin/cargo-install-update
-$(CARGO_UPDATE): $(CARGO)
-	test -e $(CARGO_UPDATE) && $(CARGO) install-update cargo-update || $(CARGO) install cargo-update
+%.rs: $(CARGO)
+	$(CARGO) install-update $* || $(CARGO) install $*
 
-CARGO_WATCH = $(CARGO_ROOT)/bin/cargo-watch
-$(CARGO_WATCH): $(CARGO) $(CARGO_UPDATE)
-	test -e $(CARGO_WATCH) && $(CARGO) install-update cargo-watch || $(CARGO) install cargo-watch
-
-CARGO_CLIPPY = $(CARGO_ROOT)/bin/cargo-clippy
-$(CARGO_CLIPPY): $(CARGO) $(CARGO_UPDATE)
-	test -e $(CARGO_CLIPPY) && $(CARGO) install-update clippy || $(CARGO) install clippy
-
-rust: $(CARGO) $(CARGO_CLIPPY) $(CARGO_UPDATE) $(CARGO_WATCH)
+rust: $(CARGO) cargo-update.rs cargo-watch.rs clippy.rs
 
 
 #
 # Tools
 #
 
-TOOLS = fish fzf neovim ripgrep
-tools: $(TOOLS)
-
-
 # fish (fisherman)
 FISH_CONFIG = $(HOME)/.config/fish
 FISHER = $(FISH_CONFIG)/functions/fisher.fish
-fisher-plugin = fish -c "fisher $(1)"
 $(FISHER):
-	curl https://git.io/fisher -fsSLo ~/.config/fish/functions/fisher.fish
-	$(call fisher-plugin,oh-my-fish/plugin-bang-bang)
-	$(call fisher-plugin,edc/bass)
-	$(call fisher-plugin,fisherman/fzf)
-	$(call fisher-plugin,fisherman/nvm)
-	$(call fisher-plugin,fisherman/pipenv)
-	$(call fisher-plugin,neersighted/pyenv@patch-1)
-	$(call fisher-plugin,neersighted/rbenv@patch-1)
-	$(call fisher-plugin,oh-my-fish/plugin-sudope)
-	$(call fisher-plugin,fisherman/z)
+	curl https://git.io/fisher -fsSLo $(FISHER)
 
-fish: $(FISHER)
+%.fisher:
+	fish -c "fisher $*"
+
+fish: $(FISHER) oh-my-fish/plugin-bang-bang.fisher edc/bass.fisher \
+	fisherman/fzf.fisher fisherman/nvm.fisher fisherman/pipenv.fisher \
+	neersighted/pyenv@patch-1.fisher neersighted/rbenv@patch-1.fisher \
+	oh-my-fish/plugin-sudope.fisher fisherman/z.fisher
 
 
 # fzf
 FZF_ROOT = $(HOME)/.fzf
 FZF = $(FZF_ROOT)/bin/fzf
 $(FZF):
-	$(call clone-or-update,https://github.com/junegunn/fzf.git,$(FZF_ROOT))
+	git -C $(FZF_ROOT) pull || git clone https://github.com/junegunn/fzf.git $(FZF_ROOT)
 	$(FZF_ROOT)/install --bin
 
 fzf: $(FZF)
 
 
 # neovim (rplugin providers)
-NEOVIMND = ~/.local/bin/neovim-node-host
-$(NEOVIMND): $(NODE)
+NEOVIMND = $(HOME)/.local/bin/neovim-node-host
+$(NEOVIMND): $(NPM)
 	$(NODE) $(NPM) install -g neovim
 	echo '#! /usr/bin/env fish\n__nvm_run "neovim-node-host" $$argv' > $(NEOVIMND)
 	chmod +x $(NEOVIMND)
@@ -207,7 +181,7 @@ $(NEOVIMPY2): $(PYTHON2)
 	$(NEOVIMPY2) -m pip install -U neovim
 
 NEOVIMRB = $(RBENV_ROOT)/shims/neovim-ruby-host
-$(NEOVIMRB): $(RUBY)
+$(NEOVIMRB): $(GEM)
 	$(GEM) install neovim
 	$(RBENV) rehash
 
@@ -224,24 +198,7 @@ neovim: $(NEOVIMND) $(NEOVIMPY2) $(NEOVIMPY3) $(NEOVIMRB) $(NEOVIM_CONFIG)
 
 # ripgrep
 RIPGREP = $(CARGO_ROOT)/bin/rg
-$(RIPGREP):
-	test -e $(RIPGREP) && $(CARGO) install ripgrep || $(CARGO) install-update ripgrep
+$(RIPGREP): $(CARGO)
+	$(CARGO) install-update ripgrep || $(CARGO) install ripgrep
 
-ripgrep rg: $(CARGO) $(RIPGREP)
-
-
-#
-# Other Targets
-#
-
-ALL = $(TOOLS) $(TOOLCHAINS)
-TARGETS = toolchains tools all
-
-all: toolchains tools
-help:
-	@echo "TARGETS: $(TARGETS)"
-	@echo "AVAILABLE TOOLCHAINS: $(TOOLCHAINS)"
-	@echo "AVAILABLE TOOLS: $(TOOLS)"
-
-.DEFAULT_GOAL := help
-.PHONY: $(ALL) $(TARGETS) $(.DEFAULT_GOAL)
+ripgrep rg: $(RIPGREP)
