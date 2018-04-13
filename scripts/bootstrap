@@ -53,7 +53,7 @@ section "asdf"
 
   install_asdf_language() {
     local language=$1
-    local query=$2
+    local query=${2:-""}
 
     local version="$(asdf list-all "$language" | grep -E "$query" | tail -1)"
 
