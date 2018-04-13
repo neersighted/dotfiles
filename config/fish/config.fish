@@ -18,7 +18,7 @@ if status --is-interactive
 
   # fzf (plugin)
   set -g FZF_TMUX 1
-  set -g FZF_COMPLETION 1
+  set -g FZF_COMPLETE 1
   set -g FZF_LEGACY_KEYBINDINGS 0
   set -g FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND
 
