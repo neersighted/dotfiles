@@ -42,12 +42,12 @@ section "asdf"
     local name=$1
     local url=$2
 
-    if ! asdf plugin-list | grep -Fq "$name"; then
+    if ! asdf list | grep -Fq "$name"; then
       info "Installing $name support for asdf..."
-      asdf plugin-add "$name" "$url"
+      asdf add "$name" "$url"
     else
       info "Updating asdf $name support..."
-      asdf plugin-update "$name"
+      asdf update "$name"
     fi
   }
 
@@ -174,10 +174,10 @@ section "fish"
 
   info "Installing/updating fish plugins..."
   fish -c fisher <<FISHFILE
-oh-my-fish/plugin-bang-bang
+omf/bang-bang
 fzf
 pipenv
-oh-my-fish/plugin-sudope
+omf/sudope
 z
 FISHFILE
 endsection
