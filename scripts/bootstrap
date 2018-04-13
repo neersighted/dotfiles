@@ -35,7 +35,7 @@ section "asdf"
 
   source "$HOME/.asdf/asdf.sh"
 
-  info "Updating asdf..."
+  info "Updating asdf to latest tag..."
   asdf update
 
   install_asdf_plugin() {
