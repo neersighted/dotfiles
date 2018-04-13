@@ -1,7 +1,7 @@
 " Lightline Configuration
 
 let g:lightline = {
-      \ 'colorscheme': 'flattened_light',
+      \ 'colorscheme': 'solarized',
       \ 'separator': { 'left': '', 'right': '' },
       \ 'subseparator': { 'left': '|', 'right': '|' },
       \ 'mode_map': {

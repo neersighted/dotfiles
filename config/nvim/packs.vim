@@ -16,13 +16,13 @@ if exists('*minpac#init')
 
   " Interface
   call minpac#add('tpope/vim-eunuch') " unix addons
-  call minpac#add('romainl/flattened') " simplified solarized port
   call minpac#add('tpope/vim-fugitive') " git integration
   call minpac#add('airblade/vim-gitgutter') " git diff gutter
   call minpac#add('justinmk/vim-gtfo') " quickly open terminal or file manager
   call minpac#add('itchyny/lightline.vim') " stupid light statusline framework
   call minpac#add('simnalamburt/vim-mundo') " undo tree gui
   call minpac#add('talek/obvious-resize') " simple window resizing
+  call minpac#add('lifepillar/vim-solarized8') " simplified solarized port
   call minpac#add('mhinz/vim-startify') " simple start screen
   call minpac#add('christoomey/vim-tmux-navigator') " seamless vim/tmux splits
 

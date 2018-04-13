@@ -1,34 +1,39 @@
 set termguicolors " Use true colors.
+let g:solarized_use16 = 1 " Use 16 colors when true color is not supported
+colorscheme solarized8
 
-let g:colors_name = '' " Only exists after color load, so init it now.
-
-" Set colorscheme based on time of day.
-function! s:colorscheme() abort
+" Set light/dark based on time of day.
+function! s:nightday() abort
   if strftime('%H') < s:dawn || strftime('%H') + 1 > s:dusk
-    if g:colors_name !=# s:night
-      let l:newscheme = s:night
+    if &background !=# 'dark'
+      let l:background = 'dark'
     endif
   else
-    if g:colors_name !=# s:day
-      let l:newscheme = s:day
+    if &background !=# 'light'
+      let l:background = 'light'
     endif
   endif
 
-  if exists('l:newscheme')
-    silent! execute 'colorscheme' l:newscheme
+  if exists('l:background')
+    let &background = l:background
 
-    " Cleanup to make the change stick.
-    let &syntax = &syntax
-    silent! call lightline#colorscheme()
+    " Reload lightline's colors.
+    if exists('g:loaded_lightline')
+      " Special cased to handle varient themes.
+      if g:colors_name =~# 'solarized\|flattened'
+        runtime autoload/lightline/colorscheme/solarized.vim
+      else
+        execute 'runtime autoload/lightline/colorscheme/'.g:colors_name.'.vim'
+      endif
+      call lightline#colorscheme()
+    endif
   endif
 endfunction
 
 " Settings for the auto-changing functionality.
 let s:dawn = 5
 let s:dusk = 17
-let s:day = 'flattened_light'
-let s:night = 'flattened_dark'
 
-" Set the colorscheme, and change it automatically as time passes.
-call s:colorscheme()
-autocmd vimrc CursorHold * call s:colorscheme()
+" Set light/dark automagically based on time.
+call s:nightday()
+autocmd vimrc CursorHold * call s:nightday()
