@@ -137,7 +137,7 @@ CARGO = $(CARGO_ROOT)/bin/cargo
 $(CARGO): $(RUSTUP)
 
 %.rs: $(CARGO)
-	$(CARGO) install-update -i $*
+	$(CARGO) install-update -i $* || $(CARGO) install $*
 
 rust: $(CARGO) cargo-update.rs cargo-watch.rs clippy.rs
 
