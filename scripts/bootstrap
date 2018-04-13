@@ -31,12 +31,12 @@ section "asdf"
   if [ ! -d "$HOME/.asdf" ]; then
     info "Installing asdf..."
     git clone https://github.com/asdf-vm/asdf "$HOME/.asdf"
-    source "$HOME/.asdf/asdf.sh"
-  else
-    source "$HOME/.asdf/asdf.sh"
-    info "Updating asdf..."
-    asdf update
   fi
+
+  source "$HOME/.asdf/asdf.sh"
+
+  info "Updating asdf..."
+  asdf update
 
   install_asdf_plugin() {
     local name=$1
@@ -71,7 +71,7 @@ section "asdf"
   install_asdf_plugin "golang" "https://github.com/kennyp/asdf-golang"
   install_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs"
   install_asdf_plugin "python" "https://github.com/neersighted/asdf-python"
-  install_asdf_plugin "ruby" "https://github.com/neersighted/asdf-ruby"
+  install_asdf_plugin "ruby"   "https://github.com/neersighted/asdf-ruby"
 
   export GNUPGHOME="$HOME/.asdf/keyring"
   if [ ! -d "$GNUPGHOME" ]; then
