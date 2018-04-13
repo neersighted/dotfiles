@@ -14,7 +14,7 @@ if status --is-interactive
     or set -x BROWSER firefox-nightly
 
   # fzf (global)
-  set -x FZF_DEFAULT_COMMAND 'fd --type f'
+  set -x FZF_DEFAULT_COMMAND 'fd --type file --follow --hidden --exclude .git'
 
   # fzf (plugin)
   set -g FZF_TMUX 1

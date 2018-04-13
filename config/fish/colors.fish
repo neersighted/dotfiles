@@ -16,7 +16,7 @@ if set -q fish_term24bit
   set -g __color_cyan    2aa198
   set -g __color_green   859900
 
-  set -x FZF_DEFAULT_OPTS '--color=fg:#839496,bg:#002b36,hl:#eee8d5,fg+:#839496,bg+:#073642,hl+:#d33682 --color=info:#2aa198,prompt:#839496,pointer:#fdf6e3,marker:#fdf6e3,spinner:#2aa198'
+  set -x FZF_DEFAULT_OPTS '$FZF_DEFAULT_OPTS --color=fg:#839496,bg:#002b36,hl:#eee8d5,fg+:#839496,bg+:#073642,hl+:#d33682 --color=info:#2aa198,prompt:#839496,pointer:#fdf6e3,marker:#fdf6e3,spinner:#2aa198'
 else
   set -g __color_base03 --bold black
   set -g __color_base02 black
@@ -35,7 +35,7 @@ else
   set -g __color_cyan cyan
   set -g __color_green green
 
-  set -x FZF_DEFAULT_OPTS '--color=fg:12,bg:8,hl:7,fg+:12,bg+:0,hl+:5 --color=info:6,prompt:12,pointer:15,marker:15,spinner:6'
+  set -x FZF_DEFAULT_OPTS '$FZF_DEFAULT_OPTS --color=fg:12,bg:8,hl:7,fg+:12,bg+:0,hl+:5 --color=info:6,prompt:12,pointer:15,marker:15,spinner:6'
 end
 
 set -g fish_color_normal $__color_base0
