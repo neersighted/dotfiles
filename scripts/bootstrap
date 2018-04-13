@@ -92,6 +92,7 @@ section "Go"
 
     info "Installing/updating $target using go get..."
     go get -u "github.com/$target"
+    asdf reshim golang
   }
 endsection
 
@@ -173,7 +174,6 @@ section "fish"
 
   info "Installing/updating fish plugins..."
   fish -c fisher <<FISHFILE
-rstacruz/fish-asdf
 oh-my-fish/plugin-bang-bang
 fzf
 pipenv

@@ -39,6 +39,10 @@ for function in ~/.dotfiles/config/fish/functions/*.fish; do
     function=$(basename "$function")
     fresh "config/fish/functions/$function" --file="~/.config/fish/functions/$function"
 done
+for completion in ~/.dotfiles/config/fish/completions/*.fish; do
+    completion=$(basename "$completion")
+    fresh "config/fish/completions/$completion" --file="~/.config/fish/completions/$completion"
+done
 fresh edc/bass functions/bass.fish --file=~/.config/fish/vendor/functions/bass.fish
 fresh edc/bass functions/__bass.py --file=~/.config/fish/vendor/functions/__bass.py
 
@@ -199,8 +203,8 @@ fresh config/tmux.conf --file
 fresh scripts/tmuxrl --bin
 
 # yankee: universal yank/paste tool
-fresh scripts/yankee --bin=$FRESH_BIN_PATH/yankee-yank
-fresh scripts/yankee --bin=$FRESH_BIN_PATH/yankee-paste
+fresh scripts/yankee --bin="$FRESH_BIN_PATH/yankee-yank"
+fresh scripts/yankee --bin="$FRESH_BIN_PATH/yankee-paste"
 
 fresh_after_build () {
     chmod +x ~/.fresh/build/config-polybar-*.sh
