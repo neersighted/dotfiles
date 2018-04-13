@@ -11,9 +11,6 @@ fresh freshshell/fresh bin/fresh --bin
 # System
 #
 
-# profile: environmental variables for all logins
-fresh config/profile --file
-
 # systemd: system daemon
 fresh scripts/systemd-toggle --bin
 for unit in ~/.dotfiles/config/systemd/*.{service,socket,target}; do
@@ -152,6 +149,9 @@ fresh config/pulse/default.pa --file=~/.config/pulse/default.pa
 
 # 24bit: check a terminal for true color support
 fresh scripts/24bit --bin
+
+# fzf: fast fuzzybinder
+fresh junegunn/fzf bin/fzf-tmux --bin
 
 # gibo: gitignore boilerplate
 fresh simonwhitaker/gibo gibo --bin

@@ -3,16 +3,30 @@ if status --is-interactive
   # shut up
   set fish_greeting
 
+  # programs
+  set -x VISUAL nvim
+  set -x EDITOR nvim
+  set -x TERMINAL alacritty
+  set -x LESS '-R'
+
+  test (uname) = "Darwin"
+    and set -x BROWSER open
+    or set -x BROWSER firefox-nightly
+
+  # fzf (global)
+  set -x FZF_DEFAULT_COMMAND 'fd --type f'
+
+  # fzf (plugin)
+  set -g FZF_TMUX 1
+  set -g FZF_COMPLETION 1
+  set -g FZF_LEGACY_KEYBINDINGS 0
+  set -g FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND
+
+  # libvirt
+  set -x LIBVIRT_DEFAULT_URI qemu:///system
+
   # login actions (root shell only)
   if status --is-login
-    # load our profile (environmental variables)
-    test -f ~/.profile
-      and bass source ~/.profile
-
-    # ...and the local version (which probably does not exist)
-    test -f ~/.profile.local
-      and bass source ~/.profile.local
-
     if test (uname -r|cut -d- -f3) = "Microsoft"
       # connect ssh to the windows ssh-agent
       source (weasel-pageant -S fish|psub)

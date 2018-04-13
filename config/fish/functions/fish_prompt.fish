@@ -1,5 +1,5 @@
 function fish_prompt --description 'left prompt'
-  if test -n "$MOSH"; or test -n "$SSH_CLIENT"
+  if set -q MOSH; or set -q SSH_CLIENT
     set_color $fish_color_hostname
     printf '%s ' (prompt_hostname) # hostname
     set_color normal

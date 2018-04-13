@@ -1,21 +1,4 @@
 if set -q fish_term24bit
-  set -g __color_base03 --bold black
-  set -g __color_base02 black
-  set -g __color_base01 --bold green
-  set -g __color_base00 --bold yellow
-  set -g __color_base0 --bold blue
-  set -g __color_base1 --bold cyan
-  set -g __color_base2 white
-  set -g __color_base3 --bold white
-  set -g __color_yellow yellow
-  set -g __color_orange --bold red
-  set -g __color_red red
-  set -g __color_magenta magenta
-  set -g __color_violet --bold magenta
-  set -g __color_blue blue
-  set -g __color_cyan cyan
-  set -g __color_green green
-else
   set -g __color_base03  002b36
   set -g __color_base02  073642
   set -g __color_base01  586e75
@@ -32,6 +15,27 @@ else
   set -g __color_blue    268bd2
   set -g __color_cyan    2aa198
   set -g __color_green   859900
+
+  set -x FZF_DEFAULT_OPTS '--color=fg:#839496,bg:#002b36,hl:#eee8d5,fg+:#839496,bg+:#073642,hl+:#d33682 --color=info:#2aa198,prompt:#839496,pointer:#fdf6e3,marker:#fdf6e3,spinner:#2aa198'
+else
+  set -g __color_base03 --bold black
+  set -g __color_base02 black
+  set -g __color_base01 --bold green
+  set -g __color_base00 --bold yellow
+  set -g __color_base0 --bold blue
+  set -g __color_base1 --bold cyan
+  set -g __color_base2 white
+  set -g __color_base3 --bold white
+  set -g __color_yellow yellow
+  set -g __color_orange --bold red
+  set -g __color_red red
+  set -g __color_magenta magenta
+  set -g __color_violet --bold magenta
+  set -g __color_blue blue
+  set -g __color_cyan cyan
+  set -g __color_green green
+
+  set -x FZF_DEFAULT_OPTS '--color=fg:12,bg:8,hl:7,fg+:12,bg+:0,hl+:5 --color=info:6,prompt:12,pointer:15,marker:15,spinner:6'
 end
 
 set -g fish_color_normal $__color_base0

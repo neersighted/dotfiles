@@ -3,7 +3,7 @@
 unexport MAKEFLAGS
 
 TOOLCHAINS = node python ruby rust
-TOOLS = fish fzf neovim ripgrep
+TOOLS = fish fd fzf neovim ripgrep
 
 
 help:
@@ -20,6 +20,10 @@ all: toolchains tools
 #
 # Toolchains
 #
+
+# Go
+%.go:
+	go get -u github.com/$*
 
 
 # Node.js
@@ -133,7 +137,7 @@ CARGO = $(CARGO_ROOT)/bin/cargo
 $(CARGO): $(RUSTUP)
 
 %.rs: $(CARGO)
-	$(CARGO) install-update $* || $(CARGO) install $*
+	$(CARGO) install-update -i $*
 
 rust: $(CARGO) cargo-update.rs cargo-watch.rs clippy.rs
 
@@ -157,14 +161,12 @@ fish: $(FISHER) oh-my-fish/plugin-bang-bang.fisher brigand/fast-nvm-fish.fisher 
 	oh-my-fish/plugin-sudope.fisher fisherman/z.fisher
 
 
-# fzf
-FZF_ROOT = $(HOME)/.fzf
-FZF = $(FZF_ROOT)/bin/fzf
-$(FZF):
-	git -C $(FZF_ROOT) pull || git clone https://github.com/junegunn/fzf.git $(FZF_ROOT)
-	$(FZF_ROOT)/install --bin
+# fd
+fd: fd-find.rs
 
-fzf: $(FZF)
+
+# fzf
+fzf: junegunn/fzf.go
 
 
 # neovim (rplugin providers)
