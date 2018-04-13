@@ -1,6 +1,6 @@
 set termguicolors " Use true colors.
 let g:solarized_use16 = 1 " Use 16 colors when true color is not supported
-colorscheme solarized8
+silent! colorscheme solarized8
 
 " Set light/dark based on time of day.
 function! s:nightday() abort
