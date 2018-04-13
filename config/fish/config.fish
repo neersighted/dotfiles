@@ -14,13 +14,16 @@ if status --is-interactive
     or set -x BROWSER firefox-nightly
 
   # fzf (global)
-  set -x FZF_DEFAULT_COMMAND 'fd --type file --follow --hidden --exclude .git'
+  set -x FZF_DEFAULT_COMMAND 'fd --type file'
+  set -x FZF_DEFAULT_OPTS ''
 
   # fzf (plugin)
   set -g FZF_TMUX 1
   set -g FZF_COMPLETE 1
   set -g FZF_LEGACY_KEYBINDINGS 0
   set -g FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND
+  set -g FZF_CD_COMMAND 'fd --type directory --follow'
+  set -g FZF_CD_WITH_HIDDEN_COMMAND 'fd --type directory --follow --hidden --exclude .git'
 
   # libvirt
   set -x LIBVIRT_DEFAULT_URI qemu:///system
@@ -49,10 +52,6 @@ if status --is-interactive
         and gpg-connect-agent updatestartuptty /bye >/dev/null ^&1
     end
   end
-
-  # enable 24bit color (if mosh is not detected)
-  not set -q MOSH
-    and set -g fish_term24bit 1
 
   # autostart actions (login, local, root shells only)
   if status --is-login

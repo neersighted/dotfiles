@@ -3,7 +3,7 @@
 unexport MAKEFLAGS
 
 TOOLCHAINS = node python ruby rust
-TOOLS = fish fd fzf neovim ripgrep
+TOOLS = fish fd fzf neovim pretty-git-prompt ripgrep
 
 
 help:
@@ -176,6 +176,10 @@ $(NEOVIM_CONFIG): $(NEOVIMPY2) $(NEOVIMPY3)
 	echo "let g:python_host_prog = '$(PYTHON2)'" >> $(NEOVIM_CONFIG)
 
 neovim: neovim.js neovim.py2 neovim.py3 neovim.gem $(NEOVIM_CONFIG)
+
+
+# pretty-git-prompt
+pretty-git-prompt: pretty-git-prompt.rs
 
 
 # ripgrep

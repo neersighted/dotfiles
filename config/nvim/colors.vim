@@ -1,9 +1,6 @@
-let g:colors_name = ''
+set termguicolors " Use true colors.
 
-let s:dawn = 5
-let s:dusk = 17
-let s:day = 'flattened_light'
-let s:night = 'flattened_dark'
+let g:colors_name = '' " Only exists after color load, so init it now.
 
 " Set colorscheme based on time of day.
 function! s:colorscheme() abort
@@ -18,7 +15,7 @@ function! s:colorscheme() abort
   endif
 
   if exists('l:newscheme')
-    execute 'colorscheme' l:newscheme
+    silent! execute 'colorscheme' l:newscheme
 
     " Cleanup to make the change stick.
     let &syntax = &syntax
@@ -26,10 +23,12 @@ function! s:colorscheme() abort
   endif
 endfunction
 
+" Settings for the auto-changing functionality.
+let s:dawn = 5
+let s:dusk = 17
+let s:day = 'flattened_light'
+let s:night = 'flattened_dark'
+
 " Set the colorscheme, and change it automatically as time passes.
 call s:colorscheme()
 autocmd vimrc CursorHold * call s:colorscheme()
-
-if !exists('$MOSH')
-  set termguicolors " Use true colors.
-endif
