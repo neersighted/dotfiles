@@ -1,3 +1,5 @@
+set -g fish_term24bit 1
+
 if set -q fish_term24bit
   set -g color_base03  '#002b36'
   set -g color_base02  '#073642'
@@ -16,8 +18,9 @@ if set -q fish_term24bit
   set -g color_cyan    '#2aa198'
   set -g color_green   '#859900'
 
-  set -x FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --color=fg:#839496,bg:#002b36,hl:#eee8d5,fg+:#839496,bg+:#073642,hl+:#d33682 --color=info:#2aa198,prompt:#839496,pointer:#fdf6e3,marker:#fdf6e3,spinner:#2aa198"
+  set -x FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --color=fg:$color_base0,bg:$color_base03,hl:$color_base2,fg+:$color_base0,bg+:$color_base02,hl+:$color_magenta --color=info:$color_cyan,prompt:$color_base0,pointer:$color_base3,marker:$color_base3,spinner:$color_cyan"
 else
+  # currently unused, but here for backwards compat
   set -g color_base03  brblack
   set -g color_base02  black
   set -g color_base01  brgreen
