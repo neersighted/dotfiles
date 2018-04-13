@@ -110,13 +110,14 @@ section "Python"
   if ! command -v pipsi >/dev/null; then
     info "Installing pipsi..."
     curl http://git.io/get-pipsi -fsSL | python - --src=git+https://github.com/mitsuhiko/pipsi.git
+    echo "{\"name\": \"pipsi\", \"version\": \"0.10.dev\", \"scripts\": [\"$HOME/.local/bin/pipsi\"]}" > "$HOME/.local/venvs/pipsi/package_info.json" # FIXME: remove when pipsi bug is fixed
   fi
 
   install_python_tool() {
     local target=$1
 
     info "Installing/updating $target using pipsi..."
-    if ! command -v "$target" >/dev/null; then
+    if ! pipsi list | grep "$target" >/dev/null; then
       pipsi install "$target"
     else
       pipsi upgrade "$target"
