@@ -85,7 +85,7 @@ endsection
 
 
 section "Go"
-  install_asdf_language "golang" "^1.10"
+  install_asdf_language "golang" "^1.10.[0-9]$"
 
   install_go_tool() {
     local target=$1
