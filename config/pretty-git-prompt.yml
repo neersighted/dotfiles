@@ -14,26 +14,26 @@ values:
           pre_format: '(set_color $color_base00)<LOCAL_BRANCH>'
           post_format: '(set_color normal)'
         - type: ahead
-          pre_format: '>'
+          pre_format: '\>'
           post_format: ''
         - type: behind
-          pre_format: '<'
+          pre_format: '\<'
           post_format: ''
     - type: separator
       display: surrounded
       pre_format: '│'
       post_format: ''
     - type: stash
-      pre_format: '(set_color $color_orange)$'
+      pre_format: '(set_color $color_orange)\$'
       post_format: '(set_color normal)'
     - type: conflicts
-      pre_format: '(set_color $color_red)#'
+      pre_format: '(set_color $color_red)\#'
       post_format: '(set_color normal)'
     - type: staged
-      pre_format: '(set_color $color_yellow)+'
+      pre_format: '(set_color $color_yellow)\+'
       post_format: '(set_color normal)'
     - type: changed
-      pre_format: '(set_color $color_blue)~'
+      pre_format: '(set_color $color_blue)\~'
       post_format: '(set_color normal)'
     - type: new
       pre_format: '(set_color $color_base1)\?'
