@@ -28,12 +28,6 @@ NVM = $(NVM_ROOT)/nvm.sh
 $(NVM):
 	git -C $(NVM_ROOT) pull || git clone https://github.com/creationix/nvm $(NVM_ROOT)
 
-NVM_SHIM = $(HOME)/.local/bin/$*
-%.nvmshim:
-	echo '#! /usr/bin/env fish\n__nvm_run "$*" $$argv' > $(NVM_SHIM)
-	chmod +x $(NVM_SHIM)
-
-
 NODE_VERSION = v9.11.1
 NODE_ROOT = $(NVM_ROOT)/versions/node/$(NODE_VERSION)
 NODE = $(NODE_ROOT)/bin/node
@@ -47,7 +41,7 @@ $(NPM): $(NODE)
 %.js: $(NPM)
 	$(NODE) $(NPM) install -g $*
 
-node: $(NPM) yarn.js pnpm.js pnpm.nvmshim pnpx.nvmshim
+node: $(NPM) yarn.js pnpm.js
 
 
 # Python
@@ -179,7 +173,7 @@ $(NEOVIM_CONFIG): $(NEOVIMPY2) $(NEOVIMPY3)
 	echo "let g:python3_host_prog = '$(PYTHON3)'" > $(NEOVIM_CONFIG)
 	echo "let g:python_host_prog = '$(PYTHON2)'" >> $(NEOVIM_CONFIG)
 
-neovim: neovim.js neovim-node-host.nvmshim neovim.py2 neovim.py3 neovim.gem $(NEOVIM_CONFIG)
+neovim: neovim.js neovim.py2 neovim.py3 neovim.gem $(NEOVIM_CONFIG)
 
 
 # ripgrep
