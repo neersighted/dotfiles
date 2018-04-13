@@ -44,10 +44,10 @@ section "asdf"
 
     if ! asdf list | grep -Fq "$name"; then
       info "Installing $name support for asdf..."
-      asdf add "$name" "$url"
+      asdf plugin-add "$name" "$url"
     else
       info "Updating asdf $name support..."
-      asdf update "$name"
+      asdf plugin-update "$name"
     fi
   }
 
