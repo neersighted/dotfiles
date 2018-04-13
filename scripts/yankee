@@ -1,0 +1,62 @@
+#!/bin/sh
+
+yank_command() {
+  if [ "$(uname)" = "Darwin" ]; then
+    if command -v reattach-to-user-namespace >/dev/null; then
+      echo "reattach-to-user-namespace pbcopy"
+    else
+      echo "pbcopy"
+    fi
+  else
+    if [ "$(uname -r|cut -d- -f3)" = "Microsoft" ]; then
+      if command -v win32yank >/dev/null; then
+        echo "win32yank -i --crlf"
+      else
+        echo "clip.exe"
+      fi
+    else
+      if command -v xsel >/dev/null; then
+        echo "xsel -b -i"
+      elif command -v xclip >/dev/null; then
+        echo "xclip -i -selection clipboard"
+      fi
+    fi
+  fi
+}
+
+paste_command() {
+  if [ "$(uname)" = "Darwin" ]; then
+    if command -v reattach-to-user-namespace >/dev/null; then
+      echo "reattach-to-user-namespace pbpaste"
+    else
+      echo "pbpaste"
+    fi
+  else
+    if [ "$(uname -r|cut -d- -f3)" = "Microsoft" ]; then
+      if command -v win32yank >/dev/null; then
+        echo "win32yank -o --lf"
+      else
+        echo "powershell.exe -Command Get-Clipboard"
+      fi
+    else
+      if command -v xsel >/dev/null; then
+        echo "xsel -b -o"
+      elif command -v xclip >/dev/null; then
+        echo "xclip -o -selection clipboard"
+      fi
+    fi
+  fi
+}
+
+case $0 in
+*yank ) COMMAND=$(yank_command) ;;
+*paste) COMMAND=$(paste_command) ;;
+*     ) echo "called as invalid script: $0" >&2; exit 1 ;;
+esac
+
+if [ -n "$COMMAND" ]; then
+  exec $COMMAND
+fi
+
+echo "could not find valid command" >&2
+exit 1

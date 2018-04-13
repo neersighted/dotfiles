@@ -187,20 +187,15 @@ fresh scripts/lockx --bin
 fresh config/makepkg.conf --file
 
 # tmux: terminal multiplexer
-fresh-options --file=~/.tmux.conf --marker
-    fresh config/tmux/tmux.conf
-    if [ "$(uname -r|cut -d- -f3)" = "Microsoft" ]; then
-        fresh config/tmux/wsl.conf
-    elif [ "$(uname)" = "Darwin" ]; then
-        fresh config/tmux/mac.conf
-    else
-        fresh config/tmux/linux.conf
-    fi
-fresh-options
+fresh config/tmux.conf --file
 fresh scripts/tmuxrl --bin
 
 # toolchain-install: set up development environments for different languages
 fresh scripts/toolchain-install --bin
+
+# yankee: universal yank/paste tool
+fresh scripts/yankee --bin=$FRESH_BIN_PATH/yankee-yank
+fresh scripts/yankee --bin=$FRESH_BIN_PATH/yankee-paste
 
 fresh_after_build () {
     chmod +x ~/.fresh/build/config-polybar-*.sh
