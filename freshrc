@@ -7,6 +7,9 @@
 # fresh: bundler for dotfiles
 fresh freshshell/fresh bin/fresh --bin
 
+# bootstrap: bootstrap my complete dev environment
+fresh scripts/bootstrap --bin
+
 #
 # System
 #
@@ -153,6 +156,11 @@ fresh config/pulse/default.pa --file=~/.config/pulse/default.pa
 # 24bit: check a terminal for true color support
 fresh scripts/24bit --bin
 
+# asdf: universal version manager
+fresh config/asdf/asdfrc --file
+fresh config/asdf/default-gems --file
+fresh config/asdf/default-npm-packages
+
 # fzf: fast fuzzybinder
 fresh junegunn/fzf bin/fzf-tmux --bin
 
@@ -189,9 +197,6 @@ fresh config/makepkg.conf --file
 # tmux: terminal multiplexer
 fresh config/tmux.conf --file
 fresh scripts/tmuxrl --bin
-
-# toolchain-install: set up development environments for different languages
-fresh scripts/toolchain-install --bin
 
 # yankee: universal yank/paste tool
 fresh scripts/yankee --bin=$FRESH_BIN_PATH/yankee-yank

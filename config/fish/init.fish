@@ -14,9 +14,6 @@ if status --is-login
   set -q XDG_CACHE_HOME
     or set -x XDG_CACHE_HOME $HOME/.cache
 
-  # go
-  set -x GOPATH $HOME/.go
-
   # fresh
   set -x FRESH_BIN_PATH $HOME/.local/bin
 
@@ -28,14 +25,7 @@ if status --is-login
   path_prepend /usr/local/opt/gnu-getopt/bin # homebrew getopt
   path_prepend /usr/lib/ccache/bin # ccache
   path_prepend ~/.local/bin # fresh
-  path_prepend $GOPATH/bin # go
   path_prepend ~/.cargo/bin # rust
-  path_prepend ~/.pyenv/bin # pyenv
-  path_prepend ~/.rbenv/bin # rbenv
-
-  # have nvm initialize our path as well
-  type -q nvm
-    and nvm use default
 
   # notify systemd of path
   command -s systemctl >/dev/null 2>&1
