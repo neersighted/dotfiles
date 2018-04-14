@@ -33,7 +33,7 @@ set -g __fish_git_prompt_color_dirtystate $color_blue
 set -g __fish_git_prompt_color_invalidstate $color_red
 set -g __fish_git_prompt_color_stagedstate $color_yellow
 set -g __fish_git_prompt_color_stashstate $color_orange
-set -g __fish_git_prompt_color_untrackedfiles $color_base2
+set -g __fish_git_prompt_color_untrackedfiles $color_magenta
 
 # fzf
 if set -q fish_term24bit
