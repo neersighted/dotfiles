@@ -30,8 +30,7 @@ if status --is-interactive
 
   if test (uname -r | cut -d- -f3) = "Microsoft"
     # connect ssh to the windows ssh-agent
-    status --is-login
-      and source (weasel-pageant -S fish | psub)
+    source (weasel-pageant -q -r -S fish | psub)
 
     # connect X applications to the windows X11 server
     set -x DISPLAY :0
