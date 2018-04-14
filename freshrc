@@ -159,11 +159,7 @@ fresh config/asdf/default-npm-packages
 fresh junegunn/fzf bin/fzf-tmux --bin
 
 # git: the stupid content tracker
-fresh-options --file=~/.config/git/config --marker
-    fresh config/git/config
-    fresh config/git/aliases
-    fresh config/git/colors
-fresh-options
+fresh config/git/config --file=~/.config/git/config
 fresh config/git/attributes --file=~/.config/git/attributes
 fresh config/git/ignore --file=~/.config/git/ignore
 

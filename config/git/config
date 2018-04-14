@@ -15,22 +15,39 @@
 #
 
 [core]
-    excludesfile = ~/.config/git/ignore
-    attributesfile = ~/.config/git/attributes
+    excludesFile = ~/.config/git/ignore
+    attributesFile = ~/.config/git/attributes
 
-[commit]
-    gpgSign = false
+[status]
+    short = true
+    branch = true
+    showUntrackedFiles = all
+    submoduleSummary = true
+[stash]
+    showStat = true
+    showPatch = true
+[blame]
+    date = short
+[log]
+    abbrevCommit = true
+    date = relative
+    decorate = auto
+    showSignature = true
+[format]
+    pretty = "format:%C(yellow)%h %C(blue)%G? %C(reset)(%ad) %C(white)%s%C(reset) - %aN%C(magenta)%d"
+
 [push]
     default = simple
 [pull]
     rebase = true
     ff = only
 [diff]
-    tool = vimdiff
+    tool = nvr
     renames = copies
+    indentHeuristic = true
+    algorithm = patience
 [merge]
-    tool = vimdiff
-    stat = true
+    tool = nvr
     defaultToUpstream = true
 [rebase]
     stat = true
@@ -38,30 +55,42 @@
     autoStash = true
     missingCommitsCheck = error
 
-[difftool]
-    prompt = false
-[mergetool]
-    prompt = false
+[difftool "nvr"]
+    cmd = nvr -s -d $LOCAL $REMOTE
+[mergetool "nvr"]
+    cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
 
 [help]
     autoCorrect = 1
-[status]
-    short = true
-    branch = true
-    submoduleSummary = true
-    showUntrackedFiles = normal
-[log]
-    date = relative
-    abbrevCommit = true
-[format]
-    pretty = "format:%C(blue)%h - %C(cyan)(%ar) %C(white)%s%C(reset) - %aN%C(magenta)%d"
 
 #
 # Servers
 #
 
 [url "git@github.com:"]
+    pushInsteadOf = https://github.com/
     pushInsteadOf = git://github.com/
+
+#
+# Aliases
+#
+
+[alias]
+    # rewrite history
+    change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
+    # from https://help.github.com/articles/remove-sensitive-data
+    remove-file = "!f() { git filter-branch -f --index-filter \"git rm --cached --ignore-unmatch $1\" --prune-empty --tag-name-filter cat -- --all; }; f"
+    # legit
+    switch = !legit switch
+    sync = !legit sync
+    publish = !legit publish
+    unpublish = !legit unpublish
+    undo = !legit undo
+    branches = !legit branches
+
+#
+# Includes
+#
 
 [include]
     path = ~/.config/git/config.local
