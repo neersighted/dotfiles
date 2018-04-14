@@ -193,6 +193,7 @@ section "fish"
   fish -c fisher <<FISHFILE
 omf/bang-bang
 fzf
+gitignore
 pipenv
 omf/sudope
 z
@@ -236,7 +237,6 @@ section "CLI Tools"
   install_rust_tool exa
   install_rust_tool fd-find
   install_go_tool junegunn/fzf
-  install_go_tool Gnouc/gogi/cmd/gogi
   install_rust_tool hyperfine
   install_go_tool simeji/jid/cmd/jid
   install_go_tool nishanths/license
