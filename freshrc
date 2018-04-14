@@ -167,10 +167,6 @@ fresh config/asdf/default-npm-packages
 # fzf: fast fuzzybinder
 fresh junegunn/fzf bin/fzf-tmux --bin
 
-# gibo: gitignore boilerplate
-fresh simonwhitaker/gibo gibo --bin
-fresh simonwhitaker/gibo gibo-completion.fish --file=~/.config/fish/completions/gibo.fish
-
 # git: the stupid content tracker
 fresh-options --file=~/.config/git/config --marker
     fresh config/git/config
