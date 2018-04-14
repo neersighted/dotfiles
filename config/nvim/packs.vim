@@ -1,5 +1,6 @@
 if exists('*minpac#init')
-  call minpac#init() " minpac is updated using fresh
+  call minpac#init()
+  call minpac#add('k-takata/minpac', {'type': 'opt'})
 
   " Libraries
   call minpac#add('equalsraf/neovim-gui-shim') " gui configuration support

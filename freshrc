@@ -62,7 +62,6 @@ for config in ~/.dotfiles/config/nvim/*.vim; do
     config=$(basename "$config")
     fresh "config/nvim/$config" --file="~/.config/nvim/$config"
 done
-fresh k-takata/minpac . --file=~/.config/nvim/pack/minpac/opt/minpac/
 
 # nyaovim: electron gui for neovim
 fresh config/nyaovimrc.html --file=~/.config/nyaovim/nyaovimrc.html

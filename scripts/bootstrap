@@ -19,6 +19,10 @@ important() {
   printf "%s%s%s\n" "$(tput setaf 5)" "$@" "$(tput sgr0)"
 }
 
+getshell () {
+  basename "$(awk -F: -v user="$USER" '$1 == user {print $NF}' /etc/passwd)"
+}
+
 
 important "Bootstrapping environment..."
 
@@ -93,7 +97,6 @@ section "Go"
 
     info "Installing/updating $target using go get..."
     go get -u "github.com/$target"
-    asdf reshim golang
   }
 endsection
 
@@ -173,6 +176,11 @@ section "fish"
     curl https://git.io/fisher -fsSLo "$HOME/.config/fish/functions/fisher.fish"
   fi
 
+  if [ ! "$(getshell)" = 'fish' ]; then
+    info "Changing login shell to fish..."
+    sudo chsh -s "$(command -v fish)" "$USER"
+  fi
+
   info "Installing/updating fish plugins..."
   fish -c fisher <<FISHFILE
 omf/bang-bang
@@ -185,10 +193,16 @@ endsection
 
 
 section "Neovim"
+  MINPAC="$HOME/.config/nvim/pack/minpac/opt/minpac"
+  if [ ! -d "$MINPAC" ]; then
+    info "Bootstrapping minpac..."
+    mkdir -p "$MINPAC"
+    git clone https://github.com/k-takata/minpac "$MINPAC"
+  fi
+
   if ! command -v neovim-node-host >/dev/null; then
     info "Installing Node.js Neovim provider..."
     npm install -g neovim
-    asdf reshim nodejs
   fi
   if ! $PYTHON2 -c "import neovim" 2>/dev/null; then
     info "Installing Python 2 Neovim provider..."
@@ -201,7 +215,6 @@ section "Neovim"
   if ! command -v neovim-ruby-host >/dev/null; then
     info "Installing Ruby Neovim provider..."
     gem install neovim
-    asdf reshim ruby
   fi
 
   info "Resolving Python paths..."
@@ -225,4 +238,7 @@ section "CLI Tools"
 endsection
 
 printf "\n"
+important "Reshimming all asdf installs..."
+asdf plugin-list | xargs -I{} asdf reshim {}
+
 important "Done! Restart your shell!"
