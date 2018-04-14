@@ -32,6 +32,11 @@ if status --is-login
   # notify systemd of path
   command -s systemctl >/dev/null 2>&1
     and systemctl --user import-environment PATH >/dev/null 2>&1
+
+  # check for mosh
+  set parent (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]'))
+  test $parent = "mosh-server"
+    and set -gx MOSH 1
 end
 
 # vi:ft=fish:

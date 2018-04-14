@@ -30,11 +30,9 @@ fresh seebi/dircolors-solarized dircolors.ansi-dark --file=~/.dircolors
 
 # fish: the friendly interactive shell, for humans
 fresh config/fish/init.fish --file=~/.config/fish/conf.d/00-init.fish
-fresh-options --file=~/.config/fish/config.fish --marker
-    fresh config/fish/config.fish
-    fresh config/fish/aliases.fish
-    fresh config/fish/colors.fish
-fresh-options
+fresh config/fish/colors.fish --file=~/.config/fish/conf.d/01-colors.fish
+fresh config/fish/appearance.fish --file=~/.config/fish/conf.d/02-appearance.fish
+fresh config/fish/config.fish --file=~/.config/fish/config.fish
 for function in ~/.dotfiles/config/fish/functions/*.fish; do
     function=$(basename "$function")
     fresh "config/fish/functions/$function" --file="~/.config/fish/functions/$function"

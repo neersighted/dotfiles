@@ -1,13 +1,13 @@
 # interactive shells (attached to a keyboard)
 if status --is-interactive
-  # shut up
-  set fish_greeting
-
   # programs
   set -x VISUAL nvim
   set -x EDITOR nvim
   set -x TERMINAL alacritty
   set -x LESS '-R'
+
+  # muscle memory
+  abbr vim nvim
 
   test (uname) = "Darwin"
     and set -x BROWSER open
@@ -28,34 +28,28 @@ if status --is-interactive
   # libvirt
   set -x LIBVIRT_DEFAULT_URI qemu:///system
 
-  # login actions (root shell only)
-  if status --is-login
-    if test (uname -r | cut -d- -f3) = "Microsoft"
-      # connect ssh to the windows ssh-agent
-      source (weasel-pageant -S fish|psub)
+  if test (uname -r | cut -d- -f3) = "Microsoft"
+    # connect ssh to the windows ssh-agent
+    status --is-login
+      and source (weasel-pageant -S fish | psub)
 
-      # connect X applications to the windows X11 server
-      set -x DISPLAY :0
-    else
-      # check for mosh
-      set parent (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]'))
-      test $parent = "mosh-server"
-        and set -x MOSH 1
+    # connect X applications to the windows X11 server
+    set -x DISPLAY :0
+  else
+    # notify gpg-agent of non-graphical sessions
+    status --is-login; and not set -q DISPLAY
+      and set -x GPG_TTY (tty)
 
-      # notify gpg-agent of non-graphical sessions
-      not set -q DISPLAY
-        and set -x GPG_TTY (tty)
-
-      # connect ssh to gpg-agent and inform gpg-agent of our TTY
-      not set -q SSH_CLIENT; and not set -q MOSH
-        and set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
-        and gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
-    end
+    # connect ssh to gpg-agent and inform gpg-agent of our TTY
+    not set -q SSH_CLIENT; and not set -q MOSH
+      and set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+      and gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
   end
 
   # autostart actions (login, local, root shells only)
   if status --is-login
-    and not set -q SSH_CLIENT; and not set -q MOSH; and not set -q TMUX
+    and not set -q SSH_CLIENT; and not set -q MOSH
+    and not set -q TMUX
 
     # exec X (on tty1 only)
     test -z "$DISPLAY" -a "$XDG_VTNR" = 1
