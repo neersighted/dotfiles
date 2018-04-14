@@ -1,7 +1,5 @@
 # shut up
 set fish_greeting
-# enable 24bit color
-set -g fish_term24bit 1
 
 # prompt
 set -g fish_prompt_pwd_dir_length 3
@@ -38,9 +36,8 @@ set -g __fish_git_prompt_color_stashstate $color_orange
 set -g __fish_git_prompt_color_untrackedfiles $color_base2
 
 # fzf
-set -q fish_term24bit
-  and set -x FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --color=fg:$color_base0,bg:$color_base03,hl:$color_base2,fg+:$color_base0,bg+:$color_base02,hl+:$color_magenta --color=info:$color_cyan,prompt:$color_base0,pointer:$color_base3,marker:$color_base3,spinner:$color_cyan"
-  or set -x FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --color=fg:12,bg:8,hl:7,fg+:12,bg+:0,hl+:5 --color=info:6,prompt:12,pointer:15,marker:15,spinner:6"
+set -x FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --color=fg:$color_base0,bg:$color_base03,hl:$color_base2,fg+:$color_base0,bg+:$color_base02,hl+:$color_magenta --color=info:$color_cyan,prompt:$color_base0,pointer:$color_base3,marker:$color_base3,spinner:$color_cyan"
+# set -x FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --color=fg:12,bg:8,hl:7,fg+:12,bg+:0,hl+:5 --color=info:6,prompt:12,pointer:15,marker:15,spinner:6"
 
 # dirh
 set -g fish_color_history_current --bold

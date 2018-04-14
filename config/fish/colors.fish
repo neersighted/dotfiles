@@ -1,3 +1,6 @@
+# enable 24bit color
+set -g fish_term24bit 1
+
 if set -q fish_term24bit
   set -g color_base03  '#002b36'
   set -g color_base02  '#073642'
