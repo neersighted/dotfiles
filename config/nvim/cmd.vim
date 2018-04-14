@@ -40,10 +40,6 @@ endfunction
 command! QFToggle call s:qftoggle(0)
 command! LocToggle call s:qftoggle(1)
 
-" Switch files with preview.
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
 " Grep using rg.
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
