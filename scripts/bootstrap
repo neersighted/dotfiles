@@ -239,6 +239,12 @@ section "Neovim"
 endsection
 
 
+section "GDB"
+  info "Installing/updating GDB dashboard..."
+  curl git.io/.gdbinit -fsSLo "$HOME/.gdbinit"
+endsection
+
+
 section "CLI Tools"
   install_rust_tool exa
   install_rust_tool fd-find
