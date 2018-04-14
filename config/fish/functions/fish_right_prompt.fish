@@ -11,8 +11,7 @@ function fish_right_prompt --description 'right prompt'
   printf ' %s' (prompt_pwd)
   set_color normal
 
-  type -q pretty-git-prompt
-    and eval (pretty-git-prompt)
+  __fish_git_prompt
 
   if not test $job_count -eq 0
     set_color $fish_color_jobs

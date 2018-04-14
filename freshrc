@@ -49,9 +49,6 @@ fresh edc/bass functions/__bass.py --file=~/.config/fish/vendor/functions/__bass
 # neofetch: screenfetch replacement
 fresh config/neofetch --file=~/.config/neofetch/config
 
-# pretty-git-prompt: high performance, simple git prompt utility
-fresh config/pretty-git-prompt.yml --file=~/.config/pretty-git-prompt.yml
-
 #
 # Editing
 #

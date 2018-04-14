@@ -240,7 +240,6 @@ section "CLI Tools"
   install_rust_tool hyperfine
   install_go_tool simeji/jid/cmd/jid
   install_go_tool nishanths/license
-  install_rust_tool pretty-git-prompt
   install_rust_tool ripgrep
   install_rust_tool tokei
 endsection
