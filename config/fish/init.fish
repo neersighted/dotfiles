@@ -18,12 +18,8 @@ if status --is-login
   set -x FRESH_BIN_PATH $HOME/.local/bin
 
   # build our personal path
-  path_prepend /usr/local/opt/coreutils/libexec/gnubin # homebrew coreutils
-  path_prepend /usr/local/opt/findutils/libexec/gnubin # homebrew findutils
-  path_prepend /usr/local/opt/gnu-sed/libexec/gnubin # homebrew sed
-  path_prepend /usr/local/opt/gnu-tar/libexec/gnubin # homebrew tar
-  path_prepend /usr/local/opt/gnu-getopt/bin # homebrew getopt
-  path_prepend /usr/lib/ccache/bin # ccache
+  path_prepend /usr/local/opt/ccache/libexec # ccache (homebrew)
+  path_prepend /usr/lib/ccache/bin # ccache (linux)
   path_prepend ~/.local/bin # fresh/pipsi
   path_prepend ~/.cargo/bin # rustup/cargo
   path_prepend ~/.asdf/bin # asdf (core)
