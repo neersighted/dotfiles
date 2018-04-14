@@ -112,5 +112,8 @@ let g:startify_commands = [
 autocmd vimrc User Startified setlocal cursorline " Show the cursorline in Startify.
 autocmd vimrc User Startified setlocal buftype=nofile " Set the startup buffer to nofile.
 
+" Tmux Navigator
+let g:tmux_navigator_disable_when_zoomed = 1
+
 " Lightline
 autocmd vimrc User ALELint call lightline#update() " Update status bar on lint.
