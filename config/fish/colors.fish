@@ -62,7 +62,7 @@ set -g fish_color_valid_path --underline
 # prompt colors
 set -g fish_color_cwd $color_yellow
 set -g fish_color_cwd_root $color_red
-set -g fish_color_user $color_base0
+set -g fish_color_user $color_blue
 set -g fish_color_user_root $color_red
 set -g fish_color_host $color_cyan
 set -g fish_color_jobs $color_orange
