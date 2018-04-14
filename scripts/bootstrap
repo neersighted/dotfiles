@@ -197,7 +197,7 @@ section "fish"
   fish -c fisher <<FISHFILE
 omf/bang-bang
 fzf
-gitignore
+laughedelic/pisces
 pipenv
 omf/sudope
 z
