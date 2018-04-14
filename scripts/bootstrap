@@ -20,7 +20,14 @@ important() {
 }
 
 getshell () {
-  basename "$(awk -F: -v user="$USER" '$1 == user {print $NF}' /etc/passwd)"
+  local shell
+  if command -v dscacheutil >/dev/null; then
+    shell=$(dscacheutil -q user -a name "$USER" | grep shell | cut -d: -f2)
+  else
+    shell=$(getent passwd "$USER" | awk -F: '{print $NF}')
+  fi
+
+  basename "$shell"
 }
 
 
@@ -43,8 +50,8 @@ section "asdf"
   asdf update
 
   install_asdf_plugin() {
-    local name="$1"
-    local url="$2"
+    local name=$1
+    local url=$2
 
     if ! asdf plugin-list | fgrep -q "$name"; then
       info "Installing $name support for asdf..."
@@ -56,11 +63,12 @@ section "asdf"
   }
 
   install_asdf_language() {
-    local language="$1"
-    local query="${2:-.*}"
+    local language=$1
+    local query=${2:-.*}
+    local version
 
     asdf list-all "$language" >/dev/null # TODO: needed? downloads {python,ruby}-build
-    local version="$(asdf list-all "$language" | egrep "$query" | tail -1)"
+    version=$(asdf list-all "$language" | egrep "$query" | tail -1)
 
     if ! asdf list "$language" | fgrep -q "$version"; then
       info "Installing $language $version..."
@@ -93,7 +101,7 @@ section "Go"
   install_asdf_language "golang" "^1.10.[0-9]$"
 
   install_go_tool() {
-    local target="$1"
+    local target=$1
 
     info "Installing/updating $target using go get..."
     go get -u "github.com/$target"
@@ -108,9 +116,9 @@ endsection
 
 section "Python"
   install_asdf_language "python" "^2.7.[0-9]+$"
-  PYTHON2="$(asdf which python)"
+  PYTHON2=$(asdf which python)
   install_asdf_language "python" "^3.6.[0-9]+$"
-  PYTHON3="$(asdf which python)"
+  PYTHON3=$(asdf which python)
 
   if ! command -v pipsi >/dev/null; then
     info "Installing pipsi..."
@@ -154,7 +162,7 @@ section "Rust"
   fi
 
   install_rust_tool() {
-    local target="$1"
+    local target=$1
 
     info "Installing/updating $target using cargo..."
     cargo install-update -i "$target" || cargo install "$target"
