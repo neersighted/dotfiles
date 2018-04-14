@@ -87,7 +87,7 @@ set -g __fish_git_prompt_char_upstream_behind '<'
 set -g __fish_git_prompt_char_upstream_equal '='
 set -g __fish_git_prompt_char_stateseperator '|'
 
-set -g __fish_git_prompt_char_cleanstate "o"
+set -g __fish_git_prompt_char_cleanstate "-"
 set -g __fish_git_prompt_char_dirtystate '~'
 set -g __fish_git_prompt_char_invalidstate '#'
 set -g __fish_git_prompt_char_stagedstate '+'
