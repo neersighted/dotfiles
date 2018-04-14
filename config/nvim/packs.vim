@@ -47,7 +47,7 @@ if exists('*minpac#init')
 
   " Motions/Text Objects
   call minpac#add('justinmk/vim-sneak') " enhanced character seeking
-  call minpac#add('tpope/vim-surround') " (un)surround with delimiters
+  call minpac#add('machakann/vim-sandwich') " (un)surround text objects
   call minpac#add('tommcdo/vim-ninja-feet') " motions to the end of text objects
 
   " Language Support/Integration
@@ -71,6 +71,8 @@ if exists('*minpac#init')
   call minpac#add('vim-python/python-syntax') " enhanced python syntax
   call minpac#add('vim-ruby/vim-ruby') " enhanced ruby support
   call minpac#add('rust-lang/rust.vim') " enhanced rust support
+  call minpac#add('racer-rust/vim-racer') " racer support
+  call minpac#add('roxma/nvim-cm-racer') " racer support in ncm
   call minpac#add('iloginow/vim-stylus') " stylus support
   call minpac#add('chr4/sslsecure.vim') " cipher highlighting
   call minpac#add('kurayama/systemd-vim-syntax') " systemd syntax

@@ -171,6 +171,7 @@ section "Rust"
   install_rust_tool "cargo-update"
   install_rust_tool "cargo-watch"
   install_rust_tool "clippy"
+  install_rust_tool "racer"
 endsection
 
 
@@ -225,6 +226,8 @@ section "Neovim"
     info "Installing Ruby Neovim provider..."
     gem install neovim
   fi
+
+  install_python_tool neovim-remote
 
   info "Resolving Python paths..."
   NEOVIM_CONFIG="$HOME/.config/nvim/local.vim"

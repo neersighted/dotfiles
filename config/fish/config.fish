@@ -49,7 +49,7 @@ if status --is-interactive
       # connect ssh to gpg-agent and inform gpg-agent of our TTY
       not set -q SSH_CLIENT; and not set -q MOSH
         and set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
-        and gpg-connect-agent updatestartuptty /bye >/dev/null ^&1
+        and gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
     end
   end
 
@@ -62,7 +62,7 @@ if status --is-interactive
       and exec startx
 
     # start tmux (or attach if already running)
-    if type -q tmux >/dev/null ^&1
+    if type -q tmux >/dev/null 2>&1
       set -l session (hostname)
       tmux has-session -t $session
         and tmux new-session -t $session \; set-option destroy-unattached

@@ -7,6 +7,9 @@ autocmd vimrc FileType go nnoremap <buffer> <c-]> :call go#def#Jump('buf')<cr>
 " Python
 autocmd vimrc FileType python nnoremap <buffer> <c-]> :call jedi#goto_definitions()<cr>
 
+" Rust
+autocmd vimrc FileType rust nnoremap <buffer> <c-]> :call racer#GoToDefinition()<cr>
+
 " Quickfix
 " enable numbering, disable visual wrapping
 autocmd vimrc FileType qf setlocal number norelativenumber nowrap

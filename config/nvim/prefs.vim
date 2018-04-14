@@ -43,6 +43,8 @@ set linebreak breakindent showbreak=\\ " Visually wrap (and indent wrapped lines
 set list listchars=tab:..,nbsp:~,trail:_,extends:>,precedes:< " Show hidden characters.
 set conceallevel=1 " Enable conceal support.
 
+" Environment
+let $VISUAL = 'nvr -cc split --remote-wait' " Don't nest neovim, open a new split instead.
 "
 " Plugins
 "
@@ -52,6 +54,22 @@ let g:ale_echo_msg_format = '[%linter%:%severity%] %s'
 let g:ale_sign_warning = '!'
 let g:ale_sign_error = 'x'
 let g:ale_linters = {'rust': ['rls', 'rustfmt']}
+
+" fzf
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
 
 " Go
 let g:go_auto_type_info=1 " Show info for word under cursor.
@@ -78,7 +96,7 @@ let g:sneak#absolute_dir = 0 " ; always goes forward, , always goes back.
 
 " Startify
 let g:startify_session_dir = $XDG_DATA_HOME . '/nvim/session'
-let g:startify_bookmarks = [ 
+let g:startify_bookmarks = [
       \ {'f': '~/.dotfiles/freshrc'}, 
       \ {'v': '~/.dotfiles/config/neovim/init.vim'}, 
       \ {'s': '~/.dotfiles/config/fish/config.fish'}, 
