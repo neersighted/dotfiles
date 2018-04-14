@@ -1,5 +1,6 @@
 function fish_right_prompt --description 'right prompt'
   set -l last_status $status
+  set -l job_count (jobs | wc -l)
 
   set -q prompt_minimal
     and return
@@ -12,6 +13,12 @@ function fish_right_prompt --description 'right prompt'
 
   type -q pretty-git-prompt
     and eval (pretty-git-prompt)
+
+  if not test $job_count -eq 0
+    set_color $fish_color_jobs
+    printf ' {%i}' $job_count
+    set_color normal
+  end
 
   if not test $last_status -eq 0
     set_color $fish_color_status

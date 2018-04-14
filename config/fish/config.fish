@@ -30,7 +30,7 @@ if status --is-interactive
 
   # login actions (root shell only)
   if status --is-login
-    if test (uname -r|cut -d- -f3) = "Microsoft"
+    if test (uname -r | cut -d- -f3) = "Microsoft"
       # connect ssh to the windows ssh-agent
       source (weasel-pageant -S fish|psub)
 
