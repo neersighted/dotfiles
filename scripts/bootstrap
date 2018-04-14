@@ -130,7 +130,7 @@ section "Python"
     local target=$1
 
     info "Installing/updating $target using pipsi..."
-    if ! pipsi list | fgrep -q "$target"; then
+    if ! pipsi list | fgrep "$target" >/dev/null; then
       pipsi install "$target"
     else
       pipsi upgrade "$target"
