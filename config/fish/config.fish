@@ -15,7 +15,7 @@ if status --is-interactive
 
   # fzf (global)
   set -x FZF_DEFAULT_COMMAND 'fd --type file'
-  set -x FZF_DEFAULT_OPTS ''
+  # set -x FZF_DEFAULT_OPTS ''
 
   # fzf (plugin)
   set -g FZF_TMUX 1
