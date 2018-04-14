@@ -106,6 +106,9 @@ section "Go"
     info "Installing/updating $target using go get..."
     go get -u "github.com/$target"
   }
+
+  install_go_tool nsf/gocode
+  install_go_tool golang/lint/golint
 endsection
 
 
