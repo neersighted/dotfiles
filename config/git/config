@@ -21,7 +21,7 @@
 [commit]
     gpgSign = false
 [push]
-    default = current
+    default = simple
 [pull]
     rebase = true
     ff = only
@@ -36,7 +36,7 @@
     stat = true
     autoSquash = true
     autoStash = true
-    missingCommitsCheck = warn
+    missingCommitsCheck = error
 
 [difftool]
     prompt = false
