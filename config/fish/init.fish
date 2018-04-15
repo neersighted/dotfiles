@@ -1,10 +1,8 @@
 # shell init (core environmental variables)
 if status --is-login
-  # load bass into the path
-  set fish_function_path $fish_function_path ~/.config/fish/vendor/functions
-
-  # load system profile
-  bass source /etc/profile
+  # load system profile (with bass)
+  type -q bass
+    and bass source /etc/profile
 
   # xdg
   set -q XDG_CONFIG_HOME
@@ -35,7 +33,7 @@ if status --is-login
 
   # check for mosh
   set parent (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]'))
-  test $parent = "mosh-server"
+  test "$parent" = "mosh-server"
     and set -gx MOSH 1
 end
 

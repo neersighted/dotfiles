@@ -1,5 +1,7 @@
-# enable 24bit color
-set -g fish_term24bit 1
+# enable 24bit color on non-basic terminals
+if test "$TERM" != "linux"; and test "$TERM" != "xterm"
+  set -g fish_term24bit 1
+end
 
 set -g color_base03  \#002b36 brblack
 set -g color_base02  \#073642 black

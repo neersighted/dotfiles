@@ -1,4 +1,8 @@
-set termguicolors " Use true colors.
+" Check we're not using a basic terminal.
+if $TERM !=# "linux" && $TERM !=# "xterm"
+  set termguicolors " Use true colors.
+endif
+
 let g:solarized_use16 = 1 " Use 16 colors when true color is not supported
 silent! colorscheme solarized8
 

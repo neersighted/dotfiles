@@ -5,7 +5,7 @@ dpi:
   x: 96.0
   y: 96.0
 window:
-  decorations: false
+  decorations: true
   dimensions:
     columns: 80
     lines: 24

@@ -33,7 +33,7 @@ if status --is-interactive
   set -g FZF_CD_WITH_HIDDEN_COMMAND 'fd --type directory --follow --hidden --exclude .git'
 
   # abbreviations (versioned here so they carry over automatically)
-  if not set -q fish_abbr_version; or test $fish_abbr_version -lt 1
+  if not set -q fish_abbr_version; and test "$fish_abbr_version "-lt 1
     abbr vim nvim # muscle memory
     set -U fish_abbr_version 1
   end
@@ -68,7 +68,7 @@ if status --is-interactive
       and exec startx
 
     # start tmux (or attach if already running)
-    if type -q tmux
+    if type -q tmux; and tty | grep -q pts
       set -l session (hostname)
       tmux has-session -t $session
         and tmux new-session -t $session \; set-option destroy-unattached

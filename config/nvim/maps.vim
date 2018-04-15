@@ -131,8 +131,8 @@ nnoremap <leader>x :Sayonara<cr>
 nnoremap <leader>X :tabclose<cr>
 
 " Sneak
-map f <plug>Sneak_F
-map F <plug>Sneak_S
+map f <plug>Sneak_f
+map F <plug>Sneak_F
 map t <plug>Sneak_t
 map T <plug>Sneak_T
 nmap <leader>s <Plug>SneakLabel_s

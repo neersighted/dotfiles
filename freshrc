@@ -41,8 +41,6 @@ for completion in ~/.dotfiles/config/fish/completions/*.fish; do
     completion=$(basename "$completion")
     fresh "config/fish/completions/$completion" --file="~/.config/fish/completions/$completion"
 done
-fresh edc/bass functions/bass.fish --file=~/.config/fish/vendor/functions/bass.fish
-fresh edc/bass functions/__bass.py --file=~/.config/fish/vendor/functions/__bass.py
 
 # neofetch: screenfetch replacement
 fresh config/neofetch --file=~/.config/neofetch/config
