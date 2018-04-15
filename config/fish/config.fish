@@ -4,8 +4,9 @@ if status --is-interactive
   if status --is-login
     set -x VISUAL nvim
     set -x EDITOR nvim
-    set -x TERMINAL alacritty
+    set -x PAGER less
     set -x LESS '-R'
+    set -x TERMINAL alacritty
     test (uname) = "Darwin"
       and set -x BROWSER open
       or set -x BROWSER firefox-nightly
