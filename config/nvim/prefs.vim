@@ -4,6 +4,18 @@
 
 " Clipboard
 set clipboard=unnamedplus " Use the system clipboard.
+let g:clipboard = {
+  \   'name': 'yankee',
+  \   'copy': {
+  \      '+': 'yankee-yank',
+  \      '*': 'yankee-yank',
+  \    },
+  \   'paste': {
+  \      '+': 'yankee-paste',
+  \      '*': 'yankee-paste',
+  \   },
+  \   'cache_enabled': 1,
+  \ }
 
 " Cursor
 set virtualedit=onemore,block " Allow cursor to the end of the line (and anywhere in visual-block.)
@@ -104,10 +116,10 @@ let g:startify_bookmarks = [
       \ {'g': '~/.dotfiles/config/git/config'}, 
       \ ]
 let g:startify_commands = [
-      \ {'h': ':CheckHealth'},
+      \ {'T': ':terminal'},
+      \ {'h': ':checkhealth'},
       \ {'p': ':PackUpdate'},
       \ {'P': ':PackClean'},
-      \ {'T': ':terminal'},
       \ ]
 autocmd vimrc User Startified setlocal cursorline " Show the cursorline in Startify.
 autocmd vimrc User Startified setlocal buftype=nofile " Set the startup buffer to nofile.
