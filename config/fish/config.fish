@@ -41,7 +41,9 @@ if status --is-interactive
 
     # connect ssh to gpg-agent and inform gpg-agent of our TTY
     not set -q SSH_CLIENT; and not set -q MOSH
+      and type -q gpgconf >/dev/null 2>&1
       and set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+      and type -q gpg-connect-agent >/dev/null 2>&1
       and gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
   end
 
