@@ -8,7 +8,7 @@ set -g fish_color_cwd_root $color_red
 set -g fish_color_user $color_blue
 set -g fish_color_user_root $color_red
 set -g fish_color_host $color_cyan
-set -g fish_color_jobs $color_orange
+set -g fish_color_jobs $color_magenta
 set -g fish_color_status $color_red
 
 # git prompt
@@ -32,7 +32,7 @@ set -g __fish_git_prompt_color_cleanstate $color_green
 set -g __fish_git_prompt_color_dirtystate $color_blue
 set -g __fish_git_prompt_color_invalidstate $color_red
 set -g __fish_git_prompt_color_stagedstate $color_yellow
-set -g __fish_git_prompt_color_stashstate $color_orange
+set -g __fish_git_prompt_color_stashstate $color_cyan
 set -g __fish_git_prompt_color_untrackedfiles $color_magenta
 
 # fzf
@@ -58,8 +58,8 @@ set -g fish_color_param $color_base0
 set -g fish_color_quote $color_base00
 set -g fish_color_operator $color_blue
 set -g fish_color_match $color_green
-set -g fish_color_escape $color_orange
-set -g fish_color_redirection $color_violet
+set -g fish_color_escape $color_magenta
+set -g fish_color_redirection $color_cyan
 set -g fish_color_end $color_yellow
 set -g fish_color_error $color_red
 set -g fish_color_comment $color_base01
