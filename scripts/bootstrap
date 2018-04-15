@@ -168,7 +168,11 @@ section "Rust"
     local target=$1
 
     info "Installing/updating $target using cargo..."
-    cargo install-update -i "$target" || cargo install "$target"
+    if command -v cargo-install-update >/dev/null; then
+      cargo install-update -i "$target"
+    else
+      cargo install "$target"
+    fi
   }
 
   install_rust_tool "cargo-update"
