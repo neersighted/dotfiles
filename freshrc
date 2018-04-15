@@ -26,7 +26,7 @@ done
 #
 
 # dircolors: colorized ls
-fresh seebi/dircolors-solarized dircolors.ansi-dark --file=~/.dircolors
+fresh config/dircolors --file
 
 # fish: the friendly interactive shell, for humans
 fresh config/fish/init.fish --file=~/.config/fish/conf.d/00-init.fish
@@ -154,7 +154,7 @@ fresh config/asdf/default-gems --file
 fresh config/asdf/default-npm-packages
 
 # fzf: fast fuzzybinder
-fresh junegunn/fzf bin/fzf-tmux --bin
+fresh scripts/fzf-tmux --bin
 
 # git: the stupid content tracker
 fresh config/git/config --file=~/.config/git/config
