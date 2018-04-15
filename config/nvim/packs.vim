@@ -4,39 +4,43 @@ if exists('*minpac#init')
 
   " Libraries
   call minpac#add('equalsraf/neovim-gui-shim') " gui configuration support
-  call minpac#add('MarcWeber/vim-addon-mw-utils') " utility functions
   call minpac#add('tpope/vim-repeat') " repeat support for plugins
-  call minpac#add('tomtom/tlib_vim') " utility functions
+
+  " Colorschemes
+  call minpac#add('lifepillar/vim-solarized8') " simplified solarized port
 
   " Enhancements/Tweaks
   call minpac#add('jamessan/vim-gnupg') " encrypted file editing
   call minpac#add('ludovicchabant/vim-gutentags') " seamless ctags
   call minpac#add('dietsche/vim-lastplace') " re-open files in the sample place
+  call minpac#add('talek/obvious-resize') " simple window resizing
   call minpac#add('airblade/vim-rooter') " auto-cd to project root
   call minpac#add('mhinz/vim-sayonara') " simple window closing
 
-  " Interface
+  " Feature Additions
+  call minpac#add('w0rp/ale') " async lint engine
+  call minpac#add('itchyny/lightline.vim') " stupid light statusline framework
+  call minpac#add('airblade/vim-gitgutter') " git diff gutter
+  call minpac#add('simnalamburt/vim-mundo') " undo tree gui
+  call minpac#add('roxma/nvim-completion-manager') " async completion engine
+  call minpac#add('mhinz/vim-startify') " simple start screen
+
+  " Environment Integration
   call minpac#add('tpope/vim-eunuch') " unix addons
   call minpac#add('tpope/vim-fugitive') " git integration
-  call minpac#add('airblade/vim-gitgutter') " git diff gutter
   call minpac#add('justinmk/vim-gtfo') " quickly open terminal or file manager
-  call minpac#add('itchyny/lightline.vim') " stupid light statusline framework
-  call minpac#add('simnalamburt/vim-mundo') " undo tree gui
-  call minpac#add('talek/obvious-resize') " simple window resizing
-  call minpac#add('lifepillar/vim-solarized8') " simplified solarized port
-  call minpac#add('mhinz/vim-startify') " simple start screen
   call minpac#add('christoomey/vim-tmux-navigator') " seamless vim/tmux splits
 
-  " Editing
+  " Editing Addons
   call minpac#add('tpope/vim-commentary') " quickly comment/uncomment
   call minpac#add('tommcdo/vim-exchange') " exchange lines
 
-  " Formatting
+  " Formatting Addons
   call minpac#add('jiangmiao/auto-pairs') " auto-close delimiters
   call minpac#add('junegunn/vim-easy-align') " align text objects
   call minpac#add('tpope/vim-sleuth') " auto-determine buffer formatting
 
-  " Search/Navigation
+  " Search/Navigation Tools
   call minpac#add('justinmk/vim-dirvish') " ultra-minimal directory browser
   call minpac#add('junegunn/fzf') " fuzzy finder
   call minpac#add('junegunn/fzf.vim') " fuzzy finder
@@ -50,9 +54,7 @@ if exists('*minpac#init')
   call minpac#add('tommcdo/vim-ninja-feet') " motions to the end of text objects
 
   " Language Support/Integration
-  call minpac#add('w0rp/ale') " async lint engine
   call minpac#add('stevearc/vim-arduino') " arduino syntax/integration
-  call minpac#add('ap/vim-css-color') " highlight CSS colors
   call minpac#add('ccraciun/vim-dreammaker') " dream maker syntax
   call minpac#add('dag/vim-fish') " fish syntax
   call minpac#add('fatih/vim-go') " enhanced go support
@@ -62,8 +64,7 @@ if exists('*minpac#init')
   call minpac#add('roxma/ncm-github') " completion for github
   call minpac#add('chr4/nginx.vim') " nginx syntax
   call minpac#add('roxma/ncm-clang') " c/c++ completion
-  call minpac#add('roxma/nvim-completion-manager') " async completion engine
-  call minpac#add('Shougo/neco-vim') " vim completion
+  call minpac#add('Shougo/neco-vim') " viml completion
   call minpac#add('Shougo/neco-syntax') " syntax-based completion
   call minpac#add('pangloss/vim-javascript') " enhanced javascript syntax
   call minpac#add('exu/pgsql.vim') " postgres syntax
@@ -73,9 +74,8 @@ if exists('*minpac#init')
   call minpac#add('racer-rust/vim-racer') " racer support
   call minpac#add('roxma/nvim-cm-racer') " racer support in ncm
   call minpac#add('iloginow/vim-stylus') " stylus support
-  call minpac#add('chr4/sslsecure.vim') " cipher highlighting
-  call minpac#add('kurayama/systemd-vim-syntax') " systemd syntax
-  call minpac#add('keith/tmux.vim') " tmux config syntax
+  call minpac#add('wgwoods/vim-systemd-syntax') " systemd syntax
+  call minpac#add('tmux-plugins/vim-tmux') " tmux config syntax
   call minpac#add('cespare/vim-toml') " toml syntax
 endif
 

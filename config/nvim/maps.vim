@@ -1,4 +1,4 @@
-let g:mapleader = ' ' " Use an easy leader.
+let g:mapleader = ' '
 
 "
 " Core
@@ -27,8 +27,8 @@ nnoremap <leader>q :QFToggle<cr>
 
 " unimapired-style pairs
 " argument list
-nnoremap [a :previous<cr>
-nnoremap ]a :next<cr>
+nnoremap [v :previous<cr>
+nnoremap ]v :next<cr>
 " buffer list
 nnoremap [b :bprevious<cr>
 nnoremap ]b :bnext<cr>
@@ -58,10 +58,10 @@ vnoremap ]e :move '>+1<cr>gv=gv
 nnoremap [<space> m`O<esc>``
 nnoremap ]<space> m`o<esc>``
 " ale errors
-nmap ]w <plug>(ale_next)
-nmap [w <plug>(ale_previous)
-nmap ]W <plug>(ale_first)
-nmap ]W <plug>(ale_last)
+nmap ]a <plug>(ale_next)
+nmap [a <plug>(ale_previous)
+nmap ]A <plug>(ale_first)
+nmap ]A <plug>(ale_last)
 
 " paste and leave when finished (You Only Paste Once)
 nnoremap yo :PasteOnce<cr>o
@@ -98,8 +98,7 @@ nnoremap <leader>T :Tags<cr>
 nnoremap <leader>h :BCommits<cr>
 nnoremap <leader>H :Commits<cr>
 nnoremap <leader>` :Marks<cr>
-nnoremap <leader>/ :Helptags<cr>
-nnoremap <leader>? :Maps<cr>
+nnoremap <leader>? :Helptags<cr>
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
@@ -132,8 +131,9 @@ nnoremap <leader>x :Sayonara<cr>
 nnoremap <leader>X :tabclose<cr>
 
 " Sneak
-map f <plug>Sneak_f
-map F <plug>Sneak_F
+map f <plug>Sneak_F
+map F <plug>Sneak_S
 map t <plug>Sneak_t
 map T <plug>Sneak_T
-
+nmap <leader>s <Plug>SneakLabel_s
+nmap <leader>S <Plug>SneakLabel_S
