@@ -1,19 +1,55 @@
-# [fresh] ~/.dotfiles
+# ~/.dotfiles
 
-> These are my dotfiles. There are many like them, but these ones are mine.
+## Setup
 
-Here you will find my dotfiles. They contain the configuration for many
-programs I use, and reflect many months of tweaking on my part. Feel free to
-pick and snip from them as you like. I suggest importing anything you like with
-[fresh].
+First, install [rcm] in order to symlink dotfiles into place.
+
+Debian:
+```sh
+wget -qO - https://apt.thoughtbot.com/thoughtbot.gpg.key | sudo apt-key add -
+echo "deb http://apt.thoughtbot.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/thoughtbot.list
+sudo apt-get update
+sudo apt-get install rcm
+```
+
+Ubuntu:
+```sh
+sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm
+sudo apt-get update
+sudo apt-get install rcm
+```
+
+Fedora:
+```sh
+sudo dnf copr enable seeitcoming/rcm
+sudo dnf install rcm
+```
+
+FreeBSD:
+```sh
+sudo pkg install rcm
+```
+
+macOS:
+```sh
+brew tap thoughtbot/formulae
+brew install rcm
+```
 
 ## Installation
 
-``` sh
-FRESH_BIN_PATH=~/.local/bin FRESH_LOCAL_SOURCE=neersighted/dotfiles bash <(curl -fsSL get.freshshell.com)
+Next, clone this repo down and link the files with `rcup`:
+
+```sh
+git clone https://github.com/neersighted/dotfiles "$HOME/.dotfiles"
+env RCRC="$HOME/.dotfiles/rcrc" rcup
 ```
 
-My dotfiles are managed by [fresh].
+Finally, bootstrap the environment with the `bootstrap` script:
+
+```sh
+bootstrap
+```
 
 ## License
 
@@ -22,4 +58,5 @@ This project is licensed under the
 
 See LICENSE for more details.
 
-[fresh]: https://github.com/freshshell/fresh
+
+[rcm]: https://github.com/thoughtbot/rcm
