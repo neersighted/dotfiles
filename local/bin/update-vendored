@@ -1,5 +1,0 @@
-#!/bin/sh
-
-curl https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -fsSLo "$HOME/.gdbinit"
-curl https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux -fsSLo "$HOME/.local/bin/fzf-tmux"
-

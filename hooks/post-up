@@ -18,3 +18,9 @@ if [ ! -e "$HOME/.config/fish/functions/fisher.fish" ]; then
     fish -c fisher
   fi
 fi
+
+# install gdb-dashboard if not present
+if [ ! -f "$HOME/.gdbinit" ]; then
+  curl https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -fsSLo "$HOME/.gdbinit"
+fi
+
