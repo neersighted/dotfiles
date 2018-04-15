@@ -51,6 +51,15 @@ Finally, bootstrap the environment with the `bootstrap` script:
 bootstrap
 ```
 
+## Tags
+
+Additional dotfiles are categorized and selectively linked under tags.
+Currently they are:
+
+* `gui` (systems with graphical applications)
+* `systemd` (systems using system user sessions)
+* `x11` (systems using the x11 display server)
+
 ## License
 
 This project is licensed under the
