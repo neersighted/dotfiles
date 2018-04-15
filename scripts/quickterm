@@ -12,11 +12,11 @@ fi
 class=quickterm-$cmd
 
 quickterm_id () {
-  id=$(xdo id -N "$class")
+  id=$(xdotool search --class "$class")
   status=$?
 
   if [[ $TERMINAL =~ "termite" ]]; then
-    badids=$(xdo id -a "termite")
+    badids=$(xdotool search --name "termite")
     id=$(echo "$id" | grep -v "$badids")
   fi
 
@@ -26,13 +26,13 @@ quickterm_id () {
 
 # Check if quickterm already is running.
 if id=$(quickterm_id); then
-  if [[ $id == $(xdo id) ]]; then
+  if [[ $id == $(xdotool getactivewindow) ]]; then
     # A quickterm is running and active, hide it.
-    xdo hide "$id"
+    xdotool windowunmap "$id"
   else
     # A quickterm is running and hidden, show it.
-    xdo show "$id"
-    xdo activate "$id"
+    xdotool windowmap "$id"
+    xdotool windowraise "$id"
   fi
 else
   # No quickterm is running, run one.
@@ -60,9 +60,9 @@ fi
 (
   # Loop until quickterm exits or we lose focus.
   while id=$(quickterm_id); do
-    if [[ $id != $(xdo id) ]]; then
+    if [[ $id != $(xdotool getactivewindow) ]]; then
       # Hide quickterm on focus lost, then exit.
-      xdo hide "$id"
+      xdotool windowunmap "$id"
       exit
     fi
   done
