@@ -13,6 +13,8 @@ if status --is-interactive
     # coreutils
     type -q dircolors
       and source (dircolors -c ~/.dircolors|psub)
+    or type -q gdircolors
+      and source (gdircolors -c ~/.dircolors|psub)
 
     # libvirt
     set -x LIBVIRT_DEFAULT_URI qemu:///system
