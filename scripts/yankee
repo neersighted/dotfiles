@@ -13,6 +13,8 @@ yank_command() {
     if uname -r | grep -Fq "Microsoft"; then
       if command -v win32yank >/dev/null; then
         echo "win32yank -i --crlf"
+      elif command -v win32yank.exe >/dev/null; then
+        echo "win32yank.exe -i --crlf"
       else
         echo "clip.exe"
       fi
@@ -42,6 +44,8 @@ paste_command() {
     if uname -r | grep -Fq "Microsoft"; then
       if command -v win32yank >/dev/null; then
         echo "win32yank -o --lf"
+      elif command -v win32yank.exe >/dev/null; then
+        echo "win32yank.exe -o --lf"
       else
         echo "powershell.exe -Command Get-Clipboard"
       fi
