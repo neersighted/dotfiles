@@ -83,7 +83,7 @@ section "asdf"
 
   # asdf plugins
   install_asdf_plugin "golang" "https://github.com/kennyp/asdf-golang"
-  install_asdf_plugin "nodejs" "https://github.com/asdf-vm/asdf-nodejs"
+  install_asdf_plugin "nodejs" "https://github.com/neersighted/asdf-nodejs"
   install_asdf_plugin "python" "https://github.com/neersighted/asdf-python"
   install_asdf_plugin "ruby"   "https://github.com/neersighted/asdf-ruby"
 
