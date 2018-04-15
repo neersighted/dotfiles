@@ -5,13 +5,10 @@ if status --is-interactive
   set -x EDITOR nvim
   set -x TERMINAL alacritty
   set -x LESS '-R'
-
-  # muscle memory
-  abbr vim nvim
-
   test (uname) = "Darwin"
     and set -x BROWSER open
     or set -x BROWSER firefox-nightly
+  abbr vim nvim # muscle memory
 
   # fzf (global)
   set -x FZF_DEFAULT_COMMAND 'fd --type file'
@@ -28,7 +25,7 @@ if status --is-interactive
   # libvirt
   set -x LIBVIRT_DEFAULT_URI qemu:///system
 
-  if test (uname -r | cut -d- -f3) = "Microsoft"
+  if uname -r | grep -Fq "Microsoft"
     # connect ssh to the windows ssh-agent
     source (weasel-pageant -q -r -S fish | psub)
 

@@ -10,7 +10,7 @@ yank_command() {
       echo "pbcopy"
     fi
   else
-    if [ "$(uname -r | cut -d- -f3)" = "Microsoft" ]; then
+    if uname -r | grep -Fq "Microsoft"; then
       if command -v win32yank >/dev/null; then
         echo "win32yank -i --crlf"
       else
@@ -39,7 +39,7 @@ paste_command() {
       echo "pbpaste"
     fi
   else
-    if [ "$(uname -r | cut -d- -f3)" = "Microsoft" ]; then
+    if uname -r | grep -Fq "Microsoft"; then
       if command -v win32yank >/dev/null; then
         echo "win32yank -o --lf"
       else
@@ -67,7 +67,7 @@ case $0 in
 esac
 
 if [ -n "$COMMAND" ]; then
-  exec $COMMAND
+  exec "$COMMAND"
 fi
 
 echo "could not find valid command" >&2

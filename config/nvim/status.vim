@@ -159,7 +159,7 @@ function! status#mode()
 
   if &buftype ==# 'quickfix'
     let l:wininfo = getwininfo(win_getid())[0]
-    let l:mode = (l:wininfo.loclist ? 'LL' : 'QF')
+    let l:mode = (l:wininfo.loclist ? 'LOC' : 'QF')
   endif
 
   return winwidth(0) > 40
