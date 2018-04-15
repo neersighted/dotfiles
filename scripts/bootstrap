@@ -78,6 +78,7 @@ section "asdf"
       if ! asdf list "$language" | grep -Fq "$version"; then
         info "Installing $language $version..."
         asdf install "$language" "$version"
+        asdf reshim "$language" "$version"
       fi
     done
 
@@ -181,7 +182,7 @@ section "Rust"
 
   install_rust_tool "cargo-update"
   install_rust_tool "cargo-watch"
-  install_rust_tool "clippy"
+  #install_rust_tool "clippy"
   install_rust_tool "racer"
 endsection
 
@@ -252,7 +253,7 @@ section "CLI Tools"
   install_rust_tool exa
   install_rust_tool fd-find
   install_go_tool junegunn/fzf
-  install_rust_tool hyperfine
+  #install_rust_tool hyperfine
   install_go_tool simeji/jid/cmd/jid
   install_python_tool legit
   install_go_tool nishanths/license

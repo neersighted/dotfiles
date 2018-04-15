@@ -37,7 +37,6 @@ if exists('*minpac#init')
   call minpac#add('tpope/vim-sleuth') " auto-determine buffer formatting
 
   " Search/Navigation
-  call minpac#add('yuttie/comfortable-motion.vim') " intertia-based scrolling
   call minpac#add('justinmk/vim-dirvish') " ultra-minimal directory browser
   call minpac#add('junegunn/fzf') " fuzzy finder
   call minpac#add('junegunn/fzf.vim') " fuzzy finder
