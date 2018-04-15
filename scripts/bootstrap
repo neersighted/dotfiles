@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-# shellcheck disable=SC2155
+#!/bin/sh
+# shellcheck disable=SC2039
 
 set -e
 
@@ -44,8 +44,9 @@ section "asdf"
     git clone https://github.com/asdf-vm/asdf "$HOME/.asdf"
   fi
 
-  # shellcheck source=/dev/null
-  source "$HOME/.asdf/asdf.sh"
+  if ! command -v asdf >/dev/null; then
+    export PATH="$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
+  fi
 
   info "Updating asdf to latest tag..."
   asdf update
@@ -65,19 +66,24 @@ section "asdf"
 
   install_asdf_language() {
     local language=$1
-    local query=${2:-.*}
-    local version
+    shift
 
-    asdf list-all "$language" >/dev/null # TODO: needed? downloads {python,ruby}-build
-    version=$(asdf list-all "$language" | grep -E "$query" | tail -1)
+    asdf list-all "$language" >/dev/null # TODO: needed?
 
-    if ! asdf list "$language" | grep -Fq "$version"; then
-      info "Installing $language $version..."
-      asdf install "$language" "$version"
-    fi
+    local versions
+    for query in "$@"; do
+      version=$(asdf list-all "$language" | grep -E "$query" | tail -1)
+      versions="$versions $version"
 
-    info "Activated $language $version..."
-    asdf global "$language" "$version"
+      if ! asdf list "$language" | grep -Fq "$version"; then
+        info "Installing $language $version..."
+        asdf install "$language" "$version"
+      fi
+    done
+
+    info "Activating $language$versions..."
+    # shellcheck disable=SC2086
+    asdf global "$language" $versions
   }
 
 
@@ -119,10 +125,7 @@ endsection
 
 
 section "Python"
-  install_asdf_language "python" "^2.7.[0-9]+$"
-  PYTHON2=$(asdf which python)
-  install_asdf_language "python" "^3.6.[0-9]+$"
-  PYTHON3=$(asdf which python)
+  install_asdf_language "python" "^3.6.[0-9]+$" "^2.7.[0-9]+$"
 
   if ! command -v pipsi >/dev/null; then
     info "Installing pipsi..."
@@ -222,13 +225,13 @@ section "Neovim"
     info "Installing Node.js Neovim provider..."
     npm install -g neovim
   fi
-  if ! $PYTHON2 -c "import neovim" 2>/dev/null; then
+  if ! python2 -c "import neovim" 2>/dev/null; then
     info "Installing Python 2 Neovim provider..."
-    $PYTHON2 -m pip install neovim
+    python2 -m pip install neovim
   fi
-  if ! $PYTHON3 -c "import neovim" 2>/dev/null; then
+  if ! python3 -c "import neovim" 2>/dev/null; then
     info "Installing Python 3 Neovim provider..."
-    $PYTHON3 -m pip install neovim
+    python3 -m pip install neovim
   fi
   if ! command -v neovim-ruby-host >/dev/null; then
     info "Installing Ruby Neovim provider..."
@@ -236,11 +239,6 @@ section "Neovim"
   fi
 
   install_python_tool neovim-remote
-
-  info "Resolving Python paths..."
-  NEOVIM_CONFIG="$HOME/.config/nvim/local.vim"
-  echo "let g:python3_host_prog = '$PYTHON3'" > "$NEOVIM_CONFIG"
-  echo "let g:python_host_prog = '$PYTHON2'" >> "$NEOVIM_CONFIG"
 endsection
 
 
