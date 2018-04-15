@@ -67,7 +67,8 @@ case $0 in
 esac
 
 if [ -n "$COMMAND" ]; then
-  exec "$COMMAND"
+  # shellcheck disable=SC2086
+  exec $COMMAND
 fi
 
 echo "could not find valid command" >&2
