@@ -127,9 +127,6 @@ noremap <silent> <c-down>  :<c-u>ObviousResizeDown<cr>
 noremap <silent> <c-left>  :<c-u>ObviousResizeLeft<cr>
 noremap <silent> <c-right> :<c-u>ObviousResizeRight<cr>
 
-" Sandwich
-runtime macros/sandwich/keymap/surround.vim " Use Surround-style mappings.
-
 " Sayonara
 nnoremap <leader>x :Sayonara<cr>
 nnoremap <leader>X :tabclose<cr>
