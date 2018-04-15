@@ -16,12 +16,13 @@ if status --is-login
   type -q vidcontrol >/dev/null;
     and set -x XDG_VTNR (vidcontrol -i active 2>/dev/null)
 
+  # ccache
+  path_prepend /usr/local/opt/ccache/libexec # macos
+  path_prepend /usr/local/libexec/ccache # bsd
+  path_prepend /usr/lib/ccache/bin # linux
 
-  # build our personal path
-  path_prepend /usr/local/opt/ccache/libexec # ccache (homebrew)
-  path_prepend /usr/lib/ccache/bin # ccache (linux)
-  path_prepend ~/.bin # dotfiles
-  path_prepend ~/.local/bin # pipsi
+  # personal
+  path_prepend ~/.local/bin # dotfiles/pipsi
   path_prepend ~/.cargo/bin # rustup/cargo
   path_prepend ~/.asdf/bin # asdf (core)
   path_prepend ~/.asdf/shims # asdf (shims)
