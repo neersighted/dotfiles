@@ -93,15 +93,6 @@ section "asdf"
   install_asdf_plugin "nodejs" "https://github.com/neersighted/asdf-nodejs"
   install_asdf_plugin "python" "https://github.com/neersighted/asdf-python"
   install_asdf_plugin "ruby"   "https://github.com/neersighted/asdf-ruby"
-
-  export GNUPGHOME="$HOME/.asdf/keyring"
-  if [ ! -d "$GNUPGHOME" ]; then
-    info "Bootstrapping asdf trust..."
-
-    mkdir -p "$GNUPGHOME"
-    chmod 0700 "$GNUPGHOME"
-    sh "$HOME/.asdf/plugins/nodejs/bin/import-release-team-keyring"
-  fi
 endsection
 
 
@@ -192,37 +183,14 @@ endsection
 #
 
 section "fish"
-  if [ ! -e "$HOME/.config/fish/functions/fisher.fish" ]; then
-    info "Setting up fisherman..."
-    curl https://git.io/fisher -fsSLo "$HOME/.config/fish/functions/fisher.fish"
-  fi
-
   if [ ! "$(getshell)" = 'fish' ]; then
     info "Changing login shell to fish..."
     sudo chsh -s "$(command -v fish)" "$USER"
   fi
-
-  info "Installing/updating fish plugins..."
-  fish -c fisher <<FISHFILE
-omf/bang-bang
-edc/bass
-fzf
-laughedelic/pisces
-pipenv
-omf/sudope
-z
-FISHFILE
 endsection
 
 
 section "Neovim"
-  MINPAC="$HOME/.config/nvim/pack/minpac/opt/minpac"
-  if [ ! -d "$MINPAC" ]; then
-    info "Bootstrapping minpac..."
-    mkdir -p "$MINPAC"
-    git clone https://github.com/k-takata/minpac "$MINPAC"
-  fi
-
   if ! command -v neovim-node-host >/dev/null; then
     info "Installing Node.js Neovim provider..."
     npm install -g neovim
@@ -241,12 +209,6 @@ section "Neovim"
   fi
 
   install_python_tool neovim-remote
-endsection
-
-
-section "GDB"
-  info "Installing/updating GDB dashboard..."
-  curl git.io/.gdbinit -fsSLo "$HOME/.gdbinit"
 endsection
 
 
