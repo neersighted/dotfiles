@@ -10,7 +10,7 @@ pick and snip from them as you like. I suggest importing anything you like with
 ## Installation
 
 ``` sh
-FRESH_BIN_PATH=~/.local/bin FRESH_LOCAL_SOURCE=neersighted/dotfiles sh <(curl -fsSL get.freshshell.com)
+FRESH_BIN_PATH=~/.local/bin FRESH_LOCAL_SOURCE=neersighted/dotfiles bash <(curl -fsSL get.freshshell.com)
 ```
 
 My dotfiles are managed by [fresh].
