@@ -1,5 +1,7 @@
 #!/bin/sh
 
+SELECTION="clipboard"
+
 yank_command() {
   if [ "$(uname)" = "Darwin" ]; then
     if command -v reattach-to-user-namespace >/dev/null; then
@@ -16,9 +18,14 @@ yank_command() {
       fi
     else
       if command -v xsel >/dev/null; then
-        echo "xsel -b -i"
+      # detect original/conrad
+        if xsel --version >/dev/null 2>&1; then
+          echo "xsel -i --$SELECTION"
+        else
+          echo "xsel -c -s $SELECTION"
+        fi
       elif command -v xclip >/dev/null; then
-        echo "xclip -i -selection clipboard"
+        echo "xclip -i -selection $SELECTION"
       fi
     fi
   fi
@@ -39,10 +46,15 @@ paste_command() {
         echo "powershell.exe -Command Get-Clipboard"
       fi
     else
+      # detect original/conrad
       if command -v xsel >/dev/null; then
-        echo "xsel -b -o"
+        if xsel --version >/dev/null 2>&1; then
+          echo "xsel -o --$SELECTION"
+        else
+          echo "xsel -p -s $SELECTION"
+        fi
       elif command -v xclip >/dev/null; then
-        echo "xclip -o -selection clipboard"
+        echo "xclip -o -selection $SELECTION"
       fi
     fi
   fi

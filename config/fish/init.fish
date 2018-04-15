@@ -14,6 +14,10 @@ if status --is-login
   set -q XDG_CACHE_HOME
     or set -x XDG_CACHE_HOME $HOME/.cache
 
+  # xdg (bsd compat)
+  type -q vidcontrol >/dev/null;
+    and set -x XDG_VTNR (vidcontrol -i active 2>/dev/null)
+
   # fresh
   set -x FRESH_BIN_PATH $HOME/.local/bin
 
