@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SELECTION="clipboard"
+SELECTION="${1:-clipboard}"
 
 yank_command() {
   if [ "$(uname)" = "Darwin" ]; then
