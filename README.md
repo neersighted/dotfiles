@@ -54,7 +54,7 @@ rcup -t gui
 Finally, bootstrap the environment with the `bootstrap` script:
 
 ```sh
-bootstrap
+$HOME/.local/bin/bootstrap
 ```
 
 ## Tags
