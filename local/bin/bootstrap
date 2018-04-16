@@ -247,6 +247,7 @@ section "CLI Tools"
   install_go_tool nishanths/license
   install_rust_tool ripgrep
   install_rust_tool tokei
+  install_go_tool mvdan/xurls/cmd/xurls
 endsection
 
 printf "\n"

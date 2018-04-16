@@ -43,6 +43,7 @@ if status --is-interactive
 
     # fzf (plugin)
     set -U FZF_TMUX 1
+    set -U FZF_TMUX_HEIGHT 25%
     set -U FZF_COMPLETE 2
     set -U FZF_LEGACY_KEYBINDINGS 0
     set -U FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND

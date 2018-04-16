@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-
-URL_REGEX="https?://[^[:space:]]+"
+#!/bin/sh
 
 pane="$1"
 op="$2"
@@ -9,16 +7,23 @@ type="$3"
 test -n "$pane" || exit 1
 test -n "$op" || op="open"
 
+if ! command -v xurls >/dev/null; then
+  tmux display-message "xurls is not installed!"
+  exit
+fi
+
 if [ "$type" = "full" ]; then
   data=$(tmux capture-pane -Jp -S- -E- -t "$pane")
 else
   data=$(tmux capture-pane -Jp -t "$pane")
 fi
 
-(grep -iIohE "$URL_REGEX" | fzf -m --tac) <<< """$data""" | while read -r url; do
+echo "$data" | xurls | fzf-tmux -d 15% --tac -1 -m --prompt="$op: " | while read -r url; do
   if [ "$op" = "open" ]; then
-    $BROWSER "$url"
-  elif [ "$op" = "copy" ]; then
+    if [ -n "$BROWSER" ]; then
+      $BROWSER "$url"
+    fi
+  elif [ "$op" = "yank" ]; then
     echo "$url" | yankee-yank
   fi
 done
