@@ -65,7 +65,12 @@ let $VISUAL = 'nvr -cc split --remote-wait' " Don't nest neovim, open a new spli
 let g:ale_echo_msg_format = '[%linter%:%severity%] %s'
 let g:ale_sign_warning = '!'
 let g:ale_sign_error = 'x'
-let g:ale_linters = {'rust': ['rls', 'rustfmt']}
+let g:ale_linters = {}
+let g:ale_fixers = {}
+
+" ALE (Rust)
+let g:ale_linters.rust = ['rls', 'rustfmt']
+let g:ale_fixers.rust = ['rustfmt']
 
 " fzf
 let g:fzf_colors =
@@ -107,11 +112,13 @@ let g:sneak#absolute_dir = 0 " Use standard ;/, behavior.
 " Startify
 let g:startify_session_dir = $XDG_DATA_HOME . '/nvim/session'
 let g:startify_bookmarks = [
-      \ {'f': '~/.dotfiles/freshrc'}, 
-      \ {'v': '~/.dotfiles/config/neovim/init.vim'}, 
-      \ {'s': '~/.dotfiles/config/fish/config.fish'}, 
-      \ {'t': '~/.dotfiles/config/tmux.conf'}, 
-      \ {'g': '~/.dotfiles/config/git/config'}, 
+      \ {'v': '~/.config/neovim/init.vim'},
+      \ {'f': '~/.config/fish/config.fish'},
+      \ {'t': '~/.tmux.conf'},
+      \ {'g': '~/.config/git/config'},
+      \ {'w': '~/.config/i3/config'},
+      \ {'x': '~/.xinitrc'},
+      \ {'X': '~/.xsession'},
       \ ]
 let g:startify_commands = [
       \ {'T': ':terminal'},
