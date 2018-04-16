@@ -24,13 +24,18 @@ if status --is-interactive
       end
     end
 
+    # use 24bit color in non-basic terminals
+    if test "$TERM" != "xterm"; and test "$TERM" != "linux"
+      set -g fish_term24bit 1
+    end
+
     # libvirt
     set -Ux LIBVIRT_DEFAULT_URI qemu:///system
 
     # fzf (core)
     set -Ux FZF_DEFAULT_COMMAND 'fd --type file'
     set -Ux FZF_DEFAULT_OPTS '--no-bold'
-    if test "$COLORTERM" = "truecolor"
+    if set -q fish_term24bit
       set -Ux FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --color=fg:#839496,bg:#002b36,hl:#eee8d5,fg+:#839496,bg+:#073642,hl+:#d33682 --color=info:#2aa198,prompt:#839496,pointer:#fdf6e3,marker:#fdf6e3,spinner:#2aa198"
     else
       set -Ux FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --color=fg:12,bg:8,hl:7,fg+:12,bg+:0,hl+:5 --color=info:6,prompt:12,pointer:15,marker:15,spinner:6"
@@ -48,10 +53,6 @@ if status --is-interactive
     set -U fish_initialized
   end
 
-  if test "$COLORTERM" = "truecolor"
-    set -g fish_term24bit 1
-  end
-
   # per-shell setup logic
   if set -q WSL
     # connect ssh to the windows ssh-agent
@@ -60,11 +61,10 @@ if status --is-interactive
     # connect X applications to the windows X11 server
     set -x DISPLAY :0
   else
-    # notify gpg-agent of non-graphical sessions
-    status --is-login; and not set -q DISPLAY
-      and set -x GPG_TTY (tty)
+    # notify gpg-agent of our tty
+    set -x GPG_TTY (tty)
 
-    # connect ssh to gpg-agent and inform gpg-agent of our TTY
+    # connect ssh to gpg-agent and inform gpg-agent of our TTY (for local logins)
     if not set -q SSH_CLIENT; and not set -q MOSH
       type -q gpgconf
         and set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
@@ -73,21 +73,20 @@ if status --is-interactive
     end
   end
 
-  # autostart actions (login, local, root shells only)
-  if status --is-login
-    and not set -q SSH_CLIENT; and not set -q MOSH
-    and not set -q TMUX
-
-    # exec X (on tty1 only)
-    test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-      and exec startx
-
-    # start tmux (or attach if already running), but only on a pts
-    if type -q tmux; and string match -q -r "(ttys|pts)" (tty)
+  if string match -q -r "(ttys|pts)" (tty)
+    # start our main tmux session (on a pts)
+    if type -q tmux; and not set -q TMUX
       set -l session (prompt_hostname)
-      tmux has-session -t $session
-        and tmux new-session -t $session \; set-option destroy-unattached
-        or tmux new-session -s $session
+      if tmux has-session -t $session >/dev/null
+        tmux new-session -t $session\; set-option destroy-unattached
+      else
+        tmux new-session -s $session
+      end
+    end
+  else
+    # start our X11 session (on tty1)
+    if test -a "$XDG_VTNR" = 1
+      exec startx
     end
   end
 end

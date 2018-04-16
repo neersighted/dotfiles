@@ -1,9 +1,6 @@
 render_timer: false
 live_config_reload: true
 
-env:
-  COLORTERM: truecolor
-
 dpi:
   x: 96.0
   y: 96.0

@@ -1,5 +1,5 @@
-if $COLORTERM ==# "truecolor"
-  set termguicolors " Use true colors.
+if $TERM !=# "xterm" && $TERM !=# "linux"
+  set termguicolors " Use true color in non-basic terminals.
 endif
 
 let g:solarized_use16 = 1 " Use 16 colors when true color is not supported

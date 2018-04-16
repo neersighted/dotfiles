@@ -29,7 +29,7 @@ if status --is-login
 
   # notify systemd of path
   type -q systemctl
-    and systemctl --user import-environment PATH >/dev/null
+    and systemctl --user import-environment PATH 2>/dev/null
 
   # coreutils
   if not set -q LS_COLORS

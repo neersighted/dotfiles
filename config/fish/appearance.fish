@@ -6,8 +6,8 @@ set -U fish_color_cwd $color_yellow
 set -U fish_color_cwd_root $color_red
 set -U fish_color_user $color_blue
 set -U fish_color_user_root $color_red
-set -U fish_color_host $color_cyan
-set -U fish_color_jobs $color_magenta
+set -U fish_color_host $color_magenta
+set -U fish_color_jobs $color_cyan
 set -U fish_color_status $color_red
 
 # git prompt
