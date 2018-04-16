@@ -1,6 +1,6 @@
 function fish_right_prompt --description 'right prompt'
   set -l last_status $status
-  set -l job_count (jobs | wc -l)
+  set -l job_count (count (jobs))
 
   set -q prompt_minimal
     and return
