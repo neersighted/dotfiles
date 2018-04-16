@@ -46,7 +46,7 @@ if status --is-login
     and set -x MOSH 1
 
   # wsl detection
-  string match -e "Microsoft" (uname -r)
+  string match -q -e "Microsoft" (uname -r)
     and set -x WSL 1
 end
 
