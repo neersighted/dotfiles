@@ -8,12 +8,12 @@ floating_modifier $mod
 
 for_window [class="quickterm"] floating enable
 
-bindsym Mod1+Tab exec --no-startup-id rofi-tab
-bindsym $mod+Return exec --no-startup-id "rofi -modi 'drun,run' -show drun -kb-cancel 'Escape,Super+Return'"
-bindsym $mod+Shift+Return exec --no-startup-id "rofi -modi 'drun,run' -show run -kb-cancel 'Escape,Super+Shift+Return'"
+bindsym Mod1+Tab exec rofi-tab
+bindsym $mod+Return exec "rofi -modi 'drun,run' -show drun -kb-cancel 'Escape,Super+Return'"
+bindsym $mod+Shift+Return exec "rofi -modi 'drun,run' -show run -kb-cancel 'Escape,Super+Shift+Return'"
 
 bindsym $mod+grave exec --no-startup-id quickterm
-bindsym $mod+Shift+grave exec $TERMINAL -e $SHELL -l
+bindsym $mod+Shift+grave exec $TERMINAL
 bindsym $mod+BackSpace exec --no-startup-id quickterm ncmpcpp
 
 set $system system: [l]ogout, [p]oweroff, [r]eboot
