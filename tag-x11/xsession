@@ -8,8 +8,10 @@ if command -v systemctl >/dev/null; then
 fi
 
 # Notify gpg-agent of a graphical session.
-unset GPG_TTY
-gpg-connect-agent updatestartuptty /bye
+if command -v gpg-connect-agent >/dev/null; then
+  unset GPG_TTY
+  gpg-connect-agent updatestartuptty /bye
+fi
 
 if [ "$XDG_SESSION_TYPE" = "x11" ]; then
   # Set display timeout.
