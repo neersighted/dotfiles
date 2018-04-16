@@ -1,9 +1,4 @@
 if status --is-interactive
-  # enable 24bit color on non-basic terminals
-  if test "$TERM" != "linux"; and test "$TERM" != "xterm"
-    set -g fish_term24bit 1
-  end
-
   # first-time universal variable provisioning
   # this allows variables to be overridden locally with set -U
   # set -Ue fish_initialized to reset
@@ -35,7 +30,7 @@ if status --is-interactive
     # fzf (core)
     set -Ux FZF_DEFAULT_COMMAND 'fd --type file'
     set -Ux FZF_DEFAULT_OPTS '--no-bold'
-    if set -q fish_term24bit
+    if test "$COLORTERM" = "truecolor"
       set -Ux FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --color=fg:#839496,bg:#002b36,hl:#eee8d5,fg+:#839496,bg+:#073642,hl+:#d33682 --color=info:#2aa198,prompt:#839496,pointer:#fdf6e3,marker:#fdf6e3,spinner:#2aa198"
     else
       set -Ux FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --color=fg:12,bg:8,hl:7,fg+:12,bg+:0,hl+:5 --color=info:6,prompt:12,pointer:15,marker:15,spinner:6"
@@ -51,6 +46,10 @@ if status --is-interactive
     set -U FZF_CD_WITH_HIDDEN_COMMAND 'fd --type directory --follow --hidden --exclude .git'
 
     set -U fish_initialized
+  end
+
+  if test "$COLORTERM" = "truecolor"
+    set -g fish_term24bit 1
   end
 
   # per-shell setup logic

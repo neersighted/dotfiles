@@ -1,5 +1,4 @@
-" Check we're not using a basic terminal.
-if $TERM !=# "linux" && $TERM !=# "xterm"
+if $COLORTERM ==# "truecolor"
   set termguicolors " Use true colors.
 endif
 
