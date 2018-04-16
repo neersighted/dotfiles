@@ -17,9 +17,17 @@ if status --is-interactive
     set -Ux PAGER less
     set -Ux LESS '-R'
     set -Ux TERMINAL alacritty
-    test (uname) = "Darwin"
-      and set -Ux BROWSER open
-      or set -Ux BROWSER firefox-nightly
+    if test (uname) = "Darwin"
+      set -Ux BROWSER open
+    else
+      if type -q firefox-nightly
+        set -Ux BROWSER firefox-nightly
+      else if type -q firefox
+        set -Ux BROWSER firefox
+      else if type -q google-chrome
+        set -Ux BROWSER google-chrome
+      end
+    end
 
     # libvirt
     set -Ux LIBVIRT_DEFAULT_URI qemu:///system
