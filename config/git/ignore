@@ -1,5 +1,5 @@
 
-# Created by https://www.gitignore.io/api/vim,tags,linux,macos
+# Created by https://www.gitignore.io/api/vim,tags,linux,windows,macos
 
 ### Linux ###
 *~
@@ -51,8 +51,6 @@ TAGS
 tags
 .tags
 !tags/
-tags.lock
-tags.temp
 gtags.files
 GTAGS
 GRTAGS
@@ -66,14 +64,34 @@ cscope.po.out
 
 ### Vim ###
 # swap
-[._]*.s[a-v][a-z]
-[._]*.sw[a-p]
-[._]s[a-v][a-z]
-[._]sw[a-p]
+.sw[a-p]
+.*.sw[a-p]
 # session
 Session.vim
 # temporary
 .netrwhist
 # auto-generated tag files
 
-# End of https://www.gitignore.io/api/vim,tags,linux,macos
+### Windows ###
+# Windows thumbnail cache files
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+
+# End of https://www.gitignore.io/api/vim,tags,linux,windows,macos
