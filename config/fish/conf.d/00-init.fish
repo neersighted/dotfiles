@@ -1,4 +1,4 @@
-# shell init (core environmental variables)
+# shell init (environmental variables)
 if status --is-login
   # load system profile (with bass)
   type -q bass
@@ -13,7 +13,7 @@ if status --is-login
     or set -x XDG_CACHE_HOME $HOME/.cache
 
   # xdg (bsd compat)
-  type -q vidcontrol >/dev/null;
+  type -q vidcontrol
     and set -x XDG_VTNR (vidcontrol -i active 2>/dev/null)
 
   # ccache
@@ -28,13 +28,22 @@ if status --is-login
   path_prepend ~/.asdf/shims # asdf (shims)
 
   # notify systemd of path
-  command -s systemctl >/dev/null 2>&1
-    and systemctl --user import-environment PATH >/dev/null 2>&1
+  type -q systemctl
+    and systemctl --user import-environment PATH >/dev/null
 
   # check for mosh
   set parent (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]'))
   test "$parent" = "mosh-server"
-    and set -gx MOSH 1
+    and set -x MOSH 1
+
+  # coreutils
+  if not set -q LS_COLORS
+    if type -q dircolors
+      source (dircolors -c ~/.dircolors|psub)
+    else if type -q gdircolors
+      source (gdircolors -c ~/.dircolors|psub)
+    end
+  end
 end
 
 # vi:ft=fish:

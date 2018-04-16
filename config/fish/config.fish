@@ -1,44 +1,50 @@
-# interactive shells (attached to a keyboard)
 if status --is-interactive
-  # exports are inherited so there's no need to re-export them
-  if status --is-login
-    set -x VISUAL nvim
-    set -x EDITOR nvim
-    set -x PAGER less
-    set -x LESS '-R'
-    set -x TERMINAL alacritty
-    test (uname) = "Darwin"
-      and set -x BROWSER open
-      or set -x BROWSER firefox-nightly
+  # enable 24bit color on non-basic terminals
+  if test "$TERM" != "linux"; and test "$TERM" != "xterm"
+    set -g fish_term24bit 1
+  end
 
-    # coreutils
-    type -q dircolors
-      and source (dircolors -c ~/.dircolors|psub)
-    or type -q gdircolors
-      and source (gdircolors -c ~/.dircolors|psub)
+  # first-time universal variable provisioning
+  # this allows variables to be overridden locally with set -U
+  # set -Ue fish_initialized to reset
+  if not set -q fish_initialized;
+    source "$HOME/.config/fish/abbreviations.fish"
+    source "$HOME/.config/fish/appearance.fish"
+
+    # shell environment
+    set -Ux VISUAL nvim
+    set -Ux EDITOR nvim
+    set -Ux PAGER less
+    set -Ux LESS '-R'
+    set -Ux TERMINAL alacritty
+    test (uname) = "Darwin"
+      and set -Ux BROWSER open
+      or set -Ux BROWSER firefox-nightly
 
     # libvirt
-    set -x LIBVIRT_DEFAULT_URI qemu:///system
+    set -Ux LIBVIRT_DEFAULT_URI qemu:///system
 
-    # fzf (global)
-    set -x FZF_DEFAULT_COMMAND 'fd --type file'
-    set -x FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --no-bold"
+    # fzf (core)
+    set -Ux FZF_DEFAULT_COMMAND 'fd --type file'
+    set -Ux FZF_DEFAULT_OPTS '--no-bold'
+    if set -q fish_term24bit
+      set -Ux FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --color=fg:#839496,bg:#002b36,hl:#eee8d5,fg+:#839496,bg+:#073642,hl+:#d33682 --color=info:#2aa198,prompt:#839496,pointer:#fdf6e3,marker:#fdf6e3,spinner:#2aa198"
+    else
+      set -Ux FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --color=fg:12,bg:8,hl:7,fg+:12,bg+:0,hl+:5 --color=info:6,prompt:12,pointer:15,marker:15,spinner:6"
+    end
+
+    # fzf (plugin)
+    set -U FZF_TMUX 1
+    set -U FZF_COMPLETE 2
+    set -U FZF_LEGACY_KEYBINDINGS 0
+    set -U FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND
+    set -U FZF_CD_COMMAND 'fd --type directory --follow'
+    set -U FZF_CD_WITH_HIDDEN_COMMAND 'fd --type directory --follow --hidden --exclude .git'
+
+    set -U fish_initialized
   end
 
-  # fzf (plugin)
-  set -g FZF_TMUX 1
-  set -g FZF_COMPLETE 2
-  set -g FZF_LEGACY_KEYBINDINGS 0
-  set -g FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND
-  set -g FZF_CD_COMMAND 'fd --type directory --follow'
-  set -g FZF_CD_WITH_HIDDEN_COMMAND 'fd --type directory --follow --hidden --exclude .git'
-
-  # abbreviations (versioned here so they carry over automatically)
-  if not set -q fish_abbr_version; and test "$fish_abbr_version "-lt 1
-    abbr vim nvim # muscle memory
-    set -U fish_abbr_version 1
-  end
-
+  # per-shell setup logic
   if uname -r | grep -Fq "Microsoft"
     # connect ssh to the windows ssh-agent
     source (weasel-pageant -q -r -S fish | psub)
