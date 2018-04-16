@@ -84,7 +84,7 @@ if status --is-interactive
 
     # start tmux (or attach if already running), but only on a pts
     if type -q tmux; and string match -q -r "(ttys|pts)" (tty)
-      set -l session (hostname)
+      set -l session (prompt_hostname)
       tmux has-session -t $session
         and tmux new-session -t $session \; set-option destroy-unattached
         or tmux new-session -s $session
