@@ -74,8 +74,8 @@ if status --is-interactive
     test -z "$DISPLAY" -a "$XDG_VTNR" = 1
       and exec startx
 
-    # start tmux (or attach if already running)
-    if type -q tmux; and tty | grep -q pts
+    # start tmux (or attach if already running), but only on a pts
+    if type -q tmux; and tty | grep -Eq ".*(ttys|pts).*"
       set -l session (hostname)
       tmux has-session -t $session
         and tmux new-session -t $session \; set-option destroy-unattached
