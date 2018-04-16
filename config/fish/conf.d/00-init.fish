@@ -39,9 +39,9 @@ if status --is-login
   # coreutils
   if not set -q LS_COLORS
     if type -q dircolors
-      source (dircolors -c ~/.dircolors|psub)
+      source (dircolors -c ~/.dircolors | psub)
     else if type -q gdircolors
-      source (gdircolors -c ~/.dircolors|psub)
+      source (gdircolors -c ~/.dircolors | psub)
     end
   end
 end
