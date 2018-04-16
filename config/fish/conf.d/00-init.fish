@@ -31,11 +31,6 @@ if status --is-login
   type -q systemctl
     and systemctl --user import-environment PATH >/dev/null
 
-  # check for mosh
-  set parent (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]'))
-  test "$parent" = "mosh-server"
-    and set -x MOSH 1
-
   # coreutils
   if not set -q LS_COLORS
     if type -q dircolors
@@ -44,6 +39,15 @@ if status --is-login
       source (gdircolors -c ~/.dircolors | psub)
     end
   end
+
+  # mosh detection
+  set parent (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]'))
+  test "$parent" = "mosh-server"
+    and set -x MOSH 1
+
+  # wsl detection
+  string match -e "Microsoft" (uname -r)
+    and set -x WSL 1
 end
 
 # vi:ft=fish:

@@ -53,7 +53,7 @@ if status --is-interactive
   end
 
   # per-shell setup logic
-  if uname -r | grep -Fq "Microsoft"
+  if set -q WSL
     # connect ssh to the windows ssh-agent
     source (weasel-pageant -q -r -S fish | psub)
 
@@ -83,7 +83,7 @@ if status --is-interactive
       and exec startx
 
     # start tmux (or attach if already running), but only on a pts
-    if type -q tmux; and tty | grep -Eq ".*(ttys|pts).*"
+    if type -q tmux; and tty | string match --regex "(ttys|pts)" (tty)
       set -l session (hostname)
       tmux has-session -t $session
         and tmux new-session -t $session \; set-option destroy-unattached
