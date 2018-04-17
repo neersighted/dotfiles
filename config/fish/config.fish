@@ -85,7 +85,7 @@ if status --is-interactive
     end
   else
     # start our X11 session (on tty1)
-    if test -a "$XDG_VTNR" = 1
+    if test "$XDG_VTNR" -eq 1
       exec startx
     end
   end
