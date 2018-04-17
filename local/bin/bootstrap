@@ -4,7 +4,7 @@
 set -e
 
 section() {
-  printf "\n\e[0;34m%s\033[0m\n" "$@"
+  printf "\n\033[0;34m%s\033[0m\n" "$@"
 }
 
 endsection() {
@@ -12,11 +12,11 @@ endsection() {
 }
 
 info() {
-  printf "\e[0;32m%s\033[0m\n" "$@"
+  printf "\033[0;32m%s\033[0m\n" "$@"
 }
 
 important() {
-  printf "\e[0;35m%s\033[0m\n" "$@"
+  printf "\033[0;35m%s\033[0m\n" "$@"
 }
 
 getshell () {

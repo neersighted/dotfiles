@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-# Get my path in there.
-export PATH="$HOME/bin:$PATH"
 # Make sure to allow tmux.
 unset TMUX

@@ -1,21 +1,22 @@
-#!/usr/bin/env bash
+#!/bin/sh
+# shellcheck disable=SC2039
 
 WIDTH=120
 HEIGHT=36
 
-cmd=$1
 # Default to $SHELL.
-if [[ -z $cmd ]]; then
-  cmd=$SHELL
-fi
-
+cmd="${1:-$SHELL}"
 class=quickterm-$cmd
 
-quickterm_id () {
+quickterm_id() {
+  local id
+  local status
+
   id=$(xdotool search --class "$class")
   status=$?
 
-  if [[ $TERMINAL =~ "termite" ]]; then
+  if [ "$TERMINAL" = "termite" ]; then
+    local badids
     badids=$(xdotool search --name "termite")
     id=$(echo "$id" | grep -v "$badids")
   fi
@@ -26,7 +27,7 @@ quickterm_id () {
 
 # Check if quickterm already is running.
 if id=$(quickterm_id); then
-  if [[ $id == $(xdotool getactivewindow) ]]; then
+  if [ "$id" = "$(xdotool getactivewindow)" ]; then
     # A quickterm is running and active, hide it.
     xdotool windowunmap "$id"
   else
@@ -35,12 +36,15 @@ if id=$(quickterm_id); then
     xdotool windowraise "$id"
   fi
 else
-  # No quickterm is running, run one.
-  if [[ $TERMINAL =~ "alacritty" ]]; then
+  # Make sure we don't spawn TMUX inside the quickterm.
+  export TMUX=1
+
+  if [ "$TERMINAL" = "alacritty" ]; then
     "$TERMINAL" -t "$class" -d $WIDTH $HEIGHT -e "$cmd" &
-  elif [[ $TERMINAL =~ "termite" ]]; then
+  elif [ "$TERMINAL" = "termite" ]; then
     WIDTH=$((WIDTH*8))
     HEIGHT=$((HEIGHT*18))
+
     "$TERMINAL" --class="$class" --geometry=${WIDTH}x${HEIGHT} -e "$cmd" &
   else
     "$TERMINAL" -class "$class" -geometry ${WIDTH}x${HEIGHT} -e "$cmd" &
@@ -53,17 +57,18 @@ while ! id=$(quickterm_id); do
 done
 
 # Center the window.
-if [[ $DESKTOP_SESSION =~ i3 ]]; then
+if [ "$DESKTOP_SESSION" = "i3" ]; then
   i3-msg "[id=$id] move position center"
 fi
 
 (
   # Loop until quickterm exits or we lose focus.
   while id=$(quickterm_id); do
-    if [[ $id != $(xdotool getactivewindow) ]]; then
+    if [ ! "$id" = "$(xdotool getactivewindow)" ]; then
       # Hide quickterm on focus lost, then exit.
       xdotool windowunmap "$id"
       exit
     fi
+    sleep 0.2
   done
 ) &

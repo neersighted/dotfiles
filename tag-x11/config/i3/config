@@ -7,6 +7,7 @@ set $mod Mod4
 floating_modifier $mod
 
 for_window [class="quickterm"] floating enable
+for_window [class="Xsel"] exec xdotool search --class 'xsel' windowunmap
 
 bindsym Mod1+Tab exec rofi-tab
 bindsym $mod+Return exec "rofi -modi 'drun,run' -show drun -kb-cancel 'Escape,Super+Return'"
