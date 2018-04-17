@@ -10,7 +10,8 @@ if status --is-interactive
     set -Ux VISUAL nvim
     set -Ux EDITOR nvim
     set -Ux PAGER less
-    set -Ux LESS '-R'
+    set -Ux MANPAGER 'nvim -c "set ft=man" -'
+    set -Ux LESS '-n4 -XFR'
     set -Ux TERMINAL alacritty
     if test (uname) = "Darwin"
       set -Ux BROWSER open
