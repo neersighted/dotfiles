@@ -96,6 +96,16 @@ let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
+" Gutentags
+let s:uname = system('uname')
+if s:uname =~# 'FreeBSD'
+  if executable('uctags')
+    let g:gutentags_ctags_executable = 'uctags'
+  elseif executable('exctags')
+    let g:gutentags_ctags_executable = 'exctags'
+  endif
+endif
+
 " indentLine
 let g:indentLine_char = '┊' " Use a small line to show space-based indentation.
 
