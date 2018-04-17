@@ -73,13 +73,14 @@ function! s:show_lines() abort
 endfunction
 
 let s:filetype_modes = {
+      \ 'startify': 'STARTIFY',
+      \ 'MundoDiff': 'UNDODIFF',
+      \ 'Mundo': 'UNDO',
+      \ 'fugitiveblame': 'BLAME',
       \ 'dirvish': 'DIR',
       \ 'fzf': 'FZF',
-      \ 'fugitiveblame': 'BLAME',
       \ 'help': 'HELP',
-      \ 'Mundo': 'UNDO',
-      \ 'MundoDiff': 'UNDODIFF',
-      \ 'startify': 'STARTIFY',
+      \ 'man': 'MAN',
       \ }
 
 " Components

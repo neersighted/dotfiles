@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=SC2039
 
 SELECTION="${1:-clipboard}"
 
@@ -19,15 +20,19 @@ yank_command() {
         echo "clip.exe"
       fi
     else
-      if command -v xsel >/dev/null; then
-      # detect original/conrad
-        if xsel --version >/dev/null 2>&1; then
-          echo "xsel -i --$SELECTION"
-        else
-          echo "xsel -c -s $SELECTION"
+      if [ -n "$DISPLAY" ]; then
+        if command -v xsel >/dev/null; then
+          # detect original/conrad
+          if xsel --version >/dev/null 2>&1; then
+            echo "xsel -i --$SELECTION"
+          else
+            echo "xsel -c -s $SELECTION"
+          fi
+        elif command -v xclip >/dev/null; then
+          echo "xclip -i -selection $SELECTION"
         fi
-      elif command -v xclip >/dev/null; then
-        echo "xclip -i -selection $SELECTION"
+      else
+        echo "tmux load-buffer -"
       fi
     fi
   fi
@@ -50,29 +55,32 @@ paste_command() {
         echo "powershell.exe -Command Get-Clipboard"
       fi
     else
-      # detect original/conrad
-      if command -v xsel >/dev/null; then
-        if xsel --version >/dev/null 2>&1; then
-          echo "xsel -o --$SELECTION"
-        else
-          echo "xsel -p -s $SELECTION"
+      if [ -n "$DISPLAY" ]; then
+        if command -v xsel >/dev/null; then
+          # detect original/conrad
+          if xsel --version >/dev/null 2>&1; then
+            echo "xsel -o --$SELECTION"
+          else
+            echo "xsel -p -s $SELECTION"
+          fi
+        elif command -v xclip >/dev/null; then
+          echo "xclip -o -selection $SELECTION"
         fi
-      elif command -v xclip >/dev/null; then
-        echo "xclip -o -selection $SELECTION"
+      else
+        echo "tmux save-buffer -"
       fi
     fi
   fi
 }
 
 case $0 in
-*yank ) COMMAND=$(yank_command) ;;
-*paste) COMMAND=$(paste_command) ;;
-*     ) echo "called as invalid script: $0" >&2; exit 1 ;;
+*yankee-yank ) COMMAND=$(yank_command) ;;
+*yankee-paste) COMMAND=$(paste_command) ;;
+*            ) echo "called as invalid script: $0" >&2; exit 1 ;;
 esac
 
 if [ -n "$COMMAND" ]; then
-  # shellcheck disable=SC2086
-  exec $COMMAND
+  exec sh -c "$COMMAND"
 fi
 
 echo "could not find valid command" >&2
