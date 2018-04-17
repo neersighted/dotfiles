@@ -77,7 +77,7 @@ if status --is-interactive
     # start our main tmux session (on a pts)
     if type -q tmux; and not set -q TMUX
       set -l session (prompt_hostname)
-      if tmux has-session -t $session >/dev/null
+      if tmux has-session -t $session 2>/dev/null
         tmux new-session -t $session\; set-option destroy-unattached
       else
         tmux new-session -s $session
