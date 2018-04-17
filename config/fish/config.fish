@@ -66,7 +66,7 @@ if status --is-interactive
     set -x GPG_TTY (tty)
 
     # connect ssh to gpg-agent and inform gpg-agent of our TTY (for local logins)
-    if not set -q SSH_CLIENT; and not set -q MOSH
+    if not set -q SSH_TTY; and not set -q MOSH
       type -q gpgconf
         and set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
       type -q gpg-connect-agent
