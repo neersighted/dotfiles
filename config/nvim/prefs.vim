@@ -7,12 +7,12 @@ set clipboard=unnamedplus " Use the system clipboard.
 let g:clipboard = {
   \   'name': 'yankee',
   \   'copy': {
-  \      '+': 'yankee-yank clipboard',
-  \      '*': 'yankee-yank primary',
+  \      '+': 'yankee-yank -s clipboard',
+  \      '*': 'yankee-yank -s primary',
   \    },
   \   'paste': {
-  \      '+': 'yankee-paste clipboard',
-  \      '*': 'yankee-paste primary',
+  \      '+': 'yankee-paste -s clipboard',
+  \      '*': 'yankee-paste -s primary',
   \   },
   \   'cache_enabled': 0,
   \ }

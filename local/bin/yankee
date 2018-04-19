@@ -1,87 +1,113 @@
 #!/bin/sh
 # shellcheck disable=SC2039
 
-SELECTION="${1:-clipboard}"
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    -s) selection="$2"; shift 2;;
+    -t) tty="$2"; shift 2;;
 
-yank_command() {
+    --selection=*    ) selection="${1#*=}"; shift 1;;
+    --tty=*          ) tty="${1#*=}"; shift 1;;
+    --selection|--tty) echo "$1 requires an argument" >&2; exit 1;;
+
+    -*) echo "unknown option: $1" >&2; exit 1;;
+    * ) echo "unrecognized argument: $1" >&2; exit 1;;
+  esac
+done
+
+selection="${selection:-clipboard}"
+tty="${tty:-/dev/tty}"
+
+yank() {
   if [ "$(uname)" = "Darwin" ]; then
     if command -v reattach-to-user-namespace >/dev/null; then
-      echo "reattach-to-user-namespace pbcopy"
+      exec reattach-to-user-namespace pbcopy
     else
-      echo "pbcopy"
+      exec pbcopy
     fi
-  else
-    if uname -r | grep -Fq "Microsoft"; then
-      if command -v win32yank >/dev/null; then
-        echo "win32yank -i --crlf"
-      elif command -v win32yank.exe >/dev/null; then
-        echo "win32yank.exe -i --crlf"
-      else
-        echo "clip.exe"
-      fi
+  elif uname -r | grep -Fq "Microsoft"; then
+    if command -v win32yank >/dev/null; then
+      exec win32yank -i --crlf
+    elif command -v win32yank.exe >/dev/null; then
+      exec win32yank.exe -i --crlf
     else
-      if [ -n "$DISPLAY" ]; then
-        if command -v xsel >/dev/null; then
-          # detect original/conrad
-          if xsel --version >/dev/null 2>&1; then
-            echo "xsel -i --$SELECTION"
-          else
-            echo "xsel -c -s $SELECTION"
-          fi
-        elif command -v xclip >/dev/null; then
-          echo "xclip -i -selection $SELECTION"
-        fi
+      exec clip.exe
+    fi
+  elif [ -n "$DISPLAY" ]; then
+    if command -v xsel >/dev/null; then
+      # detect original/conrad
+      if xsel --version >/dev/null 2>&1; then
+        exec xsel -i --"$selection"
       else
-        echo "tmux load-buffer -"
+        exec xsel -c -s "$selection"
       fi
+    elif command -v xclip >/dev/null; then
+      exec xclip -i -selection "$selection"
+    fi
+  elif [ -n "$TMUX" ]; then
+    exec tmux load-buffer -
+  else
+    local data
+    data=$(cat)
+
+
+    local datasize
+    datasize=$(printf "%s" "$data" | wc -c)
+    local datamax=74994
+
+    if [ "$datasize" -gt "$datamax" ]; then
+      echo "input is too long ($((datasize - datamax)) bytes)" >&2
+    fi
+
+    local encoded
+    if command -v base64 >/dev/null; then
+      encoded=$(printf "%s" "$data" | base64 -w0)
+    elif command -v b64encode >/dev/null; then
+      encoded=$(printf "%s" "$data" | b64encode -r -)
+    fi
+
+    if [ -n "$encoded" ]; then
+      exec printf "\x1b]52;c;%s\x07" "$encoded" >"$tty"
     fi
   fi
 }
 
-paste_command() {
+paste() {
   if [ "$(uname)" = "Darwin" ]; then
     if command -v reattach-to-user-namespace >/dev/null; then
-      echo "reattach-to-user-namespace pbpaste"
+      exec reattach-to-user-namespace pbpaste
     else
-      echo "pbpaste"
+      exec pbpaste
     fi
-  else
-    if uname -r | grep -Fq "Microsoft"; then
-      if command -v win32yank >/dev/null; then
-        echo "win32yank -o --lf"
-      elif command -v win32yank.exe >/dev/null; then
-        echo "win32yank.exe -o --lf"
-      else
-        echo "powershell.exe -Command Get-Clipboard"
-      fi
+  elif uname -r | grep -Fq "Microsoft"; then
+    if command -v win32yank >/dev/null; then
+      exec win32yank -o --lf
+    elif command -v win32yank.exe >/dev/null; then
+      exec win32yank.exe -o --lf
     else
-      if [ -n "$DISPLAY" ]; then
-        if command -v xsel >/dev/null; then
-          # detect original/conrad
-          if xsel --version >/dev/null 2>&1; then
-            echo "xsel -o --$SELECTION"
-          else
-            echo "xsel -p -s $SELECTION"
-          fi
-        elif command -v xclip >/dev/null; then
-          echo "xclip -o -selection $SELECTION"
-        fi
-      else
-        echo "tmux save-buffer -"
-      fi
+      exec powershell.exe -Command Get-Clipboard
     fi
+  elif [ -n "$DISPLAY" ]; then
+    if command -v xsel >/dev/null; then
+      # detect original/conrad
+      if xsel --version >/dev/null 2>&1; then
+        exec xsel -o --"$selection"
+      else
+        exec xsel -p -s "$selection"
+      fi
+    elif command -v xclip >/dev/null; then
+      exec xclip -o -selection "$selection"
+    fi
+  elif [ -n "$TMUX" ]; then
+    exec tmux save-buffer -
   fi
 }
 
 case $0 in
-*yankee-yank ) COMMAND=$(yank_command) ;;
-*yankee-paste) COMMAND=$(paste_command) ;;
-*            ) echo "called as invalid script: $0" >&2; exit 1 ;;
+  *yankee-yank ) yank;;
+  *yankee-paste) paste;;
+  *            ) echo "called as invalid script: $0" >&2; exit 1;;
 esac
-
-if [ -n "$COMMAND" ]; then
-  exec sh -c "$COMMAND"
-fi
 
 echo "could not find valid command" >&2
 exit 1
