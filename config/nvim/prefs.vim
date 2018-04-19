@@ -16,6 +16,9 @@ let g:clipboard = {
   \   'cache_enabled': 1,
   \ }
 
+" Completion
+set completeopt=menu,preview " Show a preview with the pop-up menu.
+
 " Cursor
 set virtualedit=onemore,block " Allow cursor to the end of the line (and anywhere in visual-block.)
 

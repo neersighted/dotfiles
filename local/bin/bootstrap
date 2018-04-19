@@ -106,8 +106,9 @@ section "Go"
     go get -u "github.com/$target"
   }
 
-  install_go_tool nsf/gocode
-  install_go_tool golang/lint/golint
+  install_go_tool "golang/lint/golint"
+  install_go_tool "nsf/gocode"
+  install_go_tool "sourcegraph/go-langserver"
 endsection
 
 
@@ -120,6 +121,9 @@ section "Node.js"
     info "Installing/updating $target using npm..."
     npm install -g "$target"
   }
+
+  install_npm_tool "flow-bin"
+  install_npm_tool "flow-language-server"
 endsection
 
 
@@ -143,10 +147,11 @@ section "Python"
     fi
   }
 
-  install_python_tool pylint
-  install_python_tool flake8
-  install_python_tool mypy
-  install_python_tool pipenv
+  install_python_tool "flake8"
+  install_python_tool "mypy"
+  install_python_tool "pipenv"
+  install_python_tool "pylint"
+  install_python_tool "python-language-server"
 endsection
 
 
@@ -231,23 +236,23 @@ section "Neovim"
     gem install neovim
   fi
 
-  install_python_tool neovim-remote
+  install_python_tool "neovim-remote"
 endsection
 
 
 section "CLI Tools"
-  install_npm_tool diff-so-fancy
-  install_rust_tool exa
-  install_rust_tool fd-find
-  install_go_tool junegunn/fzf
-  install_npm_tool git-open
-  install_rust_tool hyperfine
-  install_go_tool simeji/jid/cmd/jid
-  install_python_tool legit
-  install_go_tool nishanths/license
-  install_rust_tool ripgrep
-  install_rust_tool tokei
-  install_go_tool mvdan/xurls/cmd/xurls
+  install_go_tool "junegunn/fzf"
+  install_go_tool "mvdan/xurls/cmd/xurls"
+  install_go_tool "nishanths/license"
+  install_go_tool "simeji/jid/cmd/jid"
+  install_npm_tool "diff-so-fancy"
+  install_npm_tool "git-open"
+  install_python_tool "legit"
+  install_rust_tool "exa"
+  install_rust_tool "fd-find"
+  install_rust_tool "hyperfine"
+  install_rust_tool "ripgrep"
+  install_rust_tool "tokei"
 endsection
 
 printf "\\n"

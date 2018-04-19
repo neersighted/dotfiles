@@ -11,6 +11,7 @@ runtime ft.vim
 runtime cmd.vim
 runtime maps.vim
 runtime prefs.vim
+runtime complete.vim
 runtime colors.vim
 runtime status.vim
 runtime packs.vim

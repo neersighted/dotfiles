@@ -3,6 +3,7 @@ if exists('*minpac#init')
   call minpac#add('k-takata/minpac', {'type': 'opt'})
 
   " Libraries
+  call minpac#add('prabirshrestha/async.vim') " async support for asyncomplete
   call minpac#add('equalsraf/neovim-gui-shim') " gui configuration support
   call minpac#add('tpope/vim-repeat') " repeat support for plugins
 
@@ -23,8 +24,24 @@ if exists('*minpac#init')
   call minpac#add('itchyny/lightline.vim') " stupid light statusline framework
   call minpac#add('airblade/vim-gitgutter') " git diff gutter
   call minpac#add('simnalamburt/vim-mundo') " undo tree gui
-  call minpac#add('roxma/nvim-completion-manager') " async completion engine
   call minpac#add('mhinz/vim-startify') " simple start screen
+
+  " Completion
+  call minpac#add('prabirshrestha/asyncomplete.vim') " completion engine
+  call minpac#add('prabirshrestha/asyncomplete-buffer.vim') " buffer-based completion
+  call minpac#add('prabirshrestha/asyncomplete-file.vim') " file/directory completion
+  call minpac#add('prabirshrestha/asyncomplete-gocode.vim') " go completion
+  call minpac#add('prabirshrestha/asyncomplete-flow.vim') " javascript completion
+  call minpac#add('keremc/asyncomplete-racer.vim') " rust completion
+  call minpac#add('prabirshrestha/asyncomplete-necosyntax.vim') " syntax-based completion
+  call minpac#add('prabirshrestha/asyncomplete-necovim.vim') " viml completion
+  call minpac#add('prabirshrestha/asyncomplete-lsp.vim') " lsp-based completion
+  call minpac#add('yami-beta/asyncomplete-omni.vim') " omnifunc-based completion
+  call minpac#add('prabirshrestha/asyncomplete-tags.vim') " tag-based completion
+  call minpac#add('prabirshrestha/vim-lsp') " lsp engine
+  call minpac#add('Shougo/neco-syntax') " syntax-based completion engine
+  call minpac#add('Shougo/neco-vim') " viml completion engine
+  call minpac#add('wellle/tmux-complete.vim') " tmux-based completion engine
 
   " Environment Integration
   call minpac#add('tpope/vim-eunuch') " unix addons
@@ -54,25 +71,18 @@ if exists('*minpac#init')
   call minpac#add('machakann/vim-sandwich') " (un)surround text objects
   call minpac#add('tommcdo/vim-ninja-feet') " motions to the end of text objects
 
-  " Language Support/Integration
+  " Language Syntax/Integration
   call minpac#add('stevearc/vim-arduino') " arduino syntax/integration
   call minpac#add('ccraciun/vim-dreammaker') " dream maker syntax
   call minpac#add('dag/vim-fish') " fish syntax
   call minpac#add('fatih/vim-go') " enhanced go support
   call minpac#add('mboughaba/i3config.vim') " i3 config syntax
-  call minpac#add('davidhalter/jedi-vim') " python autocompletion
-  call minpac#add('roxma/ncm-github') " completion for github
   call minpac#add('chr4/nginx.vim') " nginx syntax
-  call minpac#add('roxma/ncm-clang') " c/c++ completion
-  call minpac#add('Shougo/neco-vim') " viml completion
-  call minpac#add('Shougo/neco-syntax') " syntax-based completion
   call minpac#add('pangloss/vim-javascript') " enhanced javascript syntax
   call minpac#add('exu/pgsql.vim') " postgres syntax
   call minpac#add('vim-python/python-syntax') " enhanced python syntax
   call minpac#add('vim-ruby/vim-ruby') " enhanced ruby support
   call minpac#add('rust-lang/rust.vim') " enhanced rust support
-  call minpac#add('racer-rust/vim-racer') " racer support
-  call minpac#add('roxma/nvim-cm-racer') " racer support in ncm
   call minpac#add('iloginow/vim-stylus') " stylus support
   call minpac#add('wgwoods/vim-systemd-syntax') " systemd syntax
   call minpac#add('tmux-plugins/vim-tmux') " tmux config syntax

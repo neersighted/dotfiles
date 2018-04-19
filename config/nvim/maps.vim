@@ -79,6 +79,12 @@ tnoremap <esc> <c-\><c-n>
 "
 nnoremap <leader>a <plug>(ale_fix)
 
+" asyncomplete
+imap <c-g> <plug>(asyncomplete_force_refresh)
+inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<cr>"
+
 " EasyAlign
 nmap gl   <plug>(EasyAlign)
 xmap gl   <plug>(EasyAlign)
@@ -113,12 +119,6 @@ nnoremap <leader>b :Gblame<cr>
 
 " Mundo
 nnoremap <leader>u :MundoToggle<cr>
-
-" nvim-completion-manager
-imap <c-g> <plug>(cm_force_refresh)
-inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<cr>"
 
 " Obvious Resize
 noremap <silent> <c-up>    :<c-u>ObviousResizeUp<cr>
