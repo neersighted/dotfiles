@@ -12,6 +12,7 @@ if exists('*minpac#init')
   " Enhancements/Tweaks
   call minpac#add('jamessan/vim-gnupg') " encrypted file editing
   call minpac#add('ludovicchabant/vim-gutentags') " seamless ctags
+  call minpac#add('Yggdroot/indentLine') " indentation visual aide
   call minpac#add('dietsche/vim-lastplace') " re-open files in the sample place
   call minpac#add('talek/obvious-resize') " simple window resizing
   call minpac#add('airblade/vim-rooter') " auto-cd to project root
@@ -58,8 +59,7 @@ if exists('*minpac#init')
   call minpac#add('ccraciun/vim-dreammaker') " dream maker syntax
   call minpac#add('dag/vim-fish') " fish syntax
   call minpac#add('fatih/vim-go') " enhanced go support
-  call minpac#add('PotatoesMaster/i3-vim-syntax') " i3 config syntax
-  call minpac#add('Yggdroot/indentLine') " indentation visual aide
+  call minpac#add('mboughaba/i3config.vim') " i3 config syntax
   call minpac#add('davidhalter/jedi-vim') " python autocompletion
   call minpac#add('roxma/ncm-github') " completion for github
   call minpac#add('chr4/nginx.vim') " nginx syntax
