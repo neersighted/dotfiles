@@ -33,11 +33,7 @@ autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(asyncomp
   \ }))
 
 " Rust
-autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#racer#get_source_options({
-  \ 'name': 'racer',
-  \ 'whitelist': ['rust'],
-  \ 'completor': function('asyncomplete#sources#racer#completor'),
-  \ }))
+autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#racer#get_source_options())
 
 " Syntax
 autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
@@ -86,7 +82,7 @@ autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(asyncomp
 " LSP
 "
 
-" C/C++
+" C/C++ (clangd)
 if executable('clangd')
   autocmd vimrc User lsp_setup call lsp#register_server({
     \ 'name': 'clangd',
@@ -94,31 +90,14 @@ if executable('clangd')
     \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
     \ })
 endif
+
+" C/C++ (cquery)
 if executable('cquery')
   autocmd vimrc User lsp_setup call lsp#register_server({
     \ 'name': 'cquery',
     \ 'cmd': {server_info->['cquery']},
     \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
     \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-    \ })
-endif
-" Go
-
-if executable('go-langserver')
-  autocmd vimrc User lsp_setup call lsp#register_server({
-    \ 'name': 'go-langserver',
-    \ 'cmd': {server_info->['go-langserver', '-mode', 'stdio']},
-    \ 'whitelist': ['go'],
-    \ })
-endif
-
-" Javascript
-if executable('flow-language-server')
-  autocmd vimrc User lsp_setup call lsp#register_server({
-    \ 'name': 'flow-language-server',
-    \ 'cmd': {server_info->[&shell, &shellcmdflag, 'flow-language-server --stdio']},
-    \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.flowconfig'))},
-    \ 'whitelist': ['javascript'],
     \ })
 endif
 
@@ -131,11 +110,3 @@ if executable('pyls')
     \ })
 endif
 
-" Rust
-if executable('rls')
-  autocmd vimrc User lsp_setup call lsp#register_server({
-    \ 'name': 'rls',
-    \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
-    \ 'whitelist': ['rust'],
-    \ })
-endif

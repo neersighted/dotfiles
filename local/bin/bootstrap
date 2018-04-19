@@ -103,12 +103,12 @@ section "Go"
     local target=$1
 
     info "Installing/updating $target using go get..."
-    go get -u "github.com/$target"
+    go get -u "$target"
   }
 
-  install_go_tool "golang/lint/golint"
-  install_go_tool "nsf/gocode"
-  install_go_tool "sourcegraph/go-langserver"
+  install_go_tool "github.com/golang/lint/golint"
+  install_go_tool "github.com/nsf/gocode"
+  install_go_tool "github.com/sourcegraph/go-langserver"
 endsection
 
 
@@ -166,7 +166,7 @@ section "Rust"
     curl https://sh.rustup.rs -fsSL | sh -s -- -y --no-modify-path --default-toolchain nightly
 
     export PATH="$HOME/.cargo/bin:$PATH"
-    rustup component add rustfmt-preview rls-preview
+    rustup component add rust-src rustfmt-preview rls-preview
   else
     info "Updating Rust toolchain..."
     rustup update
@@ -241,10 +241,10 @@ endsection
 
 
 section "CLI Tools"
-  install_go_tool "junegunn/fzf"
-  install_go_tool "mvdan/xurls/cmd/xurls"
-  install_go_tool "nishanths/license"
-  install_go_tool "simeji/jid/cmd/jid"
+  install_go_tool "github.com/junegunn/fzf"
+  install_go_tool "mvdan.cc/xurls/cmd/xurls"
+  install_go_tool "github.com/nishanths/license"
+  install_go_tool "github.com/simeji/jid/cmd/jid"
   install_npm_tool "diff-so-fancy"
   install_npm_tool "git-open"
   install_python_tool "legit"
