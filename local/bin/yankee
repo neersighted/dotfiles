@@ -31,7 +31,7 @@ yank() {
       if command -v win32yank.exe >/dev/null; then
         exec win32yank.exe -i --crlf
       else
-        exec clip.exe
+        exec sh -c 'tr "\n" "\r\n" | clip.exe'
       fi
     fi
   fi
@@ -100,7 +100,7 @@ paste() {
       if command -v win32yank.exe >/dev/null; then
         exec win32yank.exe -o --lf
       else
-        exec sh -c 'powershell.exe -Command Get-Clipboard | tr -d "\r"'
+        exec sh -c 'powershell.exe -Command Get-Clipboard | tr "\r\n" "\n"'
       fi
     fi
   fi
