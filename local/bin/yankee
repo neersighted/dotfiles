@@ -1,5 +1,5 @@
 #!/bin/sh
-# shellcheck disable=SC2039
+# shellcheck disable=SC2039 disable=SC2059
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -62,22 +62,22 @@ yank() {
 
     if [ -n "$base64" ]; then
       local esc="\\033]52;c;$base64\\007"
-      #esc="\\033Ptmux;\\033$esc\\033\\"
 
       local tty
       if [ -n "$TMUX" ]; then
         tty=$(tmux display-message -p '#{client_tty}')
+        # esc="\\033Ptmux;\\033$esc\\033\\"
       elif [ -n "$SSH_TTY" ]; then
         tty="$SSH_TTY"
       else
         tty="/dev/tty"
       fi
 
-      if [ "$(printf "%s" "$esc" | wc -c)" -gt 100000 ]; then
+      if [ "$(printf "$esc" | wc -c)" -gt 100000 ]; then
         echo "input data too long" >&2; exit 1
       fi
 
-      printf "%s" "$esc" >"$tty"; exit
+      printf "$esc" >"$tty"; exit
     fi
   fi
 
