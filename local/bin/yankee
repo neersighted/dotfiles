@@ -4,11 +4,12 @@
 while [ "$#" -gt 0 ]; do
   case "$1" in
     -s) selection="$2"; shift 2;;
-    -t) tty="$2"; shift 2;;
+    -w) wait=1; shift;;
 
-    --selection=*    ) selection="${1#*=}"; shift 1;;
-    --tty=*          ) tty="${1#*=}"; shift 1;;
-    --selection|--tty) echo "$1 requires an argument" >&2; exit 1;;
+    --wait) wait=1; shift;;
+
+    --selection=*) selection="${1#*=}"; shift 1;;
+    --selection  ) echo "$1 requires an argument" >&2; exit 1;;
 
     -*) echo "unknown option: $1" >&2; exit 1;;
     * ) echo "unrecognized argument: $1" >&2; exit 1;;
@@ -16,7 +17,6 @@ while [ "$#" -gt 0 ]; do
 done
 
 selection="${selection:-clipboard}"
-tty="${tty:-/dev/tty}"
 
 yank() {
   if [ "$(uname)" = "Darwin" ]; then
@@ -37,39 +37,46 @@ yank() {
     if command -v xsel >/dev/null; then
       # detect original/conrad
       if xsel --version >/dev/null 2>&1; then
-        exec xsel -i --"$selection"
+        exec xsel ${wait:+--nodetatch} -i --"$selection"
       else
         exec xsel -c -s "$selection"
       fi
     elif command -v xclip >/dev/null; then
-      exec xclip -i -selection "$selection"
+      exec xclip ${wait:+-quiet} -i -selection "$selection"
     fi
-  elif [ -n "$TMUX" ]; then
-    exec tmux load-buffer -
   else
-    local data
-    data=$(cat)
-
-
-    local datasize
-    datasize=$(printf "%s" "$data" | wc -c)
-    local datamax=74994
-
-    if [ "$datasize" -gt "$datamax" ]; then
-      echo "input is too long ($((datasize - datamax)) bytes)" >&2
-    fi
-
-    local encoded
+    local base64
     if command -v base64 >/dev/null; then
-      encoded=$(printf "%s" "$data" | base64 -w0)
+      if base64 --version >/dev/null 2>&1; then
+        base64='base64 -w0'
+      else
+        base64='base64'
+      fi
     elif command -v b64encode >/dev/null; then
-      encoded=$(printf "%s" "$data" | b64encode -r -)
+      base64='b64encode -r -'
     fi
 
-    if [ -n "$encoded" ]; then
-      exec printf "\x1b]52;c;%s\x07" "$encoded" >"$tty"
+    local tty
+    if [ -n "$base64" ]; then
+      local esc
+      esc=$(sh -c "head -c 74994 | $base64")
+      esc="\\033]52;c;$esc\\007"
+      #esc="\\033Ptmux;\\033$esc\\033\\"
+
+      if [ -n "$TMUX" ]; then
+        tty=$(tmux display-message -p '#{client_tty}')
+      elif [ -n "$SSH_TTY" ]; then
+        tty="$SSH_TTY"
+      else
+        tty="/dev/tty"
+      fi
+
+      exec printf "$esc" >"$tty"
     fi
   fi
+
+  echo "could not find a method to set the clipboard" >&2
+  exit 1
 }
 
 paste() {
@@ -101,13 +108,21 @@ paste() {
   elif [ -n "$TMUX" ]; then
     exec tmux save-buffer -
   fi
+
+  echo "could not find a method to read the clipboard" >&2
+  exit 1
+}
+
+tmux_tee() {
+  if [ -n "$TMUX" ]; then
+    tmux load-buffer -; tmux save-buffer -
+  else
+    cat
+  fi
 }
 
 case $0 in
-  *yankee-yank ) yank;;
+  *yankee-yank ) tmux_tee | yank;;
   *yankee-paste) paste;;
   *            ) echo "called as invalid script: $0" >&2; exit 1;;
 esac
-
-echo "could not find valid command" >&2
-exit 1

@@ -3,18 +3,17 @@
 "
 
 " Clipboard
-set clipboard=unnamedplus " Use the system clipboard.
 let g:clipboard = {
   \   'name': 'yankee',
   \   'copy': {
-  \      '+': 'yankee-yank -s clipboard',
-  \      '*': 'yankee-yank -s primary',
+  \      '+': 'yankee-yank -w -s clipboard',
+  \      '*': 'yankee-yank -w -s primary',
   \    },
   \   'paste': {
-  \      '+': 'yankee-paste -s clipboard',
-  \      '*': 'yankee-paste -s primary',
+  \      '+': 'yankee-paste -w -s clipboard',
+  \      '*': 'yankee-paste -w -s primary',
   \   },
-  \   'cache_enabled': 0,
+  \   'cache_enabled': 1,
   \ }
 
 " Cursor
