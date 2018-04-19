@@ -48,21 +48,19 @@ yank() {
     local base64
     if command -v base64 >/dev/null; then
       if base64 --version >/dev/null 2>&1; then
-        base64='base64 -w0'
+        base64=$(base64 -w0)
       else
-        base64='base64'
+        base64=$(base64)
       fi
     elif command -v b64encode >/dev/null; then
-      base64='b64encode -r -'
+      base64=$(b64encode -r -)
     fi
 
-    local tty
     if [ -n "$base64" ]; then
-      local esc
-      esc=$(sh -c "head -c 74994 | $base64")
-      esc="\\033]52;c;$esc\\007"
+      local esc="\\033]52;c;$base64\\007"
       #esc="\\033Ptmux;\\033$esc\\033\\"
 
+      local tty
       if [ -n "$TMUX" ]; then
         tty=$(tmux display-message -p '#{client_tty}')
       elif [ -n "$SSH_TTY" ]; then
@@ -71,12 +69,15 @@ yank() {
         tty="/dev/tty"
       fi
 
-      exec printf "$esc" >"$tty"
+      if [ "$(printf "%s" "$esc" | wc -c)" -gt 100000 ]; then
+        echo "input data too long" >&2; exit 1
+      fi
+
+      printf "%s" "$esc" >"$tty"; exit
     fi
   fi
 
-  echo "could not find a method to set the clipboard" >&2
-  exit 1
+  echo "could not find a method to set the clipboard" >&2; exit 1
 }
 
 paste() {
@@ -109,8 +110,7 @@ paste() {
     exec tmux save-buffer -
   fi
 
-  echo "could not find a method to read the clipboard" >&2
-  exit 1
+  echo "could not find a method to read the clipboard" >&2; exit 1
 }
 
 tmux_tee() {
