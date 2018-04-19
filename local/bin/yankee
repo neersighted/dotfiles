@@ -27,7 +27,7 @@ yank() {
       else
         exec pbcopy
       fi
-    elif [ "$(uname -r)" = "*-Microsoft" ]; then
+    elif uname -r | grep -Fq Microsoft; then
       if command -v win32yank.exe >/dev/null; then
         exec win32yank.exe -i --crlf
       else
@@ -96,11 +96,11 @@ paste() {
       else
         exec pbpaste
       fi
-    elif [ "$(uname -r)" = "*-Microsoft" ]; then
+    elif uname -r | grep -Fq Microsoft; then
       if command -v win32yank.exe >/dev/null; then
         exec win32yank.exe -o --lf
       else
-        exec powershell.exe -Command Get-Clipboard
+        exec sh -c 'powershell.exe -Command Get-Clipboard | tr -d "\r"'
       fi
     fi
   fi
