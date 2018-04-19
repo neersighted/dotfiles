@@ -1,18 +1,3 @@
-" Rebuild configuration using Fresh.
-function! s:fresh() abort
-  let l:opts = {}
-  function! l:opts.on_exit(job_id, exit_code, _)
-    if a:exit_code == 0
-      bdelete!
-      source $MYVIMRC
-    endif
-  endfunction
-
-  new
-  call termopen('fresh', l:opts)
-endfunction
-command! Fresh call s:fresh()
-
 " Manage packs with minpac.
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
 command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()

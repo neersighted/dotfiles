@@ -19,19 +19,21 @@ done
 selection="${selection:-clipboard}"
 
 yank() {
-  if [ "$(uname)" = "Darwin" ]; then
-    if command -v reattach-to-user-namespace >/dev/null; then
-      exec reattach-to-user-namespace pbcopy
-    else
-      exec pbcopy
-    fi
-  elif uname -r | grep -Fq "Microsoft"; then
-    if command -v win32yank >/dev/null; then
-      exec win32yank -i --crlf
-    elif command -v win32yank.exe >/dev/null; then
-      exec win32yank.exe -i --crlf
-    else
-      exec clip.exe
+  if [ -z "$SSH_TTY" ] && [ -z "$MOSH" ]; then
+    if [ "$(uname)" = "Darwin" ]; then
+      if command -v reattach-to-user-namespace >/dev/null; then
+        exec reattach-to-user-namespace pbcopy
+      else
+        exec pbcopy
+      fi
+    elif uname -r | grep -Fq "Microsoft"; then
+      if command -v win32yank >/dev/null; then
+        exec win32yank -i --crlf
+      elif command -v win32yank.exe >/dev/null; then
+        exec win32yank.exe -i --crlf
+      else
+        exec clip.exe
+      fi
     fi
   elif [ -n "$DISPLAY" ]; then
     if command -v xsel >/dev/null; then
