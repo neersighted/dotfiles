@@ -19,6 +19,7 @@ done
 selection="${selection:-clipboard}"
 
 yank() {
+  # GUI-only systems (macOS/WSL)
   if [ -z "$SSH_TTY" ] && [ -z "$MOSH" ]; then
     if [ "$(uname)" = "Darwin" ]; then
       if command -v reattach-to-user-namespace >/dev/null; then
@@ -26,16 +27,17 @@ yank() {
       else
         exec pbcopy
       fi
-    elif uname -r | grep -Fq "Microsoft"; then
-      if command -v win32yank >/dev/null; then
-        exec win32yank -i --crlf
-      elif command -v win32yank.exe >/dev/null; then
+    elif [ "$(uname -r)" = "*-Microsoft" ]; then
+      if command -v win32yank.exe >/dev/null; then
         exec win32yank.exe -i --crlf
       else
         exec clip.exe
       fi
     fi
-  elif [ -n "$DISPLAY" ]; then
+  fi
+
+  # X11 (Linux/BSD)
+  if [ -n "$DISPLAY" ]; then
     if command -v xsel >/dev/null; then
       # detect original/conrad
       if xsel --version >/dev/null 2>&1; then
@@ -46,60 +48,65 @@ yank() {
     elif command -v xclip >/dev/null; then
       exec xclip ${wait:+-quiet} -i -selection "$selection"
     fi
-  else
-    local base64
-    if command -v base64 >/dev/null; then
-      if base64 --version >/dev/null 2>&1; then
-        base64=$(base64 -w0)
-      else
-        base64=$(base64)
-      fi
-    elif command -v gbase64 >/dev/null; then
-      base64=$(gbase64 -w0)
-    elif command -v b64encode >/dev/null; then
-      base64=$(b64encode -r -)
+  fi
+
+  # OSC 52 (Tmux/Terminal)
+  local base64
+  if command -v base64 >/dev/null; then
+    if base64 --version >/dev/null 2>&1; then
+      base64=$(base64 -w0)
+    else
+      base64=$(base64)
+    fi
+  elif command -v gbase64 >/dev/null; then
+    base64=$(gbase64 -w0)
+  elif command -v b64encode >/dev/null; then
+    base64=$(b64encode -r -)
+  fi
+
+  if [ -n "$base64" ]; then
+    local esc="\\033]52;c;$base64\\007"
+
+    local tty
+    if [ -n "$TMUX" ]; then
+      tty=$(tmux display-message -p '#{client_tty}')
+      # esc="\\033Ptmux;\\033$esc\\033\\"
+    elif [ -n "$SSH_TTY" ]; then
+      tty="$SSH_TTY"
+    else
+      tty="/dev/tty"
     fi
 
-    if [ -n "$base64" ]; then
-      local esc="\\033]52;c;$base64\\007"
-
-      local tty
-      if [ -n "$TMUX" ]; then
-        tty=$(tmux display-message -p '#{client_tty}')
-        # esc="\\033Ptmux;\\033$esc\\033\\"
-      elif [ -n "$SSH_TTY" ]; then
-        tty="$SSH_TTY"
-      else
-        tty="/dev/tty"
-      fi
-
-      if [ "$(printf "$esc" | wc -c)" -gt 100000 ]; then
-        echo "input data too long" >&2; exit 1
-      fi
-
-      printf "$esc" >"$tty"; exit
+    if [ "$(printf "$esc" | wc -c)" -gt 100000 ]; then
+      echo "input data too long" >&2; exit 1
     fi
+
+    printf "$esc" >"$tty"; exit
   fi
 
   echo "could not find a method to set the clipboard" >&2; exit 1
 }
 
 paste() {
-  if [ "$(uname)" = "Darwin" ]; then
-    if command -v reattach-to-user-namespace >/dev/null; then
-      exec reattach-to-user-namespace pbpaste
-    else
-      exec pbpaste
+  # GUI-only systems (macOS/WSL)
+  if [ -z "$SSH_TTY" ] && [ -z "$MOSH" ]; then
+    if [ "$(uname)" = "Darwin" ]; then
+      if command -v reattach-to-user-namespace >/dev/null; then
+        exec reattach-to-user-namespace pbpaste
+      else
+        exec pbpaste
+      fi
+    elif [ "$(uname -r)" = "*-Microsoft" ]; then
+      if command -v win32yank.exe >/dev/null; then
+        exec win32yank.exe -o --lf
+      else
+        exec powershell.exe -Command Get-Clipboard
+      fi
     fi
-  elif uname -r | grep -Fq "Microsoft"; then
-    if command -v win32yank >/dev/null; then
-      exec win32yank -o --lf
-    elif command -v win32yank.exe >/dev/null; then
-      exec win32yank.exe -o --lf
-    else
-      exec powershell.exe -Command Get-Clipboard
-    fi
-  elif [ -n "$DISPLAY" ]; then
+  fi
+
+  # X11 (Linux/BSD)
+  if [ -n "$DISPLAY" ]; then
     if command -v xsel >/dev/null; then
       # detect original/conrad
       if xsel --version >/dev/null 2>&1; then
@@ -110,7 +117,10 @@ paste() {
     elif command -v xclip >/dev/null; then
       exec xclip -o -selection "$selection"
     fi
-  elif [ -n "$TMUX" ]; then
+  fi
+
+  # Tmux
+  if [ -n "$TMUX" ]; then
     exec tmux save-buffer -
   fi
 
