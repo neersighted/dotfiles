@@ -1,62 +1,62 @@
 " Lightline Configuration
 
 let g:lightline = {
-      \ 'colorscheme': 'solarized',
-      \ 'separator': { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '|', 'right': '|' },
-      \ 'mode_map': {
-      \   'n': 'N', 'i': 'I', 'R': 'R', 'v': 'V', 'V': '-V-', "\<C-v>": '[V]',
-      \   'c': ':', 's': 'S', 'S': '-S-', "\<C-s>": '[S]', 't': '$'
-      \ },
-      \ 'active': {
-      \     'left': [
-      \       [ 'mode', 'paste' ],
-      \       [ 'fileinfo' ],
-      \     ],
-      \     'right': [
-      \       [ 'ale', 'lineinfo' ],
-      \       [ 'percent' ],
-      \       [ 'fileformat', 'fileencoding', 'filetype' ],
-      \     ],
-      \   },
-      \   'inactive': {
-      \     'left': [
-      \       [ 'filename' ],
-      \     ],
-      \     'right': [
-      \       [ 'percent' ],
-      \     ],
-      \   },
-      \   'tabline': {
-      \     'left': [
-      \       [ 'tabs' ],
-      \     ],
-      \     'right': [
-      \       [ 'cwd' ],
-      \       [ 'fugitive' ],
-      \     ],
-      \   },
-      \   'component': {},
-      \   'component_function': {
-      \     'cwd':          'status#cwd',
-      \     'fileencoding': 'status#fileencoding',
-      \     'fileformat':   'status#fileformat',
-      \     'fileinfo':     'status#fileinfo',
-      \     'filename':     'status#filename',
-      \     'filetype':     'status#filetype',
-      \     'fugitive':     'fugitive#head',
-      \     'mode':         'status#mode',
-      \     'paste':        'status#paste',
-      \   },
-      \   'component_expand': {
-      \     'ale':      'status#ale',
-      \     'lineinfo': 'status#lineinfo',
-      \     'percent':  'status#percent',
-      \   },
-      \   'component_type': {
-      \     'ale': 'error',
-      \   },
-      \ }
+  \ 'colorscheme': 'solarized',
+  \ 'separator': { 'left': '', 'right': '' },
+  \ 'subseparator': { 'left': '|', 'right': '|' },
+  \ 'mode_map': {
+  \   'n': 'N', 'i': 'I', 'R': 'R', 'v': 'V', 'V': '-V-', "\<C-v>": '[V]',
+  \   'c': ':', 's': 'S', 'S': '-S-', "\<C-s>": '[S]', 't': '$'
+  \ },
+  \ 'active': {
+  \     'left': [
+  \       [ 'mode', 'paste' ],
+  \       [ 'fileinfo' ],
+  \     ],
+  \     'right': [
+  \       [ 'ale', 'lineinfo' ],
+  \       [ 'percent' ],
+  \       [ 'fileformat', 'fileencoding', 'filetype' ],
+  \     ],
+  \   },
+  \   'inactive': {
+  \     'left': [
+  \       [ 'filename' ],
+  \     ],
+  \     'right': [
+  \       [ 'percent' ],
+  \     ],
+  \   },
+  \   'tabline': {
+  \     'left': [
+  \       [ 'tabs' ],
+  \     ],
+  \     'right': [
+  \       [ 'cwd' ],
+  \       [ 'fugitive' ],
+  \     ],
+  \   },
+  \   'component': {},
+  \   'component_function': {
+  \     'cwd':          'status#cwd',
+  \     'fileencoding': 'status#fileencoding',
+  \     'fileformat':   'status#fileformat',
+  \     'fileinfo':     'status#fileinfo',
+  \     'filename':     'status#filename',
+  \     'filetype':     'status#filetype',
+  \     'fugitive':     'fugitive#head',
+  \     'mode':         'status#mode',
+  \     'paste':        'status#paste',
+  \   },
+  \   'component_expand': {
+  \     'ale':      'status#ale',
+  \     'lineinfo': 'status#lineinfo',
+  \     'percent':  'status#percent',
+  \   },
+  \   'component_type': {
+  \     'ale': 'error',
+  \   },
+  \ }
 
 " Helpers
 
@@ -73,18 +73,18 @@ function! s:show_lines() abort
 endfunction
 
 let s:filetype_modes = {
-      \ 'startify': 'STARTIFY',
-      \ 'MundoDiff': 'UNDODIFF',
-      \ 'Mundo': 'UNDO',
-      \ 'fugitiveblame': 'BLAME',
-      \ 'dirvish': 'DIR',
-      \ 'fzf': 'FZF',
-      \ 'help': 'HELP',
-      \ 'man': 'MAN',
-      \ }
+  \ 'startify': 'STARTIFY',
+  \ 'MundoDiff': 'UNDODIFF',
+  \ 'Mundo': 'UNDO',
+  \ 'fugitiveblame': 'BLAME',
+  \ 'dirvish': 'DIR',
+  \ 'fzf': 'FZF',
+  \ 'help': 'HELP',
+  \ 'man': 'MAN',
+  \ }
 
 " Components
-"
+
 function! status#ale() abort
   let l:counts = ale#statusline#Count(bufnr(''))
 
@@ -92,10 +92,10 @@ function! status#ale() abort
   let l:all_non_errors = l:counts.total - l:all_errors
 
   return l:counts.total == 0 ? '' : printf(
-  \   'W:%d E:%d',
-  \   l:all_non_errors,
-  \   l:all_errors
-  \)
+    \ 'W:%d E:%d',
+    \ l:all_non_errors,
+    \ l:all_errors
+    \)
 endfunction
 
 function! status#cwd() abort
@@ -104,16 +104,16 @@ endfunction
 
 function! status#fileencoding() abort
   return s:is_filelike() && winwidth(0) > 70
-        \ ? (!empty(&fileencoding)
-          \ ? &fileencoding
-          \ : &encoding)
-        \ : ''
+    \ ? (!empty(&fileencoding)
+      \ ? &fileencoding
+      \ : &encoding)
+    \ : ''
 endfunction
 
 function! status#fileformat() abort
   return s:is_filelike() && winwidth(0) > 70
-        \ ? &fileformat
-        \ : ''
+    \ ? &fileformat
+    \ : ''
 endfunction
 
 function! status#fileinfo() abort
@@ -132,8 +132,8 @@ function! status#filename() abort
   endif
 
   let l:filename = (&buftype ==# 'help'
-        \ ? expand('%:t')
-        \ : expand('%:~:.'))
+    \ ? expand('%:t')
+    \ : expand('%:~:.'))
   if winwidth(0) < 79
     let l:filename = pathshorten(l:filename)
   endif
@@ -143,16 +143,16 @@ endfunction
 
 function! status#filetype() abort
   return s:is_filelike() && winwidth(0) > 70
-        \ ? (!empty(&filetype)
-          \ ? &filetype
-          \ : 'no ft')
-        \ : ''
+    \ ? (!empty(&filetype)
+      \ ? &filetype
+      \ : 'no ft')
+    \ : ''
 endfunction
 
 function! status#lineinfo() abort
   return s:show_lines()
-        \ ? '%l:%c'
-        \ : ''
+    \ ? '%l:%c'
+    \ : ''
 endfunction
 
 function! status#mode()
@@ -164,19 +164,19 @@ function! status#mode()
   endif
 
   return winwidth(0) > 40
-        \ ? l:mode
-        \ : ''
+    \ ? l:mode
+    \ : ''
 endfunction
 
 function! status#paste() abort
   return &paste && s:is_filelike()
-        \ ? 'PASTE'
-        \ : ''
+    \ ? 'PASTE'
+    \ : ''
 endfunction
 
 function! status#percent() abort
   return s:show_lines()
-        \ ? '%p%%'
-        \ : ''
+    \ ? '%p%%'
+    \ : ''
 endfunction
 
