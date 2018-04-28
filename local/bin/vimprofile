@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
+from collections import OrderedDict
 from decimal import Decimal
-from operator import itemgetter
 from re import compile as regex
 from shutil import get_terminal_size
 from subprocess import run
@@ -28,7 +28,7 @@ def histogram(title, pairs):
 
     print(f' {title} ({total_time}ms) '.center(COLUMNS, '-'))
 
-    for name, time in sorted(pairs.items(), key=itemgetter(1), reverse=True):
+    for name, time in pairs.items():
         label = labels[name].ljust(label_width + 1)
         histo = '*' * int((time / max_time) * (COLUMNS - len(label)))
 
@@ -36,9 +36,9 @@ def histogram(title, pairs):
 
 
 def main():
-    plugins = {}
-    vimrc = {}
-    runtime = {}
+    plugins = OrderedDict()
+    vimrc = OrderedDict()
+    runtime = OrderedDict()
 
     with NamedTemporaryFile(mode='r') as log:
         if NVIM_RE.search(argv[0]):

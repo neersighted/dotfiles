@@ -42,8 +42,10 @@ set hidden " Allow backgrounding buffers.
 
 " Cursor
 set virtualedit=onemore,block " Allow cursor to the end of the line (and anywhere in visual-block.)
-set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor " Change the cursor between modes.
-autocmd VimLeave * set guicursor=a:block-blinkon0 " Reset on exit.
+
+" Editing
+set autoindent " Indent blocks automatically.
+set smarttab " <tab> inserts 'shiftwidth' at the start of the line.
 
 " Environment
 if has('nvim')
@@ -61,25 +63,27 @@ set number relativenumber " Use relative line numbering.
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
 
 " Status
-set noshowmode " Disable the built-in mode indicator.
+set noshowmode laststatus=2 " Prefer our own statusbar.
 
 " Splits
 set splitright splitbelow " Open vertical splits to the right, horizontal below.
 
 " Substitution
 if has('nvim')
-  set inccommand=split " Show incomplete substitutions in a split.
+  set inccommand=split " Show incomplete substitutions in a preview split.
 endif
 
 " Term
-if !has('nvim') && $TERM =~# 'screen'
-  set term=xterm-256color " Handle screen correctly in regular Vim.
+if !has('nvim')
+  if $TERM =~# 'screen'
+    set term=xterm-256color " Handle screen correctly in regular Vim.
+  endif
 endif
 
 " Wrapping
 set colorcolumn=+1 " Highlight the wrapping column.
 set linebreak breakindent showbreak=\\ " Visually wrap (and indent wrapped lines).
-set list listchars=tab:..,nbsp:~,trail:_,extends:>,precedes:< " Show hidden characters.
+set list listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+ " Show hidden characters.
 set conceallevel=1 " Enable conceal support.
 
 "
@@ -128,22 +132,6 @@ nnoremap yO :silent! call <sid>pasteonce()<cr>O
 
 " terminal escape
 tnoremap <esc> <c-\><c-n>
-
-"
-" Filetypes
-"
-
-" Quickfix
-autocmd FileType qf setlocal number norelativenumber nowrap " Enable numbering, disable visual wrapping.
-
-" Ractive
-autocmd BufNewFile,BufRead *.ract set filetype=html
-
-" Text
-autocmd FileType gitcommit,markdown,text setlocal spell " Enable spellcheck.
-
-" Vim
-autocmd FileType vim setlocal keywordprg=:help
 
 "
 " Colors
@@ -231,6 +219,25 @@ let g:lightline = {
   \     'ale': 'error',
   \   },
   \ }
+
+"
+" Filetypes
+"
+
+autocmd VimEnter * call s:register_filetypes()
+function! s:register_filetypes() abort
+  " Quickfix
+  autocmd FileType qf setlocal number norelativenumber nowrap " Enable numbering, disable visual wrapping.
+
+  " Ractive
+  autocmd BufNewFile,BufRead *.ract set filetype=html
+
+  " Text
+  autocmd FileType gitcommit,markdown,text setlocal spell " Enable spellcheck.
+
+  " Vim
+  autocmd FileType vim setlocal keywordprg=:help
+endfunction
 
 "
 " Completion
