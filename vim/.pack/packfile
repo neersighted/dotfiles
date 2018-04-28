@@ -159,7 +159,7 @@
   category: lib
   local: false
   name: prabirshrestha/async.vim
-  opt: true
+  opt: false
 - 
   category: completion
   local: false
@@ -267,7 +267,7 @@
   category: lib
   local: false
   name: "tpope/vim-repeat"
-  opt: true
+  opt: false
 - 
   category: behavior
   local: false

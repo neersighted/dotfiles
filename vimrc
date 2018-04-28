@@ -3,10 +3,8 @@
 "
 
 " Display start-up time.
-if !v:vim_did_enter
-  let s:startup = reltime()
-  autocmd VimEnter * echo reltimestr(reltime(s:startup))
-endif
+let s:startup = reltime()
+autocmd VimEnter * echo reltimestr(reltime(s:startup))
 
 " Don't load unused cruft.
 let g:loaded_2html_plugin      = 1
@@ -42,11 +40,10 @@ let g:clipboard = {
 set undofile " Keep persistent undo information.
 set hidden " Allow backgrounding buffers.
 
-" Completion
-set completeopt=menu,preview " Show a preview with the pop-up menu.
-
 " Cursor
 set virtualedit=onemore,block " Allow cursor to the end of the line (and anywhere in visual-block.)
+set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor " Change the cursor between modes.
+autocmd VimLeave * set guicursor=a:block-blinkon0 " Reset on exit.
 
 " Environment
 if has('nvim')
@@ -55,35 +52,32 @@ if has('nvim')
 endif
 
 " Mouse
-set mouse=a mousemodel=popup " Enable full mouse support.
+set mouse=a " Enable full mouse support.
 
 " Numbering
 set number relativenumber " Use relative line numbering.
-
-" Previews
-if has('nvim')
-  set inccommand=split " Show incomplete commands in a split.
-endif
-set colorcolumn=+1 " Highlight the wrapping column.
-
-" Quickfix
-autocmd QuitPre * if &filetype != 'qf' | silent! lclose | endif " Autoclose.
 
 " Search
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
 
 " Status
-set laststatus=2 " Always show the statusline.
-set noshowmode noshowcmd " Disable the built in-status indicators.
-set showtabline=2 " Always show the tabline.
-set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor " Change the cursor between modes.
-autocmd VimLeave * set guicursor=a:block-blinkon0 " Reset on exit.
+set noshowmode " Disable the built-in mode indicator.
 
 " Splits
 set splitright splitbelow " Open vertical splits to the right, horizontal below.
-set winminheight=0 " Allow squishing splits.
+
+" Substitution
+if has('nvim')
+  set inccommand=split " Show incomplete substitutions in a split.
+endif
+
+" Term
+if !has('nvim') && $TERM =~# 'screen'
+  set term=xterm-256color " Handle screen correctly in regular Vim.
+endif
 
 " Wrapping
+set colorcolumn=+1 " Highlight the wrapping column.
 set linebreak breakindent showbreak=\\ " Visually wrap (and indent wrapped lines).
 set list listchars=tab:..,nbsp:~,trail:_,extends:>,precedes:< " Show hidden characters.
 set conceallevel=1 " Enable conceal support.
@@ -102,11 +96,6 @@ vnoremap < <gv
 vnoremap > >gv
 " yank to end of line
 nnoremap Y y$
-" format instead of ex mode
-nnoremap Q gq
-
-" alternate between buffers
-nnoremap <backspace> :buffer #<cr>
 
 " open location/quickfix list
 function! s:qftoggle(loc) abort
@@ -145,15 +134,13 @@ tnoremap <esc> <c-\><c-n>
 "
 
 " Quickfix
-" enable numbering, disable visual wrapping
-autocmd FileType qf setlocal number norelativenumber nowrap
+autocmd FileType qf setlocal number norelativenumber nowrap " Enable numbering, disable visual wrapping.
 
 " Ractive
 autocmd BufNewFile,BufRead *.ract set filetype=html
 
 " Text
-" enable spellchecking
-autocmd FileType gitcommit,markdown,text setlocal spell
+autocmd FileType gitcommit,markdown,text setlocal spell " Enable spellcheck.
 
 " Vim
 autocmd FileType vim setlocal keywordprg=:help
@@ -162,13 +149,8 @@ autocmd FileType vim setlocal keywordprg=:help
 " Colors
 "
 
-" Handle screen correctly in regular Vim.
-if !has('nvim') && $TERM =~# 'screen'
-  set term=xterm-256color
-endif
-
 " Use true color in non-basic terminals.
-if $TERM !=# "xterm" && $TERM !=# "linux"
+if $TERM !~# "^xterm$\|^linux"
   set termguicolors
 endif
 
@@ -204,7 +186,7 @@ let g:lightline = {
   \ 'active': {
   \     'left': [
   \       [ 'mode', 'paste' ],
-  \       [ 'fileinfo' ],
+  \       [ 'fugitive', 'fileinfo' ],
   \     ],
   \     'right': [
   \       [ 'ale', 'lineinfo' ],
@@ -226,7 +208,6 @@ let g:lightline = {
   \     ],
   \     'right': [
   \       [ 'cwd' ],
-  \       [ 'fugitive' ],
   \     ],
   \   },
   \   'component': {},
@@ -326,7 +307,7 @@ endfunction
 
 autocmd User lsp_setup call s:register_lsp_completions()
 function! s:register_lsp_completions() abort
-  " LSP: C/C++ (clangd)
+  " C/C++ (clangd)
   if executable('clangd')
     call lsp#register_server({
       \ 'name': 'clangd',
@@ -335,7 +316,7 @@ function! s:register_lsp_completions() abort
       \ })
   endif
 
-  " LSP: C/C++ (cquery)
+  " C/C++ (cquery)
   if executable('cquery')
     call lsp#register_server({
       \ 'name': 'cquery',
@@ -345,7 +326,7 @@ function! s:register_lsp_completions() abort
       \ })
   endif
 
-  " LSP: Python
+  " Python
   if executable('pyls')
     call lsp#register_server({
       \ 'name': 'pyls',
