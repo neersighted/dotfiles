@@ -1,26 +1,3 @@
 #!/bin/sh
 
-# bootstrap minpac if it's not already available
-MINPAC="$HOME/.config/nvim/pack/minpac/opt/minpac"
-if [ ! -d "$MINPAC" ]; then
-  mkdir -p "$MINPAC"
-  git clone https://github.com/k-takata/minpac "$MINPAC"
-
-  nvim +PackUpdate +qa
-fi
-
-# bootstrap fisher if it's not already available
-if [ ! -e "$HOME/.config/fish/functions/fisher.fish" ]; then
-  curl https://git.io/fisher -fsSLo "$HOME/.config/fish/functions/fisher.fish"
-
-  # update plugins now if fish is installed
-  if command -v fish >/dev/null; then
-    fish -c fisher
-  fi
-fi
-
-# install gdb-dashboard if not present
-if [ ! -f "$HOME/.gdbinit" ]; then
-  curl https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -fsSLo "$HOME/.gdbinit"
-fi
-
+ln -sf ../.dotfiles/vim/.pack ~/.vim/.pack

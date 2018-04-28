@@ -1,39 +1,85 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env python3
 
-require 'tempfile'
+from decimal import Decimal
+from operator import itemgetter
+from re import compile as regex
+from shutil import get_terminal_size
+from subprocess import run
+from sys import argv
+from tempfile import NamedTemporaryFile
 
-VIM = 'nvim'
+COLUMNS, _ = get_terminal_size()
 
-config = ENV['XDG_CONFIG_HOME'] || File.join(ENV['HOME'], '.config')
-vimfiles = File.join(config, VIM, 'pack', 'minpac', 'start')
-log = Tempfile.new('vimprofile')
+NVIM_RE = regex(r'nvimprofile$')
+SCRIPT_RE = regex(r'^(\s*\d{3}\.\d{3}){3}: sourcing')
+PLUGIN_RE = regex(r'/pack/[^\0\/]+/start/([^\0\/]+)/((?:[^\0\/]+/?)+)')
+VIMRC_RE = regex(r'/\.vim/|/\.config/nvim/|/\.local/share/nvim/|g?vimrc')
+RUNTIME_RE = regex(r'/runtime/|/share/vim/vim\d+')
+READY_RE = regex(r'^(\d{3}\.\d{3})\s+\d{3}\.\d{3}: editing files in windows$')
 
-puts "Profiling plugin startup performance (from #{vimfiles})..."
-system(VIM, '--startuptime', log.path, '-c', 'q')
 
-times = Hash.new(0)
-lines = log.readlines.select { |line| line =~ /sourcing.*#{Regexp.escape(vimfiles)}/ }
-lines.each do |line|
-  trace_time, source_time, exec_time, _, path = line.split(' ')
+def histogram(title, pairs):
+    total_time = sum(pairs.values())
+    max_time = max(pairs.values())
 
-  relative_path = path.gsub(vimfiles + '/', '')
-  name = File.basename(relative_path.split('/')[0], '.vim')
+    name_width = max((len(n) for n in pairs))
+    labels = {n: f'{n.rjust(name_width)}: {t}ms' for n, t in pairs.items()}
+    label_width = max((len(l) for l in labels.values()))
 
-  times[name] += exec_time.to_f
-end
+    print(f' {title} ({total_time}ms) '.center(COLUMNS, '-'))
 
-maximum   = times.values.max
-total     = times.values.inject(:+)
-justify   = times.keys.map(&:length).max
-relatives = Hash[ times.map { |k, v| [k, v/maximum] } ]
+    for name, time in sorted(pairs.items(), key=itemgetter(1), reverse=True):
+        label = labels[name].ljust(label_width + 1)
+        histo = '*' * int((time / max_time) * (COLUMNS - len(label)))
 
-relatives.sort_by { |k, v| -v }.each do |k, v|
-  name  = k.rjust(justify)
-  time  = times[k].round(3).to_s.ljust(5) + "ms"
-  graph = '*' * (v * 150)
+        print(label + histo)
 
-  puts "#{name}: (#{time}) #{graph}"
-end
-puts "#{"total".rjust(justify)}: #{total.round(3).to_s}ms"
 
-log.unlink
+def main():
+    plugins = {}
+    vimrc = {}
+    runtime = {}
+
+    with NamedTemporaryFile(mode='r') as log:
+        if NVIM_RE.search(argv[0]):
+            vim = 'nvim'
+        else:
+            vim = 'vim'
+
+        print(f' {vim} Startup Profile '.center(COLUMNS, '='))
+        run([vim, '--startuptime', log.name, '-c', 'q'])
+
+        for line in log:
+            if not SCRIPT_RE.match(line):
+                ready = READY_RE.match(line)
+                if ready:
+                    total = Decimal(ready[1])
+                continue
+
+            _, _, time, _, script = line.split()
+            time = Decimal(time.rstrip(':'))
+
+            plugin = PLUGIN_RE.search(script)
+            vimrc_match = VIMRC_RE.search(script)
+            runtime_match = RUNTIME_RE.search(script)
+
+            if plugin:
+                if plugin[1] not in plugins:
+                    plugins[plugin[1]] = Decimal(0)
+                plugins[plugin[1]] += time
+            elif vimrc_match:
+                vimrc[script] = time
+            elif runtime_match:
+                runtime[script] = time
+            else:
+                print(f'Unrecognized script: {script}')
+
+    histogram('RUNTIME', runtime)
+    histogram('VIMRC', vimrc)
+    histogram('PLUGINS', plugins)
+
+    print(f' {vim} ready in {total}ms '.center(COLUMNS, '='))
+
+
+if __name__ == '__main__':
+    main()
