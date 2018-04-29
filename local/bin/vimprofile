@@ -12,7 +12,9 @@ from sys import argv
 from tempfile import NamedTemporaryFile
 from typing import IO, Iterable, MutableMapping, Text
 
+SEP_F = " {} "
 KEY_F = "{}: {:06.3f}ms "
+CHART_F = "\n{s}\n{b}"
 
 LINE_RE = r(r"^(?:\s*(\d{3}\.\d{3})){2,3}: (.*)$")
 SCRIPT_RE = r(r"^sourcing ((?!vimrc file\(s\)).*)$")
@@ -52,31 +54,40 @@ class Profile():
     @property
     def viml_times(self) -> Iterable[Decimal]:
         """Iterate all times spent in VimL scripts."""
-        return chain(self.runtime.values(), self.vimrc.values(),
-                     self.plugins.values(), self.other.values())
+        return chain(
+            self.runtime.values(),
+            self.vimrc.values(),
+            self.plugins.values(),
+            self.other.values(),
+        )
 
 
-def gen_seperator(title: Text, fill: Text = "=") -> Text:
+def gen_seper(title: Text, fill: Text = "=") -> Text:
     """Generate a section seperator."""
-    return f" {title} ".center(COLS, fill)
+    return SEP_F.format(title).center(COLS, fill)
 
 
-def gen_histogram(title: Text, profile: Subprofile) -> Text:
-    """Generate a histogram for a Subprofile."""
+def gen_chart(title: Text, profile: Subprofile) -> Text:
+    """Generate a chart of members of a Subprofile."""
     if not profile:
         return ""
 
     key_width = len(max(profile.keys(), key=len)) + len(KEY_F.format("", 0))
     bar_width = COLS - key_width
 
-    seperator = gen_seperator(f"{title} ({sum(profile.values())}ms)", "-")
+    seperator = gen_seper(f"{title} ({sum(profile.values())}ms)", "-")
 
-    keys = (KEY_F.format(key, value).rjust(key_width)
-            for key, value in profile.items())
-    bars = (key + "*" * int(proportion * bar_width)
-            for key, proportion in zip(keys, profile.proportions()))
+    keys = (
+        KEY_F.format(key, value).rjust(key_width)
+        for key, value in profile.items()
+    )
 
-    return "\n{}\n{}".format(seperator, "\n".join(bars))
+    bars = (
+        key + "*" * int(proportion * bar_width)
+        for key, proportion in zip(keys, profile.proportions())
+    )
+
+    return CHART_F.format(s=seperator, b="\n".join(bars))
 
 
 def parse_startup(log: IO[str]) -> Profile:
@@ -119,13 +130,13 @@ def main() -> None:
 
     times = f"{sum(profile.times)}ms ({sum(profile.viml_times)}ms in scripts)"
 
-    print(gen_seperator(f"{vim} Startup Profile"))
-    print(gen_histogram(vim.upper(), profile.vim))
-    print(gen_histogram("RUNTIME", profile.runtime))
-    print(gen_histogram("VIMRC", profile.vimrc))
-    print(gen_histogram("PLUGINS", profile.plugins))
-    print(gen_histogram("OTHER", profile.other))
-    print(gen_seperator(f"{vim} ready in {times}"))
+    print(gen_seper(f"{vim} Startup Profile"))
+    print(gen_chart(vim.upper(), profile.vim))
+    print(gen_chart("RUNTIME", profile.runtime))
+    print(gen_chart("VIMRC", profile.vimrc))
+    print(gen_chart("PLUGINS", profile.plugins))
+    print(gen_chart("OTHER", profile.other))
+    print(gen_seper(f"{vim} ready in {times}"))
 
 
 if __name__ == "__main__":
