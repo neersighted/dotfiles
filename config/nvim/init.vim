@@ -1,1 +1,1 @@
-/home/neersighted/.vimrc
+../../vimrc
