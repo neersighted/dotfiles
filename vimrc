@@ -18,6 +18,12 @@ let g:loaded_tarPlugin         = 1
 let g:loaded_vimballPlugin     = 1
 let g:loaded_zipPlugin         = 1
 
+" Share files with standard Vim.
+if has('nvim')
+  set runtimepath^=~/.vim runtimepath+=~/.vim/after
+  set packpath^=~/.vim
+endif
+
 "
 " Preferences
 "

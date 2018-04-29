@@ -1,1 +1,1 @@
-source ~/.gvimrc
+/home/neersighted/.ginitrc
