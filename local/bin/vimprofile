@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Profile {n,}vim startup time."""
+"""Profile (n)vim startup time."""
 
 from collections import OrderedDict
 from decimal import Decimal
@@ -17,7 +17,7 @@ KEY_F = "{}: {:06.3f}ms "
 CHART_F = "\n{s}\n{b}"
 
 LINE_RE = r(r"^(?:\s*(\d{3}\.\d{3})){2,3}: (.*)$")
-SCRIPT_RE = r(r"^sourcing ((?!vimrc file\(s\)).*)$")
+VIML_RE = r(r"^sourcing ((?!vimrc file\(s\)).*)$")
 PLUGIN_RE = r(r"^(?:/[^\0/]+)+/pack/[^\0/]+/start/([^\0/]+)/((?:/?[^\0/]+)+)$")
 RUNTIME_RE = r(r"/share/n?vim/|\$N?VIM")
 VIMRC_RE = r(r"/\.vim/|/\.config/nvim/|/\.local/share/nvim/|/\.?g?vimrc")
@@ -99,9 +99,9 @@ def parse_startup(log: IO[str]) -> Profile:
         value = Decimal(line_m[1])
         key = line_m[2]
 
-        script_m = SCRIPT_RE.match(key)
-        if script_m:
-            key = script_m[1]
+        viml_m = VIML_RE.match(key)
+        if viml_m:
+            key = viml_m[1]
 
             plugin_m = PLUGIN_RE.match(key)
             if plugin_m:
@@ -119,7 +119,7 @@ def parse_startup(log: IO[str]) -> Profile:
 
 
 def main() -> None:
-    """Profile {n,}vim startup time."""
+    """Profile (n)vim startup time."""
     vim = "vim"
     if basename(argv[0]) == "nvimprofile":
         vim = "nvim"
