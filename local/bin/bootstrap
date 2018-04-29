@@ -138,6 +138,8 @@ section "Python"
 
   install_python_tool() {
     local target="$1"
+    shift
+    local additional_targets="$*"
 
     info "Installing/updating $target using pipsi..."
     if ! pipsi list | grep -F "$target" >/dev/null; then
@@ -145,14 +147,21 @@ section "Python"
     else
       pipsi upgrade "$target"
     fi
+
+    if [ -n "$additional_targets" ]; then
+      for atarget in $additional_targets; do
+        "$HOME/.local/venvs/$target/bin/pip" install -U "$atarget"
+      done
+    fi
   }
 
   install_python_tool "autopep8"
+  install_python_tool "black"
   install_python_tool "flake8"
   install_python_tool "mypy"
   install_python_tool "pipenv"
   install_python_tool "pylint"
-  install_python_tool "python-language-server"
+  install_python_tool "python-language-server" "autopep8" "mccabe" "pycodestyle" "pydocstyle" "pyflakes" "rope" "yapf"
 endsection
 
 
@@ -200,6 +209,10 @@ section "Rust"
     )
   }
 
+  install_rust_tool "cargo-bloat"
+  install_rust_tool "cargo-expand"
+  install_rust_tool "cargo-outdated"
+  install_rust_tool "cargo-tree"
   install_rust_tool "cargo-update"
   install_rust_tool "cargo-watch"
   install_rust_tool "clippy"
@@ -235,11 +248,11 @@ section "Vim/Neovim"
   fi
   if ! python2 -c "import neovim" 2>/dev/null; then
     info "Installing Python 2 Neovim provider..."
-    python2 -m pip install neovim
+    python2 -m pip install -U neovim
   fi
   if ! python3 -c "import neovim" 2>/dev/null; then
     info "Installing Python 3 Neovim provider..."
-    python3 -m pip install neovim
+    python3 -m pip install -U neovim
   fi
   if ! command -v neovim-ruby-host >/dev/null; then
     info "Installing Ruby Neovim provider..."
@@ -263,6 +276,7 @@ section "CLI Tools"
   install_go_tool "github.com/simeji/jid/cmd/jid"
   install_npm_tool "diff-so-fancy"
   install_npm_tool "git-open"
+  install_python_tool "asciinema"
   install_python_tool "legit"
   install_rust_tool "exa"
   install_rust_tool "fd-find"
@@ -275,6 +289,7 @@ section "CLI Tools"
 
   info "Installing/updating fzf-tmux..."
   curl https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux -fsSLo "$HOME/.local/bin/fzf-tmux"
+  chmod +x "$HOME/.local/bin/fzf-tmux"
 endsection
 
 printf "\\n"

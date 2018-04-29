@@ -92,9 +92,6 @@ set conceallevel=1 " Enable conceal support.
 
 let g:mapleader = ' '
 
-" move over virtual lines
-nnoremap j gj
-nnoremap k gk
 " keep indent selection in visual mode
 vnoremap < <gv
 vnoremap > >gv

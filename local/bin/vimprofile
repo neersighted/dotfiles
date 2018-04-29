@@ -1,84 +1,132 @@
 #!/usr/bin/env python3
+"""Profile {n,}vim startup time."""
 
 from collections import OrderedDict
 from decimal import Decimal
-from re import compile as regex
+from itertools import chain
+from os.path import basename
+from re import compile as r
 from shutil import get_terminal_size
 from subprocess import run
 from sys import argv
 from tempfile import NamedTemporaryFile
+from typing import IO, Iterable, MutableMapping, Text
 
-COLUMNS, _ = get_terminal_size()
+KEY_F = "{}: {:06.3f}ms "
 
-NVIM_RE = regex(r'nvimprofile$')
-SCRIPT_RE = regex(r'^(\s*\d{3}\.\d{3}){3}: sourcing')
-PLUGIN_RE = regex(r'/pack/[^\0\/]+/start/([^\0\/]+)/((?:[^\0\/]+/?)+)')
-VIMRC_RE = regex(r'/\.vim/|/\.config/nvim/|/\.local/share/nvim/|g?vimrc')
-RUNTIME_RE = regex(r'/runtime/|/share/vim/vim\d+')
-READY_RE = regex(r'^(\d{3}\.\d{3})\s+\d{3}\.\d{3}: editing files in windows$')
+LINE_RE = r(r"^(?:\s*(\d{3}\.\d{3})){2,3}: (.*)$")
+SCRIPT_RE = r(r"^sourcing ((?!vimrc file\(s\)).*)$")
+PLUGIN_RE = r(r"^(?:/[^\0/]+)+/pack/[^\0/]+/start/([^\0/]+)/((?:/?[^\0/]+)+)$")
+RUNTIME_RE = r(r"/share/n?vim/|\$N?VIM")
+VIMRC_RE = r(r"/\.vim/|/\.config/nvim/|/\.local/share/nvim/|/\.?g?vimrc")
 
-
-def histogram(title, pairs):
-    total_time = sum(pairs.values())
-    max_time = max(pairs.values())
-
-    name_width = max((len(n) for n in pairs))
-    labels = {n: f'{n.rjust(name_width)}: {t}ms' for n, t in pairs.items()}
-    label_width = max((len(l) for l in labels.values()))
-
-    print(f' {title} ({total_time}ms) '.center(COLUMNS, '-'))
-
-    for name, time in pairs.items():
-        label = labels[name].ljust(label_width + 1)
-        histo = '*' * int((time / max_time) * (COLUMNS - len(label)))
-
-        print(label + histo)
+COLS, _ = get_terminal_size()
 
 
-def main():
-    plugins = OrderedDict()
-    vimrc = OrderedDict()
-    runtime = OrderedDict()
+class Subprofile(OrderedDict, MutableMapping[str, Decimal]):
+    """A subcategory in a Vim startup profile."""
 
-    with NamedTemporaryFile(mode='r') as log:
-        if NVIM_RE.search(argv[0]):
-            vim = 'nvim'
+    def proportions(self) -> Iterable[float]:
+        """Returns proportional values (percentage of largest)."""
+        largest = max(self.values())
+        yield from (float(val / largest) for val in self.values())
+
+    def __missing__(self, key: str) -> Decimal:
+        return Decimal(0)
+
+
+# pylint: disable=too-few-public-methods
+class Profile():
+    """A complete Vim startup profile."""
+    vim = Subprofile()
+    runtime = Subprofile()
+    vimrc = Subprofile()
+    plugins = Subprofile()
+    other = Subprofile()
+
+    @property
+    def times(self) -> Iterable[Decimal]:
+        """Iterate all times."""
+        return chain(self.vim.values(), self.viml_times)
+
+    @property
+    def viml_times(self) -> Iterable[Decimal]:
+        """Iterate all times spent in VimL scripts."""
+        return chain(self.runtime.values(), self.vimrc.values(),
+                     self.plugins.values(), self.other.values())
+
+
+def gen_seperator(title: Text, fill: Text = "=") -> Text:
+    """Generate a section seperator."""
+    return f" {title} ".center(COLS, fill)
+
+
+def gen_histogram(title: Text, profile: Subprofile) -> Text:
+    """Generate a histogram for a Subprofile."""
+    if not profile:
+        return ""
+
+    key_width = len(max(profile.keys(), key=len)) + len(KEY_F.format("", 0))
+    bar_width = COLS - key_width
+
+    seperator = gen_seperator(f"{title} ({sum(profile.values())}ms)", "-")
+
+    keys = (KEY_F.format(key, value).rjust(key_width)
+            for key, value in profile.items())
+    bars = (key + "*" * int(proportion * bar_width)
+            for key, proportion in zip(keys, profile.proportions()))
+
+    return "\n{}\n{}".format(seperator, "\n".join(bars))
+
+
+def parse_startup(log: IO[str]) -> Profile:
+    """Parse a Vim startup log into a Profile."""
+    profile = Profile()
+
+    for line_m in filter(None, (LINE_RE.match(line) for line in log)):
+        subprofile = profile.other
+        value = Decimal(line_m[1])
+        key = line_m[2]
+
+        script_m = SCRIPT_RE.match(key)
+        if script_m:
+            key = script_m[1]
+
+            plugin_m = PLUGIN_RE.match(key)
+            if plugin_m:
+                key = plugin_m[1]
+                subprofile = profile.plugins
+            elif RUNTIME_RE.search(key):
+                subprofile = profile.runtime
+            elif VIMRC_RE.search(key):
+                subprofile = profile.vimrc
         else:
-            vim = 'vim'
+            subprofile = profile.vim
 
-        print(f' {vim} Startup Profile '.center(COLUMNS, '='))
-        run([vim, '--startuptime', log.name, '-c', 'q'])
-
-        for line in log:
-            if not SCRIPT_RE.match(line):
-                ready = READY_RE.match(line)
-                if ready:
-                    total = Decimal(ready[1])
-                continue
-
-            _, _, time, _, script = line.split()
-            time = Decimal(time.rstrip(':'))
-
-            plugin = PLUGIN_RE.search(script)
-            vimrc_match = VIMRC_RE.search(script)
-            runtime_match = RUNTIME_RE.search(script)
-
-            if plugin:
-                if plugin[1] not in plugins:
-                    plugins[plugin[1]] = Decimal(0)
-                plugins[plugin[1]] += time
-            elif vimrc_match:
-                vimrc[script] = time
-            elif runtime_match:
-                runtime[script] = time
-            else:
-                print(f'Unrecognized script: {script}')
-
-    histogram('RUNTIME', runtime)
-    histogram('VIMRC', vimrc)
-    histogram('PLUGINS', plugins)
-    print(f' {vim} ready in {total}ms '.center(COLUMNS, '='))
+        subprofile[key] += value
+    return profile
 
 
-if __name__ == '__main__':
+def main() -> None:
+    """Profile {n,}vim startup time."""
+    vim = "vim"
+    if basename(argv[0]) == "nvimprofile":
+        vim = "nvim"
+
+    with NamedTemporaryFile(mode="r") as startup_log:
+        run([vim, "--startuptime", startup_log.name, "-c", "q"])
+        profile = parse_startup(startup_log)
+
+    times = f"{sum(profile.times)}ms ({sum(profile.viml_times)}ms in scripts)"
+
+    print(gen_seperator(f"{vim} Startup Profile"))
+    print(gen_histogram(vim.upper(), profile.vim))
+    print(gen_histogram("RUNTIME", profile.runtime))
+    print(gen_histogram("VIMRC", profile.vimrc))
+    print(gen_histogram("PLUGINS", profile.plugins))
+    print(gen_histogram("OTHER", profile.other))
+    print(gen_seperator(f"{vim} ready in {times}"))
+
+
+if __name__ == "__main__":
     main()
