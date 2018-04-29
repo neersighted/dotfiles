@@ -5,7 +5,7 @@ from collections import OrderedDict
 from decimal import Decimal
 from itertools import chain
 from os.path import basename
-from re import compile as r
+from re import compile as re
 from shutil import get_terminal_size
 from subprocess import run
 from sys import argv
@@ -16,11 +16,11 @@ SEP_F = " {} "
 KEY_F = "{}: {:06.3f}ms "
 CHART_F = "\n{s}\n{b}"
 
-LINE_RE = r(r"^(?:\s*(\d{3}\.\d{3})){2,3}: (.*)$")
-VIML_RE = r(r"^sourcing ((?!vimrc file\(s\)).*)$")
-PLUGIN_RE = r(r"^(?:/[^\0/]+)+/pack/[^\0/]+/start/([^\0/]+)/((?:/?[^\0/]+)+)$")
-RUNTIME_RE = r(r"/share/n?vim/|\$N?VIM")
-VIMRC_RE = r(r"/\.vim/|/\.config/nvim/|/\.local/share/nvim/|/\.?g?vimrc")
+LINE_RE = re(r"^(?:\s*(\d{3}\.\d{3})){2,3}: (.*)$")
+VIML_RE = re(r"^sourcing ((?!vimrc file\(s\)).*)$")
+PLUG_RE = re(r"^(?:/[^\0/]+)+/pack/[^\0/]+/start/([^\0/]+)/((?:/?[^\0/]+)+)$")
+RUNT_RE = re(r"/share/n?vim/|\$N?VIM")
+VIMRC_RE = re(r"/\.vim/|/\.config/nvim/|/\.local/share/nvim/|/\.?g?vimrc")
 
 COLS, _ = get_terminal_size()
 
@@ -103,11 +103,11 @@ def parse_startup(log: IO[str]) -> Profile:
         if viml_m:
             key = viml_m[1]
 
-            plugin_m = PLUGIN_RE.match(key)
-            if plugin_m:
-                key = plugin_m[1]
+            plug_m = PLUG_RE.match(key)
+            if plug_m:
+                key = plug_m[1]
                 subprofile = profile.plugins
-            elif RUNTIME_RE.search(key):
+            elif RUNT_RE.search(key):
                 subprofile = profile.runtime
             elif VIMRC_RE.search(key):
                 subprofile = profile.vimrc
