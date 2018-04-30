@@ -11,7 +11,8 @@ let g:lightline = {
   \ 'active': {
   \     'left': [
   \       [ 'mode', 'paste' ],
-  \       [ 'git', 'fileinfo' ],
+  \       [ 'fileinfo' ],
+  \       [ 'tag' ],
   \     ],
   \     'right': [
   \       [ 'ale', 'lineinfo' ],
@@ -32,7 +33,7 @@ let g:lightline = {
   \       [ 'tabs' ],
   \     ],
   \     'right': [
-  \       [ 'cwd' ],
+  \       [ 'git', 'cwd' ],
   \     ],
   \   },
   \   'component': {},
@@ -43,10 +44,11 @@ let g:lightline = {
   \     'fileinfo':     'status#fileinfo',
   \     'filename':     'status#filename',
   \     'filetype':     'status#filetype',
-  \     'git':          'status#git',
+  \     'git':          'fugitive#head',
   \     'indent':       'status#indent',
   \     'mode':         'status#mode',
   \     'paste':        'status#paste',
+  \     'tag':          'status#tag',
   \   },
   \   'component_expand': {
   \     'ale':      'status#ale',

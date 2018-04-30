@@ -259,6 +259,7 @@ section "Vim/Neovim"
   fi
 
   install_python_tool "neovim-remote"
+  install_python_tool "vint"
 
   if ! command -v pack >/dev/null;  then
     info "Installing pack..."

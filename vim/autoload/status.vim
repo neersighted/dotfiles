@@ -1,3 +1,8 @@
+let g:status#detail_width = 100 " Full detail threshold.
+let g:status#abbrev_width = 79 " Path abbreviation threshold.
+let g:status#basic_width = 70 " Minimal detail threshold.
+let g:status#min_width = 50 " Bare essentials threshold.
+
 " Helpers
 
 function! s:is_filelike() abort
@@ -32,11 +37,9 @@ function! status#ale() abort
   let l:all_errors = l:counts.error + l:counts.style_error
   let l:all_non_errors = l:counts.total - l:all_errors
 
-  return l:counts.total == 0 ? '' : printf(
-    \ 'W:%d E:%d',
-    \ l:all_non_errors,
-    \ l:all_errors
-    \)
+  return l:counts.total > 0
+    \ ? printf('W:%d E:%d', l:all_non_errors, l:all_errors)
+    \ : ''
 endfunction
 
 function! status#cwd() abort
@@ -44,7 +47,7 @@ function! status#cwd() abort
 endfunction
 
 function! status#fileencoding() abort
-  return s:is_filelike() && winwidth(0) > 70
+  return s:is_filelike() && winwidth(0) > g:status#basic_width
     \ ? (!empty(&fileencoding)
       \ ? &fileencoding
       \ : &encoding)
@@ -52,19 +55,21 @@ function! status#fileencoding() abort
 endfunction
 
 function! status#fileformat() abort
-  return s:is_filelike() && winwidth(0) > 70
+  return s:is_filelike() && winwidth(0) > g:status#basic_width
     \ ? &fileformat
     \ : ''
 endfunction
 
 function! status#fileinfo() abort
-  let l:filelike = s:is_filelike()
+  let l:readonly = (&readonly ? '!' : '')
+  let l:nomodifiable = (!&modifiable ? '#' : '')
+  let l:modified = (&modified ? '+' : '')
 
-  let l:readonly = (&readonly && l:filelike ? '!' : '')
-  let l:nomodifiable = (!&modifiable && l:filelike ? '#' : '')
-  let l:modified = (&modified && l:filelike ? '+' : '')
-
-  return status#filename() . l:readonly .  l:nomodifiable . l:modified
+  if s:is_filelike()
+    return status#filename() . l:readonly .  l:nomodifiable . l:modified
+  else
+    return status#filename()
+  endif
 endfunction
 
 function! status#filename() abort
@@ -75,7 +80,7 @@ function! status#filename() abort
   let l:filename = (&buftype ==# 'help'
     \ ? expand('%:t')
     \ : expand('%:~:.'))
-  if winwidth(0) < 79
+  if winwidth(0) < g:status#abbrev_width
     let l:filename = pathshorten(l:filename)
   endif
 
@@ -83,21 +88,15 @@ function! status#filename() abort
 endfunction
 
 function! status#filetype() abort
-  return s:is_filelike() && winwidth(0) > 70
+  return s:is_filelike() && winwidth(0) > g:status#basic_width
     \ ? (!empty(&filetype)
       \ ? &filetype
       \ : 'no ft')
     \ : ''
 endfunction
 
-function! status#git() abort
-  return s:is_filelike() && winwidth(0) > 70
-    \ ? fugitive#head()
-    \ : ''
-endfunction
-
 function! status#indent() abort
-  return s:is_filelike() && winwidth(0) > 70
+  return s:is_filelike() && winwidth(0) > g:status#detail_width
     \ ? SleuthIndicator()
     \ : ''
 endfunction
@@ -116,7 +115,7 @@ function! status#mode()
     let l:mode = (l:wininfo.loclist ? 'LOC' : 'QF')
   endif
 
-  return winwidth(0) > 40
+  return winwidth(0) > g:status#min_width
     \ ? l:mode
     \ : ''
 endfunction
@@ -130,5 +129,15 @@ endfunction
 function! status#percent() abort
   return s:show_lines()
     \ ? '%p%%'
+    \ : ''
+endfunction
+
+function! status#tag() abort
+  if !exists('g:loaded_tagbar')
+    return ''
+  endif
+
+  return s:is_filelike() && winwidth(0) > g:status#detail_width
+    \ ? tagbar#currenttag('[%s]','')
     \ : ''
 endfunction
