@@ -39,28 +39,31 @@ important "Bootstrapping environment..."
 
 # Debian/Ubuntu
 if command -v apt >/dev/null; then
-  # Build Tools
-  sudo apt install -y \
-    build-essential pkgconf \
-    clang bison \
-    cmake autoconf
-  # Libraries
-  sudo apt install -y \
-    libssl-dev \
-    libffi-dev libgdbm-dev \
-    zlib1g-dev libbz2-dev \
-    libreadline-dev libncurses5-dev libncursesw5-dev \
-    libyaml-dev libsqlite3-dev
-  # User Programs
-  sudo apt install -y \
-    exuberant-ctags \
-    fish \
-    htop \
-    neovim \
-    tmux
+  section "apt"
+    # Build Tools
+    sudo apt install -y \
+      build-essential pkgconf \
+      clang bison \
+      cmake autoconf
+    # Libraries
+    sudo apt install -y \
+      libssl-dev \
+      libffi-dev libgdbm-dev \
+      zlib1g-dev libbz2-dev \
+      libreadline-dev libncurses5-dev libncursesw5-dev \
+      libyaml-dev libsqlite3-dev
+    # User Programs
+    sudo apt install -y \
+      exuberant-ctags \
+      fish \
+      htop \
+      neovim \
+      tmux
+  endsection
 # FreeBSD
 elif command -v pkg >/dev/null; then
-  su <<'EOSU'
+  section "pkgng"
+    su <<'EOSU'
 # Build Tools
 pkg install -y \
   gcc gmake \
@@ -83,7 +86,7 @@ pkg install -y \
   vim \
   universal-ctags
 EOSU
-
+  endsection
 fi
 
 #
