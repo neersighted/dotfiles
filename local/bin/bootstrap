@@ -49,16 +49,15 @@ if command -v apt >/dev/null; then
   # System
   install_apt_package \
     "build-essential" \
-    "clang" \
-    "cmake"
+    "clang" "bison" \
+    "cmake" "autoconf"
   # Libraries
   install_apt_package \
     "libssl-dev" \
     "libffi-dev" "libgdbm-dev" \
     "zlib1g-dev" "libbz2-dev" \
-    "libreadline6-dev" "libncurses5-dev" "libncursesw5-dev" \
-    "libyaml-dev" "libsqlite3-dev" \
-    "tk-dev"
+    "libreadline-dev" "libncurses5-dev" "libncursesw5-dev" \
+    "libyaml-dev" "libsqlite3-dev"
   # User
   install_apt_package \
     "fish" \
@@ -156,6 +155,8 @@ section "Node.js"
   }
 
   install_npm_tool "flow-language-server"
+  install_npm_tool "pnpm"
+  install_npm_tool "yarn"
 endsection
 
 
