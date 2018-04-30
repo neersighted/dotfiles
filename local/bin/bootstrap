@@ -37,32 +37,53 @@ important "Bootstrapping environment..."
 # System
 #
 
+# Debian/Ubuntu
 if command -v apt >/dev/null; then
-  install_apt_package() {
-    for package in "$@"; do
-      if ! dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -Fq "ok installed"; then
-        sudo apt install -y "$package"
-      fi
-    done
-  }
-
-  # System
-  install_apt_package \
-    "build-essential" \
-    "clang" "bison" \
-    "cmake" "autoconf"
+  # Build Tools
+  sudo apt install -y \
+    build-essential pkgconf \
+    clang bison \
+    cmake autoconf
   # Libraries
-  install_apt_package \
-    "libssl-dev" \
-    "libffi-dev" "libgdbm-dev" \
-    "zlib1g-dev" "libbz2-dev" \
-    "libreadline-dev" "libncurses5-dev" "libncursesw5-dev" \
-    "libyaml-dev" "libsqlite3-dev"
-  # User
-  install_apt_package \
-    "fish" \
-    "neovim" \
-    "tmux"
+  sudo apt install -y \
+    libssl-dev \
+    libffi-dev libgdbm-dev \
+    zlib1g-dev libbz2-dev \
+    libreadline-dev libncurses5-dev libncursesw5-dev \
+    libyaml-dev libsqlite3-dev
+  # User Programs
+  sudo apt install -y \
+    exuberant-ctags \
+    fish \
+    htop \
+    neovim \
+    tmux
+# FreeBSD
+elif command -v pkg >/dev/null; then
+  su <<'EOSU'
+# Build Tools
+pkg install -y \
+  gcc gmake \
+  cmake \
+  git
+# Libraries
+pkg install -y \
+  libssh2
+# System Programs
+pkg install -y \
+  bash \
+  coreutils \
+  curl
+# User Programs
+pkg install -y \
+  fish \
+  htop \
+  neovim \
+  tmux \
+  vim \
+  universal-ctags
+EOSU
+
 fi
 
 #
