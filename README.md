@@ -8,15 +8,14 @@ Debian:
 ```sh
 wget -qO - https://apt.thoughtbot.com/thoughtbot.gpg.key | sudo apt-key add -
 echo "deb http://apt.thoughtbot.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/thoughtbot.list
-sudo apt-get update
-sudo apt-get install rcm
+sudo apt update
+sudo apt install rcm
 ```
 
 Ubuntu:
 ```sh
 sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm
-sudo apt-get update
-sudo apt-get install rcm
+sudo apt install rcm
 ```
 
 Fedora:

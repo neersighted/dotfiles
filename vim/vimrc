@@ -2,6 +2,9 @@
 " Init
 "
 
+profile start profile.log
+profile! file */start/ale/*
+
 " Display start-up time.
 let s:start_time = reltime()
 augroup startup
@@ -22,7 +25,7 @@ let g:loaded_vimballPlugin     = 1
 let g:loaded_zipPlugin         = 1
 
 " Skip resolving Python interpreters; trust $PATH.
-let g:python_host_prog = 'python'
+let g:python_host_prog = 'python2'
 let g:python3_host_prog = 'python3'
 
 " Share files with standard Vim.
@@ -100,6 +103,7 @@ endif
 
 " Wrapping
 set conceallevel=1 " Enable conceal support.
+set colorcolumn=+1 " Show the wrapping column visually.
 set linebreak breakindent showbreak=\\ " Wrap lines visually.
 set list listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+ " Show hidden characters.
 

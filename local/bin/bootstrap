@@ -34,6 +34,39 @@ getshell() {
 important "Bootstrapping environment..."
 
 #
+# System
+#
+
+if command -v apt >/dev/null; then
+  install_apt_package() {
+    for package in "$@"; do
+      if dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -Fq "ok installed"; then
+        sudo apt install -y "$package"
+      fi
+    done
+  }
+
+  # System
+  install_apt_package \
+    "build-essential" \
+    "clang" \
+    "cmake"
+  # Libraries
+  install_apt_package \
+    "libssl-dev" \
+    "libffi-dev" "libgdbm-dev" \
+    "zlib1g-dev" "libbz2-dev" \
+    "libreadline6-dev" "libncurses5-dev" "libncursesw5-dev" \
+    "libyaml-dev" "libsqlite3-dev" \
+    "tk-dev"
+  # User
+  install_apt_package \
+    "fish" \
+    "neovim" \
+    "tmux"
+fi
+
+#
 # Environment
 #
 
