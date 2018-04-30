@@ -40,7 +40,7 @@ important "Bootstrapping environment..."
 if command -v apt >/dev/null; then
   install_apt_package() {
     for package in "$@"; do
-      if dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -Fq "ok installed"; then
+      if ! dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -Fq "ok installed"; then
         sudo apt install -y "$package"
       fi
     done
