@@ -43,7 +43,7 @@ function! status#ale() abort
 endfunction
 
 function! status#cwd() abort
-  return fnamemodify(., ':~')
+  return fnamemodify('.', ':~')
 endfunction
 
 function! status#fileencoding() abort

@@ -33,7 +33,8 @@ let g:lightline = {
   \       [ 'tabs' ],
   \     ],
   \     'right': [
-  \       [ 'git', 'cwd' ],
+  \       [ 'cwd' ],
+  \       [ 'git' ],
   \     ],
   \   },
   \   'component': {},

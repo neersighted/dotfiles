@@ -4,7 +4,10 @@
 
 " Display start-up time.
 let s:start_time = reltime()
-autocmd VimEnter * echo reltimestr(reltime(s:start_time))
+augroup startup
+  autocmd!
+  autocmd VimEnter * echo reltimestr(reltime(s:start_time))
+augroup end
 
 " Don't load unused cruft.
 let g:loaded_2html_plugin      = 1
@@ -80,7 +83,7 @@ set number relativenumber " Use relative line numbering.
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
 
 " Status
-set noshowmode laststatus=2 " Prefer our own statusbar.
+set noshowmode laststatus=2 showtabline=2 " Use lightline for the statusline/tabline.
 
 " Splits
 set splitright splitbelow " Open vertical splits to the right, horizontal below.

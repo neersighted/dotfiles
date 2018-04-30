@@ -85,6 +85,12 @@
   on: GV
   opt: true
 - 
+  category: meta
+  local: false
+  name: junegunn/vader.vim
+  on: Vader
+  opt: true
+- 
   category: editing
   local: false
   name: "junegunn/vim-easy-align"
