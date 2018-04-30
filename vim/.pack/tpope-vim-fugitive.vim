@@ -1,6 +1,6 @@
-nnoremap <leader>c :Gcommit<cr>
-nnoremap <leader>p :Gpush<cr>
-nnoremap <leader>P :Gpull<cr>
-nnoremap <leader>g :Gstatus<cr>
-nnoremap <leader>d :Gdiff<cr>
-nnoremap <leader>b :Gblame<cr>
+nnoremap <leader>Gc :Gcommit<cr>
+nnoremap <leader>Gp :Gpush<cr>
+nnoremap <leader>GP :Gpull<cr>
+nnoremap <leader>Gs :Gstatus<cr>
+nnoremap <leader>Gd :Gdiff<cr>
+nnoremap <leader>Gb :Gblame<cr>

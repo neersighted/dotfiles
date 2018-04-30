@@ -12,22 +12,19 @@ if !exists('s:fzf_configured') " Due to a pack bug with duplicated code.
     \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
 
   nnoremap <leader><leader> :Buffers<cr>
-  nnoremap <leader>o :Files<cr>
-  nnoremap <leader>O :GFiles<cr>
-  nnoremap <leader>C :GFiles?<cr>
-  nnoremap <leader>r :Rg<cr>
-  nnoremap <leader>G :GGrep<cr>
-  nnoremap <leader>f :BLines<cr>
-  nnoremap <leader>F :Lines<cr>
-  nnoremap <leader>t :BTags<cr>
-  nnoremap <leader>T :Tags<cr>
-  nnoremap <leader>h :BCommits<cr>
-  nnoremap <leader>H :Commits<cr>
   nnoremap <leader>` :Marks<cr>
-  nnoremap <leader>? :Helptags<cr>
-  nmap <leader><tab> <plug>(fzf-maps-n)
-  xmap <leader><tab> <plug>(fzf-maps-x)
-  omap <leader><tab> <plug>(fzf-maps-o)
+  nnoremap <leader>/ :BLines<cr>
+  nnoremap <leader>? :Lines<cr>
+  nnoremap <leader>Gg :GGrep<cr>
+  nnoremap <leader>O :GFiles?<cr>
+  nnoremap <leader>T :Tags<cr>
+  nnoremap <leader>o :Files<cr>
+  nnoremap <leader>R :Rg<cr>
+  nnoremap <leader>t :BTags<cr>
+
+  nmap <leader>m <plug>(fzf-maps-n)
+  omap <leader>m <plug>(fzf-maps-o)
+  xmap <leader>m <plug>(fzf-maps-x)
 
   let g:fzf_statusline = 0 " Use the default statusline.
   let g:fzf_colors = {

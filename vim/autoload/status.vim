@@ -13,14 +13,15 @@ function! s:show_lines() abort
 endfunction
 
 let s:filetype_modes = {
-  \ 'startify': 'STARTIFY',
-  \ 'MundoDiff': 'UNDODIFF',
   \ 'Mundo': 'UNDO',
-  \ 'fugitiveblame': 'BLAME',
+  \ 'MundoDiff': 'UNDODIFF',
   \ 'dirvish': 'DIR',
+  \ 'fugitiveblame': 'BLAME',
   \ 'fzf': 'FZF',
   \ 'help': 'HELP',
   \ 'man': 'MAN',
+  \ 'startify': 'STARTIFY',
+  \ 'tagbar': 'TAGS',
   \ }
 
 " Components
@@ -86,6 +87,18 @@ function! status#filetype() abort
     \ ? (!empty(&filetype)
       \ ? &filetype
       \ : 'no ft')
+    \ : ''
+endfunction
+
+function! status#git() abort
+  return s:is_filelike() && winwidth(0) > 70
+    \ ? fugitive#head()
+    \ : ''
+endfunction
+
+function! status#indent() abort
+  return s:is_filelike() && winwidth(0) > 70
+    \ ? SleuthIndicator()
     \ : ''
 endfunction
 

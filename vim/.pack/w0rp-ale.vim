@@ -1,4 +1,7 @@
 nmap <leader>a <plug>(ale_fix)
+nmap <leader>A <plug>(ale_detail)
+nmap <leader>g <plug>(ale_go_to_definition)
+nmap <leader>n <plug>(ale_find_references)
 
 let g:ale_sign_error = 'x'
 let g:ale_sign_warning = '!'

@@ -122,7 +122,6 @@ section "Node.js"
     npm install -g "$target"
   }
 
-  install_npm_tool "flow-bin"
   install_npm_tool "flow-language-server"
 endsection
 
