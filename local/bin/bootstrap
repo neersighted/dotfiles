@@ -291,10 +291,10 @@ endsection
 section "fish"
   if [ ! "$(getshell)" = 'fish' ]; then
     info "Changing login shell to fish..."
-    if command -v sudo >/dev/null; then
-      sudo chsh -s "$(command -v fish)" "$USER"
+    if [ "$(uname)" = 'FreeBSD' ]; then
+      su -c \'chsh -s "$(command -v fish)" "$USER"\'
     else
-      su -c chsh -s "$(command -v fish)" "$USER"
+      sudo chsh -s "$(command -v fish)" "$USER"
     fi
   fi
 
