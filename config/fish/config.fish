@@ -1,4 +1,9 @@
 if status --is-interactive
+  # use 24bit color in non-basic terminals
+  if test "$TERM" != "xterm"; and test "$TERM" != "linux"
+    set -g fish_term24bit 1
+  end
+
   # first-time universal variable provisioning
   # this allows variables to be overridden locally with set -U
   # set -Ue fish_initialized to reset
@@ -25,13 +30,13 @@ if status --is-interactive
       end
     end
 
-    # use 24bit color in non-basic terminals
-    if test "$TERM" != "xterm"; and test "$TERM" != "linux"
-      set -g fish_term24bit 1
-    end
-
     # libvirt
     set -Ux LIBVIRT_DEFAULT_URI qemu:///system
+
+    # docker
+    if set -q WSL
+      set -Ux DOCKER_HOST tcp://0.0.0.0:2375
+    end
 
     # fzf (core)
     set -Ux FZF_DEFAULT_COMMAND 'fd --type file'
