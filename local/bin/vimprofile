@@ -125,7 +125,16 @@ def main() -> None:
         vim = "nvim"
 
     with NamedTemporaryFile(mode="r") as startup_log:
-        run([vim, "--startuptime", startup_log.name, "-c", "noautocmd qall"])
+        run(
+            [
+                vim,
+                "--startuptime",
+                startup_log.name,
+                *argv[1:],
+                "-c",
+                "noautocmd qall",
+            ]
+        )
         profile = parse_startup(startup_log)
 
     times = f"{sum(profile.times)}ms ({sum(profile.viml_times)}ms in scripts)"
