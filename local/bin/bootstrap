@@ -61,7 +61,7 @@ section "Packages"
       tmux
   elif command -v pkg >/dev/null; then
     info "Installing packages with pkg..."
-    su <<'EOSU'
+    su root <<'EOSU'
 # Build Tools
 pkg install -y \
   gcc gmake \
@@ -291,10 +291,13 @@ endsection
 section "fish"
   if [ ! "$(getshell)" = 'fish' ]; then
     info "Changing login shell to fish..."
+
+    local shell
+    shell=$(command -v fish)
     if [ "$(uname)" = 'FreeBSD' ]; then
-      su -c \'chsh -s "$(command -v fish)" "$USER"\'
+      su root -c "chsh -s $USER $shell"
     else
-      sudo chsh -s "$(command -v fish)" "$USER"
+      sudo chsh -s "$shell" "$USER"
     fi
   fi
 
