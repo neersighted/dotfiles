@@ -15,9 +15,12 @@
   opt: false
 - 
   category: completion
+  for: 
+    - c
+    - cpp
   local: false
   name: "Rip-Rip/clang_complete"
-  opt: false
+  opt: true
 - 
   category: ui
   local: false
