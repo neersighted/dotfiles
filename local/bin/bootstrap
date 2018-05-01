@@ -186,9 +186,11 @@ section "Python"
   install_asdf_language "python" "^3.6.[0-9]+$" "^2.7.[0-9]+$"
 
   if ! command -v pipsi >/dev/null; then
-    info "Installing pipsi..."
-    curl http://git.io/get-pipsi -fsSL | python - --src=git+https://github.com/mitsuhiko/pipsi.git
-    echo "{\"name\": \"pipsi\", \"version\": \"0.10.dev\", \"scripts\": [\"$HOME/.local/bin/pipsi\"]}" > "$HOME/.local/venvs/pipsi/package_info.json" # FIXME: remove when pipsi bug is fixed
+    if ! [ -e "$HOME/.local/bin/pipsi" ]; then
+      info "Installing pipsi..."
+      curl http://git.io/get-pipsi -fsSL | python - --src=git+https://github.com/mitsuhiko/pipsi.git
+      echo "{\"name\": \"pipsi\", \"version\": \"0.10.dev\", \"scripts\": [\"$HOME/.local/bin/pipsi\"]}" > "$HOME/.local/venvs/pipsi/package_info.json" # FIXME: remove when pipsi bug is fixed
+    fi
 
     export PATH="$HOME/.local/bin:$PATH"
   fi
