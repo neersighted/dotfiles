@@ -19,6 +19,11 @@ important() {
   printf "\\033[0;35m%s\\033[0m\\n" "$@"
 }
 
+error() {
+  printf "\\033[0;31m%s\\033[0m\\n" "$@"
+  exit 1
+}
+
 getshell() {
   local shell
   if command -v dscacheutil >/dev/null; then
@@ -38,68 +43,30 @@ important "Bootstrapping environment..."
 #
 
 section "Packages"
-  if command -v apt >/dev/null; then
-    info "Installing packages with apt..."
-    # Build Tools
-    sudo apt install -y \
-      autoconf \
-      bison \
-      build-essential \
-      clang \
-      cmake \
-      pkgconf
-    # Libraries
-    sudo apt install -y \
-      libbz2-dev \
-      libffi-dev \
-      libgdbm-dev \
-      libncurses5-dev \
-      libncursesw5-dev \
-      libreadline-dev \
-      libsqlite3-dev \
-      libssl-dev \
-      libyaml-dev \
-      zlib1g-dev
-    # User Programs
-    sudo apt install -y \
-      exuberant-ctags \
-      fish \
-      htop \
-      neovim \
-      tig \
-      tmux \
-      vim
-  elif command -v pkg >/dev/null; then
-    info "Installing packages with pkg..."
-    su root <<'EOSU'
-# Build Tools
-pkg install -y \
-  cmake \
-  gcc \
-  gmake \
-  pkgconf
-# Libraries
-pkg install -y \
-  libssh2 \
-  openssl \
-  sqlite3
-# System Programs
-pkg install -y \
-  bash \
-  coreutils \
-  curl
-# User Programs
-pkg install -y \
-  fish \
-  htop \
-  neovim \
-  tmux \
-  tig \
-  vim \
-  universal-ctags
-EOSU
-  fi
+  if command -v apt-get >/dev/null; then
+    bld="autoconf bison build-essential ccache clang cmake pkgconf"
+    lib="libbz2-dev libffi-dev libgdbm-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libssl-dev libyaml-dev zlib1g-dev"
+    usr="exuberant-ctags fish gnupg2 htop neovim shellcheck tig tmux vim"
 
+    info "Installing packages with apt..."
+    sudo sh -c "apt-get install -y $bld $lib $usr"
+  elif command -v pkg >/dev/null; then
+    bld="ccache cmake gcc gmake pkgconf"
+    lib="libssh2 openssl sqlite3"
+    usr="bash coreutils curl fish gnupg htop neovim shellcheck tig tmux universal-ctags vim"
+
+    info "Installing packages with pkg..."
+    su root -c "pkg install -y $bld $lib $usr"
+  elif command -v brew >/dev/null; then
+    bld="ccache cmake"
+    lib="libedit zlib"
+    usr="coreutils ctags fish gnupg htop neovim pinentry-mac reattach-to-user-namespace shellcheck tmux vim"
+
+    info "Installing packages with brew..."
+    sh -c "brew install $bld $lib $usr"
+  else
+    error "No package manager found. Is this a supported system?"
+  fi
 endsection
 
 #
