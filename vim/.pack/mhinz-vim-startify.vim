@@ -1,5 +1,5 @@
 let g:startify_bookmarks = [
-  \ {'v': '~/.config/neovim/init.vim'},
+  \ {'v': '~/.vim/vimrc'},
   \ {'f': '~/.config/fish/config.fish'},
   \ {'t': '~/.tmux.conf'},
   \ {'g': '~/.config/git/config'},

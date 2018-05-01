@@ -286,11 +286,6 @@
   name: w0rp/ale
   opt: false
 - 
-  category: completion
-  local: false
-  name: "wellle/tmux-complete.vim"
-  opt: false
-- 
   category: syntax
   local: false
   name: "wgwoods/vim-systemd-syntax"
