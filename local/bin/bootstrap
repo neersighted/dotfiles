@@ -68,7 +68,8 @@ pkg install -y \
   cmake
 # Libraries
 pkg install -y \
-  libssh2
+  libssh2 \
+  sqlite3
 # System Programs
 pkg install -y \
   bash \
