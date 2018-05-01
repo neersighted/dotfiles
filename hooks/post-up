@@ -3,3 +3,7 @@
 if ! [ -L "$HOME/.vim/.pack" ]; then
   ln -sf ../.dotfiles/vim/.pack "$HOME/.vim/.pack"
 fi
+
+if command -v pack >/dev/null; then
+  pack generate
+fi
