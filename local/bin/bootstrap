@@ -42,16 +42,24 @@ section "Packages"
     info "Installing packages with apt..."
     # Build Tools
     sudo apt install -y \
-      build-essential pkgconf \
-      clang bison \
-      cmake autoconf
+      autoconf \
+      bison \
+      build-essential \
+      clang \
+      cmake \
+      pkgconf
     # Libraries
     sudo apt install -y \
+      libbz2-dev \
+      libffi-dev \
+      libgdbm-dev \
+      libncurses5-dev \
+      libncursesw5-dev \
+      libreadline-dev \
+      libsqlite3-dev \
       libssl-dev \
-      libffi-dev libgdbm-dev \
-      zlib1g-dev libbz2-dev \
-      libreadline-dev libncurses5-dev libncursesw5-dev \
-      libyaml-dev libsqlite3-dev
+      libyaml-dev \
+      zlib1g-dev
     # User Programs
     sudo apt install -y \
       exuberant-ctags \
@@ -64,11 +72,13 @@ section "Packages"
     su root <<'EOSU'
 # Build Tools
 pkg install -y \
-  gcc gmake \
+  gcc \
+  gmake \
   cmake
 # Libraries
 pkg install -y \
   libssh2 \
+  openssl \
   sqlite3
 # System Programs
 pkg install -y \
