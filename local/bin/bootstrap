@@ -256,10 +256,10 @@ section "Rust"
 
       if cargo install --list | grep -Eq "^$target"; then
         info "Updating $target using cargo install-update..."
-        cargo install-update "$target"
+        cargo install-update -g "$target"
       else
         info "Installing $target using cargo install..."
-        cargo install -g "$target" ${git:+--git "$git"}
+        cargo install "$target" ${git:+--git "$git"}
       fi
 
       if [ -d "$CARGO_BUILD_TARGET_DIR/release/build" ]; then
