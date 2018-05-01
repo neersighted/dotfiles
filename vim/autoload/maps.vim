@@ -5,7 +5,7 @@ function! maps#navigate(dir)
   execute 'wincmd' a:dir
 
   if $TERM =~# '^\%(tmux\|screen\)' && winnr() ==# l:winnr
-    call system("tmux select-pane -".s:tmux_directions[a:dir])
+    call system('tmux select-pane -'.s:tmux_directions[a:dir])
   endif
 endf
 
@@ -26,3 +26,13 @@ function! maps#qftoggle(loc) abort
     if a:loc | lopen | else | copen | endif
   endif
 endfunction
+
+function! maps#smooth_scroll(up)
+  execute 'normal '.(a:up ? "\<c-y>" : "\<c-e>")
+  redraw
+  for l:count in range(3, &scroll, 2)
+    sleep 1m
+    execute 'normal '.(a:up ? "\<c-y>" : "\<c-e>")
+    redraw
+  endfor
+endf
