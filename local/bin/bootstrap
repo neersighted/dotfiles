@@ -72,9 +72,10 @@ section "Packages"
     su root <<'EOSU'
 # Build Tools
 pkg install -y \
+  cmake \
   gcc \
   gmake \
-  cmake
+  pkgconf
 # Libraries
 pkg install -y \
   libssh2 \
