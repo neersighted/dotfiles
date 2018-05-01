@@ -267,7 +267,7 @@ section "Rust"
 
       if cargo install --list | grep -Eq "^$target"; then
         info "Updating $target using cargo install-update..."
-        cargo install-update -g "$target"
+        cargo install-update ${git:+-g} "$target"
       else
         info "Installing $target using cargo install..."
         cargo install "$target" ${git:+--git "$git"}
