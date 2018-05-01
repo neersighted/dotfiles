@@ -1,0 +1,1 @@
+packadd vader.vim
