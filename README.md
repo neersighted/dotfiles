@@ -26,7 +26,7 @@ sudo dnf install rcm
 
 FreeBSD:
 ```sh
-sudo pkg install rcm
+pkg install rcm
 ```
 
 macOS:

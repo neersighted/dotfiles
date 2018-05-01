@@ -37,9 +37,9 @@ important "Bootstrapping environment..."
 # System
 #
 
-# Debian/Ubuntu
-if command -v apt >/dev/null; then
-  section "apt"
+section "Packages"
+  if command -v apt >/dev/null; then
+    info "Installing packages with apt..."
     # Build Tools
     sudo apt install -y \
       build-essential pkgconf \
@@ -59,10 +59,8 @@ if command -v apt >/dev/null; then
       htop \
       neovim \
       tmux
-  endsection
-# FreeBSD
-elif command -v pkg >/dev/null; then
-  section "pkgng"
+  elif command -v pkg >/dev/null; then
+    info "Installing packages with pkg..."
     su <<'EOSU'
 # Build Tools
 pkg install -y \
@@ -86,8 +84,9 @@ pkg install -y \
   vim \
   universal-ctags
 EOSU
-  endsection
-fi
+  fi
+
+endsection
 
 #
 # Environment
@@ -198,14 +197,16 @@ section "Python"
     shift
     local additional_targets="$*"
 
-    info "Installing/updating $target using pipsi..."
     if ! pipsi list | grep -F "$target" >/dev/null; then
+      info "Installing $target using pipsi..."
       pipsi install "$target"
     else
+      info "Updating $target using pipsi..."
       pipsi upgrade "$target"
     fi
 
     if [ -n "$additional_targets" ]; then
+      info "Installing/updating $additional_targets in $target environment..."
       for atarget in $additional_targets; do
         "$HOME/.local/venvs/$target/bin/pip" install -U "$atarget"
       done
@@ -241,6 +242,7 @@ section "Rust"
 
   install_rust_tool() {
     local target="$1"
+    local git="$2"
 
     (
       CARGO_BUILD_TARGET_DIR=$(mktemp -d "${TMPDIR:-/tmp}/cargo.XXXXXXXXX")
@@ -248,11 +250,12 @@ section "Rust"
 
       trap '{ rm -rf "$CARGO_BUILD_TARGET_DIR"; }' EXIT
 
-      info "Installing/updating $target using cargo..."
-      if command -v cargo-install-update >/dev/null; then
-        cargo install-update -i "$target"
+      if cargo install --list | grep -Eq "^$target"; then
+        info "Updating $target using cargo install-update..."
+        cargo install-update "$target"
       else
-        cargo install "$target"
+        info "Installing $target using cargo install..."
+        cargo install -g "$target" ${git:+--git "$git"}
       fi
 
       if [ -d "$CARGO_BUILD_TARGET_DIR/release/build" ]; then
@@ -272,7 +275,7 @@ section "Rust"
   install_rust_tool "cargo-tree"
   install_rust_tool "cargo-update"
   install_rust_tool "cargo-watch"
-  install_rust_tool "clippy"
+  install_rust_tool "clippy" "https://github.com/rust-lang-nursery/rust-clippy"
   install_rust_tool "racer"
 endsection
 
@@ -284,16 +287,18 @@ endsection
 section "fish"
   if [ ! "$(getshell)" = 'fish' ]; then
     info "Changing login shell to fish..."
-    sudo chsh -s "$(command -v fish)" "$USER"
+    if command -v sudo >/dev/null; then
+      sudo chsh -s "$(command -v fish)" "$USER"
+    else
+      su -c chsh -s "$(command -v fish)" "$USER"
+    fi
   fi
 
   if [ ! -e "$HOME/.config/fish/functions/fisher.fish" ]; then
     info "Bootstrapping fisher..."
     curl https://git.io/fisher -fsSLo "$HOME/.config/fish/functions/fisher.fish"
-
-    if command -v fish >/dev/null; then
-      fish -c fisher
-    fi
+    info "Installing fish plugins using fisher..."
+    fish -c fisher
   fi
 endsection
 
@@ -318,10 +323,10 @@ section "Vim/Neovim"
 
   install_python_tool "neovim-remote"
   install_python_tool "vim-vint"
+  install_rust_tool "pack" "https://github.com/maralla/pack"
 
-  if ! command -v pack >/dev/null;  then
-    info "Installing pack..."
-    cargo install pack --git https://github.com/maralla/pack
+  if ! [ -e "$HOME/.vim/pack" ];  then
+    info "Bootstrapping Vim plugins using pack install..."
     pack install
   fi
 endsection
