@@ -53,7 +53,7 @@ section "Packages"
   elif command -v pkg >/dev/null; then
     bld="ccache cmake gcc gmake pkgconf"
     lib="libssh2 openssl sqlite3"
-    usr="bash coreutils curl fish gnupg htop neovim shellcheck tig tmux universal-ctags vim"
+    usr="bash coreutils curl fish gnupg htop neovim hs-shellcheck tig tmux universal-ctags vim"
 
     info "Installing packages with pkg..."
     su root -c "pkg install -y $bld $lib $usr"
