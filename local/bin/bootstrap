@@ -321,7 +321,7 @@ section "Vim/Neovim"
 
   if ! command -v pack >/dev/null;  then
     info "Installing pack..."
-    cargo install --git https://github.com/maralla/pack
+    cargo install pack --git https://github.com/maralla/pack
     pack install
   fi
 endsection

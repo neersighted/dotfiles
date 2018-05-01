@@ -2,9 +2,6 @@
 " Init
 "
 
-profile start profile.log
-profile! file */start/ale/*
-
 " Display start-up time.
 let s:start_time = reltime()
 augroup startup
