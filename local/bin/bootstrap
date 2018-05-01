@@ -66,7 +66,9 @@ section "Packages"
       fish \
       htop \
       neovim \
-      tmux
+      tig \
+      tmux \
+      vim
   elif command -v pkg >/dev/null; then
     info "Installing packages with pkg..."
     su root <<'EOSU'
@@ -92,6 +94,7 @@ pkg install -y \
   htop \
   neovim \
   tmux \
+  tig \
   vim \
   universal-ctags
 EOSU

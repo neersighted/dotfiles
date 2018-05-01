@@ -32,9 +32,8 @@
     abbrevCommit = true
     date = relative
     decorate = auto
-    showSignature = true
 [format]
-    pretty = "format:%C(yellow)%h %C(blue)%G? %C(reset)(%ad) %C(white)%s%C(reset) - %aN%C(magenta)%d"
+    pretty = format:%C(yellow)%h%C(magenta)% G? %C(blue)%<(12,trunc)%ad %C(green)%<(16,trunc)%aN %C(reset)%s%C(red)%d
 
 [push]
     default = simple
