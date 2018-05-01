@@ -65,8 +65,7 @@ section "Packages"
 # Build Tools
 pkg install -y \
   gcc gmake \
-  cmake \
-  git
+  cmake
 # Libraries
 pkg install -y \
   libssh2
@@ -190,6 +189,8 @@ section "Python"
     info "Installing pipsi..."
     curl http://git.io/get-pipsi -fsSL | python - --src=git+https://github.com/mitsuhiko/pipsi.git
     echo "{\"name\": \"pipsi\", \"version\": \"0.10.dev\", \"scripts\": [\"$HOME/.local/bin/pipsi\"]}" > "$HOME/.local/venvs/pipsi/package_info.json" # FIXME: remove when pipsi bug is fixed
+
+    export PATH="$HOME/.local/bin:$PATH"
   fi
 
   install_python_tool() {
@@ -297,9 +298,10 @@ section "fish"
   if [ ! -e "$HOME/.config/fish/functions/fisher.fish" ]; then
     info "Bootstrapping fisher..."
     curl https://git.io/fisher -fsSLo "$HOME/.config/fish/functions/fisher.fish"
-    info "Installing fish plugins using fisher..."
-    fish -c fisher
   fi
+
+  info "Installing fish plugins using fisher..."
+  fish -c fisher
 endsection
 
 
