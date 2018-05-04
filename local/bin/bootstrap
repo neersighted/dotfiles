@@ -332,7 +332,7 @@ section "CLI Tools"
   install_python_tool "legit"
   install_rust_tool "exa"
   install_rust_tool "fd-find"
-  install_rust_tool "hyperfine"
+  #install_rust_tool "hyperfine"
   install_rust_tool "ripgrep"
   install_rust_tool "tokei"
 
