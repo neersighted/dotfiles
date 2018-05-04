@@ -1,11 +1,17 @@
 #!/bin/sh
 
-case $PINENTRY_USER_DATA in
-  curses) exec pinentry-curses "$@";;
-  gnome ) exec pinentry-gnome3 "$@";;
-  gtk   ) exec pinentry-gtk-2 "$@";;
-  mac   ) exec pinentry-mac "$@";;
-  qt    ) exec pinentry-qt "$@";;
-  tty   ) exec pinentry-tty "$@";;
-  *     ) exec pinentry-curses "$@";;
-esac
+if [ -e "$DISPLAY" ]; then
+  if command -v pinentry-qt >/dev/null; then
+    exec pinentry-qt "$@"
+  elif command -v pinentry-gnome3 >/dev/null; then
+    exec pinentry-gnome3 "$@"
+  elif command -v pinentry-gtk-2 >/dev/null; then
+    exec pinentry-gtk-2 "$@"
+  fi
+elif [ "$(uname)" = "Darwin" ]; then
+  if command -v pinentry-mac >/dev/null; then
+    exec pinentry-mac "$@"
+  fi
+fi
+
+exec pinentry-curses "$@"
