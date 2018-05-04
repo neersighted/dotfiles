@@ -67,15 +67,17 @@ if status --is-interactive
     # connect X applications to the windows X11 server
     set -x DISPLAY :0
   else
-    # notify gpg-agent of our tty
-    set -x GPG_TTY (tty)
+    # gpg-agent setup for local connections
+    if type -q gpg-connect-agent; and not set -q SSH_TTY; and not set -q MOSH
+      # launch gpg-agent with our pinentry-program (if not already running)
+      gpg-agent --pinentry-program "$HOME/.local/bin/pinentry" --daemon 2>/dev/null
 
-    # connect ssh to gpg-agent and inform gpg-agent of our TTY (for local logins)
-    if not set -q SSH_TTY; and not set -q MOSH
-      type -q gpgconf
-        and set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
-      type -q gpg-connect-agent
-        and gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
+      # notify gpg-agent of our tty
+      set -x GPG_TTY (tty)
+      # notify gpg-agent's ssh compatibility of our tty
+      gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
+      # notify ssh of our gpg-agent socket
+      set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
     end
   end
 
@@ -83,10 +85,10 @@ if status --is-interactive
     # start our main tmux session (on a pts)
     if type -q tmux; and not set -q TMUX
       set -l session (prompt_hostname)
-      if tmux has-session -t $session 2>/dev/null
-        tmux new-session -t $session\; set-option destroy-unattached
+      if tmux has-session -t "$session" 2>/dev/null
+        tmux new-session -t "$session"\; set-option destroy-unattached
       else
-        tmux new-session -s $session
+        tmux new-session -s "$session"
       end
     end
   else
