@@ -1,17 +1,26 @@
 #!/bin/sh
 
+ARGS="$*"
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --display) DISPLAY="$2"; shift 2;;
+    *        ) shift 1;;
+  esac
+done
+
 if [ -e "$DISPLAY" ]; then
   if command -v pinentry-qt >/dev/null; then
-    exec pinentry-qt "$@"
+    exec pinentry-qt "$ARGS"
   elif command -v pinentry-gnome3 >/dev/null; then
-    exec pinentry-gnome3 "$@"
+    exec pinentry-gnome3 "$ARGS"
   elif command -v pinentry-gtk-2 >/dev/null; then
-    exec pinentry-gtk-2 "$@"
+    exec pinentry-gtk-2 "$ARGS"
   fi
 elif [ "$(uname)" = "Darwin" ]; then
   if command -v pinentry-mac >/dev/null; then
-    exec pinentry-mac "$@"
+    exec pinentry-mac "$ARGS"
   fi
 fi
 
-exec pinentry-curses "$@"
+exec pinentry-curses "$ARGS"
