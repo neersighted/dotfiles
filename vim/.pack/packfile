@@ -47,6 +47,11 @@
   name: "cespare/vim-toml"
   opt: false
 - 
+  category: editing
+  local: false
+  name: "chaoren/vim-wordmotion"
+  opt: false
+- 
   category: syntax
   local: false
   name: chr4/nginx.vim
@@ -258,6 +263,11 @@
   category: integration
   local: false
   name: "tpope/vim-rhubarb"
+  opt: false
+- 
+  category: editing
+  local: false
+  name: "tpope/vim-rsi"
   opt: false
 - 
   category: behavior
