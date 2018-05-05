@@ -11,7 +11,9 @@ parse_display() {
 
 DISPLAY=$(parse_display "$@")
 if [ -n "$DISPLAY" ]; then
-  if command -v pinentry-qt >/dev/null; then
+  if command -v pinentry-qt5 >/dev/null; then
+    exec pinentry-qt5 "$@"
+  elif command -v pinentry-qt >/dev/null; then
     exec pinentry-qt "$@"
   elif command -v pinentry-gnome3 >/dev/null; then
     exec pinentry-gnome3 "$@"
