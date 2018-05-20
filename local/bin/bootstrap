@@ -273,7 +273,6 @@ section "fish"
   if [ ! "$(getshell)" = 'fish' ]; then
     info "Changing login shell to fish..."
 
-    local shell
     shell=$(command -v fish)
     if [ "$(uname)" = 'FreeBSD' ]; then
       su root -c "chsh -s $USER $shell"
