@@ -322,10 +322,11 @@ endsection
 
 
 section "CLI Tools"
+  install_go_tool "github.com/github/hub"
   install_go_tool "github.com/junegunn/fzf"
-  install_go_tool "mvdan.cc/xurls/cmd/xurls"
   install_go_tool "github.com/nishanths/license"
   install_go_tool "github.com/simeji/jid/cmd/jid"
+  install_go_tool "mvdan.cc/xurls/cmd/xurls"
   install_npm_tool "diff-so-fancy"
   install_npm_tool "git-open"
   install_python_tool "asciinema"
