@@ -47,7 +47,7 @@ env RCRC="$HOME/.dotfiles/rcrc" rcup
 Any additional tags (see below) may now be selected with `rcup -t`:
 
 ```sh
-rcup -t gui
+rcup -t wsl
 ```
 
 Finally, bootstrap the environment with the `bootstrap` script:
@@ -63,6 +63,7 @@ Currently they are:
 
 * `gui` (systems with graphical applications)
 * `systemd` (systems using system user sessions)
+* `wsl` (windows subsystem for linux)
 * `x11` (systems using the x11 display server)
 
 ## License

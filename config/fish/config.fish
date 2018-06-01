@@ -33,11 +33,6 @@ if status --is-interactive
     # libvirt
     set -Ux LIBVIRT_DEFAULT_URI qemu:///system
 
-    # docker
-    if set -q WSL
-      set -Ux DOCKER_HOST tcp://0.0.0.0:2375
-    end
-
     # fzf (core)
     set -Ux FZF_DEFAULT_COMMAND 'fd --type file'
     set -Ux FZF_DEFAULT_OPTS '--no-bold'
@@ -62,7 +57,14 @@ if status --is-interactive
   # per-shell setup logic
   if set -q WSL
     # connect ssh to the windows ssh-agent
-    source (weasel-pageant -q -r -S fish | psub)
+    if type -q weasel-pageant
+      source (weasel-pageant -q -r -S fish | psub)
+    end
+
+    # make sure gpg-agent is running
+    if type -q gpg-connect-agent.exe
+      gpg-connect-agent.exe /bye >/dev/null 2>&1
+    end
 
     # connect X applications to the windows X11 server
     set -x DISPLAY :0
@@ -81,7 +83,7 @@ if status --is-interactive
     end
   end
 
-  if string match -q -r "(ttys|pts)" (tty)
+  if set -q WSL; or string match -q -r "(ttys|pts)" (tty)
     # start our main tmux session (on a pts)
     if type -q tmux; and not set -q TMUX
       set -l session (prompt_hostname)
