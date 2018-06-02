@@ -46,21 +46,21 @@ section "Packages"
   if command -v apt-get >/dev/null; then
     bld="autoconf bison build-essential ccache clang cmake pkgconf"
     lib="libbz2-dev libffi-dev libgdbm-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libssl-dev libyaml-dev zlib1g-dev"
-    usr="exuberant-ctags fish gnupg2 htop mosh neovim shellcheck tig tmux unzip vim"
+    usr="exuberant-ctags fish gnupg2 htop mosh neovim shellcheck socat tig tmux unzip vim"
 
     info "Installing packages with apt..."
     sudo sh -c "apt-get install -y $bld $lib $usr"
   elif command -v pkg >/dev/null; then
     bld="ccache cmake gcc gmake pkgconf"
     lib="libssh2 openssl sqlite3"
-    usr="bash coreutils curl fish gnupg htop mosh neovim pinentry-curses hs-shellcheck tig tmux universal-ctags unzip vim"
+    usr="bash coreutils curl fish gnupg htop mosh neovim pinentry-curses hs-shellcheck socat tig tmux universal-ctags unzip vim"
 
     info "Installing packages with pkg..."
     su root -c "pkg install -y $bld $lib $usr"
   elif command -v brew >/dev/null; then
     bld="ccache cmake"
     lib="libedit zlib"
-    usr="coreutils ctags fish gnupg htop mosh neovim pinentry-mac reattach-to-user-namespace shellcheck tmux unzip vim"
+    usr="coreutils ctags fish gnupg htop mosh neovim pinentry-mac reattach-to-user-namespace shellcheck socat tmux unzip vim"
 
     info "Installing packages with brew..."
     sh -c "brew install $bld $lib $usr"
