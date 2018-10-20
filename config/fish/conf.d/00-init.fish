@@ -48,6 +48,10 @@ if status --is-login
   # wsl detection
   string match -q -e "Microsoft" (uname -r)
     and set -x WSL 1
+
+  # set shell
+  type -q fish
+    and set -x SHELL (command -v fish)
 end
 
 # vi:ft=fish:

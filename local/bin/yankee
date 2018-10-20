@@ -41,7 +41,7 @@ yank() {
     if command -v xsel >/dev/null; then
       # detect original/conrad
       if xsel --version >/dev/null 2>&1; then
-        exec xsel ${wait:+--nodetatch} -i --"$selection"
+        exec xsel ${wait:+--nodetach} -i --"$selection"
       else
         exec xsel -c -s "$selection"
       fi

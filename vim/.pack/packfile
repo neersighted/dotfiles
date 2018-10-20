@@ -32,11 +32,6 @@
   name: "airblade/vim-gitgutter"
   opt: false
 - 
-  category: behavior
-  local: false
-  name: "airblade/vim-rooter"
-  opt: false
-- 
   category: syntax
   local: false
   name: "ccraciun/vim-dreammaker"
@@ -71,6 +66,13 @@
   local: false
   name: "dietsche/vim-lastplace"
   opt: false
+- 
+  category: syntax
+  for: 
+    - go
+  local: false
+  name: "fatih/vim-go"
+  opt: true
 - 
   category: ui
   local: false

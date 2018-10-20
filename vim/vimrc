@@ -99,7 +99,6 @@ if !has('nvim') && $TERM =~# '^\%(tmux\|screen\)'
 endif
 
 " Wrapping
-set conceallevel=1 " Enable conceal support.
 set colorcolumn=+1 " Show the wrapping column visually.
 set linebreak breakindent showbreak=\\ " Wrap lines visually.
 set list listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+ " Show hidden characters.
