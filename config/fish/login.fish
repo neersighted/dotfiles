@@ -4,17 +4,17 @@ if status --is-login
   type -q bass
     and bass source /etc/profile
 
-  # xdg
-  set -q XDG_CONFIG_HOME
-    or set -x XDG_CONFIG_HOME $HOME/.config
-  set -q XDG_DATA_HOME
-    or set -x XDG_DATA_HOME $HOME/.local/share
-  set -q XDG_CACHE_HOME
-    or set -x XDG_CACHE_HOME $HOME/.cache
-
   # xdg (bsd compat)
-  type -q vidcontrol
+  set -q XDG_VTNR; and type -q vidcontrol
     and set -x XDG_VTNR (vidcontrol -i active 2>/dev/null)
+
+  # golang
+  set -q GOPATH
+    or set -x GOPATH $HOME/.local/go
+
+  # python
+  set -q PIPX_BIN_DIR
+    or set -x PIPX_BIN_DIR $HOME/.local/pipx/bin
 
   # ccache
   path_prepend /usr/local/opt/ccache/libexec # macos
@@ -22,10 +22,12 @@ if status --is-login
   path_prepend /usr/lib/ccache/bin # linux
 
   # personal
-  path_prepend ~/.local/bin # dotfiles/pipsi
-  path_prepend ~/.cargo/bin # rustup/cargo
-  path_prepend ~/.asdf/bin # asdf (core)
-  path_prepend ~/.asdf/shims # asdf (shims)
+  path_prepend $HOME/.local/bin # dotfiles
+  path_prepend $HOME/.cargo/bin # rust
+  path_prepend $HOME/.rbenv/shims $HOME/.rbenv/bin # ruby
+  path_prepend $PIPX_BIN_DIR $HOME/.pyenv/shims $HOME/.pyenv/bin # python
+  path_prepend $HOME/.nodenv/shims $HOME/.nodenv/bin # nodejs
+  path_prepend $GOPATH/bin $HOME/.goenv/shims $HOME/.goenv/bin # golang
 
   # notify systemd of path
   type -q systemctl

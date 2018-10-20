@@ -11,6 +11,11 @@ if status --is-interactive
     source "$HOME/.config/fish/abbreviations.fish"
     source "$HOME/.config/fish/appearance.fish"
 
+    # xdg
+    set -Ux XDG_CONFIG_HOME $HOME/.config
+    set -Ux XDG_DATA_HOME $HOME/.local/share
+    set -Ux XDG_CACHE_HOME $HOME/.cache
+
     # shell environment
     set -Ux VISUAL nvim
     set -Ux EDITOR nvim
@@ -45,7 +50,6 @@ if status --is-interactive
     # fzf (plugin)
     set -U FZF_TMUX 1
     set -U FZF_TMUX_HEIGHT 25%
-    set -U FZF_COMPLETE 2
     set -U FZF_LEGACY_KEYBINDINGS 0
     set -U FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND
     set -U FZF_CD_COMMAND 'fd --type directory --follow'

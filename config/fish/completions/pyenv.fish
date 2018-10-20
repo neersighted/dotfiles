@@ -1,0 +1,1 @@
+/home/neersighted/.pyenv/completions/pyenv.fish

@@ -1,0 +1,1 @@
+/home/neersighted/.goenv/completions/goenv.fish

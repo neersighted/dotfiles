@@ -35,6 +35,21 @@ getshell() {
   basename "$shell"
 }
 
+latestversion() {
+ awk -F '.' '
+  /^[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+[[:space:]]*$/ {
+    This = ($1 * 100 + $2) * 100 + $3
+    if ( This > Max ) {
+      Max = This
+      Version = $0
+    }
+  }
+  END {
+    gsub(/^[ \t]+/, "", Version)
+    print Version
+  }'
+}
+
 
 important "Bootstrapping environment..."
 
@@ -46,21 +61,21 @@ section "Packages"
   if command -v apt-get >/dev/null; then
     bld="autoconf bison build-essential ccache clang cmake pkgconf"
     lib="libbz2-dev libffi-dev libgdbm-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libssl-dev libyaml-dev zlib1g-dev"
-    usr="exuberant-ctags fish gnupg2 htop lftp mosh neovim shellcheck socat tig tmux unzip vim whois"
+    usr="exuberant-ctags fish gdb gnupg htop lftp mosh neovim shellcheck socat tig tmux unzip vim whois"
 
     info "Installing packages with apt..."
     sudo sh -c "apt-get install -y $bld $lib $usr"
   elif command -v pkg >/dev/null; then
     bld="ccache cmake gcc gmake pkgconf"
     lib="libssh2 openssl sqlite3"
-    usr="bash coreutils curl fish gnupg htop lftp mosh neovim pinentry-curses hs-shellcheck socat tig tmux universal-ctags unzip vim whois"
+    usr="bash coreutils curl fish gdb gnupg htop lftp mosh neovim pinentry-curses hs-shellcheck socat tig tmux universal-ctags unzip vim whois"
 
     info "Installing packages with pkg..."
     su root -c "pkg install -y $bld $lib $usr"
   elif command -v brew >/dev/null; then
     bld="ccache cmake"
     lib="libedit zlib"
-    usr="coreutils ctags fish gnupg htop lftp mosh neovim pinentry-mac reattach-to-user-namespace shellcheck socat tmux unzip vim"
+    usr="coreutils ctags fish gdb gnupg htop lftp mosh neovim pinentry-mac reattach-to-user-namespace shellcheck socat tmux unzip vim"
 
     info "Installing packages with brew..."
     sh -c "brew install $bld $lib $usr"
@@ -73,67 +88,30 @@ endsection
 # Environment
 #
 
-# asdf
-section "asdf"
-  if [ ! -d "$HOME/.asdf" ]; then
-    info "Installing asdf..."
-    git clone https://github.com/asdf-vm/asdf "$HOME/.asdf"
+section "Golang"
+  GOENV_ROOT="$HOME/.goenv"
+
+  if [ ! -d "$GOENV_ROOT" ]; then
+    info "Installing goenv..."
+    git clone https://github.com/syndbg/goenv "$GOENV_ROOT"
+  else
+    info "Updating goenv..."
+    git -C "$GOENV_ROOT" pull
   fi
 
-  if ! command -v asdf >/dev/null; then
-    export PATH="$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
+  export PATH="$GOENV_ROOT/bin:$PATH"
+  eval "$(goenv init -)"
+
+  GO_LATEST=$(goenv install -l | latestversion)
+  if [ "$(goenv global)" != "$GO_LATEST" ]; then
+    info "Setting up latest version of Golang..."
+    goenv install -s "$GO_LATEST"
+    goenv global "$GO_LATEST"
   fi
 
-  info "Updating asdf to latest tag..."
-  asdf update
-
-  install_asdf_plugin() {
-    local name="$1"
-    local url="$2"
-
-    if ! asdf plugin-list | grep -Fq "$name"; then
-      info "Installing $name support for asdf..."
-      asdf plugin-add "$name" "$url"
-    else
-      info "Updating asdf $name support..."
-      asdf plugin-update "$name"
-    fi
-  }
-
-  install_asdf_language() {
-    local language="$1"
-    shift
-
-    asdf list-all "$language" >/dev/null # TODO: needed?
-
-    local versions
-    for query in "$@"; do
-      version=$(asdf list-all "$language" | grep -E "$query" | tail -1)
-      versions="$versions $version"
-
-      if ! asdf list "$language" | grep -Fq "$version"; then
-        info "Installing $language $version..."
-        asdf install "$language" "$version"
-        asdf reshim "$language" "$version"
-      fi
-    done
-
-    info "Activating $language$versions..."
-    # shellcheck disable=SC2086
-    asdf global "$language" $versions
-  }
-
-
-  # asdf plugins
-  install_asdf_plugin "golang" "https://github.com/kennyp/asdf-golang"
-  install_asdf_plugin "nodejs" "https://github.com/neersighted/asdf-nodejs"
-  install_asdf_plugin "python" "https://github.com/danhper/asdf-python"
-  install_asdf_plugin "ruby"   "https://github.com/asdf-vm/asdf-ruby"
-endsection
-
-
-section "Go"
-  install_asdf_language "golang" "^1.11.[0-9]$"
+  if [ -z "$GOPATH" ]; then
+    export GOPATH="$HOME/.local/go"
+  fi
 
   install_go_tool() {
     local target="$1"
@@ -142,14 +120,34 @@ section "Go"
     go get -u "$target"
   }
 
-  install_go_tool "github.com/golang/lint/golint"
+  install_go_tool "golang.org/x/lint/golint"
   install_go_tool "github.com/nsf/gocode"
   install_go_tool "github.com/sourcegraph/go-langserver"
 endsection
 
 
 section "Node.js"
-  install_asdf_language "nodejs" "^10.[0-9]+.[0-9]$"
+  NODENV_ROOT="$HOME/.nodenv"
+
+  if [ ! -d "$NODENV_ROOT" ]; then
+    info "Installing nodenv..."
+    git clone https://github.com/nodenv/nodenv "$NODENV_ROOT"
+    git clone https://github.com/nodenv/node-build "$NODENV_ROOT/plugins/node-build"
+  else
+    info "Updating nodenv..."
+    git -C "$NODENV_ROOT" pull
+    git -C "$NODENV_ROOT/plugins/node-build" pull
+  fi
+
+  export PATH="$NODENV_ROOT/bin:$PATH"
+  eval "$(nodenv init -)"
+
+  NODE_LATEST=$(nodenv install -l | latestversion)
+  if [ "$(nodenv global)" != "$NODE_LATEST" ]; then
+    info "Setting up latest version of Node.js..."
+    nodenv install -s "$NODE_LATEST"
+    nodenv global "$NODE_LATEST"
+  fi
 
   install_npm_tool() {
     local target="$1"
@@ -165,16 +163,42 @@ endsection
 
 
 section "Python"
-  install_asdf_language "python" "^3.7.[0-9]+$" "^2.7.[0-9]+$"
+  PYENV_ROOT="$HOME/.pyenv"
 
-  if ! command -v pipsi >/dev/null; then
-    if ! [ -e "$HOME/.local/bin/pipsi" ]; then
-      info "Installing pipsi..."
-      curl http://git.io/get-pipsi -fsSL | python - --src=git+https://github.com/mitsuhiko/pipsi.git
-      echo "{\"name\": \"pipsi\", \"version\": \"0.10.dev\", \"scripts\": [\"$HOME/.local/bin/pipsi\"]}" > "$HOME/.local/venvs/pipsi/package_info.json" # FIXME: remove when pipsi bug is fixed
-    fi
+  if [ ! -d "$PYENV_ROOT" ]; then
+    info "Installing pyenv..."
+    git clone https://github.com/pyenv/pyenv "$PYENV_ROOT"
+  else
+    info "Updating pyenv..."
+    git -C "$PYENV_ROOT" pull
+  fi
 
-    export PATH="$HOME/.local/bin:$PATH"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init -)"
+
+  PYTHON_LATEST=$(pyenv install -l | latestversion)
+  if [ "$(pyenv global)" != "$PYTHON_LATEST" ]; then
+    info "Setting up latest version of Python..."
+    pyenv install -s "$PYTHON_LATEST"
+    pyenv global "$PYTHON_LATEST"
+  fi
+
+  if [ -z "$PIPX_HOME" ]; then
+    export PIPX_HOME="$HOME/.local/pipx/venvs"
+  fi
+  if [ -z "$PIPX_BIN_DIR" ]; then
+    export PIPX_BIN_DIR="$HOME/.local/pipx/bin"
+  fi
+
+  if ! command -v pipx; then
+    info "Installing pipx..."
+    mkdir -p "$PIPX_BIN_DIR/.." # FIXME: cs01/pipx#9
+    curl https://raw.githubusercontent.com/cs01/pipx/master/get-pipx.py -fsSL | python3 - --no-modify-path
+
+    export PATH="$PIPX_BIN_DIR:$PATH"
+  else
+    info "Upgrading pipx..."
+    pipx upgrade pipx
   fi
 
   install_python_tool() {
@@ -182,34 +206,54 @@ section "Python"
     shift
     local additional_targets="$*"
 
-    if ! pipsi list | grep -F "$target" >/dev/null; then
-      info "Installing $target using pipsi..."
-      pipsi install "$target"
+    if ! pipx list | grep -F "$target" >/dev/null; then
+      info "Installing $target using pipx..."
+      pipx install "$target"
     else
-      info "Updating $target using pipsi..."
-      pipsi upgrade "$target"
+      info "Updating $target using pipx..."
+      pipx upgrade "$target"
     fi
 
     if [ -n "$additional_targets" ]; then
       info "Installing/updating $additional_targets in $target environment..."
       for atarget in $additional_targets; do
-        "$HOME/.local/venvs/$target/bin/pip" install -U "$atarget"
+        "$PIPX_HOME/$target/bin/pip" install -U "$atarget"
       done
     fi
   }
 
-  install_python_tool "autopep8"
+  #install_python_tool "autopep8"
   install_python_tool "black"
   install_python_tool "flake8"
   install_python_tool "mypy"
   install_python_tool "pipenv"
-  install_python_tool "pylint"
-  install_python_tool "python-language-server" "autopep8" "mccabe" "pycodestyle" "pydocstyle" "pyflakes" "rope" "yapf"
+  #install_python_tool "pylint"
+  #install_python_tool "python-language-server" "autopep8" "mccabe" "pycodestyle" "pydocstyle" "pyflakes" "rope" "yapf"
 endsection
 
 
 section "Ruby"
-  install_asdf_language "ruby" "^2.5.[0-9]+$"
+  RBENV_ROOT="$HOME/.rbenv"
+
+  if [ ! -d "$RBENV_ROOT" ]; then
+    info "Installing rbenv..."
+    git clone https://github.com/rbenv/rbenv "$RBENV_ROOT"
+    git clone https://github.com/rbenv/ruby-build "$RBENV_ROOT/plugins/ruby-build"
+  else
+    info "Updating rbenv..."
+    git -C "$RBENV_ROOT" pull
+    git -C "$RBENV_ROOT/plugins/ruby-build" pull
+  fi
+
+  export PATH="$RBENV_ROOT/bin:$PATH"
+  eval "$(rbenv init -)"
+
+  RUBY_LATEST="$(rbenv install -l | latestversion)"
+  if [ "$(rbenv global)" != "$RUBY_LATEST" ]; then
+    info "Setting up latest version of Ruby..."
+    rbenv install -s "$RUBY_LATEST"
+    rbenv global "$RUBY_LATEST"
+  fi
 endsection
 
 
@@ -292,7 +336,7 @@ section "fish"
 endsection
 
 
-section "Vim/Neovim"
+section "Vim"
   if ! command -v neovim-node-host >/dev/null; then
     info "Installing Node.js Neovim provider..."
     npm install -g neovim
@@ -321,7 +365,7 @@ section "Vim/Neovim"
 endsection
 
 
-section "CLI Tools"
+section "CLI"
   install_go_tool "github.com/github/hub"
   install_go_tool "github.com/junegunn/fzf"
   install_go_tool "github.com/nishanths/license"
@@ -329,7 +373,8 @@ section "CLI Tools"
   install_go_tool "mvdan.cc/xurls/cmd/xurls"
   install_npm_tool "diff-so-fancy"
   install_npm_tool "git-open"
-  install_python_tool "asciinema"
+  #install_python_tool "asciinema"
+  install_python_tool "gdbgui"
   install_python_tool "legit"
   install_rust_tool "exa"
   install_rust_tool "fd-find"
@@ -344,9 +389,5 @@ section "CLI Tools"
   curl https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux -fsSLo "$HOME/.local/bin/fzf-tmux"
   chmod +x "$HOME/.local/bin/fzf-tmux"
 endsection
-
-printf "\\n"
-important "Reshimming all asdf installs..."
-asdf plugin-list | xargs -I{} asdf reshim {}
 
 important "Done! Restart your shell!"

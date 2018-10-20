@@ -1,0 +1,1 @@
+/home/neersighted/.rbenv/completions/rbenv.fish

@@ -1,0 +1,1 @@
+/home/neersighted/.nodenv/completions/nodenv.fish
