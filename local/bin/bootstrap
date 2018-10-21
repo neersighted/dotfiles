@@ -37,7 +37,7 @@ getshell() {
 
 selectversion() {
   awk -v major="$1" -v minor="$2" -v patch="$3" -F '.' '
-    /^[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+[[:space:]]*$/ {
+    /^[ \t]*[0-9]+\.[0-9]+\.[0-9]+[ \t]*$/ {
       if ((major != "" && major != $1) ||
           (minor != "" && minor != $2) ||
           (patch != "" && patch != $3))
@@ -77,14 +77,14 @@ section "Packages"
         if [ ! -f "/etc/apt/sources.list.d/thoughtbot.list" ]; then
           info "Setting up rcm Debian repo..."
           sudo sh -c 'echo "deb http://apt.thoughtbot.com/debian stable main" > /etc/apt/sources.list.d/thoughtbot.list'
-          curl https://apt.thoughtbot.com/thoughtbot.gpg.key -fsSL | sudo apt-key add -
+          wget https://apt.thoughtbot.com/thoughtbot.gpg.key -qO- | sudo apt-key add -
           sudo apt-get update
         fi
       fi
 
       BLD="autoconf bison build-essential ccache clang cmake pkgconf"
       LIB="libbz2-dev libffi-dev libgdbm-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libssl-dev libyaml-dev zlib1g-dev"
-      USR="cloc exuberant-ctags fish gdb gnupg htop lftp mosh neovim rcm shellcheck socat tig tmux unzip vim whois"
+      USR="cloc curl exuberant-ctags fish gdb gnupg htop lftp mosh neovim rcm shellcheck socat tig tmux unzip vim whois"
 
       INSTALLED=$(dpkg-query -f '${binary:Package}\n' -W)
       ;;
@@ -103,7 +103,7 @@ section "Packages"
 
       BLD="ccache cmake"
       LIB="libedit zlib"
-      USR="cloc coreutils ctags fish gdb gnupg htop lftp mosh neovim pinentry-mac rcm reattach-to-user-namespace shellcheck socat tmux unzip vim"
+      USR="cloc coreutils ctags curl fish gdb gnupg htop lftp mosh neovim pinentry-mac rcm reattach-to-user-namespace shellcheck socat tmux unzip vim"
 
       INSTALLED=$(brew list)
       ;;
@@ -270,6 +270,15 @@ section "Python"
     pyenv global "$PYTHON3_VERSION" "$PYTHON2_VERSION"
   fi
 
+  for target in $(pip2 list --outdated --format=freeze | awk -F== '{print $1}'); do
+    info "Updating $target (Python 2)..."
+    pip2 install -U "$target"
+  done
+  for target in $(pip3 list --outdated --format=freeze | awk -F== '{print $1}'); do
+    info "Updating $target (Python 3)..."
+    pip3 install -U "$target"
+  done
+
   if [ -z "$PIPX_HOME" ]; then
     export PIPX_HOME="$HOME/.local/pipx/venvs"
   fi
@@ -277,11 +286,6 @@ section "Python"
     export PIPX_BIN_DIR="$HOME/.local/pipx/bin"
   fi
   export PATH="$PIPX_BIN_DIR:$PATH"
-
-  for target in $(pip list --outdated --format=freeze | awk -F== '{print $1}'); do
-    info "Updating $target..."
-    pip install -U "$target"
-  done
 
   if [ -e "$PIPX_HOME/pipx/bin/python3" ]; then
     info "Updating pipx..."
