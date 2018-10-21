@@ -462,8 +462,8 @@ section "fish"
   fi
 
   if [ ! -f "$HOME/.config/fish/functions/fisher.fish" ]; then
-    info "Installing fisher..."
-    curl https://git.io/fisher -fsSLo "$HOME/.config/fish/functions/fisher.fish"
+    info "Downloading fisher..."
+    curl https://git.io/fisher -fLo "$HOME/.config/fish/functions/fisher.fish"
   fi
 
   info "Installing and updating fish plugins using fisher..."
