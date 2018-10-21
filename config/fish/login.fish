@@ -8,6 +8,14 @@ if status --is-login
   set -q XDG_VTNR; and type -q vidcontrol
     and set -x XDG_VTNR (vidcontrol -i active 2>/dev/null)
 
+  # xdg
+  set -q XDG_CONFIG_HOME
+    or set -x XDG_CONFIG_HOME $HOME/.config
+  set -q XDG_DATA_HOME
+    or set -x XDG_DATA_HOME $HOME/.local/share
+  set -q XDG_CACHE_HOME
+    or set -x XDG_CACHE_HOME $HOME/.cache
+
   # golang
   set -q GOPATH
     or set -x GOPATH $HOME/.local/go

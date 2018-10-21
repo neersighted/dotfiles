@@ -4,11 +4,11 @@
 set -e
 
 section() {
-  printf "\\n\\033[0;34m%s\\033[0m\\n" "$@"
+  printf "\\033[0;34m%s\\033[0m\\n" "$@"
 }
 
 endsection() {
-  :
+  printf "\\n"
 }
 
 info() {
@@ -35,54 +35,109 @@ getshell() {
   basename "$shell"
 }
 
-latestversion() {
- awk -F '.' '
-  /^[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+[[:space:]]*$/ {
-    This = ($1 * 100 + $2) * 100 + $3
-    if ( This > Max ) {
-      Max = This
-      Version = $0
+selectversion() {
+  awk -v major="$1" -v minor="$2" -v patch="$3" -F '.' '
+    /^[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+[[:space:]]*$/ {
+      if ((major != "" && major != $1) ||
+          (minor != "" && minor != $2) ||
+          (patch != "" && patch != $3))
+      {
+        next
+      }
+
+      current = ($1 * 100 + $2) * 100 + $3
+      if (current > max) {
+        max = current
+        chosen = $0
+      }
     }
-  }
-  END {
-    gsub(/^[ \t]+/, "", Version)
-    print Version
-  }'
+    END {
+      gsub(/^[ \t]+/, "", chosen)
+      gsub(/[ \t]+$/, "", chosen)
+      print chosen
+    }'
 }
-
-
-important "Bootstrapping environment..."
 
 #
 # System
 #
 
+UNAME=$(uname)
+
+
 section "Packages"
-  if command -v apt-get >/dev/null; then
-    bld="autoconf bison build-essential ccache clang cmake pkgconf"
-    lib="libbz2-dev libffi-dev libgdbm-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libssl-dev libyaml-dev zlib1g-dev"
-    usr="exuberant-ctags fish gdb gnupg htop lftp mosh neovim shellcheck socat tig tmux unzip vim whois"
+  case $UNAME in
+    Linux)
+      if [ "$(awk -F= '/^ID=/{print $2}' /etc/os-release)" = "ubuntu" ]; then
+        if [ -z "$(find /etc/apt/sources.list.d/ -iname 'martin-frost-ubuntu-thoughtbot-rcm-*.list')" ]; then
+          info "Setting up rcm Ubuntu repo..."
+          sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm
+        fi
+      else
+        if [ ! -f "/etc/apt/sources.list.d/thoughtbot.list" ]; then
+          info "Setting up rcm Debian repo..."
+          sudo sh -c 'echo "deb http://apt.thoughtbot.com/debian stable main" > /etc/apt/sources.list.d/thoughtbot.list'
+          curl https://apt.thoughtbot.com/thoughtbot.gpg.key -fsSL | sudo apt-key add -
+          sudo apt-get update
+        fi
+      fi
 
-    info "Installing packages with apt..."
-    sudo sh -c "apt-get install -y $bld $lib $usr"
-  elif command -v pkg >/dev/null; then
-    bld="ccache cmake gcc gmake pkgconf"
-    lib="libssh2 openssl sqlite3"
-    usr="bash coreutils curl fish gdb gnupg htop lftp mosh neovim pinentry-curses hs-shellcheck socat tig tmux universal-ctags unzip vim whois"
+      BLD="autoconf bison build-essential ccache clang cmake pkgconf"
+      LIB="libbz2-dev libffi-dev libgdbm-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libssl-dev libyaml-dev zlib1g-dev"
+      USR="cloc exuberant-ctags fish gdb gnupg htop lftp mosh neovim rcm shellcheck socat tig tmux unzip vim whois"
 
-    info "Installing packages with pkg..."
-    su root -c "pkg install -y $bld $lib $usr"
-  elif command -v brew >/dev/null; then
-    bld="ccache cmake"
-    lib="libedit zlib"
-    usr="coreutils ctags fish gdb gnupg htop lftp mosh neovim pinentry-mac reattach-to-user-namespace shellcheck socat tmux unzip vim"
+      INSTALLED=$(dpkg-query -f '${binary:Package}\n' -W)
+      ;;
+    FreeBSD)
+      BLD="ccache cmake gcc gmake pkgconf"
+      LIB="libssh2 openssl sqlite3"
+      USR="bash cloc coreutils curl fish gdb gnupg htop lftp mosh neovim pinentry-curses hs-shellcheck rcm socat tig tmux universal-ctags unzip vim whois"
 
-    info "Installing packages with brew..."
-    sh -c "brew install $bld $lib $usr"
+      INSTALLED=$(pkg list)
+      ;;
+    Darwin)
+      if [ ! -e "/usr/local/Homebrew/Library/Taps/thoughtbot/homebrew-formulae" ]; then
+        info "Setting up rcm tap..."
+        brew tap thoughtbot/formulae
+      fi
+
+      BLD="ccache cmake"
+      LIB="libedit zlib"
+      USR="cloc coreutils ctags fish gdb gnupg htop lftp mosh neovim pinentry-mac rcm reattach-to-user-namespace shellcheck socat tmux unzip vim"
+
+      INSTALLED=$(brew list)
+      ;;
+    *)
+      error "Unsupported operating system."
+      ;;
+  esac
+
+  for pkg in $BLD $LIB $USR; do
+    if [ -n "${INSTALLED##*$pkg*}" ]; then
+      PKGS="$PKGS $pkg"
+    fi
+  done
+
+  if [ -n "$PKGS" ]; then
+    case $UNAME in
+      Linux)
+        info "Installing standard packages with apt..."
+        sudo sh -c "apt-get install -y $PKGS"
+        ;;
+      FreeBSD)
+        info "Installing standard packages with pkg..."
+        su root -c "pkg install -y $PKGS"
+        ;;
+      Darwin)
+        info "Installing standard packages with brew..."
+        sh -c "brew install $PKGS"
+        ;;
+    esac
   else
-    error "No package manager found. Is this a supported system?"
+    info "All standard packages are installed."
   fi
 endsection
+
 
 #
 # Environment
@@ -91,96 +146,128 @@ endsection
 section "Golang"
   GOENV_ROOT="$HOME/.goenv"
 
-  if [ ! -d "$GOENV_ROOT" ]; then
-    info "Installing goenv..."
-    git clone https://github.com/syndbg/goenv "$GOENV_ROOT"
-  else
+  if [ -d "$GOENV_ROOT" ]; then
     info "Updating goenv..."
     git -C "$GOENV_ROOT" pull
+  else
+    info "Installing goenv..."
+    git clone https://github.com/syndbg/goenv "$GOENV_ROOT"
   fi
 
   export PATH="$GOENV_ROOT/bin:$PATH"
   eval "$(goenv init -)"
 
-  GO_LATEST=$(goenv install -l | latestversion)
-  if [ "$(goenv global)" != "$GO_LATEST" ]; then
-    info "Setting up latest version of Golang..."
-    goenv install -s "$GO_LATEST"
-    goenv global "$GO_LATEST"
+  info "Checking latest Golang version..."
+  GOLANG_VERSION=$(goenv install -l | selectversion)
+  if ! goenv versions | grep -F "$GOLANG_VERSION" >/dev/null; then
+    info "Installing Golang $GOLANG_VERSION..."
+    goenv install -s "$GOLANG_VERSION"
+    info "Activating Golang $GOLANG_VERSION..."
+    goenv global "$GOLANG_VERSION"
   fi
 
   if [ -z "$GOPATH" ]; then
     export GOPATH="$HOME/.local/go"
   fi
 
-  install_go_tool() {
+  GOGET_INSTALLED=$(go list ...)
+  go_get() {
     local target="$1"
 
-    info "Installing/updating $target using go get..."
-    go get -u "$target"
+    if echo "$GOGET_INSTALLED" | grep -F "$target" > /dev/null; then
+      info "Updating $target using go get..."
+      go get -u "$target"
+    else
+      info "Installing $target using go get..."
+      go get "$target"
+    fi
   }
 
-  install_go_tool "golang.org/x/lint/golint"
-  install_go_tool "github.com/nsf/gocode"
-  install_go_tool "github.com/sourcegraph/go-langserver"
+  go_get "golang.org/x/lint/golint"
+  go_get "github.com/nsf/gocode"
+  go_get "github.com/sourcegraph/go-langserver"
 endsection
 
 
 section "Node.js"
   NODENV_ROOT="$HOME/.nodenv"
 
-  if [ ! -d "$NODENV_ROOT" ]; then
-    info "Installing nodenv..."
-    git clone https://github.com/nodenv/nodenv "$NODENV_ROOT"
-    git clone https://github.com/nodenv/node-build "$NODENV_ROOT/plugins/node-build"
-  else
+  if [ -d "$NODENV_ROOT" ]; then
     info "Updating nodenv..."
     git -C "$NODENV_ROOT" pull
     git -C "$NODENV_ROOT/plugins/node-build" pull
+  else
+    info "Installing nodenv..."
+    git clone https://github.com/nodenv/nodenv "$NODENV_ROOT"
+    git clone https://github.com/nodenv/node-build "$NODENV_ROOT/plugins/node-build"
   fi
 
   export PATH="$NODENV_ROOT/bin:$PATH"
   eval "$(nodenv init -)"
 
-  NODE_LATEST=$(nodenv install -l | latestversion)
-  if [ "$(nodenv global)" != "$NODE_LATEST" ]; then
-    info "Setting up latest version of Node.js..."
-    nodenv install -s "$NODE_LATEST"
-    nodenv global "$NODE_LATEST"
+  info "Checking latest Node.js version..."
+  NODEJS_VERSION=$(nodenv install -l | selectversion)
+  if ! nodenv versions | grep -F "$NODEJS_VERSION" >/dev/null; then
+    info "Installing Node.js $NODEJS_VERSION..."
+    nodenv install -s "$NODEJS_VERSION"
+    info "Activating Node.js $NODEJS_VERSION..."
+    nodenv global "$NODEJS_VERSION"
   fi
 
-  install_npm_tool() {
+  info "Updating npm..."
+  npm update -g npm
+
+  NPM_INSTALLED=$(npm ls -g --depth 0)
+  npm_install() {
     local target="$1"
 
-    info "Installing/updating $target using npm..."
-    npm install -g "$target"
+    if echo "$NPM_INSTALLED" | grep -F "$target" >/dev/null; then
+      info "Updating $target using npm..."
+      npm update -g "$target"
+    else
+      info "Installing $target using npm..."
+      npm install -g "$target"
+    fi
   }
 
-  install_npm_tool "flow-language-server"
-  install_npm_tool "pnpm"
-  install_npm_tool "yarn"
+  npm_install "flow-language-server"
+  npm_install "pnpm"
+  npm_install "yarn"
 endsection
 
 
 section "Python"
   PYENV_ROOT="$HOME/.pyenv"
 
-  if [ ! -d "$PYENV_ROOT" ]; then
-    info "Installing pyenv..."
-    git clone https://github.com/pyenv/pyenv "$PYENV_ROOT"
-  else
+  if [ -d "$PYENV_ROOT" ]; then
     info "Updating pyenv..."
     git -C "$PYENV_ROOT" pull
+  else
+    info "Installing pyenv..."
+    git clone https://github.com/pyenv/pyenv "$PYENV_ROOT"
   fi
 
   export PATH="$PYENV_ROOT/bin:$PATH"
   eval "$(pyenv init -)"
 
-  PYTHON_LATEST=$(pyenv install -l | latestversion)
-  if [ "$(pyenv global)" != "$PYTHON_LATEST" ]; then
-    info "Setting up latest version of Python..."
-    pyenv install -s "$PYTHON_LATEST"
-    pyenv global "$PYTHON_LATEST"
+  info "Checking latest Python versions..."
+  PYTHON_VERSIONS=$(pyenv install -l)
+  PYENV_INSTALLED=$(pyenv versions)
+
+  PYTHON2_VERSION=$(echo "$PYTHON_VERSIONS" | selectversion 2)
+  if ! echo "$PYENV_INSTALLED" | grep -F "$PYTHON2_VERSION" >/dev/null; then
+    info "Installing Python $PYTHON2_VERSION..."
+    pyenv install -s "$PYTHON2_VERSION"
+  fi
+  PYTHON3_VERSION=$(echo "$PYTHON_VERSIONS" | selectversion 3)
+  if ! echo "$PYENV_INSTALLED" | grep -F "$PYTHON3_VERSION" >/dev/null; then
+    info "Installing Python $PYTHON3_VERSION..."
+    pyenv install -s "$PYTHON3_VERSION"
+  fi
+  if ! pyenv global | grep -F "$PYTHON2_VERSION" >/dev/null &&
+     ! pyenv global | grep -F "$PYTHON3_VERSION" >/dev/null; then
+    info "Activating Python $PYTHON3_VERSION and $PYTHON2_VERSION..."
+    pyenv global "$PYTHON3_VERSION" "$PYTHON2_VERSION"
   fi
 
   if [ -z "$PIPX_HOME" ]; then
@@ -189,88 +276,110 @@ section "Python"
   if [ -z "$PIPX_BIN_DIR" ]; then
     export PIPX_BIN_DIR="$HOME/.local/pipx/bin"
   fi
+  export PATH="$PIPX_BIN_DIR:$PATH"
 
-  if ! command -v pipx; then
-    info "Installing pipx..."
-    mkdir -p "$PIPX_BIN_DIR/.." # FIXME: cs01/pipx#9
-    curl https://raw.githubusercontent.com/cs01/pipx/master/get-pipx.py -fsSL | python3 - --no-modify-path
+  for target in $(pip list --outdated --format=freeze | awk -F== '{print $1}'); do
+    info "Updating $target..."
+    pip install -U "$target"
+  done
 
-    export PATH="$PIPX_BIN_DIR:$PATH"
-  else
-    info "Upgrading pipx..."
+  if [ -e "$PIPX_HOME/pipx/bin/python3" ]; then
+    info "Updating pipx..."
     pipx upgrade pipx
+  else
+    if ! command -v pipx >/dev/null; then
+      info "Installing pipx..."
+    else
+      info "Reinstalling pipx due to missing Python..."
+      rm -rf "$PIPX_HOME"
+    fi
+    curl https://raw.githubusercontent.com/cs01/pipx/master/get-pipx.py -fsSL | python3 - --no-modify-path
   fi
 
-  install_python_tool() {
+  PIPX_INSTALLED=$(pipx list)
+  pipx_install() {
     local target="$1"
     shift
     local additional_targets="$*"
 
-    if ! pipx list | grep -F "$target" >/dev/null; then
-      info "Installing $target using pipx..."
-      pipx install "$target"
-    else
+    if echo "$PIPX_INSTALLED" | grep -F "$target" >/dev/null; then
       info "Updating $target using pipx..."
       pipx upgrade "$target"
+    else
+      info "Installing $target using pipx..."
+      pipx install "$target"
     fi
 
+    local uptodate
+    local outdated
+    local pip="$PIPX_HOME/$target/bin/pip"
     if [ -n "$additional_targets" ]; then
-      info "Installing/updating $additional_targets in $target environment..."
+      uptodate=$($pip list --uptodate --format=freeze)
+      outdated=$($pip list --outdated --format=freeze)
       for atarget in $additional_targets; do
-        "$PIPX_HOME/$target/bin/pip" install -U "$atarget"
+        if echo "$outdated" | grep -F "$atarget" >/dev/null; then
+          info "Updating $atarget in $target's environment..."
+          $pip install -U "$atarget"
+        elif ! echo "$uptodate" | grep -F "$atarget" >/dev/null; then
+          info "Installing $atarget into $target's environment..."
+          $pip install "$atarget"
+        fi
       done
     fi
   }
 
-  #install_python_tool "autopep8"
-  install_python_tool "black"
-  install_python_tool "flake8"
-  install_python_tool "mypy"
-  install_python_tool "pipenv"
-  #install_python_tool "pylint"
-  #install_python_tool "python-language-server" "autopep8" "mccabe" "pycodestyle" "pydocstyle" "pyflakes" "rope" "yapf"
+  pipx_install "autopep8"
+  pipx_install "black"
+  pipx_install "flake8"
+  pipx_install "mypy"
+  pipx_install "pipenv"
+  pipx_install "pylint"
+  pipx_install "python-language-server" "autopep8" "mccabe" "pycodestyle" "pydocstyle" "pyflakes" "rope" "yapf"
 endsection
 
 
 section "Ruby"
   RBENV_ROOT="$HOME/.rbenv"
 
-  if [ ! -d "$RBENV_ROOT" ]; then
-    info "Installing rbenv..."
-    git clone https://github.com/rbenv/rbenv "$RBENV_ROOT"
-    git clone https://github.com/rbenv/ruby-build "$RBENV_ROOT/plugins/ruby-build"
-  else
+  if [ -d "$RBENV_ROOT" ]; then
     info "Updating rbenv..."
     git -C "$RBENV_ROOT" pull
     git -C "$RBENV_ROOT/plugins/ruby-build" pull
+  else
+    info "Installing rbenv..."
+    git clone https://github.com/rbenv/rbenv "$RBENV_ROOT"
+    git clone https://github.com/rbenv/ruby-build "$RBENV_ROOT/plugins/ruby-build"
   fi
 
   export PATH="$RBENV_ROOT/bin:$PATH"
   eval "$(rbenv init -)"
 
-  RUBY_LATEST="$(rbenv install -l | latestversion)"
-  if [ "$(rbenv global)" != "$RUBY_LATEST" ]; then
-    info "Setting up latest version of Ruby..."
-    rbenv install -s "$RUBY_LATEST"
-    rbenv global "$RUBY_LATEST"
+  info "Checking latest Ruby version..."
+  RUBY_VERSION="$(rbenv install -l | selectversion)"
+  if ! rbenv versions | grep -F "$RUBY_VERSION" >/dev/null; then
+    info "Installing Ruby $RUBY_VERSION..."
+    rbenv install -s "$RUBY_VERSION"
+    info "Activating Ruby $RUBY_VERSION..."
+    rbenv global "$RUBY_VERSION"
   fi
 endsection
 
 
 section "Rust"
-  if ! command -v rustup >/dev/null; then
-    info "Setting up Rust toolchain..."
-    curl https://sh.rustup.rs -fsSL | sh -s -- -y --no-modify-path --default-toolchain nightly
+  export PATH="$HOME/.cargo/bin:$PATH"
 
-    export PATH="$HOME/.cargo/bin:$PATH"
-    rustup component add rust-src rust-analysis rls-preview clippy-preview rustfmt-preview llvm-tools-preview
-  else
-    info "Updating Rust toolchain..."
-    rustup self update
+  if command -v rustup >/dev/null; then
+    info "Updating nightly Rust..."
     rustup update
+  else
+    info "Setting up nightly Rust..."
+    curl https://sh.rustup.rs -fsSL | sh -s -- -y --no-modify-path --default-toolchain nightly
+    info "Installing Rust components..."
+    rustup component add rust-src rust-analysis rls-preview clippy-preview rustfmt-preview llvm-tools-preview
   fi
 
-  install_rust_tool() {
+  CARGO_INSTALLED=$(cargo install --list)
+  cargo_install() {
     local target="$1"
     local git="$2"
 
@@ -280,11 +389,11 @@ section "Rust"
 
       trap '{ rm -rf "$CARGO_BUILD_TARGET_DIR"; }' EXIT
 
-      if cargo install --list | grep -Eq "^$target"; then
-        info "Updating $target using cargo install-update..."
+      if echo "$CARGO_INSTALLED" | grep -Eq "^$target"; then
+        info "Updating $target using cargo..."
         cargo install-update ${git:+-g} "$target"
       else
-        info "Installing $target using cargo install..."
+        info "Installing $target using cargo..."
         cargo install "$target" ${git:+--git "$git"}
       fi
 
@@ -299,14 +408,14 @@ section "Rust"
     )
   }
 
-  install_rust_tool "cargo-binutils"
-  install_rust_tool "cargo-bloat"
-  install_rust_tool "cargo-expand"
-  install_rust_tool "cargo-outdated"
-  install_rust_tool "cargo-tree"
-  install_rust_tool "cargo-update"
-  install_rust_tool "cargo-watch"
-  install_rust_tool "racer"
+  cargo_install "cargo-binutils"
+  cargo_install "cargo-bloat"
+  cargo_install "cargo-expand"
+  cargo_install "cargo-outdated"
+  cargo_install "cargo-tree"
+  cargo_install "cargo-update"
+  cargo_install "cargo-watch"
+  cargo_install "racer"
 endsection
 
 
@@ -314,12 +423,20 @@ endsection
 # Tools
 #
 
+section "dotfiles"
+  export RCRC="$HOME/.dotfiles/rcrc"
+
+  info "Linking dotfiles with rcup..."
+  rcup
+endsection
+
+
 section "fish"
   if [ ! "$(getshell)" = 'fish' ]; then
     info "Changing login shell to fish..."
 
     shell=$(command -v fish)
-    if [ "$(uname)" = 'FreeBSD' ]; then
+    if [ "$UNAME" = 'FreeBSD' ]; then
       su root -c "chsh -s $USER $shell"
     else
       sudo chsh -s "$shell" "$USER"
@@ -327,11 +444,11 @@ section "fish"
   fi
 
   if [ ! -e "$HOME/.config/fish/functions/fisher.fish" ]; then
-    info "Bootstrapping fisher..."
+    info "Installing fisher..."
     curl https://git.io/fisher -fsSLo "$HOME/.config/fish/functions/fisher.fish"
   fi
 
-  info "Installing fish plugins using fisher..."
+  info "Installing and updating fish plugins using fisher..."
   fish -c fisher
 endsection
 
@@ -354,40 +471,51 @@ section "Vim"
     gem install neovim
   fi
 
-  install_python_tool "neovim-remote"
-  install_python_tool "vim-vint"
-  install_rust_tool "pack" "https://github.com/maralla/pack"
+  pipx_install "neovim-remote"
+  pipx_install "vim-vint"
+  cargo_install "pack" "https://github.com/maralla/pack"
 
   if ! [ -e "$HOME/.vim/pack" ];  then
-    info "Bootstrapping Vim plugins using pack install..."
+    info "Installing Vim plugins using pack..."
     pack install
+  else
+    info "Updating Vim plugins using pack..."
+    pack update
   fi
 endsection
 
 
 section "CLI"
-  install_go_tool "github.com/github/hub"
-  install_go_tool "github.com/junegunn/fzf"
-  install_go_tool "github.com/nishanths/license"
-  install_go_tool "github.com/simeji/jid/cmd/jid"
-  install_go_tool "mvdan.cc/xurls/cmd/xurls"
-  install_npm_tool "diff-so-fancy"
-  install_npm_tool "git-open"
-  #install_python_tool "asciinema"
-  install_python_tool "gdbgui"
-  install_python_tool "legit"
-  install_rust_tool "exa"
-  install_rust_tool "fd-find"
-  install_rust_tool "hyperfine"
-  install_rust_tool "ripgrep"
-  install_rust_tool "tokei"
+  go_get "github.com/github/hub"
+  go_get "github.com/junegunn/fzf"
+  go_get "github.com/nishanths/license"
+  go_get "github.com/simeji/jid/cmd/jid"
+  go_get "mvdan.cc/xurls/cmd/xurls"
+  npm_install "diff-so-fancy"
+  npm_install "git-open"
+  pipx_install "asciinema"
+  pipx_install "gdbgui"
+  pipx_install "legit"
+  cargo_install "exa"
+  cargo_install "fd-find"
+  cargo_install "hyperfine"
+  cargo_install "ripgrep"
+  cargo_install "tokei"
 
-  info "Installing/updating gdb-dashboard..."
+  if [ -f "$HOME/.gdbinit" ]; then
+    info "Updating gdb-dashboard..."
+  else
+    info "Installing gdb-dashboard..."
+  fi
   curl https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -fsSLo "$HOME/.gdbinit"
 
-  info "Installing/updating fzf-tmux..."
+  if [ -f "$HOME/.local/bin/fzf-tmux" ]; then
+    info "Updating fzf-tmux..."
+  else
+    info "Installing fzf-tmux..."
+    trap '{ chmod +x "$HOME/.local/bin/fzf-tmux"; }' EXIT
+  fi
   curl https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux -fsSLo "$HOME/.local/bin/fzf-tmux"
-  chmod +x "$HOME/.local/bin/fzf-tmux"
 endsection
 
 important "Done! Restart your shell!"

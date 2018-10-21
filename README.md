@@ -1,59 +1,21 @@
 # ~/.dotfiles
 
-## Setup
-
-First, install [rcm] in order to symlink dotfiles into place.
-
-Debian:
-```sh
-wget -qO - https://apt.thoughtbot.com/thoughtbot.gpg.key | sudo apt-key add -
-echo "deb http://apt.thoughtbot.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/thoughtbot.list
-sudo apt update
-sudo apt install rcm
-```
-
-Ubuntu:
-```sh
-sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm
-sudo apt install rcm
-```
-
-Fedora:
-```sh
-sudo dnf copr enable seeitcoming/rcm
-sudo dnf install rcm
-```
-
-FreeBSD:
-```sh
-pkg install git rcm
-```
-
-macOS:
-```sh
-brew tap thoughtbot/formulae
-brew install rcm
-```
-
 ## Installation
 
-Next, clone this repo down and link the files with `rcup`:
+Clone this repo down and run the included bootstrapping script (this script is
+also used to keep things up to date).
 
 ```sh
 git clone https://github.com/neersighted/dotfiles "$HOME/.dotfiles"
-env RCRC="$HOME/.dotfiles/rcrc" rcup
+$HOME/.dotfiles/local/bin/bootstrap
 ```
+
+Restart your shell to make sure the changes are fully applied.
 
 Any additional tags (see below) may now be selected with `rcup -t`:
 
 ```sh
 rcup -t gui
-```
-
-Finally, bootstrap the environment with the `bootstrap` script:
-
-```sh
-$HOME/.local/bin/bootstrap
 ```
 
 ## Tags
@@ -71,6 +33,3 @@ This project is licensed under the
 [MIT](https://en.wikipedia.org/wiki/MIT_License) license.
 
 See LICENSE for more details.
-
-
-[rcm]: https://github.com/thoughtbot/rcm
