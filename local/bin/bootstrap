@@ -27,7 +27,7 @@ error() {
 getshell() {
   local shell
   if command -v dscacheutil >/dev/null; then
-    shell=$(dscacheutil -q user -a name "$USER" | grep shell | cut -d: -f2)
+    shell=$(dscacheutil -q user -a name "$USER" | awk '/shell:/{print $2}')
   else
     shell=$(getent passwd "$USER" | awk -F: '{print $NF}')
   fi
@@ -113,7 +113,7 @@ section "Packages"
   esac
 
   for pkg in $BLD $LIB $USR; do
-    if [ -n "${INSTALLED##*$pkg*}" ]; then
+    if ! echo "$INSTALLED" | grep -Fw "$pkg" >/dev/null; then
       PKGS="$PKGS $pkg"
     fi
   done
