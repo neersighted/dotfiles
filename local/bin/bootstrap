@@ -140,9 +140,9 @@ endsection
 
 
 section "terminfo"
-  if [ ! -d "$HOME/.terminfo" ]; then
+  if [ ! -d "$HOME/.terminfo" ] && [ ! -f "$HOME/.terminfo.db" ]; then
     info "Installing latest terminfo database..."
-    curl https://invisible-mirror.net/archives/ncurses/terminfo.src.gz -fsSL | gunzip | tic -x -
+    curl https://invisible-mirror.net/archives/ncurses/terminfo.src.gz -fsSL | gunzip | tic -o "$HOME/.terminfo" -x -
   else
     info "Local terminfo database installed. Delete to update."
   fi
