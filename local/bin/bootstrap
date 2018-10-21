@@ -83,17 +83,17 @@ section "Packages"
       fi
 
       BLD="autoconf bison build-essential ccache clang cmake pkgconf"
-      LIB="libbz2-dev libffi-dev libgdbm-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libssl-dev libyaml-dev zlib1g-dev"
+      LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libyaml-dev zlib1g-dev"
       USR="cloc curl exuberant-ctags fish gdb gnupg htop lftp mosh neovim rcm shellcheck socat tig tmux unzip vim whois"
 
       INSTALLED=$(dpkg-query -f '${binary:Package}\n' -W)
       ;;
     FreeBSD)
       BLD="ccache cmake gcc gmake pkgconf"
-      LIB="libssh2 openssl sqlite3"
-      USR="bash cloc coreutils curl fish gdb gnupg htop lftp mosh neovim pinentry-curses hs-shellcheck rcm socat tig tmux universal-ctags unzip vim whois"
+      LIB="libssh2 ncurses openssl sqlite3"
+      USR="bash cloc coreutils curl fish gdb gnupg htop lftp mosh neovim pinentry-curses hs-ShellCheck rcm socat tig tmux universal-ctags unzip vim whois"
 
-      INSTALLED=$(pkg list)
+      INSTALLED=$(pkg info -q)
       ;;
     Darwin)
       if [ ! -e "/usr/local/Homebrew/Library/Taps/thoughtbot/homebrew-formulae" ]; then
@@ -102,8 +102,8 @@ section "Packages"
       fi
 
       BLD="ccache cmake"
-      LIB="libedit zlib"
-      USR="cloc coreutils ctags curl fish gdb gnupg htop lftp mosh neovim pinentry-mac rcm reattach-to-user-namespace shellcheck socat tmux unzip vim"
+      LIB="readline zlib"
+      USR="cloc coreutils ctags curl fish gdb gnupg htop lftp mosh neovim pinentry-mac rcm reattach-to-user-namespace shellcheck socat tmux unzip vim xz"
 
       INSTALLED=$(brew list)
       ;;
@@ -135,6 +135,16 @@ section "Packages"
     esac
   else
     info "All standard packages are installed."
+  fi
+endsection
+
+
+section "terminfo"
+  if [ ! -d "$HOME/.terminfo" ]; then
+    info "Installing latest terminfo database..."
+    curl https://invisible-mirror.net/archives/ncurses/terminfo.src.gz -fsSL | gunzip | tic -x -
+  else
+    info "Local terminfo database installed. Delete to update."
   fi
 endsection
 
@@ -291,11 +301,11 @@ section "Python"
     info "Updating pipx..."
     pipx upgrade pipx
   else
-    if ! command -v pipx >/dev/null; then
-      info "Installing pipx..."
-    else
-      info "Reinstalling pipx due to missing Python..."
+    if [ -d "$PIPX_HOME" ]; then
+      info "Python interpreter missing. Reinstalling pipx and managed packages..."
       rm -rf "$PIPX_HOME"
+    else
+      info "Installing pipx..."
     fi
     curl https://raw.githubusercontent.com/cs01/pipx/master/get-pipx.py -fsSL | python3 - --no-modify-path
   fi
@@ -377,7 +387,7 @@ section "Rust"
     rustup update
   else
     info "Setting up nightly Rust..."
-    curl https://sh.rustup.rs -fsSL | sh -s -- -y --no-modify-path --default-toolchain nightly
+    curl https://sh.rustup.rs -fsSL | sh -s -- -y --default-toolchain nightly --no-modify-path
     info "Installing Rust components..."
     rustup component add rust-src rust-analysis rls-preview clippy-preview rustfmt-preview llvm-tools-preview
   fi
@@ -447,7 +457,7 @@ section "fish"
     fi
   fi
 
-  if [ ! -e "$HOME/.config/fish/functions/fisher.fish" ]; then
+  if [ ! -f "$HOME/.config/fish/functions/fisher.fish" ]; then
     info "Installing fisher..."
     curl https://git.io/fisher -fsSLo "$HOME/.config/fish/functions/fisher.fish"
   fi

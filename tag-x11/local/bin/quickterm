@@ -15,12 +15,6 @@ quickterm_id() {
   id=$(xdotool search --class "$class")
   status=$?
 
-  if [ "$TERMINAL" = "termite" ]; then
-    local badids
-    badids=$(xdotool search --name "termite")
-    id=$(echo "$id" | grep -v "$badids")
-  fi
-
   echo "$id"
   return $status
 }
@@ -40,14 +34,9 @@ else
   export TMUX=1
 
   if [ "$TERMINAL" = "alacritty" ]; then
-    "$TERMINAL" -t "$class" -d $WIDTH $HEIGHT -e "$cmd" &
-  elif [ "$TERMINAL" = "termite" ]; then
-    WIDTH=$((WIDTH*8))
-    HEIGHT=$((HEIGHT*18))
-
-    "$TERMINAL" --class="$class" --geometry=${WIDTH}x${HEIGHT} -e "$cmd" &
+    "$TERMINAL" -t "$class" -d "$WIDTH" "$HEIGHT" -e "$cmd" &
   else
-    "$TERMINAL" -class "$class" -geometry ${WIDTH}x${HEIGHT} -e "$cmd" &
+    "$TERMINAL" -class "$class" -geometry "${WIDTH}x${HEIGHT}" -e "$cmd" &
   fi
 fi
 
