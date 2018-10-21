@@ -90,7 +90,7 @@ section "Packages"
       ;;
     FreeBSD)
       BLD="ccache cmake gcc gmake pkgconf"
-      LIB="libssh2 openssl sqlite3"
+      LIB="libssh2 ncurses openssl sqlite3"
       USR="bash cloc coreutils curl fish gdb gnupg htop lftp mosh neovim pinentry-curses hs-ShellCheck rcm socat tig tmux universal-ctags unzip vim whois"
 
       INSTALLED=$(pkg info -q)
@@ -140,15 +140,15 @@ endsection
 
 
 section "terminfo"
-  if command -v tic >/dev/null; then
-    if [ ! -d "$HOME/.terminfo" ]; then
-      info "Installing latest terminfo database..."
-      curl https://invisible-mirror.net/archives/ncurses/terminfo.src.gz -fsSL | gunzip | tic -x -
-    else
-      info "Local terminfo database installed. Delete to update."
-    fi
+  export TERMINFO="$HOME/.terminfo"
+
+  if [ ! -f "$HOME/.terminfo.src" ]; then
+    info "Downloading latest terminfo database..."
+    curl https://invisible-mirror.net/archives/ncurses/terminfo.src.gz -fL | gunzip > "$HOME/.terminfo.src"
+    info "Compiling terminfo..."
+    tic -x "$HOME/.terminfo.src"
   else
-    info "System terminfo database in use."
+    info "Local terminfo database installed. Delete to update."
   fi
 endsection
 
