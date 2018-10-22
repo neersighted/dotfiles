@@ -421,7 +421,7 @@ section "Rust"
     export CARGO_HOME="$HOME/.local/share/cargo"
   fi
 
-  export PATH="$CARGO_HOME:$PATH"
+  export PATH="$CARGO_HOME/bin:$PATH"
 
   if command -v rustup >/dev/null; then
     info "Updating nightly Rust..."
