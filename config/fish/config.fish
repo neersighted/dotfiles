@@ -18,12 +18,12 @@ if status --is-login
   path_prepend /usr/lib/ccache # linux
 
   # personal
-  path_prepend $HOME/.local/bin # dotfiles
-  path_prepend $GOPATH/bin $GOENV_ROOT/shims $GOENV_ROOT/bin # golang
-  path_prepend $NODENV_ROOT/shims $NODENV_ROOT/bin # nodejs
-  path_prepend $PIPX_BIN_DIR $PYENV_ROOT/shims $PYENV_ROOT/bin # python
-  path_prepend $RBENV_ROOT/shims $RBENV_ROOT/bin # ruby
-  path_prepend $CARGO_HOME/bin # rust
+  path_prepend "$HOME/.local/bin" # dotfiles
+  path_prepend "$GOPATH/bin" "$GOENV_ROOT/shims" "$GOENV_ROOT/bin" # golang
+  path_prepend "$NODENV_ROOT/shims" "$NODENV_ROOT/bin" # nodejs
+  path_prepend "$PIPX_BIN_DIR" "$PYENV_ROOT/shims" "$PYENV_ROOT/bin" # python
+  path_prepend "$RBENV_ROOT/shims" "$RBENV_ROOT/bin" # ruby
+  path_prepend "$CARGO_HOME/bin" # rust
 
   # notify systemd of path
   if type -q systemctl
@@ -32,9 +32,9 @@ if status --is-login
 
   # coreutils
   if type -q dircolors
-    source (dircolors -c ~/.dircolors | psub)
+    source (dircolors -c "$HOME/.config/dircolors" | psub)
   else if type -q gdircolors
-    source (gdircolors -c ~/.dircolors | psub)
+    source (gdircolors -c "$HOME/.config/.dircolors" | psub)
   end
 
   # less
