@@ -16,10 +16,6 @@ if status --is-login
   set -q XDG_CACHE_HOME
     or set -x XDG_CACHE_HOME $HOME/.cache
 
-  # ncurses
-  set -q TERMINFO
-    or set -x TERMINFO $HOME/.terminfo
-
   # golang
   set -q GOPATH
     or set -x GOPATH $HOME/.local/go
