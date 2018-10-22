@@ -42,12 +42,17 @@ if status --is-login
     and systemctl --user import-environment PATH 2>/dev/null
 
   # coreutils
-  if not set -q LS_COLORS
-    if type -q dircolors
-      source (dircolors -c ~/.dircolors | psub)
-    else if type -q gdircolors
-      source (gdircolors -c ~/.dircolors | psub)
-    end
+  if type -q dircolors
+    source (dircolors -c ~/.dircolors | psub)
+  else if type -q gdircolors
+    source (gdircolors -c ~/.dircolors | psub)
+  end
+
+  # less
+  if type -q lesspipe
+    source (env SHELL=csh lesspipe | psub)
+  else if type -q lesspipe.sh
+    source (env SHELL=csh lesspipe.sh | psub)
   end
 
   # mosh detection
