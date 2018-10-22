@@ -1,78 +1,99 @@
+# first-time universal variable provisioning
+# this allows variables to be overridden locally with set -U(x)
+# set -Ue fish_initialized to reset
+if not set -qU fish_initialized;
+  set -U fish_initialized
+end
+
+# session init (environmental variables)
+if status --is-login
+  # load system profile (with bass)
+  if type -q bass
+    bass source /etc/profile
+  end
+
+  # xdg (bsd compat)
+  if not set -qx XDG_VTNR; and type -q vidcontrol
+    set -x XDG_VTNR (vidcontrol -i active 2>/dev/null)
+  end
+
+  # xdg
+  if not set -qx XDG_CONFIG_HOME
+    set -x XDG_CONFIG_HOME $HOME/.config
+  end
+  if not set -qx XDG_DATA_HOME
+    set -x XDG_DATA_HOME $HOME/.local/share
+  end
+  if not set -qx XDG_CACHE_HOME
+    set -x XDG_CACHE_HOME $HOME/.cache
+  end
+
+  # ccache
+  path_prepend /usr/local/opt/ccache/libexec # macos
+  path_prepend /usr/local/libexec/ccache # bsd
+  path_prepend /usr/lib/ccache/bin # linux
+
+  # personal
+  path_prepend $HOME/.local/bin # dotfiles
+  path_prepend $GOPATH/bin $GOENV_ROOT/shims $GOENV_ROOT/bin # golang
+  path_prepend $NODENV_ROOT/shims $NODENV_ROOT/bin # nodejs
+  path_prepend $PIPX_BIN_DIR $PYENV_ROOT/shims $PYENV_ROOT/bin # python
+  path_prepend $RBENV_ROOT/shims $RBENV_ROOT/bin # ruby
+  path_prepend $CARGO_HOME/bin # rust
+
+  # notify systemd of path
+  if type -q systemctl
+    systemctl --user import-environment PATH 2>/dev/null
+  end
+
+  # coreutils
+  if type -q dircolors
+    source (dircolors -c ~/.dircolors | psub)
+  else if type -q gdircolors
+    source (gdircolors -c ~/.dircolors | psub)
+  end
+
+  # less
+  if type -q lesspipe
+    source (env SHELL=csh lesspipe | psub)
+  else if type -q lesspipe.sh
+    source (env SHELL=csh lesspipe.sh | psub)
+  end
+
+  # mosh detection
+  set parent (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]'))
+  if test "$parent" = "mosh-server"
+    set -x MOSH 1
+  end
+
+  # wsl detection/fixup
+  if string match -q -e "Microsoft" (uname -r)
+    set -x SHELL (command -v fish)
+    set -x DISPLAY :0
+    set -x WSL 1
+  end
+end
+
+# per-shell setup logic
 if status --is-interactive
   # use 24bit color in non-basic terminals
   if test "$TERM" != "xterm"; and test "$TERM" != "linux"
     set -g fish_term24bit 1
   end
 
-  # first-time universal variable provisioning
-  # this allows variables to be overridden locally with set -U
-  # set -Ue fish_initialized to reset
-  if not set -q fish_initialized;
-    source "$HOME/.config/fish/abbreviations.fish"
-    source "$HOME/.config/fish/appearance.fish"
-
-    # shell environment
-    set -Ux VISUAL nvim
-    set -Ux EDITOR nvim
-    set -Ux PAGER less
-    set -Ux MANPAGER 'nvim -c "set ft=man" -'
-    set -Ux LESS '--RAW-CONTROL-CHARS --tabs=4'
-    set -Ux TERMINAL alacritty
-    if test (uname) = "Darwin"
-      set -Ux BROWSER open
-    else
-      if type -q firefox-nightly
-        set -Ux BROWSER firefox-nightly
-      else if type -q firefox
-        set -Ux BROWSER firefox
-      else if type -q google-chrome
-        set -Ux BROWSER google-chrome
-      end
-    end
-
-    # libvirt
-    set -Ux LIBVIRT_DEFAULT_URI qemu:///system
-
-    # pipenv
-    set -Ux PIPENV_SHELL_FANCY 1
-
-    # fzf (core)
-    set -Ux FZF_DEFAULT_COMMAND 'fd --type file'
-    set -Ux FZF_DEFAULT_OPTS '--no-bold'
-    if set -q fish_term24bit
-      set -Ux FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --color=fg:#839496,bg:#002b36,hl:#eee8d5,fg+:#839496,bg+:#073642,hl+:#d33682 --color=info:#2aa198,prompt:#839496,pointer:#fdf6e3,marker:#fdf6e3,spinner:#2aa198"
-    else
-      set -Ux FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS --color=fg:12,bg:8,hl:7,fg+:12,bg+:0,hl+:5 --color=info:6,prompt:12,pointer:15,marker:15,spinner:6"
-    end
-
-    # fzf (plugin)
-    set -U FZF_TMUX 1
-    set -U FZF_TMUX_HEIGHT 25%
-    set -U FZF_LEGACY_KEYBINDINGS 0
-    set -U FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND
-    set -U FZF_CD_COMMAND 'fd --type directory --follow'
-    set -U FZF_CD_WITH_HIDDEN_COMMAND 'fd --type directory --follow --hidden --exclude .git'
-
-    set -U fish_initialized
-  end
-
-  # per-shell setup logic
-  if set -q WSL
-    # connect ssh to the windows ssh-agent
-    if type -q weasel-pageant
-      source (weasel-pageant -q -r -S fish | psub)
-    end
-
+  if set -qx WSL
     # make sure gpg-agent is running
     if type -q gpg-connect-agent.exe
       gpg-connect-agent.exe /bye >/dev/null 2>&1
     end
 
-    # connect X applications to the windows X11 server
-    set -x DISPLAY :0
+    # connect ssh to the windows ssh-agent
+    if type -q weasel-pageant
+      source (weasel-pageant -q -r -S fish | psub)
+    end
   else
     # gpg-agent setup for local connections
-    if type -q gpg-connect-agent; and not set -q SSH_TTY; and not set -q MOSH
+    if type -q gpg-connect-agent; and not set -qx SSH_TTY; and not set -qx MOSH
       # launch gpg-agent with our pinentry-program (if not already running)
       gpg-agent --pinentry-program "$HOME/.local/bin/pinentry" --daemon 2>/dev/null
 
@@ -80,14 +101,15 @@ if status --is-interactive
       set -x GPG_TTY (tty)
       # notify gpg-agent's ssh compatibility of our tty
       gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
+
       # notify ssh of our gpg-agent socket
       set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
     end
   end
 
-  if set -q WSL; or string match -q -r "(ttys|pts)" (tty)
+  if set -qx WSL; or string match -q -r "(ttys|pts)" (tty)
     # start our main tmux session (on a pts)
-    if type -q tmux; and not set -q TMUX
+    if type -q tmux; and not set -qx TMUX
       set -l session (prompt_hostname)
       if tmux has-session -t "$session" 2>/dev/null
         tmux new-session -t "$session"\; set-option destroy-unattached

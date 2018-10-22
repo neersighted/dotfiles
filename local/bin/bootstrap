@@ -179,7 +179,9 @@ important "Configuring language support and tooling..."
 
 
 section "Golang"
-  GOENV_ROOT="$HOME/.goenv"
+  if [ -z "$GOENV_ROOT" ]; then
+    export GOENV_ROOT="$HOME/.local/share/goenv"
+  fi
 
   if [ -d "$GOENV_ROOT" ]; then
     info "Updating goenv..."
@@ -202,7 +204,7 @@ section "Golang"
   fi
 
   if [ -z "$GOPATH" ]; then
-    export GOPATH="$HOME/.local/go"
+    export GOPATH="$HOME/.local/share/go"
   fi
 
   GOGET_INSTALLED=$(go list ...)
@@ -225,7 +227,9 @@ endsection
 
 
 section "Node.js"
-  NODENV_ROOT="$HOME/.nodenv"
+  if [ -z "$NODENV_ROOT" ]; then
+    export NODENV_ROOT="$HOME/.local/share/nodenv"
+  fi
 
   if [ -d "$NODENV_ROOT" ]; then
     info "Updating nodenv..."
@@ -272,7 +276,9 @@ endsection
 
 
 section "Python"
-  PYENV_ROOT="$HOME/.pyenv"
+  if [ -z "$PYENV_ROOT" ]; then
+    export PYENV_ROOT="$HOME/.local/share/pyenv"
+  fi
 
   if [ -d "$PYENV_ROOT" ]; then
     info "Updating pyenv..."
@@ -315,10 +321,10 @@ section "Python"
   done
 
   if [ -z "$PIPX_HOME" ]; then
-    export PIPX_HOME="$HOME/.local/pipx/venvs"
+    export PIPX_HOME="$HOME/.local/share/pipx/venvs"
   fi
   if [ -z "$PIPX_BIN_DIR" ]; then
-    export PIPX_BIN_DIR="$HOME/.local/pipx/bin"
+    export PIPX_BIN_DIR="$HOME/.local/share/pipx/bin"
   fi
   export PATH="$PIPX_BIN_DIR:$PATH"
 
@@ -378,7 +384,9 @@ endsection
 
 
 section "Ruby"
-  RBENV_ROOT="$HOME/.rbenv"
+  if [ -z "$RBENV_ROOT" ]; then
+    RBENV_ROOT="$HOME/.local/share/rbenv"
+  fi
 
   if [ -d "$RBENV_ROOT" ]; then
     info "Updating rbenv..."
@@ -405,6 +413,13 @@ endsection
 
 
 section "Rust"
+  if [ -z "$RUSTUP_HOME" ]; then
+    export RUSTUP_HOME="$HOME/.local/share/rustup"
+  fi
+  if [ -z "$CARGO_HOME" ]; then
+    export CARGO_HOME="$HOME/.local/share/cargo"
+  fi
+
   export PATH="$HOME/.cargo/bin:$PATH"
 
   if command -v rustup >/dev/null; then
