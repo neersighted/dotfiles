@@ -33,6 +33,9 @@ if status --is-interactive
     # libvirt
     set -Ux LIBVIRT_DEFAULT_URI qemu:///system
 
+    # pipenv
+    set -Ux PIPENV_SHELL_FANCY 1
+
     # fzf (core)
     set -Ux FZF_DEFAULT_COMMAND 'fd --type file'
     set -Ux FZF_DEFAULT_OPTS '--no-bold'

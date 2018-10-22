@@ -1,28 +1,35 @@
 # shell init (environmental variables)
 if status --is-login
   # load system profile (with bass)
-  type -q bass
-    and bass source /etc/profile
+  if type -q bass
+    bass source /etc/profile
+  end
 
   # xdg (bsd compat)
-  set -q XDG_VTNR; and type -q vidcontrol
-    and set -x XDG_VTNR (vidcontrol -i active 2>/dev/null)
+  if not set -qx XDG_VTNR; and type -q vidcontrol
+    set -x XDG_VTNR (vidcontrol -i active 2>/dev/null)
+  end
 
   # xdg
-  set -q XDG_CONFIG_HOME
-    or set -x XDG_CONFIG_HOME $HOME/.config
-  set -q XDG_DATA_HOME
-    or set -x XDG_DATA_HOME $HOME/.local/share
-  set -q XDG_CACHE_HOME
-    or set -x XDG_CACHE_HOME $HOME/.cache
+  if not set -qx XDG_CONFIG_HOME
+    set -x XDG_CONFIG_HOME $HOME/.config
+  end
+  if not set -qx XDG_DATA_HOME
+    set -x XDG_DATA_HOME $HOME/.local/share
+  end
+  if not set -qx XDG_CACHE_HOME
+    set -x XDG_CACHE_HOME $HOME/.cache
+  end
 
   # golang
-  set -q GOPATH
-    or set -x GOPATH $HOME/.local/go
+  if not set -qUx GOPATH
+    set -x GOPATH $HOME/.local/share/go
+  end
 
   # python
-  set -q PIPX_BIN_DIR
-    or set -x PIPX_BIN_DIR $HOME/.local/pipx/bin
+  if not set -qUx PIPX_BIN_DIR
+    set -x PIPX_BIN_DIR $HOME/.local/pipx/bin
+  end
 
   # ccache
   path_prepend /usr/local/opt/ccache/libexec # macos
@@ -38,8 +45,9 @@ if status --is-login
   path_prepend $GOPATH/bin $HOME/.goenv/shims $HOME/.goenv/bin # golang
 
   # notify systemd of path
-  type -q systemctl
-    and systemctl --user import-environment PATH 2>/dev/null
+  if type -q systemctl
+    systemctl --user import-environment PATH 2>/dev/null
+  end
 
   # coreutils
   if type -q dircolors
@@ -57,16 +65,19 @@ if status --is-login
 
   # mosh detection
   set parent (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]'))
-  test "$parent" = "mosh-server"
-    and set -x MOSH 1
+  if test "$parent" = "mosh-server"
+    set -x MOSH 1
+  end
 
   # wsl detection
-  string match -q -e "Microsoft" (uname -r)
-    and set -x WSL 1
+  if string match -q -e "Microsoft" (uname -r)
+    set -x WSL 1
+  end
 
   # set shell
-  type -q fish
-    and set -x SHELL (command -v fish)
+  if type -q fish
+    set -x SHELL (command -v fish)
+  end
 end
 
 # vi:ft=fish:
