@@ -86,14 +86,14 @@ section "Packages"
 
       BLD="autoconf bison build-essential ccache clang cmake pkgconf"
       LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libyaml-dev zlib1g-dev"
-      USR="cloc curl exuberant-ctags fish gdb gnupg htop lftp mosh neovim rcm shellcheck socat tig tmux unzip vim whois"
+      USR="curl exuberant-ctags fish gdb gnupg htop lftp mosh neovim rcm shellcheck socat tig tmux unzip vim whois"
 
       INSTALLED=$(dpkg-query -f '${binary:Package}\n' -W)
       ;;
     FreeBSD)
       BLD="ccache cmake gcc gmake pkgconf"
       LIB="libssh2 openssl sqlite3"
-      USR="bash cloc coreutils curl fish gdb gnupg htop lftp mosh neovim pinentry-curses hs-ShellCheck rcm socat tig tmux universal-ctags unzip vim whois"
+      USR="bash coreutils curl fish gdb gnupg htop lftp mosh neovim pinentry-curses hs-ShellCheck rcm socat tig tmux universal-ctags unzip vim whois"
 
       INSTALLED=$(pkg info -q)
       ;;
@@ -105,7 +105,7 @@ section "Packages"
 
       BLD="ccache cmake"
       LIB="readline zlib"
-      USR="cloc coreutils ctags curl fish gdb gnupg htop lftp mosh neovim pinentry-mac rcm reattach-to-user-namespace shellcheck socat tmux unzip vim xz"
+      USR="coreutils ctags curl fish gdb gnupg htop lftp mosh neovim pinentry-mac rcm reattach-to-user-namespace shellcheck socat tmux unzip vim xz"
 
       INSTALLED=$(brew list)
       ;;
@@ -332,9 +332,10 @@ section "Python"
     info "Updating pipx..."
     pipx upgrade pipx
   else
-    if [ -d "$PIPX_HOME" ]; then
+    if [ -d "$PIPX_HOME" ] || [ -d "$PIPX_BIN_DIR" ]; then
       info "Python interpreter missing. Reinstalling pipx and managed packages..."
       rm -rf "$PIPX_HOME"
+      rm -rf "$PIPX_BIN_DIR"
     else
       info "Installing pipx..."
     fi
@@ -495,6 +496,7 @@ section "File"
   cargo_install "exa"
   cargo_install "fd-find"
   cargo_install "ripgrep"
+  go_get "github.com/boyter/scc"
   cargo_install "tokei"
 endsection
 
