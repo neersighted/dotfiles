@@ -1,9 +1,0 @@
-[Unit]
-Description=Device Automounter
-Documentation=http://igurublog.wordpress.com/downloads/script-devmon/
-
-[Service]
-ExecStart=/usr/bin/devmon --info-on-mount
-
-[Install]
-WantedBy=default.target

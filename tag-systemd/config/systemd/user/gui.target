@@ -1,4 +1,0 @@
-[Unit]
-Description=GUI
-Requires=default.target
-After=default.target

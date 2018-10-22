@@ -1,9 +1,0 @@
-[Unit]
-Description=Simple X11 Compositor
-Documentation=man:compton(1)
-
-[Service]
-ExecStart=/usr/bin/compton
-
-[Install]
-WantedBy=x11.target

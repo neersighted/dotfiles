@@ -1,9 +1,0 @@
-[Unit]
-Description=Screen Tinter
-Documentation=man:redshift(1)
-
-[Service]
-ExecStart=/usr/bin/redshift
-
-[Install]
-WantedBy=x11.target

@@ -24,7 +24,6 @@ Additional dotfiles are categorized and selectively linked under tags.
 Currently they are:
 
 * `gui` (systems with graphical applications)
-* `systemd` (systems using system user sessions)
 * `x11` (systems using the x11 display server)
 
 ## License
