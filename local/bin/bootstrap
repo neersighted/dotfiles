@@ -58,11 +58,13 @@ selectversion() {
     }'
 }
 
+UNAME=$(uname)
+
 #
-# System
+# Base System
 #
 
-UNAME=$(uname)
+important "Configuring base system and environment..."
 
 
 section "Packages"
@@ -139,9 +141,42 @@ section "Packages"
 endsection
 
 
+section "dotfiles"
+  export RCRC="$HOME/.dotfiles/rcrc"
+
+  info "Linking dotfiles with rcup..."
+  rcup
+endsection
+
+
+section "fish"
+  if [ ! "$(getshell)" = 'fish' ]; then
+    info "Changing login shell to fish..."
+
+    shell=$(command -v fish)
+    if [ "$UNAME" = 'FreeBSD' ]; then
+      su root -c "chsh -s $USER $shell"
+    else
+      sudo chsh -s "$shell" "$USER"
+    fi
+  fi
+
+  if [ ! -f "$HOME/.config/fish/functions/fisher.fish" ]; then
+    info "Downloading fisher..."
+    curl https://git.io/fisher -fLo "$HOME/.config/fish/functions/fisher.fish"
+  fi
+
+  info "Installing and updating fish plugins using fisher..."
+  fish -c fisher
+endsection
+
+
 #
-# Environment
+# Language Setup
 #
+
+important "Configuring language support and tooling..."
+
 
 section "Golang"
   GOENV_ROOT="$HOME/.goenv"
@@ -427,62 +462,51 @@ endsection
 
 
 #
-# Tools
+# Toolchain
 #
 
-section "dotfiles"
-  export RCRC="$HOME/.dotfiles/rcrc"
-
-  info "Linking dotfiles with rcup..."
-  rcup
-endsection
-
-
-section "fish"
-  if [ ! "$(getshell)" = 'fish' ]; then
-    info "Changing login shell to fish..."
-
-    shell=$(command -v fish)
-    if [ "$UNAME" = 'FreeBSD' ]; then
-      su root -c "chsh -s $USER $shell"
-    else
-      sudo chsh -s "$shell" "$USER"
-    fi
-  fi
-
-  if [ ! -f "$HOME/.config/fish/functions/fisher.fish" ]; then
-    info "Downloading fisher..."
-    curl https://git.io/fisher -fLo "$HOME/.config/fish/functions/fisher.fish"
-  fi
-
-  info "Installing and updating fish plugins using fisher..."
-  fish -c fisher
-endsection
+important "Configuring additional toolchain components..."
 
 
 section "CLI"
-  go_get "github.com/github/hub"
-  go_get "github.com/junegunn/fzf"
-  go_get "github.com/nishanths/license"
+  pipx_install "asciinema"
+  cargo_install "hyperfine"
   go_get "github.com/simeji/jid/cmd/jid"
   go_get "mvdan.cc/xurls/cmd/xurls"
-  npm_install "diff-so-fancy"
-  npm_install "git-open"
-  pipx_install "asciinema"
-  pipx_install "gdbgui"
-  pipx_install "legit"
+endsection
+
+
+section "File"
   cargo_install "exa"
   cargo_install "fd-find"
-  cargo_install "hyperfine"
   cargo_install "ripgrep"
   cargo_install "tokei"
+endsection
+
+
+section "GDB"
+  pipx_install "gdbgui"
 
   if [ -f "$HOME/.gdbinit" ]; then
     info "Updating gdb-dashboard..."
   else
     info "Installing gdb-dashboard..."
   fi
-  curl https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -fsSLo "$HOME/.gdbinit"
+  curl https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -fLo "$HOME/.gdbinit"
+endsection
+
+
+section "Git"
+  npm_install "diff-so-fancy"
+  npm_install "git-open"
+  go_get "github.com/github/hub"
+  pipx_install "legit"
+  go_get "github.com/nishanths/license"
+endsection
+
+
+section "fzf"
+  go_get "github.com/junegunn/fzf"
 
   if [ -f "$HOME/.local/bin/fzf-tmux" ]; then
     info "Updating fzf-tmux..."
@@ -490,7 +514,7 @@ section "CLI"
     info "Installing fzf-tmux..."
     trap '{ chmod +x "$HOME/.local/bin/fzf-tmux"; }' EXIT
   fi
-  curl https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux -fsSLo "$HOME/.local/bin/fzf-tmux"
+  curl https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux -fLo "$HOME/.local/bin/fzf-tmux"
 endsection
 
 
