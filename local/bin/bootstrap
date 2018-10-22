@@ -376,11 +376,14 @@ section "Rust"
     info "Updating nightly Rust..."
     rustup update
   else
-    info "Setting up nightly Rust..."
+    info "Installing rustup and nightly Rust..."
     curl https://sh.rustup.rs -fsSL | sh -s -- -y --default-toolchain nightly --no-modify-path
     info "Installing Rust components..."
     rustup component add rust-src rust-analysis rls-preview clippy-preview rustfmt-preview llvm-tools-preview
   fi
+
+  info "Regenerating rustup shell completions..."
+  rustup completions fish > "$HOME/.config/fish/completions/rustup.fish"
 
   CARGO_INSTALLED=$(cargo install --list)
   cargo_install() {
@@ -457,38 +460,6 @@ section "fish"
 endsection
 
 
-section "Vim"
-  if ! command -v neovim-node-host >/dev/null; then
-    info "Installing Node.js Neovim provider..."
-    npm install -g neovim
-  fi
-  if ! python2 -c "import neovim" 2>/dev/null; then
-    info "Installing Python 2 Neovim provider..."
-    python2 -m pip install -U neovim
-  fi
-  if ! python3 -c "import neovim" 2>/dev/null; then
-    info "Installing Python 3 Neovim provider..."
-    python3 -m pip install -U neovim
-  fi
-  if ! command -v neovim-ruby-host >/dev/null; then
-    info "Installing Ruby Neovim provider..."
-    gem install neovim
-  fi
-
-  pipx_install "neovim-remote"
-  pipx_install "vim-vint"
-  cargo_install "pack" "https://github.com/neersighted/pack"
-
-  if ! [ -e "$HOME/.vim/pack" ];  then
-    info "Installing Vim plugins using pack..."
-    pack install
-  else
-    info "Updating Vim plugins using pack..."
-    pack update
-  fi
-endsection
-
-
 section "CLI"
   go_get "github.com/github/hub"
   go_get "github.com/junegunn/fzf"
@@ -520,6 +491,38 @@ section "CLI"
     trap '{ chmod +x "$HOME/.local/bin/fzf-tmux"; }' EXIT
   fi
   curl https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux -fsSLo "$HOME/.local/bin/fzf-tmux"
+endsection
+
+
+section "Vim"
+  if ! command -v neovim-node-host >/dev/null; then
+    info "Installing Node.js Neovim provider..."
+    npm install -g neovim
+  fi
+  if ! python2 -c "import neovim" 2>/dev/null; then
+    info "Installing Python 2 Neovim provider..."
+    python2 -m pip install -U neovim
+  fi
+  if ! python3 -c "import neovim" 2>/dev/null; then
+    info "Installing Python 3 Neovim provider..."
+    python3 -m pip install -U neovim
+  fi
+  if ! command -v neovim-ruby-host >/dev/null; then
+    info "Installing Ruby Neovim provider..."
+    gem install neovim
+  fi
+
+  pipx_install "neovim-remote"
+  pipx_install "vim-vint"
+  cargo_install "pack" "https://github.com/neersighted/pack"
+
+  if ! [ -e "$HOME/.vim/pack" ];  then
+    info "Installing Vim plugins using pack..."
+    pack install
+  else
+    info "Updating Vim plugins using pack..."
+    pack update
+  fi
 endsection
 
 important "Done! Restart your shell!"
