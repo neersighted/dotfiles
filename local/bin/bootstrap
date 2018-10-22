@@ -502,7 +502,7 @@ section "GDB"
   else
     info "Installing gdb-dashboard..."
   fi
-  curl https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -fLo "$HOME/.gdbinit"
+  curl https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -fLo "$HOME/.local/share/gdb-dashboard"
 endsection
 
 

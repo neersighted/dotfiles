@@ -1,3 +1,7 @@
+set history filename ~/.cache/gdb_history
+
+source ~/.local/share/gdb-dashboard
+
 dashboard -layout assembly registers source expressions stack memory threads history
 
 dashboard -style prompt '\\[\\e[1;35m\\]>>>\\[\\e[0m\\]'
