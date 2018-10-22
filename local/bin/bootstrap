@@ -344,43 +344,36 @@ section "Python"
 
   PIPX_INSTALLED=$(pipx list)
   pipx_install() {
-    local target="$1"
-    shift
-    local additional_targets="$*"
-
-    if echo "$PIPX_INSTALLED" | grep -F "$target" >/dev/null; then
-      info "Updating $target using pipx..."
-      pipx upgrade "$target"
+    if [ $# -eq 2 ]; then
+      local spec="$1"
+      local target="$2"
     else
-      info "Installing $target using pipx..."
-      pipx install "$target"
+      local target="$1"
     fi
 
-    local uptodate
-    local outdated
     local pip="$PIPX_HOME/$target/bin/pip"
-    if [ -n "$additional_targets" ]; then
-      uptodate=$($pip list --uptodate --format=freeze)
-      outdated=$($pip list --outdated --format=freeze)
-      for atarget in $additional_targets; do
-        if echo "$outdated" | grep -F "$atarget" >/dev/null; then
-          info "Updating $atarget in $target's environment..."
-          $pip install -U "$atarget"
-        elif ! echo "$uptodate" | grep -F "$atarget" >/dev/null; then
-          info "Installing $atarget into $target's environment..."
-          $pip install "$atarget"
-        fi
-      done
+
+    if echo "$PIPX_INSTALLED" | grep -F "$target" >/dev/null; then
+      if $pip list --outdated --format=freeze | grep -F "$target" >/dev/null; then
+        info "Updating $target using pipx..."
+        pipx upgrade "$target"
+      fi
+    else
+      info "Installing $target using pipx..."
+      if [ -n "$spec" ]; then
+        pipx install --spec "$spec" "$target"
+      else
+        pipx install "$target"
+      fi
     fi
   }
 
-  pipx_install "autopep8"
   pipx_install "black"
   pipx_install "flake8"
   pipx_install "mypy"
   pipx_install "pipenv"
   pipx_install "pylint"
-  pipx_install "python-language-server" "autopep8" "mccabe" "pycodestyle" "pydocstyle" "pyflakes" "rope" "yapf"
+  pipx_install "python-language-server[all]" "python-language-server"
 endsection
 
 
