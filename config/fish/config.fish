@@ -12,26 +12,10 @@ if status --is-login
     bass source /etc/profile
   end
 
-  # xdg (bsd compat)
-  if not set -qx XDG_VTNR; and type -q vidcontrol
-    set -x XDG_VTNR (vidcontrol -i active 2>/dev/null)
-  end
-
-  # xdg
-  if not set -qx XDG_CONFIG_HOME
-    set -x XDG_CONFIG_HOME $HOME/.config
-  end
-  if not set -qx XDG_DATA_HOME
-    set -x XDG_DATA_HOME $HOME/.local/share
-  end
-  if not set -qx XDG_CACHE_HOME
-    set -x XDG_CACHE_HOME $HOME/.cache
-  end
-
   # ccache
   path_prepend /usr/local/opt/ccache/libexec # macos
   path_prepend /usr/local/libexec/ccache # bsd
-  path_prepend /usr/lib/ccache/bin # linux
+  path_prepend /usr/lib/ccache # linux
 
   # personal
   path_prepend $HOME/.local/bin # dotfiles
@@ -67,7 +51,7 @@ if status --is-login
   end
 
   # wsl detection/fixup
-  if string match -q -e "Microsoft" (uname -r)
+  if set -qx WSLENV; or string match -q -e "Microsoft" (uname -r)
     set -x SHELL (command -v fish)
     set -x DISPLAY :0
     set -x WSL 1
@@ -119,7 +103,7 @@ if status --is-interactive
     end
   else
     # start our X11 session (on tty1)
-    if test "$XDG_VTNR" -eq 1
+    if test "$XDG_VTNR" -eq 1; or type -q vidcontrol; and test (vidcontrol -i active 2>/dev/null) -eq 1
       exec startx
     end
   end
