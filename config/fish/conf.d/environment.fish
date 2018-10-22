@@ -26,22 +26,24 @@ if not set -qU fish_initialized;
   set -Ux LIBVIRT_DEFAULT_URI qemu:///system
 
   # golang
-  set -Ux GOENV_ROOT $HOME/.local/share/goenv
-  set -Ux GOPATH $HOME/.local/share/go
+  set -Ux GOENV_ROOT "$HOME/.local/share/goenv"
+  set -Ux GOPATH "$HOME/.local/share/go"
 
   # node.js
-  set -Ux NODENV_ROOT $HOME/.local/share/nodenv
+  set -Ux NODENV_ROOT "$HOME/.local/share/nodenv"
+  set -Ux NPM_CONFIG_CACHE "$HOME/.cache/npm"
 
   # python
-  set -Ux PYENV_ROOT $HOME/.local/share/pyenv
-  set -Ux PIPX_HOME $HOME/.local/share/pipx/venvs
-  set -Ux PIPX_BIN_DIR $HOME/.local/share/pipx/bin
+  set -Ux PYENV_ROOT "$HOME/.local/share/pyenv"
+  set -Ux PIPX_HOME "$HOME/.local/share/pipx/venvs"
+  set -Ux PIPX_BIN_DIR "$HOME/.local/share/pipx/bin"
   set -Ux PIPENV_SHELL_FANCY 1
 
   # ruby
-  set -Ux RBENV_ROOT $HOME/.local/share/rbenv
+  set -Ux RBENV_ROOT "$HOME/.local/share/rbenv"
+  set -Ux GEM_SPEC_CACHE "$HOME/.cache/gem"
 
   # rust
-  set -Ux RUSTUP_HOME $HOME/.local/share/rustup
-  set -Ux CARGO_HOME $HOME/.local/share/cargo
+  set -Ux RUSTUP_HOME "$HOME/.local/share/rustup"
+  set -Ux CARGO_HOME "$HOME/.local/share/cargo"
 end
