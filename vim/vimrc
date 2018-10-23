@@ -40,8 +40,8 @@ set undofile " Persist undo history.
 set hidden " Allow backgrounding dirty buffers.
 
 " Colors
-if $TERM !~# '^\%(xterm\|linux\)$'
-  set termguicolors " Use truecolor in most terminals.
+if $COLORTERM ==# 'truecolor'
+  set termguicolors " Use truecolor if available.
 endif
 
 " Completion

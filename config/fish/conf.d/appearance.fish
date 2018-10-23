@@ -20,7 +20,7 @@ if not set -qU fish_initialized;
   set -U __fish_git_prompt_char_upstream_equal '='
   set -U __fish_git_prompt_char_stateseperator '|'
 
-  set -U __fish_git_prompt_char_cleanstate "-"
+  set -U __fish_git_prompt_char_cleanstate '-'
   set -U __fish_git_prompt_char_dirtystate '~'
   set -U __fish_git_prompt_char_invalidstate '#'
   set -U __fish_git_prompt_char_stagedstate '+'

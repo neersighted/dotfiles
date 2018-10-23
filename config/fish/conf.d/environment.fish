@@ -1,3 +1,26 @@
+# special environment detection
+if status --is-login
+  # mosh detection
+  if test (ps -o comm= (ps -o ppid= %self | tr -d ' ')) = 'mosh-server'
+    set -x MOSH 1
+  end
+
+  # wsl detection/fixup
+  if set -l uname (string match -r '\d.\d.\d-(\d+)-Microsoft' (uname -r))[2]
+    set -x WSL $uname
+    set -x DISPLAY ':0'
+    set -x SHELL (command -v fish)
+  end
+end
+
+# terminal feature detection
+if status --is-interactive
+  if not set -qx COLORTERM; and not string match -q '(xterm|linux)' "$TERM"
+    set -x COLORTERM 'truecolor'
+  end
+end
+
+# global configuration
 if not set -qU fish_initialized;
   # editor
   set -Ux VISUAL nvim
@@ -8,10 +31,14 @@ if not set -qU fish_initialized;
   set -Ux MANPAGER 'nvim -c "set ft=man" -'
   set -Ux LESS '--RAW-CONTROL-CHARS --tabs=4'
 
-  # graphical
-  set -Ux TERMINAL alacritty
-  if test (uname) = "Darwin"
-    set -Ux BROWSER open
+  # terminal
+  if type -q alacritty
+    set -Ux TERMINAL alacritty
+  end
+
+  # browser
+  if set -qx WSL
+    set -Ux BROWSER wsl-open
   else
     if type -q firefox-nightly
       set -Ux BROWSER firefox-nightly
@@ -19,6 +46,8 @@ if not set -qU fish_initialized;
       set -Ux BROWSER firefox
     else if type -q google-chrome
       set -Ux BROWSER google-chrome
+    else
+      set -Ux BROWSER lynx
     end
   end
 

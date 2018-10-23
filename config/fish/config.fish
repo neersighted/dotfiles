@@ -43,25 +43,12 @@ if status --is-login
   else if type -q lesspipe.sh
     source (env SHELL=csh lesspipe.sh | psub)
   end
-
-  # mosh detection
-  set parent (ps -o comm= (ps -o ppid= %self | tr -d '[:space:]'))
-  if test "$parent" = "mosh-server"
-    set -x MOSH 1
-  end
-
-  # wsl detection/fixup
-  if set -qx WSLENV; or string match -q -e "Microsoft" (uname -r)
-    set -x SHELL (command -v fish)
-    set -x DISPLAY :0
-    set -x WSL 1
-  end
 end
 
 # per-shell setup logic
 if status --is-interactive
   # use 24bit color in non-basic terminals
-  if test "$TERM" != "xterm"; and test "$TERM" != "linux"
+  if test "$COLORTERM" = 'truecolor'
     set -g fish_term24bit 1
   end
 
@@ -91,7 +78,7 @@ if status --is-interactive
     end
   end
 
-  if set -qx WSL; or string match -q -r "(ttys|pts)" (tty)
+  if set -qx WSL; or string match -q -r '(ttys|pts)' (tty)
     # start our main tmux session (on a pts)
     if type -q tmux; and not set -qx TMUX
       set -l session (prompt_hostname)

@@ -1,11 +1,11 @@
 function fish_right_prompt --description 'right prompt'
   set -l last_status $status
-  set -l job_count (count (jobs))
 
-  set -q prompt_minimal
-    and return
+  if set -qg prompt_minimal
+    return
+  end
 
-  test "$USER" = "root"
+  test "$USER" = 'root'
     and set_color $fish_color_cwd_root
     or set_color $fish_color_cwd
   printf ' %s' (prompt_pwd)
@@ -13,6 +13,7 @@ function fish_right_prompt --description 'right prompt'
 
   __fish_git_prompt
 
+  set -l job_count (count (jobs))
   if not test $job_count -eq 0
     set_color $fish_color_jobs
     printf ' {%i}' $job_count

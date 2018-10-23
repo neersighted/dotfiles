@@ -7,10 +7,12 @@ type="$3"
 test -n "$pane" || exit 1
 test -n "$op" || op="open"
 
-if ! command -v xurls >/dev/null; then
-  tmux display-message "xurls is not installed!"
-  exit
-fi
+for cmd in fzf-tmux xurls; do
+  if ! command -v "$cmd" >/dev/null; then
+    tmux display-message "$cmd is not installed!"
+    exit
+  fi
+done
 
 if [ "$type" = "full" ]; then
   data=$(tmux capture-pane -Jp -S- -E- -t "$pane")
@@ -20,7 +22,11 @@ fi
 
 echo "$data" | xurls | fzf-tmux -d 15% --tac -1 -m --prompt="$op: " | while read -r url; do
   if [ "$op" = "open" ]; then
-    if [ -n "$BROWSER" ]; then
+    if [ "$(uname)" = "Darwin" ]; then
+      open "$url"
+    elif command -v xdg-open >/dev/null; then
+      xdg-open "$url"
+    elif [ -n "$BROWSER" ]; then
       $BROWSER "$url"
     fi
   elif [ "$op" = "yank" ]; then
