@@ -34,7 +34,7 @@ if status --is-login
   if type -q dircolors
     source (dircolors -c "$HOME/.config/dircolors" | psub)
   else if type -q gdircolors
-    source (gdircolors -c "$HOME/.config/.dircolors" | psub)
+    source (gdircolors -c "$HOME/.config/dircolors" | psub)
   end
 
   # less
