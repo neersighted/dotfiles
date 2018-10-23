@@ -13,7 +13,7 @@ if status --is-login
   end
 
   # mosh detection
-  if test (ps -o comm= (ps -o ppid:1= %self)) = 'mosh-server'
+  if test (ps -o comm= (ps -o ppid= %self | tr -d ' ')) = 'mosh-server'
     set -x MOSH 1
   end
 
