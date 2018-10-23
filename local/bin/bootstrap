@@ -125,7 +125,7 @@ section "Packages"
   esac
 
   for pkg in $BLD $LIB $USR; do
-    if ! echo "$INSTALLED" | grep -Fw "$pkg" >/dev/null; then
+    if ! echo "$INSTALLED" | grep -Fwq "$pkg"; then
       PKGS="$PKGS $pkg"
     fi
   done
@@ -206,7 +206,7 @@ section "Golang"
 
   info "Checking latest Golang version..."
   GOLANG_VERSION=$(goenv install -l | selectversion)
-  if ! goenv versions | grep -F "$GOLANG_VERSION" >/dev/null; then
+  if ! goenv versions | grep -Fq "$GOLANG_VERSION"; then
     info "Installing Golang $GOLANG_VERSION..."
     goenv install -s "$GOLANG_VERSION"
     info "Activating Golang $GOLANG_VERSION..."
@@ -221,7 +221,7 @@ section "Golang"
   go_get() {
     local target="$1"
 
-    if echo "$GOGET_INSTALLED" | grep -F "$target" > /dev/null; then
+    if echo "$GOGET_INSTALLED" | grep -Fq "$target"; then
       info "Updating $target using go get..."
       go get -u "$target"
     else
@@ -256,7 +256,7 @@ section "Node.js"
 
   info "Checking latest Node.js version..."
   NODEJS_VERSION=$(nodenv install -l | selectversion)
-  if ! nodenv versions | grep -F "$NODEJS_VERSION" >/dev/null; then
+  if ! nodenv versions | grep -Fq "$NODEJS_VERSION"; then
     info "Installing Node.js $NODEJS_VERSION..."
     nodenv install -s "$NODEJS_VERSION"
     info "Activating Node.js $NODEJS_VERSION..."
@@ -270,7 +270,7 @@ section "Node.js"
   npm_install() {
     local target="$1"
 
-    if echo "$NPM_INSTALLED" | grep -F "$target" >/dev/null; then
+    if echo "$NPM_INSTALLED" | grep -Fq "$target"; then
       info "Updating $target using npm..."
       npm update -g "$target"
     else
@@ -306,17 +306,17 @@ section "Python"
   PYENV_INSTALLED=$(pyenv versions)
 
   PYTHON2_VERSION=$(echo "$PYTHON_VERSIONS" | selectversion 2)
-  if ! echo "$PYENV_INSTALLED" | grep -F "$PYTHON2_VERSION" >/dev/null; then
+  if ! echo "$PYENV_INSTALLED" | grep -Fq "$PYTHON2_VERSION"; then
     info "Installing Python $PYTHON2_VERSION..."
     pyenv install -s "$PYTHON2_VERSION"
   fi
   PYTHON3_VERSION=$(echo "$PYTHON_VERSIONS" | selectversion 3)
-  if ! echo "$PYENV_INSTALLED" | grep -F "$PYTHON3_VERSION" >/dev/null; then
+  if ! echo "$PYENV_INSTALLED" | grep -Fq "$PYTHON3_VERSION"; then
     info "Installing Python $PYTHON3_VERSION..."
     pyenv install -s "$PYTHON3_VERSION"
   fi
-  if ! pyenv global | grep -F "$PYTHON2_VERSION" >/dev/null &&
-     ! pyenv global | grep -F "$PYTHON3_VERSION" >/dev/null; then
+  if ! pyenv global | grep -Fq "$PYTHON2_VERSION" &&
+     ! pyenv global | grep -Fq "$PYTHON3_VERSION"; then
     info "Activating Python $PYTHON3_VERSION and $PYTHON2_VERSION..."
     pyenv global "$PYTHON3_VERSION" "$PYTHON2_VERSION"
   fi
@@ -363,8 +363,8 @@ section "Python"
 
     local pip="$PIPX_HOME/$target/bin/pip"
 
-    if echo "$PIPX_INSTALLED" | grep -F "$target" >/dev/null; then
-      if $pip list --outdated --format=freeze | grep -F "$target" >/dev/null; then
+    if echo "$PIPX_INSTALLED" | grep -Fq "$target"; then
+      if $pip list --outdated --format=freeze | grep -Fq "$target"; then
         info "Updating $target using pipx..."
         pipx upgrade "$target"
       fi
@@ -407,7 +407,7 @@ section "Ruby"
 
   info "Checking latest Ruby version..."
   RUBY_VERSION="$(rbenv install -l | selectversion)"
-  if ! rbenv versions | grep -F "$RUBY_VERSION" >/dev/null; then
+  if ! rbenv versions | grep -Fq "$RUBY_VERSION"; then
     info "Installing Ruby $RUBY_VERSION..."
     rbenv install -s "$RUBY_VERSION"
     info "Activating Ruby $RUBY_VERSION..."
@@ -493,7 +493,7 @@ section "CLI"
   go_get "github.com/simeji/jid/cmd/jid"
   go_get "mvdan.cc/xurls/cmd/xurls"
 
-  if uname -r | grep -F "Microsoft" >/dev/null; then
+  if uname -r | grep -Fq "Microsoft"; then
     npm_install "wsl-open"
   fi
 endsection
