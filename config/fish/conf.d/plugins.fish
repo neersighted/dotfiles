@@ -1,4 +1,4 @@
-if not set -qU fish_initialized;
+if not set -qU fish_initialized
   #
   # fzf
   #

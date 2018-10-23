@@ -1,14 +1,14 @@
 # special environment detection
 if status --is-login
   # xdg
-  if not set -qx XDG_CONFIG_HOME
+  if not set -qg XDG_CONFIG_HOME
     set -x XDG_CONFIG_HOME "$HOME/.config"
   end
 
-  if not set -qx XDG_DATA_HOME
+  if not set -qg XDG_DATA_HOME
     set -x XDG_DATA_HOME "$HOME/.local/share"
   end
-  if not set -qx XDG_CACHE_HOME
+  if not set -qg XDG_CACHE_HOME
     set -x XDG_CACHE_HOME "$HOME/.cache"
   end
 
@@ -25,29 +25,35 @@ if status --is-login
   end
 end
 
-# terminal feature detection
+# interactive features
 if status --is-interactive
-  if not set -qx COLORTERM; and not string match -q '(xterm|linux)' "$TERM"
+  # color support detection
+  if not set -qg COLORTERM; and not string match -q '(xterm|linux)' "$TERM"
     set -x COLORTERM 'truecolor'
+  end
+
+  # ignore parent exports in favor of universal exports
+  for export in (set -Ux)
+    set -eg (string split ' ' $export)[1]
   end
 end
 
 # universal configuration
-if not set -qU fish_initialized;
+if not set -qU fish_initialized
   # linux-specific
   if test (uname) = 'Linux'
     # terminal
-    if type -q alacritty
+    if command -sq alacritty
       set -Ux TERMINAL alacritty
     end
 
     # browser
-    if set -qx WSL
+    if set -qg WSL
       set -Ux BROWSER wsl-open
     else
-      if type -q firefox
+      if command -sq firefox
         set -Ux BROWSER firefox
-      else if type -q google-chrome
+      else if command -sq google-chrome
         set -Ux BROWSER google-chrome
       else
         set -Ux BROWSER lynx
@@ -91,9 +97,4 @@ if not set -qU fish_initialized;
   # rust
   set -Ux RUSTUP_HOME "$XDG_DATA_HOME/rustup"
   set -Ux CARGO_HOME "$XDG_DATA_HOME/cargo"
-end
-
-# always respect universal configuration (ignore inherited environment)
-for var in (set -Ux | string replace -rf '^([\w]+) .*' '$1')
-  set -eg $var
 end

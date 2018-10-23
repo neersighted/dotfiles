@@ -445,10 +445,10 @@ section "Rust"
     local git="$2"
 
     (
-      CARGO_BUILD_TARGET_DIR=$(mktemp -d "${TMPDIR:-/tmp}/cargo.XXXXXXXXX")
-      export CARGO_BUILD_TARGET_DIR
+      CARGO_TARGET_DIR=$(mktemp -d "${TMPDIR:-/tmp}/cargo.XXXXXXXXX")
+      export CARGO_TARGET_DIR
 
-      trap '{ rm -rf "$CARGO_BUILD_TARGET_DIR"; }' EXIT
+      trap '{ rm -rf "$CARGO_TARGET_DIR"; }' EXIT
 
       if echo "$CARGO_INSTALLED" | grep -Eq "^$target"; then
         info "Updating $target using cargo..."
@@ -458,9 +458,9 @@ section "Rust"
         cargo install "$target" ${git:+--git "$git"}
       fi
 
-      if [ -d "$CARGO_BUILD_TARGET_DIR/release/build" ]; then
+      if [ -d "$CARGO_TARGET_DIR/release/build" ]; then
         local completion
-        completion=$(find "$CARGO_BUILD_TARGET_DIR/release/build" -name '*.fish')
+        completion=$(find "$CARGO_TARGET_DIR/release/build" -name '*.fish')
         if [ -n "$completion" ]; then
           info "Installing fish completion for $target..."
           cp "$completion" "$XDG_CONFIG_HOME/fish/completions"
