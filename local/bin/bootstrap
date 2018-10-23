@@ -379,7 +379,7 @@ endsection
 
 section "Ruby"
   if [ -z "$RBENV_ROOT" ]; then
-    RBENV_ROOT="$HOME/.local/share/rbenv"
+    export RBENV_ROOT="$HOME/.local/share/rbenv"
   fi
 
   if [ -d "$RBENV_ROOT" ]; then

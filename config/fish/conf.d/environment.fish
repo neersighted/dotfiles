@@ -1,13 +1,13 @@
 # special environment detection
 if status --is-login
   # mosh detection
-  if test (ps -o comm= (ps -o ppid= %self | tr -d ' ')) = 'mosh-server'
+  if test (ps -o comm= (ps -o ppid:1= %self)) = 'mosh-server'
     set -x MOSH 1
   end
 
   # wsl detection/fixup
-  if set -l uname (string match -r '\d.\d.\d-(\d+)-Microsoft' (uname -r))[2]
-    set -x WSL $uname
+  if set -l uname (string match -r '\d.\d.\d-(\d+)-Microsoft' (uname -r))
+    set -x WSL $uname[2]
     set -x DISPLAY ':0'
     set -x SHELL (command -v fish)
   end
@@ -22,6 +22,32 @@ end
 
 # global configuration
 if not set -qU fish_initialized;
+  # linux-specific
+  if test (uname) = 'Linux'
+    # terminal
+    if type -q alacritty
+      set -Ux TERMINAL alacritty
+    end
+
+    # browser
+    if set -qx WSL
+      set -Ux BROWSER wsl-open
+    else
+      if type -q firefox-nightly
+        set -Ux BROWSER firefox-nightly
+      else if type -q firefox
+        set -Ux BROWSER firefox
+      else if type -q google-chrome
+        set -Ux BROWSER google-chrome
+      else
+        set -Ux BROWSER lynx
+      end
+    end
+
+    # libvirt
+    set -Ux LIBVIRT_DEFAULT_URI qemu:///system
+  end
+
   # editor
   set -Ux VISUAL nvim
   set -Ux EDITOR $VISUAL
@@ -31,31 +57,8 @@ if not set -qU fish_initialized;
   set -Ux MANPAGER 'nvim -c "set ft=man" -'
   set -Ux LESS '--RAW-CONTROL-CHARS --tabs=4'
 
-  # terminal
-  if type -q alacritty
-    set -Ux TERMINAL alacritty
-  end
-
-  # browser
-  if set -qx WSL
-    set -Ux BROWSER wsl-open
-  else
-    if type -q firefox-nightly
-      set -Ux BROWSER firefox-nightly
-    else if type -q firefox
-      set -Ux BROWSER firefox
-    else if type -q google-chrome
-      set -Ux BROWSER google-chrome
-    else
-      set -Ux BROWSER lynx
-    end
-  end
-
   # ccache
   set -Ux CCACHE_DIR "$HOME/.cache/ccache"
-
-  # libvirt
-  set -Ux LIBVIRT_DEFAULT_URI qemu:///system
 
   # golang
   set -Ux GOENV_ROOT "$HOME/.local/share/goenv"
