@@ -493,7 +493,7 @@ section "CLI"
   go_get "github.com/simeji/jid/cmd/jid"
   go_get "mvdan.cc/xurls/cmd/xurls"
 
-  if uname -R | grep -F "Microsoft" >/dev/null; then
+  if uname -r | grep -F "Microsoft" >/dev/null; then
     npm_install "wsl-open"
   fi
 endsection
