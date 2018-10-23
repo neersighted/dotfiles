@@ -96,14 +96,14 @@ section "Packages"
 
       BLD="autoconf bison build-essential ccache clang cmake pkgconf"
       LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libyaml-dev zlib1g-dev"
-      USR="curl exuberant-ctags fish gdb gnupg htop lftp mosh neovim rcm shellcheck socat tig tmux unzip vim whois"
+      USR="curl exuberant-ctags fish gdb gnupg htop jq lftp mosh neovim rcm shellcheck socat tig tmux unzip vim whois"
 
       INSTALLED=$(dpkg-query -f '${binary:Package}\n' -W)
       ;;
     FreeBSD)
       BLD="ccache cmake gcc gmake pkgconf"
       LIB="libssh2 openssl sqlite3"
-      USR="bash coreutils curl fish gdb gnupg htop lftp mosh neovim pinentry-curses hs-ShellCheck rcm socat tig tmux universal-ctags unzip vim whois"
+      USR="bash coreutils curl fish gdb gnupg htop jq lftp mosh neovim pinentry-curses hs-ShellCheck rcm socat tig tmux universal-ctags unzip vim whois"
 
       INSTALLED=$(pkg info -q)
       ;;
@@ -115,7 +115,7 @@ section "Packages"
 
       BLD="ccache cmake"
       LIB="readline zlib"
-      USR="coreutils ctags curl findutils fish gdb gnupg htop lftp mosh neovim pinentry-mac rcm reattach-to-user-namespace shellcheck socat tmux unzip vim xz"
+      USR="coreutils ctags curl findutils fish gdb gnupg htop jq lftp mosh neovim pinentry-mac rcm reattach-to-user-namespace shellcheck socat tmux unzip vim xz"
 
       INSTALLED=$(brew list)
       ;;

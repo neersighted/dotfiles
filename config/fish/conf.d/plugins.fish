@@ -4,7 +4,7 @@ if not set -qU fish_initialized;
   #
 
   # core
-  set -Ux FZF_DEFAULT_COMMAND 'fd --type file'
+  set -Ux FZF_DEFAULT_COMMAND 'fd --type file --type symlink'
 
   # plugin (commands)
   set -U FZF_OPEN_COMMAND $FZF_DEFAULT_COMMAND

@@ -13,7 +13,7 @@ if status --is-login
   end
 
   # mosh detection
-  if test (ps -o comm= (ps -o ppid= %self | tr -d ' ')) = 'mosh-server'
+  if test (ps -o comm= (ps -o ppid= %self | string trim -l)) = 'mosh-server'
     set -x MOSH 1
   end
 
@@ -32,7 +32,7 @@ if status --is-interactive
   end
 end
 
-# global configuration
+# universal configuration
 if not set -qU fish_initialized;
   # linux-specific
   if test (uname) = 'Linux'
@@ -91,4 +91,9 @@ if not set -qU fish_initialized;
   # rust
   set -Ux RUSTUP_HOME "$XDG_DATA_HOME/rustup"
   set -Ux CARGO_HOME "$XDG_DATA_HOME/cargo"
+end
+
+# always respect universal configuration (ignore inherited environment)
+for var in (set -Ux | string replace -rf '^([\w]+) .*' '$1')
+  set -eg $var
 end

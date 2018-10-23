@@ -1,7 +1,5 @@
-# first-time universal variable provisioning
-# this allows variables to be overridden locally with set -U(x)
-# set -Ue fish_initialized to reset
-if not set -qU fish_initialized;
+# we've finished universal configuration initialization at this point
+if not set -qU fish_initialized
   set -U fish_initialized
 end
 
