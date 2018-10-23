@@ -105,7 +105,7 @@ section "Packages"
 
       BLD="ccache cmake"
       LIB="readline zlib"
-      USR="coreutils ctags curl fish gdb gnupg htop lftp mosh neovim pinentry-mac rcm reattach-to-user-namespace shellcheck socat tmux unzip vim xz"
+      USR="coreutils ctags curl findutils fish gdb gnupg htop lftp mosh neovim pinentry-mac rcm reattach-to-user-namespace shellcheck socat tmux unzip vim xz"
 
       INSTALLED=$(brew list)
       ;;
