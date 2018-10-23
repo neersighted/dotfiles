@@ -1,1 +1,1 @@
-/home/neersighted/.nodenv/completions/nodenv.fish
+source "$NODENV_ROOT/completions/nodenv.fish"

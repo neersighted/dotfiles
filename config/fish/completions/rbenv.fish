@@ -1,1 +1,1 @@
-/home/neersighted/.rbenv/completions/rbenv.fish
+source "$RBENV_ROOT/completions/rbenv.fish"

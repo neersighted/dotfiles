@@ -1,1 +1,1 @@
-/home/neersighted/.pyenv/completions/pyenv.fish
+source "$PYENV_ROOT/completions/pyenv.fish"

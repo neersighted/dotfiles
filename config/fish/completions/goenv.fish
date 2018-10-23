@@ -1,1 +1,1 @@
-/home/neersighted/.goenv/completions/goenv.fish
+source "$GOENV_ROOT/completions/goenv.fish"
