@@ -5,7 +5,7 @@ module.exports = {
     "oni.statusbar.enabled": false,
     "oni.useExternalPopupMenu": false,
     "editor.scrollBar.visible": false,
-    "editor.completions.enabled": false,
+    "editor.completions.mode": "native",
     "editor.fontSize": "10pt",
     "editor.fontFamily": "Source Code Pro",
 }
