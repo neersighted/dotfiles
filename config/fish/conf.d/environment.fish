@@ -22,6 +22,9 @@ if not set -qU fish_initialized;
     end
   end
 
+  # ccache
+  set -Ux CCACHE_DIR "$HOME/.cache/ccache"
+
   # libvirt
   set -Ux LIBVIRT_DEFAULT_URI qemu:///system
 
