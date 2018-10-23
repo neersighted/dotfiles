@@ -104,7 +104,7 @@ ascii_distro="auto"
 ascii_colors=(distro)
 ascii_bold="on"
 
-thumbnail_dir="${XDG_CACHE_HOME:-${HOME}/.cache}/thumbnails/neofetch"
+thumbnail_dir="${XDG_CACHE_HOME:-$HOME/.cache}/thumbnails/neofetch"
 crop_mode="normal"
 crop_offset="center"
 image_size="auto"

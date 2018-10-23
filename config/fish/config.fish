@@ -32,9 +32,9 @@ if status --is-login
 
   # coreutils
   if type -q dircolors
-    source (dircolors -c "$HOME/.config/dircolors" | psub)
+    source (dircolors -c "$XDG_CONFIG_HOME/dircolors" | psub)
   else if type -q gdircolors
-    source (gdircolors -c "$HOME/.config/dircolors" | psub)
+    source (gdircolors -c "$XDG_CONFIG_HOME/dircolors" | psub)
   end
 
   # less

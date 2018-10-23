@@ -58,6 +58,16 @@ selectversion() {
     }'
 }
 
+if [ -z "$XDG_CONFIG_HOME" ]; then
+  export XDG_CONFIG_HOME="$HOME/.config"
+fi
+if [ -z "$XDG_DATA_HOME" ]; then
+  export XDG_DATA_HOME="$HOME/.local/share"
+fi
+if [ -z "$XDG_CACHE_HOME" ]; then
+  export XDG_CACHE_HOME="$HOME/.cache"
+fi
+
 UNAME=$(uname)
 
 #
@@ -161,9 +171,9 @@ section "fish"
     fi
   fi
 
-  if [ ! -f "$HOME/.config/fish/functions/fisher.fish" ]; then
+  if [ ! -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
     info "Downloading fisher..."
-    curl https://git.io/fisher -fLo "$HOME/.config/fish/functions/fisher.fish"
+    curl https://git.io/fisher -fLo "$XDG_CONFIG_HOME/fish/functions/fisher.fish"
   fi
 
   info "Installing and updating fish plugins using fisher..."
@@ -180,7 +190,7 @@ important "Configuring language support and tooling..."
 
 section "Golang"
   if [ -z "$GOENV_ROOT" ]; then
-    export GOENV_ROOT="$HOME/.local/share/goenv"
+    export GOENV_ROOT="$XDG_DATA_HOME/goenv"
   fi
 
   if [ -d "$GOENV_ROOT" ]; then
@@ -204,7 +214,7 @@ section "Golang"
   fi
 
   if [ -z "$GOPATH" ]; then
-    export GOPATH="$HOME/.local/share/go"
+    export GOPATH="$XDG_DATA_HOME/go"
   fi
 
   GOGET_INSTALLED=$(go list ...)
@@ -228,7 +238,7 @@ endsection
 
 section "Node.js"
   if [ -z "$NODENV_ROOT" ]; then
-    export NODENV_ROOT="$HOME/.local/share/nodenv"
+    export NODENV_ROOT="$XDG_DATA_HOME/nodenv"
   fi
 
   if [ -d "$NODENV_ROOT" ]; then
@@ -277,7 +287,7 @@ endsection
 
 section "Python"
   if [ -z "$PYENV_ROOT" ]; then
-    export PYENV_ROOT="$HOME/.local/share/pyenv"
+    export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
   fi
 
   if [ -d "$PYENV_ROOT" ]; then
@@ -321,10 +331,10 @@ section "Python"
   done
 
   if [ -z "$PIPX_HOME" ]; then
-    export PIPX_HOME="$HOME/.local/share/pipx/venvs"
+    export PIPX_HOME="$XDG_DATA_HOME/pipx/venvs"
   fi
   if [ -z "$PIPX_BIN_DIR" ]; then
-    export PIPX_BIN_DIR="$HOME/.local/share/pipx/bin"
+    export PIPX_BIN_DIR="$XDG_DATA_HOME/pipx/bin"
   fi
   export PATH="$PIPX_BIN_DIR:$PATH"
 
@@ -379,7 +389,7 @@ endsection
 
 section "Ruby"
   if [ -z "$RBENV_ROOT" ]; then
-    export RBENV_ROOT="$HOME/.local/share/rbenv"
+    export RBENV_ROOT="$XDG_DATA_HOME/rbenv"
   fi
 
   if [ -d "$RBENV_ROOT" ]; then
@@ -408,10 +418,10 @@ endsection
 
 section "Rust"
   if [ -z "$RUSTUP_HOME" ]; then
-    export RUSTUP_HOME="$HOME/.local/share/rustup"
+    export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
   fi
   if [ -z "$CARGO_HOME" ]; then
-    export CARGO_HOME="$HOME/.local/share/cargo"
+    export CARGO_HOME="$XDG_DATA_HOME/cargo"
   fi
 
   export PATH="$CARGO_HOME/bin:$PATH"
@@ -427,7 +437,7 @@ section "Rust"
   fi
 
   info "Regenerating rustup shell completions..."
-  rustup completions fish > "$HOME/.config/fish/completions/rustup.fish"
+  rustup completions fish > "$XDG_CONFIG_HOME/fish/completions/rustup.fish"
 
   CARGO_INSTALLED=$(cargo install --list)
   cargo_install() {
@@ -453,7 +463,7 @@ section "Rust"
         completion=$(find "$CARGO_BUILD_TARGET_DIR/release/build" -name '*.fish')
         if [ -n "$completion" ]; then
           info "Installing fish completion for $target..."
-          cp "$completion" "$HOME/.config/fish/completions"
+          cp "$completion" "$XDG_CONFIG_HOME/fish/completions"
         fi
       fi
     )
@@ -506,7 +516,7 @@ section "GDB"
   else
     info "Installing gdb-dashboard..."
   fi
-  curl https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -fLo "$HOME/.local/share/gdb-dashboard"
+  curl https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -fLo "$XDG_DATA_HOME/gdb-dashboard"
 endsection
 
 

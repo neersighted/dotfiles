@@ -14,10 +14,6 @@
 # General Config
 #
 
-[core]
-    excludesFile = ~/.config/git/ignore
-    attributesFile = ~/.config/git/attributes
-
 [status]
     short = true
     branch = true
@@ -106,4 +102,4 @@
 #
 
 [include]
-    path = ~/.config/git/config.local
+    path = config.local

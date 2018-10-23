@@ -159,7 +159,7 @@ format-underline = ${colors.underline-2}
 
 [module/volume]
 type        = custom/script
-exec        = ~/.config/polybar/volume.sh
+exec        = ${env:XDG_CONFIG_HOME}/polybar/volume.sh
 click-right = exec pavucontrol-qt
 click-left  = ponymix toggle
 scroll-up   = ponymix -N increase 1

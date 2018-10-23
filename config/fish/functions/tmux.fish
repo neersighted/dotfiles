@@ -1,3 +1,3 @@
 function tmux -d 'terminal multiplexer'
-  command tmux -f "$HOME/.config/tmux/tmux.conf" $argv
+  command tmux -f "$XDG_CONFIG_HOME/tmux/tmux.conf" $argv
 end
