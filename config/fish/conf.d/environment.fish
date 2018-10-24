@@ -71,7 +71,7 @@ if not set -qU fish_initialized
   # pager
   set -Ux PAGER less
   set -Ux MANPAGER 'nvim -c "set ft=man" -'
-  set -Ux LESS '--RAW-CONTROL-CHARS' '--tabs=4'
+  set -Ux LESS '--RAW-CONTROL-CHARS --tabs=4'
 
   # ccache
   set -Ux CCACHE_DIR $XDG_CACHE_HOME/ccache
