@@ -1,5 +1,5 @@
 if not set -qU fish_initialized
-  source "$XDG_CONFIG_HOME/fish/solarized.fish"
+  source $XDG_CONFIG_HOME/fish/solarized.fish
 
   # prompt
   set -U fish_prompt_pwd_dir_length 3

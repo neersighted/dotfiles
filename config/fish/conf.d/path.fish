@@ -2,17 +2,17 @@ if not set -qU fish_initialized
   # personal
   set -U fish_user_paths \
     # rust
-    "$CARGO_HOME/bin" \
+    $CARGO_HOME/bin \
     # ruby
-    "$RBENV_ROOT/shims" "$RBENV_ROOT/bin" \
+    $RBENV_ROOT/shims $RBENV_ROOT/bin \
     # python
-    "$PIPX_BIN_DIR" "$PYENV_ROOT/shims" "$PYENV_ROOT/bin" \
+    $PIPX_BIN_DIR $PYENV_ROOT/shims $PYENV_ROOT/bin \
     # nodejs
-    "$NODENV_ROOT/shims" "$NODENV_ROOT/bin" \
+    $NODENV_ROOT/shims $NODENV_ROOT/bin \
     # golang
-    "$GOPATH/bin" "$GOENV_ROOT/shims" "$GOENV_ROOT/bin" \
+    $GOPATH/bin $GOENV_ROOT/shims $GOENV_ROOT/bin \
     # dotfiles
-    "$HOME/.local/bin"
+    $HOME/.local/bin
 
   # ccache
   for path in \
@@ -23,7 +23,7 @@ if not set -qU fish_initialized
     # linux
     /usr/lib/ccache
 
-    if test -d "$path"
+    if test -d $path
       set -U fish_user_paths $fish_user_paths $path
       break
     end

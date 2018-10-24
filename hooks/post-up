@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if ! [ -L "$HOME/.vim/.pack" ]; then
+if [ ! -L "$HOME/.vim/.pack" ]; then
   ln -sf ../.dotfiles/vim/.pack "$HOME/.vim/.pack"
 fi
 

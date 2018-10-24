@@ -2,14 +2,14 @@
 if status --is-login
   # xdg
   if not set -qg XDG_CONFIG_HOME
-    set -x XDG_CONFIG_HOME "$HOME/.config"
+    set -x XDG_CONFIG_HOME $HOME/.config
   end
 
   if not set -qg XDG_DATA_HOME
-    set -x XDG_DATA_HOME "$HOME/.local/share"
+    set -x XDG_DATA_HOME $HOME/.local/share
   end
   if not set -qg XDG_CACHE_HOME
-    set -x XDG_CACHE_HOME "$HOME/.cache"
+    set -x XDG_CACHE_HOME $HOME/.cache
   end
 
   # mosh detection
@@ -28,7 +28,7 @@ end
 # interactive features
 if status --is-interactive
   # color support detection
-  if not set -qg COLORTERM; and not string match -q '(xterm|linux)' "$TERM"
+  if not set -qg COLORTERM; and not string match -q '(xterm|linux)' $TERM
     set -x COLORTERM 'truecolor'
   end
 
@@ -71,30 +71,30 @@ if not set -qU fish_initialized
   # pager
   set -Ux PAGER less
   set -Ux MANPAGER 'nvim -c "set ft=man" -'
-  set -Ux LESS '--RAW-CONTROL-CHARS --tabs=4'
+  set -Ux LESS '--RAW-CONTROL-CHARS' '--tabs=4'
 
   # ccache
-  set -Ux CCACHE_DIR "$XDG_CACHE_HOME/ccache"
+  set -Ux CCACHE_DIR $XDG_CACHE_HOME/ccache
 
   # golang
-  set -Ux GOENV_ROOT "$XDG_DATA_HOME/goenv"
-  set -Ux GOPATH "$XDG_DATA_HOME/go"
+  set -Ux GOENV_ROOT $XDG_DATA_HOME/goenv
+  set -Ux GOPATH $XDG_DATA_HOME/go
 
   # node.js
-  set -Ux NODENV_ROOT "$XDG_DATA_HOME/nodenv"
-  set -Ux NPM_CONFIG_CACHE "$XDG_CACHE_HOME/npm"
+  set -Ux NODENV_ROOT $XDG_DATA_HOME/nodenv
+  set -Ux NPM_CONFIG_CACHE $XDG_CACHE_HOME/npm
 
   # python
-  set -Ux PYENV_ROOT "$XDG_DATA_HOME/pyenv"
-  set -Ux PIPX_HOME "$XDG_DATA_HOME/pipx/venvs"
-  set -Ux PIPX_BIN_DIR "$XDG_DATA_HOME/pipx/bin"
+  set -Ux PYENV_ROOT $XDG_DATA_HOME/pyenv
+  set -Ux PIPX_HOME $XDG_DATA_HOME/pipx/venvs
+  set -Ux PIPX_BIN_DIR $XDG_DATA_HOME/pipx/bin
   set -Ux PIPENV_SHELL_FANCY 1
 
   # ruby
-  set -Ux RBENV_ROOT "$XDG_DATA_HOME/rbenv"
-  set -Ux GEM_SPEC_CACHE "$XDG_CACHE_HOME/gem"
+  set -Ux RBENV_ROOT $XDG_DATA_HOME/rbenv
+  set -Ux GEM_SPEC_CACHE $XDG_CACHE_HOME/gem
 
   # rust
-  set -Ux RUSTUP_HOME "$XDG_DATA_HOME/rustup"
-  set -Ux CARGO_HOME "$XDG_DATA_HOME/cargo"
+  set -Ux RUSTUP_HOME $XDG_DATA_HOME/rustup
+  set -Ux CARGO_HOME $XDG_DATA_HOME/cargo
 end

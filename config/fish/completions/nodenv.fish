@@ -1,1 +1,1 @@
-source "$NODENV_ROOT/completions/nodenv.fish"
+source $NODENV_ROOT/completions/nodenv.fish

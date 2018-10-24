@@ -1,1 +1,1 @@
-source "$GOENV_ROOT/completions/goenv.fish"
+source $GOENV_ROOT/completions/goenv.fish

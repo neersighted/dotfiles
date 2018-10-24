@@ -1,6 +1,6 @@
 function __history_previous_arguments
   switch (commandline -t)
-  case '!'
+  case !
     commandline -t ''
     commandline -f history-token-search-backward
   case '*'

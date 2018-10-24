@@ -1,6 +1,6 @@
 function __sudo_toggle
   set -l command_buffer (commandline)
-  if test -z "$command_buffer"
+  if test -z $command_buffer
     set command_buffer $history[1]
   end
 
@@ -17,7 +17,7 @@ function __sudo_toggle
 
       commandline -r (string join \n (printf '%ssudo %s' $whitespace $command) $command_multi)
 
-      test $cursor_position -ge (string length "$whitespace")
+      test $cursor_position -ge (string length $whitespace)
         and set cursor_position (math $cursor_position + 5)
     case 4
       set -l whitespace $command_split[2]
@@ -26,8 +26,8 @@ function __sudo_toggle
 
       commandline -r (string join \n (printf '%s%s' $whitespace $command) $command_multi)
 
-      set -l whitespace_length (string length "$whitespace")
-      set -l sudo_length (string length "$sudo")
+      set -l whitespace_length (string length $whitespace)
+      set -l sudo_length (string length $sudo)
 
       if test $cursor_position -ge (math $whitespace_length + $sudo_length)
         set cursor_position (math $cursor_position - $sudo_length)

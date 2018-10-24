@@ -2,10 +2,10 @@ function nodenv -d 'node environment manager'
   set command $argv[1]
   set -e argv[1]
 
-  switch "$command"
+  switch $command
   case rehash shell
-    source (nodenv "sh-$command" $argv | psub)
+    source (nodenv sh-$command $argv | psub)
   case '*'
-    command nodenv "$command" $argv
+    command nodenv $command $argv
   end
 end

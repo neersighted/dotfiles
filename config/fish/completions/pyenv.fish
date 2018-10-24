@@ -1,1 +1,1 @@
-source "$PYENV_ROOT/completions/pyenv.fish"
+source $PYENV_ROOT/completions/pyenv.fish
