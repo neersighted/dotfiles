@@ -384,6 +384,7 @@ section "Python"
   pipx_install "pipenv"
   pipx_install "pylint"
   pipx_install "python-language-server[all]" "python-language-server"
+  pipx_install "rwt"
 endsection
 
 
