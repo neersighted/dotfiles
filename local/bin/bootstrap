@@ -490,8 +490,10 @@ important "Configuring additional toolchain components..."
 
 section "CLI"
   pipx_install "asciinema"
+  cargo_install "bat"
   cargo_install "hyperfine"
   go_get "github.com/simeji/jid/cmd/jid"
+  pipx_install "shell-functools"
   go_get "mvdan.cc/xurls/cmd/xurls"
 
   if uname -r | grep -Fq "Microsoft"; then
