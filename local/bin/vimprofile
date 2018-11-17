@@ -4,7 +4,7 @@
 from collections import OrderedDict
 from decimal import Decimal
 from itertools import chain
-from os.path import basename
+from os import getenv
 from re import compile as re
 from shutil import get_terminal_size
 from subprocess import run
@@ -120,9 +120,7 @@ def parse_startup(log: IO[str]) -> Profile:
 
 def main() -> None:
     """Profile (n)vim startup time."""
-    vim = "vim"
-    if basename(argv[0]) == "nvimprofile":
-        vim = "nvim"
+    vim = getenv("VIMPROFILE", "vim")
 
     with NamedTemporaryFile(mode="r") as startup_log:
         run(

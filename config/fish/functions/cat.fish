@@ -1,5 +1,5 @@
 if command -sq bat
-  function cat -w bat -d 'read and concaternate files (bat)'
+  function cat -d 'read and concaternate files (bat)'
     command bat $argv
   end
 else

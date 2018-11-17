@@ -565,7 +565,7 @@ section "Vim"
 
   pipx_install "neovim-remote"
   pipx_install "vim-vint"
-  cargo_install "pack" "https://github.com/neersighted/pack"
+  cargo_install "pack" "https://github.com/maralla/pack"
 
   if [ ! -e "$HOME/.vim/pack" ];  then
     info "Installing Vim plugins using pack..."

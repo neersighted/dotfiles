@@ -89,6 +89,7 @@ if not set -qU fish_initialized
   set -Ux PIPX_HOME $XDG_DATA_HOME/pipx/venvs
   set -Ux PIPX_BIN_DIR $XDG_DATA_HOME/pipx/bin
   set -Ux PIPENV_SHELL_FANCY 1
+  set -Ux PIPENV_VENV_IN_PROJECT 1
 
   # ruby
   set -Ux RBENV_ROOT $XDG_DATA_HOME/rbenv
