@@ -1,1 +1,3 @@
-vimprofile
+#!/bin/sh
+
+VIMPROFILE=nvim exec vimprofile $@

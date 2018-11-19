@@ -72,6 +72,7 @@ if not set -qU fish_initialized
   set -Ux PAGER less
   set -Ux MANPAGER 'nvim -c "set ft=man" -'
   set -Ux LESS '--RAW-CONTROL-CHARS --tabs=4'
+  set -Ux LESSHISTFILE $XDG_CACHE_HOME/lesshist
 
   # ccache
   set -Ux CCACHE_DIR $XDG_CACHE_HOME/ccache
@@ -90,6 +91,7 @@ if not set -qU fish_initialized
   set -Ux PIPX_BIN_DIR $XDG_DATA_HOME/pipx/bin
   set -Ux PIPENV_SHELL_FANCY 1
   set -Ux PIPENV_VENV_IN_PROJECT 1
+  set -Ux PYLINTHOME $XDG_CACHE_HOME/pylint
 
   # ruby
   set -Ux RBENV_ROOT $XDG_DATA_HOME/rbenv
@@ -98,4 +100,7 @@ if not set -qU fish_initialized
   # rust
   set -Ux RUSTUP_HOME $XDG_DATA_HOME/rustup
   set -Ux CARGO_HOME $XDG_DATA_HOME/cargo
+
+  # (n)vim
+  set -Ux VIM_CONFIG_PATH $XDG_CONFIG_HOME/nvim
 end

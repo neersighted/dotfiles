@@ -1,9 +1,5 @@
 #!/bin/sh
 
 if [ ! -L "$HOME/.vim/.pack" ]; then
-  ln -sf ../.dotfiles/vim/.pack "$HOME/.vim/.pack"
-fi
-
-if command -v pack >/dev/null; then
-  pack generate
+  ln -sf "$HOME/.dotfiles/config/nvim/.pack" "$HOME/.config/nvim/.pack"
 fi

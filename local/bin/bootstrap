@@ -495,6 +495,7 @@ section "CLI"
   go_get "github.com/simeji/jid/cmd/jid"
   pipx_install "shell-functools"
   go_get "mvdan.cc/xurls/cmd/xurls"
+  cargo_install "watchexec"
 
   if uname -r | grep -Fq "Microsoft"; then
     npm_install "wsl-open"
@@ -545,18 +546,18 @@ section "fzf"
 endsection
 
 
-section "Vim"
+section "(n)vim"
   if ! command -v neovim-node-host >/dev/null; then
     info "Installing Node.js Neovim provider..."
     npm install -g neovim
   fi
-  if ! python2 -c "import neovim" 2>/dev/null; then
+  if ! python2 -c "import pynvim" 2>/dev/null; then
     info "Installing Python 2 Neovim provider..."
-    python2 -m pip install -U neovim
+    python2 -m pip install -U pynvim
   fi
-  if ! python3 -c "import neovim" 2>/dev/null; then
+  if ! python3 -c "import pynvim" 2>/dev/null; then
     info "Installing Python 3 Neovim provider..."
-    python3 -m pip install -U neovim
+    python3 -m pip install -U pynvim
   fi
   if ! command -v neovim-ruby-host >/dev/null; then
     info "Installing Ruby Neovim provider..."
@@ -567,11 +568,13 @@ section "Vim"
   pipx_install "vim-vint"
   cargo_install "pack" "https://github.com/maralla/pack"
 
+  export VIM_CONFIG_PATH="$XDG_CONFIG_HOME/nvim"
+
   if [ ! -e "$HOME/.vim/pack" ];  then
-    info "Installing Vim plugins using pack..."
+    info "Installing neovim plugins using pack..."
     pack install
   else
-    info "Updating Vim plugins using pack..."
+    info "Updating neovim plugins using pack..."
     pack update
   fi
 endsection
