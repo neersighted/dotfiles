@@ -167,4 +167,4 @@ scroll-down = ponymix -N decrease 1
 
 label-underline = ${colors.underline-2}
 
-; vi:ft=dosini
+; vim: ft=dosini

@@ -14,5 +14,3 @@ set color_violet  \#6c71c4 brmagenta
 set color_blue    \#268bd2 blue
 set color_cyan    \#2aa198 cyan
 set color_green   \#859900 green
-
-# vi:ft=fish:

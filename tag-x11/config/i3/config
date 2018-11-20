@@ -6,7 +6,7 @@ default_orientation horizontal
 set $mod Mod4
 floating_modifier $mod
 
-for_window [class="quickterm"] floating enable
+for_window [instance="quickterm"] floating enable, move position center
 for_window [class="Xsel"] exec xdotool search --class 'xsel' windowunmap
 
 bindsym Mod1+Tab exec --no-startup-id rofi-tab
@@ -17,16 +17,7 @@ bindsym $mod+grave exec --no-startup-id quickterm
 bindsym $mod+Shift+grave exec $TERMINAL
 bindsym $mod+BackSpace exec --no-startup-id quickterm ncmpcpp
 
-set $system system: [l]ogout, [p]oweroff, [r]eboot
-mode "$system" {
-    bindsym l exit
-    bindsym p exec --no-startup-id systemctl poweroff
-    bindsym r exec --no-startup-id systemctl reboot
-    bindsym Escape mode "default"
-}
-
 bindsym $mod+Escape exec --no-startup-id lockx
-bindsym $mod+Shift+Escape mode "$system"
 
 bindsym $mod+q kill
 bindsym $mod+Shift+q exit
@@ -126,6 +117,4 @@ client.background        $base03
 
 font pango:Source Code Pro Light 7
 
-exec_always --no-startup-id systemctl --user restart polybar@main
-
-# vim:ft=i3
+# vim: ft=i3config

@@ -63,5 +63,3 @@ if not set -qU fish_initialized
   set -U fish_color_selection $color_base3 --background=$color_cyan
   set -U fish_color_valid_path --underline
 end
-
-# vi:ft=fish:

@@ -74,4 +74,4 @@
     format  = "vol: <b>%n%</b>"
     timeout = 1
 
-# vim: ft=cfg
+# vim: ft=dosini

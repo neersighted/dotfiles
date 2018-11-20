@@ -7,7 +7,7 @@ end
 set -l tty
 
 # local startup and setup
-if not set -qg TMUX; and not set -qg SSH_CLIENT
+if not set -qg TMUX; and not set -qg SSH_CLIENT; and not set -qg QUICKTERM
   if status --is-login
     if command -sq weasel-pageant; and command -sq gpg-connect-agent.exe
       # connect ssh to windows gpg-agent via weasel-pageant
@@ -23,31 +23,21 @@ if not set -qg TMUX; and not set -qg SSH_CLIENT
     set tty (tty)
 
     if not set -qg DISPLAY; and string match -q -r '^/dev/tty(1|v0)$' $tty
-      # start x11 if installed (first tty only)
-      command -sq startx; and exec startx
+      # start i3 if installed (first tty only)
+      command -sq i3; and exec startx $XDG_CONFIG_HOME/xinit/i3
     else
       set -l session
-      set -l shared_session false
 
       if string match -q -r '^/dev/(pts/\d+|ttys\d+)$' $tty
         # use shared tmux session (pseudoterminals only)
         set session (prompt_hostname)
-        set shared_session true
       else
         # use tty-specific tmux session
         set session $tty
       end
 
       # create or attach to tmux session
-      if tmux has-session -t $session 2>/dev/null
-        if test $shared_session = true
-          tmux new-session -t $session\; set-option destroy-unattached
-        else
-          tmux attach-session -t $session
-        end
-      else
-        tmux new-session -s $session
-      end
+      tmux new-session -A -s $session
     end
   end
 end
