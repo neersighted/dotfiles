@@ -96,14 +96,14 @@ section "Packages"
 
       BLD="autoconf bison build-essential ccache clang cmake pkgconf"
       LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libyaml-dev zlib1g-dev"
-      USR="cmatrix curl exuberant-ctags fish fortune gdb gnupg htop jq lftp mosh neovim rcm shellcheck socat tig tmux unzip vim vlock whois"
+      USR="cmatrix curl exuberant-ctags fish fortune gdb gnupg htop jq lftp mosh neofetch neovim rcm shellcheck socat tig tmux unzip vim vlock whois"
 
       INSTALLED=$(dpkg-query -f '${binary:Package}\n' -W)
       ;;
     FreeBSD)
       BLD="ccache cmake gcc gmake pkgconf"
       LIB="libssh2 openssl sqlite3"
-      USR="bash cmatrix coreutils curl fish fortune gdb gnupg htop jq lftp mosh neovim pinentry-curses hs-ShellCheck rcm socat tig tmux universal-ctags unzip vim vlock whois"
+      USR="bash cmatrix coreutils curl fish fortune gdb gnupg htop jq lftp mosh neofetch neovim pinentry-curses hs-ShellCheck rcm socat tig tmux universal-ctags unzip vim vlock whois"
 
       INSTALLED=$(pkg info -q)
       ;;
@@ -115,7 +115,7 @@ section "Packages"
 
       BLD="ccache cmake"
       LIB="readline zlib"
-      USR="cmatrix coreutils ctags curl findutils fish fortune gdb gnupg htop jq lftp mosh neovim pinentry-mac rcm reattach-to-user-namespace shellcheck socat tmux unzip vim xz"
+      USR="cmatrix coreutils ctags curl findutils fish fortune gdb gnupg htop jq lftp mosh neofetch neovim pinentry-mac rcm reattach-to-user-namespace shellcheck socat tmux unzip vim xz"
 
       INSTALLED=$(brew list)
       ;;
