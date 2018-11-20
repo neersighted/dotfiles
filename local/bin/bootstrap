@@ -96,14 +96,14 @@ section "Packages"
 
       BLD="autoconf bison build-essential ccache clang cmake pkgconf"
       LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libyaml-dev zlib1g-dev"
-      USR="cmatrix curl exuberant-ctags fish fortune gdb gnupg htop jq lftp mosh neofetch neovim python3 python3-venv rcm shellcheck socat tig tmux unzip vim vlock whois"
+      USR="cmatrix curl exuberant-ctags fish fortune gdb gnupg htop jq lftp mosh neofetch neovim python3 python3-venv rcm shellcheck socat tig tmux unzip vlock whois"
 
       INSTALLED=$(dpkg-query -f '${binary:Package}\n' -W)
       ;;
     FreeBSD)
       BLD="ccache cmake gcc gmake pkgconf"
       LIB="libssh2 openssl sqlite3"
-      USR="bash cmatrix coreutils curl fish gdb gnupg htop jq lftp mosh neofetch neovim pinentry-curses python3 hs-ShellCheck rcm socat tig tmux universal-ctags unzip vim vlock whois"
+      USR="bash cmatrix coreutils curl fish gdb gnupg htop jq lftp mosh neofetch neovim pinentry-curses python3 hs-ShellCheck rcm socat tig tmux universal-ctags unzip vlock whois"
 
       INSTALLED=$(pkg info -q)
       ;;
@@ -404,8 +404,21 @@ section "Ruby"
     rbenv global "$RUBY_VERSION"
   fi
 
+  info "Updating gem..."
+  gem update --system
+
   info "Updating gem packages..."
   gem update
+
+  GEM_INSTALLED=$(gem list --no-versions)
+  gem_install() {
+    local target="$1"
+
+    if ! echo "$GEM_INSTALLED" | grep -Fq "$target"; then
+      info "Installing $target using gem..."
+      gem install "$target"
+    fi
+  }
 endsection
 
 
@@ -553,11 +566,6 @@ endsection
 
 
 section "(n)vim"
-  if ! command -v neovim-node-host >/dev/null; then
-    info "Installing Node.js Neovim provider..."
-    npm install -g neovim
-  fi
-
   for pair in neovim2:$PYTHON2_VERSION neovim3:$PYTHON3_VERSION; do
     venv=$(echo "$pair" | cut -d: -f1)
     vers=$(echo "$pair" | cut -d: -f2)
@@ -570,14 +578,11 @@ section "(n)vim"
     fi
   done
 
-  if ! command -v neovim-ruby-host >/dev/null; then
-    info "Installing Ruby Neovim provider..."
-    gem install neovim
-  fi
-
+  npm_install "neovim"
+  gem_install "neovim"
   pipx_install "neovim-remote"
-  pipx_install "vim-vint"
   cargo_install "pack" "https://github.com/maralla/pack"
+  pipx_install "vim-vint"
 
   export VIM_CONFIG_PATH="$XDG_CONFIG_HOME/nvim"
 
