@@ -96,14 +96,14 @@ section "Packages"
 
       BLD="autoconf bison build-essential ccache clang cmake pkgconf"
       LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libyaml-dev zlib1g-dev"
-      USR="cmatrix curl exuberant-ctags fish fortune gdb gnupg htop jq lftp mosh neofetch neovim rcm shellcheck socat tig tmux unzip vim vlock whois"
+      USR="cmatrix curl exuberant-ctags fish fortune gdb gnupg htop jq lftp mosh neofetch neovim python3 python3-venv rcm shellcheck socat tig tmux unzip vim vlock whois"
 
       INSTALLED=$(dpkg-query -f '${binary:Package}\n' -W)
       ;;
     FreeBSD)
       BLD="ccache cmake gcc gmake pkgconf"
       LIB="libssh2 openssl sqlite3"
-      USR="bash cmatrix coreutils curl fish gdb gnupg htop jq lftp mosh neofetch neovim pinentry-curses hs-ShellCheck rcm socat tig tmux universal-ctags unzip vim vlock whois"
+      USR="bash cmatrix coreutils curl fish gdb gnupg htop jq lftp mosh neofetch neovim pinentry-curses python3 hs-ShellCheck rcm socat tig tmux universal-ctags unzip vim vlock whois"
 
       INSTALLED=$(pkg info -q)
       ;;
@@ -115,7 +115,7 @@ section "Packages"
 
       BLD="ccache cmake"
       LIB="readline zlib"
-      USR="cmatrix coreutils ctags curl findutils fish fortune gdb gnupg htop jq lftp mosh neofetch neovim pinentry-mac rcm reattach-to-user-namespace shellcheck socat tmux unzip vim xz"
+      USR="cmatrix coreutils ctags curl findutils fish fortune gdb gnupg htop jq lftp mosh neofetch neovim pinentry-mac python rcm reattach-to-user-namespace shellcheck socat tmux unzip vim xz"
 
       INSTALLED=$(brew list)
       ;;
@@ -176,7 +176,7 @@ section "fish"
     curl https://git.io/fisher -fLo "$XDG_CONFIG_HOME/fish/functions/fisher.fish"
   fi
 
-  info "Installing and updating fish plugins using fisher..."
+  info "Syncing fish plugins using fisher..."
   fish -c fisher
 endsection
 
@@ -339,19 +339,13 @@ section "Python"
   fi
   export PATH="$PIPX_BIN_DIR:$PATH"
 
-  if [ ! -e "$PIPX_HOME/pipx/bin/python3" ]; then
-    if [ -d "$PIPX_HOME" ] || [ -d "$PIPX_BIN_DIR" ]; then
-      info "Python interpreter missing. Reinstalling pipx and managed packages..."
-      rm -rf "$PIPX_HOME"
-      rm -rf "$PIPX_BIN_DIR"
-    else
-      info "Installing pipx..."
-    fi
-    curl https://raw.githubusercontent.com/cs01/pipx/master/get-pipx.py -fsSL | python3 - --no-modify-path
+  if ! command -v pipx >/dev/null; then
+    info "Installing pipx..."
+    curl https://raw.githubusercontent.com/cs01/pipx/master/get-pipx.py -fsSL | PYENV_VERSION=system python3 - --no-modify-path
+  else
+    info "Updating pipx packages..."
+    pipx upgrade-all
   fi
-
-  info "Updating pipx packages..."
-  pipx upgrade-all
 
   PIPX_INSTALLED=$(pipx list)
   pipx_install() {
