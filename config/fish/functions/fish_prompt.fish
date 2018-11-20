@@ -8,6 +8,6 @@ function fish_prompt --description 'left prompt'
   test $USER = root
     and set_color $fish_color_user_root
     or set_color $fish_color_user
-  printf '❯ ' # prompt/user
+  printf 'λ ' # prompt/user
   set_color normal
 end
