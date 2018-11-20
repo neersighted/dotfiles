@@ -1,35 +1,27 @@
-# special environment detection
-if status --is-login
-  # xdg
+# first login (tmux creates login shells)
+if status --is-login; and not set -qg TMUX
+  # xdg directory setup
   if not set -qg XDG_CONFIG_HOME
-    set -x XDG_CONFIG_HOME $HOME/.config
+    set -gx XDG_CONFIG_HOME $HOME/.config
   end
-
   if not set -qg XDG_DATA_HOME
-    set -x XDG_DATA_HOME $HOME/.local/share
+    set -gx XDG_DATA_HOME $HOME/.local/share
   end
   if not set -qg XDG_CACHE_HOME
-    set -x XDG_CACHE_HOME $HOME/.cache
+    set -gx XDG_CACHE_HOME $HOME/.cache
   end
 
-  # mosh detection
-  if test (ps -o comm= (ps -o ppid= %self | string trim -l)) = 'mosh-server'
-    set -x MOSH 1
-  end
-
-  # wsl detection/fixup
-  if set -l uname (string match -r '\d.\d.\d-(\d+)-Microsoft' (uname -r))
-    set -x WSL $uname[2]
-    set -x DISPLAY ':0'
-    set -x SHELL (command -v fish)
+  # wsl fixup
+  if set -qg WSLENV; or string match -r '^\d.\d.\d-(\d+)-Microsoft$' (uname -r)
+    set -gx DISPLAY ':0'
+    # set -gx SHELL (command -v fish)
   end
 end
 
-# interactive features
 if status --is-interactive
-  # color support detection
-  if not set -qg COLORTERM; and not string match -q '(xterm|linux)' $TERM
-    set -x COLORTERM 'truecolor'
+  # aggressive color support
+  if not set -qg COLORTERM; and not string match -q -r '^(xterm|linux)$' $TERM
+    set -gx COLORTERM 'truecolor'
   end
 
   # ignore parent exports in favor of universal exports
@@ -40,28 +32,9 @@ end
 
 # universal configuration
 if not set -qU fish_initialized
-  # linux-specific
-  if test (uname) = 'Linux'
-    # terminal
-    if command -sq alacritty
-      set -Ux TERMINAL alacritty
-    end
-
-    # browser
-    if set -qg WSL
-      set -Ux BROWSER wsl-open
-    else
-      if command -sq firefox
-        set -Ux BROWSER firefox
-      else if command -sq google-chrome
-        set -Ux BROWSER google-chrome
-      else
-        set -Ux BROWSER lynx
-      end
-    end
-
-    # libvirt
-    set -Ux LIBVIRT_DEFAULT_URI qemu:///system
+  # terminal
+  if command -sq alacritty
+    set -Ux TERMINAL alacritty
   end
 
   # editor
@@ -73,6 +46,20 @@ if not set -qU fish_initialized
   set -Ux MANPAGER 'nvim -c "set ft=man" -'
   set -Ux LESS '--RAW-CONTROL-CHARS --tabs=4'
   set -Ux LESSHISTFILE $XDG_CACHE_HOME/lesshist
+
+  # browser
+  if command -sq wsl-open
+    set -Ux BROWSER wsl-open
+  else if command -sq firefox
+    set -Ux BROWSER firefox
+  else if command -sq google-chrome
+    set -Ux BROWSER google-chrome
+  else
+    set -Ux BROWSER lynx
+  end
+
+  # gnupg
+  set -Ux GNUPGHOME $HOME/.gnupg
 
   # ccache
   set -Ux CCACHE_DIR $XDG_CACHE_HOME/ccache
@@ -103,4 +90,7 @@ if not set -qU fish_initialized
 
   # (n)vim
   set -Ux VIM_CONFIG_PATH $XDG_CONFIG_HOME/nvim
+
+  # libvirt
+  set -Ux LIBVIRT_DEFAULT_URI qemu:///system
 end

@@ -1,6 +1,6 @@
 function __sudo_toggle
   set -l command_buffer (commandline)
-  if test -z $command_buffer
+  if test -z "$command_buffer"
     set command_buffer $history[1]
   end
 

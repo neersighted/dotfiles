@@ -189,6 +189,7 @@ important "Configuring language support and tooling..."
 
 
 section "Golang"
+  export GOENV_VERSION=
   if [ -z "$GOENV_ROOT" ]; then
     export GOENV_ROOT="$XDG_DATA_HOME/goenv"
   fi
@@ -237,6 +238,7 @@ endsection
 
 
 section "Node.js"
+  export NODENV_VERSION=
   if [ -z "$NODENV_ROOT" ]; then
     export NODENV_ROOT="$XDG_DATA_HOME/nodenv"
   fi
@@ -280,12 +282,14 @@ section "Node.js"
   }
 
   npm_install "flow-language-server"
+  npm_install "lerna"
   npm_install "pnpm"
   npm_install "yarn"
 endsection
 
 
 section "Python"
+  export PYENV_VERSION=
   if [ -z "$PYENV_ROOT" ]; then
     export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
   fi
@@ -293,9 +297,11 @@ section "Python"
   if [ -d "$PYENV_ROOT" ]; then
     info "Updating pyenv..."
     git -C "$PYENV_ROOT" pull
+    git -C "$PYENV_ROOT/plugins/pyenv-virtualenv" pull
   else
     info "Installing pyenv..."
     git clone https://github.com/pyenv/pyenv "$PYENV_ROOT"
+    git clone https://github.com/pyenv/pyenv-virtualenv "$PYENV_ROOT/plugins/pyenv-virtualenv"
   fi
 
   export PATH="$PYENV_ROOT/bin:$PATH"
@@ -389,6 +395,7 @@ endsection
 
 
 section "Ruby"
+  export RBENV_VERSION=
   if [ -z "$RBENV_ROOT" ]; then
     export RBENV_ROOT="$XDG_DATA_HOME/rbenv"
   fi
@@ -546,22 +553,51 @@ section "fzf"
 endsection
 
 
+section "GnuPG"
+  if [ -z "$GNUPGHOME" ]; then
+    export GNUPGHOME="$HOME/.gnupg"
+  fi
+
+  if [ ! -f "$GNUPGHOME/gpg-agent.conf" ]; then
+    info "Configuring gpg-agent..."
+    echo "pinentry-program $HOME/.local/bin/pinentry" > "$GNUPGHOME/gpg-agent.conf"
+  fi
+endsection
+
+
 section "(n)vim"
   if ! command -v neovim-node-host >/dev/null; then
     info "Installing Node.js Neovim provider..."
     npm install -g neovim
+  else
+    info "Updating Node.js Neovim provider..."
+    npm update -g neovim
   fi
-  if ! python2 -c "import pynvim" 2>/dev/null; then
+
+  if ! echo "$PYENV_INSTALLED" | grep -Fq "$PYTHON2_VERSION/envs/neovim2"; then
     info "Installing Python 2 Neovim provider..."
-    python2 -m pip install -U pynvim
+    pyenv uninstall -f neovim2
+    pyenv virtualenv "$PYTHON2_VERSION" neovim2
+  else
+    info "Updating Python 2 Neovim provider..."
   fi
-  if ! python3 -c "import pynvim" 2>/dev/null; then
+  PYENV_VERSION=neovim2 pip install -U pynvim
+
+  if ! echo "$PYENV_INSTALLED" | grep -Fq "$PYTHON3_VERSION/envs/neovim2"; then
     info "Installing Python 3 Neovim provider..."
-    python3 -m pip install -U pynvim
+    pyenv uninstall -f neovim3
+    pyenv virtualenv "$PYTHON3_VERSION" neovim3
+  else
+    info "Updating Python 3 Neovim provider..."
   fi
+  PYENV_VERSION=neovim3 pip install -U pynvim
+
   if ! command -v neovim-ruby-host >/dev/null; then
     info "Installing Ruby Neovim provider..."
     gem install neovim
+  else
+    info "Updating Ruby Neovim provider..."
+    gem update neovim
   fi
 
   pipx_install "neovim-remote"
@@ -570,7 +606,11 @@ section "(n)vim"
 
   export VIM_CONFIG_PATH="$XDG_CONFIG_HOME/nvim"
 
-  if [ ! -e "$HOME/.vim/pack" ];  then
+  if [ ! -L "$VIM_CONFIG_PATH/.pack" ]; then
+    ln -sf "$VIM_CONFIG_PATH/packfiles" "$VIM_CONFIG_PATH/.pack"
+  fi
+
+  if [ ! -d "$VIM_CONFIG_PATH/pack" ];  then
     info "Installing neovim plugins using pack..."
     pack install
   else

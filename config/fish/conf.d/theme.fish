@@ -8,6 +8,7 @@ if not set -qU fish_initialized
   set -U fish_color_user $color_blue
   set -U fish_color_user_root $color_red
   set -U fish_color_host $color_magenta
+  set -U fish_color_venv $color_orange
   set -U fish_color_jobs $color_cyan
   set -U fish_color_status $color_red
 

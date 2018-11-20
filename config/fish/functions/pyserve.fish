@@ -1,6 +1,6 @@
 function pyserve -d 'serve files using python'
   set -l port
-  if test -n $argv
+  if set -q $argv[1]
     set port $argv[1]
   else
     set port 8000

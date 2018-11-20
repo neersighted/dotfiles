@@ -9,6 +9,10 @@ augroup startup
   autocmd VimEnter * echo reltimestr(reltime(s:start_time))
 augroup end
 
+" Use the proper virtual environments for python support.
+let g:python_host_prog = $PYENV_ROOT . '/versions/neovim2/bin/python'
+let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim3/bin/python'
+
 " Don't load unused cruft.
 let g:loaded_2html_plugin      = 1
 let g:loaded_getscriptPlugin   = 1
@@ -20,10 +24,6 @@ let g:loaded_rrhelper          = 1
 let g:loaded_tarPlugin         = 1
 let g:loaded_vimballPlugin     = 1
 let g:loaded_zipPlugin         = 1
-
-" Skip resolving Python interpreters; trust $PATH.
-let g:python_host_prog = 'python2'
-let g:python3_host_prog = 'python3'
 
 "
 " Preferences
@@ -57,10 +57,8 @@ let $VISUAL = 'nvr -cc split --remote-wait'
 let $EDITOR = $VISUAL " Don't nest editors, open a new split instead.
 
 " Grep
-if executable('rg') " Use ripgrep if available.
-  set grepprg=rg\ -i\ --vimgrep
-  set grepformat^=%f:%l:%c:%m
-endif
+set grepprg=rg\ -i\ --vimgrep " Use ripgrep.
+set grepformat^=%f:%l:%c:%m
 
 " Mouse
 set mouse=a " Enable full mouse support.

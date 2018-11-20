@@ -7,7 +7,7 @@ function fish_clipboard_paste -d 'paste onto commandline'
     set data (string replace -ra "(['\\\])" '\\\\\\\$1' -- $data)
   end
 
-  if test -n $data
+  if test -n "$data"
     commandline -i -- $data
   end
 end

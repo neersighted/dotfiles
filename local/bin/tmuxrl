@@ -4,8 +4,9 @@ pane="$1"
 op="$2"
 type="$3"
 
-test -n "$pane" || exit 1
-test -n "$op" || op="open"
+if [ -z "$pane" ]; then
+  exit 1
+fi
 
 for cmd in fzf-tmux xurls; do
   if ! command -v "$cmd" >/dev/null; then
@@ -21,7 +22,7 @@ else
 fi
 
 echo "$data" | xurls | fzf-tmux -d 15% --tac -1 -m --prompt="$op: " | while read -r url; do
-  if [ "$op" = "open" ]; then
+  if [ "${op:-open}" = "open" ]; then
     if [ "$(uname)" = "Darwin" ]; then
       open "$url"
     elif command -v xdg-open >/dev/null; then
@@ -29,7 +30,7 @@ echo "$data" | xurls | fzf-tmux -d 15% --tac -1 -m --prompt="$op: " | while read
     elif [ -n "$BROWSER" ]; then
       $BROWSER "$url"
     fi
-  elif [ "$op" = "yank" ]; then
+  else
     echo "$url" | yankee-yank
   fi
 done

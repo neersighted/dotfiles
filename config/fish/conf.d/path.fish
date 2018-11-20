@@ -1,31 +1,20 @@
-if not set -qU fish_initialized
-  # personal
-  set -U fish_user_paths \
-    # rust
-    $CARGO_HOME/bin \
-    # ruby
-    $RBENV_ROOT/shims $RBENV_ROOT/bin \
-    # python
-    $PIPX_BIN_DIR $PYENV_ROOT/shims $PYENV_ROOT/bin \
-    # nodejs
-    $NODENV_ROOT/shims $NODENV_ROOT/bin \
-    # golang
-    $GOPATH/bin $GOENV_ROOT/shims $GOENV_ROOT/bin \
-    # dotfiles
-    $HOME/.local/bin
+# first login (tmux creates login shells)
+if status --is-login; and not set -qg TMUX
+  # snap
+  path_prepend /snap/bin
+  # ccache {linux, {bsd, macos}}
+  path_prepend /usr/{lib/ccache,local/{libexec/ccache,opt/ccache/libexec}}
 
-  # ccache
-  for path in \
-    # macos
-    /usr/local/opt/ccache/libexec \
-    # bsd
-    /usr/local/libexec/ccache \
-    # linux
-    /usr/lib/ccache
-
-    if test -d $path
-      set -U fish_user_paths $fish_user_paths $path
-      break
-    end
-  end
+  # golang
+  path_prepend $GOPATH/bin $GOENV_ROOT/{shims,bin}
+  # nodejs
+  path_prepend $NODENV_ROOT/{shims,bin}
+  # python
+  path_prepend $PIPX_BIN_DIR $PYENV_ROOT/{plugins/pyenv-virtualenv/shims,shims,bin}
+  # ruby
+  path_prepend $RBENV_ROOT/{shims,bin}
+  # rust
+  path_prepend $CARGO_HOME/bin
+  # dotfiles/local
+  path_prepend $HOME/.local/bin
 end

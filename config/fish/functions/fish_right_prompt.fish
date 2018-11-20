@@ -5,7 +5,7 @@ function fish_right_prompt --description 'right prompt'
     return
   end
 
-  test $USER = 'root'
+  test $USER = root
     and set_color $fish_color_cwd_root
     or set_color $fish_color_cwd
   printf ' %s' (prompt_pwd)
@@ -13,14 +13,25 @@ function fish_right_prompt --description 'right prompt'
 
   __fish_git_prompt
 
+  if set -qg VIRTUAL_ENV
+    set -l venv (basename $VIRTUAL_ENV)
+    if test $venv = .venv
+      set venv (basename (dirname $VIRTUAL_ENV))
+    end
+
+    set_color $fish_color_venv
+    printf ' <%s>' $venv
+    set_color normal
+  end
+
   set -l job_count (count (jobs))
-  if not test $job_count -eq 0
+  if test $job_count -ne 0
     set_color $fish_color_jobs
     printf ' {%i}' $job_count
     set_color normal
   end
 
-  if not test $last_status -eq 0
+  if test $last_status -ne 0
     set_color $fish_color_status
     printf ' [%i]' $last_status
     set_color normal

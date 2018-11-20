@@ -9,7 +9,7 @@ function __ls_colors
       set dircolors (gdircolors -c $config)
     end
 
-    if test -n $dircolors
+    if test -n "$dircolors"
       set -gx LS_COLORS (string split ' ' $dircolors)[3]
     end
   end

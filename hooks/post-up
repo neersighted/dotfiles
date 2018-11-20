@@ -1,5 +1,0 @@
-#!/bin/sh
-
-if [ ! -L "$HOME/.vim/.pack" ]; then
-  ln -sf "$HOME/.dotfiles/config/nvim/.pack" "$HOME/.config/nvim/.pack"
-fi
