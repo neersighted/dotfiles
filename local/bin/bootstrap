@@ -103,7 +103,7 @@ section "Packages"
     FreeBSD)
       BLD="ccache cmake gcc gmake pkgconf"
       LIB="libssh2 openssl sqlite3"
-      USR="bash cmatrix coreutils curl fish fortune gdb gnupg htop jq lftp mosh neofetch neovim pinentry-curses hs-ShellCheck rcm socat tig tmux universal-ctags unzip vim vlock whois"
+      USR="bash cmatrix coreutils curl fish gdb gnupg htop jq lftp mosh neofetch neovim pinentry-curses hs-ShellCheck rcm socat tig tmux universal-ctags unzip vim vlock whois"
 
       INSTALLED=$(pkg info -q)
       ;;
