@@ -2,34 +2,18 @@
 
 pane="$1"
 op="$2"
-type="$3"
+full="$3"
 
-if [ -z "$pane" ]; then
-  exit 1
-fi
-
-for cmd in fzf-tmux xurls; do
-  if ! command -v "$cmd" >/dev/null; then
-    tmux display-message "$cmd is not installed!"
-    exit
-  fi
-done
-
-if [ "$type" = "full" ]; then
-  data=$(tmux capture-pane -Jp -S- -E- -t "$pane")
-else
-  data=$(tmux capture-pane -Jp -t "$pane")
-fi
-
-echo "$data" | xurls | fzf-tmux -d 15% --tac -1 -m --prompt="$op: " | while read -r url; do
+tmux capture-pane -J ${full:+-S- -E-} ${pane:+-t $pane} -p | xurls | fzf-tmux -d 25% --tac -1 -m --prompt="$op: " | while read -r url; do
   if [ "${op:-open}" = "open" ]; then
-    if [ "$(uname)" = "Darwin" ]; then
-      open "$url"
-    elif command -v xdg-open >/dev/null; then
-      xdg-open "$url"
-    elif [ -n "$BROWSER" ]; then
-      $BROWSER "$url"
-    fi
+    case $(uname) in
+      Darwin)
+        open "$url"
+        ;;
+      *)
+        xdg-open "$url"
+        ;;
+    esac
   else
     echo "$url" | yankee-yank
   fi
