@@ -160,11 +160,11 @@ endsection
 
 
 section "fish"
-  if [ ! "$(getshell)" = 'fish' ]; then
+  if [ ! "$(getshell)" = fish ]; then
     info "Changing login shell to fish..."
 
     shell=$(command -v fish)
-    if [ "$UNAME" = 'FreeBSD' ]; then
+    if [ "$UNAME" = FreeBSD ]; then
       su root -c "chsh -s $USER $shell"
     else
       sudo chsh -s "$shell" "$USER"
@@ -218,14 +218,14 @@ section "Golang"
     export GOPATH="$XDG_DATA_HOME/go"
   fi
 
+  info "Updating go packages..."
+  go get -u all
+
   GOGET_INSTALLED=$(go list ...)
   go_get() {
     local target="$1"
 
-    if echo "$GOGET_INSTALLED" | grep -Fq "$target"; then
-      info "Updating $target using go get..."
-      go get -u "$target"
-    else
+    if ! echo "$GOGET_INSTALLED" | grep -Fq "$target"; then
       info "Installing $target using go get..."
       go get "$target"
     fi
@@ -265,17 +265,14 @@ section "Node.js"
     nodenv global "$NODEJS_VERSION"
   fi
 
-  info "Updating npm..."
-  npm update -g npm
+  info "Updating npm packages..."
+  npm update -g
 
   NPM_INSTALLED=$(npm ls -g --depth 0)
   npm_install() {
     local target="$1"
 
-    if echo "$NPM_INSTALLED" | grep -Fq "$target"; then
-      info "Updating $target using npm..."
-      npm update -g "$target"
-    else
+    if ! echo "$NPM_INSTALLED" | grep -Fq "$target"; then
       info "Installing $target using npm..."
       npm install -g "$target"
     fi
@@ -327,13 +324,11 @@ section "Python"
     pyenv global "$PYTHON3_VERSION" "$PYTHON2_VERSION"
   fi
 
-  for target in $(pip2 list --outdated --format=freeze | awk -F== '{print $1}'); do
-    info "Updating $target (Python 2)..."
-    pip2 install -U "$target"
-  done
-  for target in $(pip3 list --outdated --format=freeze | awk -F== '{print $1}'); do
-    info "Updating $target (Python 3)..."
-    pip3 install -U "$target"
+  for python in $(pyenv versions --bare --skip-aliases);  do
+    for target in $(PYENV_VERSION=$python pip list --outdated --format=freeze | awk -F== '{print $1}'); do
+      info "Updating $target ($python)..."
+      PYENV_VERSION=$python pip install -U "$target"
+    done
   done
 
   if [ -z "$PIPX_HOME" ]; then
@@ -344,10 +339,7 @@ section "Python"
   fi
   export PATH="$PIPX_BIN_DIR:$PATH"
 
-  if [ -e "$PIPX_HOME/pipx/bin/python3" ]; then
-    info "Updating pipx..."
-    pipx upgrade pipx
-  else
+  if [ ! -e "$PIPX_HOME/pipx/bin/python3" ]; then
     if [ -d "$PIPX_HOME" ] || [ -d "$PIPX_BIN_DIR" ]; then
       info "Python interpreter missing. Reinstalling pipx and managed packages..."
       rm -rf "$PIPX_HOME"
@@ -358,6 +350,9 @@ section "Python"
     curl https://raw.githubusercontent.com/cs01/pipx/master/get-pipx.py -fsSL | python3 - --no-modify-path
   fi
 
+  info "Updating pipx packages..."
+  pipx upgrade-all
+
   PIPX_INSTALLED=$(pipx list)
   pipx_install() {
     if [ $# -eq 2 ]; then
@@ -367,14 +362,7 @@ section "Python"
       local target="$1"
     fi
 
-    local pip="$PIPX_HOME/$target/bin/pip"
-
-    if echo "$PIPX_INSTALLED" | grep -Fq "$target"; then
-      if $pip list --outdated --format=freeze | grep -Fq "$target"; then
-        info "Updating $target using pipx..."
-        pipx upgrade "$target"
-      fi
-    else
+    if ! echo "$PIPX_INSTALLED" | grep -Fq "$target"; then
       info "Installing $target using pipx..."
       if [ -n "$spec" ]; then
         pipx install --spec "$spec" "$target"
@@ -421,6 +409,9 @@ section "Ruby"
     info "Activating Ruby $RUBY_VERSION..."
     rbenv global "$RUBY_VERSION"
   fi
+
+  info "Updating gem packages..."
+  gem update
 endsection
 
 
@@ -447,6 +438,11 @@ section "Rust"
   info "Regenerating rustup shell completions..."
   rustup completions fish > "$XDG_CONFIG_HOME/fish/completions/rustup.fish"
 
+  if command -v cargo-install-update >/dev/null; then
+    info "Updating cargo packages..."
+    cargo install-update -a -g
+  fi
+
   CARGO_INSTALLED=$(cargo install --list)
   cargo_install() {
     local target="$1"
@@ -458,10 +454,7 @@ section "Rust"
 
       trap '{ rm -rf "$CARGO_TARGET_DIR"; }' EXIT
 
-      if echo "$CARGO_INSTALLED" | grep -Eq "^$target"; then
-        info "Updating $target using cargo..."
-        cargo install-update ${git:+-g} "$target"
-      else
+      if ! echo "$CARGO_INSTALLED" | grep -Eq "^$target"; then
         info "Installing $target using cargo..."
         cargo install "$target" ${git:+--git "$git"}
       fi
@@ -569,35 +562,23 @@ section "(n)vim"
   if ! command -v neovim-node-host >/dev/null; then
     info "Installing Node.js Neovim provider..."
     npm install -g neovim
-  else
-    info "Updating Node.js Neovim provider..."
-    npm update -g neovim
   fi
 
-  if ! echo "$PYENV_INSTALLED" | grep -Fq "$PYTHON2_VERSION/envs/neovim2"; then
-    info "Installing Python 2 Neovim provider..."
-    pyenv uninstall -f neovim2
-    pyenv virtualenv "$PYTHON2_VERSION" neovim2
-  else
-    info "Updating Python 2 Neovim provider..."
-  fi
-  PYENV_VERSION=neovim2 pip install -U pynvim
+  for pair in neovim2:$PYTHON2_VERSION neovim3:$PYTHON3_VERSION; do
+    venv=$(echo "$pair" | cut -d: -f1)
+    vers=$(echo "$pair" | cut -d: -f2)
 
-  if ! echo "$PYENV_INSTALLED" | grep -Fq "$PYTHON3_VERSION/envs/neovim2"; then
-    info "Installing Python 3 Neovim provider..."
-    pyenv uninstall -f neovim3
-    pyenv virtualenv "$PYTHON3_VERSION" neovim3
-  else
-    info "Updating Python 3 Neovim provider..."
-  fi
-  PYENV_VERSION=neovim3 pip install -U pynvim
+    if ! echo "$PYENV_INSTALLED" | grep -Fq "$vers/envs/$venv"; then
+      info "Creating $venv ($vers) virtual environment..."
+      pyenv uninstall -f "$venv"
+      pyenv virtualenv "$vers" "$venv"
+      PYENV_VERSION=$vers pip install pynvim
+    fi
+  done
 
   if ! command -v neovim-ruby-host >/dev/null; then
     info "Installing Ruby Neovim provider..."
     gem install neovim
-  else
-    info "Updating Ruby Neovim provider..."
-    gem update neovim
   fi
 
   pipx_install "neovim-remote"
