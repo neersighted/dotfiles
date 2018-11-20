@@ -7,21 +7,24 @@ name=quickterm-$(basename "$cmd")
 WIDTH=120
 HEIGHT=36
 
-# Check if quickterm already is running.
+# check for a running quickterm
 if id=$(xdotool search --classname "$name"); then
   if [ "$id" = "$(xdotool getactivewindow)" ]; then
-    # A quickterm is running and active, hide it.
+    # quickterm is running and active; hide it
     xdotool windowunmap "$id"
   else
-    # A quickterm is running and hidden, show it.
+    # quickterm is running and hidden; show it
     xdotool windowmap "$id"
     xdotool windowraise "$id"
   fi
 else
-  export QUICKTERM=1
+  # prevent tmux spawns in child shells
+  export TMUX=
+
+  # no quickterm; spawn a new one
   case "$TERMINAL" in
     alacritty)
-      alacritty --class "$name" -d "$WIDTH" "$HEIGHT" -e "$cmd" &
+      alacritty --class "$name" --dimensions "$WIDTH" "$HEIGHT" --command "$cmd" &
       ;;
     *)
       "$TERMINAL" -name "$name" -geometry "${WIDTH}x${HEIGHT}" -e "$cmd" &
@@ -30,13 +33,15 @@ else
 fi
 
 (
-  # Loop until quickterm exits or we lose focus.
+  sleep 0.5
+  # loop until the quickterm exits
   while id=$(xdotool search --classname "$name"); do
+    # if focus is lost, hide and exit
     if [ ! "$id" = "$(xdotool getactivewindow)" ]; then
-      # Hide quickterm on focus lost, then exit.
       xdotool windowunmap "$id"
       exit
     fi
-    sleep 0.1
+    # be at least a little graceful
+    sleep 0.2
   done
 ) &
