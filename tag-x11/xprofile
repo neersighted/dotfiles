@@ -1,4 +1,0 @@
-#!/bin/sh
-
-# Make sure to allow tmux.
-unset TMUX

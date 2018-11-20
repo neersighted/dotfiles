@@ -1,5 +1,0 @@
-#!/bin/sh
-
-for xorg in "/usr/bin/X" "/usr/local/bin/Xorg"; do
-  test -x "$xorg" && exec "$xorg" -keeptty -nolisten tcp "$@"
-done

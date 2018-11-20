@@ -25,11 +25,8 @@ mode "$system" {
     bindsym Escape mode "default"
 }
 
-bindsym $mod+Escape exec --no-startup-id loginctl lock-session
+bindsym $mod+Escape exec --no-startup-id lockx
 bindsym $mod+Shift+Escape mode "$system"
-
-bindsym $mod+b exec --no-startup-id systemd-toggle polybar@main
-bindsym $mod+shift+b exec --no-startup-id systemd-toggle compton
 
 bindsym $mod+q kill
 bindsym $mod+Shift+q exit
