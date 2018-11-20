@@ -14,7 +14,7 @@ if status --is-login; and not set -qg TMUX
   # wsl fixup
   if set -qg WSLENV; or string match -r '^\d.\d.\d-(\d+)-Microsoft$' (uname -r)
     set -gx DISPLAY ':0'
-    # set -gx SHELL (command -v fish)
+    set -gx SHELL (command -v fish)
   end
 end
 
