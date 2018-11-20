@@ -1,33 +1,35 @@
-# first login (tmux creates login shells)
-if status --is-login; and not set -qg TMUX
-  # xdg directory setup
-  if not set -qg XDG_CONFIG_HOME
-    set -gx XDG_CONFIG_HOME $HOME/.config
-  end
-  if not set -qg XDG_DATA_HOME
-    set -gx XDG_DATA_HOME $HOME/.local/share
-  end
-  if not set -qg XDG_CACHE_HOME
-    set -gx XDG_CACHE_HOME $HOME/.cache
+# root (non-tmux) shells
+if not set -qg TMUX
+  if status --is-login
+    # xdg directory setup
+    if not set -qg XDG_CONFIG_HOME
+      set -gx XDG_CONFIG_HOME $HOME/.config
+    end
+    if not set -qg XDG_DATA_HOME
+      set -gx XDG_DATA_HOME $HOME/.local/share
+    end
+    if not set -qg XDG_CACHE_HOME
+      set -gx XDG_CACHE_HOME $HOME/.cache
+    end
+
+    # wsl fixup
+    if set -qg WSLENV
+      set -gx DISPLAY ':0'
+      set -gx SHELL (command -v fish)
+    end
   end
 
-  # wsl fixup
-  if set -qg WSLENV; or string match -r '^\d.\d.\d-(\d+)-Microsoft$' (uname -r)
-    set -gx DISPLAY ':0'
-    set -gx SHELL (command -v fish)
+  if status --is-interactive
+    # aggressive color support
+    if not set -qg COLORTERM; and not string match -q -r '^(xterm|linux)$' $TERM
+      set -gx COLORTERM 'truecolor'
+    end
   end
 end
 
-if status --is-interactive
-  # aggressive color support
-  if not set -qg COLORTERM; and not string match -q -r '^(xterm|linux)$' $TERM
-    set -gx COLORTERM 'truecolor'
-  end
-
-  # ignore parent exports in favor of universal exports
-  for export in (set -Ux)
-    set -eg (string split ' ' $export)[1]
-  end
+# ignore parent exports in favor of universal exports
+for export in (set -Ux)
+  set -eg (string split ' ' $export)[1]
 end
 
 # universal configuration

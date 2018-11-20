@@ -7,14 +7,16 @@ end
 set -l tty
 
 # local startup and setup
-if status --is-login; and not set -qg TMUX; and not set -qg SSH_CLIENT
-  if command -sq weasel-pageant; and command -sq gpg-connect-agent.exe
-    # connect ssh to windows gpg-agent via weasel-pageant
-    gpg-connect-agent.exe /bye >/dev/null 2>&1
-    source (weasel-pageant -q -S fish | psub)
-  else
-    # connect ssh to gpg-agent (if not already wired up)
-    set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+if not set -qg TMUX; and not set -qg SSH_CLIENT
+  if status --is-login
+    if command -sq weasel-pageant; and command -sq gpg-connect-agent.exe
+      # connect ssh to windows gpg-agent via weasel-pageant
+      gpg-connect-agent.exe /bye >/dev/null 2>&1
+      source (weasel-pageant -q -S fish | psub)
+    else
+      # connect ssh to gpg-agent (if not already wired up)
+      set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+    end
   end
 
   if status --is-interactive
