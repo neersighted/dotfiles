@@ -13,6 +13,9 @@ if not set -qg TMUX; and not set -qg SSH_CLIENT; and not set -qg QUICKTERM
       # connect ssh to windows gpg-agent via weasel-pageant
       gpg-connect-agent.exe /bye >/dev/null 2>&1
       source (weasel-pageant -q -S fish | psub)
+      if test ! -S "$GNUPGHOME/S.gpg-agent"; and command -sq npiperelay.exe
+        gpg-relay (command -s npiperelay.exe)
+      end
     else
       # connect ssh to gpg-agent (if not already wired up)
       set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)

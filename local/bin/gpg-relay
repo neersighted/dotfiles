@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+exec -a gpg-relay socat UNIX-LISTEN:"$GNUPGHOME/S.gpg-agent",fork EXEC:"$1 -ei -ep -s -a '$(wslpath -m /c/Users/"$USER"/AppData/Roaming/gnupg/S.gpg-agent)'",nofork &
+sleep 0.2
+printf gpg-relay >/proc/$!/comm

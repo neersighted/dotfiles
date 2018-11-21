@@ -7,8 +7,10 @@
 	email = bjorn@neersighted.com
 	signingKey = 0x08AAA409549C0EC5
 [credential]
-	helper = cache --timeout=3600
 	username = neersighted
+	helper = manager
+	helper = netrc -v -f ${XDG_DATA_HOME:-$HOME/.local/share}/git-credentials.gpg
+	helper = cache --timeout=3600
 
 #
 # General Config
@@ -107,10 +109,3 @@
 	frag = yellow
 	meta = magenta
 	commit = cyan
-
-#
-# Includes
-#
-
-[include]
-	path = config.local

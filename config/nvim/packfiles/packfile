@@ -79,6 +79,11 @@
   name: itchyny/lightline.vim
   opt: false
 - 
+  category: integration
+  local: false
+  name: "jamessan/vim-gnupg"
+  opt: false
+- 
   category: navigation
   local: false
   name: junegunn/fzf
