@@ -1,21 +1,37 @@
 #!/bin/sh
 
-pane="$1"
-op="$2"
-full="$3"
+while [ "$#" -gt 0 ]; do
+  case $1 in
+    -t) pane=${2:?missing value: $1}; shift 2;;
+    -f) full=1; shift;;
+    -o) op=open; shift;;
+
+    -*) echo "unknown option: $1" >&2; exit 1;;
+    * ) echo "unrecognized argument: $1" >&2; exit 1;;
+  esac
+done
+
+op=${op:-yank}
+
+open () {
+  case $(uname) in
+    Darwin)
+      command open "$1"
+      ;;
+    *)
+      if uname -r | grep -Fq "Microsoft"; then
+        powershell.exe Start "$1"
+      else
+        xdg-open "$1"
+      fi
+      ;;
+  esac
+}
 
 tmux capture-pane -J ${full:+-S- -E-} ${pane:+-t $pane} -p | xurls | fzf-tmux -d 25% --tac -1 -m --prompt="$op: " | while read -r url; do
-  if [ "${op:-open}" = "open" ]; then
-    case $(uname) in
-      Darwin)
-        open "$url"
-        ;;
-      *)
-        xdg-open "$url"
-        ;;
-    esac
-  else
-    echo "$url" | yankee
-  fi
+  case $op in
+    open) open "$url";;
+    yank) echo "$url" | yankee;;
+  esac
 done
 

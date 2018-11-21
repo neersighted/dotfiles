@@ -14,8 +14,6 @@
 # General Config
 #
 
-[core]
-    pager = "diff-so-fancy | less --quit-if-one-screen --no-init"
 [status]
     short = true
     branch = true
@@ -32,6 +30,9 @@
     decorate = auto
 [format]
     pretty = format:%C(yellow)%h%C(magenta)% G? %C(blue)%<(12,trunc)%ad %C(green)%<(16,trunc)%aN %C(reset)%s%C(red)%d
+[pager]
+    diff = diff-so-fancy | less --tabs=4 --RAW-CONTROL-CHARS --quit-if-one-screen --no-init
+    show = diff-so-fancy | less --tabs=4 --RAW-CONTROL-CHARS --quit-if-one-screen --no-init
 
 [push]
     default = simple

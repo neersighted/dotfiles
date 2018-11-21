@@ -504,10 +504,6 @@ section "CLI"
   pipx_install "shell-functools"
   go_get "mvdan.cc/xurls/cmd/xurls"
   cargo_install "watchexec"
-
-  if uname -r | grep -Fq "Microsoft"; then
-    npm_install "wsl-open"
-  fi
 endsection
 
 

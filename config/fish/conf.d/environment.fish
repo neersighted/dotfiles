@@ -16,7 +16,7 @@ if not set -qg TMUX
     if set -qg WSLENV
       set -gx DISPLAY ':0'
       set -gx SHELL (command -v fish)
-      set -gx BROWSER wsl-open
+      set -gx BROWSER 'powershell.exe Start'
     end
   end
 
