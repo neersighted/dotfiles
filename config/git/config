@@ -19,44 +19,25 @@
 [status]
 	short = true
 	branch = true
-	showUntrackedFiles = all
+	showStash = true
 	submoduleSummary = true
-[stash]
-	showStat = true
-	showPatch = true
-[blame]
-	date = short
-[log]
-	abbrevCommit = true
-	date = relative
-	decorate = auto
 [format]
-	pretty = format:%C(yellow)%h%C(magenta)% G? %C(blue)%<(12,trunc)%ad %C(green)%<(16,trunc)%aN %C(reset)%s%C(red)%d
+	pretty = %C(yellow)%h%C(magenta)% G? %C(blue)%<(12,trunc)%ar %C(green)%<(16,trunc)%aN %C(reset)%s%C(red)%d
 [pager]
-	diff = diff-so-fancy | less --tabs=4 --RAW-CONTROL-CHARS --quit-if-one-screen --no-init
-	show = diff-so-fancy | less --tabs=4 --RAW-CONTROL-CHARS --quit-if-one-screen --no-init
+	branch = less --quit-if-one-screen --no-init
+	diff = diff-so-fancy | less --quit-if-one-screen --no-init
+	show = diff-so-fancy | less --quit-if-one-screen --no-init
 
-[push]
-	default = simple
-[pull]
-	rebase = false
-	ff = true
 [diff]
 	tool = nvr
-	renames = copies
-	indentHeuristic = true
 	algorithm = patience
 [merge]
 	tool = nvr
-	defaultToUpstream = true
 [rebase]
 	stat = true
 	autoSquash = true
-	autoStash = true
-	missingCommitsCheck = error
-
-[help]
-	autoCorrect = 1
+[sequence]
+	editor = interactive-rebase-tool
 
 #
 # Servers
@@ -86,10 +67,15 @@
 #
 
 [alias]
-	# rewrite history
-	change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
-	# from https://help.github.com/articles/remove-sensitive-data
-	remove-file = "!f() { git filter-branch -f --index-filter \"git rm --cached --ignore-unmatch $1\" --prune-empty --tag-name-filter cat -- --all; }; f"
+	# interactively select commits
+	sel = "!f() { git log --oneline --color | git sel-fzf $1; }; f"
+	rsel = "!f() { git log -g --oneline --color |  git sel-fzf $1; }; f"
+	sel-ref = "!f() { git show-ref --abbrev |  git sel-fzf $1; }; f"
+	sel-fzf = "!f() { fzf-tmux --ansi --preview='git sel-pre {}' -q \"$1\" | cut -d' ' -f1; }; f"
+	sel-pre = "!f() { git show --stat --color $(echo $1 | cut -d ' ' -f1); }; f "
+	# quick and easy autosquash commits
+	squash = "!f() { git commit --squash=$(git sel $1); }; f"
+	fixup = "!f() { git commit --fixup=$(git sel $1); }; f"
 	# legit
 	switch = !legit switch
 	sync = !legit sync

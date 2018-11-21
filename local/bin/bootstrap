@@ -224,10 +224,12 @@ section "Node.js"
     info "Updating nodenv..."
     git -C "$NODENV_ROOT" pull
     git -C "$NODENV_ROOT/plugins/node-build" pull
+    git -C "$NODENV_ROOT/plugins/nodenv-package-rehash" pull
   else
     info "Installing nodenv..."
     git clone https://github.com/nodenv/nodenv "$NODENV_ROOT"
     git clone https://github.com/nodenv/node-build "$NODENV_ROOT/plugins/node-build"
+    git clone https://github.com/nodenv/nodenv-package-rehash "$NODENV_ROOT/plugins/nodenv-package-rehash"
   fi
 
   export PATH="$NODENV_ROOT/bin:$PATH"
@@ -520,7 +522,9 @@ section "Git"
   npm_install "diff-so-fancy"
   npm_install "git-open"
   npm_install "git-recent"
+  npm_install "git-standup"
   go_get "github.com/github/hub"
+  cargo_install "git-interactive-rebase-tool"
   pipx_install "legit"
   go_get "github.com/nishanths/license"
 
