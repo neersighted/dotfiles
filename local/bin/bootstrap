@@ -173,8 +173,11 @@ section "fish"
   fi
 
   if [ ! -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
-    info "Downloading fisher..."
+    info "Fetching fisher..."
     curl https://git.io/fisher -fLo "$XDG_CONFIG_HOME/fish/functions/fisher.fish"
+  else
+    info "Updating fisher..."
+    fish -c 'fisher self-update'
   fi
 
   info "Syncing fish plugins using fisher..."
@@ -342,7 +345,7 @@ section "Python"
 
   if ! command -v pipx >/dev/null; then
     info "Installing pipx..."
-    curl https://raw.githubusercontent.com/cs01/pipx/master/get-pipx.py -fsSL | PYENV_VERSION=system python3 - --no-modify-path
+    curl https://raw.githubusercontent.com/cs01/pipx/master/get-pipx.py -fL | PYENV_VERSION=system python3 - --no-modify-path
   else
     info "Updating pipx packages..."
     pipx upgrade-all
@@ -405,9 +408,8 @@ section "Ruby"
     rbenv global "$RUBY_VERSION"
   fi
 
-  info "Updating gem..."
+  info "Self-updating gem..."
   gem update --system
-
   info "Updating gem packages..."
   gem update
 
@@ -504,6 +506,18 @@ section "CLI"
   pipx_install "shell-functools"
   go_get "mvdan.cc/xurls/cmd/xurls"
   cargo_install "watchexec"
+
+
+  if ! command -v ngrok >/dev/null; then
+    info "Installing ngrok..."
+
+    goversion=$(go version | awk '{print $4}')
+    GOOS=${goversion%/*}
+    GOARCH=${goversion#*/}
+
+    curl "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-$GOOS-$GOARCH.zip" -fL | funzip > "$HOME/.local/bin/ngrok"
+    chmod +x "$HOME/.local/bin/ngrok"
+  fi
 endsection
 
 
@@ -519,18 +533,20 @@ endsection
 section "GDB"
   pipx_install "gdbgui"
 
-  if [ -f "$HOME/.gdbinit" ]; then
+  if [ -d "$XDG_DATA_HOME/gdb-dashboard" ]; then
     info "Updating gdb-dashboard..."
+    git -C "$XDG_DATA_HOME/gdb-dashboard" pull
   else
-    info "Installing gdb-dashboard..."
+    info "Fetching gdb-dashboard..."
+    git clone https://github.com/cyrus-and/gdb-dashboard "$XDG_DATA_HOME/gdb-dashboard"
   fi
-  curl https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -fLo "$XDG_DATA_HOME/gdb-dashboard"
 endsection
 
 
 section "Git"
   npm_install "diff-so-fancy"
   npm_install "git-open"
+  npm_install "git-recent"
   go_get "github.com/github/hub"
   pipx_install "legit"
   go_get "github.com/nishanths/license"
@@ -540,13 +556,9 @@ endsection
 section "fzf"
   go_get "github.com/junegunn/fzf"
 
-  if [ -f "$HOME/.local/bin/fzf-tmux" ]; then
-    info "Updating fzf-tmux..."
-  else
-    info "Installing fzf-tmux..."
-    trap '{ chmod +x "$HOME/.local/bin/fzf-tmux"; }' EXIT
+  if [ ! -L "$HOME/.local/bin/fzf-tmux" ]; then
+    ln -sf "$GOPATH/src/github.com/junegunn/fzf/bin/fzf-tmux" "$HOME/.local/bin/fzf-tmux"
   fi
-  curl https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux -fLo "$HOME/.local/bin/fzf-tmux"
 endsection
 
 

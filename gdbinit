@@ -1,6 +1,6 @@
 set history filename ~/.cache/gdb_history
 
-source ~/.local/share/gdb-dashboard
+source ~/.local/share/gdb-dashboard/.gdbinit
 
 dashboard -layout assembly registers source expressions stack memory threads history
 
