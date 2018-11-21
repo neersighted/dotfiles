@@ -3,104 +3,114 @@
 #
 
 [user]
-    name = Bjorn Neergaard
-    email = bjorn@neersighted.com
-    signingKey = 0x08AAA409549C0EC5
+	name = Bjorn Neergaard
+	email = bjorn@neersighted.com
+	signingKey = 0x08AAA409549C0EC5
 [credential]
-    helper = cache --timeout=3600
-    username = neersighted
+	helper = cache --timeout=3600
+	username = neersighted
 
 #
 # General Config
 #
 
 [status]
-    short = true
-    branch = true
-    showUntrackedFiles = all
-    submoduleSummary = true
+	short = true
+	branch = true
+	showUntrackedFiles = all
+	submoduleSummary = true
 [stash]
-    showStat = true
-    showPatch = true
+	showStat = true
+	showPatch = true
 [blame]
-    date = short
+	date = short
 [log]
-    abbrevCommit = true
-    date = relative
-    decorate = auto
+	abbrevCommit = true
+	date = relative
+	decorate = auto
 [format]
-    pretty = format:%C(yellow)%h%C(magenta)% G? %C(blue)%<(12,trunc)%ad %C(green)%<(16,trunc)%aN %C(reset)%s%C(red)%d
+	pretty = format:%C(yellow)%h%C(magenta)% G? %C(blue)%<(12,trunc)%ad %C(green)%<(16,trunc)%aN %C(reset)%s%C(red)%d
 [pager]
-    diff = diff-so-fancy | less --tabs=4 --RAW-CONTROL-CHARS --quit-if-one-screen --no-init
-    show = diff-so-fancy | less --tabs=4 --RAW-CONTROL-CHARS --quit-if-one-screen --no-init
+	diff = diff-so-fancy | less --tabs=4 --RAW-CONTROL-CHARS --quit-if-one-screen --no-init
+	show = diff-so-fancy | less --tabs=4 --RAW-CONTROL-CHARS --quit-if-one-screen --no-init
 
 [push]
-    default = simple
+	default = simple
 [pull]
-    rebase = true
-    ff = true
+	rebase = false
+	ff = true
 [diff]
-    tool = nvr
-    renames = copies
-    indentHeuristic = true
-    algorithm = patience
+	tool = nvr
+	renames = copies
+	indentHeuristic = true
+	algorithm = patience
 [merge]
-    tool = nvr
-    defaultToUpstream = true
+	tool = nvr
+	defaultToUpstream = true
 [rebase]
-    stat = true
-    autoSquash = true
-    autoStash = true
-    missingCommitsCheck = error
-
-[difftool "nvr"]
-    cmd = nvr -s -d $LOCAL $REMOTE
-[mergetool "nvr"]
-    cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
+	stat = true
+	autoSquash = true
+	autoStash = true
+	missingCommitsCheck = error
 
 [help]
-    autoCorrect = 1
+	autoCorrect = 1
 
 #
 # Servers
 #
 
 [url "git@github.com:"]
-    pushInsteadOf = https://github.com/
-    pushInsteadOf = git://github.com/
+	pushInsteadOf = https://github.com/
+	pushInsteadOf = git://github.com/
+
+#
+# Tools
+#
+
+[difftool "nvr"]
+	cmd = nvr -s -d $LOCAL $REMOTE
+[mergetool "nvr"]
+	cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
 
 #
 # Aliases
 #
 
 [alias]
-    # rewrite history
-    change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
-    # from https://help.github.com/articles/remove-sensitive-data
-    remove-file = "!f() { git filter-branch -f --index-filter \"git rm --cached --ignore-unmatch $1\" --prune-empty --tag-name-filter cat -- --all; }; f"
-    # legit
-    switch = !legit switch
-    sync = !legit sync
-    publish = !legit publish
-    unpublish = !legit unpublish
-    undo = !legit undo
-    branches = !legit branches
+	# rewrite history
+	change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
+	# from https://help.github.com/articles/remove-sensitive-data
+	remove-file = "!f() { git filter-branch -f --index-filter \"git rm --cached --ignore-unmatch $1\" --prune-empty --tag-name-filter cat -- --all; }; f"
+	# legit
+	switch = !legit switch
+	sync = !legit sync
+	publish = !legit publish
+	unpublish = !legit unpublish
+	undo = !legit undo
+	branches = !legit branches
 
 #
 # Colors
 #
 
 [color "diff"]
-    whitespace = red reverse
-    new = green
-    old = red
-    frag = yellow
-    meta = magenta
-    commit = cyan
+	whitespace = red reverse
+	new = green
+	old = red
+	frag = yellow
+	meta = magenta
+	commit = cyan
 
 #
 # Includes
 #
 
 [include]
-    path = config.local
+	path = config.local
