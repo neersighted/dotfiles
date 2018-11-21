@@ -1,0 +1,33 @@
+#!/bin/sh
+
+args=$*
+while [ "$#" -gt 0 ]; do
+  case $1 in
+    -title) title=${2:?missing value: $1}; shift 2;;
+    -name) name=${2:?missing value: $1}; shift 2;;
+    -geometry) geom=${2:?missing value: $1}; shift 2;;
+    -T) title=${2:?missing value: $1}; shift 2;;
+    -e) cmd=${2:?missing value: $1}; shift 2;;
+
+    -*) echo "unknown option: $1" >&2; exit 1;;
+    * ) echo "unrecognized argument: $1" >&2; exit 1;;
+  esac
+done
+
+for term in alacritty kitty urxvt; do
+  command -v "$term" >/dev/null && break
+done
+
+case $term in
+  alacritty)
+    geom=$(echo "$geom" | tr 'x' ' ');
+    args="${title:+--title $title }${name:+--class $name }${geom:+--dimensions $geom } ${cmd:+--command $cmd}"
+    ;;
+  kitty)
+    width=$(echo "$geom" | cut -dx -f1)
+    height=$(echo "$geom" | cut -dx -f2)
+    args="${title:+--title $title }${name:+--name $name}${geom:+--override remember_window_size=no --override initial_window_width=${width}c --override initial_window_height=${height}c }$cmd"
+    ;;
+esac
+
+eval "exec ${term:-xterm} $args"

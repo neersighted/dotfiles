@@ -18,18 +18,8 @@ if id=$(xdotool search --classname "$name"); then
     xdotool windowraise "$id"
   fi
 else
-  # prevent tmux spawns in child shells
-  export TMUX=
-
-  # no quickterm; spawn a new one
-  case "$TERMINAL" in
-    alacritty)
-      alacritty --class "$name" --dimensions "$WIDTH" "$HEIGHT" --command "$cmd" &
-      ;;
-    *)
-      "$TERMINAL" -name "$name" -geometry "${WIDTH}x${HEIGHT}" -e "$cmd" &
-      ;;
-  esac
+  # no quickterm exists; spawn a new one (also preventing tmux spawns)
+  env TMUX= uniterm -name "$name" -geometry "${WIDTH}x${HEIGHT}" -e "$cmd" &
 fi
 
 (

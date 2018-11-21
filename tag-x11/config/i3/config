@@ -14,7 +14,7 @@ bindsym $mod+Return exec --no-startup-id "rofi -modi 'drun,run' -show drun -kb-c
 bindsym $mod+Shift+Return exec --no-startup-id "rofi -modi 'drun,run' -show run -kb-cancel 'Escape,Super+Shift+Return'"
 
 bindsym $mod+grave exec --no-startup-id quickterm
-bindsym $mod+Shift+grave exec $TERMINAL
+bindsym $mod+Shift+grave exec --no-startup-id uniterm
 bindsym $mod+BackSpace exec --no-startup-id quickterm ncmpcpp
 
 bindsym $mod+Escape exec --no-startup-id lockx

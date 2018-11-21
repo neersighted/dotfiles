@@ -14,6 +14,8 @@
 # General Config
 #
 
+[core]
+    pager = "diff-so-fancy | less --quit-if-one-screen --no-init"
 [status]
     short = true
     branch = true
@@ -75,8 +77,6 @@
     change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
     # from https://help.github.com/articles/remove-sensitive-data
     remove-file = "!f() { git filter-branch -f --index-filter \"git rm --cached --ignore-unmatch $1\" --prune-empty --tag-name-filter cat -- --all; }; f"
-    # diff-so-fancy
-    difff = "!f() { git diff --color=always $@ | diff-so-fancy; }; f"
     # legit
     switch = !legit switch
     sync = !legit sync

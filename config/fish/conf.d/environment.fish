@@ -16,6 +16,7 @@ if not set -qg TMUX
     if set -qg WSLENV
       set -gx DISPLAY ':0'
       set -gx SHELL (command -v fish)
+      set -gx BROWSER wsl-open
     end
   end
 
@@ -34,9 +35,6 @@ end
 
 # universal configuration
 if not set -qU fish_initialized
-  # terminal
-  set -Ux TERMINAL alacritty
-
   # editor
   set -Ux VISUAL nvim
   set -Ux EDITOR $VISUAL
@@ -46,9 +44,6 @@ if not set -qU fish_initialized
   set -Ux MANPAGER 'nvim -c "set ft=man" -'
   set -Ux LESS '--RAW-CONTROL-CHARS --tabs=4'
   set -Ux LESSHISTFILE $XDG_CACHE_HOME/lesshist
-
-  # browser
-  set -Ux BROWSER wsl-open:firefox:google-chrome:lynx
 
   # gnupg
   set -Ux GNUPGHOME $HOME/.gnupg
