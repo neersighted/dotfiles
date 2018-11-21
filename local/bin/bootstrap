@@ -25,14 +25,14 @@ error() {
 }
 
 getshell() {
-  local shell
-  if command -v dscacheutil >/dev/null; then
-    shell=$(dscacheutil -q user -a name "$USER" | awk '/shell:/{print $2}')
-  else
-    shell=$(getent passwd "$USER" | awk -F: '{print $NF}')
-  fi
-
-  basename "$shell"
+  case $(uname) in
+    Darwin)
+      dscacheutil -q user -a name "$USER" | awk '/shell:/{print $2}'
+      ;;
+    *)
+      getent passwd "$USER" | awk -F: '{print $NF}'
+      ;;
+  esac
 }
 
 selectversion() {
@@ -68,8 +68,6 @@ if [ -z "$XDG_CACHE_HOME" ]; then
   export XDG_CACHE_HOME="$HOME/.cache"
 fi
 
-UNAME=$(uname)
-
 #
 # Base System
 #
@@ -78,7 +76,7 @@ important "Configuring base system and environment..."
 
 
 section "Packages"
-  case $UNAME in
+  case $(uname) in
     Linux)
       if [ "$(awk -F= '/^ID=/{print $2}' /etc/os-release)" = "ubuntu" ]; then
         if [ -z "$(find /etc/apt/sources.list.d/ -iname 'martin-frost-ubuntu-thoughtbot-rcm-*.list')" ]; then
@@ -131,7 +129,7 @@ section "Packages"
   done
 
   if [ -n "$PKGS" ]; then
-    case $UNAME in
+    case $(uname) in
       Linux)
         info "Installing standard packages with apt..."
         sudo sh -c "apt-get install -y $PKGS"
@@ -160,15 +158,18 @@ endsection
 
 
 section "fish"
-  if [ ! "$(getshell)" = fish ]; then
+  fish=$(command -v fish)
+  if [ ! "$(getshell)" = "$fish" ]; then
     info "Changing login shell to fish..."
 
-    shell=$(command -v fish)
-    if [ "$UNAME" = FreeBSD ]; then
-      su root -c "chsh -s $USER $shell"
-    else
-      sudo chsh -s "$shell" "$USER"
-    fi
+    case $(uname) in
+      FreeBSD)
+        su root -c "chsh -s $USER $fish"
+        ;;
+      *)
+        sudo chsh -s "$fish" "$USER"
+        ;;
+    esac
   fi
 
   if [ ! -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then

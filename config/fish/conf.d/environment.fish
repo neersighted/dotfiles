@@ -35,9 +35,7 @@ end
 # universal configuration
 if not set -qU fish_initialized
   # terminal
-  if command -sq alacritty
-    set -Ux TERMINAL alacritty
-  end
+  set -Ux TERMINAL alacritty
 
   # editor
   set -Ux VISUAL nvim
@@ -50,15 +48,7 @@ if not set -qU fish_initialized
   set -Ux LESSHISTFILE $XDG_CACHE_HOME/lesshist
 
   # browser
-  if command -sq wsl-open
-    set -Ux BROWSER wsl-open
-  else if command -sq firefox
-    set -Ux BROWSER firefox
-  else if command -sq google-chrome
-    set -Ux BROWSER google-chrome
-  else
-    set -Ux BROWSER lynx
-  end
+  set -Ux BROWSER wsl-open:firefox:google-chrome:lynx
 
   # gnupg
   set -Ux GNUPGHOME $HOME/.gnupg

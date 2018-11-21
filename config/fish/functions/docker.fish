@@ -1,5 +1,5 @@
 function docker -d 'docker client'
-  if not test -e /var/run/docker.sock
+  if not test -S /var/run/docker.sock
     and command -sq docker.exe
     and command -sq npiperelay.exe
 
