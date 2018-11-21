@@ -462,7 +462,7 @@ section "Rust"
       CARGO_TARGET_DIR=$(mktemp -d "${TMPDIR:-/tmp}/cargo.XXXXXXXXX")
       export CARGO_TARGET_DIR
 
-      trap '{ rm -rf "$CARGO_TARGET_DIR"; }' EXIT
+      trap 'rm -rf "$CARGO_TARGET_DIR"' EXIT
 
       if ! echo "$CARGO_INSTALLED" | grep -Eq "^$target"; then
         info "Installing $target using cargo..."

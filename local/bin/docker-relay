@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+exec -a docker-relay socat UNIX-LISTEN:/var/run/docker.sock,fork,group=docker,umask=007 EXEC:"$1 -ep -s //./pipe/docker_engine",nofork &
+sleep 0.2
+printf docker-relay >/proc/$!/comm
