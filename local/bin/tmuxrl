@@ -15,7 +15,7 @@ tmux capture-pane -J ${full:+-S- -E-} ${pane:+-t $pane} -p | xurls | fzf-tmux -d
         ;;
     esac
   else
-    echo "$url" | yankee-yank
+    echo "$url" | yankee
   fi
 done
 

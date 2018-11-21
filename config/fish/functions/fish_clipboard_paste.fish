@@ -1,5 +1,5 @@
 function fish_clipboard_paste -d 'paste onto commandline'
-  set -l data (yankee-paste)
+  set -l data (yankee -o)
   # turn \r into newlines
   set data (string split \r -- $data)
   # escape single quotes if neede

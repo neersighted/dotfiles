@@ -3,20 +3,24 @@
 
 while [ "$#" -gt 0 ]; do
   case $1 in
-    -s) selection=${2:?missing value: $1}; shift 2;;
-    -w) wait=1; shift;;
-
-    --wait) wait=1; shift;;
-
+    --input) op=yank; shift;;
+    --output) op=put; shift;;
     --selection=*) selection=${1#*=}; shift 1;;
     --selection  ) echo "$1 requires an argument" >&2; exit 1;;
+    --wait) wait=1; shift;;
+
+    -i) op=yank; shift;;
+    -o) op=put; shift;;
+    -s) selection=${2:?missing value: $1}; shift 2;;
+    -w) wait=1; shift;;
 
     -*) echo "unknown option: $1" >&2; exit 1;;
     * ) echo "unrecognized argument: $1" >&2; exit 1;;
   esac
 done
 
-selection="${selection:-clipboard}"
+op=${op:-yank}
+selection=${selection:-clipboard}
 
 yank() {
   # GUI-only systems (macOS/WSL)
@@ -89,7 +93,7 @@ yank() {
 
 paste() {
   # GUI-only systems (macOS/WSL)
-  if [ -z "$SSH_TTY" ] && [ -z "$MOSH" ]; then
+  if [ -z "$SSH_CLIENT" ]; then
     if [ "$(uname)" = "Darwin" ]; then
       if command -v reattach-to-user-namespace >/dev/null; then
         exec reattach-to-user-namespace pbpaste
@@ -135,8 +139,7 @@ tmux_tee() {
   fi
 }
 
-case $0 in
-  *yankee-yank ) tmux_tee | yank;;
-  *yankee-paste) paste;;
-  *            ) echo "called as invalid script: $0" >&2; exit 1;;
+case $op in
+  yank) tmux_tee | yank;;
+  put) paste;;
 esac
