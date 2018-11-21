@@ -5,8 +5,8 @@ let g:clipboard = {
   \      '*': 'yankee -i -w -s primary',
   \    },
   \   'paste': {
-  \      '+': 'yankee -o -w -s clipboard',
-  \      '*': 'yankee -o -w -s primary',
+  \      '+': 'yankee -o -s clipboard',
+  \      '*': 'yankee -o -s primary',
   \   },
   \   'cache_enabled': 1,
   \ }
