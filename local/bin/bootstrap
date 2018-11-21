@@ -78,42 +78,23 @@ important "Configuring base system and environment..."
 section "Packages"
   case $(uname) in
     Linux)
-      if [ "$(awk -F= '/^ID=/{print $2}' /etc/os-release)" = "ubuntu" ]; then
-        if [ -z "$(find /etc/apt/sources.list.d/ -iname 'martin-frost-ubuntu-thoughtbot-rcm-*.list')" ]; then
-          info "Setting up rcm Ubuntu repo..."
-          sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm
-        fi
-      else
-        if [ ! -f "/etc/apt/sources.list.d/thoughtbot.list" ]; then
-          info "Setting up rcm Debian repo..."
-          sudo sh -c 'echo "deb http://apt.thoughtbot.com/debian stable main" > /etc/apt/sources.list.d/thoughtbot.list'
-          wget https://apt.thoughtbot.com/thoughtbot.gpg.key -qO- | sudo apt-key add -
-          sudo apt-get update
-        fi
-      fi
-
       BLD="autoconf bison build-essential ccache clang cmake pkgconf"
       LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libyaml-dev zlib1g-dev"
-      USR="cmatrix curl exuberant-ctags fish fortune gdb git git-lfs gnupg htop jq lftp libfile-mimeinfo-perl mosh neofetch neovim python3 python3-dev python3-venv rcm shellcheck socat tig tmux unzip vlock whois xdg-utils"
+      USR="cmatrix curl exuberant-ctags fish fortune gdb git git-lfs gnupg htop jq lftp libfile-mimeinfo-perl mosh neofetch neovim python3 python3-dev python3-venv shellcheck socat tig tmux unzip vlock whois xdg-utils"
 
       INSTALLED=$(dpkg-query -f '${binary:Package}\n' -W)
       ;;
     FreeBSD)
       BLD="ccache cmake gcc gmake pkgconf"
       LIB="libssh2 openssl sqlite3"
-      USR="bash cmatrix coreutils curl fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses python3 hs-ShellCheck rcm socat tig tmux universal-ctags unzip vlock whois"
+      USR="bash cmatrix coreutils curl fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses python3 hs-ShellCheck socat tig tmux universal-ctags unzip vlock whois"
 
       INSTALLED=$(pkg info -q)
       ;;
     Darwin)
-      if [ ! -e "/usr/local/Homebrew/Library/Taps/thoughtbot/homebrew-formulae" ]; then
-        info "Setting up rcm tap..."
-        brew tap thoughtbot/formulae
-      fi
-
       BLD="ccache cmake"
       LIB="readline libffi libyaml openssl zlib"
-      USR="cmatrix coreutils ctags curl findutils fish fortune gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim pinentry-mac python rcm reattach-to-user-namespace shellcheck socat tmux unzip xz"
+      USR="cmatrix coreutils ctags curl findutils fish fortune gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim pinentry-mac python reattach-to-user-namespace shellcheck socat tmux unzip xz"
 
       INSTALLED=$(brew list)
       ;;
@@ -146,14 +127,6 @@ section "Packages"
   else
     info "All standard packages are installed."
   fi
-endsection
-
-
-section "dotfiles"
-  export RCRC="$HOME/.dotfiles/rcrc"
-
-  info "Linking dotfiles with rcup..."
-  rcup -v
 endsection
 
 
