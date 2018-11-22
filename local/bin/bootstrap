@@ -121,20 +121,25 @@ section "Packages"
   done
 
   if [ -n "$PKGS" ]; then
-    case $(uname) in
-      Linux)
-        info "Installing standard packages with apt..."
-        sudo sh -c "apt-get install -y $PKGS"
-        ;;
-      FreeBSD)
-        info "Installing standard packages with pkg..."
-        su root -c "pkg install -y $PKGS"
-        ;;
-      Darwin)
-        info "Installing standard packages with brew..."
-        sh -c "brew install $PKGS"
-        ;;
-    esac
+    if [ -z "$ROOTLESS" ]; then
+      case $(uname) in
+        Linux)
+          info "Installing standard packages with apt..."
+          sudo sh -c "apt-get install -y $PKGS"
+          ;;
+        FreeBSD)
+          info "Installing standard packages with pkg..."
+          su root -c "pkg install -y $PKGS"
+          ;;
+        Darwin)
+          info "Installing standard packages with brew..."
+          sh -c "brew install $PKGS"
+          ;;
+      esac
+    else
+      info "Unable to install the following packages without root:"
+      echo "$PKGS"
+    fi
   else
     info "All standard packages are installed."
   fi
@@ -143,7 +148,7 @@ endsection
 
 section "fish"
   fish=$(command -v fish)
-  if [ ! "$(getshell)" = "$fish" ]; then
+  if [ ! "$(getshell)" = "$fish" ] && [ -z "$ROOTLESS" ]; then
     info "Changing login shell to fish..."
 
     case $(uname) in
@@ -356,10 +361,8 @@ section "Ruby"
     rbenv global "$RUBY_VERSION"
   fi
 
-  info "Updating gem..."
-  gem update --system
   info "Updating gem packages..."
-  gem update
+  gem update --system && gem update
 
   GEM_INSTALLED=$(gem list --no-versions)
   gem_install() {
