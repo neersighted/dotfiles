@@ -6,6 +6,7 @@ function __pyenv_virtualenv_activate --on-variable PWD
   # signal the plugin that we have loaded (and disable outdated prompt support)
   set -gx PYENV_VIRTUALENV_INIT 1
   set -gx PYENV_VIRTUALENV_DISABLE_PROMPT 1
+  set -gx PYENV_VIRTUALENV_VERBOSE_ACTIVATE 1
 
   # don't override venvs activated through other methods
   if not set -qg VIRTUAL_ENV

@@ -11,7 +11,7 @@ let g:ale_echo_msg_format = '[%linter%:%severity%] %code%: %s'
 let g:ale_linters = {}
 let g:ale_fixers = {}
 
-let g:ale_linters.python = ['mypy', 'pylint', 'pyls']
+let g:ale_linters.python = ['pylint', 'pyls']
 let g:ale_fixers.python = ['autopep8', 'black']
 let g:ale_python_black_options = '--line-length 79'
 let g:ale_python_mypy_options = '--strict'

@@ -10,7 +10,8 @@ if status --is-login; and not set -qg TMUX
   # nodejs
   path_prepend $NODENV_ROOT/{shims,bin}
   # python
-  path_prepend $PIPX_BIN_DIR $PYENV_ROOT/{plugins/pyenv-virtualenv/shims,shims,bin}
+  path_prepend $PYENV_ROOT/{shims,bin}
+  path_prepend $PYENV_ROOT/plugins/pyenv-virtualenv/shims $PIPX_BIN_DIR
   # ruby
   path_prepend $RBENV_ROOT/{shims,bin}
   # rust
