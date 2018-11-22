@@ -1,7 +1,7 @@
 if command -sq exa
   __ls_colors
   function ls -w exa -d 'list contents of a directory (exa)'
-    command exa --git --group $argv
+    command exa --git --group --classify $argv
   end
 else if command ls --version >/dev/null 2>&1
   __ls_colors

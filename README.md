@@ -21,29 +21,15 @@ pkg install rcm
 brew install thoughtbot/formulae/rcm
 ```
 
-Then, clone this repo down and install the files using `rcup`. The bootstrapping
-script can then be used to provision the rest of the environment.
+Then, clone this repo down and install the files using `rcup`. Environment
+bootstrapping will occur after the dotfiles are installed.
 
 ```sh
 git clone https://github.com/neersighted/dotfiles "$HOME/.dotfiles"
-RCRC="$HOME/.dotfiles/rcrc" rcup -v
-$HOME/.local/bin/bootstrap
-```
-
-Once the script finishes, you may want to install additional (tagged) dotfiles.
-Select from the tags below and run:
-
-```sh
-rcup -t [tag...]
+RCRC="$HOME/.dotfiles/rcrc" rcup -v -t <tags>
 ```
 
 Restart your shell to make sure the changes are fully applied.
-
-## Tags
-
-* `gui` (systems with graphical applications)
-* `wsl` (systems running under the windows subsystem for linux)
-* `x11` (systems using the x11 display server)
 
 ## License
 
