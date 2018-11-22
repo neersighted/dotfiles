@@ -148,17 +148,9 @@ endsection
 
 section "fish"
   fish=$(command -v fish)
-  if [ ! "$(getshell)" = "$fish" ] && [ -z "$ROOTLESS" ]; then
+  if [ ! "$(getshell)" = "$fish" ]; then
     info "Changing login shell to fish..."
-
-    case $(uname) in
-      FreeBSD)
-        su root -c "chsh -s $USER $fish"
-        ;;
-      *)
-        sudo chsh -s "$fish" "$USER"
-        ;;
-    esac
+    chsh -s "$fish"
   fi
 
   if [ ! -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
