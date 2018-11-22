@@ -541,6 +541,8 @@ section "Git"
       fi
     ;;
   esac
+
+  mkdir -p "$XDG_DATA_HOME/tig"
 endsection
 
 
