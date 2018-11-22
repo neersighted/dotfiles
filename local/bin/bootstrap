@@ -98,7 +98,7 @@ section "Packages"
     FreeBSD)
       BLD="ccache cmake gcc gmake pkgconf"
       LIB="libssh2 openssl sqlite3"
-      USR="bash cmatrix coreutils curl fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses python3 hs-ShellCheck socat tig tmux universal-ctags unzip vlock whois"
+      USR="bash cmatrix coreutils curl fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses python python3 hs-ShellCheck socat tig tmux universal-ctags unzip vlock whois"
 
       INSTALLED=$(pkg info -q)
       ;;
@@ -301,7 +301,7 @@ section "Python"
 
   if ! command -v pipx >/dev/null; then
     info "Installing pipx..."
-    curl -L https://git.io/get-pipx | PYENV_VERSION=system python3 - -- --no-modify-path
+    curl -L https://git.io/get-pipx | python3 - --no-modify-path
   else
     info "Updating pipx packages..."
     pipx upgrade-all
@@ -487,6 +487,7 @@ endsection
 
 section "Git"
   npm_install "diff-so-fancy"
+  go_get "github.com/mkchoi212/fac"
   npm_install "git-open"
   npm_install "git-recent"
   npm_install "git-standup"
