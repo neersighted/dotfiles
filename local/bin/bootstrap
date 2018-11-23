@@ -116,7 +116,7 @@ section "Packages"
 
   for pkg in $BLD $LIB $USR; do
     if ! echo "$INSTALLED" | grep -Fwq "$pkg"; then
-      PKGS="$PKGS $pkg"
+      PKGS="${PKGS:+$PKGS }$pkg"
     fi
   done
 
