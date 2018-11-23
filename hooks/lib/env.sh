@@ -11,3 +11,10 @@ fi
 if [ -z "$XDG_CACHE_HOME" ]; then
   export XDG_CACHE_HOME="$HOME/.cache"
 fi
+
+if [ -z "$CC" ]; then
+  export CC=cc
+fi
+if [ -z "$CXX" ]; then
+  export CCX=c++
+fi
