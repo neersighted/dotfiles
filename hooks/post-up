@@ -1,3 +1,83 @@
 #!/bin/sh
 
-../local/bin/bootstrap
+set -e
+
+. lib/env.sh
+. lib/install.sh
+. lib/logging.sh
+. lib/registry.sh
+. lib/utils.sh
+
+section "System Packages"
+case $(uname) in
+  Linux)
+    BLD="autoconf bison build-essential ccache clang cmake pkgconf"
+    LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libyaml-dev zlib1g-dev"
+    USR="cmatrix curl fish fortune gdb git git-lfs gnupg htop jq lftp libfile-mimeinfo-perl mosh neofetch neovim python3-dev python3-venv shellcheck socat stow tig tmux unzip vlock whois xdg-utils"
+
+    INSTALLED=$(dpkg-query -f '${binary:Package}\n' -W)
+    ;;
+  FreeBSD)
+    BLD="ccache cmake gcc gmake pkgconf"
+    LIB="libssh2 openssl sqlite3"
+    USR="bash cmatrix coreutils curl fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses python python3 hs-ShellCheck socat tig tmux stow universal-ctags unzip vlock whois"
+
+    INSTALLED=$(pkg query '%n')
+    ;;
+  Darwin)
+    BLD="ccache cmake"
+    LIB="readline libffi libyaml openssl zlib"
+    USR="cmatrix coreutils ctags curl findutils fish fortune gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim pinentry-mac python shellcheck socat stow tmux unzip xz"
+
+    INSTALLED=$(brew ls -1)
+    ;;
+  *)
+    error "Unsupported operating system."
+    ;;
+esac
+for pkg in $BLD $LIB $USR; do
+  if ! echo "$INSTALLED" | grep -Fwq "$pkg"; then
+    PKGS="${PKGS:+$PKGS }$pkg"
+  fi
+done
+if [ -n "$PKGS" ]; then
+  if [ -z "$SKIP_PKGS" ]; then
+    case $(uname) in
+      Linux)
+        info "Installing system packages with apt..."
+        sudo sh -c "apt-get install -y $PKGS"
+        ;;
+      FreeBSD)
+        info "Installing system packages with pkg..."
+        su root -c "pkg install -y $PKGS"
+        ;;
+      Darwin)
+        info "Installing system packages with brew..."
+        sh -c "brew install $PKGS"
+        ;;
+    esac
+  else
+    important "The following system packages are missing:"
+    echo "$PKGS"
+  fi
+else
+  info "All system packages are installed."
+fi
+
+section "Language Support"
+for support in support/*.sh; do
+  if ! echo "$SKIP_LANGUAGES" | grep -Fq "$(stem "$support")"; then
+    # shellcheck source=/dev/null
+    . "./$support"
+  fi
+done
+
+section "Toolsets"
+for toolset in toolset/*.sh; do
+  if ! echo "$SKIP_TOOLSETS" | grep -Fq "$(stem "$toolset")"; then
+    # shellcheck source=/dev/null
+    . "./$toolset"
+  fi
+done
+
+important "Done! Restart your shell!"
