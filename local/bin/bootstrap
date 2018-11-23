@@ -90,7 +90,7 @@ fi
 important "Provisioning base system and environment..."
 
 
-section "Packages"
+section "System Packages"
   case $(uname) in
     Linux)
       BLD="autoconf bison build-essential ccache clang cmake pkgconf"
@@ -125,7 +125,7 @@ section "Packages"
   done
 
   if [ -n "$PKGS" ]; then
-    if [ -z "$ROOTLESS" ]; then
+    if [ -z "$NOPKG" ]; then
       case $(uname) in
         Linux)
           info "Installing standard packages with apt..."
@@ -141,37 +141,12 @@ section "Packages"
           ;;
       esac
     else
-      info "Unable to install the following packages without root:"
+      info "The following system packages would be installed:"
       echo "$PKGS"
     fi
   else
     info "All standard packages are installed."
   fi
-endsection
-
-
-section "fish"
-  fish=$(command -v fish)
-  if [ ! "$(getshell)" = "$fish" ]; then
-    if grep -Fxq "$fish" /etc/shells; then
-      info "Adding $fish to /etc/shells..."
-      echo "$fish" | sudo tee -a /etc/shells
-    fi
-
-    info "Changing login shell to fish..."
-    chsh -s "$fish"
-  fi
-
-  if [ ! -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
-    info "Fetching fisher..."
-    curl -L https://git.io/fisher > "$XDG_CONFIG_HOME/fish/functions/fisher.fish"
-  else
-    info "Updating fisher..."
-    fish -c 'fisher self-update'
-  fi
-
-  info "Syncing fish plugins using fisher..."
-  fish -c 'fisher'
 endsection
 
 
@@ -451,38 +426,38 @@ endsection
 important "Setting up tools and utilities..."
 
 
-section "CLI"
-  pipx_install "asciinema"
-  cargo_install "bat"
-  cargo_install "hyperfine"
-  go_get "github.com/simeji/jid/cmd/jid"
-  pipx_install "shell-functools"
-  go_get "mvdan.cc/xurls/cmd/xurls"
-  cargo_install "watchexec"
+section "fish"
+  fish=$(command -v fish)
+  if [ ! "$(getshell)" = "$fish" ]; then
+    if grep -Fxq "$fish" /etc/shells; then
+      info "Adding $fish to /etc/shells..."
+      echo "$fish" | sudo tee -a /etc/shells
+    fi
 
-
-  if ! command -v ngrok >/dev/null; then
-    info "Installing ngrok..."
-
-    goversion=$(go version | awk '{print $4}')
-    GOOS=${goversion%/*}
-    GOARCH=${goversion#*/}
-
-    curl "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-$GOOS-$GOARCH.zip" | funzip > "$HOME/.local/bin/ngrok"
-    chmod +x "$HOME/.local/bin/ngrok"
-  else
-    info "Updating ngrok..."
-    ngrok update
+    info "Changing login shell to fish..."
+    chsh -s "$fish"
   fi
+
+  if [ ! -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
+    info "Fetching fisher..."
+    curl -L https://git.io/fisher -o "$XDG_CONFIG_HOME/fish/functions/fisher.fish"
+  else
+    info "Updating fisher..."
+    fish -c 'fisher self-update'
+  fi
+
+  info "Syncing fish plugins using fisher..."
+  fish -c 'fisher'
 endsection
 
 
-section "File"
-  cargo_install "exa"
-  cargo_install "fd-find"
-  cargo_install "ripgrep"
-  go_get "github.com/boyter/scc"
-  cargo_install "tokei"
+section "fzf"
+  go_get "github.com/junegunn/fzf"
+
+  if [ ! -L "$HOME/.local/bin/fzf-tmux" ]; then
+    info "Linking fzf-tmux..."
+    ln -sf "$GOPATH/src/github.com/junegunn/fzf/bin/fzf-tmux" "$HOME/.local/bin/fzf-tmux"
+  fi
 endsection
 
 
@@ -523,16 +498,6 @@ section "Git"
 endsection
 
 
-section "fzf"
-  go_get "github.com/junegunn/fzf"
-
-  if [ ! -L "$HOME/.local/bin/fzf-tmux" ]; then
-    info "Linking fzf-tmux..."
-    ln -sf "$GOPATH/src/github.com/junegunn/fzf/bin/fzf-tmux" "$HOME/.local/bin/fzf-tmux"
-  fi
-endsection
-
-
 section "GnuPG"
   if [ -z "$GNUPGHOME" ]; then
     export GNUPGHOME="$HOME/.gnupg"
@@ -545,7 +510,53 @@ section "GnuPG"
 endsection
 
 
-section "(n)vim"
+section "Misc"
+  # Simple Utilities
+  cargo_install "bat"
+  cargo_install "exa"
+  cargo_install "fd-find"
+  cargo_install "hyperfine"
+  cargo_install "ripgrep"
+  cargo_install "watchexec"
+
+  # Code Counters
+  go_get "github.com/boyter/scc"
+  cargo_install "tokei"
+
+  # Data Processing
+  go_get "github.com/simeji/jid/cmd/jid"
+  go_get "mvdan.cc/xurls/cmd/xurls"
+
+  # Shell Tools
+  pipx_install "asciinema"
+  pipx_install "shell-functools"
+
+  if ! command -v ngrok >/dev/null; then
+    info "Installing ngrok..."
+
+    goversion=$(go version | awk '{print $4}')
+    GOOS=${goversion%/*}
+    GOARCH=${goversion#*/}
+
+    curl "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-$GOOS-$GOARCH.zip" | funzip > "$HOME/.local/bin/ngrok"
+    chmod +x "$HOME/.local/bin/ngrok"
+  else
+    info "Updating ngrok..."
+    ngrok update
+  fi
+endsection
+
+
+section "Neovim"
+  if ! command -v nvim >/dev/null; then
+    neovim_appimage=$(curl "https://api.github.com/repos/neovim/neovim/releases/latest" \
+      | jq -r '.assets[] | select(.name == "nvim.appimage") | .browser_download_url')
+
+    info "System Neovim not available; downloading Neovim AppImage..."
+    curl -L "$neovim_appimage" -o "$HOME/.local/bin/nvim"
+  fi
+
+
   for pair in neovim2:$PYTHON2_VERSION neovim3:$PYTHON3_VERSION; do
     venv=$(echo "$pair" | cut -d: -f1)
     vers=$(echo "$pair" | cut -d: -f2)
