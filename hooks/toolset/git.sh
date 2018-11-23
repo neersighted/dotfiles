@@ -10,7 +10,6 @@ npm_install "diff-so-fancy"
 npm_install "git-open"
 npm_install "git-recent"
 npm_install "git-standup"
-go_get "github.com/nishanths/license"
 
 case $(uname) in
   Linux)

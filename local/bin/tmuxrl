@@ -19,7 +19,7 @@ open () {
       command open "$1"
       ;;
     *)
-      if uname -r | grep -Fq "Microsoft"; then
+      if uname -r | grep -Fq Microsoft; then
         powershell.exe Start "$1"
       else
         xdg-open "$1"

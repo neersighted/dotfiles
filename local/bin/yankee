@@ -123,15 +123,7 @@ paste() {
   echo "could not find a method to read the clipboard" >&2; exit 1
 }
 
-tmux_tee() {
-  if [ -n "$TMUX" ]; then
-    tmux load-buffer -; tmux save-buffer -
-  else
-    cat
-  fi
-}
-
 case $op in
-  yank) tmux_tee | yank;;
+  yank) yank;;
   put) paste;;
 esac
