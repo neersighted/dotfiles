@@ -1,6 +1,7 @@
 function sudo -d 'execute a command as another user'
   if test $argv[1] = nvim
-    command sudo -e $argv[2..-1]
+    set -e argv[1]
+    command sudo -e $argv
   else
     command sudo $argv
   end
