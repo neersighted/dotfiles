@@ -12,22 +12,22 @@ section "System Packages"
 case $(uname) in
   Linux)
     BLD="automake bison ccache clang cmake gcc g++ make pkgconf"
-    LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libyaml-dev uuid-dev zlib1g-dev"
-    USR="cmatrix curl fish gdb git git-lfs gnupg htop jq lftp libfile-mimeinfo-perl mosh neofetch neovim python3-dev python3-venv shellcheck socat stow tig tmux unzip vlock whois xdg-utils xz-utils"
+    LIB="libbz2-dev libffi-dev libgdbm-dev libncurses5-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libyaml-dev uuid-dev zlib1g-dev"
+    USR="bzip2 cmatrix curl elinks fish gdb git git-lfs gnupg htop jq lftp libfile-mimeinfo-perl mosh neofetch neovim shellcheck socat stow tig tmux unzip vlock whois xdg-utils xz-utils"
 
     INSTALLED=$(dpkg-query -f '${Package}\n' -W)
     ;;
   FreeBSD)
     BLD="automake ccache cmake gcc gmake pkgconf"
     LIB="libffi libyaml ncurses openssl readline sqlite3"
-    USR="bash cmatrix coreutils curl fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses python python3 hs-ShellCheck socat tig tmux stow universal-ctags unzip vlock whois"
+    USR="bash cmatrix coreutils curl elinks fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses python python2 python3 hs-ShellCheck socat tig tmux stow universal-ctags unzip vlock whois xdg-utils"
 
     INSTALLED=$(pkg query '%n')
     ;;
   Darwin)
     BLD="automake ccache cmake"
     LIB="gmp gdbm libffi libyaml openssl readline"
-    USR="cmatrix coreutils ctags curl fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim pinentry-mac python shellcheck socat stow tmux unzip xz"
+    USR="cmatrix coreutils ctags curl fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim pinentry-mac shellcheck socat stow tmux unzip xz"
 
     INSTALLED=$(brew ls -1)
     ;;
