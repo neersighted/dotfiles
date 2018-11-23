@@ -19,7 +19,7 @@ if !exists('s:fzf_configured') " Due to a pack bug with duplicated code.
   nnoremap <leader>O :GFiles?<cr>
   nnoremap <leader>T :Tags<cr>
   nnoremap <leader>o :Files<cr>
-  nnoremap <leader>R :Rg<cr>
+  nnoremap <leader>r :Rg<cr>
   nnoremap <leader>t :BTags<cr>
 
   nmap <leader>m <plug>(fzf-maps-n)

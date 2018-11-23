@@ -32,6 +32,11 @@
   name: "airblade/vim-gitgutter"
   opt: false
 - 
+  category: editing
+  local: false
+  name: "bfredl/nvim-miniyank"
+  opt: false
+- 
   category: syntax
   local: false
   name: "ccraciun/vim-dreammaker"
