@@ -87,67 +87,65 @@ fi
 # Base System
 #
 
-important "Provisioning base system and environment..."
+important "Provisioning system packages..."
 
 
-section "System Packages"
-  case $(uname) in
-    Linux)
-      BLD="autoconf bison build-essential ccache clang cmake pkgconf"
-      LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libyaml-dev zlib1g-dev"
-      USR="cmatrix curl exuberant-ctags fish fortune gdb git git-lfs gnupg htop jq lftp libfile-mimeinfo-perl mosh neofetch neovim python3-dev python3-venv shellcheck socat stow tig tmux unzip vlock whois xdg-utils"
+case $(uname) in
+  Linux)
+    BLD="autoconf bison build-essential ccache clang cmake pkgconf"
+    LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libyaml-dev zlib1g-dev"
+    USR="cmatrix curl fish fortune gdb git git-lfs gnupg htop jq lftp libfile-mimeinfo-perl mosh neofetch neovim python3-dev python3-venv shellcheck socat stow tig tmux unzip vlock whois xdg-utils"
 
-      INSTALLED=$(dpkg-query -f '${binary:Package}\n' -W)
-      ;;
-    FreeBSD)
-      BLD="ccache cmake gcc gmake pkgconf"
-      LIB="libssh2 openssl sqlite3"
-      USR="bash cmatrix coreutils curl fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses python python3 hs-ShellCheck socat tig tmux stow universal-ctags unzip vlock whois"
+    INSTALLED=$(dpkg-query -f '${binary:Package}\n' -W)
+    ;;
+  FreeBSD)
+    BLD="ccache cmake gcc gmake pkgconf"
+    LIB="libssh2 openssl sqlite3"
+    USR="bash cmatrix coreutils curl fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses python python3 hs-ShellCheck socat tig tmux stow universal-ctags unzip vlock whois"
 
-      INSTALLED=$(pkg info -q)
-      ;;
-    Darwin)
-      BLD="ccache cmake"
-      LIB="readline libffi libyaml openssl zlib"
-      USR="cmatrix coreutils ctags curl findutils fish fortune gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim pinentry-mac python shellcheck socat stow tmux unzip xz"
+    INSTALLED=$(pkg info -q)
+    ;;
+  Darwin)
+    BLD="ccache cmake"
+    LIB="readline libffi libyaml openssl zlib"
+    USR="cmatrix coreutils ctags curl findutils fish fortune gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim pinentry-mac python shellcheck socat stow tmux unzip xz"
 
-      INSTALLED=$(brew list)
-      ;;
-    *)
-      error "Unsupported operating system."
-      ;;
-  esac
+    INSTALLED=$(brew list)
+    ;;
+  *)
+    error "Unsupported operating system."
+    ;;
+esac
 
-  for pkg in $BLD $LIB $USR; do
-    if ! echo "$INSTALLED" | grep -Fwq "$pkg"; then
-      PKGS="${PKGS:+$PKGS }$pkg"
-    fi
-  done
-
-  if [ -n "$PKGS" ]; then
-    if [ -z "$NOPKG" ]; then
-      case $(uname) in
-        Linux)
-          info "Installing standard packages with apt..."
-          sudo sh -c "apt-get install -y $PKGS"
-          ;;
-        FreeBSD)
-          info "Installing standard packages with pkg..."
-          su root -c "pkg install -y $PKGS"
-          ;;
-        Darwin)
-          info "Installing standard packages with brew..."
-          sh -c "brew install $PKGS"
-          ;;
-      esac
-    else
-      info "The following system packages would be installed:"
-      echo "$PKGS"
-    fi
-  else
-    info "All standard packages are installed."
+for pkg in $BLD $LIB $USR; do
+  if ! echo "$INSTALLED" | grep -Fwq "$pkg"; then
+    PKGS="${PKGS:+$PKGS }$pkg"
   fi
-endsection
+done
+
+if [ -n "$PKGS" ]; then
+  if [ -z "$NOPKG" ]; then
+    case $(uname) in
+      Linux)
+        info "Installing standard packages with apt..."
+        sudo sh -c "apt-get install -y $PKGS"
+        ;;
+      FreeBSD)
+        info "Installing standard packages with pkg..."
+        su root -c "pkg install -y $PKGS"
+        ;;
+      Darwin)
+        info "Installing standard packages with brew..."
+        sh -c "brew install $PKGS"
+        ;;
+    esac
+  else
+    info "The following system packages would be installed:"
+    echo "$PKGS"
+  fi
+else
+  info "All standard packages are installed."
+fi
 
 
 #
@@ -373,6 +371,7 @@ section "Rust"
   fi
 
   info "Generating rustup fish completion..."
+  mkdir -p "$XDG_CONFIG_HOME/fish/completions"
   rustup completions fish > "$XDG_CONFIG_HOME/fish/completions/rustup.fish"
 
   if command -v cargo-install-update >/dev/null; then
@@ -552,7 +551,7 @@ section "Neovim"
     neovim_appimage=$(curl "https://api.github.com/repos/neovim/neovim/releases/latest" \
       | jq -r '.assets[] | select(.name == "nvim.appimage") | .browser_download_url')
 
-    info "System Neovim not available; downloading Neovim AppImage..."
+    info "Downloading latest NeoVim AppImage..."
     curl -L "$neovim_appimage" -o "$HOME/.local/bin/nvim"
   fi
 
