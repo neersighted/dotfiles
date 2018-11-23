@@ -9,7 +9,7 @@
 [credential]
 	username = neersighted
 	helper = manager 2>/dev/null
-	helper = netrc -f ${XDG_DATA_HOME:-$HOME/.local/share}/git-credentials.gpg
+	helper = netrc -f ${XDG_CONFIG_HOME:-$HOME/.config}/git/credentials.gpg
 	helper = cache --timeout=3600
 
 #

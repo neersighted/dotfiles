@@ -26,11 +26,7 @@ yank() {
   # GUI-only systems (macOS/WSL)
   if [ -z "$SSH_CLIENT" ]; then
     if [ "$(uname)" = "Darwin" ]; then
-      if command -v reattach-to-user-namespace >/dev/null; then
-        exec reattach-to-user-namespace pbcopy
-      else
-        exec pbcopy
-      fi
+      exec pbcopy
     elif uname -r | grep -Fq Microsoft; then
       if command -v win32yank.exe >/dev/null; then
         exec win32yank.exe -i --crlf
@@ -95,11 +91,7 @@ paste() {
   # GUI-only systems (macOS/WSL)
   if [ -z "$SSH_CLIENT" ]; then
     if [ "$(uname)" = "Darwin" ]; then
-      if command -v reattach-to-user-namespace >/dev/null; then
-        exec reattach-to-user-namespace pbpaste
-      else
-        exec pbpaste
-      fi
+      exec pbpaste
     elif uname -r | grep -Fq Microsoft; then
       if command -v win32yank.exe >/dev/null; then
         exec win32yank.exe -o --lf
