@@ -2,7 +2,7 @@
 if not set -qg TMUX
   if status --is-login
     # locale setup
-    if not set -qg LANG
+    if not set -qg LANG; or test $LANG = C.UTF-8
       set -gx LANG en_US.UTF-8
     end
 
