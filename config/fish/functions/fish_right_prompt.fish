@@ -5,7 +5,7 @@ function fish_right_prompt --description 'right prompt'
     return
   end
 
-  test $USER = root
+  test $USER = 'root'
     and set_color $fish_color_cwd_root
     or set_color $fish_color_cwd
   printf ' %s' (prompt_pwd)
@@ -15,7 +15,7 @@ function fish_right_prompt --description 'right prompt'
 
   if set -qg VIRTUAL_ENV
     set -l venv (basename $VIRTUAL_ENV)
-    if test $venv = .venv
+    if test $venv = '.venv'
       set venv (basename (dirname $VIRTUAL_ENV))
     end
 

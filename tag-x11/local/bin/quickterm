@@ -27,7 +27,7 @@ fi
   # loop until the quickterm exits
   while id=$(xdotool search --classname "$name"); do
     # if focus is lost, hide and exit
-    if [ ! "$id" = "$(xdotool getactivewindow)" ]; then
+    if [ "$id" != "$(xdotool getactivewindow)" ]; then
       xdotool windowunmap "$id"
       exit
     fi

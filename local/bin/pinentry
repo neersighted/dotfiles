@@ -20,7 +20,7 @@ if [ -n "$DISPLAY" ]; then
   elif command -v pinentry-gtk-2 >/dev/null; then
     exec pinentry-gtk-2 "$@"
   fi
-elif [ "$(uname)" = "Darwin" ]; then
+elif [ "$(uname)" = 'Darwin' ]; then
   if command -v pinentry-mac >/dev/null; then
     exec pinentry-mac "$@"
   fi

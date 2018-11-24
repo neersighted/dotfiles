@@ -4,7 +4,7 @@ support_subsection() {
 }
 
 has_support() {
-  echo "$SUPPORTED" | grep -Fq "$1"
+  echo "$SUPPORTED" | grep -Fxq "$1"
 }
 
 toolset_subsection() {
@@ -13,5 +13,5 @@ toolset_subsection() {
 }
 
 has_toolset() {
-  echo "$TOOLSETS" | grep -Fq "$1"
+  echo "$TOOLSETS" | grep -Fxq "$1"
 }

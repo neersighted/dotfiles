@@ -1,12 +1,12 @@
 # root (non-tmux) shells
 if not set -qg TMUX
   if status --is-login
-    # locale setup
-    if not set -qg LANG; or test $LANG = C.UTF-8
+    # locale fixup
+    if not set -qg LANG; or test $LANG = 'C.UTF-8'
       set -gx LANG en_US.UTF-8
     end
 
-    # xdg directory setup
+    # xdg directory fixup
     if not set -qg XDG_CONFIG_HOME
       set -gx XDG_CONFIG_HOME $HOME/.config
     end

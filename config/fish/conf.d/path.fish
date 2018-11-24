@@ -1,5 +1,7 @@
 # first login (tmux creates login shells)
 if status --is-login; and not set -qg TMUX
+  # PATH
+
   # snap
   path_prepend /snap/bin
   # ccache {linux, {bsd, macos}}
@@ -18,4 +20,24 @@ if status --is-login; and not set -qg TMUX
   path_prepend $CARGO_HOME/bin
   # dotfiles/local
   path_prepend $HOME/.local/bin
+
+  # MANPATH
+
+  # base manpath
+  if not set -qg MANPATH; and command -sq manpath
+    set -gx MANPATH (string split ':' (manpath))
+  end
+
+  # additional manpages
+  if test -n "$MANPATH"
+    for manpath in \
+      $NODENV_ROOT/versions/*/share/man \
+      $PYENV_ROOT/versions/*/share/man \
+      $PIPX_HOME/*/share/man \
+      $RBENV_ROOT/versions/*/share/man \
+      $RUSTUP_HOME/toolchains/*/share/man
+
+      set -gx MANPATH $manpath $MANPATH
+    end
+  end
 end
