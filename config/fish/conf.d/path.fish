@@ -24,20 +24,18 @@ if status --is-login; and not set -qg TMUX
   # MANPATH
 
   # base manpath
-  if not set -qg MANPATH; and command -sq manpath
-    set -gx MANPATH (string split ':' (manpath))
+  if not set -qg MANPATH
+    set -gx MANPATH ''
   end
 
   # additional manpages
-  if test -n "$MANPATH"
-    for manpath in \
-      $NODENV_ROOT/versions/*/share/man \
-      $PYENV_ROOT/versions/*/share/man \
-      $PIPX_HOME/*/share/man \
-      $RBENV_ROOT/versions/*/share/man \
-      $RUSTUP_HOME/toolchains/*/share/man
+  for manpath in \
+    $NODENV_ROOT/versions/*/share/man \
+    $PYENV_ROOT/versions/*/share/man \
+    $PIPX_HOME/*/share/man \
+    $RBENV_ROOT/versions/*/share/man \
+    $RUSTUP_HOME/toolchains/*/share/man
 
-      set -gx MANPATH $manpath $MANPATH
-    end
+    set -gx MANPATH $manpath $MANPATH
   end
 end
