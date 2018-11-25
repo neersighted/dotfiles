@@ -10,5 +10,5 @@ if not set -qg LESSOPEN
 end
 
 function less -d 'less is more'
-  command less --quit-if-one-screen $argv
+  command less $argv
 end

@@ -14,6 +14,7 @@ cargo_install "watchexec"
 
 # Pipeline Tools
 pipx_install "shell-functools"
+pipx_install "pygments"
 
 # Parsing/Extraction Tools
 go_get "github.com/simeji/jid/cmd/jid"
