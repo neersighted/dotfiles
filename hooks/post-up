@@ -20,7 +20,7 @@ case $(uname) in
   FreeBSD)
     BLD="automake ccache cmake gcc gmake pkgconf"
     LIB="libffi libyaml ncurses openssl readline sqlite3"
-    USR="bash coreutils curl elinks fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses python python2 python3 hs-ShellCheck socat stow tig tmux ts universal-ctags unzip vlock whois xdg-utils"
+    USR="bash coreutils curl elinks fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses postgresql10-client python python2 python3 hs-ShellCheck socat stow tig tmux ts universal-ctags unzip vlock whois xdg-utils"
 
     INSTALLED=$(pkg query '%n')
     ;;

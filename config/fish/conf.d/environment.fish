@@ -40,6 +40,9 @@ end
 
 # universal configuration
 if not set -qU fish_initialized
+  # fish
+  set -U fish_greeting
+
   # editor
   set -Ux VISUAL nvim
   set -Ux EDITOR $VISUAL
