@@ -5,6 +5,10 @@ function __tmux_resync --on-signal USR1
   end
 end
 
+function __direnv_export_eval --on-variable PWD
+  direnv export fish | source
+end
+
 function __pyenv_virtualenv_activate --on-variable PWD
   if status --is-command-substitution
     return

@@ -13,21 +13,21 @@ case $(uname) in
   Linux)
     BLD="automake bison ccache clang cmake gcc g++ make pkgconf"
     LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libyaml-dev uuid-dev zlib1g-dev"
-    USR="bzip2 cmatrix curl elinks fish gdb git git-lfs gnupg htop jq lftp libarchive-tools libfile-mimeinfo-perl mosh neofetch neovim shellcheck socat stow task-spooler tig tmux unzip vlock whois xdg-utils xz-utils"
+    USR="bzip2 curl elinks fish gdb git git-lfs gnupg htop jq lftp libarchive-tools libfile-mimeinfo-perl mosh neofetch neovim shellcheck socat stow task-spooler tig tmux unzip vlock whois xdg-utils xz-utils"
 
     INSTALLED=$(dpkg-query -f '${Package}\n' -W)
     ;;
   FreeBSD)
     BLD="automake ccache cmake gcc gmake pkgconf"
     LIB="libffi libyaml ncurses openssl readline sqlite3"
-    USR="bash cmatrix coreutils curl elinks fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses python python2 python3 hs-ShellCheck socat stow tig tmux ts universal-ctags unzip vlock whois xdg-utils"
+    USR="bash coreutils curl elinks fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses python python2 python3 hs-ShellCheck socat stow tig tmux ts universal-ctags unzip vlock whois xdg-utils"
 
     INSTALLED=$(pkg query '%n')
     ;;
   Darwin)
     BLD="automake ccache cmake"
     LIB="gmp gdbm libffi libyaml openssl readline"
-    USR="cmatrix coreutils ctags curl fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim pinentry-mac shellcheck socat stow task-spooler tmux unzip xz"
+    USR="coreutils ctags curl fish gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim pinentry-mac shellcheck socat stow task-spooler tmux unzip xz"
 
     INSTALLED=$(brew ls -1)
     ;;

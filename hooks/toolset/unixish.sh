@@ -18,4 +18,5 @@ pipx_install "pygments"
 
 # Parsing/Extraction Tools
 go_get "github.com/simeji/jid/cmd/jid"
+cargo_install "xsv"
 go_get "mvdan.cc/xurls/cmd/xurls"
