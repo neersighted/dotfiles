@@ -9,7 +9,7 @@ if not set -qg TMUX; and not set -qg SSH_CONNECTION; and not set -qg QUICKTERM
     if command -sq weasel-pageant; and command -sq gpg-connect-agent.exe
       # connect ssh to windows gpg-agent via weasel-pageant
       gpg-connect-agent.exe /bye >/dev/null 2>&1
-      source (weasel-pageant -q -S fish | psub)
+      weasel-pageant -q -S fish | source
       if test ! -S "$GNUPGHOME/S.gpg-agent"; and command -sq npiperelay.exe
         gpg-relay (command -s npiperelay.exe)
       end

@@ -4,7 +4,7 @@ function goenv -d 'go environment manager'
 
   switch $command
   case rehash shell
-    source (goenv sh-$command $argv | psub)
+    command goenv sh-$command $argv | source
   case '*'
     command goenv $command $argv
   end

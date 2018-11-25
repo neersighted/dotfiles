@@ -4,7 +4,7 @@ function pyenv -d 'python environment manager'
 
   switch $command
   case activate deactivate rehash shell
-    source (pyenv sh-$command $argv | psub)
+    command pyenv sh-$command $argv | source
   case '*'
     command pyenv $command $argv
   end

@@ -4,7 +4,7 @@ function nodenv -d 'node environment manager'
 
   switch $command
   case rehash shell
-    source (nodenv sh-$command $argv | psub)
+    command nodenv sh-$command $argv | source
   case '*'
     command nodenv $command $argv
   end

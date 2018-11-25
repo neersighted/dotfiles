@@ -4,7 +4,7 @@ function rbenv -d 'ruby environment manager'
 
   switch $command
   case rehash shell
-    source (rbenv sh-$command $argv | psub)
+    command rbenv sh-$command $argv | source
   case '*'
     command rbenv $command $argv
   end
