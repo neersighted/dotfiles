@@ -4,7 +4,7 @@ function! maps#navigate(dir)
 
   execute 'wincmd' a:dir
 
-  if $TERM =~# '^\%(tmux\|screen\)' && winnr() ==# l:winnr
+  if exists('$TMUX') && winnr() ==# l:winnr
     call system('tmux select-pane -'.s:tmux_directions[a:dir])
   endif
 endf
