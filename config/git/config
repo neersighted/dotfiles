@@ -71,7 +71,7 @@
 	sel = "!f() { git log --oneline --color | git sel-fzf $1; }; f"
 	rsel = "!f() { git log -g --oneline --color |  git sel-fzf $1; }; f"
 	sel-ref = "!f() { git show-ref --abbrev |  git sel-fzf $1; }; f"
-	sel-fzf = "!f() { fzf-tmux --ansi --preview='git sel-pre {}' -q \"$1\" | cut -d' ' -f1; }; f"
+	sel-fzf = "!f() { fzf --height=100% --ansi --preview='git sel-pre {}' -q \"$1\" | cut -d' ' -f1; }; f"
 	sel-pre = "!f() { git show --stat --color $(echo $1 | cut -d ' ' -f1); }; f "
 	# quick and easy autosquash commits
 	squash = "!f() { git commit --squash=$(git sel $1); }; f"
