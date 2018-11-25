@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 if [ -z "$LANG" ] || [ "$LANG" = C.UTF-8 ]; then
   export LANG="en_US.UTF-8"
 fi

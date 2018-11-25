@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 toolset_subsection "fzf"
 
 go_get "github.com/junegunn/fzf"

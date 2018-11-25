@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 getshell() {
   case $(uname) in
     Darwin)

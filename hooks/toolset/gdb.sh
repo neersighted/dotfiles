@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 toolset_subsection "GDB"
 
 pipx_install "gdbgui"

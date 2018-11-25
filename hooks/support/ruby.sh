@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 support_subsection "Ruby"
 
 if [ -z "$RBENV_ROOT" ]; then

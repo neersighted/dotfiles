@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 support_subsection "Node.js"
 
 if [ -z "$NODENV_ROOT" ]; then

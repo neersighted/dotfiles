@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 support_subsection "Golang"
 
 if [ -z "$GOPATH" ]; then

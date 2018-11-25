@@ -68,7 +68,7 @@ section "Language Support"
 for support in support/*.sh; do
   if ! echo "$SKIP_LANGUAGES" | grep -Fq "$(stem "$support")"; then
     # shellcheck source=/dev/null
-    . "./$support"
+    . "$support"
   fi
 done
 
@@ -76,7 +76,7 @@ section "Toolsets"
 for toolset in toolset/*.sh; do
   if ! echo "$SKIP_TOOLSETS" | grep -Fq "$(stem "$toolset")"; then
     # shellcheck source=/dev/null
-    . "./$toolset"
+    . "$toolset"
   fi
 done
 

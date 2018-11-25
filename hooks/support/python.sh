@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 support_subsection "Python"
 
 if [ -z "$PIPX_HOME" ]; then

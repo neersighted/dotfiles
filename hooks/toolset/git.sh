@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 toolset_subsection "Git"
 
 go_get "github.com/mkchoi212/fac"

@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 section() {
   printf "\\033[0;33m%s\\033[0m\\n" "$@"
 }

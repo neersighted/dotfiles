@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 toolset_subsection "Rust"
 
 cargo_install "cargo-binutils"

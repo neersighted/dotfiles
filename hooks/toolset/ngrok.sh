@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 toolset_subsection "ngrok"
 
 if ! command -v ngrok >/dev/null; then

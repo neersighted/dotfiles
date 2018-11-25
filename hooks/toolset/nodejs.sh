@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 toolset_subsection "Node.js"
 
 npm_install "flow-language-server"

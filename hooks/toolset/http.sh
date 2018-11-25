@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 toolset_subsection "HTTP"
 
 go_get "github.com/codesenberg/bombardier"

@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 toolset_subsection "Neovim"
 
 if ! command -v nvim >/dev/null; then

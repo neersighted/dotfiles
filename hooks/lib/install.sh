@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 cargo_install() { # target, git
   if has_support "Rust"; then
     if [ -z "$CARGO_INSTALLED" ]; then

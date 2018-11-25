@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 support_subsection "Rust"
 
 if [ -z "$CARGO_HOME" ]; then

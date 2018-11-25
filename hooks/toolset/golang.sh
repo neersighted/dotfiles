@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 toolset_subsection "Golang"
 
 go_get "golang.org/x/lint/golint"

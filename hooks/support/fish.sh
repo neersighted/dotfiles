@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 support_subsection "fish"
 
 fish=$(command -v fish)
