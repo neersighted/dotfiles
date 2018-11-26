@@ -35,7 +35,7 @@ if status --is-interactive; and not set -qg TMUX
     # determine session name
     if set -qg SSH_CONNECTION
       # use ssh client name
-      set session (string split ' ' $SSH_CONNECTION)[1]
+      set session (string replace --all '.' '-' (string split ' ' $SSH_CONNECTION)[1])
     else if string match -q -r '^/dev/(pts/\d+|ttys\d+)$' $tty
       # use local-pty tmux session
       set session (hostname -s)
