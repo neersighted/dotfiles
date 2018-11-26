@@ -3,7 +3,7 @@ function __fish_term24bit --on-variable COLORTERM
   if test "$COLORTERM" = 'truecolor'
     set -g fish_term24bit 1
   else
-    set -ug fish_term24bit
+    set -eg fish_term24bit
   end
 end
 

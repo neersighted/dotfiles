@@ -1,7 +1,4 @@
-# first login (tmux creates login shells)
-if status --is-login; and not set -qg TMUX
-  # PATH
-
+if status --is-login
   # snap
   path_prepend /snap/bin
   # ccache {linux, {bsd, macos}}
@@ -21,20 +18,19 @@ if status --is-login; and not set -qg TMUX
   path_prepend $HOME/.local/bin
 
   # MANPATH
-
-  # base manpath
   if not set -qg MANPATH
+    # search default manpath
     set -gx MANPATH ''
-  end
 
-  # additional manpages
-  for manpath in \
-    $NODENV_ROOT/versions/*/share/man \
-    $PYENV_ROOT/versions/*/share/man \
-    $PIPX_HOME/*/share/man \
-    $RBENV_ROOT/versions/*/share/man \
-    $RUSTUP_HOME/toolchains/*/share/man
+    # additional manpages
+    for manpath in \
+      $NODENV_ROOT/versions/*/share/man \
+      $PYENV_ROOT/versions/*/share/man \
+      $PIPX_HOME/*/share/man \
+      $RBENV_ROOT/versions/*/share/man \
+      $RUSTUP_HOME/toolchains/*/share/man
 
-    set -gx MANPATH $manpath $MANPATH
+      set -gx MANPATH $manpath $MANPATH
+    end
   end
 end
