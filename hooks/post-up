@@ -12,7 +12,7 @@ section "System Packages"
 case $(uname) in
   Linux)
     if command -v dnf >/dev/null; then
-      BLD="automake bison ccache clang cmake compiler-rt gcc libomp make pkgconf"
+      BLD="automake bison ccache clang cmake compiler-rt gcc make pkgconf"
       LIB="bzip2-devel gdbm-devel libffi-devel libuuid-devel libyaml-devel lzma-devel ncurses-devel openssl-devel readline-devel sqlite-devel zlib-devel"
       USR="bzip2 curl elinks fish gdb git git-lfs gnupg htop jq lftp bsdtar perl-File-MimeInfo mosh neofetch neovim ghc-ShellCheck socat stow task-spooler tig tmux unzip vlock whois xdg-utils xz"
 
