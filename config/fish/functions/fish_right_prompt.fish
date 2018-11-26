@@ -1,7 +1,7 @@
 function fish_right_prompt --description 'right prompt'
   set -l last_status $status
 
-  if set -qg prompt_minimal
+  if set -q prompt_minimal
     return
   end
 
@@ -13,7 +13,7 @@ function fish_right_prompt --description 'right prompt'
 
   __fish_git_prompt
 
-  if set -qg VIRTUAL_ENV
+  if set -q VIRTUAL_ENV
     set -l venv (basename $VIRTUAL_ENV)
     if test $venv = '.venv'
       set venv (basename (dirname $VIRTUAL_ENV))

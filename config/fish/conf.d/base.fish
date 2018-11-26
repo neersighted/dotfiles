@@ -1,32 +1,32 @@
 # environment fixup
 if status --is-login
   # locale
-  if not set -qg LANG; or test $LANG = 'C.UTF-8'
-    set -gx LANG en_US.UTF-8
+  if not set -q LANG; or test $LANG = 'C.UTF-8'
+    set -x LANG en_US.UTF-8
   end
 
   # xdg directories
-  if not set -qg XDG_CONFIG_HOME
-    set -gx XDG_CONFIG_HOME $HOME/.config
+  if not set -q XDG_CONFIG_HOME
+    set -x XDG_CONFIG_HOME $HOME/.config
   end
-  if not set -qg XDG_DATA_HOME
-    set -gx XDG_DATA_HOME $HOME/.local/share
+  if not set -q XDG_DATA_HOME
+    set -x XDG_DATA_HOME $HOME/.local/share
   end
-  if not set -qg XDG_CACHE_HOME
-    set -gx XDG_CACHE_HOME $HOME/.cache
+  if not set -q XDG_CACHE_HOME
+    set -x XDG_CACHE_HOME $HOME/.cache
   end
 
   # wsl
-  if not set -qg WSL; and set -qg WSLENV
-    set -gx WSL (string match -r '^\d.\d.\d-(\d+)-Microsoft$' (uname -r))[2]
-    set -gx DISPLAY ':0'
-    set -gx SHELL (command -v fish)
-    set -gx BROWSER 'powershell.exe Start'
+  if not set -q WSL; and set -q WSLENV
+    set -x WSL (string match -r '^\d.\d.\d-(\d+)-Microsoft$' (uname -r))[2]
+    set -x DISPLAY ':0'
+    set -x SHELL (command -v fish)
+    set -x BROWSER 'powershell.exe Start'
   end
 end
 
 # universal configuration
-if not set -qU fish_initialized
+if not set -q fish_initialized
   # fish
   set -U fish_greeting
 

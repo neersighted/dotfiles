@@ -3,15 +3,15 @@ function __fish_term24bit --on-variable COLORTERM
   if test "$COLORTERM" = 'truecolor'
     set -g fish_term24bit 1
   else
-    set -eg fish_term24bit
+    set -e fish_term24bit
   end
 end
 
 # aggressive color support
-if status --is-interactive; and not set -qg COLORTERM
+if status --is-interactive; and not set -q COLORTERM
   if string match -q -r '^(xterm|linux)$' $TERM
-    set -gx COLORTERM ''
+    set -x COLORTERM ''
   else
-    set -gx COLORTERM 'truecolor'
+    set -x COLORTERM 'truecolor'
   end
 end

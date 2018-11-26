@@ -1,11 +1,11 @@
-if not set -qg LESSOPEN
+if not set -q LESSOPEN
   # less
   if command -sq lesspipe
-    set -gx LESSOPEN '|'(command -s lesspipe)' %s'
-    set -gx LESSCLOSE (command -s lesspipe)' %s %s'
+    set -x LESSOPEN '|'(command -s lesspipe)' %s'
+    set -x LESSCLOSE (command -s lesspipe)' %s %s'
   else if command -sq lesspipe.sh
-    set -gx LESSOPEN '|'(command -s lesspipe.sh)' %s'
-    set -gx LESS_ADVANCED_PREPROCESSOR 1
+    set -x LESSOPEN '|'(command -s lesspipe.sh)' %s'
+    set -x LESS_ADVANCED_PREPROCESSOR 1
   end
 end
 

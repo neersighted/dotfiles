@@ -13,7 +13,7 @@ function __pyenv_virtualenv_activate --on-variable PWD
   set -gx PYENV_VIRTUALENV_VERBOSE_ACTIVATE 1
 
   # don't override venvs activated through other methods
-  if not set -qg VIRTUAL_ENV
+  if not set -q VIRTUAL_ENV
     # attempt to locate a .pyhon-version file
     if set -l path (upcate .python-version)
       read -l version < $path/.python-version
@@ -26,7 +26,7 @@ function __pyenv_virtualenv_activate --on-variable PWD
       end
     end
   # if we auto-activated a venv, make sure we are still in the directory tree
-  else if set -qg __pyenv_virtualenv; and not string match -q $__pyenv_virtualenv/'*' $PWD/
+  else if set -q __pyenv_virtualenv; and not string match -q $__pyenv_virtualenv/'*' $PWD/
     # if we left, deactivate
     pyenv deactivate
     set -e __pyenv_virtualenv
@@ -39,7 +39,7 @@ function __pipenv_shell_activate --on-variable PWD
   end
 
   # don't attempt nested activations
-  if not set -qg PIPENV_ACTIVE
+  if not set -q PIPENV_ACTIVE
     # attempt to locate a Pipfile and an extant venv
     if set -l path (upcate Pipfile); and test -e $path/.venv
       # start a subshell with knowledge of the Pipfile location
@@ -47,13 +47,13 @@ function __pipenv_shell_activate --on-variable PWD
       pipenv shell
 
       # if the subshell reported a new exit location, jump there
-      if set -qU __pipenv_shell_final
+      if set -q __pipenv_shell_final
         cd $__pipenv_shell_final
-        set -eU __pipenv_shell_final
+        set -e __pipenv_shell_final
       end
     end
   # if we are in a subshell, make sure we are still in the directory tree
-  else if set -qg __pipenv_shell_initial; and not string match -q $__pipenv_shell_initial/'*' $PWD/
+  else if set -q __pipenv_shell_initial; and not string match -q $__pipenv_shell_initial/'*' $PWD/
     # if we left, record the new path and return to the parent shell
     set -U __pipenv_shell_final $PWD
     exit

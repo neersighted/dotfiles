@@ -18,9 +18,9 @@ if status --is-login
   path_prepend $HOME/.local/bin
 
   # MANPATH
-  if not set -qg MANPATH
+  if not set -q MANPATH
     # search default manpath
-    set -gx MANPATH ''
+    set -x MANPATH ''
 
     # additional manpages
     for manpath in \
@@ -30,7 +30,7 @@ if status --is-login
       $RBENV_ROOT/versions/*/share/man \
       $RUSTUP_HOME/toolchains/*/share/man
 
-      set -gx MANPATH $manpath $MANPATH
+      set MANPATH $manpath $MANPATH
     end
   end
 end
