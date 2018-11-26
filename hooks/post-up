@@ -11,11 +11,22 @@ set -e
 section "System Packages"
 case $(uname) in
   Linux)
-    BLD="automake bison ccache clang cmake gcc g++ make pkgconf"
-    LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libyaml-dev uuid-dev zlib1g-dev"
-    USR="bzip2 curl elinks fish gdb git git-lfs gnupg htop jq lftp libarchive-tools libfile-mimeinfo-perl mosh neofetch neovim shellcheck socat stow task-spooler tig tmux unzip vlock whois xdg-utils xz-utils"
+    if command -v dnf >/dev/null; then
+      BLD="automake bison ccache clang cmake compiler-rt gcc libomp make pkgconf"
+      LIB="bzip2-devel gdbm-devel libffi-devel libuuid-devel libyaml-devel lzma-devel ncurses-devel openssl-devel readline-devel sqlite-devel zlib-devel"
+      USR="bzip2 curl elinks fish gdb git git-lfs gnupg htop jq lftp bsdtar perl-File-MimeInfo mosh neofetch neovim ghc-ShellCheck socat stow task-spooler tig tmux unzip vlock whois xdg-utils xz"
 
-    INSTALLED=$(dpkg-query -f '${Package}\n' -W)
+      INSTALLED=$(dnf repoquery --installed --queryformat '%{name}')
+    elif command -v apt-get >/dev/null; then
+
+      BLD="automake bison ccache clang cmake gcc g++ make pkgconf"
+      LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libyaml-dev uuid-dev zlib1g-dev"
+      USR="bzip2 curl elinks fish gdb git git-lfs gnupg htop jq lftp libarchive-tools libfile-mimeinfo-perl mosh neofetch neovim shellcheck socat stow task-spooler tig tmux unzip vlock whois xdg-utils xz-utils"
+
+      INSTALLED=$(dpkg-query -f '${Package}\n' -W)
+    else
+      error "Unsupported package manager."
+    fi
     ;;
   FreeBSD)
     BLD="automake ccache cmake gcc gmake pkgconf"
@@ -44,8 +55,13 @@ if [ -n "$PKGS" ]; then
   if [ -z "$SKIP_PKGS" ]; then
     case $(uname) in
       Linux)
-        info "Installing system packages with apt..."
-        sudo sh -c "apt-get install --no-install-recommends -y $PKGS"
+        if command -v dnf >/dev/null; then
+          info "Installing system packages with dnf..."
+          sudo sh -c "dnf install --setopt=install_weak_deps=False --best -y $PKGS"
+        elif command -v apt-get >/dev/null; then
+          info "Installing system packages with apt..."
+          sudo sh -c "apt-get install --no-install-recommends -y $PKGS"
+        fi
         ;;
       FreeBSD)
         info "Installing system packages with pkg..."
