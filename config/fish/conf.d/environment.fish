@@ -1,41 +1,28 @@
-# root (non-tmux) shells
-if not set -qg TMUX
-  if status --is-login
-    # locale fixup
-    if not set -qg LANG; or test $LANG = 'C.UTF-8'
-      set -gx LANG en_US.UTF-8
-    end
-
-    # xdg directory fixup
-    if not set -qg XDG_CONFIG_HOME
-      set -gx XDG_CONFIG_HOME $HOME/.config
-    end
-    if not set -qg XDG_DATA_HOME
-      set -gx XDG_DATA_HOME $HOME/.local/share
-    end
-    if not set -qg XDG_CACHE_HOME
-      set -gx XDG_CACHE_HOME $HOME/.cache
-    end
-
-    # wsl fixup
-    if set -qg WSLENV
-      set -gx DISPLAY ':0'
-      set -gx SHELL (command -v fish)
-      set -gx BROWSER 'powershell.exe Start'
-    end
+# environment fixup
+if status --is-login
+  # locale
+  if not set -qg LANG; or test $LANG = 'C.UTF-8'
+    set -gx LANG en_US.UTF-8
   end
 
-  if status --is-interactive
-    # aggressive color support
-    if not set -qg COLORTERM; and not string match -q -r '^(xterm|linux)$' $TERM
-      set -gx COLORTERM 'truecolor'
-    end
+  # xdg directories
+  if not set -qg XDG_CONFIG_HOME
+    set -gx XDG_CONFIG_HOME $HOME/.config
   end
-end
+  if not set -qg XDG_DATA_HOME
+    set -gx XDG_DATA_HOME $HOME/.local/share
+  end
+  if not set -qg XDG_CACHE_HOME
+    set -gx XDG_CACHE_HOME $HOME/.cache
+  end
 
-# ignore parent exports in favor of universal exports
-for export in (set -Ux)
-  set -eg (string split ' ' $export)[1]
+  # wsl
+  if not set -qg WSL; and set -qg WSLENV
+    set -gx WSL (string match -r '^\d.\d.\d-(\d+)-Microsoft$' (uname -r))[2]
+    set -gx DISPLAY ':0'
+    set -gx SHELL (command -v fish)
+    set -gx BROWSER 'powershell.exe Start'
+  end
 end
 
 # universal configuration
@@ -88,4 +75,9 @@ if not set -qU fish_initialized
 
   # libvirt
   set -Ux LIBVIRT_DEFAULT_URI qemu:///system
+end
+
+# ignore parent exports in favor of universal exports
+for export in (set -Ux)
+  set -eg (string split ' ' $export)[1]
 end

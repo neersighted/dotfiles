@@ -1,53 +1,60 @@
-# mark shell initialized
 if not set -qU fish_initialized
+  # mark shell initialized
   set -U fish_initialized
 end
 
-# local startup and setup
-if not set -qg TMUX; and not set -qg SSH_CONNECTION; and not set -qg QUICKTERM
-  if status --is-login
-    if command -sq weasel-pageant; and command -sq gpg-connect-agent.exe
+# ssh/gpg startup
+if status --is-login; and not set -qg SSH_CONNECTION
+  if set -qg WSL
+    if not set -qg SSH_AUTH_SOCK
+      # make sure gpg-agent is up
+      command -sq gpg-connect-agent.exe; and gpg-connect-agent.exe /bye >/dev/null 2>&1
       # connect ssh to windows gpg-agent via weasel-pageant
-      gpg-connect-agent.exe /bye >/dev/null 2>&1
-      weasel-pageant -q -S fish | source
-      if test ! -S "$GNUPGHOME/S.gpg-agent"; and command -sq npiperelay.exe
-        gpg-relay (command -s npiperelay.exe)
-      end
-    else
-      # connect ssh to gpg-agent (if not already wired up)
-      set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+      command -sq weasel-pageant; and weasel-pageant -q -S fish | source
     end
+    if test ! -e $GNUPGHOME/S.gpg-agent
+      # connect gpg to windows gpg-agent via socat/npiperelay
+      command -sq npiperelay.exe; and gpg-relay (command -s npiperelay.exe)
+    end
+  else if not string match -q -r 'S.gpg-agent.ssh$' $SSH_AUTH_SOCK
+    # connect ssh to gpg-agent
+    set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
   end
+end
 
-  if status --is-interactive
-    set -l tty (tty)
+# tmux/X startup
+if status --is-interactive; and not set -qg TMUX
+  set -l tty (tty)
 
-    if not set -qg DISPLAY; and string match -q -r '^/dev/tty(1|v0)$' $tty
-      # start i3 if installed (first tty only)
-      command -sq i3; and exec startx $XDG_CONFIG_HOME/xinit/i3
+  if not set -qg DISPLAY; and command -sq startx; and string match -q -r '^/dev/tty(1|v0)$' $tty
+    # start i3 if installed (first tty only)
+    command -sq i3; and exec startx $XDG_CONFIG_HOME/xinit/i3
+  else
+    set -l session
+
+    # determine session name
+    if set -qg SSH_CONNECTION
+      # use ssh client name
+      set session (string split ' ' $SSH_CONNECTION)[1]
+    else if string match -q -r '^/dev/(pts/\d+|ttys\d+)$' $tty
+      # use local-pty tmux session
+      set session (hostname -s)
     else
-      set -l session
+      # use 'physical' tty
+      set session $tty
+    end
 
-      if string match -q -r '^/dev/(pts/\d+|ttys\d+)$' $tty
-        # use shared tmux session (pseudoterminals only)
-        set session (hostname -s)
-      else
-        # use tty-specific tmux session
-        set session $tty
-      end
-
-      # create or attach to tmux session
-      if tmux has-session -t $session
-        tmux attach-session -t $session \; run-shell 'pkill -USR1 -P #{pid} fish'
-      else
-        tmux new-session -s $session
-      end
+    # create or attach to tmux session
+    if tmux has-session -t $session
+      tmux attach-session -t $session \; run-shell 'pkill -USR1 -P #{pid} fish'
+    else
+      tmux new-session -s $session
     end
   end
 end
 
 # non-WSL post-startup
-if status --is-interactive; and test -f $GNUPGHOME/S.gpg-agent
+if status --is-interactive; and not set -qg WSL
   set -gx GPG_TTY (tty)
   gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
 end

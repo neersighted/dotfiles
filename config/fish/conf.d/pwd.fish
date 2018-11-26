@@ -1,10 +1,3 @@
-function __tmux_resync --on-signal USR1
-  set -qg TMUX; and for entry in (tmux show-environment | string match -r '^[^-].*')
-    set -l envpair (string split '=' $entry)
-    set -gx $envpair[1] $envpair[2]
-  end
-end
-
 function __direnv_export_eval --on-variable PWD
   direnv export fish | source
 end
