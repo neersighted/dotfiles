@@ -43,7 +43,7 @@ if not set -q fish_initialized
   set -U fish_pager_color_completion
   set -U fish_pager_color_description $color_yellow
   set -U fish_pager_color_prefix $color_base2
-  set -U fish_pager_color_progress $color_base3 --background=$color_blue
+  set -U fish_pager_color_progress $color_base3 --background $color_blue
 
   # syntax highlighting
   set -U fish_color_normal $color_base0
@@ -59,7 +59,13 @@ if not set -q fish_initialized
   set -U fish_color_comment $color_base01
   set -U fish_color_autosuggestion $color_base01
   set -U fish_color_cancel $color_base01
-  set -U fish_color_search_match --background=$color_base02
-  set -U fish_color_selection $color_base3 --background=$color_cyan
+  set -U fish_color_search_match --background $color_base02
+  set -U fish_color_selection $color_base3 --background $color_cyan
   set -U fish_color_valid_path --underline
+
+  # manpages
+  set -U man_color_blink $color_magenta --bold --underline
+  set -U man_color_bold $color_base2
+  set -U man_color_standout --reverse
+  set -U man_color_underline $color_blue --underline
 end

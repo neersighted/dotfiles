@@ -1,15 +1,15 @@
 function man -d 'display manpages'
-  set -q man_blink; or set -l man_blink green
-  set -q man_bold; or set -l man_bold cyan
-  set -q man_standout; or set -l man_standout black -b white
-  set -q man_underline; or set -l man_underline -u white
+  set -q man_color_blink; or set -l man_color_blink green
+  set -q man_color_bold; or set -l man_color_bold cyan
+  set -q man_color_standout; or set -l man_color_standout black --background white
+  set -q man_color_underline; or set -l man_color_underline white --underline
 
-  set -lx LESS_TERMCAP_mb (set_color $man_blink)
-  set -lx LESS_TERMCAP_md (set_color $man_bold)
+  set -lx LESS_TERMCAP_mb (set_color $man_color_blink)
+  set -lx LESS_TERMCAP_md (set_color $man_color_bold)
   set -lx LESS_TERMCAP_me (set_color normal)
-  set -lx LESS_TERMCAP_so (set_color $man_standout)
+  set -lx LESS_TERMCAP_so (set_color $man_color_standout)
   set -lx LESS_TERMCAP_se (set_color normal)
-  set -lx LESS_TERMCAP_us (set_color $man_underline)
+  set -lx LESS_TERMCAP_us (set_color $man_color_underline)
   set -lx LESS_TERMCAP_ue (set_color normal)
   set -lx GROFF_NO_SGR yes
 
