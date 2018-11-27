@@ -36,7 +36,6 @@ if not set -q fish_initialized
 
   # pager
   set -Ux PAGER less
-  set -Ux MANPAGER 'nvim -c "set ft=man" -'
   set -Ux LESS '--RAW-CONTROL-CHARS --tabs=4'
   set -Ux LESSHISTFILE $XDG_CACHE_HOME/lesshist
 

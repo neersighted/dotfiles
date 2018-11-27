@@ -13,8 +13,12 @@ export PATH="$CARGO_HOME/bin:$PATH"
 if ! command -v rustup >/dev/null; then
   info "Installing rustup and Rust..."
   curl https://sh.rustup.rs | sh -s -- -y --no-modify-path
+  info "Installing nightly Rust..."
+  rustup install nightly
   info "Adding additional toolchain components..."
-  rustup component add rust-src rust-analysis rls-preview clippy-preview rustfmt-preview llvm-tools-preview
+  for toolchain in stable nightly; do
+    rustup component add --toolchain="$toolchain" rust-src rust-analysis rls-preview clippy-preview rustfmt-preview llvm-tools-preview
+  done
 else
   info "Updating Rust and rustup..."
   rustup update
