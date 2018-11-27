@@ -1,3 +1,6 @@
 function fish_clipboard_copy -d 'copy commandline'
-  commandline | yankee
+  set -l cmdline (commandline --current-selection)
+  test -n "$cmdline"; or set cmdline (commandline)
+
+  printf '%s\n' $cmdline | yankee
 end
