@@ -12,7 +12,7 @@ cargo_install "hyperfine"
 cargo_install "ripgrep"
 cargo_install "runiq"
 cargo_install "tealdeer"
-#cargo_install "tin-summer"
+cargo_install "tin-summer"
 cargo_install "watchexec"
 
 # Pipeline Tools
