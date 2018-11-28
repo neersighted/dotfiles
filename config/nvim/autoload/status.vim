@@ -58,7 +58,7 @@ function! status#ale_warning() abort
 endfunction
 
 function! status#cwd() abort
-  return fnamemodify('.', ':~')
+  return fnamemodify(getcwd(), ':~')
 endfunction
 
 function! status#fileencoding() abort

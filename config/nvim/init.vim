@@ -70,7 +70,7 @@ set number relativenumber " Use relative line numbering.
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
 
 " Status
-set noshowmode laststatus=2 showtabline=2 " Use lightline for the statusline/tabline.
+set noshowmode showtabline=2 " Hide mode, always show tabline.
 
 " Splits
 set splitright splitbelow " Open vertical splits to the right, horizontal below.
