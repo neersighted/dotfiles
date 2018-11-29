@@ -21,6 +21,9 @@
 [push]
 	followTags = true
 
+[commit]
+	verbose = true
+
 [diff]
 	mnemonicprefix = true
 	algorithm = patience
