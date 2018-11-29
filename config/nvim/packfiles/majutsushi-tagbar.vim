@@ -1,4 +1,4 @@
-nnoremap <leader>q :TagbarToggle<cr>
+nnoremap <leader>y :TagbarToggle<cr>
 
 let g:tagbar_status_func = 'TagbarStatusline'
 

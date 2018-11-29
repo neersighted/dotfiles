@@ -118,8 +118,8 @@ nnoremap <silent> <c-k> :call maps#navigate('k')<cr>
 nnoremap <silent> <c-l> :call maps#navigate('l')<cr>
 
 " Toggle loclist/quickfix.
-nnoremap <leader>f :call maps#qftoggle(1)<cr>
-nnoremap <leader>F :call maps#qftoggle(0)<cr>
+nnoremap <leader>q :call maps#qftoggle(1)<cr>
+nnoremap <leader>Q :call maps#qftoggle(0)<cr>
 
 "
 " Colors
