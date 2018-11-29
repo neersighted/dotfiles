@@ -16,28 +16,42 @@
 # General Config
 #
 
-[status]
-	short = true
-	branch = true
-	showStash = true
-	submoduleSummary = true
-[format]
-	pretty = %C(yellow)%h%C(magenta)% G? %C(blue)%<(12,trunc)%ar %C(green)%<(16,trunc)%aN %C(reset)%s%C(red)%d
-[pager]
-	branch = less --quit-if-one-screen --no-init
-	diff = diff-so-fancy | less --quit-if-one-screen --no-init
-	show = diff-so-fancy | less --quit-if-one-screen --no-init
+[pull]
+	rebase = true
+[push]
+	followTags = true
 
 [diff]
-	tool = nvr
+	mnemonicprefix = true
 	algorithm = patience
+	tool = nvr
 [merge]
 	tool = nvr
 [rebase]
 	stat = true
 	autoSquash = true
+
+[interactive]
+	singleKey = true
 [sequence]
 	editor = interactive-rebase-tool
+
+[status]
+	short = true
+	branch = true
+	showStash = true
+	submoduleSummary = true
+[log]
+	abbrevCommit = true
+[pager]
+	branch = less --quit-if-one-screen --no-init
+	diff = diff-so-fancy | less --quit-if-one-screen --no-init
+	show = diff-so-fancy | less --quit-if-one-screen --no-init
+[format]
+	pretty = onelineplus
+[pretty]
+	onelineplus = format:%C(yellow)%h%C(auto)%d%C(reset) %s %C(blue)(%cr)%C(reset) %C(green)<%aN>
+	columns = format:%C(yellow)%h%C(magenta)% G? %C(blue)%<(12,trunc)%ar %C(green)%<(16,trunc)%aN %C(reset)%s%C(auto)%d
 
 #
 # Servers
@@ -79,6 +93,9 @@
 	fixup = "!f() { git commit --fixup=$(git sel $1); }; f"
 	# quick and easy branch tracking
 	track = "!f() { git branch -u $(git branch -r --format '%(refname:short)' | git fzf $1); }; f"
+	# misc aliases
+	prune = fetch --prune
+	stash-all = stash save --include-untracked
 	# legit
 	switch = !legit switch
 	sync = !legit sync
@@ -86,15 +103,3 @@
 	unpublish = !legit unpublish
 	undo = !legit undo
 	branches = !legit branches
-
-#
-# Colors
-#
-
-[color "diff"]
-	whitespace = red reverse
-	new = green
-	old = red
-	frag = yellow
-	meta = magenta
-	commit = cyan

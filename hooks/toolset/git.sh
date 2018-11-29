@@ -4,6 +4,7 @@ toolset_subsection "Git"
 
 go_get "github.com/mkchoi212/fac"
 cargo_install "git-interactive-rebase-tool"
+pipx_install "icdiff"
 
 go_get "github.com/github/hub"
 pipx_install "legit"
