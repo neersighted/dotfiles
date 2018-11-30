@@ -31,6 +31,7 @@ if status --is-interactive; and not set -q TMUX
     command -sq i3; and exec startx $XDG_CONFIG_HOME/xinit/i3
   else
     set -l session
+    set -l command
 
     # determine session name
     if set -q SSH_CONNECTION
@@ -44,12 +45,17 @@ if status --is-interactive; and not set -q TMUX
       set session $tty
     end
 
-    # create or attach (unattached) to tmux session
-    if string match -eq "$session 0" (tmux list-sessions -F '#{session_name} #{session_attached}')
-      exec tmux attach-session -t $session \; run-shell 'pkill -USR1 -P #{pid} fish'
+    # determine startup command
+    if string match -eq "$session 0" (tmux list-sessions -F '#{session_name} #{session_attached}' 2>/dev/null)
+      # attach to unattached session
+      set command attach-session -t $session \; run-shell 'pkill -USR1 -P #{pid} fish'
     else if not tmux has-session -t $session 2>/dev/null
-      exec tmux new-session -s $session
+      # create non-existant setting
+      set command new-session -s $session
     end
+
+    # run tmux startup command
+    test -n "$command"; and exec tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf -- $command
   end
 end
 
