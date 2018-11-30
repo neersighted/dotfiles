@@ -4,7 +4,7 @@ toolset_subsection "Rust"
 
 cargo_install "cargo-binutils"
 cargo_install "cargo-bloat"
-cargo_install "cargo-ediu"
+cargo_install "cargo-edit"
 cargo_install "cargo-expand"
 cargo_install "cargo-outdated"
 cargo_install "cargo-sweep"
