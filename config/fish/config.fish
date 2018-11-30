@@ -16,7 +16,7 @@ if status --is-login; and not set -q SSH_CONNECTION
       # connect gpg to windows gpg-agent via socat/npiperelay
       command -sq npiperelay.exe; and gpg-relay (command -s npiperelay.exe)
     end
-  else if not string match -q -r 'S.gpg-agent.ssh$' $SSH_AUTH_SOCK
+  else if not string match -rq 'S.gpg-agent.ssh$' $SSH_AUTH_SOCK
     # connect ssh to gpg-agent
     set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
   end
@@ -26,7 +26,7 @@ end
 if status --is-interactive; and not set -q TMUX
   set -l tty (tty)
 
-  if not set -q DISPLAY; and command -sq startx; and string match -q -r '^/dev/tty(1|v0)$' $tty
+  if not set -q DISPLAY; and command -sq startx; and string match -rq '^/dev/tty(1|v0)$' $tty
     # start i3 if installed (first tty only)
     command -sq i3; and exec startx $XDG_CONFIG_HOME/xinit/i3
   else
@@ -35,8 +35,8 @@ if status --is-interactive; and not set -q TMUX
     # determine session name
     if set -q SSH_CONNECTION
       # use ssh client name
-      set session (string replace --all '.' '-' (string split ' ' $SSH_CONNECTION)[1])
-    else if string match -q -r '^/dev/(pts/\d+|ttys\d+)$' $tty
+      set session (string replace -a '.' '-' (string split ' ' $SSH_CONNECTION)[1])
+    else if string match -rq '^/dev/(pts/\d+|ttys\d+)$' $tty
       # use local-pty tmux session
       set session (hostname -s)
     else
@@ -44,11 +44,11 @@ if status --is-interactive; and not set -q TMUX
       set session $tty
     end
 
-    # create or attach to tmux session
-    if tmux has-session -t $session
-      tmux attach-session -t $session \; run-shell 'pkill -USR1 -P #{pid} fish'
-    else
-      tmux new-session -s $session
+    # create or attach (unattached) to tmux session
+    if string match -eq "$session 0" (tmux list-sessions -F '#{session_name} #{session_attached}')
+      exec tmux attach-session -t $session \; run-shell 'pkill -USR1 -P #{pid} fish'
+    else if not tmux has-session -t $session 2>/dev/null
+      exec tmux new-session -s $session
     end
   end
 end

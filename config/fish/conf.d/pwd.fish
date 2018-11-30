@@ -19,7 +19,7 @@ function __pyenv_virtualenv_activate --on-variable PWD
       read -l version < $path/.python-version
 
       # check that .python-version contans a venv
-      if string match -q -r 'envs/'$version'$' (builtin realpath $PYENV_ROOT/versions/$version)
+      if string match -rq 'envs/'$version'$' (builtin realpath $PYENV_ROOT/versions/$version)
         # activate the venv and record the location for later use
         pyenv activate
         and set -g __pyenv_virtualenv $path
