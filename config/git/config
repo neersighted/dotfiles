@@ -90,7 +90,7 @@
 	# interactively select commits
 	sel = "!f() { git log --oneline --color | git fzf $1; }; f"
 	rsel = "!f() { git log -g --oneline --color |  git fzf $1; }; f"
-	sel-ref = "!f() { git show-ref --abbrev |  git fzf $1; }; f"
+	sel-ref = "!f() { git show-ref --abbrev | git fzf $1; }; f"
 	# quick and easy autosquash commits
 	squash = "!f() { git commit --squash=$(git sel $1); }; f"
 	fixup = "!f() { git commit --fixup=$(git sel $1); }; f"

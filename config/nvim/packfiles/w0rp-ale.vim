@@ -4,9 +4,11 @@ nmap <leader>f <plug>(ale_find_references)
 nmap <leader>g <plug>(ale_go_to_definition)
 nmap <leader>i <plug>(ale_hover)
 
+let g:ale_open_list = 'on_save'
+let g:ale_virtualtext_cursor = 1
+
 let g:ale_sign_error = 'x'
 let g:ale_sign_warning = '!'
-
 let g:ale_echo_msg_format = '[%linter%:%severity%] %code%: %s'
 
 let g:ale_linters = {}
