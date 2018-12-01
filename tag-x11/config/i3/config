@@ -107,13 +107,23 @@ set $blue    #268bd2
 set $cyan    #2aa198
 set $green   #859900
 
-# type                   border   background  text     indicator  child_border
-client.focused           $base03  $base02     $base0   $base01    $base03
-client.focused_inactive  $base03  $base03     $base00  $base01    $base03
-client.unfocused         $base03  $base03     $base00  $base01    $base03
-client.urgent            $base03  $base00     $base03  $base01    $base03
-client.placeholder       #000000  $base03     $base00  #000000    $base03
-client.background        $base03
+set_from_resource $background         i3wm.background #000000
+set_from_resource $background_focused i3wm.backgroundFocused #000000
+set_from_resource $background_urgent  i3wm.backgroundUrgent #000000
+set_from_resource $foreground         i3wm.foreground #ffffffff
+set_from_resource $foreground_focused i3wm.foregroundFocused #ffffffff
+set_from_resource $foreground_urgent  i3wm.foregroundUrgent #ffffffff
+set_from_resource $border             i3wm.border #000000
+set_from_resource $child_border       i3wm.borderChild #000000
+set_from_resource $indicator          i3wm.indicator #ffffff
+
+# type                   border   background          text                indicator   child_border
+client.focused           $border  $backgroundFocused  $foregroundFocused  $indicator  $child_border
+client.focused_inactive  $border  $background         $foreground         $indicator  $child_border
+client.unfocused         $border  $background         $foreground         $indicator  $child_border
+client.urgent            $border  $backgroundUrgent   $foregroundUrgent   $indicator  $child_border
+client.placeholder       $border  $background         $foreground         #000000     $child_border
+client.background        $border
 
 font pango:Source Code Pro Light 7
 

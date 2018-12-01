@@ -1,31 +1,13 @@
-[solarized]
-base03  = #002b36
-base02  = #073642
-base01  = #586e75
-base00  = #657b83
-base0   = #839496
-base1   = #93a1a1
-base2   = #eee8d5
-base3   = #fdf6e3
-yellow  = #b58900
-orange  = #cb4b16
-red     = #dc322f
-magenta = #d33682
-violet  = #6c71c4
-blue    = #268bd2
-cyan    = #2aa198
-green   = #859900
-
 [colors]
-background           = ${solarized.base03}
-background-highlight = ${solarized.base02}
-foreground           = ${solarized.base0}
-foreground-warn      = ${solarized.orange}
-foreground-dimmed    = ${solarized.base00}
-underline-active     = ${solarized.blue}
-underline-warn       = ${solarized.red}
-underline-1          = ${solarized.violet}
-underline-2          = ${solarized.orange}
+background       = ${xrdb:polybar.background:#000000}
+background-alt   = ${xrdb:polybar.backgroundAlt:#00000}
+foreground       = ${xrdb:polybar.foreground:#ffffff}
+foreground-dim   = ${xrdb:polybar.foregroundDim:#ffffff}
+foreground-warn  = ${xrdb:polybar.foregroundWarn:#ffffff}
+underline-1      = ${xrdb:polybar.underline1:#ffffff}
+underline-2      = ${xrdb:polybar.underline2:#ffffff}
+underline-active = ${xrdb:polybar.underlineActive:#ffffff}
+underline-warn   = ${xrdb:polybar.underlineWarn:#ffffff}
 
 [bar/main]
 monitor = ${env:POLYBAR_MONITOR_MAIN}
@@ -93,16 +75,16 @@ ws-icon-8  = 9;
 ws-icon-9  = 10;
 
 label-focused-underline  = ${colors.underline-active}
-label-focused-background = ${colors.background-highlight}
+label-focused-background = ${colors.background-alt}
 label-focused-padding    = 1
 
-label-visible-foreground = ${colors.foreground-dimmed}
+label-visible-foreground = ${colors.foreground-dim}
 label-visible-padding    = 1
 
-label-unfocused-foreground = ${colors.foreground-dimmed}
+label-unfocused-foreground = ${colors.foreground-dim}
 label-unfocused-padding    = 1
 
-label-urgent-background = ${colors.foreground-dimmed}
+label-urgent-background = ${colors.foreground-dim}
 label-urgent-foreground = ${colors.background}
 label-urgent-padding    = 1
 

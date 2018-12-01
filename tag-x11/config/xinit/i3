@@ -1,4 +1,7 @@
 #!/bin/sh
 
+xrdb -merge "$XDG_CONFIG_HOME/Xresources"
 setxkbmap -option caps:escape
+
+polybar default &
 exec i3

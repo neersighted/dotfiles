@@ -1,0 +1,81 @@
+! Solarized Dark
+#define color_base03  #002b36
+#define color_base02  #073642
+#define color_base01  #586e75
+#define color_base00  #657b83
+#define color_base0   #839496
+#define color_base1   #93a1a1
+#define color_base2   #eee8d5
+#define color_base3   #fdf6e3
+#define color_yellow  #b58900
+#define color_orange  #cb4b16
+#define color_red     #dc322f
+#define color_magenta #d33682
+#define color_violet  #6c71c4
+#define color_blue    #268bd2
+#define color_cyan    #2aa198
+#define color_green   #859900
+
+!
+! i3
+!
+
+i3wm.backgroundFocused: color_base02
+i3wm.backgroundUrgent:  color_base00
+i3wm.foregroundFocused: color_base0
+i3wm.foregroundUrgent:  color_base03
+
+i3wm.border:            color_base03
+i3wm.childBorder:       color_base03
+i3wm.indicator:         color_base01
+
+
+!
+! Polybar
+!
+
+polybar.backgroundAlt:   color_base02
+polybar.foregroundDim:   color_base00
+polybar.foregroundWarn:  color_orange
+polybar.underline1:      color_violet
+polybar.underline2:      color_orange
+polybar.underlineActive: color_blue
+polybar.underlineWarn:   color_red
+
+
+
+!
+! Global
+!
+
+*background:             color_base03
+*foreground:             color_base0
+*fadeColor:              color_base03
+*cursorColor:            color_base1
+*pointerColorBackground: color_base01
+*pointerColorForeground: color_base1
+
+!! black
+*color0:  color_base02
+*color8:  color_base03
+!! red
+*color1:  color_red
+*color9:  color_orange
+!! green
+*color2:  color_green
+*color10: color_base01
+!! yellow
+*color3:  color_yellow
+*color11: color_base00
+!! blue
+*color4:  color_blue
+*color12: color_base0
+!! magenta
+*color5:  color_magenta
+*color13: color_violet
+!! cyan
+*color6:  color_cyan
+*color14: color_base1
+!! white
+*color7:  color_base2
+*color15: color_base3
