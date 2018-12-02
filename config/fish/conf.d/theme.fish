@@ -16,6 +16,7 @@ set color_blue    \#268bd2 blue
 set color_cyan    \#2aa198 cyan
 set color_green   \#859900 green
 
+# set terminal colorscheme (base terminal only)
 if status --is-interactive; and not set -q TMUX; and not set -q SSH_CONNECTION
   set ESC \e
   set ST \e\\
@@ -75,6 +76,9 @@ if status --is-interactive; and not set -q TMUX; and not set -q SSH_CONNECTION
   term_special 10 $color_base0
   term_special 11 $color_base03
   term_special 12 $color_base0
+
+  # sleep to let things settle
+  sleep 0.1
 
   functions -e hex_color xrdb_color term_color term_special
 end
