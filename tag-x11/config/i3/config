@@ -14,7 +14,7 @@ set_from_resource $foreground         i3wm.foreground #ffffffff
 set_from_resource $foreground_focused i3wm.foregroundFocused #ffffffff
 set_from_resource $foreground_urgent  i3wm.foregroundUrgent #ffffffff
 set_from_resource $border             i3wm.border #000000
-set_from_resource $child_border       i3wm.Child #000000
+set_from_resource $child_border       i3wm.childBorder #000000
 set_from_resource $indicator          i3wm.indicator #ffffff
 
 # type                   border   background          text                indicator   child_border
