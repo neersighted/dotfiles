@@ -17,8 +17,8 @@ if id=$(xdotool search --classname "$name"); then
     xdotool windowraise "$id"
   fi
 else
-  # no quickterm exists; spawn a new one (also preventing tmux spawns)
-  env TMUX= uniterm -name "$name" -geometry "${WIDTH}x${HEIGHT}" -e "$cmd" &
+  # no quickterm exists; spawn a new one
+  uniterm -name "$name" -geometry "${WIDTH}x${HEIGHT}" -e "$cmd" &
 fi
 
 (
