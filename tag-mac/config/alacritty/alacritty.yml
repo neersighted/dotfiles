@@ -6,8 +6,8 @@ window:
     x: 2
     y: 2
   dynamic_padding: true
-  decorations: buttonless
-  start_maximized: false
+  decorations: full
+  start_maximized: true
 
 scrolling:
   history: 10000
