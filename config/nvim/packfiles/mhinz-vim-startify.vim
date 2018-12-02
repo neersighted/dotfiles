@@ -1,11 +1,9 @@
 let g:startify_bookmarks = [
-  \ {'v': '~/.vim/vimrc'},
+  \ {'v': '~/.config/nvim/init.vim'},
   \ {'f': '~/.config/fish/config.fish'},
-  \ {'t': '~/.tmux.conf'},
+  \ {'t': '~/.config/tmux/tmux.conf'},
   \ {'g': '~/.config/git/config'},
-  \ {'w': '~/.config/i3/config'},
-  \ {'x': '~/.xinitrc'},
-  \ {'X': '~/.xsession'},
+  \ {'i': '~/.config/i3/config'},
   \ ]
 let g:startify_commands = [
   \ {'T': ':terminal'},
