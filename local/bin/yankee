@@ -75,26 +75,15 @@ yank() {
   else
     encoded=$(b64)
   fi
-
   # escape data
-  escaped="\\033]52;c;$encoded\\007"
-
-  # find a tty to send data to
-  # if [ -n "$TMUX" ]; then
-  #   tty=$(tmux display-message -p '#{client_tty}')
-  # elif [ -n "$SSH_TTY" ]; then
-  #   tty="$SSH_TTY"
-  # else
-    tty="/dev/tty"
-  # fi
+  escaped="\\033]52;c;$encoded\\e\\\\"
 
   # check that the data isn't too big
   if [ "$(printf "%b" "$escaped" | wc -c)" -gt 100000 ]; then
     echo "input data too long" >&2; exit 1
   fi
-
-  # write OSC 52 directly to the tty
-  printf "%b" "$escaped" >"$tty"; exit
+  # write OSC 52 sequence
+  printf "%b" "$escaped"; exit
 
   echo "could not find a method to set the clipboard" >&2; exit 1
 }
