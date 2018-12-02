@@ -2,7 +2,7 @@
 function __tmux_resync --on-signal USR1
   if set -q TMUX
     for entry in (tmux show-environment)
-      if string match -r '^-' -- $entry
+      if string match -rq '^-' -- $entry
         set -l envvar (string replace '-' '' -- $entry)
         set -eg $envvar
       else
