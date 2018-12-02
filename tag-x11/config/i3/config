@@ -1,13 +1,34 @@
-focus_follows_mouse no
-
-workspace_layout stacked
-default_orientation horizontal
-
-set $mod Mod4
-floating_modifier $mod
+# Rules
 
 for_window [instance="quickterm"] floating enable, move position center
 for_window [class="Xsel"] exec xdotool search --class 'xsel' windowunmap
+
+# Appearance
+
+font pango:Source Code Pro Light 7
+
+set_from_resource $background         i3wm.background #000000
+set_from_resource $background_focused i3wm.backgroundFocused #000000
+set_from_resource $background_urgent  i3wm.backgroundUrgent #000000
+set_from_resource $foreground         i3wm.foreground #ffffffff
+set_from_resource $foreground_focused i3wm.foregroundFocused #ffffffff
+set_from_resource $foreground_urgent  i3wm.foregroundUrgent #ffffffff
+set_from_resource $border             i3wm.border #000000
+set_from_resource $child_border       i3wm.Child #000000
+set_from_resource $indicator          i3wm.indicator #ffffff
+
+# type                   border   background          text                indicator   child_border
+client.focused           $border  $backgroundFocused  $foregroundFocused  $indicator  $child_border
+client.focused_inactive  $border  $background         $foreground         $indicator  $child_border
+client.unfocused         $border  $background         $foreground         $indicator  $child_border
+client.urgent            $border  $backgroundUrgent   $foregroundUrgent   $indicator  $child_border
+client.placeholder       $border  $background         $foreground         #000000     $child_border
+client.background        $border
+
+# Binds
+
+set $mod Mod4
+floating_modifier $mod
 
 bindsym Mod1+Tab exec --no-startup-id rofi-tab
 bindsym $mod+Return exec --no-startup-id "rofi -modi 'drun,run' -show drun -kb-cancel 'Escape,Super+Return'"
@@ -88,43 +109,5 @@ bindsym $mod+Shift+Tab move container to workspace back_and_forth
 
 bindsym button2 kill
 bindsym button3 floating toggle
-
-# Solarized Dark
-set $base03  #002b36
-set $base02  #073642
-set $base01  #586e75
-set $base00  #657b83
-set $base0   #839496
-set $base1   #93a1a1
-set $base2   #eee8d5
-set $base3   #fdf6e3
-set $yellow  #b58900
-set $orange  #cb4b16
-set $red     #dc322f
-set $magenta #d33682
-set $violet  #6c71c4
-set $blue    #268bd2
-set $cyan    #2aa198
-set $green   #859900
-
-set_from_resource $background         i3wm.background #000000
-set_from_resource $background_focused i3wm.backgroundFocused #000000
-set_from_resource $background_urgent  i3wm.backgroundUrgent #000000
-set_from_resource $foreground         i3wm.foreground #ffffffff
-set_from_resource $foreground_focused i3wm.foregroundFocused #ffffffff
-set_from_resource $foreground_urgent  i3wm.foregroundUrgent #ffffffff
-set_from_resource $border             i3wm.border #000000
-set_from_resource $child_border       i3wm.borderChild #000000
-set_from_resource $indicator          i3wm.indicator #ffffff
-
-# type                   border   background          text                indicator   child_border
-client.focused           $border  $backgroundFocused  $foregroundFocused  $indicator  $child_border
-client.focused_inactive  $border  $background         $foreground         $indicator  $child_border
-client.unfocused         $border  $background         $foreground         $indicator  $child_border
-client.urgent            $border  $backgroundUrgent   $foregroundUrgent   $indicator  $child_border
-client.placeholder       $border  $background         $foreground         #000000     $child_border
-client.background        $border
-
-font pango:Source Code Pro Light 7
 
 # vim: ft=i3config
