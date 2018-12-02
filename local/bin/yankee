@@ -63,20 +63,20 @@ yank() {
   if [ -n "$base64" ]; then
     esc="\\033]52;c;$base64\\007"
 
-    if [ -n "$TMUX" ]; then
-      tty=$(tmux display-message -p '#{client_tty}')
-      # esc="\\033Ptmux;\\033$esc\\033\\"
-    elif [ -n "$SSH_TTY" ]; then
-      tty="$SSH_TTY"
-    else
-      tty="/dev/tty"
-    fi
+    # if [ -n "$TMUX" ]; then
+    #   tty=$(tmux display-message -p '#{client_tty}')
+    #   esc="\\033Ptmux;\\033$esc\\033\\"
+    # elif [ -n "$SSH_TTY" ]; then
+    #   tty="$SSH_TTY"
+    # else
+    #   tty="/dev/tty"
+    # fi
 
-    if [ "$(printf "%s" "$esc" | wc -c)" -gt 100000 ]; then
+    if [ "$(printf "%b" "$esc" | wc -c)" -gt 100000 ]; then
       echo "input data too long" >&2; exit 1
     fi
 
-    printf "%s" "$esc" >"$tty"; exit
+    printf "%b" "$esc"; exit
   fi
 
   echo "could not find a method to set the clipboard" >&2; exit 1
