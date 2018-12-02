@@ -1,97 +1,94 @@
-render_timer: false
-live_config_reload: true
-
-dpi:
-  x: 96.0
-  y: 96.0
 window:
-  decorations: true
   dimensions:
     columns: 80
     lines: 24
   padding:
-    x: 1
-    y: 1
+    x: 2
+    y: 2
+  dynamic_padding: true
+  decorations: buttonless
+  start_maximized: true
 
-dynamic_title: true
+scrolling:
+  history: 10000
+  multiplier: 3
+  faux_multiplier: 3
+  auto_scroll: false
+
+tabspaces: 8
 
 font:
-  size: 10.5
-  offset:
-    x: 0
-    y: 0
   normal:
     family: Source Code Pro
-    style: Light
+    style: Regular
   bold:
     family: Source Code Pro
-    style: Regular
+    style: Bold
   italic:
     family: Source Code Pro
     style: Italic
+  size: 12.0
+  offset:
+    x: 0
+    y: 0
+  glyph_offset:
+    x: 0
+    y: 0
   use_thin_strokes: true
+
+render_timer: false
+
+persistent_logging: false
+
+draw_bold_text_with_bright_colors: true
 
 visual_bell:
   animation: EaseOutExpo
   duration: 0
 
-tabspaces: 4
-selection:
-  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
-
-hide_cursor_when_typing: false
-custom_cursor_colors: true
-
 background_opacity: 1.0
-
-draw_bold_text_with_bright_colors: true
-colors:
-  cursor:
-    text:       '0x073642'
-    cursor:     '0x93a1a1'
-  primary:
-    background: '0x002b36'
-    foreground: '0x839496'
-  normal:
-    black:      '0x073642'
-    red:        '0xdc322f'
-    green:      '0x859900'
-    yellow:     '0xb58900'
-    blue:       '0x268bd2'
-    magenta:    '0xd33682'
-    cyan:       '0x2aa198'
-    white:      '0xeee8d5'
-  bright:
-    black:      '0x002b36'
-    red:        '0xcb4b16'
-    green:      '0x586e75'
-    yellow:     '0x657b83'
-    blue:       '0x839496'
-    magenta:    '0x6c71c4'
-    cyan:       '0x93a1a1'
-    white:      '0xfdf6e3'
-
-mouse:
-  faux_scrollback_lines: 1
-  double_click: { threshold: 300 }
-  triple_click: { threshold: 300 }
 
 mouse_bindings:
   - { mouse: Middle, action: PasteSelection }
 
+mouse:
+  double_click: { threshold: 300 }
+  triple_click: { threshold: 300 }
+  hide_when_typing: true
+
+  url:
+    launcher: open
+    #modifiers: Control|Shift
+
+selection:
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
+  save_to_clipboard: false
+
+cursor:
+  style: Block
+  unfocused_hollow: true
+
+live_config_reload: true
+
 key_bindings:
-  - { key: V,        mods: Control|Shift,    action: Paste               }
-  - { key: C,        mods: Control|Shift,    action: Copy                }
+  - { key: V,        mods: Command, action: Paste                        }
+  - { key: C,        mods: Command, action: Copy                         }
+  - { key: Paste,                   action: Paste                        }
+  - { key: Copy,                    action: Copy                         }
+  - { key: H,        mods: Command, action: Hide                         }
   - { key: Q,        mods: Command, action: Quit                         }
   - { key: W,        mods: Command, action: Quit                         }
-  - { key: Insert,   mods: Shift,   action: PasteSelection               }
-  - { key: Key0,     mods: Control, action: ResetFontSize                }
-  - { key: Equals,   mods: Control, action: IncreaseFontSize             }
-  - { key: Subtract, mods: Control, action: DecreaseFontSize             }
   - { key: Home,                    chars: "\x1bOH",   mode: AppCursor   }
   - { key: Home,                    chars: "\x1b[H",   mode: ~AppCursor  }
   - { key: End,                     chars: "\x1bOF",   mode: AppCursor   }
   - { key: End,                     chars: "\x1b[F",   mode: ~AppCursor  }
+  - { key: Key0,     mods: Command, action: ResetFontSize                }
+  - { key: Equals,   mods: Command, action: IncreaseFontSize             }
+  - { key: Minus,    mods: Command, action: DecreaseFontSize             }
+  - { key: K,        mods: Command, action: ClearHistory                 }
+  - { key: K,        mods: Command, chars: "\x0c"                        }
+  - { key: L,        mods: Control, action: ClearLogNotice               }
+  - { key: L,        mods: Control, chars: "\x0c"                        }
   - { key: PageUp,   mods: Shift,   chars: "\x1b[5;2~"                   }
   - { key: PageUp,   mods: Control, chars: "\x1b[5;5~"                   }
   - { key: PageUp,                  chars: "\x1b[5~"                     }
@@ -171,15 +168,16 @@ key_bindings:
   - { key: F10,      mods: Alt,     chars: "\x1b[21;6~"                  }
   - { key: F11,      mods: Alt,     chars: "\x1b[23;6~"                  }
   - { key: F12,      mods: Alt,     chars: "\x1b[24;6~"                  }
-  - { key: F1,       mods: Super,   chars: "\x1b[1;3P"                   }
-  - { key: F2,       mods: Super,   chars: "\x1b[1;3Q"                   }
-  - { key: F3,       mods: Super,   chars: "\x1b[1;3R"                   }
-  - { key: F4,       mods: Super,   chars: "\x1b[1;3S"                   }
-  - { key: F5,       mods: Super,   chars: "\x1b[15;3~"                  }
-  - { key: F6,       mods: Super,   chars: "\x1b[17;3~"                  }
-  - { key: F7,       mods: Super,   chars: "\x1b[18;3~"                  }
-  - { key: F8,       mods: Super,   chars: "\x1b[19;3~"                  }
-  - { key: F9,       mods: Super,   chars: "\x1b[20;3~"                  }
-  - { key: F10,      mods: Super,   chars: "\x1b[21;3~"                  }
-  - { key: F11,      mods: Super,   chars: "\x1b[23;3~"                  }
-  - { key: F12,      mods: Super,   chars: "\x1b[24;3~"                  }
+  - { key: F1,       mods: Command, chars: "\x1b[1;3P"                   }
+  - { key: F2,       mods: Command, chars: "\x1b[1;3Q"                   }
+  - { key: F3,       mods: Command, chars: "\x1b[1;3R"                   }
+  - { key: F4,       mods: Command, chars: "\x1b[1;3S"                   }
+  - { key: F5,       mods: Command, chars: "\x1b[15;3~"                  }
+  - { key: F6,       mods: Command, chars: "\x1b[17;3~"                  }
+  - { key: F7,       mods: Command, chars: "\x1b[18;3~"                  }
+  - { key: F8,       mods: Command, chars: "\x1b[19;3~"                  }
+  - { key: F9,       mods: Command, chars: "\x1b[20;3~"                  }
+  - { key: F10,      mods: Command, chars: "\x1b[21;3~"                  }
+  - { key: F11,      mods: Command, chars: "\x1b[23;3~"                  }
+  - { key: F12,      mods: Command, chars: "\x1b[24;3~"                  }
+  - { key: NumpadEnter,             chars: "\n"                          }
