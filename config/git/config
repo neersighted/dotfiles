@@ -99,6 +99,7 @@
 	# misc aliases
 	prune = fetch --prune
 	stash-all = stash save --include-untracked
+	preset = !git diff -p -R | grep -E '^(diff|(old|new) mode)' | git apply
 	# legit
 	switch = !legit switch
 	sync = !legit sync
