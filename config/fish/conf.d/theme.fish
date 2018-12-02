@@ -35,7 +35,7 @@ if status --is-interactive; and not set -q TMUX; and not set -q SSH_CONNECTION
     else if set -q ITERM_SESSION_ID
       printf $ESC']P%x%s'$ST $idx (hex_color $color)
     else
-      printf $ESC']4;%i;%s'$ST $idx (xrdb_color $color) > (tty)
+      printf $ESC']4;%i;%s'$ST $idx (xrdb_color $color)
     end
   end
 
