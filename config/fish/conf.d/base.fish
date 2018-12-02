@@ -76,7 +76,7 @@ if not set -q fish_initialized
   set -Ux LIBVIRT_DEFAULT_URI qemu:///system
 
   # httpie
-  set -UX HTTPIE_CONFIG_DIR $XDG_CONFIG_HOME/httpie
+  set -Ux HTTPIE_CONFIG_DIR $XDG_CONFIG_HOME/httpie
 end
 
 # ignore parent exports in favor of universal exports
