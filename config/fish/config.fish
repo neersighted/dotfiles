@@ -1,7 +1,5 @@
-if not set -q fish_initialized
-  # mark shell initialized
-  set -U fish_initialized
-end
+# mark shell initialized
+set -q fish_initialized; or set -U fish_initialized
 
 # ssh/gpg startup
 if status --is-login; and not set -q SSH_CONNECTION
@@ -46,7 +44,7 @@ if status --is-interactive; and not set -q TMUX
     end
 
     # determine startup command
-    if string match -eq "$session 0" (tmux list-sessions -F '#{session_name} #{session_attached}' 2>/dev/null)
+    if string match -q "$session 0" (tmux list-sessions -F '#{session_name} #{session_attached}' 2>/dev/null)
       # attach to unattached session
       set command attach-session -t $session \; run-shell 'pkill -USR1 -P #{pid} fish'
     else if not tmux has-session -t $session 2>/dev/null

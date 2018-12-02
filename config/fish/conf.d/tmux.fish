@@ -1,3 +1,5 @@
+status --is-interactive; or exit
+
 # re-synchronize update-environment variables on attach
 function __tmux_resync --on-signal USR1
   if set -q TMUX
