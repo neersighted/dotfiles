@@ -21,6 +21,20 @@ done
 op=${op:-yank}
 selection=${selection:-clipboard}
 
+b64() {
+  if command -v base64 >/dev/null; then
+    if base64 --version >/dev/null 2>&1; then
+      base64 -w0
+    else
+      base64
+    fi
+  elif command -v b64encode >/dev/null; then
+    b64encode -r -
+  else
+    echo "unable to base64 encode data" >&2; exit 1
+  fi
+}
+
 yank() {
   # GUI-only systems (macOS/WSL)
   if [ -z "$SSH_CONNECTION" ]; then
@@ -49,35 +63,38 @@ yank() {
     fi
   fi
 
-  # OSC 52 (Tmux/Terminal)
-  if command -v base64 >/dev/null; then
-    if base64 --version >/dev/null 2>&1; then
-      base64=$(base64 -w0)
-    else
-      base64=$(base64)
-    fi
-  elif command -v b64encode >/dev/null; then
-    base64=$(b64encode -r -)
+  # tmux/OSC 52
+  if [ -n "$TMUX" ]; then
+    # save into tmux buffer
+    tmux load-buffer -
   fi
 
-  if [ -n "$base64" ]; then
-    esc="\\033]52;c;$base64\\007"
-
-    # if [ -n "$TMUX" ]; then
-    #   tty=$(tmux display-message -p '#{client_tty}')
-    #   esc="\\033Ptmux;\\033$esc\\033\\"
-    # elif [ -n "$SSH_TTY" ]; then
-    #   tty="$SSH_TTY"
-    # else
-    #   tty="/dev/tty"
-    # fi
-
-    if [ "$(printf "%b" "$esc" | wc -c)" -gt 100000 ]; then
-      echo "input data too long" >&2; exit 1
-    fi
-
-    printf "%b" "$esc"; exit
+  # dump from a tmux buffer if needed
+  if [ -n "$TMUX" ]; then
+    encoded=$(tmux save-buffer - | b64)
+  else
+    encoded=$(b64)
   fi
+
+  # escape data
+  escaped="\\033]52;c;$encoded\\007"
+
+  # find a tty to send data to
+  # if [ -n "$TMUX" ]; then
+  #   tty=$(tmux display-message -p '#{client_tty}')
+  # elif [ -n "$SSH_TTY" ]; then
+  #   tty="$SSH_TTY"
+  # else
+    tty="/dev/tty"
+  # fi
+
+  # check that the data isn't too big
+  if [ "$(printf "%b" "$escaped" | wc -c)" -gt 100000 ]; then
+    echo "input data too long" >&2; exit 1
+  fi
+
+  # write OSC 52 directly to the tty
+  printf "%b" "$escaped" >"$tty"; exit
 
   echo "could not find a method to set the clipboard" >&2; exit 1
 }
@@ -110,7 +127,7 @@ paste() {
     fi
   fi
 
-  # Tmux
+  # tmux
   if [ -n "$TMUX" ]; then
     exec tmux save-buffer -
   fi
