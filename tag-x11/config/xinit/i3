@@ -4,5 +4,4 @@ xrdb -merge "$XDG_CONFIG_HOME/Xresources"
 setxkbmap -option caps:escape
 
 compton &
-polybar main &
 exec i3
