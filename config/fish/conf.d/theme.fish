@@ -99,7 +99,7 @@ term_special 13 $color_base03  # cursor fg
 term_special 17 $color_base01  # selction bg
 term_special 19 $color_base0   # selction fg
 term_special 706 $color_base0  # bold
-term_special 708 $color_base03 # border
+term_special 708 $color_base03 # chrome
 
 # clean up functions
 functions -e hex_octets hex_color xrdb_color term_color term_special
