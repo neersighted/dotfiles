@@ -37,6 +37,7 @@ pipx_install "vim-vint"
 
 cargo_install "pack" "https://github.com/maralla/pack"
 
-if [ ! -L "$XDG_CONFIG_HOME/nvim/.pack" ]; then
-  ln -sf packfiles "$XDG_CONFIG_HOME/nvim/.pack"
+if [ ! -L "$XDG_CONFIG_HOME/nvim/.pack/packfile" ]; then
+  rm -f "$XDG_CONFIG_HOME/nvim/.pack" && mkdir "$XDG_CONFIG_HOME/nvim/.pack"
+  ln -sf ../packfile "$XDG_CONFIG_HOME/nvim/.pack/packfile"
 fi

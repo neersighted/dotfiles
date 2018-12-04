@@ -1,10 +1,9 @@
-" Event hooks.
+" Hook into other plugins to update the statusline.
 augroup lightline_hook
   autocmd!
   autocmd User ALELintPost call lightline#update()
   autocmd User Fugitive call lightline#update()
   autocmd User GitGutter call lightline#update()
-  autocmd User RooterChDir call lightline#update()
 augroup END
 
 let g:lightline = {
@@ -78,3 +77,9 @@ let g:lightline = {
   \     'ale_warning': 'warning',
   \   },
   \ }
+
+" Use lightline in Tagbar.
+function! TagbarStatusline(current, sort, fname, ...) abort
+  return lightline#statusline(0)
+endfunction
+let g:tagbar_status_func = 'TagbarStatusline'

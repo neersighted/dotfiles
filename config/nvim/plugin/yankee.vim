@@ -1,3 +1,4 @@
+" Use yankee for all clipboard handling.
 let g:clipboard = {
   \   'name': 'yankee',
   \   'copy': {
