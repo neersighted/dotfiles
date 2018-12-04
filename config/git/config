@@ -46,10 +46,14 @@
 	submoduleSummary = true
 [log]
 	abbrevCommit = true
+
+
+[core]
+	pager = less --quit-if-one-screen --no-init
 [pager]
-	branch = less --quit-if-one-screen --no-init
-	diff = diff-so-fancy | less --quit-if-one-screen --no-init
-	show = diff-so-fancy | less --quit-if-one-screen --no-init
+	diff = diff-so-fancy | $(git config --get core.pager)
+	show = diff-so-fancy | $(git config --get core.pager)
+
 [format]
 	pretty = onelineplus
 [pretty]
@@ -78,6 +82,9 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
+[icdiff]
+	options = --line-numbers --no-bold
 
 #
 # Aliases
