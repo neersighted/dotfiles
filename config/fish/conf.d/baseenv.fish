@@ -1,9 +1,3 @@
-# discard parent exports in favor of universal exports
-for export in (set -Ux)
-  set -eg (string split ' ' $export)[1]
-end
-
-# environment fixup
 status --is-login; or exit
 
 # locale
