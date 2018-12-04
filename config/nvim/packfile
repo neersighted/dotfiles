@@ -39,11 +39,6 @@
 - 
   category: syntax
   local: false
-  name: "ccraciun/vim-dreammaker"
-  opt: false
-- 
-  category: syntax
-  local: false
   name: "cespare/vim-toml"
   opt: false
 - 
@@ -74,6 +69,13 @@
 - 
   category: syntax
   for: 
+    - json
+  local: false
+  name: "elzr/vim-json"
+  opt: true
+- 
+  category: syntax
+  for: 
     - go
   local: false
   name: "fatih/vim-go"
@@ -98,12 +100,6 @@
   local: false
   name: junegunn/fzf.vim
   opt: false
-- 
-  category: integration
-  local: false
-  name: junegunn/gv.vim
-  on: GV
-  opt: true
 - 
   category: meta
   local: false
@@ -200,9 +196,11 @@
   opt: true
 - 
   category: completion
+  for: 
+    - rust
   local: false
   name: "racer-rust/vim-racer"
-  opt: false
+  opt: true
 - 
   category: behavior
   local: false
@@ -221,11 +219,6 @@
   name: "simnalamburt/vim-mundo"
   on: MundoToggle
   opt: true
-- 
-  category: syntax
-  local: false
-  name: "stevearc/vim-arduino"
-  opt: false
 - 
   category: behavior
   local: false
@@ -270,11 +263,6 @@
   category: lib
   local: false
   name: "tpope/vim-repeat"
-  opt: false
-- 
-  category: integration
-  local: false
-  name: "tpope/vim-rhubarb"
   opt: false
 - 
   category: editing
