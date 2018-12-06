@@ -1,2 +1,4 @@
-setlocal number norelativenumber " Enable numbering.
-setlocal nowrap " Disable visual wrapping.
+setlocal number norelativenumber
+setlocal nowrap
+
+let b:undo_ftplugin = 'setlocal number< relativenumber< nowrap<'

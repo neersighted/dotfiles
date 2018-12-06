@@ -1,7 +1,3 @@
-setlocal spell
+setlocal spell autoindent textwidth=80
 
-setlocal autoindent
-setlocal textwidth=80
-
-setlocal omnifunc=
-setlocal conceallevel=2
+let b:undo_ftplugin = 'setlocal spell< autoindent< textwidth<'
