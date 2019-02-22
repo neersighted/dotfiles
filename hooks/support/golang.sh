@@ -2,14 +2,17 @@
 
 support_subsection "Golang"
 
-if [ -z "$GOPATH" ]; then
-  export GOPATH="$XDG_DATA_HOME/go"
+if [ -z "$GOBIN" ]; then
+  export GOBIN="$XDG_DATA_HOME/go/bin"
+fi
+if [ -z "$GOENV_GOPATH_PREFIX" ]; then
+  export GOENV_GOPATH_PREFIX="$XDG_DATA_HOME/go"
 fi
 if [ -z "$GOENV_ROOT" ]; then
   export GOENV_ROOT="$XDG_DATA_HOME/goenv"
 fi
 export GOENV_VERSION=
-export PATH="$GOENV_ROOT/bin:$PATH"
+export PATH="$GOBIN:$GOENV_ROOT/bin:$PATH"
 
 info "Syncing goenv..."
 git_sync https://github.com/syndbg/goenv "$GOENV_ROOT"

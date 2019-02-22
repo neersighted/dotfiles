@@ -22,7 +22,8 @@ set -Ux LESSHISTFILE $XDG_CACHE_HOME/lesshist
 
 # golang
 set -Ux GOENV_ROOT $XDG_DATA_HOME/goenv
-set -Ux GOPATH $XDG_DATA_HOME/go
+set -Ux GOENV_GOPATH_PREFIX $XDG_DATA_HOME/go
+set -Ux GOBIN $XDG_DATA_HOME/go/bin
 
 # node.js
 set -Ux NODENV_ROOT $XDG_DATA_HOME/nodenv

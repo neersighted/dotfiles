@@ -6,7 +6,7 @@ path_prepend /snap/bin
 path_prepend /usr/{lib/ccache,local/{libexec/ccache,opt/ccache/libexec}}
 
 # golang
-path_prepend $GOPATH/bin $GOENV_ROOT/{shims,bin}
+path_prepend $GOBIN $GOENV_ROOT/{shims,bin}
 # nodejs
 path_prepend $NODENV_ROOT/{shims,bin}
 # python
