@@ -3,12 +3,27 @@
 getshell() {
   case $(uname) in
     Darwin)
-      dscacheutil -q user -a name "$USER" | awk '/shell:/{print $2}'
+      dscl . read "/Users/$USER" UserShell | awk '{print $2}'
       ;;
     *)
-      getent passwd "$USER" | awk -F: '{print $NF}'
+      getent passwd "$USER" | awk -F: '{print $7}'
       ;;
   esac
+}
+
+setshell() {
+  case $(uname) in
+    Darwin)
+      sudo dscl . create "/Users/$USER" UserShell "$1"
+      ;;
+    FreeBSD)
+      su -c "pw usermod -s '$1' '$USER'"
+      ;;
+    *)
+      sudo usermod -s "$1" "$USER"
+      ;;
+  esac
+  
 }
 
 selectversion() {
