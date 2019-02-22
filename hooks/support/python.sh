@@ -51,7 +51,7 @@ done
 
 if ! command -v pipx >/dev/null; then
   info "Installing pipx..."
-  curl -L https://git.io/get-pipx | python3 - --no-modify-path
+  pip3 install pipx
 else
   info "Updating pipx packages..."
   pipx upgrade-all

@@ -21,5 +21,5 @@ if not set -q WSL; and set -q WSLENV
   set -x WSL (string match -r '^\d.\d.\d-(\d+)-Microsoft$' (uname -r))[2]
   set -x DISPLAY ':0'
   set -x SHELL (command -v fish)
-  set -x BROWSER 'powershell.exe Start'
+  set -x BROWSER 'wslview'
 end

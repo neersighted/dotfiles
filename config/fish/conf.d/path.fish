@@ -31,6 +31,6 @@ if not set -q MANPATH
     $RBENV_ROOT/versions/*/share/man \
     $RUSTUP_HOME/toolchains/*/share/man
 
-    set MANPATH $manpath $MANPATH
+    set -p MANPATH $manpath
   end
 end

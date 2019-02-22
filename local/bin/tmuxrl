@@ -20,7 +20,7 @@ open () {
       ;;
     *)
       if uname -r | grep -Fq Microsoft; then
-        powershell.exe Start "$1"
+        wslview "$1"
       else
         xdg-open "$1"
       fi

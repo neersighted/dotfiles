@@ -1,7 +1,7 @@
 function fish_reset --description 'reset local fish configuration'
   # erase all universal variables
   for entry in (set -U)
-    set -l variable (string split ' ' $entry)[1]
+    set variable (string split ' ' $entry)[1]
 
     if test $variable = 'fish_key_bindings'
       continue

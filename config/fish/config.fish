@@ -34,10 +34,10 @@ if status --is-interactive; and not set -q TMUX
     # determine session name
     if set -q SSH_CONNECTION
       # use a combination of hostname and ssh client
-      set session (hostname -s)-(string replace -a '.' '-' (string split ' ' $SSH_CONNECTION)[1])
+      set session $hostname-(string replace -a '.' '-' (string split ' ' $SSH_CONNECTION)[1])
     else if string match -rq '^/dev/(pts/\d+|ttys\d+)$' $tty
       # use primary tmux session
-      set session (hostname -s)
+      set session $hostname
     else
       # use 'physical' tty
       set session $tty

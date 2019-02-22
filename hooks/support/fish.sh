@@ -12,7 +12,10 @@ if [ "$(getshell)" != "$fish" ]; then
   info "Changing login shell to fish..."
   case $(uname) in
     FreeBSD)
-      su -c "chsh -s '$fish' '$USER'"
+      su -c "pw usermod -s '$fish' '$USER'"
+      ;;
+    Linux)
+      sudo usermod -s "$fish" "$USER"
       ;;
     *)
       sudo chsh -s "$fish" "$USER"

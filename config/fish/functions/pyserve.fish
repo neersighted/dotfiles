@@ -1,5 +1,4 @@
 function pyserve -d 'serve files using python'
-  set -l port
   if set -q $argv[1]
     set port $argv[1]
   else
