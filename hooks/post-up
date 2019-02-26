@@ -14,20 +14,36 @@ case $(uname) in
     if command -v apt-get >/dev/null; then
       BLD="automake bison ccache clang cmake gcc g++ make pkgconf"
       LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libpq-dev libyaml-dev uuid-dev zlib1g-dev"
-      USR="asciinema curl direnv elinks exa fd-find fish fzf gdb git git-lfs hexyl htop jid jq lftp libarchive-tools libfile-mimeinfo-perl mosh neofetch neovim postgresql-client-common ripgrep shellcheck socat stow task-spooler tig tmux universal-ctags unzip whois xdg-utils"
+      USR="asciinema curl direnv elinks exa fd-find fish fzf gdb git git-lfs hexyl htop hub jq lftp libarchive-tools libfile-mimeinfo-perl mosh neofetch neovim postgresql-client-common ripgrep shellcheck socat stow task-spooler tig tmux universal-ctags unzip whois xdg-utils"
 
+      WRAPPER="sudo sh"
+      INSTALL="apt-get install --no-install-recommends -y"
       INSTALLED=$(dpkg-query -f '${Package}\n' -W)
     elif command -v dnf >/dev/null; then
       BLD="automake bison ccache clang cmake compiler-rt gcc make pkgconf"
       LIB="bzip2-devel gdbm-devel libffi-devel libpq-devel libuuid-devel libyaml-devel ncurses-devel openssl-devel postgresql-libs readline-devel sqlite-devel xz-devel zlib-devel"
-      USR="asciinema bat ctags direnv elinks exa fd-find fish fzf gdb git git-lfs gnupg htop hyperfine jid jq lftp bsdtar perl-File-MimeInfo man-db mosh neofetch neovim ripgrep sd ShellCheck socat stow task-spooler tig tmux tokei unzip whois xdg-utils"
+      USR="asciinema bat ctags direnv elinks exa fd-find fish fzf gdb git git-lfs gnupg htop hub hyperfine jq lftp bsdtar perl-File-MimeInfo man-db mosh neofetch neovim ripgrep sd ShellCheck socat stow task-spooler tig tmux tokei unzip whois xdg-utils"
 
+      WRAPPER="sudo sh"
+      INSTALL="dnf install --setopt=install_weak_deps=False --best -y"
       INSTALLED=$(dnf repoquery --installed --queryformat '%{name}')
     elif command -v pacman >/dev/null; then
       BLD="autoconf automake bison ccache clang cmake fakeroot gcc make pkgconf"
       LIB="libyaml postgresql-libs"
-      USR="asciinema bat ctags diskus elinks exa fd fish fzf gdb git git-lfs hexyl htop hyperfine jq lftp perl-file-mimeinfo mosh neofetch neovim ripgrep sd shellcheck socat stow tig tmux tokei unzip watchexec whois xdg-utils"
+      USR="asciinema bat ctags direnv diskus elinks exa fd fish fzf gdb git git-lfs hexyl htop hub hyperfine jq lftp perl-file-mimeinfo mosh neofetch neovim ripgrep sd shellcheck socat stow tig tmux tokei unzip watchexec whois xdg-utils"
 
+      (
+        YAY="${TMPDIR:-/tmp}/yay"
+        if ! command -v yay >/dev/null; then
+          git clone https://aur.archlinux.org/yay.git "$YAY"
+          cd "$YAY"
+          makepkg -si --noconfirm
+          rm -rf "$YAY"
+        fi
+      )
+
+      WRAPPER="sh"
+      INSTALL="yay -Sy --noconfirm"
       INSTALLED=$(pacman -Qq)
     else
       error "Unsupported package manager."
@@ -36,14 +52,19 @@ case $(uname) in
   FreeBSD)
     BLD="automake ccache cmake gcc gmake pkgconf"
     LIB="libffi libyaml ncurses openssl readline sqlite3"
-    USR="bash bat coreutils curl direnv diskus exa elinks fd-find fish fzf gdb git git-lfs gnupg hexyl hs-ShellCheck htop hyperfine jid jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses postgresql10-client python python2 python3 py-asciinema ripgrep sd socat stow tig tmux tokei ts universal-ctags unzip whois xdg-utils"
+    USR="bash bat coreutils curl direnv diskus exa elinks fd-find fish fzf gdb git git-lfs gnupg hexyl hs-ShellCheck htop hub hyperfine jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses postgresql10-client python python2 python3 py-asciinema ripgrep sd socat stow tig tmux tokei ts universal-ctags unzip whois xdg-utils"
+
+    WRAPPER="su root"
+    INSTALL="pkg install -y"
     INSTALLED=$(pkg query '%n')
     ;;
   Darwin)
     BLD="automake ccache cmake pkg-config"
     LIB="gmp gdbm libffi libyaml openssl readline"
-    USR="asciinema bat coreutils ctags curl direnv diskus exa fd fish fzf gdb git git-lfs gnupg hexyl htop hyperfine jid jq lftp mosh neofetch neovim pinentry-mac ripgrep sd shellcheck socat stow task-spooler tealdeer tmux tokei unzip watchexec xz"
+    USR="asciinema bat coreutils ctags curl direnv diskus exa fd fish fzf gdb git git-lfs gnupg hexyl htop hub hyperfine jq lftp mosh neofetch neovim pinentry-mac ripgrep sd shellcheck socat stow task-spooler tealdeer tmux tokei unzip watchexec xz"
 
+    WRAPPER="sh"
+    INSTALL="brew install"
     INSTALLED=$(brew ls -1)
     ;;
   *)
@@ -57,34 +78,19 @@ for pkg in $BLD $LIB $USR; do
 done
 if [ -n "$PKGS" ]; then
   if [ -z "$SKIP_PKGS" ]; then
-    case $(uname) in
-      Linux)
-        if command -v pacman >/dev/null; then
-          info "Installing system packages with pacman..."
-          sudo sh -c "pacman -Sy --noconfirm $PKGS"
-        elif command -v apt-get >/dev/null; then
-          info "Installing system packages with apt..."
-          sudo sh -c "apt-get install --no-install-recommends -y $PKGS"
-        elif command -v dnf >/dev/null; then
-          info "Installing system packages with dnf..."
-          sudo sh -c "dnf install --setopt=install_weak_deps=False --best -y $PKGS"
-        fi
-        ;;
-      FreeBSD)
-        info "Installing system packages with pkg..."
-        su root -c "pkg install -y $PKGS"
-        ;;
-      Darwin)
-        info "Installing system packages with brew..."
-        sh -c "brew install $PKGS"
-        ;;
-    esac
+    info "Installing system packages with ${INSTALL%% *}..."
+
+    (
+      export GOENV_VERSION=system
+      export PYENV_VERSION=system
+      export RBENV_VERSION=system
+
+      $WRAPPER -c "$INSTALL $PKGS"
+    )
   else
     important "The following system packages are missing:"
     echo "$PKGS"
   fi
-else
-  info "All system packages are installed."
 fi
 
 section "Language Support"

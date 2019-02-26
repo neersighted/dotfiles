@@ -31,9 +31,6 @@ pipx_install "shell-functools"
 pipx_install "pygments"
 
 # Parsing/Extraction Tools
-if ! command -v jid >/dev/null; then
-  go_get "github.com/simeji/jid/cmd/jid"
-fi
 cargo_install "xsv"
 go_get "mvdan.cc/xurls/cmd/xurls"
 
@@ -41,9 +38,4 @@ go_get "mvdan.cc/xurls/cmd/xurls"
 go_get "github.com/boyter/scc"
 if ! command -v tokei >/dev/null; then
   cargo_install "tokei"
-fi
-
-# Direnv
-if ! command -v direnv >/dev/null; then
-  go_get "https://github.com/direnv/direnv"
 fi

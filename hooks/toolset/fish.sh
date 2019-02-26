@@ -1,6 +1,6 @@
 # shellcheck shell=sh
 
-support_subsection "fish"
+toolset_subsection "fish"
 
 fish=$(command -v fish)
 if [ "$(getshell)" != "$fish" ]; then
