@@ -82,6 +82,7 @@ if [ -n "$PKGS" ]; then
 
     (
       export GOENV_VERSION=system
+      export NODENV_VERSION=system
       export PYENV_VERSION=system
       export RBENV_VERSION=system
 
