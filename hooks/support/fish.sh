@@ -12,14 +12,3 @@ if [ "$(getshell)" != "$fish" ]; then
   info "Changing login shell to fish..."
   setshell "$fish"
 fi
-
-if [ ! -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
-  info "Fetching fisher..."
-  curl -L https://git.io/fisher -o "$XDG_CONFIG_HOME/fish/functions/fisher.fish"
-else
-  info "Updating fisher..."
-  fish -c 'fisher self-update'
-fi
-
-info "Syncing fish plugins using fisher..."
-fish -c 'fisher'

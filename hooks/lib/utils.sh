@@ -1,6 +1,6 @@
 # shellcheck shell=sh
 
-getshell() {
+getshell() { # shell
   case $(uname) in
     Darwin)
       dscl . read "/Users/$USER" UserShell | awk '{print $2}'
@@ -11,7 +11,7 @@ getshell() {
   esac
 }
 
-setshell() {
+setshell() { # shell
   case $(uname) in
     Darwin)
       sudo dscl . create "/Users/$USER" UserShell "$1"
@@ -26,7 +26,7 @@ setshell() {
   
 }
 
-selectversion() {
+selectversion() { # major, minor, patch
   awk -v major="$1" -v minor="$2" -v patch="$3" -F '.' '
     /^[ \t]*[0-9]+\.[0-9]+\.[0-9]+[ \t]*$/ {
       if ((major != "" && major != $1) ||
@@ -49,7 +49,7 @@ selectversion() {
     }'
 }
 
-stem() {
+stem() { # path
   basename=${1##*/}
   echo "${basename%%.*}"
 }

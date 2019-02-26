@@ -68,14 +68,20 @@ set -Ux HTTPIE_CONFIG_DIR $XDG_CONFIG_HOME/httpie
 # fzf
 #
 
+# Handle Ubuntu/Debian fd.
+set -l fd fd
+if command -sq fdfind
+  set fd fdfind
+end
+
 # core
-set -Ux FZF_DEFAULT_COMMAND 'fd --type file --type symlink'
+set -Ux FZF_DEFAULT_COMMAND "$fd --type file --type symlink"
 
 # plugin (commands)
 set -U FZF_OPEN_COMMAND $FZF_DEFAULT_COMMAND
 set -U FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND
-set -U FZF_CD_COMMAND 'fd --type directory --follow'
-set -U FZF_CD_WITH_HIDDEN_COMMAND 'fd --type directory --follow --hidden --exclude .git'
+set -U FZF_CD_COMMAND "$fd --type directory --follow"
+set -U FZF_CD_WITH_HIDDEN_COMMAND "$fd --type directory --follow --hidden --exclude .git"
 
 # plugin (ui)
 set -U FZF_LEGACY_KEYBINDINGS 0

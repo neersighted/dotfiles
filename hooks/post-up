@@ -11,24 +11,24 @@ set -e
 section "System Packages"
 case $(uname) in
   Linux)
-    if command -v pacman >/dev/null; then
-      BLD="autoconf automake bison ccache clang cmake fakeroot gcc make pkgconf"
-      LIB="libyaml postgresql-libs"
-      USR="ctags elinks fish fzf gdb git git-lfs htop jq lftp perl-file-mimeinfo mosh neofetch neovim shellcheck socat stow tig tmux unzip whois xdg-utils"
-
-      INSTALLED=$(pacman -Qq)
-    elif command -v apt-get >/dev/null; then
+    if command -v apt-get >/dev/null; then
       BLD="automake bison ccache clang cmake gcc g++ make pkgconf"
       LIB="libbz2-dev libffi-dev libgdbm-dev libncurses-dev libreadline-dev libsqlite3-dev libssl-dev liblzma-dev libpq-dev libyaml-dev uuid-dev zlib1g-dev"
-      USR="curl direnv elinks fish fzf gdb git git-lfs htop jq lftp libarchive-tools libfile-mimeinfo-perl mosh neofetch neovim postgresql-common postgresql-client-common shellcheck socat stow task-spooler tig tmux universal-ctags unzip whois xdg-utils"
+      USR="asciinema curl direnv elinks exa fd-find fish fzf gdb git git-lfs hexyl htop jid jq lftp libarchive-tools libfile-mimeinfo-perl mosh neofetch neovim postgresql-client-common ripgrep shellcheck socat stow task-spooler tig tmux universal-ctags unzip whois xdg-utils"
 
       INSTALLED=$(dpkg-query -f '${Package}\n' -W)
     elif command -v dnf >/dev/null; then
       BLD="automake bison ccache clang cmake compiler-rt gcc make pkgconf"
       LIB="bzip2-devel gdbm-devel libffi-devel libpq-devel libuuid-devel libyaml-devel ncurses-devel openssl-devel postgresql-libs readline-devel sqlite-devel xz-devel zlib-devel"
-      USR="ctags direnv elinks fish fzf gdb git git-lfs gnupg htop jq lftp bsdtar perl-File-MimeInfo man-db mosh neofetch neovim ShellCheck socat stow task-spooler tig tmux unzip whois xdg-utils"
+      USR="asciinema bat ctags direnv elinks exa fd-find fish fzf gdb git git-lfs gnupg htop hyperfine jid jq lftp bsdtar perl-File-MimeInfo man-db mosh neofetch neovim ripgrep sd ShellCheck socat stow task-spooler tig tmux tokei unzip whois xdg-utils"
 
       INSTALLED=$(dnf repoquery --installed --queryformat '%{name}')
+    elif command -v pacman >/dev/null; then
+      BLD="autoconf automake bison ccache clang cmake fakeroot gcc make pkgconf"
+      LIB="libyaml postgresql-libs"
+      USR="asciinema bat ctags diskus elinks exa fd fish fzf gdb git git-lfs hexyl htop hyperfine jq lftp perl-file-mimeinfo mosh neofetch neovim ripgrep sd shellcheck socat stow tig tmux tokei unzip watchexec whois xdg-utils"
+
+      INSTALLED=$(pacman -Qq)
     else
       error "Unsupported package manager."
     fi
@@ -36,13 +36,13 @@ case $(uname) in
   FreeBSD)
     BLD="automake ccache cmake gcc gmake pkgconf"
     LIB="libffi libyaml ncurses openssl readline sqlite3"
-    USR="bash coreutils curl direnv elinks fish fzf gdb git git-lfs gnupg hs-ShellCheck htop jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses postgresql10-client python python2 python3 socat stow tig tmux ts universal-ctags unzip whois xdg-utils"
+    USR="bash bat coreutils curl direnv diskus exa elinks fd-find fish fzf gdb git git-lfs gnupg hexyl hs-ShellCheck htop hyperfine jid jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses postgresql10-client python python2 python3 py-asciinema ripgrep sd socat stow tig tmux tokei ts universal-ctags unzip whois xdg-utils"
     INSTALLED=$(pkg query '%n')
     ;;
   Darwin)
     BLD="automake ccache cmake pkg-config"
     LIB="gmp gdbm libffi libyaml openssl readline"
-    USR="coreutils ctags curl direnv fish fzf gdb git git-lfs gnupg htop jq lftp mosh neofetch neovim pinentry-mac shellcheck socat stow task-spooler tmux unzip xz"
+    USR="asciinema bat coreutils ctags curl direnv diskus exa fd fish fzf gdb git git-lfs gnupg hexyl htop hyperfine jid jq lftp mosh neofetch neovim pinentry-mac ripgrep sd shellcheck socat stow task-spooler tealdeer tmux tokei unzip watchexec xz"
 
     INSTALLED=$(brew ls -1)
     ;;

@@ -26,6 +26,12 @@ cargo_install() { # target, git
   fi
 }
 
+fetch_url() { # url, path
+  mkdir -p "$(dirname "$2")"
+  rm -f "$2"
+  curl "$1" -o "$2"
+}
+
 gem_install() { # target
   if has_support "Ruby"; then
     if [ -z "$GEM_INSTALLED" ]; then
