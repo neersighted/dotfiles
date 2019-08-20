@@ -51,6 +51,7 @@
 [core]
 	pager = less --quit-if-one-screen --no-init
 [pager]
+	log = diff-so-fancy | $(git config --get core.pager)
 	diff = diff-so-fancy | $(git config --get core.pager)
 	show = diff-so-fancy | $(git config --get core.pager)
 
@@ -107,10 +108,22 @@
 	prune = fetch --prune
 	stash-all = stash save --include-untracked
 	preset = !git diff -p -R | grep -E '^(diff|(old|new) mode)' | git apply
-	# legit
-	switch = !legit switch
-	sync = !legit sync
-	publish = !legit publish
-	unpublish = !legit unpublish
-	undo = !legit undo
-	branches = !legit branches
+
+#
+# Colors
+#
+
+[color "diff"]
+	context = "#839496"
+	meta = "#eee8d5"
+	frag = "#6c71c4"
+	func = "#93a1a1"
+	commit = "#b58900"
+	old = "#dc322f"
+	new = "#859900"
+	whitespace = "#cb4b16 reverse"
+[color "diff-highlight"]
+	oldNormal = "#dc322f"
+	oldHighlight = "#dc322f reverse"
+	newNormal = "#859900"
+	newHighlight = "#859900 reverse"

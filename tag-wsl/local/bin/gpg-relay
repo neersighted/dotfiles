@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-username=$(cmd.exe /c 'echo %USERNAME%' | tr -d '\r')
-localsocket="$GNUPGHOME/S.gpg-agent"
-remotesocket="C:/Users/$username/AppData/Roaming/gnupg/S.gpg-agent"
-
-exec -a gpg-relay socat UNIX-LISTEN:"$localsocket",fork EXEC:"npiperelay.exe -ei -ep -s -a '$remotesocket'",nofork &
-sleep 0.2
-printf gpg-relay >/proc/$!/comm

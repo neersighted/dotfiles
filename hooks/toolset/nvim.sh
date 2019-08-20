@@ -29,9 +29,6 @@ if has_support "Python"; then
   done
 fi
 
-npm_install "neovim"
-gem_install "neovim"
-
 pipx_install "neovim-remote"
 pipx_install "vim-vint"
 

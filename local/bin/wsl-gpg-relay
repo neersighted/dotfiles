@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+name=$(basename "$0")
+localsocket="$GNUPGHOME/S.gpg-agent"
+remotesocket="C:/Users/$USER/AppData/Roaming/gnupg/S.gpg-agent"
+
+command -v npiperelay.exe >/dev/null || exit
+exec -a "$name" socat UNIX-LISTEN:"$localsocket",fork EXEC:"npiperelay.exe -ei -ep -s -a '$remotesocket'",nofork &
+sleep 0.2
+echo -n "$name" >/proc/$!/comm

@@ -12,7 +12,7 @@ if status is-login; and not set -q SSH_CONNECTION
     end
     if test ! -e $GNUPGHOME/S.gpg-agent
       # connect gpg to windows gpg-agent via socat/npiperelay
-      command -sq npiperelay.exe; and gpg-relay (command -s npiperelay.exe)
+      wsl-gpg-relay
     end
   else if not string match -rq 'S.gpg-agent.ssh$' $SSH_AUTH_SOCK
     # connect ssh to gpg-agent

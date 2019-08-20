@@ -26,26 +26,18 @@ cargo_install() { # target, git
   fi
 }
 
-fetch_url() { # url, path
+fetch_url() { # url, path, executable
+  info "Fetching $1 with curl..."
   mkdir -p "$(dirname "$2")"
   rm -f "$2"
   curl "$1" -o "$2"
-}
-
-gem_install() { # target
-  if has_support "Ruby"; then
-    if [ -z "$GEM_INSTALLED" ]; then
-      GEM_INSTALLED=$(gem list --no-versions)
-    fi
-
-    if ! echo "$GEM_INSTALLED" | grep -Fq "$1"; then
-      info "Installing $1 using gem..."
-      gem install "$1"
-    fi
+  if [ "$3" = true ]; then
+    chmod +x "$2"
   fi
 }
 
 git_sync() { # url, path
+  info "Syncing $1 with git..."
   if [ -d "$2" ]; then
     git -C "$2" pull
   else
@@ -57,19 +49,6 @@ go_get() { # target
   if has_support "Golang"; then
     info "Fetching $1 using go get..."
     go get -u "$1"
-  fi
-}
-
-npm_install() { # target
-  if has_support "Node.js"; then
-    if [ -z "$NPM_INSTALLED" ]; then
-      NPM_INSTALLED=$(npm ls -g --depth 0)
-    fi
-
-    if ! echo "$NPM_INSTALLED" | grep -Fq "$1"; then
-      info "Installing $1 using npm..."
-      npm install -g "$1"
-    fi
   fi
 }
 

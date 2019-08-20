@@ -9,7 +9,7 @@ let g:status#filetype_modes = {
   \ 'MundoDiff': 'UNDODIFF',
   \ 'dirvish': 'DIR',
   \ 'fugitiveblame': 'BLAME',
-  \ 'fzf': 'FZF',
+  \ 'fzf': '> FZF',
   \ 'help': 'HELP',
   \ 'man': 'MAN',
   \ 'startify': 'STARTIFY',
@@ -20,17 +20,14 @@ let g:status#filetype_modes = {
 
 function! status#is_filelike() abort
   return index(['', 'nowrite', 'acwrite'], &buftype) != -1
-  " return &buftype is# '' || &buftype is# 'nowrite' || &buftype is# 'acwrite'
 endfunction
 
 function! status#has_filename() abort
   return index(['', 'help'], &buftype) != -1
-  " return &buftype is# '' || &buftype is# 'help'
 endfunction
 
 function! status#show_lines() abort
   return index(['terminal', 'nofile'], &buftype) == -1
-  " return &buftype isnot# 'terminal' && &buftype isnot# 'nofile'
 endfunction
 
 function! status#show_detail() abort
@@ -119,7 +116,7 @@ function status#git_head() abort
 endfunction
 
 function! status#git_status() abort
-  if !exists('b:gitgutter') || !status#show_detail()
+  if !exists('b:gitgutter') || !status#is_filelike() || !status#show_detail()
     return ''
   endif
 

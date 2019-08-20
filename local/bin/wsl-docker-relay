@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+name=$(basename "$0")
+npiperelay="$1"
+
+command -v "$npiperelay" >/dev/null || exit
+exec -a "$name" socat UNIX-LISTEN:/var/run/docker.sock,fork,group=docker,umask=007 EXEC:"$npiperelay -ep -s //./pipe/docker_engine",nofork &
+sleep 0.2
+echo -n "$name" >/proc/$!/comm

@@ -3,8 +3,13 @@ augroup lightline_hook
   autocmd!
   autocmd User ALELintPost call lightline#update()
   autocmd User Fugitive call lightline#update()
+  autocmd User FzfStatusLine call lightline#update()
   autocmd User GitGutter call lightline#update()
 augroup END
+function! TagbarStatusline(current, sort, fname, ...) abort
+  return lightline#statusline(0)
+endfunction
+let g:tagbar_status_func = 'TagbarStatusline'
 
 let g:lightline = {
   \ 'colorscheme': 'solarized',
@@ -26,7 +31,7 @@ let g:lightline = {
   \   },
   \   'inactive': {
   \     'left': [
-  \       [ 'filename' ],
+  \       ['mode', 'filename' ],
   \     ],
   \     'right': [
   \       [],
@@ -77,9 +82,3 @@ let g:lightline = {
   \     'ale_warning': 'warning',
   \   },
   \ }
-
-" Use lightline in Tagbar.
-function! TagbarStatusline(current, sort, fname, ...) abort
-  return lightline#statusline(0)
-endfunction
-let g:tagbar_status_func = 'TagbarStatusline'

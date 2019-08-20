@@ -17,13 +17,22 @@ git_sync https://github.com/rbenv/rbenv-default-gems "$RBENV_ROOT/plugins/rbenv-
 git_sync https://github.com/rbenv/rbenv-each "$RBENV_ROOT/plugins/rbenv-each"
 
 cat <<EOF >"$RBENV_ROOT/default-gems"
+brakeman
 bundler
+fasterer
+flay
+flog
 foreman
 looksee
+neovim
 pry
+rails
+rails_best_practices
+reek
 rib
 rspec
 rubocop
+rubycritic
 EOF
 
 eval "$(rbenv init -)"
