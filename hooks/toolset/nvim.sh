@@ -1,19 +1,6 @@
 # shellcheck shell=sh
 
-toolset_subsection "Neovim"
-
-if ! command -v nvim >/dev/null; then
-  if uname | grep -F Linux | grep -Fvq Microsoft && command -v jq >/dev/null; then
-    neovim_appimage=$(curl "https://api.github.com/repos/neovim/neovim/releases/latest" \
-      | jq -r '.assets[] | select(.name == "nvim.appimage") | .browser_download_url')
-
-    info "Neovim is unavailable! Installing from AppImage..."
-    curl -L "$neovim_appimage" -o "$HOME/.local/bin/nvim"
-  else
-    important "Neovim is unavailable!"
-    return
-  fi
-fi
+toolset_subsection "nvim"
 
 if has_support "Python"; then
   for pair in neovim2:$PYTHON2_VERSION neovim3:$PYTHON3_VERSION; do
