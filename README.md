@@ -9,14 +9,14 @@ are listed here:
 ```sh
 # ubuntu
 sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm
-sudo apt install rcm
+sudo apt install git rcm
 # debian
 curl https://apt.thoughtbot.com/thoughtbot.gpg.key | sudo apt-key add -
 echo "deb https://apt.thoughtbot.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/thoughtbot.list
 sudo apt-get update
-sudo apt-get install rcm
+sudo apt-get install git rcm
 # freebsd
-pkg install rcm
+pkg install git rcm
 # macos
 brew install thoughtbot/formulae/rcm
 ```
@@ -26,7 +26,7 @@ bootstrapping will occur after the dotfiles are installed.
 
 ```sh
 git clone https://github.com/neersighted/dotfiles "$HOME/.dotfiles"
-RCRC="$HOME/.dotfiles/rcrc" rcup -v -t <tags>
+env RCRC="$HOME/.dotfiles/rcrc" rcup -v -t <tags>
 ```
 
 Restart your shell to make sure the changes are fully applied.

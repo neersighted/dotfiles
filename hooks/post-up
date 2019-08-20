@@ -52,7 +52,7 @@ case $(uname) in
   FreeBSD)
     BLD="automake ccache cmake gcc gmake pkgconf"
     LIB="libffi libyaml ncurses openssl readline sqlite3"
-    USR="bash bat coreutils curl direnv diskus exa elinks fd-find fish fzf gdb git git-lfs gnupg hexyl hs-ShellCheck htop hub hyperfine jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses postgresql10-client python python2 python3 py-asciinema ripgrep sd socat stow tig tmux tokei ts universal-ctags unzip whois xdg-utils"
+    USR="bash bat coreutils curl direnv exa elinks fd-find fish fzf gdb git git-lfs gnupg hexyl hs-ShellCheck htop hub hyperfine jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses postgresql10-client python python2 python3 py36-asciinema ripgrep sd socat stow tig tmux tokei ts universal-ctags unzip whois xdg-utils"
 
     WRAPPER="su root"
     INSTALL="pkg install -y"
@@ -61,7 +61,7 @@ case $(uname) in
   Darwin)
     BLD="automake ccache cmake pkg-config"
     LIB="gmp gdbm libffi libyaml openssl readline"
-    USR="asciinema bat coreutils ctags curl direnv diskus exa fd fish fzf gdb git git-lfs gnupg hexyl htop hub hyperfine jq lftp mosh neofetch neovim pinentry-mac ripgrep sd shellcheck socat stow task-spooler tealdeer tmux tokei unzip watchexec xz"
+    USR="asciinema bat coreutils ctags curl direnv diskus exa fd fish fzf gdb git git-lfs gnupg hexyl htop hub hyperfine jq lesspipe lftp mosh neofetch neovim pinentry-mac ripgrep sd shellcheck socat stow task-spooler tealdeer tmux tokei unzip watchexec xz"
 
     WRAPPER="sh"
     INSTALL="brew install"

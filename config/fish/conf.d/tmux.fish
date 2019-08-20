@@ -1,4 +1,9 @@
-status --is-interactive; or exit
+status is-interactive; or exit
+
+# use $XDG_CONFIG_HOME for tmux.conf
+function tmux
+  command tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf $argv
+end
 
 # re-synchronize update-environment variables on attach
 function __tmux_resync --on-signal USR1

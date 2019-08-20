@@ -1,4 +1,4 @@
-status --is-interactive; or exit
+status is-interactive; or exit
 
 # Solarized Dark
 set color_base03  \#002b36 brblack
@@ -55,8 +55,8 @@ function term_special -a idx color
     switch $idx
       case 10; set idx g
       case 11; set idx h
-      case 12; set idx l
       case 13; set idx m
+      case 14; set idx l
       case 17; set idx j
       case 19; set idx k
       case 706; set idx i
@@ -94,15 +94,19 @@ term_color 15 $color_base3  # bright white
 
 term_special 10 $color_base0   # fg
 term_special 11 $color_base03  # bg
-term_special 12 $color_base0   # cursor bg
-term_special 13 $color_base03  # cursor fg
-term_special 17 $color_base01  # selction bg
-term_special 19 $color_base0   # selction fg
+term_special 12 $color_base0   # cursor (auto)
+term_special 13 $color_base03  # cursor (man) fg
+term_special 14 $color_base0   # cursor (man) bg
+term_special 17 $color_base01  # selection bg
+term_special 19 $color_base0   # selection fg
 term_special 706 $color_base0  # bold
 term_special 708 $color_base03 # chrome
 
-# clean up functions
+# clean up
 functions -e hex_octets hex_color xrdb_color term_color term_special
+set -e ESC
+set -e BEL
+set -e ST
 
 #
 # fzf adaptive colors

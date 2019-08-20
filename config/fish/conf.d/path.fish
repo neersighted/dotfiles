@@ -1,4 +1,4 @@
-status --is-login; or exit
+status is-login; or exit
 
 # snap
 path_prepend /snap/bin

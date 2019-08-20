@@ -1,4 +1,4 @@
-function su -d 'become another user'
+function su
   if test -z "$argv"
     if command -sq sudo
       command sudo -E -s

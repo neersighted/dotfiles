@@ -11,6 +11,20 @@ export PATH="$RBENV_ROOT/bin:$PATH"
 info "Syncing rbenv..."
 git_sync https://github.com/rbenv/rbenv "$RBENV_ROOT"
 git_sync https://github.com/rbenv/ruby-build "$RBENV_ROOT/plugins/ruby-build"
+git_sync https://github.com/aripollak/rbenv-bundler-ruby-version "$RBENV_ROOT/plugins/rbenv-bundler-ruby-version"
+git_sync https://github.com/tpope/rbenv-communal-gems "$RBENV_ROOT/plugins/rbenv-communal-gems"
+git_sync https://github.com/rbenv/rbenv-default-gems "$RBENV_ROOT/plugins/rbenv-default-gems"
+git_sync https://github.com/rbenv/rbenv-each "$RBENV_ROOT/plugins/rbenv-each"
+
+cat <<EOF >"$RBENV_ROOT/default-gems"
+bundler
+foreman
+looksee
+pry
+rib
+rspec
+rubocop
+EOF
 
 eval "$(rbenv init -)"
 
@@ -22,5 +36,6 @@ if ! rbenv versions | grep -Fq "$RUBY_VERSION"; then
   rbenv global "$RUBY_VERSION"
 fi
 
-info "Updating gem packages..."
-gem update --system && gem update
+info "Updating gems..."
+rbenv each gem update --system
+rbenv each gem update

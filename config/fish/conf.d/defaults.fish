@@ -39,6 +39,8 @@ set -Ux PYLINTHOME $XDG_CACHE_HOME/pylint
 
 # ruby
 set -Ux RBENV_ROOT $XDG_DATA_HOME/rbenv
+set -Ux BUNDLE_USER_HOME $XDG_DATA_HOME/bundle
+set -Ux BUNDLE_USER_CACHE $XDG_CACHE_HOME/bundle
 set -Ux GEM_SPEC_CACHE $XDG_CACHE_HOME/gem
 
 # rust
@@ -58,11 +60,15 @@ set -Ux GNUPGHOME $HOME/.gnupg
 # ccache
 set -Ux CCACHE_DIR $XDG_CACHE_HOME/ccache
 
+# httpie
+set -Ux HTTPIE_CONFIG_DIR $XDG_CONFIG_HOME/httpie
+
 # libvirt
 set -Ux LIBVIRT_DEFAULT_URI qemu:///system
 
-# httpie
-set -Ux HTTPIE_CONFIG_DIR $XDG_CONFIG_HOME/httpie
+# vagrant
+set -Ux VAGRANT_HOME $XDG_DATA_HOME/vagrant
+set -Ux VAGRANT_WSL_ENABLE_WINDOWS_ACCESS 1
 
 #
 # fzf

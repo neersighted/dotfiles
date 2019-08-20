@@ -12,6 +12,7 @@ info "Syncing nodenv..."
 git_sync https://github.com/nodenv/nodenv "$NODENV_ROOT"
 git_sync https://github.com/nodenv/node-build "$NODENV_ROOT/plugins/node-build"
 git_sync https://github.com/nodenv/nodenv-package-rehash "$NODENV_ROOT/plugins/nodenv-package-rehash"
+git_sync https://github.com/nodenv/nodenv-package-json-engine "$NODENV_ROOT/plugins/nodenv-package-json-engine"
 
 eval "$(nodenv init -)"
 
@@ -24,4 +25,4 @@ if ! nodenv versions | grep -Fq "$NODEJS_VERSION"; then
 fi
 
 info "Updating npm packages..."
-npm update -g
+# npm update -g

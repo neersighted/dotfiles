@@ -2,13 +2,13 @@
 set -q fish_initialized; or set -U fish_initialized
 
 # ssh/gpg startup
-if status --is-login; and not set -q SSH_CONNECTION
+if status is-login; and not set -q SSH_CONNECTION
   if set -q WSL
     if not set -q SSH_AUTH_SOCK
       # make sure gpg-agent is up
       command -sq gpg-connect-agent.exe; and gpg-connect-agent.exe /bye >/dev/null 2>&1
       # connect ssh to windows gpg-agent via weasel-pageant
-      command -sq weasel-pageant; and weasel-pageant -q -S fish | source
+      command -sq weasel-pageant; and weasel-pageant -qrb -a $HOME/.ssh/weasel-pageant.sock -S fish | source
     end
     if test ! -e $GNUPGHOME/S.gpg-agent
       # connect gpg to windows gpg-agent via socat/npiperelay
@@ -21,7 +21,7 @@ if status --is-login; and not set -q SSH_CONNECTION
 end
 
 # tmux/X startup
-if status --is-interactive; and not set -q TMUX
+if status is-interactive; and not set -q TMUX
   set -l tty (tty)
 
   if not set -q DISPLAY; and command -sq startx; and string match -rq '^/dev/tty(1|v0)$' $tty
@@ -54,7 +54,7 @@ if status --is-interactive; and not set -q TMUX
 end
 
 # non-WSL post-startup
-if status --is-interactive; and not set -q WSL
+if status is-interactive; and not set -q WSL
   set -x GPG_TTY (tty)
   gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
 end

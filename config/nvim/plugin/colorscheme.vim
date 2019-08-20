@@ -15,6 +15,8 @@ function! s:timed_background()
   endif
 endfunction
 
+let g:solarized_termcolors = 16
+let g:solarized_use16 = 0
 colorscheme solarized8
 
 augroup colorscheme

@@ -1,4 +1,4 @@
-status --is-login; or exit
+status is-login; or exit
 
 # locale
 if not set -q LANG; or test $LANG = 'C.UTF-8'
@@ -22,4 +22,5 @@ if not set -q WSL; and set -q WSLENV
   set -x DISPLAY ':0'
   set -x SHELL (command -v fish)
   set -x BROWSER 'wslview'
+  set -g umask 0022 # wsl current does not set umask
 end
