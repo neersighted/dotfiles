@@ -52,6 +52,7 @@ case $(uname) in
     ;;
 esac
 for pkg in $BLD $LIB $USR; do
+  pkg=$(basename "$pkg")
   if ! echo "$INSTALLED" | grep -Fwq "$pkg"; then
     PKGS="${PKGS:+$PKGS }$pkg"
   fi
@@ -65,6 +66,8 @@ if [ -n "$PKGS" ]; then
       export NODENV_VERSION=system
       export PYENV_VERSION=system
       export RBENV_VERSION=system
+
+      important "$INSTALL $PKGS"
 
       $WRAPPER -c "$INSTALL $PKGS"
     )
