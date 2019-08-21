@@ -7,21 +7,8 @@ cargo_install() { # target, git
     fi
 
     if ! echo "$CARGO_INSTALLED" | grep -Eq "^$1"; then
-      CARGO_TARGET_DIR=$(mktemp -d)
-      export CARGO_TARGET_DIR
-
-      trap 'rm -rf "$CARGO_TARGET_DIR"' EXIT
-
       info "Installing $1 using cargo..."
       cargo install "$1" ${2:+--git "$2"}
-
-      if [ -d "$CARGO_TARGET_DIR/release/build" ]; then
-        find "$CARGO_TARGET_DIR/release/build" -name '*.fish' \
-          -exec cp {} "$XDG_CONFIG_HOME/fish/completions" \;
-      fi
-
-      rm -rf "$CARGO_TARGET_DIR"
-      trap - EXIT
     fi
   fi
 }

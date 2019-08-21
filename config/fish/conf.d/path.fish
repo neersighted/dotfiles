@@ -23,14 +23,22 @@ if not set -q MANPATH
   # search default manpath
   set -x MANPATH ''
 
-  # additional manpages
-  for manpath in \
-    $NODENV_ROOT/versions/*/share/man \
-    $PYENV_ROOT/versions/*/share/man \
-    $PIPX_HOME/*/share/man \
-    $RBENV_ROOT/versions/*/share/man \
-    $RUSTUP_HOME/toolchains/*/share/man
+  # nodenv
+  set -q NODENV_VERSION; or read -l NODENV_VERSION < $NODENV_ROOT/version
+  set -p MANPATH $NODENV_ROOT/versions/$NODENV_VERSION/share/man
 
-    set -p MANPATH $manpath
-  end
+  # pyenv
+  set -q PYENV_VERSION; or read -l PYENV_VERSION < $PYENV_ROOT/version
+  set -p MANPATH $PYENV_ROOT/versions/$PYENV_VERSION/share/man
+
+  # rbenv
+  set -q RBENV_VERSION; or read -l RBENV_VERSION < $RBENV_ROOT/version
+  set -p MANPATH $RBENV_ROOT/versions/$RBENV_VERSION/share/man
+
+  # rustup
+  set -q RUSTUP_TOOLCHAIN; or set -l RUSTUP_TOOLCHAIN (string match -r 'default_toolchain = "(.*)"' < $RUSTUP_HOME/settings.toml)[2]
+  set -p MANPATH $RUSTUP_HOME/toolchains/$RUSTUP_TOOLCHAIN/share/man
+
+  # user-created
+  set -p MANPATH $XDG_DATA_HOME/man
 end

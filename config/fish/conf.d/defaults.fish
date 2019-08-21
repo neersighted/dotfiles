@@ -25,8 +25,12 @@ set -Ux GOENV_ROOT $XDG_DATA_HOME/goenv
 set -Ux GOENV_GOPATH_PREFIX $XDG_DATA_HOME/go
 set -Ux GOBIN $XDG_DATA_HOME/go/bin
 
+# haskell
+set -Ux STACK_ROOT $XDG_DATA_HOME/stack
+
 # node.js
 set -Ux NODENV_ROOT $XDG_DATA_HOME/nodenv
+set -Ux NPM_CONFIG_USERCONFIG $XDG_CONFIG_HOME/npm/npmrc
 set -Ux NPM_CONFIG_CACHE $XDG_CACHE_HOME/npm
 
 # python
@@ -39,9 +43,11 @@ set -Ux PYLINTHOME $XDG_CACHE_HOME/pylint
 
 # ruby
 set -Ux RBENV_ROOT $XDG_DATA_HOME/rbenv
-set -Ux BUNDLE_USER_HOME $XDG_DATA_HOME/bundle
-set -Ux BUNDLE_USER_CACHE $XDG_CACHE_HOME/bundle
+set -Ux GEM_HOME $XDG_DATA_HOME/gem
 set -Ux GEM_SPEC_CACHE $XDG_CACHE_HOME/gem
+set -Ux BUNDLE_USER_CONFIG $XDG_CONFIG_HOME/bundle
+set -Ux BUNDLE_USER_CACHE $XDG_CACHE_HOME/bundle
+set -Ux BUNDLE_USER_PLUGIN $XDG_DATA_HOME/bundle
 
 # rust
 set -Ux RUSTUP_HOME $XDG_DATA_HOME/rustup
@@ -65,6 +71,9 @@ set -Ux HTTPIE_CONFIG_DIR $XDG_CONFIG_HOME/httpie
 
 # libvirt
 set -Ux LIBVIRT_DEFAULT_URI qemu:///system
+
+# tmux
+set -Ux TMUX_TMPDIR $XDG_RUNTIME_DIR
 
 # vagrant
 set -Ux VAGRANT_HOME $XDG_DATA_HOME/vagrant
