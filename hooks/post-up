@@ -18,10 +18,11 @@ case $(uname) in
     if ! command -v yay >/dev/null; then
       (
         YAY="${TMPDIR:-/tmp}/yay"
+        trap 'rm -rf $YAY' EXIT
+
         git clone https://aur.archlinux.org/yay.git "$YAY"
         cd "$YAY"
         makepkg -si --noconfirm
-        rm -rf "$YAY"
       )
     fi
 

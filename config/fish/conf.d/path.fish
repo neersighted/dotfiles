@@ -3,7 +3,7 @@ status is-login; or exit
 # snap
 path_prepend /snap/bin
 # ccache {linux, {bsd, macos}}
-path_prepend /usr/{lib/ccache,local/{libexec/ccache,opt/ccache/libexec}}
+path_prepend /usr/{lib/ccache/bin,local/{libexec/ccache,opt/ccache/libexec}}
 
 # golang
 path_prepend $GOBIN $GOENV_ROOT/{shims,bin}

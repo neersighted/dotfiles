@@ -32,10 +32,17 @@ git_sync() { # url, path
   fi
 }
 
-go_get() { # target
+go_get() { # target, module
   if has_support "Golang"; then
     info "Fetching $1 using go get..."
-    go get -u "$1"
+    (
+      MOD=$(mktemp -d)
+      trap 'rm -rf $MOD' EXIT
+
+      cd "$MOD" || exit 1
+      go mod init tmp
+      go get "$1"
+    )
   fi
 }
 

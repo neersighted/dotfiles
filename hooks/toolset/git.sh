@@ -2,7 +2,7 @@
 
 toolset_subsection "Git"
 
-go_get "github.com/mkchoi212/fac"
+go_get "github.com/mkchoi212/fac@latest"
 cargo_install "git-interactive-rebase-tool"
 
 fetch_url "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy" "$HOME/.local/bin/diff-so-fancy" true

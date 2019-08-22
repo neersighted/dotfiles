@@ -2,6 +2,5 @@
 
 toolset_subsection "Golang"
 
-go_get "golang.org/x/lint/golint"
-go_get "github.com/nsf/gocode"
-go_get "github.com/sourcegraph/go-langserver"
+go_get "github.com/golangci/golangci-lint/cmd/golangci-lint@latest"
+go_get "golang.org/x/tools/gopls@latest"
