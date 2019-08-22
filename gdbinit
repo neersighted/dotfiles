@@ -1,3 +1,4 @@
+set startup-with-shell off
 set history filename ~/.cache/gdb_history
 
 source ~/.local/share/gdb-dashboard/.gdbinit
