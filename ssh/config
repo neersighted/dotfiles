@@ -1,0 +1,6 @@
+Host *
+	ControlMaster auto
+	ControlPath ~/.ssh/%C.sock
+	ControlPersist 30m
+
+Include ~/.ssh/config.d/*

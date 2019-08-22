@@ -24,6 +24,9 @@ if not set -q XDG_RUNTIME_DIR
   set -x XDG_RUNTIME_DIR $TMPDIR
 end
 
+# tmux
+set -x TMUX_TMPDIR $XDG_RUNTIME_DIR
+
 # wsl
 if not set -q WSL; and set -q WSLENV
   set -x WSL (string match -r '^\d.\d.\d-(\d+)-Microsoft$' (uname -r))[2]

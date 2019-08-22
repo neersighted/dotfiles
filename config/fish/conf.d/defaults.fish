@@ -72,9 +72,6 @@ set -Ux HTTPIE_CONFIG_DIR $XDG_CONFIG_HOME/httpie
 # libvirt
 set -Ux LIBVIRT_DEFAULT_URI qemu:///system
 
-# tmux
-set -Ux TMUX_TMPDIR $XDG_RUNTIME_DIR
-
 # vagrant
 set -Ux VAGRANT_HOME $XDG_DATA_HOME/vagrant
 set -Ux VAGRANT_WSL_ENABLE_WINDOWS_ACCESS 1

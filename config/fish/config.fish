@@ -30,7 +30,10 @@ if status is-interactive; and not set -q TMUX
   else
     # determine session name (default to hostname)
     set -l session (string split . $hostname)[1]
-    if set -q SSH_CONNECTION
+    if test $TERM_PROGRAM = 'vscode'
+      # separate session for special terminals
+      set session $TERM_PROGRAM
+    else if set -q SSH_CONNECTION
       # use client suffix for SSH
       set session $session-(string replace -a '.' '-' (string split ' ' $SSH_CONNECTION)[1])
     else if not string match -rq '^/dev/(pts/\d+|ttys\d+)$' $tty; and not set -q WSL
