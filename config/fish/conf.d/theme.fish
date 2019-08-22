@@ -112,7 +112,7 @@ set -e ST
 # fzf adaptive colors
 #
 
-if test "$COLORTERM" = 'truecolor'
+if set -q COLORTERM; and test $COLORTERM = 'truecolor'
   set -x FZF_DEFAULT_OPTS "$FZF_BASE_OPTS --color=fg:#839496,bg:#002b36,hl:#eee8d5,fg+:#839496,bg+:#073642,hl+:#d33682 --color=info:#2aa198,prompt:#839496,pointer:#fdf6e3,marker:#fdf6e3,spinner:#2aa198"
 else
   set -x FZF_DEFAULT_OPTS "$FZF_BASE_OPTS --color=fg:12,bg:8,hl:7,fg+:12,bg+:0,hl+:5 --color=info:6,prompt:12,pointer:15,marker:15,spinner:6"

@@ -30,7 +30,7 @@ if status is-interactive; and not set -q TMUX
   else
     # determine session name (default to hostname)
     set -l session (string split . $hostname)[1]
-    if test $TERM_PROGRAM = 'vscode'
+    if set -q TERM_PROGRAM; and test $TERM_PROGRAM = 'vscode'
       # separate session for special terminals
       set session $TERM_PROGRAM
     else if set -q SSH_CONNECTION
