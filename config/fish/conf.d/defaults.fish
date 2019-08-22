@@ -6,6 +6,7 @@ set -q fish_initialized; and exit
 
 # fish
 set -U fish_greeting
+set -U fish_key_bindings fish_default_key_bindings
 
 # editor
 set -Ux VISUAL nvim

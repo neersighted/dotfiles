@@ -54,7 +54,7 @@ pipx_install() { # target, spec
 
     if ! echo "$PIPX_INSTALLED" | grep -Fq "$1"; then
       info "Installing $1 using pipx..."
-      pipx install "$1" ${2:+--spec $2}
+      pipx install "$1" ${2:+--spec "$2"}
     fi
   fi
 }
