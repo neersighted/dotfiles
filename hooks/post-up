@@ -13,7 +13,7 @@ case $(uname) in
   Linux)
     BLD="autoconf automake bison ccache clang cmake fakeroot gcc make pkgconf"
     LIB="libyaml"
-    USR="asciinema bat ctags direnv diskus elinks exa fd fish fzf gdb git git-lfs gotop hexyl htop hub hyperfine jq lftp perl-file-mimeinfo mosh mycli neofetch neovim pgcli ripgrep sd shellcheck socat stow task-spooler tig tmux tokei unzip watchexec whois xdg-utils"
+    USR="asciinema bat ctags direnv diskus elinks exa fd fish fzf gdb git git-lfs gotop hexyl htop httpie hub hyperfine icdiff jq lftp perl-file-mimeinfo mosh mycli neofetch neovim pgcli ripgrep sd shellcheck socat stow task-spooler tig tmux tokei unzip watchexec whois xdg-utils"
 
     if ! command -v yay >/dev/null; then
       (
@@ -32,7 +32,7 @@ case $(uname) in
   FreeBSD)
     BLD="automake ccache cmake gcc gmake pkgconf"
     LIB="libffi libyaml ncurses openssl readline sqlite3"
-    USR="bash bat coreutils curl direnv exa elinks fd-find fish fzf gdb git git-lfs gnupg gotop hexyl hs-ShellCheck htop hub hyperfine jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses python python2 python3 py36-asciinema py36-mycli py36-pgcli ripgrep sd socat stow tig tmux tokei ts universal-ctags unzip whois xdg-utils" # missing: hexyl, watchexec
+    USR="bash bat coreutils curl direnv exa elinks fd-find fish fzf gdb git git-lfs gnupg gotop hexyl hs-ShellCheck htop hub hyperfine icdiff jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses python python2 python3 py27-httpie py36-asciinema py36-mycli py36-pgcli ripgrep sd socat stow tig tmux tokei ts universal-ctags unzip whois xdg-utils" # missing: hexyl, watchexec
 
     WRAPPER="su root"
     INSTALL="pkg install -y"
@@ -41,7 +41,7 @@ case $(uname) in
   Darwin)
     BLD="automake ccache cmake pkg-config"
     LIB="gmp gdbm libffi libyaml openssl readline"
-    USR="asciinema bat coreutils ctags curl direnv diskus exa fd fish fzf gdb git git-lfs gnupg cjbassi/gotop/gotop hexyl htop hub hyperfine jq lesspipe lftp mosh mycli neofetch neovim pgcli pinentry-mac ripgrep sd shellcheck socat stow task-spooler tealdeer tmux tokei unzip watchexec xz"
+    USR="asciinema bat coreutils ctags curl direnv diskus exa fd fish fzf gdb git git-lfs gnupg cjbassi/gotop/gotop hexyl htop httpie hub hyperfine icdiff jq lesspipe lftp mosh mycli neofetch neovim pgcli pinentry-mac ripgrep sd shellcheck socat stow task-spooler tealdeer tmux tokei unzip watchexec xz"
 
     WRAPPER="sh"
     INSTALL="brew install"

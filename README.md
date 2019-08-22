@@ -7,14 +7,9 @@ First, use your install method of choice to get
 are listed here:
 
 ```sh
-# ubuntu
-sudo add-apt-repository ppa:martin-frost/thoughtbot-rcm
-sudo apt install git rcm
-# debian
-curl https://apt.thoughtbot.com/thoughtbot.gpg.key | sudo apt-key add -
-echo "deb https://apt.thoughtbot.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/thoughtbot.list
-sudo apt-get update
-sudo apt-get install git rcm
+# arch
+git clone https://aur.archlinux.org/rcm /tmp/rcm
+cd /tmp/rcm && makepkg -si
 # freebsd
 pkg install git rcm
 # macos

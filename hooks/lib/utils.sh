@@ -17,7 +17,7 @@ setshell() { # shell
       sudo dscl . create "/Users/$USER" UserShell "$1"
       ;;
     FreeBSD)
-      su -c "pw usermod -s '$1' '$USER'"
+      su root -c "pw usermod -n '$USER' -s '$1'"
       ;;
     *)
       sudo usermod -s "$1" "$USER"

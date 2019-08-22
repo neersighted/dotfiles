@@ -30,7 +30,7 @@ NODENV_INSTALLED=$(nodenv versions --skip-aliases --bare)
 NODEJS_VERSION=$(nodenv install -l | selectversion)
 if ! nodenv versions | grep -Fq "$NODEJS_VERSION"; then
   info "Installing Node.js $NODEJS_VERSION..."
-  env PYENV_VERSION=system nodenv install -s "$NODEJS_VERSION"
+  env NODENV_VERSION=system nodenv install -s "$NODEJS_VERSION"
   info "Activating Node.js $NODEJS_VERSION..."
   nodenv global "$NODEJS_VERSION"
 fi

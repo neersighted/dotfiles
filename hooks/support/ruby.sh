@@ -45,10 +45,6 @@ if ! rbenv versions | grep -Fq "$RUBY_VERSION"; then
   rbenv global "$RUBY_VERSION"
 fi
 
-info "Patching fileutils..."
-gem uninstall fileutils
-gem update --default fileutils
-
 info "Updating gems..."
 rbenv each gem update --system
 rbenv each gem update

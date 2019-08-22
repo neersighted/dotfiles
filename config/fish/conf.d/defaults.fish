@@ -57,20 +57,24 @@ set -Ux CARGO_HOME $XDG_DATA_HOME/cargo
 # tools
 #
 
-# (n)vim
-set -Ux VIM_CONFIG_PATH $XDG_CONFIG_HOME/nvim
-
-# gnupg
-set -Ux GNUPGHOME $HOME/.gnupg
+# aws
+set -Ux AWS_CONFIG_FILE $XDG_CONFIG_HOME/aws/config
+set -Ux AWS_SHARED_CREDENTIALS_FILE $XDG_CONFIG_HOME/aws/credentials
 
 # ccache
 set -Ux CCACHE_DIR $XDG_CACHE_HOME/ccache
+
+# gnupg
+set -Ux GNUPGHOME $HOME/.gnupg
 
 # httpie
 set -Ux HTTPIE_CONFIG_DIR $XDG_CONFIG_HOME/httpie
 
 # libvirt
 set -Ux LIBVIRT_DEFAULT_URI qemu:///system
+
+# (n)vim
+set -Ux VIM_CONFIG_PATH $XDG_CONFIG_HOME/nvim
 
 # vagrant
 set -Ux VAGRANT_HOME $XDG_DATA_HOME/vagrant
