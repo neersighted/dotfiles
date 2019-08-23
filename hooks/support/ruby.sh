@@ -16,6 +16,14 @@ git_sync https://github.com/tpope/rbenv-communal-gems "$RBENV_ROOT/plugins/rbenv
 git_sync https://github.com/rbenv/rbenv-default-gems "$RBENV_ROOT/plugins/rbenv-default-gems"
 git_sync https://github.com/rbenv/rbenv-each "$RBENV_ROOT/plugins/rbenv-each"
 
+(
+  cd "$RBENV_ROOT" || exit 1
+  src/configure
+  make -C src
+)
+
+eval "$(rbenv init -)"
+
 cat <<EOF >"$RBENV_ROOT/default-gems"
 brakeman
 bundler
@@ -34,8 +42,6 @@ rspec
 rubocop
 rubycritic
 EOF
-
-eval "$(rbenv init -)"
 
 RUBY_VERSION="$(rbenv install -l | selectversion)"
 if ! rbenv versions | grep -Fq "$RUBY_VERSION"; then

@@ -15,6 +15,14 @@ git_sync https://github.com/nodenv/nodenv-package-rehash "$NODENV_ROOT/plugins/n
 git_sync https://github.com/nodenv/nodenv-package-json-engine "$NODENV_ROOT/plugins/nodenv-package-json-engine"
 git_sync https://github.com/nodenv/nodenv-default-packages "$NODENV_ROOT/plugins/nodenv-default-packages"
 
+(
+  cd "$NODENV_ROOT" || exit 1
+  src/configure
+  make -C src
+)
+
+eval "$(nodenv init -)"
+
 cat <<EOF >"$NODENV_ROOT/default-packages"
 flow
 lerna
@@ -22,8 +30,6 @@ neovim
 npm-check
 pnpm
 EOF
-
-eval "$(nodenv init -)"
 
 NODENV_INSTALLED=$(nodenv versions --skip-aliases --bare)
 

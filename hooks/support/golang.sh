@@ -17,6 +17,12 @@ export PATH="$GOBIN:$GOENV_ROOT/bin:$PATH"
 info "Syncing goenv..."
 git_sync https://github.com/syndbg/goenv "$GOENV_ROOT"
 
+(
+  cd "$GOENV_ROOT" || exit 1
+  src/configure
+  make -C src
+)
+
 eval "$(goenv init -)"
 
 GOLANG_VERSION=$(goenv install -l | selectversion)

@@ -18,6 +18,12 @@ info "Syncing pyenv..."
 git_sync https://github.com/pyenv/pyenv "$PYENV_ROOT"
 git_sync https://github.com/pyenv/pyenv-virtualenv "$PYENV_ROOT/plugins/pyenv-virtualenv"
 
+(
+  cd "$PYENV_ROOT" || exit 1
+  src/configure
+  make -C src
+)
+
 eval "$(pyenv init -)"
 
 PYENV_INSTALLED=$(pyenv versions --skip-aliases --bare)
