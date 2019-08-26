@@ -14,7 +14,6 @@ fi
 export PYENV_VERSION=
 export PATH="$PIPX_BIN_DIR:$PYENV_ROOT/bin:$PATH"
 
-info "Syncing pyenv..."
 git_sync https://github.com/pyenv/pyenv "$PYENV_ROOT"
 git_sync https://github.com/pyenv/pyenv-virtualenv "$PYENV_ROOT/plugins/pyenv-virtualenv"
 

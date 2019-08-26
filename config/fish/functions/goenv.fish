@@ -2,7 +2,7 @@ function goenv -d 'go environment manager'
   set command $argv[1]
   set -e argv[1]
 
-  switch $command
+  switch "$command"
   case rehash shell
     command goenv sh-$command $argv | source
   case '*'

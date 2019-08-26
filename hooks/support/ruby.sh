@@ -8,7 +8,6 @@ fi
 export RBENV_VERSION=
 export PATH="$RBENV_ROOT/bin:$PATH"
 
-info "Syncing rbenv..."
 git_sync https://github.com/rbenv/rbenv "$RBENV_ROOT"
 git_sync https://github.com/rbenv/ruby-build "$RBENV_ROOT/plugins/ruby-build"
 git_sync https://github.com/aripollak/rbenv-bundler-ruby-version "$RBENV_ROOT/plugins/rbenv-bundler-ruby-version"
@@ -27,6 +26,7 @@ eval "$(rbenv init -)"
 cat <<EOF >"$RBENV_ROOT/default-gems"
 brakeman
 bundler
+debride
 fasterer
 flay
 flog
@@ -36,11 +36,18 @@ neovim
 pry
 rails
 rails_best_practices
+rcodetools
 reek
 rib
 rspec
 rubocop
+ruby-debug-ide
+ruby-lint
 rubycritic
+rubyfmt
+rufo
+solargraph
+standard
 EOF
 
 RUBY_VERSION="$(rbenv install -l | selectversion)"

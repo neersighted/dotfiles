@@ -8,7 +8,6 @@ fi
 export NODENV_VERSION=
 export PATH="$NODENV_ROOT/bin:$PATH"
 
-info "Syncing nodenv..."
 git_sync https://github.com/nodenv/nodenv "$NODENV_ROOT"
 git_sync https://github.com/nodenv/node-build "$NODENV_ROOT/plugins/node-build"
 git_sync https://github.com/nodenv/nodenv-package-rehash "$NODENV_ROOT/plugins/nodenv-package-rehash"

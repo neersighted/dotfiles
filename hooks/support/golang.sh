@@ -14,7 +14,6 @@ fi
 export GOENV_VERSION=
 export PATH="$GOBIN:$GOENV_ROOT/bin:$PATH"
 
-info "Syncing goenv..."
 git_sync https://github.com/syndbg/goenv "$GOENV_ROOT"
 
 (

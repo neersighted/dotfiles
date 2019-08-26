@@ -23,7 +23,6 @@ setshell() { # shell
       sudo usermod -s "$1" "$USER"
       ;;
   esac
-  
 }
 
 selectversion() { # major, minor, patch

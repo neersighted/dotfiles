@@ -18,5 +18,5 @@ if [ -z "$CC" ]; then
   export CC=cc
 fi
 if [ -z "$CXX" ]; then
-  export CCX=c++
+  export CXX=c++
 fi
