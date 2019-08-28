@@ -46,7 +46,7 @@ go_get() { # target, module
   fi
 }
 
-pipx_install() { # target, spec
+pipx_install() { # target, spec, pip args
   if has_support "Python"; then
     if [ -z "$PIPX_INSTALLED" ]; then
       PIPX_INSTALLED=$(pipx list)
@@ -54,7 +54,7 @@ pipx_install() { # target, spec
 
     if ! echo "$PIPX_INSTALLED" | grep -Fq "$1"; then
       info "Installing $1 using pipx..."
-      pipx install "$1" ${2:+--spec "$2"}
+      pipx install "$1" ${2:+--spec "$2"} "${3:+--pip-args="$3"}"
     fi
   fi
 }
