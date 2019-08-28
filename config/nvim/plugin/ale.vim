@@ -13,5 +13,8 @@ let g:ale_python_black_options = '--line-length 79'
 let g:ale_python_mypy_options = '--strict'
 let g:ale_python_mypy_ignore_invalid_syntax = 1
 
+let g:ale_linters.ruby = ['brakeman', 'rails_best_practices', 'solargraph', 'standardrb']
+let g:ale_fixers.ruby = ['remove_trailing_lines', 'standardrb', 'trim_whitespace']
+
 let g:ale_linters.rust = ['rls']
 let g:ale_fixers.rust = ['rustfmt']

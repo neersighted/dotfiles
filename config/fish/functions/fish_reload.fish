@@ -1,10 +1,10 @@
 function fish_reload -d 'reload fish configuration'
   # reload all config fragments
-  for fragment in $XDG_CONFIG_HOME/fish/conf.d/*
+  for fragment in $__fish_config_dir/conf.d/*
     test -f $fragment -a -r $fragment; and source $fragment
   end
   # reload main config
-  source $XDG_CONFIG_HOME/fish/config.fish
+  source $__fish_config_dir/config.fish
 
   # rescope universal exports
   for export in (set -Ux)

@@ -127,13 +127,19 @@ set -q fish_initialized; and exit
 # prompt
 set -U fish_prompt_pwd_dir_length 3
 set -U fish_color_cwd $color_yellow
-set -U fish_color_cwd_root $color_red
-set -U fish_color_user $color_blue
-set -U fish_color_user_root $color_red
-set -U fish_color_host $color_magenta
-set -U fish_color_venv $color_orange
+set -U fish_color_host $color_cyan
 set -U fish_color_jobs $color_cyan
 set -U fish_color_status $color_red
+set -U fish_color_user $color_blue
+set -U fish_color_user_root $color_yellow
+
+# prompt context
+set -U fish_color_golang $color_cyan
+set -U fish_color_nodejs $color_green
+set -U fish_color_python $color_yellow
+set -U fish_color_python_venv $color_blue
+set -U fish_color_ruby $color_red
+set -U fish_color_rust $color_magenta
 
 # git prompt
 set -U __fish_git_prompt_show_informative_status 1

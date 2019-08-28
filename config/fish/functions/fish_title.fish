@@ -1,4 +1,10 @@
-function fish_title -a cmd --description 'terminal title'
-  test -z "$cmd"; and set cmd $_
-  printf '%s (%s)' $cmd $PWD
+function fish_title -a cmd
+  set basename (string replace -r '^.*/' '' $PWD)
+  set cwd (string replace -r '^'"$HOME"'($|/)' '~$1' $PWD)
+
+  if test -n "$cmd"
+    printf '%s: %s' $basename $cmd
+  else
+    printf '%s %s' $_ $cwd
+  end
 end

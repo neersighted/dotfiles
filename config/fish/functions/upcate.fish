@@ -5,7 +5,7 @@ function upcate -a target path -d 'locate a target upwards in the directory tree
 
   while test $path != /
     if test -e $path/$target
-      echo $path
+      echo $path/$target
       return
     else
       set path (builtin realpath $path/..)
