@@ -140,6 +140,7 @@ map <leader>p <plug>(miniyank-startput)
 map <leader>P <plug>(miniyank-startPut)
 
 map <leader>n <plug>(miniyank-cycle)
+map <leader>N <Plug>(miniyank-cycleback)
 
 map <Leader>c <plug>(miniyank-tochar)
 map <Leader>l <plug>(miniyank-toline)

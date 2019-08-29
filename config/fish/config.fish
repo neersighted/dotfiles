@@ -6,7 +6,7 @@ end
 
 # function subdirectories
 for dir in $__fish_config_dir/functions/**/
-  set -p fish_function_path $dir
+  set -p fish_function_path (string trim -rc/ $dir)
 end
 
 # environment setup
