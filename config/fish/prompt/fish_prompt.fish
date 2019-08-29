@@ -7,6 +7,12 @@ function fish_prompt --description 'left prompt'
     set_color normal
   end
 
+  if jobs -q
+    set_color $fish_color_jobs
+    printf '%i! ' (count (jobs))
+    set_color normal
+  end
+
   if test $last_status -ne 0
     set_color $fish_color_status
   else if test $USER = 'root'

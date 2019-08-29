@@ -1,5 +1,3 @@
-status is-login; or exit
-
 # snap
 path_prepend /snap/bin
 # ccache {linux, {bsd, macos}}

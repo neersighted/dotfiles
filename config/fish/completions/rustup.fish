@@ -1,0 +1,1 @@
+rustup completions fish | source

@@ -1,5 +1,3 @@
-status is-interactive; or exit
-
 # Solarized Dark
 set color_base03  \#002b36 brblack
 set color_base02  \#073642 black
@@ -126,14 +124,16 @@ set -q fish_initialized; and exit
 
 # prompt
 set -U fish_prompt_pwd_dir_length 3
+set -U fish_prompt_pwd_threshold 60
 set -U fish_color_cwd $color_yellow
-set -U fish_color_host $color_cyan
-set -U fish_color_jobs $color_cyan
+set -U fish_color_host $color_violet
+set -U fish_color_jobs $color_orange
 set -U fish_color_status $color_red
+set -U fish_color_timer $color_base01
 set -U fish_color_user $color_blue
 set -U fish_color_user_root $color_yellow
 
-# prompt context
+# version prompt
 set -U fish_color_golang $color_cyan
 set -U fish_color_nodejs $color_green
 set -U fish_color_python $color_yellow

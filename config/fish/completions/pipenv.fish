@@ -1,1 +1,1 @@
-eval (pipenv --completion)
+pipenv --completion | source

@@ -26,9 +26,6 @@ else
   rustup update
 fi
 
-info "Generating rustup fish completion..."
-rustup completions fish > "$XDG_CONFIG_HOME/fish/completions/rustup.fish"
-
 if command -v cargo-install-update >/dev/null; then
   info "Updating cargo packages..."
   cargo install-update -a -g

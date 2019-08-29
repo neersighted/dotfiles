@@ -1,6 +1,6 @@
 function fish_title -a cmd
   set basename (string replace -r '^.*/' '' $PWD)
-  set cwd (string replace -r '^'"$HOME"'($|/)' '~$1' $PWD)
+  set cwd (short_home $PWD)
 
   if test -n "$cmd"
     printf '%s: %s' $basename $cmd

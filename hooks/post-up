@@ -13,7 +13,7 @@ case $(uname) in
   Linux)
     BLD="autoconf automake bison ccache clang cmake fakeroot gcc make pkgconf"
     LIB="libyaml"
-    USR="asciinema bat ctags direnv diskus elinks exa fd fish fzf gdb git git-lfs gotop hexyl htop httpie hub hyperfine icdiff jq lftp perl-file-mimeinfo mosh mycli neofetch neovim pgcli ripgrep sd shellcheck socat stow task-spooler tig tmux tokei unzip watchexec whois xdg-utils yarn"
+    USR="asciinema bat ctags direnv diskus elinks exa fd fish fzf gdb git git-lfs gotop hexyl htop httpie hub hyperfine icdiff jq lftp perl-file-mimeinfo pkgfile mosh mycli neofetch neovim pgcli ripgrep sd shellcheck socat stow task-spooler tig tmux tokei unzip watchexec whois xdg-utils yarn"
 
     if ! command -v yay >/dev/null; then
       (
@@ -43,6 +43,10 @@ case $(uname) in
     BLD="automake ccache cmake pkg-config"
     LIB="gmp gdbm libffi libyaml openssl readline"
     USR="asciinema bat coreutils ctags curl direnv diskus exa fd fish fzf gdb git git-lfs gnupg cjbassi/gotop/gotop hexyl htop httpie hub hyperfine icdiff jq lesspipe lftp mosh mycli neofetch neovim pgcli pinentry-mac ripgrep sd shellcheck socat stow task-spooler tealdeer tmux tokei unzip watchexec xz yarn"
+
+    if ! brew tap | grep -q 'homebrew/command-not-found'; then
+      brew tap homebrew/command-not-found
+    fi
 
     WRAPPER="sh"
     INSTALL="brew install"

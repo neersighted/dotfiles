@@ -18,7 +18,7 @@ if status is-login; and not set -q SSH_CONNECTION
 end
 
 # tmux/X startup
-if status is-interactive; and not set -q TMUX
+if not set -q TMUX
   set -l tty (tty)
 
   if not set -q DISPLAY; and command -sq startx; and string match -rq '^/dev/tty(1|v0)$' $tty
@@ -54,7 +54,7 @@ if status is-interactive; and not set -q TMUX
 end
 
 # non-WSL post-startup
-if status is-interactive; and not set -q WSL
+if not set -q WSL
   set -x GPG_TTY (tty)
   gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
 end
