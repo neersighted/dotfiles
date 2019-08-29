@@ -1,9 +1,9 @@
-function fish_prompt --description 'left prompt'
+function fish_prompt
   set last_status $status
 
   if set -q SSH_CONNECTION
     set_color $fish_color_host
-    printf '%s ' $hostname # hostname
+    printf '%s ' (prompt_hostname)
     set_color normal
   end
 

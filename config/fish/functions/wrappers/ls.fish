@@ -1,23 +1,23 @@
 if command -sq exa
   __ls_colors
-  function ls -d 'list contents of a directory (exa)' -w exa
+  function ls -w exa
     command exa --git --group --classify $argv
   end
 else if command ls --version >/dev/null 2>&1
   __ls_colors
-  function ls -d 'list contents of a directory (gnu)'
+  function ls
     set param --color=auto
-    if isatty 1
-        set param $param --indicator-style=classify
+    if isatty
+        set -a param --indicator-style=classify
     end
     command ls $param $argv
   end
 else if command ls -G / >/dev/null 2>&1
-  function ls -d 'list contents of a directory (bsd)'
+  function ls
     command ls -G $argv
   end
 else if command ls --color / >/dev/null 2>&1
-  function ls -d 'list contents of a directory (solaris)'
+  function ls
     command ls --color $argv
   end
 end

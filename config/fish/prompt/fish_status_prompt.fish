@@ -1,4 +1,4 @@
-function __fish_status_prompt -a last_status
+function fish_status_prompt -a last_status
   set -l signals  HUP INT QUIT ILL TRAP ABRT EMT FPE KILL BUS SEGV SYS PIPE \
                   ALRM TERM URG STOP TSTP CONT CHLD TTIN TTOU IO XCPU XFSZ \
                   VTALRM PROF WINCH INFO USR1 USR2

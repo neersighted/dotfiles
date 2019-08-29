@@ -26,7 +26,7 @@ if not set -q TMUX
     command -sq i3; and exec startx $XDG_CONFIG_HOME/xinit/i3
   else
     # determine session name (default to hostname)
-    set -l session (string split . $hostname)[1]
+    set -l session (prompt_hostname)
     if set -q TERM_PROGRAM; and test $TERM_PROGRAM = 'vscode'
       # separate session for special terminals
       set session $TERM_PROGRAM

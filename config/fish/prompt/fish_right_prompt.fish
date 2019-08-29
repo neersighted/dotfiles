@@ -8,8 +8,8 @@ function fish_right_prompt
 
   set -q prompt_minimal; and return
 
-  __fish_version_prompt
-  __fish_git_prompt
-  __fish_status_prompt $last_status
-  __fish_timer_prompt $last_duration
+  fish_version_prompt
+  fish_git_prompt
+  fish_status_prompt $last_status
+  fish_timer_prompt $last_duration
 end

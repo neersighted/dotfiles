@@ -1,4 +1,4 @@
-function __fish_timer_prompt -a dur
+function fish_timer_prompt -a dur
   if test "$dur" -eq 0
     return
   else if test "$dur" -lt 1000

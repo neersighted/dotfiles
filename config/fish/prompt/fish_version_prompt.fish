@@ -1,4 +1,4 @@
-function __fish_version_prompt
+function fish_version_prompt
   if set -q GOENV_VERSION; or set version_file (upcate .go-version)
     set -q GOENV_VERSION; or read GOENV_VERSION < $version_file
 

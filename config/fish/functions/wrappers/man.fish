@@ -1,4 +1,4 @@
-function man -d 'display manpages'
+function man
   set -q man_color_blink; or set man_color_blink green
   set -q man_color_bold; or set man_color_bold cyan
   set -q man_color_standout; or set man_color_standout black --background white
@@ -14,10 +14,9 @@ function man -d 'display manpages'
   set -lx GROFF_NO_SGR yes
 
   set -lx LESS "$LESS -R -M +Gg"
+  set -q MANPATH; or set -lx MANPATH ''
 
   set fish_manpath (dirname $__fish_data_dir)/fish/man
-
-  set -q MANPATH; or set -lx MANPATH ''
   test -d $fish_manpath; and set -lx -p MANPATH $fish_manpath
 
   command man $argv
