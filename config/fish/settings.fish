@@ -2,10 +2,6 @@
 # core
 #
 
-# fish
-set -U fish_greeting
-set -U fish_key_bindings fish_default_key_bindings
-
 # editor
 set -Ux VISUAL nvim
 set -Ux EDITOR $VISUAL
@@ -42,7 +38,6 @@ set -Ux PYLINTHOME $XDG_CACHE_HOME/pylint
 
 # ruby
 set -Ux RBENV_ROOT $XDG_DATA_HOME/rbenv
-set -Ux GEM_HOME $XDG_DATA_HOME/gem
 set -Ux GEM_SPEC_CACHE $XDG_CACHE_HOME/gem
 set -Ux BUNDLE_USER_CONFIG $XDG_CONFIG_HOME/bundle
 set -Ux BUNDLE_USER_CACHE $XDG_CACHE_HOME/bundle
@@ -62,6 +57,9 @@ set -Ux AWS_SHARED_CREDENTIALS_FILE $XDG_CONFIG_HOME/aws/credentials
 
 # ccache
 set -Ux CCACHE_DIR $XDG_CACHE_HOME/ccache
+
+# homebrew
+set -Ux HOMEBREW_AUTO_UPDATE_SECS 86400
 
 # gnupg
 set -Ux GNUPGHOME $HOME/.gnupg

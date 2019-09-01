@@ -42,7 +42,7 @@ case $(uname) in
   Darwin)
     BLD="automake ccache cmake pkg-config"
     LIB="gmp gdbm libffi libyaml openssl readline"
-    USR="asciinema bat coreutils ctags curl direnv diskus exa fd fish fzf gdb git git-lfs gnupg cjbassi/gotop/gotop hexyl htop httpie hub hyperfine icdiff jq lesspipe lftp mosh mycli neofetch neovim pgcli pinentry-mac ripgrep sd shellcheck socat stow task-spooler tealdeer tmux tokei unzip watchexec xz yarn"
+    USR="asciinema bat coreutils ctags curl direnv diskus exa fd fish fzf gdb git git-lfs gnupg cjbassi/gotop/gotop hexyl htop httpie hub hyperfine icdiff jq lesspipe lftp mas mosh mycli neofetch neovim pgcli pinentry-mac ripgrep sd shellcheck socat stow task-spooler tealdeer terminal-notifier tmux tokei trash unzip watchexec xz yarn"
 
     if ! brew tap | grep -q 'homebrew/command-not-found'; then
       brew tap homebrew/command-not-found

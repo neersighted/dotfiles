@@ -26,8 +26,7 @@ end
 set -x TMUX_TMPDIR $XDG_RUNTIME_DIR
 
 # wsl
-if not set -q WSL; and set -q WSLENV
-  set -x WSL (string match -r '^\d.\d.\d-(\d+)-Microsoft$' (uname -r))[2]
+if wsl?
   set -x DISPLAY ':0'
   set -x SHELL (command -v fish)
   set -x BROWSER 'wslview'

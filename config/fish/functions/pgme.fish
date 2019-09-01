@@ -9,7 +9,7 @@ function pgme -d 'quick and dirty postgres(es)'
 
   set -q _flag_image; or set -l _flag_image postgres:latest
   set -q _flag_user; or set -l _flag_user postgres
-  set -q _flag_password; or set -l _flag_password postgres
+  set -q _flag_password; or set -l _flag_password password
   set -q _flag_db; or set -l _flag_db postgres
   set -q _flag_port; or set -l _flag_port 5432
 

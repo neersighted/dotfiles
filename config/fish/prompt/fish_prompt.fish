@@ -1,7 +1,7 @@
 function fish_prompt
   set last_status $status
 
-  if set -q SSH_CONNECTION
+  if ssh?
     set_color $fish_color_host
     printf '%s ' (prompt_hostname)
     set_color normal
