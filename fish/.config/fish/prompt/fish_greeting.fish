@@ -1,5 +1,5 @@
 function fish_greeting
-  # if status is-login; and macos?; and not tmux?
+  # if status is-login; and is_macos; and not is_tmux
   #   if brew upgrade --dry-run | read -z text
   #     printf 'New packages are available!\n'
   #     printf '%s' $text

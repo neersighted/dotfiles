@@ -8,12 +8,12 @@ end
 function __tmux_session_name -a tty
   test -n "$tty"; or set tty (tty)
 
-  if vscode? # special terminals
+  if is_vscode # special terminals
      printf '%s' $TERM_PROGRAM
-  else if ssh?
+  else if is_ssh
     printf '%s-%s' $session (string replace -a '.' '-' (string split ' ' $SSH_CONNECTION)[1])
-  else if not tmux?
-    if not string match -rq '^/dev/(pts/\d+|ttys\d+)$' $tty; and not wsl?
+  else if not is_tmux
+    if not string match -rq '^/dev/(pts/\d+|ttys\d+)$' $tty; and not is_wsl
       printf '%s' $tty
     else
       prompt_hostname
@@ -41,7 +41,7 @@ end
 
 # re-synchronize update-environment variables on attach
 function __tmux_resync --on-signal USR1
-  if tmux?
+  if is_tmux
     for entry in (tmux show-environment)
       if string match -rq '^-' -- $entry
         set -l envvar (string replace '-' '' -- $entry)

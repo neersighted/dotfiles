@@ -26,7 +26,7 @@ end
 set -x TMUX_TMPDIR $XDG_RUNTIME_DIR
 
 # wsl
-if wsl?
+if is_wsl
   set -x DISPLAY ':0'
   set -x SHELL (command -v fish)
   set -x BROWSER 'wslview'

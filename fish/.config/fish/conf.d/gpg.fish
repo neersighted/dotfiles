@@ -1,7 +1,7 @@
 function __gpg-agent_auto_start -d 'manage gpg-agent startup' -a tty
   test -n "$tty"; or set tty (tty)
 
-  if wsl?
+  if is_wsl
     # make sure gpg-agent is up
     gpg-connect-agent.exe /bye >/dev/null 2>&1
     # connect ssh to windows gpg-agent via weasel-pageant
@@ -14,10 +14,10 @@ function __gpg-agent_auto_start -d 'manage gpg-agent startup' -a tty
   end
 
   function __gpg-agent_after_start -e fish_prompt
-    if not wsl?
+    if not is_wsl
       # rebind gpg-agent to the correct tty
       set -gx GPG_TTY $tty
-      gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1 &
+      gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
     end
 
     functions -e __gpg-agent_after_start

@@ -1,4 +1,4 @@
-function macos?
+function is_macos
   if not set -q MACOS
     not test (uname) = 'Darwin'
     set -g MACOS $status
@@ -6,7 +6,7 @@ function macos?
   test $MACOS -eq 1
 end
 
-function linux?
+function is_linux
   if not set -q LINUX
     not test (uname) = 'Linux'
     set -g LINUX $status
@@ -14,7 +14,7 @@ function linux?
   test $LINUX -eq 1
 end
 
-function freebsd?
+function is_freebsd
   if not set -q FREEBSD
     not test (uname) = 'FreeBSD'
     set -g FREEBSD $status
@@ -22,26 +22,26 @@ function freebsd?
   test $FREEBSD -eq 1
 end
 
-function wsl?
+function is_wsl
   set -q WSLENV
 end
 
-function ssh?
+function is_ssh
   set -q SSH_CONNECTION
 end
 
-function tmux?
+function is_tmux
   set -q TMUX
 end
 
-function nvim?
+function is_nvim
   set -q NVIM_LISTEN_ADDRESS
 end
 
-function vscode?
+function is_vscode
   test "$TERM_PROGRAM" = 'vscode'
 end
 
-function iterm?
+function is_iterm
   test "$TERM_PROGRAM" = 'iTerm.app'
 end

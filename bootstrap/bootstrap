@@ -2,11 +2,13 @@
 
 set -e
 
-. lib/env.sh
-. lib/install.sh
-. lib/logging.sh
-. lib/registry.sh
-. lib/utils.sh
+cd "$HOME/.dotfiles"
+
+. bootstrap/lib/env.sh
+. bootstrap/lib/install.sh
+. bootstrap/lib/logging.sh
+. bootstrap/lib/registry.sh
+. bootstrap/lib/utils.sh
 
 section "System Packages"
 case $(uname) in
@@ -82,8 +84,17 @@ if [ -n "$PKGS" ]; then
   fi
 fi
 
+section "Dotfiles"
+for package in *; do
+  test "$package" != "bootstrap" || continue
+  test -d "$package" || continue
+
+  info "Stowing $package..."
+  stow -v --dotfiles -R $package
+done
+
 section "Language Support"
-for support in support/*.sh; do
+for support in bootstrap/support/*.sh; do
   if ! echo "$SKIP_LANGUAGES" | grep -Fq "$(stem "$support")"; then
     # shellcheck source=/dev/null
     . "$support"
@@ -91,7 +102,7 @@ for support in support/*.sh; do
 done
 
 section "Toolsets"
-for toolset in toolset/*.sh; do
+for toolset in bootstrap/toolset/*.sh; do
   if ! echo "$SKIP_TOOLSETS" | grep -Fq "$(stem "$toolset")"; then
     # shellcheck source=/dev/null
     . "$toolset"

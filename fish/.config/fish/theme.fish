@@ -39,7 +39,7 @@ end
 function term_color -a idx color
   if test $TERM = 'linux'
     printf $ESC']P%x%s' $idx (hex_color $color)
-  else if iterm?
+  else if is_iterm
     printf $ESC']P%x%s'$ST $idx (hex_color $color)
   else
     printf $ESC']4;%i;%s'$ST $idx (xrdb_color $color)
@@ -49,7 +49,7 @@ end
 function term_special -a idx color
   if test $TERM = 'linux'
     return
-  else if iterm?
+  else if is_iterm
     switch $idx
       case 10; set idx g
       case 11; set idx h
