@@ -23,11 +23,7 @@ function freebsd?
 end
 
 function wsl?
-  if not set -q WSL
-    not set -q WSLENV
-    set -g WSL $status
-  end
-  test $WSL -eq 1
+  set -q WSLENV
 end
 
 function ssh?
@@ -39,9 +35,13 @@ function tmux?
 end
 
 function nvim?
-  if not set -q NVIM
-    not set -q NVIM_LISTEN_ADDRESS
-    set -g NVIM $status
-  end
-  test $NVIM -eq 1
+  set -q NVIM_LISTEN_ADDRESS
+end
+
+function vscode?
+  test "$TERM_PROGRAM" = 'vscode'
+end
+
+function iterm?
+  test "$TERM_PROGRAM" = 'iTerm.app'
 end

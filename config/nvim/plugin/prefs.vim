@@ -1,11 +1,12 @@
+scriptencoding utf-8
+
 " Backend
 set undofile " Persist undo history.
 set hidden " Allow backgrounding dirty buffers.
 
 " Colors
-if $COLORTERM ==# 'truecolor'
-  set termguicolors " Use truecolor if available.
-endif
+set termguicolors " Use truecolor if available.
+colorscheme nord " Default to the nord theme.
 
 " Completion
 set completeopt=menuone,noselect " Always show a menu, and don't auto-select completions.
@@ -48,3 +49,6 @@ set list listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+ " Show hidden cha
 
 " indentLine
 let g:indentLine_char = '┊' " Use a small line to show space-based indentation.
+
+" Other
+let g:loaded_netrwPlugin = 1 " Disable Netrw.

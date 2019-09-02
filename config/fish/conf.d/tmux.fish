@@ -5,6 +5,40 @@ function tmux
   command tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf $argv
 end
 
+function __tmux_session_name -a tty
+  test -n "$tty"; or set tty (tty)
+
+  if vscode? # special terminals
+     printf '%s' $TERM_PROGRAM
+  else if ssh?
+    printf '%s-%s' $session (string replace -a '.' '-' (string split ' ' $SSH_CONNECTION)[1])
+  else if not tmux?
+    if not string match -rq '^/dev/(pts/\d+|ttys\d+)$' $tty; and not wsl?
+      printf '%s' $tty
+    else
+      prompt_hostname
+    end
+  else # no nested tmux
+    return 1
+  end
+end
+
+function __tmux_auto_launch -a tty
+  set session (__tmux_session_name $tty); or return
+
+  if string match -q "$session 0" (tmux list-sessions -F '#{session_name} #{session_attached}' 2>/dev/null)
+    # attach to unattached session
+    set command attach-session -t $session \; run-shell 'pkill -USR1 -P #{pid} fish'
+  else if not tmux has-session -t $session 2>/dev/null
+    # create non-existant setting
+    set command new-session -s $session
+  else
+    return
+  end
+
+  exec tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf -- $command
+end
+
 # re-synchronize update-environment variables on attach
 function __tmux_resync --on-signal USR1
   if tmux?

@@ -115,16 +115,16 @@
 #
 
 [color "diff"]
-	context = "#839496"
-	meta = "#eee8d5"
-	frag = "#6c71c4"
-	func = "#93a1a1"
-	commit = "#b58900"
-	old = "#dc322f"
-	new = "#859900"
-	whitespace = "#cb4b16 reverse"
+	context = "normal"
+	meta = "blue"
+	frag = "magenta"
+	func = "black"
+	commit = "yellow"
+	old = "red"
+	new = "green"
+	whitespace = "yellow reverse"
 [color "diff-highlight"]
-	oldNormal = "#dc322f"
-	oldHighlight = "#dc322f reverse"
-	newNormal = "#859900"
-	newHighlight = "#859900 reverse"
+	oldNormal = "red"
+	oldHighlight = "red reverse"
+	newNormal = "green"
+	newHighlight = "green reverse"

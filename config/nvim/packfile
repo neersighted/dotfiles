@@ -32,6 +32,11 @@
   name: "airblade/vim-gitgutter"
   opt: false
 - 
+  category: default
+  local: false
+  name: "arcticicestudio/nord-vim"
+  opt: false
+- 
   category: editing
   local: false
   name: "bfredl/nvim-miniyank"
@@ -50,6 +55,11 @@
   category: syntax
   local: false
   name: chr4/nginx.vim
+  opt: false
+- 
+  category: default
+  local: false
+  name: chrisbra/Colorizer
   opt: false
 - 
   category: syntax
@@ -150,11 +160,6 @@
   category: completion
   local: false
   name: "lifepillar/vim-mucomplete"
-  opt: false
-- 
-  category: colors
-  local: false
-  name: "lifepillar/vim-solarized8"
   opt: false
 - 
   category: integration

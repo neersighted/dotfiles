@@ -11,8 +11,20 @@ function! TagbarStatusline(current, sort, fname, ...) abort
 endfunction
 let g:tagbar_status_func = 'TagbarStatusline'
 
+" Reload lightline on colorscheme change.
+function! s:lightline_reload()
+  if !has('vim_starting')
+    let g:lightline.colorscheme = g:colors_name
+    execute 'runtime autoload/lightline/colorscheme/'.g:lightline.colorscheme.'.vim'
+    call lightline#colorscheme()
+  end
+endfunction
+augroup lightline_reload
+  autocmd ColorScheme * call s:lightline_reload()
+augroup END
+
 let g:lightline = {
-  \ 'colorscheme': 'solarized',
+  \ 'colorscheme': g:colors_name,
   \ 'mode_map': {
   \   'n': 'N', 'i': 'I', 'R': 'R', 'v': 'V', 'V': '-V-', "\<C-v>": '[V]',
   \   'c': ':', 's': 'S', 'S': '-S-', "\<C-s>": '[S]', 't': '$'
@@ -24,18 +36,18 @@ let g:lightline = {
   \       [ 'git_status' ],
   \     ],
   \     'right': [
-  \       [ 'ale_error', 'ale_warning', 'lineinfo' ],
-  \       [ 'percent' ],
+  \       [ 'ale_error', 'ale_warning', 'percent', 'lineinfo' ],
   \       [ 'indent', 'fileformat', 'fileencoding', 'filetype' ],
   \     ],
   \   },
   \   'inactive': {
   \     'left': [
-  \       ['mode', 'filename' ],
+  \       [],
+  \       [ 'mode', 'filename' ],
   \     ],
   \     'right': [
   \       [],
-  \       [ 'lineinfo', 'percent' ],
+  \       [ 'percent', 'lineinfo' ],
   \     ],
   \   },
   \   'tabline': {

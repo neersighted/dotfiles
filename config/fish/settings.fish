@@ -81,30 +81,26 @@ set -Ux VAGRANT_WSL_ENABLE_WINDOWS_ACCESS 1
 # fzf
 #
 
-# Handle Ubuntu/Debian fd.
-set -l fd fd
-if command -sq fdfind
-  set fd fdfind
-end
-
 # core
-set -Ux FZF_DEFAULT_COMMAND "$fd --type file --type symlink"
+set -Ux FZF_DEFAULT_COMMAND 'fd -c always -L -t file .'
 
 # plugin (commands)
-set -U FZF_OPEN_COMMAND $FZF_DEFAULT_COMMAND
-set -U FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND
-set -U FZF_CD_COMMAND "$fd --type directory --follow"
-set -U FZF_CD_WITH_HIDDEN_COMMAND "$fd --type directory --follow --hidden --exclude .git"
+set -U FZF_FIND_FILE_COMMAND 'fd -c always -L -t f $dir'
+set -U FZF_OPEN_COMMAND 'fd -c always -L -t f -t d $dir'
+set -U FZF_CD_COMMAND 'fd -c always -L -t d . $dir'
+set -U FZF_CD_WITH_HIDDEN_COMMAND 'fd -c always -L -HI -E .git -t d . $dir'
 
 # plugin (ui)
 set -U FZF_LEGACY_KEYBINDINGS 0
 set -U FZF_TMUX 1
-set -U FZF_TMUX_HEIGHT 25%
+set -U FZF_TMUX_HEIGHT 75%
 
 # plugin (preview)
 set -U FZF_ENABLE_OPEN_PREVIEW 1
-set -U FZF_PREVIEW_FILE_COMMAND 'head -n 10'
-set -U FZF_PREVIEW_DIR_COMMAND 'ls'
+set -U FZF_PREVIEW_FILE_CMD '__fzf_preview_file'
+set -U FZF_PREVIEW_DIR_CMD '__fzf_preview_dir'
 
-# local
-set -U FZF_BASE_OPTS "--height $FZF_TMUX_HEIGHT --no-bold"
+# options
+set -U FZF_BASE_OPTS '--ansi --no-bold --cycle'
+set -U FZF_OPEN_OPTS '--tiebreak=end,length,index'
+set -U FZF_CD_OPTS "--preview='$FZF_PREVIEW_DIR_CMD {}'"
