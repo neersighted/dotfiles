@@ -1,6 +1,4 @@
-function __gpg-agent_auto_start -d 'manage gpg-agent startup' -a tty
-  test -n "$tty"; or set tty (tty)
-
+function __gpg-agent_auto_start -d 'manage gpg-agent startup'
   if is_wsl
     # make sure gpg-agent is up
     gpg-connect-agent.exe /bye >/dev/null 2>&1
@@ -11,15 +9,5 @@ function __gpg-agent_auto_start -d 'manage gpg-agent startup' -a tty
   else if not string match -rq 'S.gpg-agent.ssh$' $SSH_AUTH_SOCK
     # connect ssh to gpg-agent
     set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
-  end
-
-  function __gpg-agent_after_start -e fish_prompt
-    if not is_wsl
-      # rebind gpg-agent to the correct tty
-      set -gx GPG_TTY $tty
-      gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
-    end
-
-    functions -e __gpg-agent_after_start
   end
 end

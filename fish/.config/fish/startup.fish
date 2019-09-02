@@ -1,8 +1,8 @@
-set -g tty (tty)
+set tty (tty)
 
 # ssh/gpg startup
 if status is-login; and not is_ssh
-  __gpg-agent_auto_start $tty
+  __gpg-agent_auto_start; and set -x GPG_TTY $tty
 end
 
 # tmux/X startup
