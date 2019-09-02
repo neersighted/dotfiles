@@ -147,6 +147,11 @@
   name: "justinmk/vim-sneak"
   opt: false
 - 
+  category: default
+  local: false
+  name: "kristijanhusak/vim-dirvish-git"
+  opt: false
+- 
   category: navigation
   local: false
   name: "kshenoy/vim-signature"
