@@ -32,7 +32,7 @@
   name: "airblade/vim-gitgutter"
   opt: false
 - 
-  category: default
+  category: colors
   local: false
   name: "arcticicestudio/nord-vim"
   opt: false
@@ -57,7 +57,7 @@
   name: chr4/nginx.vim
   opt: false
 - 
-  category: default
+  category: syntax
   local: false
   name: chrisbra/Colorizer
   opt: false
@@ -147,7 +147,7 @@
   name: "justinmk/vim-sneak"
   opt: false
 - 
-  category: default
+  category: navigation
   local: false
   name: "kristijanhusak/vim-dirvish-git"
   opt: false
