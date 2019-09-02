@@ -21,7 +21,7 @@ bootstrapping will occur after the dotfiles are installed.
 
 ```sh
 git clone https://github.com/neersighted/dotfiles "$HOME/.dotfiles"
-env RCRC="$HOME/.dotfiles/rcrc" rcup -v -t <tags>
+env RCRC="$HOME/.dotfiles/rcrc" rcup -v
 ```
 
 Restart your shell to make sure the changes are fully applied.
