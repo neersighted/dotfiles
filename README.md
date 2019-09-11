@@ -3,8 +3,9 @@
 ## Installation
 
 ```sh
-git clone https://github.com/neersighted/dotfiles "$HOME/.dotfiles"
-cd "$HOME/.dotfiles" && bootstrap/bootstrap
+curl -sfL https://git.io/chezmoi | sh -s -- -b ~/.local/bin
+~/.local/bin/chezmoi init https://github.com/neersighted/dotfiles
+~/.local/bin/chezmoi apply -v
 ```
 
 Restart your shell to make sure the changes are fully applied.
