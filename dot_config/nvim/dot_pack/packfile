@@ -72,9 +72,9 @@
   name: "davidhalter/jedi-vim"
   opt: false
 - 
-  category: behavior
+  category: integration
   local: false
-  name: "farmergreg/vim-lastplace"
+  name: "dense-analysis/ale"
   opt: false
 - 
   category: syntax
@@ -83,6 +83,11 @@
   local: false
   name: "elzr/vim-json"
   opt: true
+- 
+  category: behavior
+  local: false
+  name: "farmergreg/vim-lastplace"
+  opt: false
 - 
   category: syntax
   for: 
@@ -250,6 +255,11 @@
   name: "tommcdo/vim-ninja-feet"
   opt: false
 - 
+  category: ui
+  local: false
+  name: "tpope/vim-characterize"
+  opt: false
+- 
   category: editing
   local: false
   name: "tpope/vim-commentary"
@@ -303,11 +313,6 @@
   local: false
   name: "vim-ruby/vim-ruby"
   opt: true
-- 
-  category: integration
-  local: false
-  name: "dense-analysis/ale"
-  opt: false
 - 
   category: syntax
   local: false

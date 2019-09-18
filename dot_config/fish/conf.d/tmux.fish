@@ -16,7 +16,7 @@ function __tmux_session_name -a tty
     if not string match -rq '^/dev/(pts/\d+|ttys\d+)$' $tty; and not is_wsl
       printf '%s' $tty
     else
-      printf '%s' $hostname
+      printf '%s' (prompt_hostname)
     end
   else # no nested tmux
     return 1
