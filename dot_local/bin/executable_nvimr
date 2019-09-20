@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ -n "$TMUX" ]; then
+  this_pane=$(tmux display-message -p '#{pane_id}')
+  editor_pane=$(tmux list-panes -F '#{pane_id} #{pane_current_command}' | grep -E '^%[[:digit:]]+ nvim' | cut -d' ' -f1 | head -n1) \
+    && tmux select-pane -t "$editor_pane"
+fi
+
+nvr --remote-wait-silent "$@"
+
+if [ -n "$TMUX" ]; then
+  tmux select-pane -t "$this_pane"
+fi

@@ -3,8 +3,8 @@
 #
 
 # editor
-set -Ux VISUAL nvim
-set -Ux EDITOR $VISUAL
+set -Ux EDITOR nvimr
+set -Ux VISUAL $EDITOR
 
 # pager
 set -Ux PAGER less
