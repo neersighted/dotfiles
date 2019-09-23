@@ -5,6 +5,9 @@ fasterer
 flay
 flog
 foreman
+gem-ctags
+gem-fuzzy
+gem-open
 looksee
 neovim
 pry

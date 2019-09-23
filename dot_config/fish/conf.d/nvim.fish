@@ -13,7 +13,7 @@ function __nvim_tmux_startup -e fish_prompt
 end
 
 function nvim
-  if set -q NVIM_LISTEN_ADDRESS
+  if set -q NVIM_LISTEN_ADDRESS; and test -S $NVIM_LISTEN_ADDRESS
     if is_tmux; and set -l editor_pane (tmux list-panes -F '#{pane_id} #{pane_current_command}' | string match -r '^(%\d+) nvim')[2]
       tmux select-pane -t $editor_pane
     end
