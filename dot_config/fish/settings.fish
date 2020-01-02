@@ -3,8 +3,8 @@
 #
 
 # editor
-set -Ux EDITOR nvimr
-set -Ux VISUAL $EDITOR
+set -Ux EDITOR nvim
+set -Ux VISUAL nvimr
 
 # pager
 set -Ux PAGER less
@@ -30,7 +30,7 @@ set -Ux NPM_CONFIG_CACHE $XDG_CACHE_HOME/npm
 
 # python
 set -Ux PYENV_ROOT $XDG_DATA_HOME/pyenv
-set -Ux PIPX_HOME $XDG_DATA_HOME/pipx/venvs
+set -Ux PIPX_HOME $XDG_DATA_HOME/pipx
 set -Ux PIPX_BIN_DIR $XDG_DATA_HOME/pipx/bin
 set -Ux PIPENV_HOME $XDG_DATA_HOME/virtualenvs
 set -Ux POETRY_VIRTUALENVS_PATH $XDG_DATA_HOME/virtualenvs
