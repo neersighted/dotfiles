@@ -96,6 +96,11 @@
   name: "fatih/vim-go"
   opt: true
 - 
+  category: syntax
+  local: false
+  name: "gregjurman/vim-nc"
+  opt: false
+- 
   category: ui
   local: false
   name: itchyny/lightline.vim
