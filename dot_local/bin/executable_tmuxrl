@@ -5,7 +5,7 @@ while [ "$#" -gt 0 ]; do
     -t) pane=${2:?missing value: $1}; shift 2;;
     -f) full=1; shift;;
     -o) op=open; shift;;
-    -y) op=yank; snift;;
+    -y) op=yank; shift;;
 
     -*) echo "unknown option: $1" >&2; exit 1;;
     * ) echo "unrecognized argument: $1" >&2; exit 1;;
