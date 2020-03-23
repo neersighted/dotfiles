@@ -108,6 +108,6 @@ go_get() { # target, module
 pipx_install() { # target, spec, pip args
   if ! pipx list | grep -Fq "$1"; then
     info "Installing $1 using pipx..."
-    pipx install "${3:-$1}${3:+$3}" ${2:+--pip-args="$2"}
+    pipx install "${3:-$1}" ${2:+--pip-args="$2"}
   fi
 }

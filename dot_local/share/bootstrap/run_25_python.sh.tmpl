@@ -8,7 +8,7 @@ set -e
 section "Python"
 
 if [ -z "$PIPX_HOME" ]; then
-  export PIPX_HOME="$XDG_DATA_HOME/pipx/venvs"
+  export PIPX_HOME="$XDG_DATA_HOME/pipx"
 fi
 if [ -z "$PIPX_BIN_DIR" ]; then
   export PIPX_BIN_DIR="$XDG_DATA_HOME/pipx/bin"

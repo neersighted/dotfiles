@@ -16,18 +16,10 @@ fi
 export PATH="$CARGO_HOME/bin:$PATH"
 
 if ! command -v rustup >/dev/null; then
-  info "Installing rustup..."
-  curl https://sh.rustup.rs | sh -s -- -y --no-modify-path
-  info "Adding nightly toolchain..."
-  rustup default nightly
-  info "Adding additional toolchain components..."
-  for toolchain in nightly stable; do
-    for tool in rust-src rust-analysis rls clippy rustfmt miri llvm-tools-preview; do
-      rustup component add --toolchain="$toolchain" "$tool" || true # ignore failures
-    done
-  done
+  info "Installing Rust toolchain..."
+  curl https://sh.rustup.rs | sh -s -- -y --no-modify-path -c rust-src rust-analysis rls miri llvm-tools-preview
 else
-  info "Updating Rust and rustup..."
+  info "Updating Rust toolchain..."
   rustup update
 fi
 
