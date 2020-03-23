@@ -7,21 +7,11 @@ set -e
 
 section "nvim"
 
-PYTHON_VERSIONS=$(pyenv install -l)
-PYTHON2_VERSION=$(echo "$PYTHON_VERSIONS" | selectversion 2)
-PYTHON3_VERSION=$(echo "$PYTHON_VERSIONS" | selectversion 3)
-
-for pair in neovim2:$PYTHON2_VERSION neovim3:$PYTHON3_VERSION; do
-  venv=$(echo "$pair" | cut -d: -f1)
-  vers=$(echo "$pair" | cut -d: -f2)
-
-  if ! echo "$PYENV_INSTALLED" | grep -Fq "$vers/envs/$venv"; then
-    info "Creating $venv ($vers) virtual environment..."
-    pyenv uninstall -f "$venv"
-    pyenv virtualenv "$vers" "$venv"
-    PYENV_VERSION=$venv pip install pynvim
-  fi
-done
+if ! pyenv versions --bare | grep -Fxq "neovim"; then
+  info "Creating neovim virtual environment..."
+  pyenv virtualenv neovim
+  PYENV_VERSION=neovim python -m pip install pynvim
+fi
 
 pipx_install "neovim-remote"
 pipx_install "vim-vint"

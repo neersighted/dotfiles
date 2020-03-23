@@ -7,12 +7,6 @@ set -e
 
 section "Ruby"
 
-if [ -z "$RBENV_ROOT" ]; then
-  export RBENV_ROOT="$XDG_DATA_HOME/rbenv"
-fi
-export RBENV_VERSION=
-export PATH="$RBENV_ROOT/bin:$PATH"
-
 git_sync https://github.com/rbenv/rbenv "$RBENV_ROOT"
 git_sync https://github.com/rbenv/ruby-build "$RBENV_ROOT/plugins/ruby-build"
 git_sync https://github.com/aripollak/rbenv-bundler-ruby-version "$RBENV_ROOT/plugins/rbenv-bundler-ruby-version"
@@ -26,10 +20,10 @@ git_sync https://github.com/rbenv/rbenv-each "$RBENV_ROOT/plugins/rbenv-each"
   make -C src
 )
 
-eval "$(rbenv init -)"
+RUBY_VERSION=$(rbenv install -l | selectversion)
+RBENV_INSTALLED=$(rbenv versions --skip-aliases --bare)
 
-RUBY_VERSION="$(rbenv install -l | selectversion)"
-if ! rbenv versions | grep -Fq "$RUBY_VERSION"; then
+if ! echo "$RBENV_INSTALLED" | grep -Fxq "$RUBY_VERSION"; then
   info "Installing Ruby $RUBY_VERSION..."
   rbenv install -s "$RUBY_VERSION"
   info "Activating Ruby $RUBY_VERSION..."

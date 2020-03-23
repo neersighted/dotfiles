@@ -1,9 +1,9 @@
 # shellcheck shell=sh
 
+# base
 if [ -z "$LANG" ] || [ "$LANG" = C.UTF-8 ]; then
   export LANG="en_US.UTF-8"
 fi
-
 if [ -z "$XDG_CONFIG_HOME" ]; then
   export XDG_CONFIG_HOME="$HOME/.config"
 fi
@@ -14,12 +14,62 @@ if [ -z "$XDG_CACHE_HOME" ]; then
   export XDG_CACHE_HOME="$HOME/.cache"
 fi
 
+# c
 if [ -z "$CC" ]; then
   export CC=cc
 fi
 if [ -z "$CXX" ]; then
   export CXX=c++
 fi
+
+# golang
+if [ -z "$GOBIN" ]; then
+  export GOBIN="$XDG_DATA_HOME/go/bin"
+fi
+if [ -z "$GOENV_GOPATH_PREFIX" ]; then
+  export GOENV_GOPATH_PREFIX="$XDG_DATA_HOME/go"
+fi
+if [ -z "$GOENV_ROOT" ]; then
+  export GOENV_ROOT="$XDG_DATA_HOME/goenv"
+fi
+export GOENV_VERSION=
+export PATH="$GOBIN:$GOENV_ROOT/shims:$GOENV_ROOT/bin:$PATH"
+
+# nodejs
+if [ -z "$NODENV_ROOT" ]; then
+  export NODENV_ROOT="$XDG_DATA_HOME/nodenv"
+fi
+export NODENV_VERSION=
+export PATH="$NODENV_ROOT/shims:$NODENV_ROOT/bin:$PATH"
+
+# python
+if [ -z "$PIPX_HOME" ]; then
+  export PIPX_HOME="$XDG_DATA_HOME/pipx"
+fi
+if [ -z "$PIPX_BIN_DIR" ]; then
+  export PIPX_BIN_DIR="$XDG_DATA_HOME/pipx/bin"
+fi
+if [ -z "$PYENV_ROOT" ]; then
+  export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
+fi
+export PYENV_VERSION=
+export PATH="$PIPX_BIN_DIR:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+
+# ruby
+if [ -z "$RBENV_ROOT" ]; then
+  export RBENV_ROOT="$XDG_DATA_HOME/rbenv"
+fi
+export RBENV_VERSION=
+export PATH="$RBENV_ROOT/shims:$RBENV_ROOT/bin:$PATH"
+
+# rust
+if [ -z "$CARGO_HOME" ]; then
+  export CARGO_HOME="$XDG_DATA_HOME/cargo"
+fi
+if [ -z "$RUSTUP_HOME" ]; then
+  export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+fi
+export PATH="$CARGO_HOME/bin:$PATH"
 
 ###
 
@@ -68,7 +118,12 @@ selectversion() { # major, minor, patch
 ###
 
 cargo_install() { # target, git
-  if ! cargo install --list | grep -Eq "^$1"; then
+  if [ -z "$CARGO_INSTALLED" ]; then
+    CARGO_INSTALLED=$(cargo install --list)
+    export CARGO_INSTALLED
+  fi
+
+  if ! echo "$CARGO_INSTALLED" | grep -Eq "^$1"; then
     info "Installing $1 using cargo..."
     cargo install "$1" ${2:+--git "$2"}
   fi
@@ -106,7 +161,12 @@ go_get() { # target, module
 }
 
 pipx_install() { # target, spec, pip args
-  if ! pipx list | grep -Fq "$1"; then
+  if [ -z "$PIPX_INSTALLED" ]; then
+    PIPX_INSTALLED=$(pipx list)
+    export PIPX_INSTALLED
+  fi
+
+  if ! echo "$PIPX_INSTALLED" | grep -Fq "$1"; then
     info "Installing $1 using pipx..."
     pipx install "${3:-$1}" ${2:+--pip-args="$2"}
   fi
