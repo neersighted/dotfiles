@@ -37,8 +37,8 @@ if ! command -v pipx >/dev/null; then
   info "Installing pipx..."
   python -m pip install pipx-in-pipx
 else
-  if ! pipx >/dev/null && [ "$?" -gt 1 ]; then
-    info "Upgrading pipx to Python $PYTHON_VERSION..."
+  if [ ! -e "$PIPX_HOME/venvs/pipx/bin/python" ] ; then
+    info "Repairing pipx install..."
     python -m venv --upgrade "$PIPX_HOME/venvs/pipx"
   fi
   info "Updating pipx packages..."
