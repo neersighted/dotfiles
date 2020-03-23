@@ -1,0 +1,58 @@
+#!/bin/sh
+
+set -e
+
+# shellcheck source=lib.sh
+. "{{ .chezmoi.sourceDir }}/dot_local/share/bootstrap/lib.sh"
+
+getshell() { # shell
+  case $(uname) in
+    Darwin)
+      dscl . read "/Users/$USER" UserShell | awk '{print $2}'
+      ;;
+    *)
+      getent passwd "$USER" | awk -F: '{print $7}'
+      ;;
+  esac
+}
+
+setshell() { # shell
+  case $(uname) in
+    Darwin)
+      sudo dscl . create "/Users/$USER" UserShell "$1"
+      ;;
+    FreeBSD)
+      su root -c "pw usermod -n '$USER' -s '$1'"
+      ;;
+    *)
+      sudo usermod -s "$1" "$USER"
+      ;;
+  esac
+}
+
+section "Shell"
+
+fish=$(command -v fish)
+if [ "$(getshell)" != "$fish" ]; then
+
+  if ! grep -Fxq "$fish" /etc/shells; then
+    info "Adding $fish to /etc/shells..."
+    echo "$fish" | sudo tee -a /etc/shells
+  fi
+
+  info "Changing login shell to fish..."
+  setshell "$fish"
+fi
+
+# Shell Editing
+go_get "mvdan.cc/sh/cmd/shfmt"
+
+# Pipeline Tools
+cargo_install "runiq"
+pipx_install "shell-functools"
+go_get "mvdan.cc/xurls/cmd/xurls@latest"
+
+# Misc
+go_get "github.com/boyter/scc@latest"
+
+# vi: ft=sh

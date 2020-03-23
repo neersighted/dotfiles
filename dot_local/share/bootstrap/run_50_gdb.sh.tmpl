@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+
+# shellcheck source=lib.sh
+. "{{ .chezmoi.sourceDir }}/dot_local/share/bootstrap/lib.sh"
+
+section "GDB"
+
+pipx_install "gdbgui"
+
+info "Syncing gdb-dashboard..."
+git_sync https://github.com/cyrus-and/gdb-dashboard "$XDG_DATA_HOME/gdb-dashboard"
+
+# vi: ft=sh

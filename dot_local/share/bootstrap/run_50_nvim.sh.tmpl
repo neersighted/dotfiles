@@ -1,0 +1,31 @@
+#!/bin/sh
+
+set -e
+
+# shellcheck source=lib.sh
+. "{{ .chezmoi.sourceDir }}/dot_local/share/bootstrap/lib.sh"
+
+section "nvim"
+
+PYTHON_VERSIONS=$(pyenv install -l)
+PYTHON2_VERSION=$(echo "$PYTHON_VERSIONS" | selectversion 2)
+PYTHON3_VERSION=$(echo "$PYTHON_VERSIONS" | selectversion 3)
+
+for pair in neovim2:$PYTHON2_VERSION neovim3:$PYTHON3_VERSION; do
+  venv=$(echo "$pair" | cut -d: -f1)
+  vers=$(echo "$pair" | cut -d: -f2)
+
+  if ! echo "$PYENV_INSTALLED" | grep -Fq "$vers/envs/$venv"; then
+    info "Creating $venv ($vers) virtual environment..."
+    pyenv uninstall -f "$venv"
+    pyenv virtualenv "$vers" "$venv"
+    PYENV_VERSION=$venv pip install pynvim
+  fi
+done
+
+pipx_install "neovim-remote"
+pipx_install "vim-vint"
+
+cargo_install "pack" "https://github.com/maralla/pack"
+
+# vi: ft=sh

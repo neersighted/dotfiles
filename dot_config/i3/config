@@ -110,4 +110,4 @@ bindsym $mod+Shift+Tab move container to workspace back_and_forth
 bindsym button2 kill
 bindsym button3 floating toggle
 
-# vim: ft=i3config
+# vi: ft=i3config
