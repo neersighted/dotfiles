@@ -1,6 +1,6 @@
 function su
   if test -z "$argv"
-    if command -sq sudo
+    if command -q sudo
       command sudo -E -s
     else
       command su -m

@@ -24,7 +24,7 @@ NODENV_INSTALLED=$(nodenv versions --skip-aliases --bare)
 
 if ! echo "$NODENV_INSTALLED" | grep -Fxq "$NODEJS_VERSION"; then
   info "Installing Node.js $NODEJS_VERSION..."
-  env NODENV_VERSION=system nodenv install -s "$NODEJS_VERSION"
+  NODENV_VERSION=system nodenv install -s "$NODEJS_VERSION"
   info "Activating Node.js $NODEJS_VERSION..."
   nodenv global "$NODEJS_VERSION"
 fi
