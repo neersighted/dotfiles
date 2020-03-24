@@ -1,4 +1,4 @@
-if command -q rg
+if command -sq rg
   function rg
     if isatty stdout
       command rg -p $argv | less -RMFXK

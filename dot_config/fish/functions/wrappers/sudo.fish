@@ -1,4 +1,4 @@
-if command -q sudo
+if command -sq sudo
   function sudo
     if test $argv[1] = nvim
       set -e argv[1]

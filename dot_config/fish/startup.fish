@@ -8,7 +8,7 @@ end
 # tmux/X startup
 if not set -q DISPLAY; and string match -rq '^/dev/tty(1|v0)$' $tty
   # start i3 if installed (first tty only)
-  command -q startx; and command -q i3; and exec startx $XDG_CONFIG_HOME/xinit/i3
+  command -sq startx; and command -sq i3; and exec startx $XDG_CONFIG_HOME/xinit/i3
 else if not is_nvim
   __tmux_auto_launch $tty
 end

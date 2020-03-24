@@ -1,4 +1,4 @@
-if command -q exa
+if command -sq exa
   function ls -w exa
     command exa --classify --git --group $argv
   end

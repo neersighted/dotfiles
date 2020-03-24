@@ -1,8 +1,8 @@
 if is_wsl
   function docker
     if not test -S /var/run/docker.sock
-      and command -q docker.exe
-      and command -q npiperelay.exe
+      and command -sq docker.exe
+      and command -sq npiperelay.exe
 
       sudo (command -s wsl-docker-relay) (command -s npiperelay.exe)
     end
