@@ -215,13 +215,6 @@
   name: "pangloss/vim-javascript"
   opt: true
 - 
-  category: completion
-  for: 
-    - rust
-  local: false
-  name: "racer-rust/vim-racer"
-  opt: true
-- 
   category: behavior
   local: false
   name: "rstacruz/vim-closer"

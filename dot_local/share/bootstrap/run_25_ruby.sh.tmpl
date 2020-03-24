@@ -14,6 +14,9 @@ git_sync https://github.com/tpope/rbenv-communal-gems "$RBENV_ROOT/plugins/rbenv
 git_sync https://github.com/rbenv/rbenv-default-gems "$RBENV_ROOT/plugins/rbenv-default-gems"
 git_sync https://github.com/rbenv/rbenv-each "$RBENV_ROOT/plugins/rbenv-each"
 
+# XXX: ugly hack to work around limitations of chezmoi/rbenv-default-gems
+cp -f "{{ .chezmoi.sourceDir }}/dot_local/share/rbenv/default-gems" "$RBENV_ROOT/default-gems"
+
 (
   cd "$RBENV_ROOT" || exit 1
   src/configure

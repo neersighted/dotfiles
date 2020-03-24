@@ -16,12 +16,6 @@ let g:jedi#completions_command = ''
 let g:jedi#show_call_signatures = '2'
 
 "
-" Rust
-"
-
-let g:racer_experimental_completer = 1
-
-"
 " Tags
 "
 
