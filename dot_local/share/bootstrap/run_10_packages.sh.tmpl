@@ -29,7 +29,7 @@ case $(uname) in
     INSTALLED=$(pacman -Qq)
     ;;
   FreeBSD)
-    BLD="automake ccache cmake gcc gmake pkgconf"
+    BLD="automake ccache cmake gcc gmake groff pkgconf"
     LIB="libffi libyaml ncurses openssl readline sqlite3"
     USR="bash bat coreutils curl direnv exa elinks fd-find fish fzf gdb git git-lfs gnupg gotop hexyl highlight hs-ShellCheck htop hub hyperfine icdiff jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses python python2 python3 py37-httpie py37-asciinema py37-mycli py37-pgcli ripgrep sd socat stow thefuck tig tmux tokei ts universal-ctags unzip whois xdg-utils yarn" # missing: chezmoi, watchexec
 
