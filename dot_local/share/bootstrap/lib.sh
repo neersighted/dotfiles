@@ -168,6 +168,6 @@ pipx_install() { # target, spec, pip args
 
   if ! echo "$PIPX_INSTALLED" | grep -Fq "$1"; then
     info "Installing $1 using pipx..."
-    pipx install "${3:-$1}" ${2:+--pip-args="$2"}
+    pipx install "${2:-$1}" ${3:+--pip-args="$3"}
   fi
 }
