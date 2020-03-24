@@ -11,7 +11,7 @@ function __tmux_session_name -a tty
   if is_vscode # special terminals
      printf '%s' $TERM_PROGRAM
   else if is_ssh
-    printf '%s-%s' $session (string replace -a '.' '-' (string split ' ' $SSH_CONNECTION)[1])
+    printf '%s-%s' (prompt_hostname) (string replace -a '.' '-' (string split ' ' $SSH_CONNECTION)[1])
   else if not is_tmux
     if not string match -rq '^/dev/(pts/\d+|ttys\d+)$' $tty; and not is_wsl
       printf '%s' $tty
