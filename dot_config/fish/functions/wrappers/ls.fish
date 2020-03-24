@@ -7,7 +7,13 @@ else if command ls --version >/dev/null 2>&1
     command ls --color=auto --classify $param $argv
   end
 else if command ls -G / >/dev/null 2>&1
-  function ls
-    command ls -@ -G $argv
+  if command ls -@ / >/dev/null 2>&1
+    function ls
+      command ls -@ -G $argv
+    end
+  else
+    function ls
+      command ls -G $argv
+    end
   end
 end
