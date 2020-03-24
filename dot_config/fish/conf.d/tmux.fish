@@ -36,7 +36,7 @@ function __tmux_auto_launch -a tty
     return
   end
 
-  exec tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf -- $command
+  tmux $command
 end
 
 # re-synchronize update-environment variables on attach
