@@ -92,6 +92,7 @@ error() {
 
 ###
 
+# shellcheck disable=SC2120
 selectversion() { # major, minor, patch
   awk -v major="$1" -v minor="$2" -v patch="$3" -F '.' '
     /^[ \t]*[0-9]+\.[0-9]+\.[0-9]+[ \t]*$/ {

@@ -17,7 +17,7 @@ git_sync https://github.com/pyenv/pyenv-virtualenv "$PYENV_ROOT/plugins/pyenv-vi
 )
 
 PYTHON_VERSION=$(pyenv install -l | selectversion)
-PYENV_INSTALLED=$(pyenv versions --skip-aliases --bare)
+PYENV_INSTALLED=$(pyenv versions --bare | grep -Fv /envs/)
 
 if ! echo "$PYENV_INSTALLED" | grep -Fxq "$PYTHON_VERSION"; then
   info "Installing Python $PYTHON_VERSION..."

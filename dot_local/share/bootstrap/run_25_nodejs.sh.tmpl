@@ -20,7 +20,7 @@ git_sync https://github.com/nodenv/nodenv-default-packages "$NODENV_ROOT/plugins
 )
 
 NODEJS_VERSION=$(nodenv install -l | selectversion)
-NODENV_INSTALLED=$(nodenv versions --skip-aliases --bare)
+NODENV_INSTALLED=$(nodenv versions --bare)
 
 if ! echo "$NODENV_INSTALLED" | grep -Fxq "$NODEJS_VERSION"; then
   info "Installing Node.js $NODEJS_VERSION..."

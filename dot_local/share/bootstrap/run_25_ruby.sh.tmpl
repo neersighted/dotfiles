@@ -24,7 +24,7 @@ cp -f "{{ .chezmoi.sourceDir }}/dot_local/share/rbenv/default-gems" "$RBENV_ROOT
 )
 
 RUBY_VERSION=$(rbenv install -l | selectversion)
-RBENV_INSTALLED=$(rbenv versions --skip-aliases --bare)
+RBENV_INSTALLED=$(rbenv versions --bare)
 
 if ! echo "$RBENV_INSTALLED" | grep -Fxq "$RUBY_VERSION"; then
   info "Installing Ruby $RUBY_VERSION..."
