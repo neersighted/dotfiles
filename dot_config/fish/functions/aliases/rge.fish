@@ -1,5 +1,10 @@
 if command -sq rg
   function rge -w rg
-    commandline -r "$VISUAL "(rg -l $argv | string join " ")
+    set results (rg -l $argv | string join " ")
+
+    if test -n "$results"
+      commandline -r "$VISUAL $results"
+      commandline -C (string length $VISUAL)
+    end
   end
 end

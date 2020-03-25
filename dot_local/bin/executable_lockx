@@ -1,11 +1,11 @@
 #!/bin/sh
 
 IMAGE=$(mktemp --suffix=.png)
-trap "rm $IMAGE" EXIT
+trap 'rm $IMAGE' EXIT
 
-maim | convert -scale 10% -scale 1000% - $IMAGE
+maim | convert -scale 10% -scale 1000% - "$IMAGE"
 
-i3lock -n -i $IMAGE &
+i3lock -n -i "$IMAGE" &
 xset dpms force off &
 mpc pause &
 
