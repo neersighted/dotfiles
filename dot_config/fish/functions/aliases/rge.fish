@@ -1,4 +1,4 @@
-if command -sq rg
+if command -q rg
   function rge -w rg
     set results (rg -l $argv | string join " ")
 

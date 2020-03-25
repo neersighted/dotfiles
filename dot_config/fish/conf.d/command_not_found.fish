@@ -1,6 +1,6 @@
 status is-interactive; or exit
 
-if command -sq pkgfile # Arch
+if command -q pkgfile # Arch
   function __fish_command_not_found_handler -a cmd -e fish_command_not_found
     if set pkgs (pkgfile -bv -- $cmd)
       printf '%s may be found in the following packages:\n' $cmd
@@ -11,7 +11,7 @@ if command -sq pkgfile # Arch
       __fish_default_command_not_found_handler $cmd
     end
   end
-else if command -sq brew # macOS
+else if command -q brew # macOS
   function __fish_command_not_found_handler -a cmd -e fish_command_not_found
 
     if brew which-formula --explain $cmd | read -z text

@@ -1,4 +1,4 @@
-if command -sq yay
+if command -q yay
   function yay
     set -lx GOENV_VERSION system
     set -lx NODENV_VERSION system
