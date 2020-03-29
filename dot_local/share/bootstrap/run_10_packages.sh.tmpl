@@ -27,6 +27,7 @@ case $(uname) in
     WRAPPER="sh"
     INSTALL="yay -Sy --noconfirm"
     INSTALLED=$(pacman -Qq)
+    UPGRADE="yay -Syu"
     ;;
   FreeBSD)
     BLD="automake ccache cmake gcc gmake groff pkgconf"
@@ -36,6 +37,7 @@ case $(uname) in
     WRAPPER="su root"
     INSTALL="pkg install -y"
     INSTALLED=$(pkg query '%n')
+    UPGRADE="pkg upgrade -y"
     ;;
   Darwin)
     BLD="automake ccache cmake pkg-config"
@@ -49,6 +51,7 @@ case $(uname) in
     WRAPPER="sh"
     INSTALL="brew install"
     INSTALLED=$(brew ls -1)
+    UPGRADE="brew upgrade"
     ;;
   *)
     error "Unsupported operating system."
@@ -71,5 +74,8 @@ if [ -n "$PKGS" ]; then
   important "$INSTALL $PKGS"
   $WRAPPER -c "$INSTALL $PKGS"
 fi
+
+info "Upgrading system packages with ${UPGRADE%% *}..."
+$WRAPPER -c "$UPGRADE"
 
 # vi: ft=sh

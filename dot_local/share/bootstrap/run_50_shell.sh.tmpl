@@ -44,6 +44,9 @@ if [ "$(getshell)" != "$fish" ]; then
   setshell "$fish"
 fi
 
+info "Syncing fish plugins..."
+fish -c "fisher self-update; and fisher"
+
 # Shell Editing
 go_get "mvdan.cc/sh/cmd/shfmt"
 

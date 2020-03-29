@@ -18,4 +18,9 @@ pipx_install "vim-vint"
 
 cargo_install "pack" "https://github.com/maralla/pack"
 
+info "Installing/updating nvim plugins..."
+pack install
+pack update
+reset # fix terminal output
+
 # vi: ft=sh
