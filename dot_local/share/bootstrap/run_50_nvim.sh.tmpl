@@ -15,6 +15,7 @@ fi
 if ! pyenv versions --bare | grep -Fxq "neovim"; then
   info "Creating nvim virtual environment..."
   pyenv virtualenv neovim
+  PYENV_VERSION=neovim python -m pip install -U pip setuptools
   PYENV_VERSION=neovim python -m pip install pynvim
 fi
 
