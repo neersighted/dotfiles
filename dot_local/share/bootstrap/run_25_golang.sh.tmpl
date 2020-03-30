@@ -25,7 +25,6 @@ if ! echo "$GOENV_INSTALLED" | grep -Fxq "$GOLANG_VERSION"; then
   goenv global "$GOLANG_VERSION"
 fi
 
-go_get "github.com/golangci/golangci-lint/cmd/golangci-lint@latest"
 go_get "golang.org/x/tools/gopls@latest"
 
 # vi: ft=sh

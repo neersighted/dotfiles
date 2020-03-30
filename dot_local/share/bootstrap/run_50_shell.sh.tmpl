@@ -50,14 +50,11 @@ if [ -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
 fi
 
 # Shell Editing
-go_get "mvdan.cc/sh/cmd/shfmt"
+go_get "mvdan.cc/sh/v3/cmd/shfmt"
 
 # Pipeline Tools
 cargo_install "runiq"
 pipx_install "shell-functools"
-go_get "mvdan.cc/xurls/cmd/xurls@latest"
-
-# Misc
-go_get "github.com/boyter/scc@latest"
+go_get "mvdan.cc/xurls/v2/cmd/xurls"
 
 # vi: ft=sh

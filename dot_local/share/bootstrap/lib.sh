@@ -23,6 +23,7 @@ if [ -z "$CXX" ]; then
 fi
 
 # golang
+export GO111MODULE=on
 if [ -z "$GOBIN" ]; then
   export GOBIN="$XDG_DATA_HOME/go/bin"
 fi
@@ -151,14 +152,7 @@ git_sync() { # url, path
 
 go_get() { # target, module
   info "Fetching $1 using go get..."
-  (
-    MOD=$(mktemp -d)
-    trap 'rm -rf $MOD' EXIT
-
-    cd "$MOD" || exit 1
-    go mod init tmp
-    go get "$1"
-  )
+  go get "$1"
 }
 
 pipx_install() { # target, spec, pip args
