@@ -71,12 +71,6 @@ nnoremap <silent> <c-d> :call maps#smooth_scroll(0)<cr>
 nnoremap <silent> yo :call maps#pasteonce()<cr>o
 nnoremap <silent> yO :call maps#pasteonce()<cr>O
 
-" Navigate Vim/Tmux splits seamlessly.
-nnoremap <silent> <c-h> :call maps#navigate('h')<cr>
-nnoremap <silent> <c-j> :call maps#navigate('j')<cr>
-nnoremap <silent> <c-k> :call maps#navigate('k')<cr>
-nnoremap <silent> <c-l> :call maps#navigate('l')<cr>
-
 " Center/blink after search.
 noremap <expr> <plug>(slash-after) 'zz'.slash#blink(2, 50)
 

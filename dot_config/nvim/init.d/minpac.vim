@@ -43,6 +43,7 @@ if exists('*minpac#init')
   call minpac#add('tpope/vim-unimpaired')
 
   " Integration
+  call minpac#add('christoomey/vim-tmux-navigator')
   call minpac#add('dense-analysis/ale')
   call minpac#add('jamessan/vim-gnupg')
   call minpac#add('junegunn/fzf')
