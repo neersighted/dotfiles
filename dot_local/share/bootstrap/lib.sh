@@ -160,10 +160,15 @@ fetch_url() { # url, path, executable
 
 git_sync() { # url, path
   info "Syncing $1 with git..."
-  if [ -d "$2" ]; then
-    git -C "$2" pull
+  if [ -d "$2/.git" ]; then
+    git -C "$2" pull --recurse-submodules
   else
-    git clone --depth 1 --recurse-submodules --shallow-submodules "$1" "$2"
+    mkdir -p "$2"
+    git -C "$2" init
+    git -C "$2" remote add origin "$1"
+    git -C "$2" fetch origin --depth 1
+    git -C "$2" submodule update --recursive --init --depth 1
+    git -C "$2" checkout -ft origin/master
   fi
 }
 
