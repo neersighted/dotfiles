@@ -2,7 +2,7 @@
 let s:start_time = reltime()
 augroup startup
   autocmd!
-  autocmd VimEnter * echo reltimestr(reltime(s:start_time))
+  autocmd VimEnter * if !empty(nvim_list_uis()) | echo reltimestr(reltime(s:start_time)) | endif
 augroup end
 
 " Disable Python 2 support.

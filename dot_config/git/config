@@ -10,7 +10,6 @@
 	username = neersighted
 	helper = manager
 	helper = osxkeychain
-	helper = netrc -f ${XDG_CONFIG_HOME:-$HOME/.config}/git/credentials.gpg
 	helper = cache --timeout=3600
 
 #

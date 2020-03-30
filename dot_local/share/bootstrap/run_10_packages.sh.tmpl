@@ -7,6 +7,12 @@ set -e
 
 section "System Packages"
 
+# pass through language managers
+export GOENV_VERSION=system
+export NODENV_VERSION=system
+export PYENV_VERSION=system
+export RBENV_VERSION=system
+
 case $(uname) in
   Linux)
     BLD="autoconf automake bison ccache clang cmake fakeroot gcc make pkgconf"
@@ -63,13 +69,9 @@ for pkg in $BLD $LIB $USR; do
     PKGS="${PKGS:+$PKGS }$pkg"
   fi
 done
+
 if [ -n "$PKGS" ]; then
   info "Installing system packages with ${INSTALL%% *}..."
-
-  export GOENV_VERSION=system
-  export NODENV_VERSION=system
-  export PYENV_VERSION=system
-  export RBENV_VERSION=system
 
   important "$INSTALL $PKGS"
   $WRAPPER -c "$INSTALL $PKGS"

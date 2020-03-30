@@ -7,20 +7,18 @@ set -e
 
 section "nvim"
 
+if [ -d "$XDG_CONFIG_HOME/nvim/pack" ]; then
+  info "Syncing nvim plugins..."
+  nvim --headless -c "PackSync!"
+fi
+
 if ! pyenv versions --bare | grep -Fxq "neovim"; then
-  info "Creating neovim virtual environment..."
+  info "Creating nvim virtual environment..."
   pyenv virtualenv neovim
   PYENV_VERSION=neovim python -m pip install pynvim
 fi
 
 pipx_install "neovim-remote"
 pipx_install "vim-vint"
-
-cargo_install "pack" "https://github.com/maralla/pack"
-
-info "Installing/updating nvim plugins..."
-pack install
-pack update
-reset # fix terminal output
 
 # vi: ft=sh

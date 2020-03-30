@@ -29,7 +29,7 @@ function __tmux_auto_launch -a tty
   if string match -q "$session 0" (tmux list-sessions -F '#{session_name} #{session_attached}' 2>/dev/null)
     # attach to unattached session
     set command attach-session -t $session \; run-shell 'pkill -USR1 -P #{pid} fish'
-  else if not tmux has-session -t $session 2>/dev/null
+  else if not tmux has-session -t $session &>/dev/null
     # create non-existant setting
     set command new-session -s $session
   else

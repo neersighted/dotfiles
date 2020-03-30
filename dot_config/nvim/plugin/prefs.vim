@@ -6,7 +6,7 @@ set hidden " Allow backgrounding dirty buffers.
 
 " Colors
 set termguicolors " Use truecolor if available.
-colorscheme nord " Default to the nord theme.
+silent! colorscheme nord " Default to the nord theme.
 
 " Completion
 set completeopt=menuone,noselect " Always show a menu, and don't auto-select completions.

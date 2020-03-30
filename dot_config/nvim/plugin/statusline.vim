@@ -1,3 +1,8 @@
+" Prevent errors if `colors_name` is undefined.
+if !exists('g:colors_name')
+  let g:colors_name = 'default'
+endif
+
 " Hook into other plugins to update the statusline.
 augroup lightline_hook
   autocmd!
