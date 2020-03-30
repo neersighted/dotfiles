@@ -10,6 +10,7 @@ section "nvim"
 if [ -d "$XDG_CONFIG_HOME/nvim/pack" ]; then
   info "Syncing nvim plugins..."
   nvim --headless -c "PackSync!"
+  echo
 fi
 
 if ! pyenv versions --bare | grep -Fxq "neovim"; then
