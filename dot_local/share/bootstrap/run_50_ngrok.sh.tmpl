@@ -14,7 +14,7 @@ if ! command -v ngrok >/dev/null; then
   GOOS=${goversion%/*}
   GOARCH=${goversion#*/}
 
-  curl "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-$GOOS-$GOARCH.zip" | funzip > "$HOME/.local/bin/ngrok"
+  curl "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-$GOOS-$GOARCH.zip" | funzip >"$HOME/.local/bin/ngrok"
   chmod +x "$HOME/.local/bin/ngrok"
 else
   info "Updating ngrok..."

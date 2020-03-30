@@ -7,26 +7,26 @@ set -e
 
 getshell() { # shell
   case $(uname) in
-    Darwin)
-      dscl . read "/Users/$USER" UserShell | awk '{print $2}'
-      ;;
-    *)
-      getent passwd "$USER" | awk -F: '{print $7}'
-      ;;
+  Darwin)
+    dscl . read "/Users/$USER" UserShell | awk '{print $2}'
+    ;;
+  *)
+    getent passwd "$USER" | awk -F: '{print $7}'
+    ;;
   esac
 }
 
 setshell() { # shell
   case $(uname) in
-    Darwin)
-      sudo dscl . create "/Users/$USER" UserShell "$1"
-      ;;
-    FreeBSD)
-      su root -c "pw usermod -n '$USER' -s '$1'"
-      ;;
-    *)
-      sudo usermod -s "$1" "$USER"
-      ;;
+  Darwin)
+    sudo dscl . create "/Users/$USER" UserShell "$1"
+    ;;
+  FreeBSD)
+    su root -c "pw usermod -n '$USER' -s '$1'"
+    ;;
+  *)
+    sudo usermod -s "$1" "$USER"
+    ;;
   esac
 }
 

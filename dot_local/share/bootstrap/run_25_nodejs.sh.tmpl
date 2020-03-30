@@ -29,7 +29,7 @@ if ! echo "$NODENV_INSTALLED" | grep -Fxq "$NODEJS_VERSION"; then
   nodenv global "$NODEJS_VERSION"
 fi
 
-for node in $NODENV_INSTALLED;  do
+for node in $NODENV_INSTALLED; do
   for target in $(NODENV_VERSION=$node npm -g outdated --parseable --depth=0); do
     wanted=$(echo "$target" | cut -d: -f2)
     installed=$(echo "$target" | cut -d: -f3)

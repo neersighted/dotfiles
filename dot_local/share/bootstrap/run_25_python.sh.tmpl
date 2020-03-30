@@ -26,7 +26,7 @@ if ! echo "$PYENV_INSTALLED" | grep -Fxq "$PYTHON_VERSION"; then
   pyenv global "$PYTHON_VERSION"
 fi
 
-for python in $PYENV_INSTALLED;  do
+for python in $PYENV_INSTALLED; do
   for target in $(PYENV_VERSION=$python pip list --outdated --format=freeze | awk -F== '{print $1}'); do
     info "Updating $target ($python)..."
     PYENV_VERSION=$python python -m pip install -U "$target"
@@ -37,7 +37,7 @@ if ! command -v pipx >/dev/null; then
   info "Installing pipx..."
   python -m pip install pipx-in-pipx
 else
-  if [ ! -e "$PIPX_HOME/venvs/pipx/bin/python" ] ; then
+  if [ ! -e "$PIPX_HOME/venvs/pipx/bin/python" ]; then
     info "Repairing pipx install..."
     python -m venv --upgrade "$PIPX_HOME/venvs/pipx"
   fi
