@@ -33,14 +33,24 @@ fi
 if [ -z "$GOENV_ROOT" ]; then
   export GOENV_ROOT="$XDG_DATA_HOME/goenv"
 fi
-export GOENV_VERSION=
+if [ -n "$GOENV_VERSION" ]; then
+  export GOENV_VERSION=
+fi
 export PATH="$GOBIN:$GOENV_ROOT/shims:$GOENV_ROOT/bin:$PATH"
 
 # nodejs
+if [ -z "$NPM_CONFIG_USERCONFIG"  ]; then
+  export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+fi
+if [ -z "$NPM_CONFIG_CACHE" ];  then
+  export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
+fi
 if [ -z "$NODENV_ROOT" ]; then
   export NODENV_ROOT="$XDG_DATA_HOME/nodenv"
 fi
-export NODENV_VERSION=
+if [ -n "$NODENV_VERSION" ]; then
+  export NODENV_VERSION=
+fi
 export PATH="$NODENV_ROOT/shims:$NODENV_ROOT/bin:$PATH"
 
 # python
@@ -53,14 +63,21 @@ fi
 if [ -z "$PYENV_ROOT" ]; then
   export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
 fi
-export PYENV_VERSION=
+if [ -n "$PYENV_VERSION" ]; then
+  export PYENV_VERSION=
+fi
 export PATH="$PIPX_BIN_DIR:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
 
 # ruby
+if [ -z "$GEM_SPEC_CACHE" ]; then
+  export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem"
+fi
 if [ -z "$RBENV_ROOT" ]; then
   export RBENV_ROOT="$XDG_DATA_HOME/rbenv"
 fi
-export RBENV_VERSION=
+if [ -n "$RBENV_VERSION" ]; then
+  export RBENV_VERSION=
+fi
 export PATH="$RBENV_ROOT/shims:$RBENV_ROOT/bin:$PATH"
 
 # rust
