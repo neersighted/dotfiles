@@ -44,8 +44,10 @@ if [ "$(getshell)" != "$fish" ]; then
   setshell "$fish"
 fi
 
-info "Syncing fish plugins..."
-fish -c "fisher self-update; and fisher"
+if [ -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
+  info "Syncing fish plugins..."
+  fish -c "fisher self-update; and fisher"
+fi
 
 # Shell Editing
 go_get "mvdan.cc/sh/cmd/shfmt"
