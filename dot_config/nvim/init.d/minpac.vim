@@ -1,17 +1,17 @@
 let s:minpac_path = fnamemodify($MYVIMRC, ':p:h') . '/pack/minpac/opt/minpac'
 let s:minpac_config = expand('<sfile>:p')
 
-command! -bang PackSync   packadd minpac | execute 'source ' . s:minpac_config | call minpac#clean() | call minpac#update('', <bang>0 ? {'do': 'quit'} : {'do': 'call minpac#status()'})
-command! -bang PackUpdate packadd minpac | execute 'source ' . s:minpac_config | call minpac#update('', <bang>0 ? {'do': 'quit'} : {'do': 'call minpac#status()'})
-command!       PackClean  packadd minpac | execute 'source ' . s:minpac_config | call minpac#clean()
-command!       PackStatus packadd minpac | execute 'source ' . s:minpac_config | call minpac#status()
+command! -bang PackSync   packadd minpac | execute 'source' s:minpac_config | call minpac#clean() | call minpac#update('', <bang>0 ? {'do': 'quit'} : {'do': 'call minpac#status()'})
+command! -bang PackUpdate packadd minpac | execute 'source' s:minpac_config | call minpac#update('', <bang>0 ? {'do': 'quit'} : {'do': 'call minpac#status()'})
+command!       PackClean  packadd minpac | execute 'source' s:minpac_config | call minpac#clean()
+command!       PackStatus packadd minpac | execute 'source' s:minpac_config | call minpac#status()
 
 if empty(glob(s:minpac_path))
   silent execute '!mkdir -p ' . s:minpac_path
   silent execute '!git clone https://github.com/k-takata/minpac.git ' . s:minpac_path
   augroup minpac_bootstrap
     autocmd!
-    autocmd VimEnter * PackUpdate
+    autocmd VimEnter * execute 'PackUpdate' | packloadall | source $MYVIMRC
   augroup END
 endif
 

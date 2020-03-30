@@ -12,3 +12,6 @@ let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim/bin/python'
 
 " Open commits in a split.
 let $GIT_EDITOR = 'nvr --remote-wait -cc split'
+
+" Load all config files.
+runtime! init.d/*.vim
