@@ -17,7 +17,7 @@ case $(uname) in
 Linux)
   BLD="autoconf automake bison ccache clang cmake fakeroot gcc make pkgconf"
   LIB="libyaml"
-  USR="asciinema bat chezmoi ctags direnv diskus elinks exa fd fish fzf gdb git git-lfs gotop hexyl highlight htop httpie hub hyperfine icdiff jq lftp perl-file-mimeinfo pkgfile mosh mycli neofetch neovim python-pipx pgcli ripgrep sd shellcheck socat stow task-spooler thefuck tig tmux tokei unzip watchexec whois xdg-utils yarn"
+  USR="asciinema bat chezmoi ctags direnv diskus elinks exa fd fish fzf gdb git git-lfs gotop hexyl highlight htop httpie hub hyperfine icdiff jq lftp perl-file-mimeinfo pkgfile mosh mycli neofetch neovim python-pipx pgcli ripgrep sd shellcheck socat stow task-spooler tealdeer thefuck tig tmux tokei unzip watchexec whois xdg-utils yarn"
 
   if ! command -v yay >/dev/null; then
     (
@@ -33,12 +33,12 @@ Linux)
   WRAPPER="sh"
   INSTALL="yay -Sy --noconfirm"
   INSTALLED=$(pacman -Qq)
-  UPGRADE="yay -Syu"
+  UPGRADE="yay -Syu --noconfirm"
   ;;
 FreeBSD)
   BLD="automake ccache cmake gcc gmake groff pkgconf"
   LIB="libffi libyaml ncurses openssl readline sqlite3"
-  USR="bash bat coreutils curl direnv exa elinks fd-find fish fzf gdb git git-lfs gnupg gotop hexyl highlight hs-ShellCheck htop hub hyperfine icdiff jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses py37-httpie py37-asciinema py37-mycli py37-pipx py37-pgcli ripgrep sd socat stow thefuck tig tmux tokei ts universal-ctags unzip whois xdg-utils yarn" # missing: chezmoi, watchexec
+  USR="bash bat coreutils curl direnv exa elinks fd-find fish fzf gdb git git-lfs gnupg gotop hexyl highlight hs-ShellCheck htop hub hyperfine icdiff jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses py37-httpie py37-asciinema py37-mycli py37-pipx py37-pgcli ripgrep sd socat stow tealdeer thefuck tig tmux tokei ts universal-ctags unzip whois xdg-utils yarn" # missing: chezmoi, watchexec
 
   WRAPPER="su root"
   INSTALL="pkg install -y"
