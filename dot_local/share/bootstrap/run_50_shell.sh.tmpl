@@ -49,6 +49,9 @@ if [ -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
   fish -c "fisher self-update; and fisher"
 fi
 
+info "Syncing tldr pages..."
+tldr --update
+
 # Shell Editing
 go_get "mvdan.cc/sh/v3/cmd/shfmt"
 
