@@ -6,6 +6,10 @@ if [ -n "$TMUX" ]; then
     && tmux select-pane -t "$editor_pane"
 fi
 
+if ! socat -u OPEN:/dev/null UNIX-CONNECT:"$NVIM_LISTEN_ADDRESS" >/dev/null 2>&1; then
+  rm -f "$NVIM_LISTEN_ADDRESS"
+fi
+
 nvr --remote-wait-silent "$@"
 
 if [ -n "$TMUX" ]; then
