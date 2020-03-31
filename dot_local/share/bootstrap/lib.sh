@@ -182,9 +182,13 @@ pipx_install() { # target, spec, pip args
     PIPX_INSTALLED=$(pipx list)
     export PIPX_INSTALLED
   fi
+  if [ -z "$PIPX_PYTHON" ]; then
+    PIPX_PYTHON=$(pyenv which python)
+    export PIPX_PYTHON
+  fi
 
   if ! echo "$PIPX_INSTALLED" | grep -Fq "$1"; then
     info "Installing $1 using pipx..."
-    pipx install "${2:-$1}" ${3:+--pip-args="$3"}
+    pipx install --python "$PIPX_PYTHON" "${2:-$1}" ${3:+--pip-args="$3"}
   fi
 }

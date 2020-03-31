@@ -33,29 +33,25 @@ for python in $PYENV_INSTALLED; do
   done
 done
 
-if ! command -v pipx >/dev/null; then
-  info "Installing pipx..."
-  python -m pip install pipx-in-pipx
-else
-  if [ ! -e "$PIPX_HOME/venvs/pipx/bin/python" ]; then
-    info "Repairing pipx install..."
-    python -m venv --upgrade "$PIPX_HOME/venvs/pipx"
+for package in "$PIPX_HOME/venvs"/*; do
+  if [ ! -e "$package/bin/python" ]; then
+    info "Uninstalling broken $(basename "$package") using pipx..."
+    pipx uninstall "$(basename "$package")"
   fi
-  info "Updating pipx packages..."
-  pipx upgrade-all
-fi
+done
+
+info "Updating pipx packages..."
+pipx upgrade-all
 
 pipx_install "black"
 pipx_install "flake8"
-pipx_install "flit"
 pipx_install "mypy"
+pipx_install "pip-run"
 pipx_install "pip-tools"
-pipx_install "pipenv"
 pipx_install "poetry"
 pipx_install "pylint"
 pipx_install "dephell" "dephell[full]"
 pipx_install "python-language-server" "python-language-server[all]"
-pipx_install "rwt"
 pipx_install "twine"
 
 # vi: ft=sh
