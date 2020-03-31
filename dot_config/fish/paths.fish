@@ -1,42 +1,29 @@
+# default manpath
+set -q MANPATH; or set -x MANPATH ''
+
 # snap
-path_prepend /snap/bin
+path_prepend PATH /snap/bin
 # ccache {linux, {bsd, macos}}
-path_prepend /usr/{lib/ccache/bin,local/{libexec/ccache,opt/ccache/libexec}}
+path_prepend PATH /usr/{lib/ccache/bin,local/{libexec/ccache,opt/ccache/libexec}}
 
 # golang
-path_prepend $GOBIN $GOENV_ROOT/{shims,bin}
+path_prepend PATH $GOBIN $GOENV_ROOT/{shims,bin}
 # nodejs
-path_prepend $NODENV_ROOT/{shims,bin}
+path_prepend PATH $NODENV_ROOT/{shims,bin}
+set -q NODENV_VERSION; or read -l NODENV_VERSION < $NODENV_ROOT/version
+path_prepend MANPATH $NODENV_ROOT/versions/$NODENV_VERSION/share/man
 # python
-path_prepend $PIPX_BIN_DIR $PYENV_ROOT/{shims,bin}
+path_prepend PATH $PIPX_BIN_DIR $PYENV_ROOT/{shims,bin}
+set -q PYENV_VERSION; or read -l PYENV_VERSION < $PYENV_ROOT/version
+path_prepend MANPATH $PYENV_ROOT/versions/$PYENV_VERSION/share/man
 # ruby
-path_prepend $RBENV_ROOT/{shims,bin}
+path_prepend PATH $RBENV_ROOT/{shims,bin}
+set -q RBENV_VERSION; or read -l RBENV_VERSION < $RBENV_ROOT/version
+path_prepend MANPATH $RBENV_ROOT/versions/$RBENV_VERSION/share/man
 # rust
-path_prepend $CARGO_HOME/bin
+path_prepend PATH $CARGO_HOME/bin
+set -q RUSTUP_TOOLCHAIN; or set -l RUSTUP_TOOLCHAIN (string match -r 'default_toolchain = "(.*)"' < $RUSTUP_HOME/settings.toml)[2]
+path_prepend MANPATH $RUSTUP_HOME/toolchains/$RUSTUP_TOOLCHAIN/{,share/}man
 # dotfiles/local
-path_prepend $HOME/.local/bin
-
-# MANPATH
-if not set -q MANPATH
-  # search default manpath
-  set -x MANPATH ''
-
-  # nodenv
-  set -q NODENV_VERSION; or read -l NODENV_VERSION < $NODENV_ROOT/version
-  set -p MANPATH $NODENV_ROOT/versions/$NODENV_VERSION/share/man
-
-  # pyenv
-  set -q PYENV_VERSION; or read -l PYENV_VERSION < $PYENV_ROOT/version
-  set -p MANPATH $PYENV_ROOT/versions/$PYENV_VERSION/share/man
-
-  # rbenv
-  set -q RBENV_VERSION; or read -l RBENV_VERSION < $RBENV_ROOT/version
-  set -p MANPATH $RBENV_ROOT/versions/$RBENV_VERSION/share/man
-
-  # rustup
-  set -q RUSTUP_TOOLCHAIN; or set -l RUSTUP_TOOLCHAIN (string match -r 'default_toolchain = "(.*)"' < $RUSTUP_HOME/settings.toml)[2]
-  set -p MANPATH $RUSTUP_HOME/toolchains/$RUSTUP_TOOLCHAIN/share/man
-
-  # user-created
-  set -p MANPATH $XDG_DATA_HOME/man
-end
+path_prepend PATH $HOME/.local/bin
+path_prepend MANPATH $HOME/.local/share/man

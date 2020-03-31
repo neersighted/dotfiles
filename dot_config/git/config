@@ -49,6 +49,7 @@
 
 
 [core]
+	editor = nvimr
 	pager = less --quit-if-one-screen --no-init
 [pager]
 	log = diff-so-fancy | $(git config --get core.pager)

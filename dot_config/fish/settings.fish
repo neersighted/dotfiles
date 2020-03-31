@@ -4,7 +4,7 @@
 
 # editor
 set -Ux EDITOR nvim
-set -Ux VISUAL nvimr
+set -Ux VISUAL $EDITOR
 
 # pager
 set -Ux PAGER less

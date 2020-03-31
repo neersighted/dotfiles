@@ -1,9 +1,3 @@
-# version check
-if test (string split "." "$FISH_VERSION" | string split "-")[1] -lt 3
-  echo "fish 3.0 or newer is required"
-  exit 1
-end
-
 # core fish configuration
 set -qU fish_key_bindings; or set -U fish_key_bindings fish_default_key_bindings
 set -qU fish_features; or set -U fish_features stderr-nocaret qmark-noglob
