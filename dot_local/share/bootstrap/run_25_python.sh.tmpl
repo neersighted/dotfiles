@@ -33,13 +33,6 @@ for python in $PYENV_INSTALLED; do
   done
 done
 
-for package in "$PIPX_HOME/venvs"/*; do
-  if [ ! -e "$package/bin/python" ]; then
-    info "Uninstalling broken $(basename "$package") using pipx..."
-    pipx uninstall "$(basename "$package")"
-  fi
-done
-
 info "Updating pipx packages..."
 pipx upgrade-all
 
