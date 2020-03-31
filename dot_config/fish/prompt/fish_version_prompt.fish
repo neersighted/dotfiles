@@ -20,14 +20,16 @@ function fish_version_prompt
   if set -q PYENV_VERSION; or set version_file (upcate .python-version)
     set -q PYENV_VERSION; or read PYENV_VERSION < $version_file
 
-    set -l element (set_color $fish_color_python)
-    set -a element "py:$PYENV_VERSION"
-    set -a element (set_color normal)
-    set -a contents (string join '' $element)
+    if test "$PYENV_VERSION" != (string split '/' $VIRTUAL_ENV)[-1]
+      set -l element (set_color $fish_color_python)
+      set -a element "py:$PYENV_VERSION"
+      set -a element (set_color normal)
+      set -a contents (string join '' $element)
+    end
   end
 
   if set -q VIRTUAL_ENV; and set venv_path (string split '/' $VIRTUAL_ENV)
-    if not test $venv_path[-1] = '.venv'
+    if test $venv_path[-1] != '.venv'
       set venv $venv_path[-1]
     else
       set venv $venv_path[-2]

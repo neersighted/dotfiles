@@ -16,11 +16,11 @@ function __pyenv_virtualenv_activate
   set -x PYENV_VIRTUALENV_VERBOSE_ACTIVATE 1
 
   if not set -q VIRTUAL_ENV; and set version_file (upcate .python-version)
-    read version < $version_file
+    read py_version < $version_file
 
-    if string match -rq 'envs/'$version'$' (builtin realpath $PYENV_ROOT/versions/$version)
+    if string match -rq 'envs/'$py_version'$' (builtin realpath $PYENV_ROOT/versions/$py_version)
       pyenv activate
-      and set -g __pyenv_virtualenv $path
+      and set -g __pyenv_virtualenv $PWD
     end
   else if set -q __pyenv_virtualenv; and not string match -q "$__pyenv_virtualenv/*" $PWD/
     pyenv deactivate
