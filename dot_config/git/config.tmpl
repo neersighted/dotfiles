@@ -3,14 +3,16 @@
 #
 
 [user]
-	name = Bjorn Neergaard
-	email = bjorn@neersighted.com
-	signingKey = 0x08AAA409549C0EC5
+	name = {{ .user.name }}
+	email = {{ .user.email }}
+	signingKey = {{ .user.gpgkey }}
 [credential]
-	username = neersighted
-	helper = manager
-	helper = osxkeychain
+	username = {{ .chezmoi.username }}
+	{{ if eq .chezmoi.os "linux" -}}
 	helper = cache --timeout=3600
+	{{ else if eq .chezmoi.os "darwin" -}}
+	helper = osxkeychain
+	{{ end -}}
 
 #
 # General Config
@@ -120,3 +122,5 @@
 	oldHighlight = "red reverse"
 	newNormal = "green"
 	newHighlight = "green reverse"
+
+# vi: ft=conf

@@ -7,5 +7,5 @@ with-subkey-fingerprint
 trust-model tofu+pgp
 ask-cert-level
 
-default-key 0x08AAA409549C0EC5
+default-key {{ .user.gpgkey }}
 default-recipient-self
