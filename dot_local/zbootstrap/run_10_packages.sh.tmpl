@@ -45,7 +45,7 @@ FreeBSD)
   WRAPPER="su root"
   INSTALL="pkg install -y"
   INSTALLED=$(pkg query '%n')
-  UPGRADE="pkg upgrade -y"
+  UPGRADE="pkg upgrade -y; pkg provides -u"
   ;;
 Darwin)
   BLD="automake ccache cmake pkg-config"
