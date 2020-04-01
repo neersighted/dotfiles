@@ -33,7 +33,7 @@ Linux)
   WRAPPER="sh"
   INSTALL="yay -Sy --noconfirm"
   INSTALLED=$(pacman -Qq)
-  UPGRADE="yay -Syu --noconfirm"
+  UPGRADE="yay -Syu --noconfirm; sudo pkgfile --update"
   ;;
 FreeBSD)
   BLD="automake ccache cmake gcc gmake groff pkgconf"
