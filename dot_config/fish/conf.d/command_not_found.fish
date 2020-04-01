@@ -15,7 +15,8 @@ else if command -q pkg # FreeBSD
   function __fish_command_not_found_handler -a cmd -e fish_command_not_found
     __fish_default_command_not_found_handler $cmd
 
-    if set pkgs (pkg provides local/[s]?bin/$cmd)
+    set pkgs (pkg provides local/[s]?bin/$cmd)
+    if test -n "$pkgs"
       printf '%s may be found in the following packages:\n' $cmd
       for pkg in $pkgs
         printf '  %s\n' $pkg
