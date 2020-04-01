@@ -3,7 +3,7 @@
 set -e
 
 # shellcheck source=lib.sh
-. "{{ .chezmoi.sourceDir }}/dot_local/share/bootstrap/lib.sh"
+. "{{ .chezmoi.sourceDir }}/dot_local/zbootstrap/lib.sh"
 
 section "System Packages"
 
@@ -17,7 +17,7 @@ case $(uname) in
 Linux)
   BLD="autoconf automake bison ccache clang cmake fakeroot gcc make pkgconf"
   LIB="libyaml"
-  USR="asciinema bat chezmoi ctags direnv diskus elinks exa fd fish fzf gdb git git-lfs gotop hexyl highlight htop httpie hub hyperfine icdiff jq lftp perl-file-mimeinfo pkgfile mosh mycli neofetch neovim python-pipx pgcli ripgrep sd shellcheck socat stow task-spooler tealdeer thefuck tig tmux tokei unzip watchexec whois xdg-utils yarn"
+  USR="asciinema bat chezmoi ctags direnv diskus elinks exa fd fish fzf gdb git git-lfs gotop hexyl highlight htop httpie hub hyperfine icdiff jq lftp lsof perl-file-mimeinfo mosh mycli neofetch neovim python-pipx pgcli pkgfile ripgrep sd shellcheck socat stow task-spooler tealdeer thefuck tig tmux tokei unzip watchexec whois xdg-utils yarn"
 
   if ! command -v yay >/dev/null; then
     (
