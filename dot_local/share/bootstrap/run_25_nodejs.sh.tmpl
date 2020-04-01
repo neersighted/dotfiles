@@ -10,7 +10,6 @@ section "Node.js"
 git_sync https://github.com/nodenv/nodenv "$NODENV_ROOT"
 git_sync https://github.com/nodenv/node-build "$NODENV_ROOT/plugins/node-build"
 git_sync https://github.com/nodenv/nodenv-package-rehash "$NODENV_ROOT/plugins/nodenv-package-rehash"
-git_sync https://github.com/nodenv/nodenv-package-json-engine "$NODENV_ROOT/plugins/nodenv-package-json-engine"
 git_sync https://github.com/nodenv/nodenv-default-packages "$NODENV_ROOT/plugins/nodenv-default-packages"
 
 (
@@ -20,16 +19,14 @@ git_sync https://github.com/nodenv/nodenv-default-packages "$NODENV_ROOT/plugins
 )
 
 NODEJS_VERSION=$(nodenv install -l | selectversion)
-NODENV_INSTALLED=$(nodenv versions --bare)
-
-if ! echo "$NODENV_INSTALLED" | grep -Fxq "$NODEJS_VERSION"; then
+if ! nodenv versions --bare | grep -Fxq "$NODEJS_VERSION"; then
   info "Installing Node.js $NODEJS_VERSION..."
   NODENV_VERSION=system nodenv install -s "$NODEJS_VERSION"
   info "Activating Node.js $NODEJS_VERSION..."
   nodenv global "$NODEJS_VERSION"
 fi
 
-for node in $NODENV_INSTALLED; do
+for node in $(nodenv versions --bare); do
   for target in $(NODENV_VERSION=$node npm -g outdated --parseable --depth=0); do
     wanted=$(echo "$target" | cut -d: -f2)
     installed=$(echo "$target" | cut -d: -f3)

@@ -17,16 +17,14 @@ git_sync https://github.com/pyenv/pyenv-virtualenv "$PYENV_ROOT/plugins/pyenv-vi
 )
 
 PYTHON_VERSION=$(pyenv install -l | selectversion)
-PYENV_INSTALLED=$(pyenv versions --bare | grep -Fv /envs/ || true)
-
-if ! echo "$PYENV_INSTALLED" | grep -Fxq "$PYTHON_VERSION"; then
+if ! pyenv versions --bare | grep -Fxq "$PYTHON_VERSION"; then
   info "Installing Python $PYTHON_VERSION..."
   pyenv install -s "$PYTHON_VERSION"
   info "Activating Python $PYTHON_VERSION..."
   pyenv global "$PYTHON_VERSION"
 fi
 
-for python in $PYENV_INSTALLED; do
+for python in $(pyenv versions --bare --skip-aliases); do
   for target in $(PYENV_VERSION=$python pip list --outdated --format=freeze | awk -F== '{print $1}'); do
     info "Updating $target ($python)..."
     PYENV_VERSION=$python python -m pip install -U "$target"

@@ -16,9 +16,7 @@ git_sync https://github.com/syndbg/goenv "$GOENV_ROOT"
 )
 
 GOLANG_VERSION=$(goenv install -l | selectversion)
-GOENV_INSTALLED=$(goenv versions --bare)
-
-if ! echo "$GOENV_INSTALLED" | grep -Fxq "$GOLANG_VERSION"; then
+if ! goenv versions --bare | grep -Fxq "$GOLANG_VERSION"; then
   info "Installing Golang $GOLANG_VERSION..."
   goenv install -s "$GOLANG_VERSION"
   info "Activating Golang $GOLANG_VERSION..."
