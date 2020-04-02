@@ -16,8 +16,8 @@ export RBENV_VERSION=system
 case $(uname) in
 Linux)
   BLD="autoconf automake bison ccache clang cmake gcc make pkgconf"
-  LIB="libyaml"
-  USR="asciinema aws-cli bat chezmoi ctags direnv diskus elinks exa fd fish fzf gdb git git-lfs glances hexyl highlight htop httpie hub hyperfine icdiff jq lftp lsof  mosh mycli neovim perl-file-mimeinfo pgcli python-pipx ripgrep sd shellcheck socat task-spooler tealdeer thefuck tig tmux tokei unzip watchexec whois xdg-utils yarn"
+  LIB="bzip2 gdbm libffi libyaml ncurses openssl readline sqlite xz zlib"
+  USR="asciinema aws-cli bat chezmoi ctags direnv diskus elinks exa fd fish fzf gdb git git-lfs glances hexyl highlight htop httpie hub hyperfine icdiff jq lftp lsof mosh mycli neovim perl-file-mimeinfo pgcli python-pipx ripgrep sd shellcheck socat task-spooler tealdeer thefuck tig tmux tokei unzip watchexec whois xdg-utils yarn"
 
   if uname -r | grep -Fq Microsoft; then
     USR="$USR wslu"
@@ -40,8 +40,8 @@ Linux)
   UPGRADE="yay -Syu --noconfirm; yay -Fy"
   ;;
 FreeBSD)
-  BLD="automake ccache cmake gcc gmake groff pkgconf"
-  LIB="libffi libyaml ncurses openssl readline sqlite3"
+  BLD="autoconf automake bison ccache cmake gcc gmake groff pkgconf"
+  LIB="gdbm libffi libyaml ncurses openssl readline sqlite3"
   USR="awscli bash bat coreutils curl direnv exa elinks fd-find fish fzf gdb git git-lfs gnupg hexyl highlight hs-ShellCheck htop hub hyperfine icdiff jq lftp mosh neovim p5-File-MimeInfo pinentry-curses pkg-provides py37-asciinema py37-glances py37-httpie py37-mycli py37-pipx py37-pgcli ripgrep sd socat tealdeer thefuck tig tmux tokei ts universal-ctags unzip whois xdg-utils yarn" # missing: chezmoi, watchexec
 
   if grep -Eq '^#PKG_ENABLE_PLUGINS' /usr/local/etc/pkg.conf; then
