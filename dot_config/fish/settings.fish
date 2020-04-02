@@ -25,6 +25,7 @@ set -Ux STACK_ROOT $XDG_DATA_HOME/stack
 
 # node.js
 set -Ux NODENV_ROOT $XDG_DATA_HOME/nodenv
+set -Ux NODE_REPL_HISTORY $XDG_DATA_HOME/node/repl_history
 set -Ux NPM_CONFIG_USERCONFIG $XDG_CONFIG_HOME/npm/npmrc
 set -Ux NPM_CONFIG_CACHE $XDG_CACHE_HOME/npm
 
@@ -36,6 +37,7 @@ set -Ux PYLINTHOME $XDG_CACHE_HOME/pylint
 
 # ruby
 set -Ux RBENV_ROOT $XDG_DATA_HOME/rbenv
+set -Ux IRBRC $XDG_CONFIG_HOME/irb/irbrc
 set -Ux GEM_SPEC_CACHE $XDG_CACHE_HOME/gem
 set -Ux BUNDLE_USER_CONFIG $XDG_CONFIG_HOME/bundle
 set -Ux BUNDLE_USER_CACHE $XDG_CACHE_HOME/bundle
