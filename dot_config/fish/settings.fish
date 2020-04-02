@@ -9,7 +9,7 @@ set -Ux VISUAL $EDITOR
 # pager
 set -Ux PAGER less
 set -Ux LESS '--RAW-CONTROL-CHARS --tabs=4'
-set -Ux LESSHISTFILE $XDG_CACHE_HOME/lesshist
+set -Ux LESSHISTFILE $XDG_DATA_HOME/less/history
 
 #
 # toolchains

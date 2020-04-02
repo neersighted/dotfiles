@@ -19,6 +19,10 @@ Linux)
   LIB="libyaml"
   USR="asciinema bat chezmoi ctags direnv diskus elinks exa fd fish fzf gdb git git-lfs glances gotop hexyl highlight htop httpie hub hyperfine icdiff jq lftp lsof  mosh mycli neofetch neovim perl-file-mimeinfo pgcli python-pipx ripgrep sd shellcheck socat stow task-spooler tealdeer thefuck tig tmux tokei unzip watchexec whois xdg-utils yarn"
 
+  if uname -r | grep -Fq Microsoft; then
+    USR="$USR wslu"
+  fi
+
   if ! command -v yay >/dev/null; then
     (
       YAY="${TMPDIR:-/tmp}/yay"

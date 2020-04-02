@@ -2,7 +2,7 @@
 
 name=$(basename "$0")
 localsocket="$GNUPGHOME/S.gpg-agent"
-remotesocket="C:/Users/$USER/AppData/Roaming/gnupg/S.gpg-agent"
+remotesocket="$(wslvar APPDATA | tr \\\\ /)/gnupg/S.gpg-agent"
 
 command -v npiperelay.exe >/dev/null || exit
 exec -a "$name" socat UNIX-LISTEN:"$localsocket",fork EXEC:"npiperelay.exe -ei -ep -s -a '$remotesocket'",nofork &
