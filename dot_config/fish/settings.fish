@@ -70,6 +70,9 @@ set -Ux HTTPIE_CONFIG_DIR $XDG_CONFIG_HOME/httpie
 # libvirt
 set -Ux LIBVIRT_DEFAULT_URI qemu:///system
 
+# lsof
+set -Ux LSOFDEVCACHE $XDG_CACHE_HOME/lsof
+
 # (n)vim
 set -Ux VIM_CONFIG_PATH $XDG_CONFIG_HOME/nvim
 
