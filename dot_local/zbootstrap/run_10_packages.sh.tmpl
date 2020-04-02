@@ -17,7 +17,7 @@ case $(uname) in
 Linux)
   BLD="autoconf automake bison ccache clang cmake gcc make pkgconf"
   LIB="libyaml"
-  USR="asciinema aws-cli bat chezmoi ctags direnv diskus elinks exa fd fish fzf gdb git git-lfs glances hexyl highlight htop httpie hub hyperfine icdiff jq lftp lsof  mosh mycli neofetch neovim perl-file-mimeinfo pgcli python-pipx ripgrep sd shellcheck socat task-spooler tealdeer thefuck tig tmux tokei unzip watchexec whois xdg-utils yarn"
+  USR="asciinema aws-cli bat chezmoi ctags direnv diskus elinks exa fd fish fzf gdb git git-lfs glances hexyl highlight htop httpie hub hyperfine icdiff jq lftp lsof  mosh mycli neovim perl-file-mimeinfo pgcli python-pipx ripgrep sd shellcheck socat task-spooler tealdeer thefuck tig tmux tokei unzip watchexec whois xdg-utils yarn"
 
   if uname -r | grep -Fq Microsoft; then
     USR="$USR wslu"
@@ -42,7 +42,7 @@ Linux)
 FreeBSD)
   BLD="automake ccache cmake gcc gmake groff pkgconf"
   LIB="libffi libyaml ncurses openssl readline sqlite3"
-  USR="awscli bash bat coreutils curl direnv exa elinks fd-find fish fzf gdb git git-lfs gnupg hexyl highlight hs-ShellCheck htop hub hyperfine icdiff jq lftp mosh neofetch neovim p5-File-MimeInfo pinentry-curses pkg-provides py37-asciinema py37-glances py37-httpie py37-mycli py37-pipx py37-pgcli ripgrep sd socat tealdeer thefuck tig tmux tokei ts universal-ctags unzip whois xdg-utils yarn" # missing: chezmoi, watchexec
+  USR="awscli bash bat coreutils curl direnv exa elinks fd-find fish fzf gdb git git-lfs gnupg hexyl highlight hs-ShellCheck htop hub hyperfine icdiff jq lftp mosh neovim p5-File-MimeInfo pinentry-curses pkg-provides py37-asciinema py37-glances py37-httpie py37-mycli py37-pipx py37-pgcli ripgrep sd socat tealdeer thefuck tig tmux tokei ts universal-ctags unzip whois xdg-utils yarn" # missing: chezmoi, watchexec
 
   if grep -Eq '^#PKG_ENABLE_PLUGINS' /usr/local/etc/pkg.conf; then
     su root -c 'sed -e "/PKG_PLUGINS_DIR/s/^#//" -e "/PKG_ENABLE_PLUGINS/s/^#//" -e "s/#PLUGINS \[/PLUGINS [ provides ]/" -i "" /usr/local/etc/pkg.conf'
@@ -54,9 +54,9 @@ FreeBSD)
   UPGRADE="pkg upgrade -y; pkg provides -u"
   ;;
 Darwin)
-  BLD="automake ccache cmake pkg-config"
-  LIB="gmp gdbm libffi libyaml openssl openssl@1.1 readline"
-  USR="asciinema awscli bat twpayne/taps/chezmoi coreutils ctags curl direnv diskus exa fd fish fzf gdb git git-lfs glances gnupg hexyl highlight htop httpie hub hyperfine icdiff jq lesspipe lftp mas mosh mycli neofetch neovim pgcli pinentry-mac pipx rename ripgrep sd shellcheck socat task-spooler tealdeer terminal-notifier thefuck tmux tokei trash unzip watchexec xz yarn"
+  BLD="ccache cmake"
+  LIB="openssl@1.1 readline xz"
+  USR="asciinema awscli bat twpayne/taps/chezmoi coreutils ctags direnv diskus exa fd fish fzf gdb git git-lfs glances gnupg hexyl highlight htop httpie hub hyperfine icdiff jq lesspipe lftp mas mosh mycli neovim pgcli pinentry-mac pipx rename ripgrep sd shellcheck socat task-spooler tealdeer terminal-notifier thefuck tmux tokei trash watchexec yarn"
 
   if ! brew tap | grep -Fxq 'homebrew/command-not-found'; then
     brew tap homebrew/command-not-found
