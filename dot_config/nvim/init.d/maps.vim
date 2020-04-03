@@ -55,6 +55,9 @@ vmap <cr> <plug>(EasyAlign)
 nnoremap <leader>x :Sayonara<cr>
 nnoremap <leader>X :Sayonara!<cr>
 
+" Close this buffer but keep the window open.
+nnoremap <leader>d :bn<cr>:bd#<cr>
+
 "
 " Navigation
 "
