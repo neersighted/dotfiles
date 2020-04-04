@@ -5,5 +5,5 @@ function pyserve -d 'serve files using python'
     set port 8000
   end
 
-  python3 -m http.server $port
+  python -m http.server $port
 end
