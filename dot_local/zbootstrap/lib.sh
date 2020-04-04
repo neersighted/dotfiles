@@ -149,7 +149,7 @@ cargo_install() { # target, git
 }
 
 fetch_url() { # url, path, executable
-  info "Fetching $1 with curl..."
+  info "Fetching $(basename "$2") with curl..."
   mkdir -p "$(dirname "$2")"
   rm -f "$2"
   curl "$1" -o "$2"
@@ -159,7 +159,7 @@ fetch_url() { # url, path, executable
 }
 
 git_sync() { # url, path
-  info "Syncing $1 with git..."
+  info "Syncing $(basename "$2") with git..."
   if [ -d "$2/.git" ]; then
     git -C "$2" pull --recurse-submodules
   else
@@ -173,7 +173,7 @@ git_sync() { # url, path
 }
 
 go_get() { # target, module
-  info "Fetching $1 using go get..."
+  info "Fetching $(basename "$1") using go get..."
   go get "$1"
 }
 
