@@ -2,13 +2,31 @@
 
 while [ "$#" -gt 0 ]; do
   case $1 in
-    -t) pane=${2:?missing value: $1}; shift 2;;
-    -f) full=1; shift;;
-    -o) op=open; shift;;
-    -y) op=yank; shift;;
+    -t)
+      pane=${2:?missing value: $1}
+      shift 2
+      ;;
+    -f)
+      full=1
+      shift
+      ;;
+    -o)
+      op=open
+      shift
+      ;;
+    -y)
+      op=yank
+      shift
+      ;;
 
-    -*) echo "unknown option: $1" >&2; exit 1;;
-    * ) echo "unrecognized argument: $1" >&2; exit 1;;
+    -*)
+      echo "unknown option: $1" >&2
+      exit 1
+      ;;
+    *)
+      echo "unrecognized argument: $1" >&2
+      exit 1
+      ;;
   esac
 done
 
@@ -24,9 +42,8 @@ fi
 
 tmux capture-pane -J ${full:+-S- -E-} ${pane:+-t $pane} -p | xurls | fzf-tmux -d 25% --tac -1 -m --prompt="$op: " | while read -r url; do
   case $op in
-    open) $open "$url";;
-    yank) echo "$url" | yankee;;
-    print) echo "$url";;
+    open) $open "$url" ;;
+    yank) echo "$url" | yankee ;;
+    print) echo "$url" ;;
   esac
 done
-

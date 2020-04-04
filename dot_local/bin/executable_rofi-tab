@@ -1,9 +1,9 @@
 #!/bin/sh
 
 rofi \
-  -show window  \
+  -show window \
   -auto-select \
   -kb-cancel "Alt+Escape,Escape" \
-  -kb-accept-entry "!Alt+Alt_L,!Alt+Tab,Return"\
+  -kb-accept-entry "!Alt+Alt_L,!Alt+Tab,Return" \
   -kb-row-up "Alt+Shift+Tab" \
   -kb-row-down "Alt+Tab"

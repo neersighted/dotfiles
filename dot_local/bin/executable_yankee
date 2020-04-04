@@ -2,19 +2,52 @@
 
 while [ "$#" -gt 0 ]; do
   case $1 in
-    --input) op=yank; shift;;
-    --output) op=put; shift;;
-    --selection=*) selection=${1#*=}; shift 1;;
-    --selection  ) echo "$1 requires an argument" >&2; exit 1;;
-    --wait) wait=1; shift;;
+    --input)
+      op=yank
+      shift
+      ;;
+    --output)
+      op=put
+      shift
+      ;;
+    --selection=*)
+      selection=${1#*=}
+      shift 1
+      ;;
+    --selection)
+      echo "$1 requires an argument" >&2
+      exit 1
+      ;;
+    --wait)
+      wait=1
+      shift
+      ;;
 
-    -i) op=yank; shift;;
-    -o) op=put; shift;;
-    -s) selection=${2:?missing value: $1}; shift 2;;
-    -w) wait=1; shift;;
+    -i)
+      op=yank
+      shift
+      ;;
+    -o)
+      op=put
+      shift
+      ;;
+    -s)
+      selection=${2:?missing value: $1}
+      shift 2
+      ;;
+    -w)
+      wait=1
+      shift
+      ;;
 
-    -*) echo "unknown option: $1" >&2; exit 1;;
-    * ) echo "unrecognized argument: $1" >&2; exit 1;;
+    -*)
+      echo "unknown option: $1" >&2
+      exit 1
+      ;;
+    *)
+      echo "unrecognized argument: $1" >&2
+      exit 1
+      ;;
   esac
 done
 
@@ -31,7 +64,8 @@ b64() {
   elif command -v b64encode >/dev/null; then
     b64encode -r -
   else
-    echo "unable to base64 encode data" >&2; exit 1
+    echo "unable to base64 encode data" >&2
+    exit 1
   fi
 }
 
@@ -80,12 +114,15 @@ yank() {
 
   # check that the data isn't too big
   if [ "$(printf "%b" "$escaped" | wc -c)" -gt 100000 ]; then
-    echo "input data too long" >&2; exit 1
+    echo "input data too long" >&2
+    exit 1
   fi
   # write OSC 52 sequence
-  printf "%b" "$escaped"; exit
+  printf "%b" "$escaped"
+  exit
 
-  echo "could not find a method to set the clipboard" >&2; exit 1
+  echo "could not find a method to set the clipboard" >&2
+  exit 1
 }
 
 paste() {
@@ -121,10 +158,11 @@ paste() {
     exec tmux save-buffer -
   fi
 
-  echo "could not find a method to read the clipboard" >&2; exit 1
+  echo "could not find a method to read the clipboard" >&2
+  exit 1
 }
 
 case $op in
-  yank) yank;;
-  put) paste;;
+  yank) yank ;;
+  put) paste ;;
 esac
