@@ -101,12 +101,10 @@ yank() {
   if [ -n "$TMUX" ]; then
     # save into tmux buffer
     tmux load-buffer -
-  fi
-
-  # dump from a tmux buffer if needed
-  if [ -n "$TMUX" ]; then
+    # and dump back out
     encoded=$(tmux save-buffer - | b64)
   else
+    # read directly from stdin
     encoded=$(b64)
   fi
   # escape data
@@ -120,9 +118,6 @@ yank() {
   # write OSC 52 sequence
   printf "%b" "$escaped"
   exit
-
-  echo "could not find a method to set the clipboard" >&2
-  exit 1
 }
 
 paste() {
