@@ -18,12 +18,13 @@ git_sync https://github.com/pyenv/pyenv-virtualenv "$PYENV_ROOT/plugins/pyenv-vi
 
 PYTHON_VERSION=$(pyenv install -l | selectversion)
 if ! pyenv versions --bare | grep -Fxq "$PYTHON_VERSION"; then
-  info "Installing Python $PYTHON_VERSION..."
+  important "Installing Python $PYTHON_VERSION..."
   pyenv install -s "$PYTHON_VERSION"
-  info "Activating Python $PYTHON_VERSION..."
+  important "Activating Python $PYTHON_VERSION..."
   pyenv global "$PYTHON_VERSION"
 fi
 
+important "Updating pip packages..."
 for python in $(pyenv versions --bare --skip-aliases); do
   for target in $(PYENV_VERSION=$python pip list --outdated --format=freeze | awk -F== '{print $1}'); do
     info "Updating $target ($python)..."
@@ -31,7 +32,7 @@ for python in $(pyenv versions --bare --skip-aliases); do
   done
 done
 
-info "Updating pipx packages..."
+important "Updating pipx packages..."
 pipx upgrade-all
 
 pipx_install "black"

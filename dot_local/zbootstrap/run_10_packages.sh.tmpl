@@ -49,7 +49,6 @@ case $(uname) in
     INSTALL="brew install"
     INSTALLED=$(brew ls -1)
     UPGRADE="brew upgrade"
-    PROVIDES="true"
     ;;
   *)
     error "Unsupported operating system."
@@ -76,7 +75,7 @@ case $(uname) in
     fi
     ;;
   FreeBSD)
-    info "Fetching latest ports and packages..."
+    important "Fetching latest ports and packages..."
     $WRAPPER -c "portsnap auto; pkg update"
 
     PORTS=""
@@ -96,31 +95,33 @@ case $(uname) in
 esac
 
 if [ -n "$PKGS" ]; then
-  info "Installing system packages with ${INSTALL%% *}..."
+  important "Installing system packages with ${INSTALL%% *}..."
 
-  important "$INSTALL $PKGS"
+  info "$INSTALL $PKGS"
   $WRAPPER -c "$INSTALL $PKGS"
 fi
 
-info "Upgrading system packages with ${UPGRADE%% *}..."
+important "Upgrading system packages with ${UPGRADE%% *}..."
 $WRAPPER -c "$UPGRADE"
 
 case $(uname) in
   FreeBSD)
     if grep -Eq '^#PKG_ENABLE_PLUGINS' /usr/local/etc/pkg.conf; then
-      info "Enabling pkg-provides..."
+      important "Enabling pkg-provides..."
       $WRAPPER -c 'sed -e "/PKG_PLUGINS_DIR/s/^#//" -e "/PKG_ENABLE_PLUGINS/s/^#//" -e "s/#PLUGINS \[/PLUGINS [ provides ]/" -i "" /usr/local/etc/pkg.conf'
     fi
     ;;
   Darwin)
     if ! brew tap | grep -Fxq 'homebrew/command-not-found'; then
-      info "Enabling command-not-found..."
+      important "Enabling command-not-found..."
       brew tap homebrew/command-not-found
     fi
     ;;
 esac
 
-info "Updating provides/file database..."
-$WRAPPER -c "$PROVIDES"
+if [ -n "$PROVIDES" ]; then
+  info "Updating provides/file database..."
+  $WRAPPER -c "$PROVIDES"
+fi
 
 # vi: ft=sh

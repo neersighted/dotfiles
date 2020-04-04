@@ -19,12 +19,13 @@ git_sync https://github.com/rbenv/rbenv-default-gems "$RBENV_ROOT/plugins/rbenv-
 
 RUBY_VERSION=$(rbenv install -l | selectversion)
 if ! rbenv versions --bare | grep -Fxq "$RUBY_VERSION"; then
-  info "Installing Ruby $RUBY_VERSION..."
+  important "Installing Ruby $RUBY_VERSION..."
   rbenv install -s "$RUBY_VERSION"
-  info "Activating Ruby $RUBY_VERSION..."
+  important "Activating Ruby $RUBY_VERSION..."
   rbenv global "$RUBY_VERSION"
 fi
 
+important "Updating gems..."
 for ruby in $(rbenv versions --bare); do
   info "Updating RubyGems ($ruby)..."
   RBENV_VERSION=$ruby gem update --system

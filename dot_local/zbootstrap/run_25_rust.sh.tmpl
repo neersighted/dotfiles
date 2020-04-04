@@ -8,15 +8,15 @@ set -e
 section "Rust"
 
 if ! command -v rustup >/dev/null; then
-  info "Installing Rust toolchain..."
-  curl https://sh.rustup.rs | sh -s -- -y --no-modify-path --default-toolchain stable -c rust-src rust-analysis rls miri llvm-tools-preview
+  important "Installing Rust toolchain..."
+  curl https://sh.rustup.rs | sh -s -- -y --no-modify-path -c rust-src rust-analysis rls miri llvm-tools-preview
 else
-  info "Updating Rust toolchain..."
+  important "Updating Rust toolchain..."
   rustup update
 fi
 
 if command -v cargo-install-update >/dev/null; then
-  info "Updating cargo packages..."
+  important "Updating cargo packages..."
   cargo install-update -a -g
 fi
 

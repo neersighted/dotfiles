@@ -92,15 +92,15 @@ export PATH="$CARGO_HOME/bin:$PATH"
 ###
 
 section() {
-  printf '\033[0;33m%s\033[0m\n' "$@"
-}
-
-info() {
-  printf '\033[0;32m%s\033[0m\n' "$@"
+  printf '\033[0;35m%s\033[0m\n' "$@"
 }
 
 important() {
-  printf '\033[0;35m%s\033[0m\n' "$@"
+  printf '\033[0;32m%s\033[0m\n' "$@"
+}
+
+info() {
+  printf '\033[0;33m%s\033[0m\n' "$@"
 }
 
 error() {
