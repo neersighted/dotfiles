@@ -1,3 +1,5 @@
+set -q fish_initialized; and exit
+
 #
 # core
 #

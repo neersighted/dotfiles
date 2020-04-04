@@ -6,7 +6,7 @@ function tmux
 end
 
 function __tmux_session_name -a tty
-  test -n "$tty"; or set tty (tty)
+  test -n "$tty"; or set -l tty (tty)
 
   if is_vscode # special terminals
      printf '%s' $TERM_PROGRAM

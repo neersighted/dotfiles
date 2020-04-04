@@ -1,3 +1,5 @@
+set -g tty (tty)
+
 function is_macos
   if not set -q MACOS
     not test (uname) = 'Darwin'

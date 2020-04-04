@@ -9,9 +9,10 @@ end
 
 # environment setup
 source $__fish_config_dir/platform.fish
-status is-login; and source $__fish_config_dir/environment.fish
-set -q fish_initialized; or source $__fish_config_dir/settings.fish
-status is-login; and source $__fish_config_dir/paths.fish
+source $__fish_config_dir/environment.fish
+source $__fish_config_dir/settings.fish
+source $__fish_config_dir/paths.fish
+source $__fish_config_dir/sockets.fish
 
 # interactive features/startup
 if status is-interactive

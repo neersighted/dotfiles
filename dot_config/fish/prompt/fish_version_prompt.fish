@@ -1,5 +1,5 @@
 function fish_version_prompt
-  if set -q GOENV_VERSION; or set version_file (upcate .go-version)
+  if set -q GOENV_VERSION; or set -l version_file (upcate .go-version)
     set -q GOENV_VERSION; or read GOENV_VERSION < $version_file
 
     set -l element (set_color $fish_color_golang)
@@ -8,7 +8,7 @@ function fish_version_prompt
     set -a contents (string join '' $element)
   end
 
-  if set -q NODENV_VERSION; or set version_file (upcate .node-version)
+  if set -q NODENV_VERSION; or set -l version_file (upcate .node-version)
     set -q NODENV_VERSION; or read NODENV_VERSION < $version_file
 
     set -l element (set_color $fish_color_nodejs)
@@ -17,7 +17,7 @@ function fish_version_prompt
     set -a contents (string join '' $element)
   end
 
-  if set -q PYENV_VERSION; or set version_file (upcate .python-version)
+  if set -q PYENV_VERSION; or set -l version_file (upcate .python-version)
     set -q PYENV_VERSION; or read PYENV_VERSION < $version_file
 
     set venv_name (string split '/' $VIRTUAL_ENV)[-1]
@@ -42,7 +42,7 @@ function fish_version_prompt
     set -a contents (string join '' $element)
   end
 
-  if set -q RBENV_VERSION; or set version_file (upcate .ruby-version)
+  if set -q RBENV_VERSION; or set -l version_file (upcate .ruby-version)
     set -q RBENV_VERSION; or read RBENV_VERSION < $version_file
 
     set -l element (set_color $fish_color_ruby)
@@ -51,7 +51,7 @@ function fish_version_prompt
     set -a contents (string join '' $element)
   end
 
-  if set -q RUSTUP_TOOLCHAIN; or set toolchain_file (upcate .rust-toolchain)
+  if set -q RUSTUP_TOOLCHAIN; or set -l toolchain_file (upcate .rust-toolchain)
     set -q RUSTUP_TOOLCHAIN; or read RUSTUP_TOOLCHAIN < $toolchain_file
 
     set -l element (set_color $fish_color_rust)

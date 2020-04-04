@@ -1,3 +1,5 @@
+status is-login; or exit
+
 # default manpath
 set -q MANPATH; or set -x MANPATH ''
 

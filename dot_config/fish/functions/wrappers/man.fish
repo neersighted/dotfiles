@@ -1,8 +1,8 @@
 function man
-  set -q man_color_blink; or set man_color_blink green
-  set -q man_color_bold; or set man_color_bold cyan
-  set -q man_color_standout; or set man_color_standout black --background white
-  set -q man_color_underline; or set man_color_underline white --underline
+  set -q man_color_blink; or set -l man_color_blink green
+  set -q man_color_bold; or set -l man_color_bold cyan
+  set -q man_color_standout; or set -l man_color_standout black --background white
+  set -q man_color_underline; or set -l man_color_underline white --underline
 
   set -lx LESS_TERMCAP_mb (set_color $man_color_blink)
   set -lx LESS_TERMCAP_md (set_color $man_color_bold)

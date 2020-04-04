@@ -1,3 +1,5 @@
+status is-login; or exit
+
 # locale
 if not set -q LANG; or test $LANG = 'C.UTF-8'
   set -x LANG en_US.UTF-8
@@ -28,7 +30,6 @@ set -x TMUX_TMPDIR $XDG_RUNTIME_DIR
 # wsl
 if is_wsl
   set -x DISPLAY ':0'
-  set -x SHELL (command -v fish)
   set -x BROWSER 'wslview'
   set -g umask 0022 # wsl current does not set umask
 end
