@@ -24,6 +24,10 @@ case $(uname) in
     INSTALLED=$(pacman -Qq)
     UPGRADE="yay -Syu --noconfirm"
     PROVIDES="yay -Fy"
+
+    if uname -r | grep -Fq Microsoft; then
+      USR="$USR wslu"
+    fi
     ;;
   FreeBSD)
     BLD="autoconf automake bison ccache cmake gcc gmake groff pkgconf"
@@ -60,10 +64,6 @@ done
 
 case $(uname) in
   Linux)
-    if uname -r | grep -Fq Microsoft; then
-      PKGS="$PKGS wslu"
-    fi
-
     if ! command -v yay >/dev/null; then
       (
         YAY="${TMPDIR:-/tmp}/yay"
