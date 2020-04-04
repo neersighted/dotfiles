@@ -27,14 +27,9 @@ if ! nodenv versions --bare | grep -Fxq "$NODEJS_VERSION"; then
 fi
 
 for node in $(nodenv versions --bare); do
-  for target in $(NODENV_VERSION=$node npm -g outdated --parseable --depth=0); do
-    wanted=$(echo "$target" | cut -d: -f2)
-    installed=$(echo "$target" | cut -d: -f3)
-
-    ! [ "$(echo "$wanted" | cut -d@ -f1)" = npm ] || continue
-
-    info "Updating $installed to $wanted ($node)..."
-    NODENV_VERSION=$node npm install -g "$wanted"
+  for target in $(NODENV_VERSION=$node npm -g outdated --parseable --depth=0 | cut -d: -f3); do
+    info "Updating $target ($node)..."
+    NODENV_VERSION=$node npm install -g "$target"
   done
 done
 

@@ -28,8 +28,10 @@ fi
 for ruby in $(rbenv versions --bare); do
   info "Updating RubyGems ($ruby)..."
   RBENV_VERSION=$ruby gem update --system
-  info "Updating installed gems ($ruby)..."
-  RBENV_VERSION=$ruby gem update
+  for target in $(RUBY_VERSION=$ruby gem outdated | cut -d' ' -f1); do
+    info "Updating $target ($ruby)..."
+    RUBY_VERSION=$ruby gem update "$target"
+  done
 done
 
 # vi: ft=sh
