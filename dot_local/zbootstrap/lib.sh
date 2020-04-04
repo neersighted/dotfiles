@@ -39,10 +39,10 @@ fi
 export PATH="$GOBIN:$GOENV_ROOT/shims:$GOENV_ROOT/bin:$PATH"
 
 # nodejs
-if [ -z "$NPM_CONFIG_USERCONFIG"  ]; then
+if [ -z "$NPM_CONFIG_USERCONFIG" ]; then
   export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 fi
-if [ -z "$NPM_CONFIG_CACHE" ];  then
+if [ -z "$NPM_CONFIG_CACHE" ]; then
   export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
 fi
 if [ -z "$NODENV_ROOT" ]; then

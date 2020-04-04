@@ -19,53 +19,33 @@ Linux)
   LIB="bzip2 gdbm libffi libyaml ncurses openssl readline sqlite xz zlib"
   USR="asciinema aws-cli bat chezmoi ctags direnv diskus elinks exa fd fish fzf gdb git git-lfs glances hexyl highlight htop httpie hub hyperfine icdiff jq lftp lsof mosh mycli neovim perl-file-mimeinfo pgcli python-pipx ripgrep sd shellcheck socat task-spooler tealdeer thefuck tig tmux tokei unzip watchexec whois xdg-utils yarn"
 
-  if uname -r | grep -Fq Microsoft; then
-    USR="$USR wslu"
-  fi
-
-  if ! command -v yay >/dev/null; then
-    (
-      YAY="${TMPDIR:-/tmp}/yay"
-      trap 'rm -rf $YAY' EXIT
-
-      git clone https://aur.archlinux.org/yay.git "$YAY"
-      cd "$YAY"
-      makepkg -si --noconfirm
-    )
-  fi
-
   WRAPPER="sh"
   INSTALL="yay -Sy --noconfirm"
   INSTALLED=$(pacman -Qq)
-  UPGRADE="yay -Syu --noconfirm; yay -Fy"
+  UPGRADE="yay -Syu --noconfirm"
+  PROVIDES="yay -Fy"
   ;;
 FreeBSD)
   BLD="autoconf automake bison ccache cmake gcc gmake groff pkgconf"
   LIB="gdbm libffi libyaml ncurses openssl readline sqlite3"
   USR="awscli bash bat coreutils curl direnv exa elinks fd-find fish fzf gdb git git-lfs gnupg hexyl highlight hs-ShellCheck htop hub hyperfine icdiff jq lftp mosh neovim p5-File-MimeInfo pinentry-curses pkg-provides py37-asciinema py37-glances py37-httpie py37-mycli py37-pipx py37-pgcli ripgrep sd socat tealdeer thefuck tig tmux tokei ts universal-ctags unzip whois xdg-utils yarn" # missing: chezmoi, watchexec
 
-  if grep -Eq '^#PKG_ENABLE_PLUGINS' /usr/local/etc/pkg.conf; then
-    su root -c 'sed -e "/PKG_PLUGINS_DIR/s/^#//" -e "/PKG_ENABLE_PLUGINS/s/^#//" -e "s/#PLUGINS \[/PLUGINS [ provides ]/" -i "" /usr/local/etc/pkg.conf'
-  fi
-
   WRAPPER="su root"
-  INSTALL="pkg install -y"
+  INSTALL="synth install"
   INSTALLED=$(pkg query '%n')
-  UPGRADE="pkg upgrade -y; pkg provides -u"
+  UPGRADE="synth upgrade-system"
+  PROVIDES="pkg provides -u"
   ;;
 Darwin)
   BLD="ccache cmake"
   LIB="openssl@1.1 readline xz"
   USR="asciinema awscli bat twpayne/taps/chezmoi coreutils ctags direnv diskus exa fd fish fzf gdb git git-lfs glances gnupg hexyl highlight htop httpie hub hyperfine icdiff jq lesspipe lftp mas mosh mycli neovim pgcli pinentry-mac pipx rename ripgrep sd shellcheck socat task-spooler tealdeer terminal-notifier thefuck tmux tokei trash watchexec yarn"
 
-  if ! brew tap | grep -Fxq 'homebrew/command-not-found'; then
-    brew tap homebrew/command-not-found
-  fi
-
   WRAPPER="sh"
   INSTALL="brew install"
   INSTALLED=$(brew ls -1)
   UPGRADE="brew upgrade"
+  PROVIDES="true"
   ;;
 *)
   error "Unsupported operating system."
@@ -78,6 +58,43 @@ for pkg in $BLD $LIB $USR; do
   fi
 done
 
+case $(uname) in
+Linux)
+  if uname -r | grep -Fq Microsoft; then
+    PKGS="$PKGS wslu"
+  fi
+
+  if ! command -v yay >/dev/null; then
+    (
+      YAY="${TMPDIR:-/tmp}/yay"
+      trap 'rm -rf $YAY' EXIT
+
+      git clone https://aur.archlinux.org/yay.git "$YAY"
+      cd "$YAY"
+      makepkg -si --noconfirm
+    )
+  fi
+  ;;
+FreeBSD)
+  info "Fetching latest ports and packages..."
+  $WRAPPER -c "portsnap auto; pkg update"
+
+  PORTS=""
+  for pkg in $PKGS; do
+    port=$(pkg rquery '%o' "$pkg" | head -n1)
+    if flavor=$(pkg rquery '%At:%Av' "$pkg" | grep -F 'flavor:'); then
+      flavor=$(echo "$flavor" | cut -d: -f2)
+      port="$port@$flavor"
+    fi
+
+    echo "$port!"
+
+    PORTS="$PORTS$port "
+  done
+  PKGS="$PORTS"
+  ;;
+esac
+
 if [ -n "$PKGS" ]; then
   info "Installing system packages with ${INSTALL%% *}..."
 
@@ -87,5 +104,23 @@ fi
 
 info "Upgrading system packages with ${UPGRADE%% *}..."
 $WRAPPER -c "$UPGRADE"
+
+case $(uname) in
+FreeBSD)
+  if grep -Eq '^#PKG_ENABLE_PLUGINS' /usr/local/etc/pkg.conf; then
+    info "Enabling pkg-provides..."
+    $WRAPPER -c 'sed -e "/PKG_PLUGINS_DIR/s/^#//" -e "/PKG_ENABLE_PLUGINS/s/^#//" -e "s/#PLUGINS \[/PLUGINS [ provides ]/" -i "" /usr/local/etc/pkg.conf'
+  fi
+  ;;
+Darwin)
+  if ! brew tap | grep -Fxq 'homebrew/command-not-found'; then
+    info "Enabling command-not-found..."
+    brew tap homebrew/command-not-found
+  fi
+  ;;
+esac
+
+info "Updating provides/file database..."
+$WRAPPER -c "$PROVIDES"
 
 # vi: ft=sh
