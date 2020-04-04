@@ -1,9 +1,21 @@
 set startup-with-shell off
-set history filename ~/.cache/gdb_history
 
-source ~/.local/share/gdb-dashboard/.gdbinit
-
-dashboard -layout assembly registers source expressions stack memory threads history
+python
+import os
+gdb.execute(f"set history filename {os.environ['XDG_DATA_HOME']}/gdb/history")
+gdb.execute(f"source {os.environ['XDG_DATA_HOME']}/gdb-dashboard/.gdbinit")
+layout = [
+    "assembly",
+    "registers",
+    "source",
+    "expressions",
+    "stack",
+    "memory",
+    "threads",
+    "history"
+]
+gdb.execute(f"dashboard -layout {' '.join(layout)}")
+end
 
 dashboard -style prompt '\\[\\e[1;35m\\]>>>\\[\\e[0m\\]'
 dashboard -style prompt_running '\\[\\e[31m\\]>>>\\[\\e[0m\\]'
