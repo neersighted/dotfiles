@@ -5,8 +5,9 @@ function su
     else
       command su -m
     end
+  else if test "$argv[1]" = '-l'; and command -q sudo
+    command sudo -i
   else
     command su $argv
   end
 end
-
