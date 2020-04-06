@@ -37,7 +37,7 @@ if [ "$(getshell)" != "$fish" ]; then
 
   if ! grep -Fxq "$fish" /etc/shells; then
     important "Adding $fish to /etc/shells..."
-    echo "$fish" | sudo tee -a /etc/shells
+    printf '%s\n' "$fish" | sudo tee -a /etc/shells
   fi
 
   important "Changing login shell to fish..."

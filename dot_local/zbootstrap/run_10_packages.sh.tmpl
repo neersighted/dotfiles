@@ -53,7 +53,7 @@ case $(uname) in
 esac
 for pkg in $BLD $LIB $USR; do
   pkg=$(basename "$pkg")
-  if ! echo "$INSTALLED" | grep -Fxq "$pkg"; then
+  if ! printf '%s' "$INSTALLED" | grep -Fxq "$pkg"; then
     PKGS="${PKGS:+$PKGS }$pkg"
   fi
 done
@@ -79,11 +79,9 @@ case $(uname) in
     for pkg in $PKGS; do
       port=$(pkg rquery '%o' "$pkg" | head -n1)
       if flavor=$(pkg rquery '%At:%Av' "$pkg" | grep -F 'flavor:'); then
-        flavor=$(echo "$flavor" | cut -d: -f2)
+        flavor=$(printf '%s' "$flavor" | cut -d: -f2)
         port="$port@$flavor"
       fi
-
-      echo "$port!"
 
       PORTS="$PORTS$port "
     done

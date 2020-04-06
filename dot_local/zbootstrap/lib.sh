@@ -176,7 +176,7 @@ cargo_install() { # target, git
     export CARGO_INSTALLED
   fi
 
-  if ! echo "$CARGO_INSTALLED" | grep -Eq "^$1"; then
+  if ! printf '%s' "$CARGO_INSTALLED" | grep -Eq "^$1"; then
     info "Installing $1 using cargo..."
     cargo install "$1" ${2:+--git "$2"}
   fi
@@ -186,13 +186,13 @@ git_sync() { # url, target
   url=$1
   target=$2
 
-  if echo "$url" | grep -Fq 'github.com'; then
-    repo=$(echo "$url" | sed -e 's#https://github.com/##' -e 's#.git$##')
+  if printf '%s' "$url" | grep -Fq 'github.com'; then
+    repo=$(printf '%s' "$url" | sed -e 's#https://github.com/##' -e 's#.git$##')
     branch=$(git -C "$target" rev-parse --abbrev-ref HEAD)
     commit=$(git -C "$target" rev-parse "$branch")
 
     request=$(github_api "repos/$repo/commits/$branch")
-    latest=$(echo "$request" | jq -r .sha)
+    latest=$(printf '%s' "$request" | jq -r .sha)
 
     if [ "$commit" != "$latest" ]; then
       sync='true'
@@ -240,11 +240,11 @@ github_sync() { # repo, file, target, executable
   fi
 
   request=$(github_api "repos/$repo/contents/$file" ${date_header:+-H "$date_header"} -w '%{http_code}')
-  request_len=$(echo "$request" | wc -l)
-  request_status=$(echo "$request" | tail -n1)
+  request_len=$(printf '%s' "$request" | wc -l)
+  request_status=$(printf '%s' "$request" | tail -n1)
 
   if [ "$request_len" -gt 1 ]; then
-    request_body=$(echo "$request" | head -n$((request_len - 1)))
+    request_body=$(printf '%s' "$request" | head -n$((request_len - 1)))
   else
     request_body=
   fi
@@ -252,8 +252,8 @@ github_sync() { # repo, file, target, executable
   if [ "$request_status" -eq 200 ]; then
     info "Syncing $basename from Github..."
 
-    encoded_content=$(echo "$request_body" | jq -r .content)
-    echo "$encoded_content" | base64decode >"$3"
+    encoded_content=$(printf '%s' "$request_body" | jq -r .content)
+    printf '%s' "$encoded_content" | base64decode >"$3"
 
     if [ ! -x "$target" ] && [ "$executable" = 'true' ]; then
       chmod +x "$target"
@@ -276,7 +276,7 @@ pipx_install() { # target, spec, pip args
     export PIPX_INSTALLED
   fi
 
-  if ! echo "$PIPX_INSTALLED" | grep -Fq "$1"; then
+  if ! printf '%s' "$PIPX_INSTALLED" | grep -Fq "$1"; then
     info "Installing $1 using pipx..."
     pipx install "${2:-$1}" ${3:+--pip-args="$3"}
   fi
