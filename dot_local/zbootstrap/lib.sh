@@ -241,8 +241,13 @@ github_sync() { # repo, file, target, executable
 
   request=$(github_api "repos/$repo/contents/$file" ${date_header:+-H "$date_header"} -w '%{http_code}')
   request_len=$(echo "$request" | wc -l)
-  request_body=$(echo "$request" | head -n$((request_len - 1)))
   request_status=$(echo "$request" | tail -n1)
+
+  if [ "$request_len" -gt 1 ]; then
+    request_body=$(echo "$request" | head -n$((request_len - 1)))
+  else
+    request_body=
+  fi
 
   if [ "$request_status" -eq 200 ]; then
     info "Syncing $basename from Github..."
