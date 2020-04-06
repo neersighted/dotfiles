@@ -8,10 +8,7 @@ set -e
 section "System Packages"
 
 # pass through language managers
-export GOENV_VERSION=system
-export NODENV_VERSION=system
-export PYENV_VERSION=system
-export RBENV_VERSION=system
+export GOENV_VERSION=system NODENV_VERSION=system PYENV_VERSION=system RBENV_VERSION=system
 
 case $(uname) in
   Linux)

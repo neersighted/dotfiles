@@ -11,11 +11,10 @@ git_sync https://github.com/rbenv/rbenv "$RBENV_ROOT"
 git_sync https://github.com/rbenv/ruby-build "$RBENV_ROOT/plugins/ruby-build"
 git_sync https://github.com/rbenv/rbenv-default-gems "$RBENV_ROOT/plugins/rbenv-default-gems"
 
-(
-  cd "$RBENV_ROOT" || exit 1
-  src/configure
-  make -C src
-)
+if ! make -C "$RBENV_ROOT/src" -q; then
+  sh -c "cd $RBENV_ROOT; ./src/configure"
+  make -C "$RBENV_ROOT/src"
+fi
 
 RUBY_VERSION=$(rbenv install -l | selectversion)
 if ! rbenv versions --bare | grep -Fxq "$RUBY_VERSION"; then

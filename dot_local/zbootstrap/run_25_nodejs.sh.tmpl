@@ -12,11 +12,10 @@ git_sync https://github.com/nodenv/node-build "$NODENV_ROOT/plugins/node-build"
 git_sync https://github.com/nodenv/nodenv-package-rehash "$NODENV_ROOT/plugins/nodenv-package-rehash"
 git_sync https://github.com/nodenv/nodenv-default-packages "$NODENV_ROOT/plugins/nodenv-default-packages"
 
-(
-  cd "$NODENV_ROOT" || exit 1
-  src/configure
-  make -C src
-)
+if ! make -C "$NODENV_ROOT/src" -q; then
+  sh -c "cd $NODENV_ROOT; ./src/configure"
+  make -C "$NODENV_ROOT/src"
+fi
 
 NODEJS_VERSION=$(nodenv install -l | selectversion)
 if ! nodenv versions --bare | grep -Fxq "$NODEJS_VERSION"; then
@@ -30,7 +29,7 @@ important "Updating npm packages..."
 for node in $(nodenv versions --bare); do
   for target in $(NODENV_VERSION=$node npm -g outdated --parseable --depth=0 | cut -d: -f3); do
     info "Updating $target ($node)..."
-    NODENV_VERSION=$node npm install -g "$target"
+    NODENV_VERSION=$node npm update -g "$target"
   done
 done
 

@@ -10,10 +10,10 @@ section "Git"
 cargo_install "git-interactive-rebase-tool"
 go_get "github.com/mkchoi212/fac"
 
-fetch_url "https://raw.githubusercontent.com/Fakerr/git-recall/master/git-recall" "$HOME/.local/bin/git-recall" true
-fetch_url "https://raw.githubusercontent.com/kamranahmedse/git-standup/master/git-standup" "$HOME/.local/bin/git-standup" true
-fetch_url "https://raw.githubusercontent.com/paulirish/git-open/master/git-open" "$HOME/.local/bin/git-open" true
-fetch_url "https://raw.githubusercontent.com/paulirish/git-recent/master/git-recent" "$HOME/.local/bin/git-recent" true
-fetch_url "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy" "$HOME/.local/bin/diff-so-fancy" true
+github_sync "Fakerr/git-recall" "git-recall" "$HOME/.local/bin/git-recall" true
+github_sync "kamranahmedse/git-standup" "git-standup" "$HOME/.local/bin/git-standup" true
+github_sync "paulirish/git-open" "git-open" "$HOME/.local/bin/git-open" true
+github_sync "paulirish/git-recent" "git-recent" "$HOME/.local/bin/git-recent" true
+github_sync "so-fancy/diff-so-fancy" "third_party/build_fatpack/diff-so-fancy" "$HOME/.local/bin/diff-so-fancy" true
 
 # vi: ft=sh

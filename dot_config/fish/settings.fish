@@ -7,6 +7,7 @@ set -q fish_initialized; and exit
 # editor
 set -Ux EDITOR nvim
 set -Ux VISUAL $EDITOR
+set -U fish_editor nvimr
 
 # pager
 set -Ux PAGER less

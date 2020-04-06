@@ -110,6 +110,28 @@ error() {
 
 ###
 
+base64decode() {
+  if command -v base64 >/dev/null; then
+    base64 --decode
+  elif command -v b64encode >/dev/null; then
+    b64decode -r
+  else
+    error "unable to decode base64 data"
+  fi
+}
+
+github_api() {
+  if [ -n "$GITHUB_TOKEN" ]; then
+    local auth_header="Authorization: token $GITHUB_TOKEN"
+  elif [ -z "$GITHUB_WARNED" ]; then
+    important "GITHUB_TOKEN not set, future API requests may be rate-limited!"
+    export GITHUB_WARNED=1
+  fi
+
+  local url=$1; shift
+  curl -s ${auth_header:+-H "$auth_header"} "$@" "https://api.github.com/$url"
+}
+
 # shellcheck disable=SC2120
 selectversion() { # major, minor, patch
   awk -v major="$1" -v minor="$2" -v patch="$3" -F '.' '
@@ -148,31 +170,91 @@ cargo_install() { # target, git
   fi
 }
 
-fetch_url() { # url, path, executable
-  info "Fetching $(basename "$2") with curl..."
-  mkdir -p "$(dirname "$2")"
-  rm -f "$2"
-  curl "$1" -o "$2"
-  if [ "$3" = true ]; then
-    chmod +x "$2"
-  fi
-}
+git_sync() { # url, target
+  local url=$1
+  local target=$2
 
-git_sync() { # url, path
-  info "Syncing $(basename "$2") with git..."
-  if [ -d "$2/.git" ]; then
-    git -C "$2" pull --recurse-submodules
+  local basename
+  basename=$(basename "$target")
+
+  if echo "$url" | grep -Fq 'github.com'; then
+    local fragment=${url/'https://github.com/'/}
+    local repo=${fragment/'.git'/}
+
+    local branch commit
+    branch=$(git -C "$target" rev-parse --abbrev-ref HEAD)
+    commit=$(git -C "$target" rev-parse "$branch")
+
+    local request latest
+    request=$(github_api "repos/$repo/commits/$branch")
+    latest=$(echo "$request" | jq -r .sha)
+
+    if [ "$commit" != "$latest" ]; then
+      local sync='true'
+    fi
   else
-    mkdir -p "$2"
-    git -C "$2" init
-    git -C "$2" remote add origin "$1"
-    git -C "$2" fetch origin --depth 1
-    git -C "$2" submodule update --recursive --init --depth 1
-    git -C "$2" checkout -ft origin/master
+    local sync='true'
+  fi
+
+  if [ "$sync" = 'true' ]; then
+    info "Syncing $basename with git..."
+    if [ -d "$target/.git" ]; then
+      git -C "$target" pull --recurse-submodules
+    else
+      mkdir -p "$target"
+      git -C "$target" init
+      git -C "$target" remote add origin "$url"
+      git -C "$target" fetch origin --depth 1
+      git -C "$target" submodule update --recursive --init --depth 1
+      git -C "$target" checkout -ft origin/master
+    fi
   fi
 }
 
-go_get() { # target, module
+github_sync() { # repo, file, target, executable
+  local repo=$1
+  local file=$2
+  local target=$3
+  local executable=$4
+
+  local basename dirname
+  basename=$(basename "$target")
+  dirname=$(dirname "$target")
+  if [ ! -d "$dirname" ]; then
+    mkdir -p "$dirname"
+  elif [ -L "$3" ]; then
+    rm "$target"
+  fi
+
+  if [ -f "$target" ]; then
+    mod_date=$(date -r "$target" +'%a, %d %b %Y %T %Z')
+    local date_header="If-Modified-Since: $mod_date"
+  fi
+
+  local request request_len request_body request_status
+  request=$(github_api "repos/$repo/contents/$file" ${date_header:+-H "$date_header"} -w '%{http_code}')
+  request_len=$(echo "$request" | wc -l)
+  request_body=$(echo "$request" | head -n$((request_len - 1)))
+  request_status=$(echo "$request" | tail -n1)
+
+  if [ "$request_status" -eq 200 ]; then
+    info "Syncing $basename from Github..."
+
+    local encoded_content
+    encoded_content=$(echo "$request_body" | jq -r .content)
+    echo "$encoded_content" | base64decode > "$3"
+
+    if [ ! -x "$target" ] && [ "$executable" = 'true' ]; then
+      chmod +x "$target"
+    elif [ -x "$target" ] && [ "$executable" != 'true' ]; then
+      chmod -x "$target"
+    fi
+  elif [ "$request_status" -ne 304 ]; then
+    error "Error retreiving $repo from Github..."
+  fi
+}
+
+go_get() { # target
   info "Fetching $(basename "$1") using go get..."
   go get "$1"
 }
