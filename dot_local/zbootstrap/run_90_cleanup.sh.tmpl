@@ -7,7 +7,10 @@ set -e
 
 section "Cleanup"
 
-REMOVED_FILES="$XDG_CONFIG_HOME/fish/conf.d/gpg.fish"
+REMOVED_FILES="
+$XDG_CONFIG_HOME/fish/conf.d/gpg.fish
+$XDG_CONFIG_HOME/fish/functions/wrappers/git.fish
+"
 
 for file in $REMOVED_FILES; do
   if test -f "$file"; then
