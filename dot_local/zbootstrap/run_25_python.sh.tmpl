@@ -11,7 +11,7 @@ git_sync https://github.com/pyenv/pyenv "$PYENV_ROOT"
 git_sync https://github.com/pyenv/pyenv-virtualenv "$PYENV_ROOT/plugins/pyenv-virtualenv"
 
 if ! make -C "$PYENV_ROOT/src" -q; then
-  sh -c "cd $PYENV_ROOT; ./src/configure"
+  sh -c "cd '$PYENV_ROOT'; ./src/configure"
   make -C "$PYENV_ROOT/src"
 fi
 

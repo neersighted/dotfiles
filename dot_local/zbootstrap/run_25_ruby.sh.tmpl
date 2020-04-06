@@ -12,7 +12,7 @@ git_sync https://github.com/rbenv/ruby-build "$RBENV_ROOT/plugins/ruby-build"
 git_sync https://github.com/rbenv/rbenv-default-gems "$RBENV_ROOT/plugins/rbenv-default-gems"
 
 if ! make -C "$RBENV_ROOT/src" -q; then
-  sh -c "cd $RBENV_ROOT; ./src/configure"
+  sh -c "cd '$RBENV_ROOT'; ./src/configure"
   make -C "$RBENV_ROOT/src"
 fi
 

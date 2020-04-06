@@ -10,7 +10,7 @@ section "Golang"
 git_sync https://github.com/syndbg/goenv "$GOENV_ROOT"
 
 if ! make -C "$GOENV_ROOT/src" -q; then
-  sh -c "cd $GOENV_ROOT; ./src/configure"
+  sh -c "cd '$GOENV_ROOT'; ./src/configure"
   make -C "$GOENV_ROOT/src"
 fi
 

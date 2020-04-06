@@ -13,7 +13,7 @@ git_sync https://github.com/nodenv/nodenv-package-rehash "$NODENV_ROOT/plugins/n
 git_sync https://github.com/nodenv/nodenv-default-packages "$NODENV_ROOT/plugins/nodenv-default-packages"
 
 if ! make -C "$NODENV_ROOT/src" -q; then
-  sh -c "cd $NODENV_ROOT; ./src/configure"
+  sh -c "cd '$NODENV_ROOT'; ./src/configure"
   make -C "$NODENV_ROOT/src"
 fi
 

@@ -92,7 +92,7 @@ export PATH="$CARGO_HOME/bin:$PATH"
 ###
 
 section() {
-  printf '\033[0;35m%s\033[0m\n' "$@"
+  printf '\033[0;36m%s\033[0m\n' "$@"
 }
 
 important() {
@@ -103,8 +103,12 @@ info() {
   printf '\033[0;33m%s\033[0m\n' "$@"
 }
 
+warn() {
+  printf '\033[0;35m%s\033[0m\n' "$@" >&2
+}
+
 error() {
-  printf '\033[0;31m%s\033[0m\n' "$@"
+  printf '\033[0;31m%s\033[0m\n' "$@" >&2
   exit 1
 }
 
@@ -121,14 +125,15 @@ base64decode() {
 }
 
 github_api() {
+  url=$1
+  shift
+
   if [ -n "$GITHUB_TOKEN" ]; then
-    local auth_header="Authorization: token $GITHUB_TOKEN"
-  elif [ -z "$GITHUB_WARNED" ]; then
-    important "GITHUB_TOKEN not set, future API requests may be rate-limited!"
-    export GITHUB_WARNED=1
+    auth_header="Authorization: token $GITHUB_TOKEN"
+  else
+    warn "GITHUB_TOKEN not set, future API requests may be rate-limited!"
   fi
 
-  local url=$1; shift
   curl -s ${auth_header:+-H "$auth_header"} "$@" "https://api.github.com/$url"
 }
 
@@ -171,33 +176,28 @@ cargo_install() { # target, git
 }
 
 git_sync() { # url, target
-  local url=$1
-  local target=$2
-
-  local basename
-  basename=$(basename "$target")
+  url=$1
+  target=$2
 
   if echo "$url" | grep -Fq 'github.com'; then
-    local fragment=${url/'https://github.com/'/}
-    local repo=${fragment/'.git'/}
-
-    local branch commit
+    repo=$(echo "$url" | sed -e 's#https://github.com/##' -e 's#.git$##')
     branch=$(git -C "$target" rev-parse --abbrev-ref HEAD)
     commit=$(git -C "$target" rev-parse "$branch")
 
-    local request latest
     request=$(github_api "repos/$repo/commits/$branch")
     latest=$(echo "$request" | jq -r .sha)
 
     if [ "$commit" != "$latest" ]; then
-      local sync='true'
+      sync='true'
+    else
+      sync='false'
     fi
   else
-    local sync='true'
+    sync='true'
   fi
 
   if [ "$sync" = 'true' ]; then
-    info "Syncing $basename with git..."
+    info "Syncing $(basename "$target") with git..."
     if [ -d "$target/.git" ]; then
       git -C "$target" pull --recurse-submodules
     else
@@ -212,12 +212,11 @@ git_sync() { # url, target
 }
 
 github_sync() { # repo, file, target, executable
-  local repo=$1
-  local file=$2
-  local target=$3
-  local executable=$4
+  repo=$1
+  file=$2
+  target=$3
+  executable=$4
 
-  local basename dirname
   basename=$(basename "$target")
   dirname=$(dirname "$target")
   if [ ! -d "$dirname" ]; then
@@ -228,10 +227,11 @@ github_sync() { # repo, file, target, executable
 
   if [ -f "$target" ]; then
     mod_date=$(date -r "$target" +'%a, %d %b %Y %T %Z')
-    local date_header="If-Modified-Since: $mod_date"
+    date_header="If-Modified-Since: $mod_date"
+  else
+    date_header=
   fi
 
-  local request request_len request_body request_status
   request=$(github_api "repos/$repo/contents/$file" ${date_header:+-H "$date_header"} -w '%{http_code}')
   request_len=$(echo "$request" | wc -l)
   request_body=$(echo "$request" | head -n$((request_len - 1)))
@@ -240,9 +240,8 @@ github_sync() { # repo, file, target, executable
   if [ "$request_status" -eq 200 ]; then
     info "Syncing $basename from Github..."
 
-    local encoded_content
     encoded_content=$(echo "$request_body" | jq -r .content)
-    echo "$encoded_content" | base64decode > "$3"
+    echo "$encoded_content" | base64decode >"$3"
 
     if [ ! -x "$target" ] && [ "$executable" = 'true' ]; then
       chmod +x "$target"
