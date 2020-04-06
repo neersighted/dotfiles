@@ -27,7 +27,7 @@ fi
 
 important "Updating npm packages..."
 for node in $(nodenv versions --bare); do
-  for target in $(NODENV_VERSION=$node npm -g outdated --parseable --depth=0 | cut -d: -f3); do
+  for target in $(NODENV_VERSION=$node npm -g outdated --parseable --depth=0 | cut -d: -f3 | cut -d@ -f1); do
     info "Updating $target ($node)..."
     NODENV_VERSION=$node npm update -g "$target"
   done
