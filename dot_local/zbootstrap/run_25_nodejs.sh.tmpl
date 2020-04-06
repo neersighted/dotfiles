@@ -12,9 +12,9 @@ git_sync https://github.com/nodenv/node-build "$NODENV_ROOT/plugins/node-build"
 git_sync https://github.com/nodenv/nodenv-package-rehash "$NODENV_ROOT/plugins/nodenv-package-rehash"
 git_sync https://github.com/nodenv/nodenv-default-packages "$NODENV_ROOT/plugins/nodenv-default-packages"
 
-if ! make -C "$NODENV_ROOT/src" -q; then
+if ! $MAKE -C "$NODENV_ROOT/src" -q; then
   sh -c "cd '$NODENV_ROOT'; ./src/configure"
-  make -C "$NODENV_ROOT/src"
+  $MAKE -C "$NODENV_ROOT/src"
 fi
 
 NODEJS_VERSION=$(nodenv install -l | selectversion)

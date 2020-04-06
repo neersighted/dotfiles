@@ -21,6 +21,13 @@ fi
 if [ -z "$CXX" ]; then
   export CXX=c++
 fi
+if [ -z "$MAKE" ]; then
+  if command -v gmake >/dev/null; then
+    export MAKE=gmake
+  else
+    export MAKE=make
+  fi
+fi
 
 # golang
 export GO111MODULE=on
