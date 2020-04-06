@@ -50,13 +50,10 @@
 	abbrevCommit = true
 
 
-[core]
-	editor = nvimr
-	pager = less --quit-if-one-screen --no-init
 [pager]
-	log = diff-so-fancy | $(git config --get core.pager)
-	diff = diff-so-fancy | $(git config --get core.pager)
-	show = diff-so-fancy | $(git config --get core.pager)
+	log = diff-so-fancy | $GIT_PAGER
+	diff = diff-so-fancy | $GIT_PAGER
+	show = diff-so-fancy | $GIT_PAGER
 
 [format]
 	pretty = onelineplus
