@@ -45,7 +45,7 @@ case $(uname) in
     WRAPPER="sh"
     INSTALL="brew install"
     INSTALLED=$(brew ls -1)
-    UPGRADE="brew upgrade"
+    UPGRADE="brew update; brew upgrade"
     ;;
   *)
     error "Unsupported operating system."
