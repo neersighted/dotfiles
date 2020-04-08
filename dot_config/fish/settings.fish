@@ -87,6 +87,9 @@ setting LSOFDEVCACHE $XDG_CACHE_HOME/lsof
 # (n)vim
 setting VIM_CONFIG_PATH $XDG_CONFIG_HOME/nvim
 
+# wget
+setting WGETRC $XDG_CONFIG_HOME/wget/wgetrc
+
 # vagrant
 setting VAGRANT_HOME $XDG_DATA_HOME/vagrant
 setting VAGRANT_WSL_ENABLE_WINDOWS_ACCESS 1

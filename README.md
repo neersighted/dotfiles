@@ -9,8 +9,7 @@ snap install chezmoi --classic # snap
 brew install twpayne/taps/chezmoi # macos
 curl -sfL https://git.io/chezmoi | sh -s -- -b ~/.local/bin # universal
 # dotfiles:
-~/.local/bin/chezmoi init https://github.com/neersighted/dotfiles
-~/.local/bin/chezmoi apply -v
+~/.local/bin/chezmoi init https://github.com/neersighted/dotfiles --apply
 ```
 
 Restart your shell to make sure the changes are fully applied.
