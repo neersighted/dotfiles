@@ -36,7 +36,7 @@ fish=$(command -v fish)
 if [ "$(getshell)" != "$fish" ]; then
 
   if ! grep -Fxq "$fish" /etc/shells; then
-    important "Adding $fish to /etc/shells..."
+    info "Adding $fish to /etc/shells..."
     printf '%s\n' "$fish" | sudo tee -a /etc/shells
   fi
 

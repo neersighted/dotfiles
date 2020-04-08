@@ -7,10 +7,12 @@ set -e
 
 section "Python"
 
+important "Updating pyenv..."
 git_sync https://github.com/pyenv/pyenv "$PYENV_ROOT"
 git_sync https://github.com/pyenv/pyenv-virtualenv "$PYENV_ROOT/plugins/pyenv-virtualenv"
 
 if ! $MAKE -C "$PYENV_ROOT/src" -q; then
+  info "Building pyenv native extensions..."
   sh -c "cd '$PYENV_ROOT'; ./src/configure"
   $MAKE -C "$PYENV_ROOT/src"
 fi
@@ -23,15 +25,13 @@ if ! pyenv versions --bare | grep -Fxq "$PYTHON_VERSION"; then
   pyenv global "$PYTHON_VERSION"
 fi
 
-important "Updating pip packages..."
+important "Updating Python packages..."
 for python in $(pyenv versions --bare --skip-aliases); do
   for target in $(PYENV_VERSION=$python pip list --outdated --format=freeze | awk -F== '{print $1}'); do
     info "Updating $target ($python)..."
     PYENV_VERSION=$python python -m pip install -U "$target"
   done
 done
-
-important "Updating pipx packages..."
 pipx upgrade-all
 
 pipx_install "black"

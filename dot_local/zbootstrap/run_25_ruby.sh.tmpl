@@ -7,11 +7,13 @@ set -e
 
 section "Ruby"
 
+important "Checking for rbenv updates..."
 git_sync https://github.com/rbenv/rbenv "$RBENV_ROOT"
 git_sync https://github.com/rbenv/ruby-build "$RBENV_ROOT/plugins/ruby-build"
 git_sync https://github.com/rbenv/rbenv-default-gems "$RBENV_ROOT/plugins/rbenv-default-gems"
 
 if ! $MAKE -C "$RBENV_ROOT/src" -q; then
+  info "Building rbenv native extensions..."
   sh -c "cd '$RBENV_ROOT'; ./src/configure"
   $MAKE -C "$RBENV_ROOT/src"
 fi
@@ -24,7 +26,7 @@ if ! rbenv versions --bare | grep -Fxq "$RUBY_VERSION"; then
   rbenv global "$RUBY_VERSION"
 fi
 
-important "Updating gems..."
+important "Updating Ruby gems..."
 for ruby in $(rbenv versions --bare); do
   info "Updating RubyGems ($ruby)..."
   RBENV_VERSION=$ruby gem update --system
