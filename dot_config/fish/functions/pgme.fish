@@ -13,8 +13,8 @@ function pgme -d 'quick and dirty postgres(es)'
   set -q _flag_db; or set -l _flag_db postgres
   set -q _flag_port; or set -l _flag_port 5432
 
-  set -l arguments -e POSTGRES_USER=$_flag_user -e POSTGRES_PASSWORD=$_flag_password
-  set -a arguments -e POSTGRES_DB=$_flag_db -p $_flag_port:5432
+  set -l arguments -p $_flag_port:5432 -e POSTGRES_DB=$_flag_db
+  set -a arguments -e POSTGRES_USER=$_flag_user -e POSTGRES_PASSWORD=$_flag_password
   set -a arguments $_flag_image $argv
 
   if set -q _flag_list

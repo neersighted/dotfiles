@@ -1,0 +1,10 @@
+complete -c mongul -s n -l name -xa '(mongul -L)' -d 'instance name'
+complete -c mongul -s i -l image -x -d 'docker image'
+complete -c mongul -s u -l user -x -d 'root username'
+complete -c mongul -s p -l password -x -d 'root password'
+complete -c mongul -s d -l db -x -d 'initial db name'
+complete -c mongul -s l -l port -x -d 'tcp port'
+
+complete -c mongul -s L -l list -f -d 'list instances'
+complete -c mongul -s D -l delete -f -d 'delete instance'
+complete -c mongul -s R -l reset -f -d 'reset instance'
