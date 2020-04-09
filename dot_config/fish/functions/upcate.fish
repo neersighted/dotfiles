@@ -3,7 +3,7 @@ function upcate -a target path -d 'locate a target upwards in the directory tree
     set path $PWD
   end
 
-  while test $path != /
+  while test "$path" != /
     if test -e $path/$target
       echo $path/$target
       return
