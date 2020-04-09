@@ -19,7 +19,7 @@ case $(uname) in
     WRAPPER="sh"
     INSTALL="yay -Sy --noconfirm"
     INSTALLED=$(pacman -Qq)
-    UPGRADE="yay -Syu --noconfirm"
+    UPDATE="yay -Syu --noconfirm"
     PROVIDES="yay -Fy"
 
     if uname -r | grep -Fq Microsoft; then
@@ -34,7 +34,7 @@ case $(uname) in
     WRAPPER="su root"
     INSTALL="synth install"
     INSTALLED=$(pkg query '%n')
-    UPGRADE="synth upgrade-system"
+    UPDATE="synth upgrade-system"
     PROVIDES="pkg provides -u"
     ;;
   Darwin)
@@ -45,7 +45,7 @@ case $(uname) in
     WRAPPER="sh"
     INSTALL="brew install"
     INSTALLED=$(brew ls -1)
-    UPGRADE="brew update; brew upgrade"
+    UPDATE="brew update; brew upgrade"
     ;;
   *)
     error "Unsupported operating system."
@@ -96,8 +96,8 @@ if [ -n "$PKGS" ]; then
   $WRAPPER -c "$INSTALL $PKGS"
 fi
 
-important "Upgrading system packages with ${UPGRADE%% *}..."
-$WRAPPER -c "$UPGRADE"
+important "Updating system packages with ${UPDATE%% *}..."
+$WRAPPER -c "$UPDATE"
 
 case $(uname) in
   FreeBSD)
@@ -115,7 +115,7 @@ case $(uname) in
 esac
 
 if [ -n "$PROVIDES" ]; then
-  info "Updating provides/file database..."
+  important "Updating provides database..."
   $WRAPPER -c "$PROVIDES"
 fi
 
