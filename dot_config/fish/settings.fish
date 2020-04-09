@@ -39,6 +39,7 @@ setting NODENV_ROOT $XDG_DATA_HOME/nodenv
 setting NODE_REPL_HISTORY $XDG_DATA_HOME/node/repl_history
 setting NPM_CONFIG_USERCONFIG $XDG_CONFIG_HOME/npm/npmrc
 setting NPM_CONFIG_CACHE $XDG_CACHE_HOME/npm
+setting NPM_CONFIG_STORE_DIR $XDG_CACHE_HOME/pnpm
 
 # python
 setting PYENV_ROOT $XDG_DATA_HOME/pyenv
