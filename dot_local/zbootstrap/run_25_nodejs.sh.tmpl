@@ -29,10 +29,13 @@ fi
 
 important "Updating Node.js packages..."
 for node in $(nodenv versions --bare); do
-  for target in $(NODENV_VERSION=$node npm -g outdated --parseable --depth=0 | cut -d: -f3 | cut -d@ -f1); do
-    info "Updating $target ($node)..."
-    NODENV_VERSION=$node npm update -g "$target"
+  OLDIFS=$IFS
+  IFS="$(printf '%b_' '\t\n')"; IFS="${IFS%_}"
+  for spec in $(NODENV_VERSION=$node npm -g outdated --json | jq -r 'to_entries[] | "\(.key) from \(.value.current) to \(.value.wanted)"'); do
+    info "Updating $spec (Node.js $node)..."
+    NODENV_VERSION=$node npm update -g "${spec%% *}"
   done
+  IFS=$OLDIFS
 done
 
 # vi: ft=sh

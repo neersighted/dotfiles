@@ -27,10 +27,13 @@ fi
 
 important "Updating Python packages..."
 for python in $(pyenv versions --bare --skip-aliases); do
-  for target in $(PYENV_VERSION=$python pip list --outdated --format=freeze | awk -F== '{print $1}'); do
-    info "Updating $target ($python)..."
-    PYENV_VERSION=$python python -m pip install -U "$target"
+  OLDIFS=$IFS
+  IFS="$(printf '%b_' '\t\n')"; IFS="${IFS%_}"
+  for spec in $(PYENV_VERSION=$python pip list --outdated --format=json | jq -r '.[] | "\(.name) from \(.version) to \(.latest_version)"'); do
+    info "Updating $spec (Python $python)..."
+    PYENV_VERSION=$python python -m pip install -U "${spec%% *}"
   done
+  IFS=$OLDIFS
 done
 pipx upgrade-all
 
