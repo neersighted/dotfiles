@@ -186,7 +186,7 @@ git_sync() { # url, target
   url=$1
   target=$2
 
-  if printf '%s' "$url" | grep -Fq 'github.com'; then
+  if [ -d "$target/.git" ] && printf '%s' "$url" | grep -Fq 'github.com'; then
     repo=$(printf '%s' "$url" | sed -e 's#https://github.com/##' -e 's#.git$##')
     branch=$(git -C "$target" rev-parse --abbrev-ref HEAD)
     commit=$(git -C "$target" rev-parse "$branch")
