@@ -105,6 +105,8 @@ nnoremap <leader>Q :call maps#qftoggle(0)<cr>
 
 " :terminal escape.
 tnoremap <esc> <c-\><c-n>
+" :terminal <esc>.
+tnoremap <a-[> <esc>
 
 "
 " Visual/Selection
