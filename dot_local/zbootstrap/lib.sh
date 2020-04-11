@@ -13,6 +13,7 @@ fi
 if [ -z "$XDG_CACHE_HOME" ]; then
   export XDG_CACHE_HOME="$HOME/.cache"
 fi
+export PATH="$HOME/.local/bin:$PATH"
 
 # c
 if [ -z "$CC" ]; then
