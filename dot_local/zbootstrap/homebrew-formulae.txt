@@ -20,7 +20,6 @@ fd
 fish
 fzf
 gdb
-python-gdbgui
 git
 git-lfs
 gnupg

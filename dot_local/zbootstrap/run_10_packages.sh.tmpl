@@ -24,6 +24,7 @@ case $(uname) in
     PKGS="freebsd-ports.txt"
     WRAPPER_CMD="su root"
     INSTALL_CMD="synth install"
+    INSTALL_FILTER="cut -d@ -f1"
     INSTALLED_CMD=$(pkg query '%o')
     UPDATE_CMD="synth upgrade-system"
     PROVIDES_CMD="pkg provides -u"
@@ -32,6 +33,7 @@ case $(uname) in
     PKGS="homebrew-formulae.txt"
     WRAPPER_CMD="sh"
     INSTALL_CMD="brew install"
+    INSTALL_FILTER="sed 's#.*/##'"
     INSTALLED_CMD=$(brew ls -1)
     UPDATE_CMD="brew update; brew upgrade"
     ;;
@@ -44,7 +46,10 @@ while IFS= read -r pkg; do
   if printf '%s\n' "$pkg" | grep -Eq '^#|^$'; then
     continue
   fi
-  if ! printf '%s' "$INSTALLED_CMD" | grep -Fxq "$(printf '%s' "$pkg" | cut -d@ -f1)"; then
+  if [ -n "$INSTALL_FILTER" ]; then
+    pkg=$(printf '%s' "$pkg" | eval "$INSTALL_FILTER")
+  fi
+  if ! printf '%s' "$INSTALLED_CMD" | grep -Fxq "$(printf '%s' "$pkg")"; then
     INSTALL="$INSTALL$pkg "
   fi
 done <"{{ .chezmoi.sourceDir }}/dot_local/zbootstrap/$PKGS"

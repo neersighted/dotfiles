@@ -49,6 +49,7 @@ mycli
 neovim
 perl-file-mimeinfo
 pgcli
+python-gdbgui
 ripgrep
 sd
 shellcheck
