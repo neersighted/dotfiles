@@ -20,6 +20,7 @@ fd
 fish
 fzf
 gdb
+gh
 git
 git-lfs
 gnupg

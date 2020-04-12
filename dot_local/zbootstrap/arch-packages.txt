@@ -35,6 +35,7 @@ fzf
 gdb
 git
 git-lfs
+github-cli-bin
 hexyl
 highlight
 htop
