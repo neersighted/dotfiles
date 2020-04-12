@@ -56,13 +56,14 @@ done
 pipx upgrade-all
 poetry self update || true # FIXME: hack til upstream fixes $POETRY_HOME support
 
+pipx_install "argcomplete"
 pipx_install "black"
+pipx_install "dephell" "dephell[full]"
 pipx_install "flake8"
 pipx_install "mypy"
 pipx_install "pip-run"
 pipx_install "pip-tools"
 pipx_install "pylint"
-pipx_install "dephell" "dephell[full]"
 pipx_install "python-language-server" "python-language-server[all]"
 pipx_install "twine"
 
