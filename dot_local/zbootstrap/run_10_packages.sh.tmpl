@@ -79,7 +79,7 @@ case $(uname) in
     for pkg in $PKGS; do
       port=$(pkg rquery '%o' "$pkg" | head -n1)
       if flavor=$(pkg rquery '%At:%Av' "$pkg" | grep -F 'flavor:'); then
-        flavor=$(printf '%s' "$flavor" | cut -d: -f2)
+        flavor=$(printf '%s' "$flavor" | cut -d: -f2 | head -n1)
         port="$port@$flavor"
       fi
 
