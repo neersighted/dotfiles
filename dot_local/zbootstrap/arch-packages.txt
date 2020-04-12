@@ -50,7 +50,6 @@ mycli
 neovim
 perl-file-mimeinfo
 pgcli
-python-gdbgui
 ripgrep
 sd
 shellcheck
@@ -64,3 +63,6 @@ unzip
 watchexec
 whois
 xdg-utils
+
+# Needs Update
+# python-gdbgui
