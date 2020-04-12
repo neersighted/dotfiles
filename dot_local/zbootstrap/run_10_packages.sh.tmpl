@@ -43,7 +43,7 @@ case $(uname) in
 esac
 
 while IFS= read -r pkg; do
-  if printf '%s\n' "$pkg" | grep -Eq '^#|^$'; then
+  if [ -z "$pkg" ] || printf '%s' "$pkg" | grep -Eq '^#'; then
     continue
   fi
   if [ -n "$INSTALL_FILTER" ]; then
