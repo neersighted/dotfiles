@@ -13,7 +13,10 @@ git_sync https://github.com/pyenv/pyenv-virtualenv "$PYENV_ROOT/plugins/pyenv-vi
 
 if ! $MAKE -C "$PYENV_ROOT/src" -q; then
   info "Building pyenv native extensions..."
-  sh -c "cd '$PYENV_ROOT'; ./src/configure"
+  (
+    cd "$PYENV_ROOT"
+    ./src/configure
+  )
   $MAKE -C "$PYENV_ROOT/src"
 fi
 
@@ -46,7 +49,8 @@ fi
 important "Updating Python packages..."
 for python in $(pyenv versions --bare --skip-aliases); do
   OLDIFS=$IFS
-  IFS="$(printf '%b_' '\t\n')"; IFS="${IFS%_}"
+  IFS="$(printf '%b_' '\t\n')"
+  IFS="${IFS%_}"
   for spec in $(PYENV_VERSION=$python pip list --outdated --format=json | jq -r '.[] | "\(.name) from \(.version) to \(.latest_version)"'); do
     info "Updating $spec (Python $python)..."
     PYENV_VERSION=$python python -m pip install -U "${spec%% *}"

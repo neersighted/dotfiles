@@ -14,7 +14,10 @@ git_sync https://github.com/rbenv/rbenv-default-gems "$RBENV_ROOT/plugins/rbenv-
 
 if ! $MAKE -C "$RBENV_ROOT/src" -q; then
   info "Building rbenv native extensions..."
-  sh -c "cd '$RBENV_ROOT'; ./src/configure"
+  (
+    cd "$RBENV_ROOT"
+    ./src/configure
+  )
   $MAKE -C "$RBENV_ROOT/src"
 fi
 
@@ -35,7 +38,8 @@ for ruby in $(rbenv versions --bare); do
   fi
 
   OLDIFS=$IFS
-  IFS="$(printf '%b_' '\t\n')"; IFS="${IFS%_}"
+  IFS="$(printf '%b_' '\t\n')"
+  IFS="${IFS%_}"
   for spec in $(RUBY_VERSION=$ruby gem outdated | sed -E 's/(.+) \((.+) < (.+)\)/\1 from \2 to \3/'); do
     info "Updating $spec (Ruby $ruby)..."
     RUBY_VERSION=$ruby gem update "${spec%% *}"

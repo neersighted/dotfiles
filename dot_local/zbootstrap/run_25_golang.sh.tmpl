@@ -12,7 +12,10 @@ git_sync https://github.com/syndbg/goenv "$GOENV_ROOT"
 
 if ! $MAKE -C "$GOENV_ROOT/src" -q; then
   info "Building goenv native extensions..."
-  sh -c "cd '$GOENV_ROOT'; ./src/configure"
+  (
+    cd "$GOENV_ROOT"
+    ./src/configure
+  )
   $MAKE -C "$GOENV_ROOT/src"
 fi
 

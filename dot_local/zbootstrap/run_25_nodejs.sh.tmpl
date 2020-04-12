@@ -15,7 +15,10 @@ git_sync https://github.com/nodenv/nodenv-default-packages "$NODENV_ROOT/plugins
 
 if ! $MAKE -C "$NODENV_ROOT/src" -q; then
   info "Building nodenv native extensions..."
-  sh -c "cd '$NODENV_ROOT'; ./src/configure"
+  (
+    cd "$NODENV_ROOT"
+    ./src/configure
+  )
   $MAKE -C "$NODENV_ROOT/src"
 fi
 
@@ -29,7 +32,8 @@ fi
 important "Updating Node.js packages..."
 for node in $(nodenv versions --bare); do
   OLDIFS=$IFS
-  IFS="$(printf '%b_' '\t\n')"; IFS="${IFS%_}"
+  IFS="$(printf '%b_' '\t\n')"
+  IFS="${IFS%_}"
   for spec in $(NODENV_VERSION=$node npm -g outdated --json | jq -r 'to_entries[] | "\(.key) from \(.value.current) to \(.value.wanted)"'); do
     info "Updating $spec (Node.js $node)..."
     NODENV_VERSION=$node npm update -g "${spec%% *}"
