@@ -5,15 +5,15 @@ set -e
 # shellcheck source=lib.sh
 . "{{ .chezmoi.sourceDir }}/dot_local/zbootstrap/lib.sh"
 
-section "nvim"
+section "Neovim"
 
 if [ -d "$XDG_CONFIG_HOME/nvim/pack" ]; then
-  important "Syncing nvim plugins..."
+  important "Syncing neovim plugins..."
   nvim --headless -c "silent PackSync!" >/dev/null 2>&1
 fi
 
 if ! pyenv versions --bare | grep -Fxq "neovim"; then
-  important "Creating nvim virtual environment..."
+  important "Creating neovim virtual environment..."
   pyenv virtualenv neovim
   PYENV_VERSION=neovim python -m pip install -U pip setuptools
   PYENV_VERSION=neovim python -m pip install pynvim

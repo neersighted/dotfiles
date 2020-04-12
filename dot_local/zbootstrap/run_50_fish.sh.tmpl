@@ -30,7 +30,7 @@ setshell() { # shell
   esac
 }
 
-section "Shell"
+section "fish"
 
 fish=$(command -v fish)
 if [ "$(getshell)" != "$fish" ]; then
@@ -48,16 +48,5 @@ if [ -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
   important "Syncing fish plugins..."
   fish -c "fisher self-update; and fisher"
 fi
-
-important "Refreshing tldr pages..."
-tldr --update
-
-# Shell Editing
-go_get "mvdan.cc/sh/v3/cmd/shfmt"
-
-# Pipeline Tools
-cargo_install "runiq"
-pipx_install "shell-functools"
-go_get "mvdan.cc/xurls/v2/cmd/xurls"
 
 # vi: ft=sh

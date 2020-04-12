@@ -25,6 +25,24 @@ if ! pyenv versions --bare | grep -Fxq "$PYTHON_VERSION"; then
   pyenv global "$PYTHON_VERSION"
 fi
 
+if [ ! -d "$PIPX_HOME/venvs/pipx" ]; then
+  important "Installing pipx..."
+  pip install pipx-in-pipx
+else
+  glob_python=$(realpath "$(pyenv which python)")
+  pipx_python=$(realpath "$PIPX_HOME/venvs/pipx/bin/python")
+  if [ "$pipx_python" != "$glob_python" ]; then
+    important "Reinstalling pipx with Python $PYTHON_VERSION..."
+    pipx uninstall pipx
+    pip install pipx-in-pipx
+  fi
+fi
+
+if [ ! -x "$POETRY_HOME/bin/poetry" ]; then
+  important "Installing Poetry..."
+  curl -sS https://raw.githubusercontent.com/neersighted/poetry/get-poetry-PATH/get-poetry.py | python
+fi
+
 important "Updating Python packages..."
 for python in $(pyenv versions --bare --skip-aliases); do
   OLDIFS=$IFS
@@ -36,13 +54,13 @@ for python in $(pyenv versions --bare --skip-aliases); do
   IFS=$OLDIFS
 done
 pipx upgrade-all
+poetry self update || true # FIXME: hack til upstream fixes $POETRY_HOME support
 
 pipx_install "black"
 pipx_install "flake8"
 pipx_install "mypy"
 pipx_install "pip-run"
 pipx_install "pip-tools"
-pipx_install "poetry"
 pipx_install "pylint"
 pipx_install "dephell" "dephell[full]"
 pipx_install "python-language-server" "python-language-server[all]"

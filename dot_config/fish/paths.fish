@@ -15,7 +15,7 @@ path_prepend PATH $NODENV_ROOT/{shims,bin}
 set -q NODENV_VERSION; or read -l NODENV_VERSION < $NODENV_ROOT/version
 path_prepend MANPATH $NODENV_ROOT/versions/$NODENV_VERSION/share/man
 # python
-path_prepend PATH $PIPX_BIN_DIR $PYENV_ROOT/{shims,bin}
+path_prepend PATH $PIPX_BIN_DIR $POETRY_HOME/bin $PYENV_ROOT/{shims,bin}
 set -q PYENV_VERSION; or read -l PYENV_VERSION < $PYENV_ROOT/version
 path_prepend MANPATH $PYENV_ROOT/versions/$PYENV_VERSION/share/man
 # ruby

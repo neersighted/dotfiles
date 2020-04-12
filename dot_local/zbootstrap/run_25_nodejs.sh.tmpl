@@ -23,7 +23,6 @@ NODEJS_VERSION=$(nodenv install -l | selectversion)
 if ! nodenv versions --bare | grep -Fxq "$NODEJS_VERSION"; then
   important "Installing Node.js $NODEJS_VERSION..."
   NODENV_VERSION=system nodenv install -s "$NODEJS_VERSION"
-  important "Activating Node.js $NODEJS_VERSION..."
   nodenv global "$NODEJS_VERSION"
 fi
 

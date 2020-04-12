@@ -20,7 +20,6 @@ GOLANG_VERSION=$(goenv install -l | selectversion)
 if ! goenv versions --bare | grep -Fxq "$GOLANG_VERSION"; then
   important "Installing Golang $GOLANG_VERSION..."
   goenv install -s "$GOLANG_VERSION"
-  important "Activating Golang $GOLANG_VERSION..."
   goenv global "$GOLANG_VERSION"
 fi
 

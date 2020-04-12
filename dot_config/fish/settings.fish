@@ -45,6 +45,7 @@ setting NPM_CONFIG_STORE_DIR $XDG_CACHE_HOME/pnpm
 setting PYENV_ROOT $XDG_DATA_HOME/pyenv
 setting PIPX_HOME $XDG_DATA_HOME/pipx
 setting PIPX_BIN_DIR $XDG_DATA_HOME/pipx/bin
+setting POETRY_HOME $XDG_DATA_HOME/poetry
 setting PYLINTHOME $XDG_CACHE_HOME/pylint
 
 # ruby

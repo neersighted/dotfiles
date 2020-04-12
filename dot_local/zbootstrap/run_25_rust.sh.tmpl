@@ -9,7 +9,7 @@ section "Rust"
 
 if ! command -v rustup >/dev/null; then
   important "Installing new Rust toolchain..."
-  curl https://sh.rustup.rs | sh -s -- -y --no-modify-path -c rust-src rust-analysis rls miri llvm-tools-preview
+  curl -sS https://sh.rustup.rs | sh -s -- -y --no-modify-path -c rust-src rust-analysis rls miri llvm-tools-preview
 else
   important "Updating Rust toolchain..."
   rustup update

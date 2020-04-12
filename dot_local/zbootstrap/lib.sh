@@ -68,13 +68,16 @@ fi
 if [ -z "$PIPX_BIN_DIR" ]; then
   export PIPX_BIN_DIR="$XDG_DATA_HOME/pipx/bin"
 fi
+if [ -z "$POETRY_HOME" ]; then
+  export POETRY_HOME="$XDG_DATA_HOME/poetry"
+fi
 if [ -z "$PYENV_ROOT" ]; then
   export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
 fi
 if [ -n "$PYENV_VERSION" ]; then
   export PYENV_VERSION=
 fi
-export PATH="$PIPX_BIN_DIR:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+export PATH="$PIPX_BIN_DIR:$POETRY_HOME/bin:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
 
 # ruby
 if [ -z "$GEM_SPEC_CACHE" ]; then
@@ -142,7 +145,7 @@ github_api() {
     warn "GITHUB_TOKEN not set, future API requests may be rate-limited!"
   fi
 
-  curl -s ${auth_header:+-H "$auth_header"} "$@" "https://api.github.com/$url"
+  curl -sS ${auth_header:+-H "$auth_header"} "$@" "https://api.github.com/$url"
 }
 
 # shellcheck disable=SC2120
@@ -170,18 +173,6 @@ selectversion() { # major, minor, patch
 }
 
 ###
-
-cargo_install() { # target, git
-  if [ -z "$CARGO_INSTALLED" ]; then
-    CARGO_INSTALLED=$(cargo install --list)
-    export CARGO_INSTALLED
-  fi
-
-  if ! printf '%s' "$CARGO_INSTALLED" | grep -Eq "^$1"; then
-    info "Installing $1 using cargo..."
-    cargo install "$1" ${2:+--git "$2"}
-  fi
-}
 
 git_sync() { # url, target
   url=$1
@@ -260,8 +251,22 @@ github_sync() { # repo, file, target, executable
   fi
 }
 
+###
+
+cargo_install() { # target, git
+  if [ -z "$CARGO_INSTALLED" ]; then
+    CARGO_INSTALLED=$(cargo install --list)
+    export CARGO_INSTALLED
+  fi
+
+  if ! printf '%s' "$CARGO_INSTALLED" | grep -Eq "^$1"; then
+    info "Installing $1 with cargo..."
+    cargo install "$1" ${2:+--git "$2"}
+  fi
+}
+
 go_get() { # target
-  info "Fetching $(basename "$1") using go get..."
+  info "Fetching $(basename "$1") with go get..."
   go get "$1"
 }
 
@@ -272,7 +277,7 @@ pipx_install() { # target, spec, pip args
   fi
 
   if ! printf '%s' "$PIPX_INSTALLED" | grep -Fq "$1"; then
-    info "Installing $1 using pipx..."
+    info "Installing $1 with pipx..."
     pipx install "${2:-$1}" ${3:+--pip-args="$3"}
   fi
 }
