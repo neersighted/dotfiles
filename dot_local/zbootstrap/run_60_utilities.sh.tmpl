@@ -7,6 +7,9 @@ set -e
 
 section "Utilities"
 
+# GDB Dashboard
+git_sync https://github.com/cyrus-and/gdb-dashboard "$XDG_DATA_HOME/gdb-dashboard"
+
 # ngrok
 if ! command -v ngrok >/dev/null; then
   goversion=$(go version | awk '{print $4}')
