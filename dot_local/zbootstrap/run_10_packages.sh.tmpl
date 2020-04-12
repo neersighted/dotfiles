@@ -7,60 +7,55 @@ set -e
 
 section "System Packages"
 
-# pass through language managers
-export GOENV_VERSION=system NODENV_VERSION=system PYENV_VERSION=system RBENV_VERSION=system
-
 case $(uname) in
   Linux)
-    BLD="autoconf automake bison ccache clang cmake gcc make pkgconf"
-    LIB="bzip2 gdbm libffi libyaml ncurses openssl readline sqlite xz zlib"
-    USR="asciinema bat chezmoi ctags direnv diskus exa fd fish fzf gdb git git-lfs hexyl highlight htop httpie hyperfine icdiff jq lftp lsof mosh mycli neovim perl-file-mimeinfo pgcli ripgrep sd shellcheck socat tealdeer thefuck tig tmux tokei unzip watchexec whois xdg-utils" # missing: gdbgui
-
-    WRAPPER="sh"
-    INSTALL="yay -Sy --noconfirm"
-    INSTALLED=$(pacman -Qq)
-    UPDATE="yay -Syu --noconfirm"
-    PROVIDES="yay -Fy"
+    PKGS="arch-packages.txt"
+    WRAPPER_CMD="sh"
+    INSTALL_CMD="yay -Sy --noconfirm"
+    INSTALLED_CMD=$(pacman -Qq)
+    UPDATE_CMD="yay -Syu --noconfirm"
+    PROVIDES_CMD="yay -Fy"
 
     if uname -r | grep -Fq Microsoft; then
       USR="$USR wslu"
     fi
     ;;
   FreeBSD)
-    BLD="devel/autoconf devel/automake devel/bison devel/ccache devel/cmake lang/gcc devel/gmake textproc/groff devel/pkgconf"
-    LIB="databases/gdbm devel/libffi textproc/libyaml devel/ncurses security/openssl devel/readline databases/sqlite3"
-    USR="shells/bash textproc/bat sysutils/coreutils ftp/curl sysutils/direnv sysutils/exa sysutils/fd shells/fish textproc/fzf devel/gdb@py38 devel/gdbgui@py38 devel/git devel/git-lfs misc/gnu-watch security/gnupg sysutils/hexyl textproc/highlight devel/hs-ShellCheck sysutils/htop benchmarks/hyperfine textproc/icdiff@py38 textproc/jq ftp/lftp net/mosh editors/neovim devel/p5-File-MimeInfo security/pinentry-curses ports-mgmt/pkg-provides textproc/py-asciinema@py38 www/py-httpie@py38 databases/py-mycli@py38 databases/py-pgcli@py38 textproc/ripgrep textproc/sd net/socat sysutils/tealdeer misc/thefuck devel/tig sysutils/tmux devel/tokei sysutils/ts devel/universal-ctags archivers/unzip net/whois devel/xdg-utils" # missing: chezmoi, diskus, watchexec
-
-    WRAPPER="su root"
-    INSTALL="synth install"
-    INSTALLED=$(pkg query '%o')
-    UPDATE="synth upgrade-system"
-    PROVIDES="pkg provides -u"
+    PKGS="freebsd-ports.txt"
+    WRAPPER_CMD="su root"
+    INSTALL_CMD="synth install"
+    INSTALLED_CMD=$(pkg query '%o')
+    UPDATE_CMD="synth upgrade-system"
+    PROVIDES_CMD="pkg provides -u"
     ;;
   Darwin)
-    BLD="ccache cmake"
-    LIB="openssl@1.1 readline xz"
-    USR="asciinema bat twpayne/taps/chezmoi coreutils ctags direnv diskus exa fd fish fzf gdb python-gdbgui git git-lfs gnupg hexyl highlight htop httpie hyperfine icdiff jq lesspipe lftp mas mosh mycli neovim pgcli pinentry-mac rename ripgrep sd shellcheck socat tealdeer terminal-notifier thefuck tmux tokei trash watchexec"
-
-    WRAPPER="sh"
-    INSTALL="brew install"
-    INSTALLED=$(brew ls -1)
-    UPDATE="brew update; brew upgrade"
+    PKGS="homebrew-formulae.txt"
+    WRAPPER_CMD="sh"
+    INSTALL_CMD="brew install"
+    INSTALLED_CMD=$(brew ls -1)
+    UPDATE_CMD="brew update; brew upgrade"
     ;;
   *)
     error "Unsupported operating system."
     ;;
 esac
-for pkg in $BLD $LIB $USR; do
-  if ! printf '%s' "$INSTALLED" | grep -Fxq "$(printf '%s' "$pkg" | cut -d@ -f1)"; then
-    PKGS="${PKGS:+$PKGS }$pkg"
+
+while IFS= read -r pkg; do
+  if printf '%s\n' "$pkg" | grep -Eq '^#|^$'; then
+    continue
   fi
-done
+  if ! printf '%s' "$INSTALLED_CMD" | grep -Fxq "$(printf '%s' "$pkg" | cut -d@ -f1)"; then
+    INSTALL="$INSTALL$pkg "
+  fi
+done <"{{ .chezmoi.sourceDir }}/dot_local/zbootstrap/$PKGS"
 
 case $(uname) in
   Linux)
+    # bootstrap yay
     if ! command -v yay >/dev/null; then
       (
+        important "Bootstrapping yay..."
+
         YAY="${TMPDIR:-/tmp}/yay"
         trap 'rm -rf $YAY' EXIT
 
@@ -69,28 +64,31 @@ case $(uname) in
         makepkg -si --noconfirm
       )
     fi
+
+    # pass through language managers
+    export GOENV_VERSION=system NODENV_VERSION=system PYENV_VERSION=system RBENV_VERSION=system
     ;;
   FreeBSD)
     important "Fetching latest ports and packages..."
-    $WRAPPER -c "portsnap auto; pkg update"
+    $WRAPPER_CMD -c "portsnap auto; pkg update"
     ;;
 esac
 
-if [ -n "$PKGS" ]; then
-  important "Installing system packages with ${INSTALL%% *}..."
+if [ -n "$INSTALL" ]; then
+  important "Installing system packages with ${INSTALL_CMD%% *}..."
 
-  info "$INSTALL $PKGS"
-  $WRAPPER -c "$INSTALL $PKGS"
+  info "$INSTALL_CMD $INSTALL"
+  $WRAPPER_CMD -c "$INSTALL_CMD $INSTALL"
 fi
 
-important "Updating system packages with ${UPDATE%% *}..."
-$WRAPPER -c "$UPDATE"
+important "Updating system packages with ${UPDATE_CMD%% *}..."
+$WRAPPER_CMD -c "$UPDATE_CMD"
 
 case $(uname) in
   FreeBSD)
     if grep -Eq '^#PKG_ENABLE_PLUGINS' /usr/local/etc/pkg.conf; then
       important "Enabling pkg-provides..."
-      $WRAPPER -c 'sed -e "/PKG_PLUGINS_DIR/s/^#//" -e "/PKG_ENABLE_PLUGINS/s/^#//" -e "s/#PLUGINS \[/PLUGINS [ provides ]/" -i "" /usr/local/etc/pkg.conf'
+      $WRAPPER_CMD -c 'sed -e "/PKG_PLUGINS_DIR/s/^#//" -e "/PKG_ENABLE_PLUGINS/s/^#//" -e "s/#PLUGINS \[/PLUGINS [ provides ]/" -i "" /usr/local/etc/pkg.conf'
     fi
     ;;
   Darwin)
@@ -101,9 +99,9 @@ case $(uname) in
     ;;
 esac
 
-if [ -n "$PROVIDES" ]; then
+if [ -n "$PROVIDES_CMD" ]; then
   important "Updating provides database..."
-  $WRAPPER -c "$PROVIDES"
+  $WRAPPER_CMD -c "$PROVIDES_CMD"
 fi
 
 # vi: ft=sh

@@ -1,0 +1,56 @@
+# Development Tools
+ccache
+cmake
+
+# Libraries
+openssl@1.1
+readline
+xz
+
+# User Programs
+asciinema
+bat
+twpayne/taps/chezmoi
+coreutils
+ctags
+direnv
+diskus
+exa
+fd
+fish
+fzf
+gdb
+python-gdbgui
+git
+git-lfs
+gnupg
+hexyl
+highlight
+htop
+httpie
+hyperfine
+icdiff
+jq
+lesspipe
+lftp
+mas
+mosh
+mycli
+neovim
+pgcli
+pinentry-mac
+rename
+ripgrep
+sd
+shellcheck
+socat
+tealdeer
+terminal-notifier
+thefuck
+tmux
+tokei
+trash
+watchexec
+
+# Missing
+# gdbgui
