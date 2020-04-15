@@ -67,18 +67,13 @@ case $(uname) in
 
     # pass through language managers
     export GOENV_VERSION=system NODENV_VERSION=system PYENV_VERSION=system RBENV_VERSION=system
-
-    # install wslu if needed
-    if uname -r | grep -Fq Microsoft; then
-      INSTALL="$INSTALL wslu"
-    fi
     ;;
   FreeBSD)
     important "Fetching latest base..."
-    svnlite up /usr/src
+    svnlite up "/usr/src"
 
     important "Fetching latest ports..."
-    svnlite up /usr/ports
+    svnlite up "/usr/ports"
 
     if ! grep -Eq '^CONSERVATIVE_UPGRADE' /usr/local/etc/pkg.conf; then
       important "Configuring pkg to prefer Synth repo..."
