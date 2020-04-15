@@ -5,24 +5,18 @@ set -e
 # shellcheck source=lib.sh
 . "{{ .chezmoi.sourceDir }}/dot_local/zbootstrap/lib.sh"
 
-section "System Packages"
-
 case $(uname) in
   Linux)
     PKGS="arch-packages.txt"
-    WRAPPER_CMD="sh"
     INSTALL_CMD="yay -Sy --noconfirm"
     INSTALLED_CMD=$(pacman -Qq)
     UPDATE_CMD="yay -Syu --noconfirm"
     PROVIDES_CMD="yay -Fy"
-
-    if uname -r | grep -Fq Microsoft; then
-      USR="$USR wslu"
-    fi
     ;;
   FreeBSD)
+    [ "$(id -u)" -eq 0 ] || exec su root -c "sh $0"
+
     PKGS="freebsd-ports.txt"
-    WRAPPER_CMD="su root"
     INSTALL_CMD="synth install"
     INSTALL_FILTER="cut -d@ -f1"
     INSTALLED_CMD=$(pkg query '%o')
@@ -31,7 +25,6 @@ case $(uname) in
     ;;
   Darwin)
     PKGS="homebrew-formulae.txt"
-    WRAPPER_CMD="sh"
     INSTALL_CMD="brew install"
     INSTALL_FILTER="sed 's#.*/##'"
     INSTALLED_CMD=$(brew ls -1)
@@ -41,6 +34,8 @@ case $(uname) in
     error "Unsupported operating system."
     ;;
 esac
+
+section "System Packages"
 
 while IFS= read -r pkg; do
   if [ -z "$pkg" ] || printf '%s' "$pkg" | grep -Eq '^#'; then
@@ -72,10 +67,23 @@ case $(uname) in
 
     # pass through language managers
     export GOENV_VERSION=system NODENV_VERSION=system PYENV_VERSION=system RBENV_VERSION=system
+
+    # install wslu if needed
+    if uname -r | grep -Fq Microsoft; then
+      INSTALL="$INSTALL wslu"
+    fi
     ;;
   FreeBSD)
-    important "Fetching latest ports and packages..."
-    $WRAPPER_CMD -c "portsnap auto; pkg update"
+    important "Fetching latest base..."
+    svnlite up /usr/src
+
+    important "Fetching latest ports..."
+    svnlite up /usr/ports
+
+    if ! grep -Eq '^CONSERVATIVE_UPGRADE' /usr/local/etc/pkg.conf; then
+      important "Configuring pkg to prefer Synth repo..."
+      printf '\n%s' 'CONSERVATIVE_UPGRADE: false;' >> /usr/local/etc/pkg.conf
+    fi
     ;;
 esac
 
@@ -83,17 +91,17 @@ if [ -n "$INSTALL" ]; then
   important "Installing system packages with ${INSTALL_CMD%% *}..."
 
   info "$INSTALL_CMD $INSTALL"
-  $WRAPPER_CMD -c "$INSTALL_CMD $INSTALL"
+  $INSTALL_CMD "$INSTALL"
 fi
 
 important "Updating system packages with ${UPDATE_CMD%% *}..."
-$WRAPPER_CMD -c "$UPDATE_CMD"
+$UPDATE_CMD
 
 case $(uname) in
   FreeBSD)
-    if grep -Eq '^#PKG_ENABLE_PLUGINS' /usr/local/etc/pkg.conf; then
+    if ! grep -Eq '^PKG_ENABLE_PLUGINS' /usr/local/etc/pkg.conf; then
       important "Enabling pkg-provides..."
-      $WRAPPER_CMD -c 'sed -e "/PKG_PLUGINS_DIR/s/^#//" -e "/PKG_ENABLE_PLUGINS/s/^#//" -e "s/#PLUGINS \[/PLUGINS [ provides ]/" -i "" /usr/local/etc/pkg.conf'
+      sed -e '/PKG_PLUGINS_DIR/s/^#//' -e '/PKG_ENABLE_PLUGINS/s/^#//' -e 's/#PLUGINS \[/PLUGINS [ provides ]/' -i '' /usr/local/etc/pkg.conf
     fi
     ;;
   Darwin)
@@ -106,7 +114,7 @@ esac
 
 if [ -n "$PROVIDES_CMD" ]; then
   important "Updating provides database..."
-  $WRAPPER_CMD -c "$PROVIDES_CMD"
+  $PROVIDES_CMD
 fi
 
 # vi: ft=sh
