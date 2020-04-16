@@ -1,3 +1,6 @@
 README.md
 LICENSE
 tags
+
+.local/zbootstrap/lib.sh
+.local/zbootstrap/*.txt

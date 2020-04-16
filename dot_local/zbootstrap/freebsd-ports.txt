@@ -15,7 +15,7 @@ databases/sqlite3
 devel/libffi
 devel/ncurses
 devel/readline
-security/openssl
+security/libressl
 textproc/libyaml
 
 # User Programs
@@ -31,7 +31,6 @@ devel/p5-File-MimeInfo
 devel/tig
 devel/tokei
 devel/universal-ctags
-devel/xdg-utils
 editors/neovim
 ftp/curl
 ftp/lftp
@@ -40,7 +39,12 @@ misc/thefuck
 net/mosh
 net/socat
 net/whois
+ports-mgmt/pkg
 ports-mgmt/pkg-provides
+ports-mgmt/portfind
+ports-mgmt/portgrep
+ports-mgmt/portlint
+ports-mgmt/poudriere
 security/gnupg
 security/pinentry-curses
 shells/bash
@@ -72,3 +76,6 @@ www/py-httpie@py38
 # diskus
 # gh
 # watchexec
+
+# Other
+# ripgrep (asciidoctor)

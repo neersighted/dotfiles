@@ -5,7 +5,9 @@ set -e
 # shellcheck source=lib.sh
 . "{{ .chezmoi.sourceDir }}/dot_local/zbootstrap/lib.sh"
 
-case $(uname) in
+UNAME="$(uname)"
+
+case "$UNAME" in
   Linux)
     PKGS="arch-packages.txt"
     INSTALL_CMD="yay -Sy --noconfirm"
@@ -17,17 +19,15 @@ case $(uname) in
     [ "$(id -u)" -eq 0 ] || exec su root -c "sh $0"
 
     PKGS="freebsd-ports.txt"
-    INSTALL_CMD="synth install"
-    INSTALL_FILTER="cut -d@ -f1"
+    INSTALL_CMD="pkg install"
     INSTALLED_CMD=$(pkg query '%o')
-    UPDATE_CMD="synth upgrade-system"
+    UPDATE_CMD="pkg upgrade"
     PROVIDES_CMD="pkg provides -u"
     ;;
   Darwin)
     PKGS="homebrew-formulae.txt"
     INSTALL_CMD="brew install"
-    INSTALL_FILTER="sed 's#.*/##'"
-    INSTALLED_CMD=$(brew ls -1)
+    INSTALLED_CMD=$(brew ls --full-name -1)
     UPDATE_CMD="brew update; brew upgrade"
     ;;
   *)
@@ -37,19 +37,28 @@ esac
 
 section "System Packages"
 
-while IFS= read -r pkg; do
-  if [ -z "$pkg" ] || printf '%s' "$pkg" | grep -Eq '^#'; then
+while IFS= read -r line; do
+  if [ -z "$line" ] || printf '%s' "$line" | grep -Eq '^#'; then
     continue
   fi
-  if [ -n "$INSTALL_FILTER" ]; then
-    pkg=$(printf '%s' "$pkg" | eval "$INSTALL_FILTER")
+
+  if printf '%s' "$line" | grep -Fq '@' && [ "$UNAME" = 'FreeBSD' ]; then
+    origin=$(printf '%s' "$line" | cut -d@ -f1)
+    flavor=$(printf '%s' "$line" | cut -d@ -f2)
+
+    installed="$origin"
+    install=$(pkg rquery -e "%o ~ $origin" '%n %At %Av' | grep -F "flavor $flavor" | cut -d' ' -f1 | head -n1)
+  else
+    installed="$line"
+    install="$line"
   fi
-  if ! printf '%s' "$INSTALLED_CMD" | grep -Fxq "$(printf '%s' "$pkg")"; then
-    INSTALL="$INSTALL$pkg "
+
+  if ! printf '%s' "$INSTALLED_CMD" | grep -Fxq "$(printf '%s' "$installed")"; then
+    INSTALL="$INSTALL$install "
   fi
 done <"{{ .chezmoi.sourceDir }}/dot_local/zbootstrap/$PKGS"
 
-case $(uname) in
+case "$UNAME" in
   Linux)
     # bootstrap yay
     if ! command -v yay >/dev/null; then
@@ -69,14 +78,8 @@ case $(uname) in
     export GOENV_VERSION=system NODENV_VERSION=system PYENV_VERSION=system RBENV_VERSION=system
     ;;
   FreeBSD)
-    important "Fetching latest base..."
-    svnlite up "/usr/src"
-
-    important "Fetching latest ports..."
-    svnlite up "/usr/ports"
-
     if ! grep -Eq '^CONSERVATIVE_UPGRADE' /usr/local/etc/pkg.conf; then
-      important "Configuring pkg to prefer Synth repo..."
+      important "Configuring pkg to upgrade Aggressively..."
       printf '\n%s' 'CONSERVATIVE_UPGRADE: false;' >> /usr/local/etc/pkg.conf
     fi
     ;;
@@ -86,13 +89,13 @@ if [ -n "$INSTALL" ]; then
   important "Installing system packages with ${INSTALL_CMD%% *}..."
 
   info "$INSTALL_CMD $INSTALL"
-  $INSTALL_CMD "$INSTALL"
+  eval "$INSTALL_CMD $INSTALL"
 fi
 
 important "Updating system packages with ${UPDATE_CMD%% *}..."
-$UPDATE_CMD
+eval "$UPDATE_CMD"
 
-case $(uname) in
+case "$UNAME" in
   FreeBSD)
     if ! grep -Eq '^PKG_ENABLE_PLUGINS' /usr/local/etc/pkg.conf; then
       important "Enabling pkg-provides..."
@@ -109,7 +112,7 @@ esac
 
 if [ -n "$PROVIDES_CMD" ]; then
   important "Updating provides database..."
-  $PROVIDES_CMD
+  eval "$PROVIDES_CMD"
 fi
 
 # vi: ft=sh
