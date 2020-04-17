@@ -49,6 +49,9 @@ TAGS
 .TAGS
 !TAGS/
 tags
+tags.lock
+tags.temp
+tags.tmp
 .tags
 !tags/
 gtags.files
