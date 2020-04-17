@@ -7,19 +7,18 @@
 #    exit
 # fi
 
-
 PORTSDIR=${PORTSDIR:-/usr/ports}
 if [ ! -d "$PORTSDIR" ]; then
-   echo "The $PORTSDIR ports directory does not exist"
-   echo "There is nothing more to do."
-   exit
+  echo "The $PORTSDIR ports directory does not exist"
+  echo "There is nothing more to do."
+  exit
 fi
 
 PORT_DBDIR=${PORT_DBDIR:-$(make -C "$PORTSDIR/lang/gcc" -V PORT_DBDIR 2>/dev/null)}
 if [ ! -d "$PORT_DBDIR" ]; then
-   echo "The $PORT_DBDIR option database does not exist"
-   echo "There is nothing more to do."
-   exit
+  echo "The $PORT_DBDIR option database does not exist"
+  echo "There is nothing more to do."
+  exit
 fi
 
 port_origin() {
@@ -43,8 +42,8 @@ clean_options() {
   deselected_now=$(make -C "$port_dir" -V DESELECTED_OPTIONS)
 
   if [ "${selected_pristine}" = "${selected_now}" ] && [ "${deselected_pristine}" = "${deselected_now}" ]; then
-     printf '%s\n' "$1"
-  fi;
+    printf '%s\n' "$1"
+  fi
 }
 
 for optdir in "$PORT_DBDIR"/*; do

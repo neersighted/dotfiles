@@ -15,9 +15,9 @@ DOTFILES=${DOTFILES:-~/.local/share/chezmoi}
 REPO=${REPO:-https://github.com/neersighted/dotfiles.git}
 
 case $command in
-  apply|update|sync)
+  apply | update | sync)
     if [ ! "$INNER" ]; then
-      if ! command -v $CHEZMOI >/dev/null; then
+      if ! command -v "$CHEZMOI" >/dev/null; then
         print "Bootstrapping chezmoi..."
         curl -sSfL https://git.io/chezmoi | sed 's/openssl -dst //' | sh -s -- -b ~/.local/bin
         CHEZMOI=~/.local/bin/chezmoi
@@ -62,8 +62,13 @@ case $command in
   diff)
     $CHEZMOI diff
     ;;
-  push|pull)
+  push | pull)
     git -C "$DOTFILES" "$command" "$@"
+    ;;
+  shfmt)
+    for script in $(shfmt -f "$DOTFILES"); do
+      shfmt -p -i 2 -bn -ci -s -w "$script"
+    done
     ;;
   status)
     git -C "$DOTFILES" status
@@ -73,4 +78,3 @@ case $command in
     printf 'unknown command: %s' "$command"
     ;;
 esac
-
