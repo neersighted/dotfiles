@@ -76,6 +76,7 @@ www/py-httpie@py38
 # chezmoi
 # diskus
 # gh
+# git-filter-repo
 # watchexec
 
 # Other
