@@ -39,6 +39,7 @@ for script in "$XDG_DATA_HOME/replicator"/*; do
 done
 
 if [ "$(dirname $CHEZMOI)" = "$HOME/.local/bin" ]; then
+  # shellcheck disable=SC2230
   if [ "$(which -a chezmoi | wc -l)" -gt 1 ]; then
     rm $CHEZMOI
   else
