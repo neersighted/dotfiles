@@ -13,7 +13,7 @@ fi
 if [ -z "$XDG_CACHE_HOME" ]; then
   export XDG_CACHE_HOME="$HOME/.cache"
 fi
-export PATH="$HOME/.local/bin:$PATH"
+PATH="$HOME/.local/bin:$PATH"
 
 # c
 if [ -z "$CC" ]; then
@@ -44,7 +44,7 @@ fi
 if [ -n "$GOENV_VERSION" ]; then
   export GOENV_VERSION=
 fi
-export PATH="$GOBIN:$GOENV_ROOT/shims:$GOENV_ROOT/bin:$PATH"
+PATH="$GOBIN:$GOENV_ROOT/shims:$GOENV_ROOT/bin:$PATH"
 
 # nodejs
 if [ -z "$NPM_CONFIG_USERCONFIG" ]; then
@@ -59,7 +59,7 @@ fi
 if [ -n "$NODENV_VERSION" ]; then
   export NODENV_VERSION=
 fi
-export PATH="$NODENV_ROOT/shims:$NODENV_ROOT/bin:$PATH"
+PATH="$NODENV_ROOT/shims:$NODENV_ROOT/bin:$PATH"
 
 # python
 if [ -z "$PIPX_HOME" ]; then
@@ -77,7 +77,7 @@ fi
 if [ -n "$PYENV_VERSION" ]; then
   export PYENV_VERSION=
 fi
-export PATH="$PIPX_BIN_DIR:$POETRY_HOME/bin:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+PATH="$PIPX_BIN_DIR:$POETRY_HOME/bin:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
 
 # ruby
 if [ -z "$GEM_SPEC_CACHE" ]; then
@@ -89,7 +89,7 @@ fi
 if [ -n "$RBENV_VERSION" ]; then
   export RBENV_VERSION=
 fi
-export PATH="$RBENV_ROOT/shims:$RBENV_ROOT/bin:$PATH"
+PATH="$RBENV_ROOT/shims:$RBENV_ROOT/bin:$PATH"
 
 # rust
 if [ -z "$CARGO_HOME" ]; then
@@ -98,27 +98,35 @@ fi
 if [ -z "$RUSTUP_HOME" ]; then
   export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 fi
-export PATH="$CARGO_HOME/bin:$PATH"
+PATH="$CARGO_HOME/bin:$PATH"
+
+# dedupe path
+PATH=$(printf '%s' "$PATH" | awk -vRS=: '!a[$0]++' | paste -s -d: -)
 
 ###
 
 section() {
+  # cyan
   printf '\033[0;36m%s\033[0m\n' "$@"
 }
 
 important() {
+  # green
   printf '\033[0;32m%s\033[0m\n' "$@"
 }
 
 info() {
+  # yellow
   printf '\033[0;33m%s\033[0m\n' "$@"
 }
 
 warn() {
+  # magenta
   printf '\033[0;35m%s\033[0m\n' "$@" >&2
 }
 
 error() {
+  # red
   printf '\033[0;31m%s\033[0m\n' "$@" >&2
   exit 1
 }

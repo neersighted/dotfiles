@@ -2,8 +2,8 @@
 
 set -e
 
-# shellcheck source=lib.sh
-. "{{ .chezmoi.sourceDir }}/dot_local/zbootstrap/lib.sh"
+# shellcheck source=_lib.sh
+. "${XDG_DATA_HOME:-~/.local/share}/replicator/_lib.sh"
 
 UNAME="$(uname)"
 
@@ -56,7 +56,7 @@ while IFS= read -r line; do
   if ! printf '%s' "$INSTALLED_CMD" | grep -Fxq "$(printf '%s' "$installed")"; then
     INSTALL="$INSTALL$install "
   fi
-done <"{{ .chezmoi.sourceDir }}/dot_local/zbootstrap/$PKGS"
+done <"$XDG_CONFIG_HOME/replicator/$PKGS"
 
 case "$UNAME" in
   Linux)
@@ -80,7 +80,7 @@ case "$UNAME" in
   FreeBSD)
     if ! grep -Eq '^CONSERVATIVE_UPGRADE' /usr/local/etc/pkg.conf; then
       important "Configuring pkg to upgrade Aggressively..."
-      printf '\n%s' 'CONSERVATIVE_UPGRADE: false;' >> /usr/local/etc/pkg.conf
+      printf '\n%s' 'CONSERVATIVE_UPGRADE: false;' >>/usr/local/etc/pkg.conf
     fi
     ;;
 esac

@@ -2,8 +2,8 @@
 
 set -e
 
-# shellcheck source=lib.sh
-. "{{ .chezmoi.sourceDir }}/dot_local/zbootstrap/lib.sh"
+# shellcheck source=_lib.sh
+. "${XDG_DATA_HOME:-~/.local/share}/replicator/_lib.sh"
 
 section "Node.js"
 

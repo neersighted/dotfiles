@@ -55,6 +55,7 @@ sysutils/exa
 sysutils/fd
 sysutils/hexyl
 sysutils/htop
+sysutils/renameutils
 sysutils/tealdeer
 sysutils/tmux
 sysutils/ts

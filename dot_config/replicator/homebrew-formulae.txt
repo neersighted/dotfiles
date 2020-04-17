@@ -39,7 +39,7 @@ mycli
 neovim
 pgcli
 pinentry-mac
-rename
+renameutils
 ripgrep
 sd
 shellcheck

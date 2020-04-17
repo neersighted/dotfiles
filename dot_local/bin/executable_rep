@@ -1,0 +1,48 @@
+#!/bin/sh
+
+set -e
+
+print() {
+  # cyan
+  printf '\033[0;34m%s\033[0m\n' "$@"
+}
+
+if [ ! "$INNER" ]; then
+  export CHEZMOI=chezmoi
+  if ! command -v $CHEZMOI >/dev/null; then
+    print "Bootstrapping chezmoi..."
+    curl -sSfL https://git.io/chezmoi | sed 's/openssl -dst //' | sh -s -- -b ~/.local/bin
+    CHEZMOI=~/.local/bin/chezmoi
+  fi
+
+  print "Applying dotfiles with chezmoi..."
+  if [ -d ~/.local/share/chezmoi ]; then
+    if [ -z "$(git -C ~/.local/share/chezmoi status --porcelain)" ]; then
+      $CHEZMOI update --remove
+    else
+      $CHEZMOI apply --remove
+    fi
+  else
+    $CHEZMOI init --apply https://github.com/neersighted/dotfiles.git
+  fi
+
+  export INNER=1
+  exec "$0"
+fi
+
+# shellcheck source=../share/replicator/_lib.sh
+. "${XDG_DATA_HOME:-~/.local/share}/replicator/_lib.sh"
+
+for script in "$XDG_DATA_HOME/replicator"/*; do
+  case "$script" in */_lib.sh) continue ;; esac
+  [ -x "$script" ] && "$script"
+done
+
+if [ "$(dirname $CHEZMOI)" = "$HOME/.local/bin" ]; then
+  if [ "$(which -a chezmoi | wc -l)" -gt 1 ]; then
+    rm $CHEZMOI
+  else
+    print "Self-updating chezmoi..."
+    $CHEZMOI upgrade
+  fi
+fi

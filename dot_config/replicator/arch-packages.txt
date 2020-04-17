@@ -50,6 +50,7 @@ mycli
 neovim
 perl-file-mimeinfo
 pgcli
+renameutils
 ripgrep
 sd
 shellcheck
