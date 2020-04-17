@@ -7,14 +7,16 @@ print() {
   printf '\033[0;34m%s\033[0m\n' "$@"
 }
 
-command=${1:-apply}
-shift || true
+if [ -n "$1" ]; then
+  command=$1
+  shift
+fi
 
 CHEZMOI=${CHEZMOI:-chezmoi}
 DOTFILES=${DOTFILES:-~/.local/share/chezmoi}
 REPO=${REPO:-https://github.com/neersighted/dotfiles.git}
 
-case $command in
+case ${command:-apply} in
   apply | update | sync)
     if [ ! "$INNER" ]; then
       if ! command -v "$CHEZMOI" >/dev/null; then
