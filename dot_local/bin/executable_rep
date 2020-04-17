@@ -17,7 +17,7 @@ if [ ! "$INNER" ]; then
 
   print "Applying dotfiles with chezmoi..."
   if [ -d ~/.local/share/chezmoi ]; then
-    if [ -z "$(git -C ~/.local/share/chezmoi status --porcelain)" ]; then
+    if [ -z "$(git -C ~/.local/share/chezmoi status --untracked-files=no --porcelain)" ]; then
       $CHEZMOI update --remove
     else
       $CHEZMOI apply --remove
