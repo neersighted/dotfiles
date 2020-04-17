@@ -101,7 +101,7 @@ fi
 PATH="$CARGO_HOME/bin:$PATH"
 
 # dedupe path
-PATH=$(printf '%s' "$PATH" | awk -vRS=: '!a[$0]++' | paste -s -d: -)
+PATH=$(printf '%s' "$PATH" | awk -v RS=: '!a[$0]++' | paste -s -d: -)
 
 ###
 
