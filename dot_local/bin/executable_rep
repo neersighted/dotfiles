@@ -63,7 +63,7 @@ case $command in
     $CHEZMOI diff
     ;;
   push|pull)
-    git -C "$DOTFILES" "$command"
+    git -C "$DOTFILES" "$command" "$@"
     ;;
   status)
     git -C "$DOTFILES" status
