@@ -8,17 +8,19 @@ end
 function __tmux_session_name -a tty
   test -n "$tty"; or set -l tty (tty)
 
-  if is_vscode # special terminals
-     printf '%s' $TERM_PROGRAM
-  else if is_ssh
+  if is_ssh
+    # is a remote login
     printf '%s-%s' (prompt_hostname) (string replace -a '.' '-' (string split ' ' $SSH_CONNECTION)[1])
   else if not is_tmux
     if not string match -rq '^/dev/(pts/\d+|ttys\d+)$' $tty; and not is_wsl
+      # is a console/tty
       printf '%s' $tty
     else
+      # is a terminal/pty
       printf '%s' (prompt_hostname)
     end
-  else # no nested tmux
+  else
+    # no nested tmux
     return 1
   end
 end
@@ -33,6 +35,7 @@ function __tmux_auto_launch -a tty
     # create non-existant setting
     set command new-session -s $session
   else
+    # session exists and is attached
     return
   end
 
