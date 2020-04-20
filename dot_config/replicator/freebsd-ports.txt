@@ -58,7 +58,6 @@ sysutils/htop
 sysutils/renameutils
 sysutils/tealdeer
 sysutils/tmux
-sysutils/ts
 textproc/bat
 textproc/fzf
 textproc/highlight
