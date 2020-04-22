@@ -12,17 +12,18 @@ if [ -n "$1" ]; then
   shift
 fi
 
-CHEZMOI=${CHEZMOI:-chezmoi}
 DOTFILES=${DOTFILES:-~/.local/share/chezmoi}
 REPO=${REPO:-https://github.com/neersighted/dotfiles.git}
 
 case ${command:-apply} in
   apply | update | sync)
     if [ ! "$INNER" ]; then
-      if ! command -v "$CHEZMOI" >/dev/null; then
+      if ! command -v chezmoi >/dev/null; then
+        CHEZMOI="$HOME/.local/bin/chezmoi"
         print "Bootstrapping chezmoi..."
         curl -sSfL https://git.io/chezmoi | sed 's/openssl -dst //' | sh -s -- -b ~/.local/bin
-        CHEZMOI=~/.local/bin/chezmoi
+      else
+        CHEZMOI=chezmoi
       fi
 
       print "Applying dotfiles with chezmoi..."
@@ -48,13 +49,13 @@ case ${command:-apply} in
       [ -x "$script" ] && "$script"
     done
 
-    if [ "$(dirname $CHEZMOI)" = "$HOME/.local/bin" ]; then
+    if [ "$(dirname "$(command -v chezmoi)")" = "$HOME/.local/bin" ]; then
       # shellcheck disable=SC2230
       if [ "$(which -a chezmoi | wc -l)" -gt 1 ]; then
-        rm $CHEZMOI
+        rm "$HOME/.local/bin/chezmoi"
       else
         print "Self-updating chezmoi..."
-        $CHEZMOI upgrade
+        "$HOME/.local/bin/chezmoi" upgrade
       fi
     fi
     ;;
@@ -62,7 +63,7 @@ case ${command:-apply} in
     git -C "$DOTFILES" commit --interactive
     ;;
   diff)
-    $CHEZMOI diff
+    chezmoi diff
     ;;
   push | pull)
     git -C "$DOTFILES" "$command" "$@"
@@ -74,7 +75,7 @@ case ${command:-apply} in
     ;;
   status)
     git -C "$DOTFILES" status
-    $CHEZMOI diff
+    chezmoi diff
     ;;
   *)
     printf 'unknown command: %s' "$command"
