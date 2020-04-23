@@ -9,7 +9,6 @@ let g:status#filetype_modes = {
   \ 'MundoDiff': 'UNDODIFF',
   \ 'dirvish': 'DIR',
   \ 'fugitiveblame': 'BLAME',
-  \ 'fzf': '> FZF',
   \ 'help': 'HELP',
   \ 'man': 'MAN',
   \ 'startify': 'STARTIFY',

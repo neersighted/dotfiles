@@ -25,3 +25,5 @@ let g:fzf_colors = {
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
+
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
