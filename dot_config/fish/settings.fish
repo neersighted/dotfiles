@@ -19,7 +19,7 @@ setting GIT_EDITOR nvimr
 # pager
 setting PAGER less
 setting GIT_PAGER 'less --quit-if-one-screen --no-init'
-setting LESS '--RAW-CONTROL-CHARS --tabs=4'
+setting LESS '--mouse --RAW-CONTROL-CHARS --tabs=2'
 setting LESSHISTFILE $XDG_DATA_HOME/less/history
 
 #
