@@ -28,6 +28,14 @@ function is_wsl
   set -q WSLENV
 end
 
+function is_wsl1
+  is_wsl; and not set -q WSL_INTEROP
+end
+
+function is_wsl2
+  is_wsl; and set -q WSL_INTEROP
+end
+
 function is_ssh
   set -q SSH_CONNECTION
 end

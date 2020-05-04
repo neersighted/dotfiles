@@ -1,4 +1,4 @@
-if is_wsl
+if is_wsl1
   function docker
     if not test -S /var/run/docker.sock
       and command -q docker.exe

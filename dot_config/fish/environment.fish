@@ -29,7 +29,9 @@ set -x TMUX_TMPDIR $XDG_RUNTIME_DIR
 
 # wsl
 if is_wsl
-  set -x DISPLAY ':0'
   set -x BROWSER 'wslview'
-  set -g umask 0022 # wsl current does not set umask
+end
+if is_wsl1
+  set -x DISPLAY ':0'
+  set -g umask 0022
 end

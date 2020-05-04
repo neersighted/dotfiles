@@ -74,7 +74,7 @@ yank() {
   if [ -z "$SSH_CONNECTION" ]; then
     if [ "$(uname)" = 'Darwin' ]; then
       exec pbcopy
-    elif uname -r | grep -Fq Microsoft; then
+    elif [ -n "${WSLENV+x}" ]; then
       if command -v win32yank.exe >/dev/null; then
         exec win32yank.exe -i --crlf
       else
@@ -125,7 +125,7 @@ paste() {
   if [ -z "$SSH_CONNECTION" ]; then
     if [ "$(uname)" = 'Darwin' ]; then
       exec pbpaste
-    elif uname -r | grep -Fq Microsoft; then
+    elif [ -n "${WSLENV+x}" ]; then
       if command -v win32yank.exe >/dev/null; then
         exec win32yank.exe -o --lf
       else
