@@ -30,6 +30,8 @@ set -x TMUX_TMPDIR $XDG_RUNTIME_DIR
 # wsl
 if is_wsl
   set --path WSLENV $WSLENV
+  wsl_env -p APPDATA
+  wsl_env -p LOCALAPPDATA
   set -x BROWSER 'wslview'
 end
 if is_wsl1
