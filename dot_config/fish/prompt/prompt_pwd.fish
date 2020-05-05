@@ -4,7 +4,7 @@ function prompt_pwd
 
     set cwd (short_home $PWD)
     if test $fish_prompt_pwd_dir_length -eq 0; or test (string length $cwd) -le $fish_prompt_pwd_threshold
-        echo $cwd
+        printf '%s' $cwd
     else
         string replace -ar '(\.?[^/]{'"$fish_prompt_pwd_dir_length"'})[^/]*/' '$1/' $cwd
     end

@@ -61,6 +61,6 @@ function fish_version_prompt
   end
 
   if string length -q $contents
-    printf ' [%s]' (echo -n $contents)
+    printf ' [%s]' $contents
   end
 end
