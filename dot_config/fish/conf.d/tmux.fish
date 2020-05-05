@@ -1,10 +1,5 @@
 status is-interactive; or exit
 
-# use $XDG_CONFIG_HOME for tmux.conf
-function tmux
-  command tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf $argv
-end
-
 function __tmux_session_name -a tty
   test -n "$tty"; or set -l tty (tty)
 
