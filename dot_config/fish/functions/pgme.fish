@@ -4,7 +4,7 @@ function pgme -d 'quick and dirty postgres(es)'
   set -a options 'd/db=' 'l/port='
   set -a options 'L/list' 'D/delete' 'R/reset'
 
-  argparse --name=pgme $options -- $argv
+  argparse $options -- $argv
   or return
 
   set -q _flag_image; or set -l _flag_image postgres:latest

@@ -4,7 +4,7 @@ function mongul -d 'quick and dirty mongo(s)'
   set -a options 'd/db=' 'l/port='
   set -a options 'L/list' 'D/delete' 'R/reset'
 
-  argparse --name=mongul $options -- $argv
+  argparse $options -- $argv
   or return
 
   set -q _flag_image; or set -l _flag_image mongo:latest
