@@ -29,9 +29,10 @@ set -x TMUX_TMPDIR $XDG_RUNTIME_DIR
 
 # wsl
 if is_wsl
+  set --path WSLENV $WSLENV
   set -x BROWSER 'wslview'
 end
 if is_wsl1
-  set -x DISPLAY ':0'
   set -g umask 0022
+  set -x DISPLAY ':0'
 end
