@@ -47,7 +47,6 @@ jq
 lftp
 lsof
 mosh
-mycli
 neovim
 perl-file-mimeinfo
 pgcli
@@ -68,3 +67,6 @@ xdg-utils
 
 # Needs Update
 # python-gdbgui
+
+# Broken
+# mycli
