@@ -19,9 +19,9 @@ case "$UNAME" in
     [ "$(id -u)" -eq 0 ] || exec su root -c "sh $0"
 
     PKGS="freebsd-ports.txt"
-    INSTALL_CMD="pkg install"
+    INSTALL_CMD="pkg install -y"
     INSTALLED_CMD=$(pkg query '%o')
-    UPDATE_CMD="pkg upgrade"
+    UPDATE_CMD="pkg upgrade -y"
     PROVIDES_CMD="pkg provides -u"
     ;;
   Darwin)
