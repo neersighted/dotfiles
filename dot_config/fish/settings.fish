@@ -13,7 +13,6 @@ end
 # editor
 setting EDITOR nvim
 setting VISUAL $EDITOR
-setting FISH_EDITOR nvimr
 setting GIT_EDITOR nvimr
 
 # pager
