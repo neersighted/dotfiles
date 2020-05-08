@@ -8,9 +8,6 @@ set hidden " Allow backgrounding dirty buffers.
 set termguicolors " Use truecolor if available.
 silent! colorscheme nord " Default to the nord theme.
 
-" Completion
-set completeopt=menuone,noselect " Always show a menu, and don't auto-select completions.
-
 " Cursor/Movement
 set scrolloff=2 " Keep the cursor two lines from the top/bottom.
 set virtualedit=onemore,block " Allow cursor to the end of the line (and anywhere in visual-block.)
@@ -38,13 +35,14 @@ set splitright splitbelow " Open vertical splits to the right, horizontal below.
 " Substitution
 set inccommand=split " Show incomplete substitutions in a preview split.
 
+" Whitespace
+set list listchars=tab:→·,nbsp:·,trail:~,extends:»,precedes:« " Show hidden characters.
+set showbreak=>\  " Show a character for wrapped lines.
+let g:indentLine_char = '┊' " Use a small line to show space-based indentation.
+
 " Wrapping
 set colorcolumn=+1 " Show the wrapping column visually.
-set linebreak breakindent showbreak=\\ " Wrap lines visually.
-set list listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+ " Show hidden characters.
-
-" indentLine
-let g:indentLine_char = '┊' " Use a small line to show space-based indentation.
+set linebreak breakindent " Enable visual line wrapping.
 
 " Other
 let g:loaded_netrwPlugin = 1 " Disable Netrw.

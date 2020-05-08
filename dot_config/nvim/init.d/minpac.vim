@@ -21,24 +21,18 @@ if exists('*minpac#init')
   " Colors
   call minpac#add('arcticicestudio/nord-vim')
 
-  " Completion
-  call minpac#add('Rip-Rip/clang_complete', {'type': 'opt'})
-  call minpac#add('davidhalter/jedi-vim')
-  call minpac#add('lifepillar/vim-mucomplete')
-
   " Editing
   call minpac#add('AndrewRadev/splitjoin.vim')
   call minpac#add('AndrewRadev/switch.vim')
   call minpac#add('bfredl/nvim-miniyank')
   call minpac#add('chaoren/vim-wordmotion')
+  call minpac#add('cohama/lexima.vim')
   call minpac#add('farmergreg/vim-lastplace')
   call minpac#add('junegunn/vim-easy-align')
   call minpac#add('justinmk/vim-sneak')
   call minpac#add('machakann/vim-sandwich')
-  call minpac#add('rstacruz/vim-closer')
   call minpac#add('tommcdo/vim-ninja-feet')
   call minpac#add('tpope/vim-commentary')
-  call minpac#add('tpope/vim-endwise')
   call minpac#add('tpope/vim-rsi')
   call minpac#add('tpope/vim-unimpaired')
 
@@ -100,9 +94,6 @@ endfunction
 
 augroup minpac_lazy
   autocmd!
-
-  " Rip-Rip/clang_complete
-  autocmd FileType c,cpp packadd clang_complete
 
   " elzr/vim-json
   autocmd FileType json packadd vim-json
