@@ -9,6 +9,6 @@ function fish_title -a cmd
   if test -n "$cmd"
     printf '%s: %s' $basename $cmd
   else
-    printf '%s %s' $_ $cwd
+    printf '%s %s' (status current-command) $cwd
   end
 end
