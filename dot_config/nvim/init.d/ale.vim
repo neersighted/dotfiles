@@ -7,13 +7,10 @@ let g:ale_echo_msg_format = '[%linter%:%severity%] %code%: %s'
 let g:ale_linters = {}
 let g:ale_fixers = {}
 
-let g:ale_linters.python = ['pylint', 'pyls']
+let g:ale_linters.python = ['pyls']
 let g:ale_fixers.python = ['autopep8', 'black']
-let g:ale_python_black_options = '--line-length 79'
-let g:ale_python_mypy_options = '--strict'
-let g:ale_python_mypy_ignore_invalid_syntax = 1
 
-let g:ale_linters.ruby = ['brakeman', 'rails_best_practices', 'solargraph', 'standardrb']
+let g:ale_linters.ruby = ['solargraph', 'standardrb']
 let g:ale_fixers.ruby = ['remove_trailing_lines', 'standardrb', 'trim_whitespace']
 
 let g:ale_linters.rust = ['rls']

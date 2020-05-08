@@ -1,43 +1,41 @@
-let g:mapleader = ' '
-
 "
 " Accessories
 "
 
 " ALE
-nnoremap <leader>F <plug>(ale_fix)
-nnoremap <leader>d <plug>(ale_detail)
-nnoremap <leader>f <plug>(ale_find_references)
-nnoremap <leader>g <plug>(ale_go_to_definition)
-nnoremap <leader>i <plug>(ale_hover)
+nnoremap <c-s>F <plug>(ale_fix)
+nnoremap <c-s>d <plug>(ale_detail)
+nnoremap <c-s>f <plug>(ale_find_references)
+nnoremap <c-s>g <plug>(ale_go_to_definition)
+nnoremap <c-s>i <plug>(ale_hover)
 
 " fzf
-nnoremap <leader><leader> :Buffers<cr>
-nnoremap <leader>` :Marks<cr>
-nnoremap <leader>/ :BLines<cr>
-nnoremap <leader>? :Lines<cr>
-nnoremap <leader>Gg :GGrep<cr>
-nnoremap <leader>O :GFiles?<cr>
-nnoremap <leader>T :Tags<cr>
-nnoremap <leader>o :Files<cr>
-nnoremap <leader>r :Rg<cr>
-nnoremap <leader>t :BTags<cr>
+nnoremap <c-s><c-s> :Buffers<cr>
+nnoremap <c-s>` :Marks<cr>
+nnoremap <c-s>/ :BLines<cr>
+nnoremap <c-s>? :Lines<cr>
+nnoremap <c-s>Gg :GGrep<cr>
+nnoremap <c-s>O :GFiles?<cr>
+nnoremap <c-s>T :Tags<cr>
+nnoremap <c-s>o :Files<cr>
+nnoremap <c-s>r :Rg<cr>
+nnoremap <c-s>t :BTags<cr>
 
-nmap <leader>m <plug>(fzf-maps-n)
-omap <leader>m <plug>(fzf-maps-o)
-xmap <leader>m <plug>(fzf-maps-x)
+nmap <c-s>m <plug>(fzf-maps-n)
+omap <c-s>m <plug>(fzf-maps-o)
+xmap <c-s>m <plug>(fzf-maps-x)
 
 " fugitive
-nnoremap <leader>Gc :Gcommit<cr>
-nnoremap <leader>Gp :Gpush<cr>
-nnoremap <leader>GP :Gpull<cr>
-nnoremap <leader>Gs :Gstatus<cr>
-nnoremap <leader>Gd :Gdiff<cr>
-nnoremap <leader>Gb :Gblame<cr>
+nnoremap <c-s>Gc :Gcommit<cr>
+nnoremap <c-s>Gp :Gpush<cr>
+nnoremap <c-s>GP :Gpull<cr>
+nnoremap <c-s>Gs :Gstatus<cr>
+nnoremap <c-s>Gd :Gdiff<cr>
+nnoremap <c-s>Gb :Gblame<cr>
 
 " Sidebars
-nnoremap <leader>u :MundoToggle<cr>
-nnoremap <leader>y :TagbarToggle<cr>
+nnoremap <c-s>u :MundoToggle<cr>
+nnoremap <c-s>y :TagbarToggle<cr>
 
 "
 " Alignment
@@ -52,11 +50,11 @@ vmap <cr> <plug>(EasyAlign)
 "
 
 " Just delete this buffer!
-nnoremap <leader>x :Sayonara<cr>
-nnoremap <leader>X :Sayonara!<cr>
+nnoremap <c-s>x :Sayonara<cr>
+nnoremap <c-s>X :Sayonara!<cr>
 
 " Close this buffer but keep the window open.
-nnoremap <leader>d :bn<cr>:bd#<cr>
+nnoremap <c-s>d :bn<cr>:bd#<cr>
 
 "
 " Navigation
@@ -84,20 +82,21 @@ map f <plug>Sneak_f
 map F <plug>Sneak_F
 map t <plug>Sneak_t
 map T <plug>Sneak_T
-nmap <leader>s <Plug>SneakLabel_s
-nmap <leader>S <Plug>SneakLabel_S
+nmap <c-s>s <Plug>SneakLabel_s
+nmap <c-s>S <Plug>SneakLabel_S
 
+let g:sneak#s_next = 1 " Enable 'clever s' jumping.
 let g:sneak#f_reset = 1 " Set ; and , when f is used...
 let g:sneak#t_reset = 1 " ...same for t.
-let g:sneak#absolute_dir = 0 " Use standard ; and , behavior.
+let g:sneak#absolute_dir = 1 " Make ; and , move in a consistent direction.
 
 "
 " Quickfix
 "
 
 " Toggle loclist/quickfix.
-nnoremap <leader>q :call maps#qftoggle(1)<cr>
-nnoremap <leader>Q :call maps#qftoggle(0)<cr>
+nnoremap <c-s>q :call maps#qftoggle(1)<cr>
+nnoremap <c-s>Q :call maps#qftoggle(0)<cr>
 
 "
 " Terminal
@@ -135,12 +134,12 @@ nnoremap Y y$
 map p <plug>(miniyank-autoput)
 map P <plug>(miniyank-autoPut)
 
-map <leader>p <plug>(miniyank-startput)
-map <leader>P <plug>(miniyank-startPut)
+map <c-s>p <plug>(miniyank-startput)
+map <c-s>P <plug>(miniyank-startPut)
 
-map <leader>n <plug>(miniyank-cycle)
-map <leader>N <Plug>(miniyank-cycleback)
+map <c-s>n <plug>(miniyank-cycle)
+map <c-s>N <Plug>(miniyank-cycleback)
 
-map <Leader>c <plug>(miniyank-tochar)
-map <Leader>l <plug>(miniyank-toline)
-map <Leader>b <plug>(miniyank-toblock)
+map <c-s>c <plug>(miniyank-tochar)
+map <c-s>l <plug>(miniyank-toline)
+map <c-s>b <plug>(miniyank-toblock)
