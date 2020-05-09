@@ -34,9 +34,9 @@ for node in $(nodenv versions --bare); do
   OLDIFS=$IFS
   IFS="$(printf '%b_' '\t\n')"
   IFS="${IFS%_}"
-  for spec in $(NODENV_VERSION=$node npm -g outdated --json | jq -r 'to_entries[] | "\(.key) from \(.value.current) to \(.value.wanted)"'); do
+  for spec in $(NODENV_VERSION=$node npm outdated -g --json | jq -r 'to_entries[] | "\(.key) from \(.value.current) to \(.value.latest)"'); do
     info "Updating $spec (Node.js $node)..."
-    NODENV_VERSION=$node npm update -g "${spec%% *}"
+    NODENV_VERSION=$node npm install -g "${spec%% *}@latest"
   done
   IFS=$OLDIFS
 done
