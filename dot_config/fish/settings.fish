@@ -13,7 +13,6 @@ end
 # editor
 setting EDITOR nvim
 setting VISUAL $EDITOR
-setting GIT_EDITOR nvimr
 
 # pager
 setting PAGER less
