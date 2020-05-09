@@ -1,14 +1,14 @@
 let s:minpac_path = fnamemodify($MYVIMRC, ':p:h') . '/pack/minpac/opt/minpac'
 let s:minpac_config = expand('<sfile>:p')
 
-command! -bang PackSync   packadd minpac | execute 'source' s:minpac_config | call minpac#clean() | call minpac#update('', <bang>0 ? {'do': 'quit'} : {'do': 'call minpac#status()'})
-command! -bang PackUpdate packadd minpac | execute 'source' s:minpac_config | call minpac#update('', <bang>0 ? {'do': 'quit'} : {'do': 'call minpac#status()'})
+command! -bang PackSync   packadd minpac | execute 'source' s:minpac_config | call minpac#clean() | call minpac#update('', <bang>0 ? {'do': 'quit'} : {})
+command! -bang PackUpdate packadd minpac | execute 'source' s:minpac_config | call minpac#update('', <bang>0 ? {'do': 'quit'} : {})
 command!       PackClean  packadd minpac | execute 'source' s:minpac_config | call minpac#clean()
 command!       PackStatus packadd minpac | execute 'source' s:minpac_config | call minpac#status()
 
 if empty(glob(s:minpac_path))
   silent execute '!mkdir -p ' . s:minpac_path
-  silent execute '!git clone https://github.com/k-takata/minpac.git ' . s:minpac_path
+  silent execute '!git clone https://github.com/neersighted/minpac.git --branch yes ' . s:minpac_path
   augroup minpac_bootstrap
     autocmd!
     autocmd VimEnter * execute 'PackUpdate' | packloadall | source $MYVIMRC
@@ -16,7 +16,7 @@ if empty(glob(s:minpac_path))
 endif
 
 if exists('*minpac#init')
-  call minpac#init()
+  call minpac#init({'confirm': v:false, 'progress_open': 'none'})
 
   " Colors
   call minpac#add('arcticicestudio/nord-vim')
@@ -50,7 +50,7 @@ if exists('*minpac#init')
   call minpac#add('tpope/vim-sleuth')
 
   " Libraries
-  call minpac#add('k-takata/minpac', {'type': 'opt'})
+  call minpac#add('neersighted/minpac', {'type': 'opt', 'branch': 'yes'})
   call minpac#add('tpope/vim-repeat')
 
   " Syntax
