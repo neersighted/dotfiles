@@ -80,7 +80,7 @@ if exists('*minpac#init')
   call minpac#add('kristijanhusak/vim-dirvish-git')
   call minpac#add('kshenoy/vim-signature')
   call minpac#add('majutsushi/tagbar', {'type': 'opt'})
-  call minpac#add('mhinz/vim-sayonara')
+  call minpac#add('mhinz/vim-sayonara', {'type': 'opt'})
   call minpac#add('mhinz/vim-startify')
   call minpac#add('simnalamburt/vim-mundo', {'type': 'opt'})
   call minpac#add('talek/obvious-resize')
@@ -106,6 +106,9 @@ augroup minpac_lazy
 
   " majutsushi/tagbar
   command! -nargs=* -range -bang TagbarToggle packadd tagbar | call s:lazy_cmd('TagbarToggle', "<bang>", <line1>, <line2>, <q-args>)
+
+  " mhinz/vim-sayonara
+  command! -nargs=* -range -bang Sayonara packadd vim-sayonara | call s:lazy_cmd('Sayonara', "<bang>", <line1>, <line2>, <q-args>)
 
   " pangloss/vim-javascript
   autocmd FileType javascript packadd vim-javascript

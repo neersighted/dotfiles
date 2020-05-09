@@ -49,12 +49,10 @@ vmap <cr> <plug>(EasyAlign)
 " Buffers
 "
 
-" Just delete this buffer!
+" Get rid of this window and buffer!
 nnoremap <c-s>x :Sayonara<cr>
-nnoremap <c-s>X :Sayonara!<cr>
-
-" Close this buffer but keep the window open.
-nnoremap <c-s>d :bn<cr>:bd#<cr>
+" Get rid of this buffer but keep the window!
+nnoremap <c-s>d :Sayonara!<cr>
 
 "
 " Navigation
