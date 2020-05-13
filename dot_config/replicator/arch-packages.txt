@@ -50,6 +50,7 @@ mosh
 neovim
 perl-file-mimeinfo
 pgcli
+mycli
 renameutils
 ripgrep
 sd
@@ -67,6 +68,3 @@ xdg-utils
 
 # Needs Update
 # python-gdbgui
-
-# Broken
-# mycli
