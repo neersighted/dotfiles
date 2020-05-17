@@ -16,6 +16,7 @@ libffi
 libyaml
 ncurses
 openssl
+perl-term-readkey
 readline
 sqlite
 xz
