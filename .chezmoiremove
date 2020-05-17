@@ -1,6 +1,8 @@
 .config/fish/conf.d/gpg.fish
 .config/fish/functions/wrappers/docker.fish
 .config/fish/functions/wrappers/git.fish
+.config/mpd/mpd.conf
+.config/ncmpcpp/config
 .config/nvim/init.d/completion.vim
 .local/bin/nvimr
 .local/bin/wsl-docker-relay
