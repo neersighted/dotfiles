@@ -65,7 +65,11 @@ case ${command:-apply} in
     fi
     ;;
   commit)
-    git -C "$DOTFILES" commit --interactive
+    if [ -z "$*" ]; then
+      git -C "$DOTFILES" commit --interactive
+    else
+      git -C "$DOTFILES" commit "$@"
+    fi
     ;;
   diff)
     chezmoi diff
