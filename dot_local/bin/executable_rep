@@ -37,12 +37,17 @@ case ${command:-apply} in
         $CHEZMOI init --apply "$REPO"
       fi
 
+      CMD=$0
+      if [ -z "$0" ]; then
+        CMD="$HOME/.local/bin/rep"
+      fi
+
       export INNER=1
-      exec "$0" apply
+      exec "$CMD" apply
     fi
 
     # shellcheck source=../share/replicator/_lib.sh
-    . "${XDG_DATA_HOME:-~/.local/share}/replicator/_lib.sh"
+    . "${XDG_DATA_HOME:-$HOME/.local/share}/replicator/_lib.sh"
 
     for script in "$XDG_DATA_HOME/replicator"/*; do
       case "$script" in */_lib.sh) continue ;; esac
