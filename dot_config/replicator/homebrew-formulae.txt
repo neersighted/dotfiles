@@ -53,6 +53,7 @@ tmux
 tokei
 trash
 watchexec
+wget
 
 # Missing
 # gdbgui

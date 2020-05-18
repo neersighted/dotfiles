@@ -34,6 +34,7 @@ devel/universal-ctags
 editors/neovim
 ftp/curl
 ftp/lftp
+ftp/wget
 misc/gnu-watch
 misc/thefuck
 net/mosh

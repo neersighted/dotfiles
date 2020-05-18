@@ -47,6 +47,7 @@ icdiff
 jq
 lftp
 lsof
+man-db
 mosh
 neovim
 perl-file-mimeinfo
@@ -64,6 +65,7 @@ tmux
 tokei
 unzip
 watchexec
+wget
 whois
 xdg-utils
 
