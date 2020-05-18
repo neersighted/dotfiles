@@ -119,7 +119,6 @@ setting FZF_PREVIEW_DIR_CMD '__fzf_preview_dir'
 
 # options
 setting FZF_BASE_OPTS '--ansi --no-bold --cycle'
-setting FZF_OPEN_OPTS '--tiebreak=end,length,index'
 setting FZF_CD_OPTS "--preview='$FZF_PREVIEW_DIR_CMD {}'"
 
 functions -e setting
