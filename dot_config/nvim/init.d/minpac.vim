@@ -7,7 +7,6 @@ command!       PackClean  packadd minpac | execute 'source' s:minpac_config | ca
 command!       PackStatus packadd minpac | execute 'source' s:minpac_config | call minpac#status()
 
 if empty(glob(s:minpac_path))
-  silent execute '!mkdir -p ' . s:minpac_path
   silent execute '!git clone https://github.com/neersighted/minpac.git --branch yes ' . s:minpac_path
   augroup minpac_bootstrap
     autocmd!
