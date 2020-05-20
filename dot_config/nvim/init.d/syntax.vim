@@ -1,4 +1,19 @@
 "
+" All
+"
+
+let g:rainbow_active = 1 " Enable rainbow pairs.
+let g:rainbow_conf = {
+      \   'guifgs': [
+      \     g:terminal_color_4,
+      \     g:terminal_color_3,
+      \     g:terminal_color_5,
+      \     g:terminal_color_6,
+      \     g:terminal_color_2,
+      \   ]
+      \ }
+
+"
 " Go
 "
 
