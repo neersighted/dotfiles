@@ -1,8 +1,11 @@
 .config/fish/conf.d/gpg.fish
+.config/fish/functions/keys/__history_previous_arguments.fish
+.config/fish/functions/keys/__history_previous_command.fish
+.config/fish/functions/keys/__sudo_toggle.fish
 .config/fish/functions/wrappers/docker.fish
 .config/fish/functions/wrappers/git.fish
-.config/fish/prompt/fish_timer_prompt.fish
 .config/fish/prompt/fish_status_prompt.fish
+.config/fish/prompt/fish_timer_prompt.fish
 .config/mpd/mpd.conf
 .config/ncmpcpp/config
 .config/nvim/init.d/completion.vim

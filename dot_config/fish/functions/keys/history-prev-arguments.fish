@@ -1,4 +1,4 @@
-function __history_previous_arguments
+function history-prev-arguments
   switch (commandline -t)
   case !
     commandline -t ''

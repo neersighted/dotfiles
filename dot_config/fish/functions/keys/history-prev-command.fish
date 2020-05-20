@@ -1,4 +1,4 @@
-function __history_previous_command
+function history-prev-command
   switch (commandline -t)
   case !
     commandline -t $history[1]

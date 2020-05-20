@@ -1,4 +1,4 @@
-function __sudo_toggle
+function sudo-toggle
   set command_buffer (commandline)
   if test -z "$command_buffer"
     set command_buffer $history[1]
