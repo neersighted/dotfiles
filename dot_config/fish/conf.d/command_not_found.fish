@@ -1,7 +1,7 @@
 status is-interactive; or exit
 
 if command -q pacman # Arch
-  function __fish_command_not_found_handler -a cmd -e fish_command_not_found
+  function fish_command_not_found_handler --on-event fish_command_not_found -a cmd
     __fish_default_command_not_found_handler $cmd
 
     if set pkgs (pacman -Fq /usr/bin/$cmd)
@@ -12,7 +12,7 @@ if command -q pacman # Arch
     end
   end
 else if command -q pkg # FreeBSD
-  function __fish_command_not_found_handler -a cmd -e fish_command_not_found
+  function fish_command_not_found_handler --on-event fish_command_not_found -a cmd
     __fish_default_command_not_found_handler $cmd
 
     set pkgs (pkg provides local/[s]?bin/$cmd)
@@ -24,10 +24,10 @@ else if command -q pkg # FreeBSD
     end
   end
 else if command -q brew # macOS
-  function __fish_command_not_found_handler -a cmd -e fish_command_not_found
+  function fish_command_not_found_handler --on-event fish_command_not_found -a cmd
     __fish_default_command_not_found_handler $cmd
 
-    if brew which-formula --explain $cmd | read -z text
+    if brew which-formula ---on-eventxplain $cmd | read -z text
         printf '%s' $text
     end
   end

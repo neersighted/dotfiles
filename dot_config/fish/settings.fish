@@ -99,13 +99,13 @@ setting VAGRANT_WSL_ENABLE_WINDOWS_ACCESS 1
 #
 
 # core
-setting FZF_DEFAULT_COMMAND 'fd -c always -L -t file .'
+setting FZF_DEFAULT_COMMAND 'fd -c always -t f -t d . -L -H'
 
 # plugin (commands)
-setting FZF_FIND_FILE_COMMAND 'fd -c always -LH -E .git -t f . $dir'
-setting FZF_OPEN_COMMAND 'fd -c always -LH -E .git -t f -t d . $dir'
-setting FZF_CD_COMMAND 'fd -c always -L -t d . $dir'
-setting FZF_CD_WITH_HIDDEN_COMMAND 'fd -c always -LH -E .git -t d . $dir'
+setting FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND' $dir'
+setting FZF_OPEN_COMMAND $FZF_DEFAULT_COMMAND' $dir'
+setting FZF_CD_COMMAND 'fd -c always . $dir -t d -L'
+setting FZF_CD_WITH_HIDDEN_COMMAND $FZF_CD_COMMAND' -H'
 
 # plugin (ui)
 setting FZF_LEGACY_KEYBINDINGS 0

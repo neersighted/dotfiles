@@ -9,7 +9,7 @@ function fish_right_prompt
   set -q prompt_minimal; and return
 
   prompt_version
-  __fish_git_prompt
+  fish_git_prompt
   prompt_status $last_pipestatus
   prompt_duration $last_duration
 end

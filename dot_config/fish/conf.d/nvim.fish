@@ -39,6 +39,6 @@ if status is-interactive
       set -gx NVIM_LISTEN_ADDRESS $tmpdir/$window_id.sock
     end
 
-    functions -e nvim_tmux_startup
+    functions -e (status current-function)
   end
 end
