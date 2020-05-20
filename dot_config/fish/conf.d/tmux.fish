@@ -1,8 +1,4 @@
-status is-interactive; or exit
-
-function __tmux_session_name -a tty
-  test -n "$tty"; or set -l tty (tty)
-
+function tmux_session_name -a tty
   if is_ssh
     # is a remote login
     printf '%s-%s' (prompt_hostname) (string replace -a '.' '-' (string split ' ' $SSH_CONNECTION)[1])
@@ -20,8 +16,8 @@ function __tmux_session_name -a tty
   end
 end
 
-function __tmux_auto_launch -a tty
-  set session (__tmux_session_name $tty); or return
+function tmux_auto_launch -a tty
+  set session (tmux_session_name $tty); or return
 
   if string match -q "$session 0" (tmux list-sessions -F '#{session_name} #{session_attached}' 2>/dev/null)
     # attach to unattached session
@@ -37,19 +33,22 @@ function __tmux_auto_launch -a tty
   tmux $command
 end
 
-# re-synchronize update-environment variables on attach
-function __tmux_resync --on-signal USR1
-  if is_tmux
-    for entry in (tmux show-environment)
-      if string match -rq '^-' -- $entry
-        set -l envvar (string replace '-' '' -- $entry)
-        set -eg $envvar
-      else
-        set -l envpair (string split '=' $entry)
-        set -gx $envpair[1] $envpair[2]
+if status is-interactive
+  # run code on tmux reattach (signalled above)
+  function tmux_resync --on-signal USR1
+    if is_tmux
+      # sync variables defined in tmux's update-environment array
+      for entry in (tmux show-environment)
+        if string match -rq '^-' -- $entry
+          set -eg (string replace '-' '' -- $entry)
+        else
+          set var (string split '=' $entry)
+          set -gx $var[1] $var[2]
+        end
       end
+    else
+      # default is to exit on USR1, which we do when not in TMUX
+      exit
     end
-  else
-    exit
   end
 end

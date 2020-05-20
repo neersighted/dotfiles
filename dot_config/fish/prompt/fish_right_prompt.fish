@@ -1,5 +1,5 @@
 function fish_right_prompt
-  set last_status $status
+  set last_pipestatus $pipestatus
   set last_duration $CMD_DURATION
 
   set_color $fish_color_cwd
@@ -8,8 +8,8 @@ function fish_right_prompt
 
   set -q prompt_minimal; and return
 
-  fish_version_prompt
+  prompt_version
   __fish_git_prompt
-  fish_status_prompt $last_status
-  fish_timer_prompt $last_duration
+  prompt_status $last_pipestatus
+  prompt_duration $last_duration
 end

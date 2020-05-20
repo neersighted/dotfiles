@@ -1,27 +1,27 @@
 set -g tty (tty)
 
 function is_macos
-  if not set -q MACOS
+  if not set -q is_macos
     not test (uname) = 'Darwin'
-    set -g MACOS $status
+    set -g is_macos $status
   end
-  test $MACOS -eq 1
+  test $is_macos -eq 1
 end
 
 function is_linux
-  if not set -q LINUX
+  if not set -q is_linux
     not test (uname) = 'Linux'
-    set -g LINUX $status
+    set -g is_linux $status
   end
-  test $LINUX -eq 1
+  test $is_linux -eq 1
 end
 
 function is_freebsd
-  if not set -q FREEBSD
+  if not set -q is_freebsd
     not test (uname) = 'FreeBSD'
-    set -g FREEBSD $status
+    set -g is_freebsd $status
   end
-  test $FREEBSD -eq 1
+  test $is_freebsd -eq 1
 end
 
 function is_wsl

@@ -1,4 +1,4 @@
-function fish_reset --description 'reset local fish configuration'
+function fish_reset -d 'reset local fish configuration'
   # erase all universal variables
   for setting in $fish_settings
     set variable (string split ' ' $setting)[1]

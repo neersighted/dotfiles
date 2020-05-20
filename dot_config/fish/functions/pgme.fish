@@ -1,5 +1,5 @@
 function pgme -d 'quick and dirty postgres(es)'
-  set -l options 'n/name=' 'i/image='
+  set -a options 'n/name=' 'i/image='
   set -a options 'u/user=' 'p/password='
   set -a options 'd/db=' 'l/port='
   set -a options 'L/list' 'D/delete' 'R/reset'
@@ -7,13 +7,13 @@ function pgme -d 'quick and dirty postgres(es)'
   argparse $options -- $argv
   or return
 
-  set -q _flag_image; or set -l _flag_image postgres:latest
-  set -q _flag_user; or set -l _flag_user postgres
-  set -q _flag_password; or set -l _flag_password password
-  set -q _flag_db; or set -l _flag_db postgres
-  set -q _flag_port; or set -l _flag_port 5432
+  set -q _flag_image; or set _flag_image postgres:latest
+  set -q _flag_user; or set _flag_user postgres
+  set -q _flag_password; or set _flag_password password
+  set -q _flag_db; or set _flag_db postgres
+  set -q _flag_port; or set _flag_port 5432
 
-  set -l arguments -p $_flag_port:5432 -e POSTGRES_DB=$_flag_db
+  set -a arguments -p $_flag_port:5432 -e POSTGRES_DB=$_flag_db
   set -a arguments -e POSTGRES_USER=$_flag_user -e POSTGRES_PASSWORD=$_flag_password
   set -a arguments $_flag_image $argv
 
@@ -26,7 +26,7 @@ function pgme -d 'quick and dirty postgres(es)'
   if not set -q _flag_name # instant, disposable postgres (destroyed on exit)
     docker run --rm --name pgme $arguments
   else # reusable named postgres
-    set -l name pgme-$_flag_name
+    set name pgme-$_flag_name
 
     if set -q _flag_reset; or set -q _flag_delete
       docker container rm $name

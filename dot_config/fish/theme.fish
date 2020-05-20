@@ -59,7 +59,7 @@ function term_special -a idx color
       case 19; set idx k
       case 706; set idx i
       case 708
-        set -l octets (hex_octets $color)
+        set octets (hex_octets $color)
         printf $ESC']6;1;bg;red;brightness;%d'$BEL 0x$octets[1]
         printf $ESC']6;1;bg;green;brightness;%d'$BEL 0x$octets[2]
         printf $ESC']6;1;bg;blue;brightness;%d'$BEL 0x$octets[3]

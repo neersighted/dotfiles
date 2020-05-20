@@ -3,18 +3,16 @@ function wsl_env
     printf '%s: not running in WSL' (status function)
   end
 
-  set -l options 'p/translate' 'l/path'
+  set -a options 'p/translate' 'l/path'
 
   argparse $options -- $argv
   or return
 
-  set -l name $argv[1]
+  set name $argv[1]
 
-  set -l flags
   set -q _flag_p; and set -a flags p
   set -q _flag_l; and set -a flags l
 
-  set -l fullname
   if test -n "$flags"
     set fullname (printf '%s/%s' $name (string join '' $flags))
   else
@@ -22,7 +20,7 @@ function wsl_env
   end
 
   if not contains $fullname $WSLENV
-    set -l value (cmd.exe /q /c echo %$name% 2>/dev/null | string trim)
+    set value (cmd.exe /q /c echo %$name% 2>/dev/null | string trim)
 
     if contains p $flags
       set value (wslpath -u $value)
