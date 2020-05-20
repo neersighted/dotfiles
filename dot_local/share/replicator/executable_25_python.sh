@@ -43,7 +43,7 @@ fi
 
 if [ ! -x "$POETRY_HOME/bin/poetry" ]; then
   important "Installing Poetry..."
-  curl -sS https://raw.githubusercontent.com/neersighted/poetry/get-poetry-PATH/get-poetry.py | python - --no-modify-path
+  curl -sS https://raw.githubusercontent.com/python-poetry/poetry/develop/get-poetry.py | python - --no-modify-path
 fi
 
 important "Updating Python packages..."
