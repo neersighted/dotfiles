@@ -26,7 +26,6 @@ git-filter-repo
 git-lfs
 gnupg
 hexyl
-highlight
 htop
 httpie
 hyperfine

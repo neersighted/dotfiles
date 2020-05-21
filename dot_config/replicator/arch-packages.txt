@@ -39,7 +39,6 @@ git-filter-repo
 git-lfs
 github-cli-bin
 hexyl
-highlight
 htop
 httpie
 hyperfine

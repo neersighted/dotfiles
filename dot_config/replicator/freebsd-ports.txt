@@ -61,7 +61,6 @@ sysutils/tealdeer
 sysutils/tmux
 textproc/bat
 textproc/fzf
-textproc/highlight
 textproc/icdiff@py38
 textproc/jq
 textproc/py-asciinema@py38
