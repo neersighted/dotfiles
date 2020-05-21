@@ -10,15 +10,11 @@ end
 # environment setup
 source $__fish_config_dir/platform.fish
 source $__fish_config_dir/environment.fish
-source $__fish_config_dir/settings.fish
-source $__fish_config_dir/paths.fish
 source $__fish_config_dir/sockets.fish
 
 # interactive features/startup
 if status is-interactive
   source $__fish_config_dir/theme.fish
-  set -q fish_initialized; or set -U fish_initialized
-
   set -p fish_function_path $__fish_config_dir/prompt
   source $__fish_config_dir/keys.fish
   source $__fish_config_dir/startup.fish
