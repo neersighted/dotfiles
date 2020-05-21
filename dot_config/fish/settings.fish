@@ -16,9 +16,6 @@ setting VISUAL $EDITOR
 
 # pager
 setting PAGER less
-setting GIT_PAGER 'less --quit-if-one-screen --no-init'
-setting LESS '--mouse --RAW-CONTROL-CHARS --tabs=2'
-setting LESSHISTFILE $XDG_DATA_HOME/less/history
 
 #
 # toolchains
@@ -66,8 +63,16 @@ setting CARGO_HOME $XDG_DATA_HOME/cargo
 setting AWS_CONFIG_FILE $XDG_CONFIG_HOME/aws/config
 setting AWS_SHARED_CREDENTIALS_FILE $XDG_CONFIG_HOME/aws/credentials
 
+# bat
+setting BAT_STYLE full
+setting BAT_THEME Nord
+setting BAT_PAGER 'less --quit-if-one-screen --no-init'
+
 # ccache
 setting CCACHE_DIR $XDG_CACHE_HOME/ccache
+
+# git
+setting GIT_PAGER 'less --quit-if-one-screen --no-init'
 
 # homebrew
 setting HOMEBREW_AUTO_UPDATE_SECS 86400
@@ -77,6 +82,10 @@ setting GNUPGHOME $HOME/.gnupg
 
 # httpie
 setting HTTPIE_CONFIG_DIR $XDG_CONFIG_HOME/httpie
+#
+# less
+setting LESS '--mouse --RAW-CONTROL-CHARS --tabs=2'
+setting LESSHISTFILE $XDG_DATA_HOME/less/history
 
 # libvirt
 setting LIBVIRT_DEFAULT_URI qemu:///system
@@ -99,26 +108,22 @@ setting VAGRANT_WSL_ENABLE_WINDOWS_ACCESS 1
 #
 
 # core
-setting FZF_DEFAULT_COMMAND 'fd -c always -t f -t d . -L -H'
-
-# plugin (commands)
-setting FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND' $dir'
-setting FZF_OPEN_COMMAND $FZF_DEFAULT_COMMAND' $dir'
-setting FZF_CD_COMMAND 'fd -c always . $dir -t d -L'
-setting FZF_CD_WITH_HIDDEN_COMMAND $FZF_CD_COMMAND' -H'
+setting FZF_BASE_OPTS '--ansi --no-bold --cycle'
+setting FZF_DEFAULT_COMMAND 'fd --color always --type file --type directory --follow --hidden .'
 
 # plugin (ui)
 setting FZF_LEGACY_KEYBINDINGS 0
 setting FZF_TMUX 1
-setting FZF_TMUX_HEIGHT 75%
 
-# plugin (preview)
-setting FZF_ENABLE_OPEN_PREVIEW 1
-setting FZF_PREVIEW_FILE_CMD '__fzf_preview_file'
-setting FZF_PREVIEW_DIR_CMD '__fzf_preview_dir'
+# plugin (commands)
+setting FZF_CD_COMMAND 'fd --color always --type directory --follow . $dir'
+setting FZF_CD_WITH_HIDDEN_COMMAND $FZF_CD_COMMAND' --hidden'
+setting FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND' $dir'
+setting FZF_OPEN_COMMAND $FZF_DEFAULT_COMMAND' $dir'
 
-# options
-setting FZF_BASE_OPTS '--ansi --no-bold --cycle'
-setting FZF_CD_OPTS "--preview='$FZF_PREVIEW_DIR_CMD {}'"
+# plguin (options)
+setting FZF_CD_OPTS "--preview='peek {}'"
+setting FZF_FIND_FILE_OPTS "--preview='peek {}'"
+setting FZF_OPEN_OPTS "--preview='peek {}'"
 
 functions -e setting

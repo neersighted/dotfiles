@@ -1,6 +1,2 @@
---pager="--quit-if-one-screen"
-
---theme="Nord"
-
 --map-syntax "*.ino:C++"
 --map-syntax ".ignore:Git Ignore"

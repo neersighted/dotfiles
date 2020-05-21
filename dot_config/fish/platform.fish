@@ -1,4 +1,4 @@
-set -g tty (tty)
+set tty (tty)
 
 function is_macos
   if not set -q is_macos

@@ -1,4 +1,7 @@
 .config/fish/conf.d/gpg.fish
+.config/fish/functions/integration/__fzf_preview_dir.fish
+.config/fish/functions/integration/__fzf_preview_file.fish
+.config/fish/functions/integration/__fzf_z.fish
 .config/fish/functions/keys/__history_previous_arguments.fish
 .config/fish/functions/keys/__history_previous_command.fish
 .config/fish/functions/keys/__sudo_toggle.fish
