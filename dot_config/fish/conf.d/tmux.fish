@@ -1,3 +1,5 @@
+status is-interactive; or exit
+
 function tmux_session_name
   if is_ssh
     # is a remote login
@@ -26,22 +28,20 @@ function tmux_auto_launch
   end
 end
 
-if status is-interactive
-  # run code on tmux reattach (signalled above)
-  function tmux_resync --on-signal USR1
-    if is_tmux
-      # sync variables defined in tmux's update-environment array
-      for entry in (tmux show-environment)
-        if string match -rq '^-' -- $entry
-          set -eg (string replace '-' '' -- $entry)
-        else
-          set var (string split '=' $entry)
-          set -gx $var[1] $var[2]
-        end
+# run code on tmux reattach (signalled above)
+function tmux_resync --on-signal USR1
+  if is_tmux
+    # sync variables defined in tmux's update-environment array
+    for entry in (tmux show-environment)
+      if string match -rq '^-' -- $entry
+        set -eg (string replace '-' '' -- $entry)
+      else
+        set var (string split '=' $entry)
+        set -gx $var[1] $var[2]
       end
-    else
-      # default is to exit on USR1, which we do when not in TMUX
-      exit
     end
+  else
+    # default is to exit on USR1, which we do when not in TMUX
+    exit
   end
 end

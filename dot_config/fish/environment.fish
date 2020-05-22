@@ -1,4 +1,4 @@
-status is-login; or exit
+status is-login; or test $SHLVL -eq 1; or exit
 
 function def -a var val
   set -qUx $var; or set -gx $var $val
