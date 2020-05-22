@@ -1,4 +1,5 @@
 .config/fish/conf.d/gpg.fish
+.config/fish/conf.d/less.fish
 .config/fish/functions/fish/fish_reload.fish
 .config/fish/functions/fish/fish_reset.fish
 .config/fish/functions/integration/__fzf_preview_dir.fish

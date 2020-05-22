@@ -1,27 +1,18 @@
 set tty (tty)
 
 function is_macos
-  if not set -q is_macos
-    not test (uname) = 'Darwin'
-    set -g is_macos $status
-  end
-  test $is_macos -eq 1
+  set -q uname; or set -g uname (uname)
+  test $uname = 'Darwin'
 end
 
 function is_linux
-  if not set -q is_linux
-    not test (uname) = 'Linux'
-    set -g is_linux $status
-  end
-  test $is_linux -eq 1
+  set -q uname; or set -g uname (uname)
+  test $uname = 'Linux'
 end
 
 function is_freebsd
-  if not set -q is_freebsd
-    not test (uname) = 'FreeBSD'
-    set -g is_freebsd $status
-  end
-  test $is_freebsd -eq 1
+  set -q uname; or set -g uname (uname)
+  test $uname = 'FreeBSD'
 end
 
 function is_wsl
@@ -29,11 +20,11 @@ function is_wsl
 end
 
 function is_wsl1
-  is_wsl; and not set -q WSL_INTEROP
+  set -q WSLENV; and not set -q WSL_INTEROP
 end
 
 function is_wsl2
-  is_wsl; and set -q WSL_INTEROP
+  set -q WSLENV; and set -q WSL_INTEROP
 end
 
 function is_ssh

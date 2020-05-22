@@ -50,6 +50,7 @@ lsof
 man-db
 mosh
 neovim
+net-tools
 perl-file-mimeinfo
 pgcli
 mycli

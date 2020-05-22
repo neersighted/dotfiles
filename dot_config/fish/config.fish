@@ -1,10 +1,11 @@
 # core fish configuration
+set -qU fish_term24bit; or set -U fish_term24bit 1
 set -qU fish_key_bindings; or set -U fish_key_bindings fish_default_key_bindings
 set -qU fish_features; or set -U fish_features stderr-nocaret qmark-noglob
 
 # function subdirectories
-for dir in $__fish_config_dir/functions/**/
-  set -p fish_function_path (string trim -rc/ $dir)
+for dir in $__fish_config_dir/functions/*
+  test -d $dir; and set -p fish_function_path $dir
 end
 
 # environment setup

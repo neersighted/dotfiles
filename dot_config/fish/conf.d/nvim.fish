@@ -32,13 +32,11 @@ end
 if status is-interactive
   function nvim_tmux_startup -e fish_prompt
     if is_tmux; and not is_nvim
-      set tmpdir (printf '%s/nvim-tmux.%s' $TMPDIR $USER)
-      mkdir -p $tmpdir
-
       set window_id (tmux display-message -p '#{window_id}')
-      set -gx NVIM_LISTEN_ADDRESS $tmpdir/$window_id.sock
+      set -gx NVIM_LISTEN_ADDRESS $XDG_RUNTIME_DIR/nvim-tmux/$window_id.sock
+      mkdir -p (string replace -r '/[^/]+$' '' $NVIM_LISTEN_ADDRESS)
     end
 
-    functions -e (status current-function)
+    functions --erase (status current-function)
   end
 end
