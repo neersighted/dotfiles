@@ -35,6 +35,7 @@ fish
 fzf
 gdb
 git
+git-delta
 git-filter-repo
 git-lfs
 github-cli-bin

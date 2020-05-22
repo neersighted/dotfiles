@@ -25,6 +25,7 @@ databases/py-mycli@py38
 databases/py-pgcli@py38
 devel/gdb@py38
 devel/git
+devel/git-delta
 devel/git-lfs
 devel/hs-ShellCheck
 devel/p5-File-MimeInfo

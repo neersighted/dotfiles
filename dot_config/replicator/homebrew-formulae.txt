@@ -22,6 +22,7 @@ fzf
 gdb
 gh
 git
+git-delta
 git-filter-repo
 git-lfs
 gnupg

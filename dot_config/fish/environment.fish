@@ -38,6 +38,7 @@ if is_wsl
   wsl_env -p APPDATA
   wsl_env -p LOCALAPPDATA
   set -x BROWSER 'wslview'
+  set -x COLORTERM 'truecolor'
 end
 if is_wsl1
   set umask 0022
@@ -107,9 +108,6 @@ def BAT_PAGER 'less --quit-if-one-screen --no-init'
 
 # ccache
 def CCACHE_DIR $XDG_CACHE_HOME/ccache
-
-# git
-def GIT_PAGER 'less --quit-if-one-screen --no-init'
 
 # homebrew
 def HOMEBREW_AUTO_UPDATE_SECS 86400

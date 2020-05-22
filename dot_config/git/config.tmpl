@@ -20,6 +20,7 @@
 
 [core]
 	editor = git-editor
+	pager = delta
 [pull]
 	rebase = true
 [push]
@@ -39,6 +40,7 @@
 	autoSquash = true
 
 [interactive]
+	diffFilter = delta --color-only
 	singleKey = true
 [sequence]
 	editor = interactive-rebase-tool
@@ -50,12 +52,6 @@
 	submoduleSummary = true
 [log]
 	abbrevCommit = true
-
-
-[pager]
-	log = diff-so-fancy | $GIT_PAGER
-	diff = diff-so-fancy | $GIT_PAGER
-	show = diff-so-fancy | $GIT_PAGER
 
 [format]
 	pretty = onelineplus
