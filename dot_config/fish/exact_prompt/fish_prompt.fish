@@ -13,7 +13,7 @@ function fish_prompt
     set_color normal
   end
 
-  if not status_normal $last_status
+  if not __fish_prompt_status_normal $last_status
     set_color $fish_color_status
   else if test $USER = 'root'
     set_color $fish_color_user_root

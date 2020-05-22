@@ -1,4 +1,4 @@
-function prompt_duration -a last_duration
+function fish_duration_prompt -a last_duration
   if test "$last_duration" -ne 0
     set s (math -s3 "$last_duration / 1000 % 60")
     set m (math -s0 "$last_duration / 1000 / 60 % 60")
