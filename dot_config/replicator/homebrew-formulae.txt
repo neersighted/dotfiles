@@ -32,7 +32,6 @@ hyperfine
 icdiff
 jq
 less
-lesspipe
 lftp
 mas
 mosh

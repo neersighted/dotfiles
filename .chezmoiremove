@@ -10,8 +10,6 @@
 .config/fish/functions/wrappers/docker.fish
 .config/fish/functions/wrappers/git.fish
 .config/fish/paths.fish
-.config/fish/prompt/fish_status_prompt.fish
-.config/fish/prompt/fish_timer_prompt.fish
 .config/fish/settings.fish
 .config/mpd/mpd.conf
 .config/ncmpcpp/config
