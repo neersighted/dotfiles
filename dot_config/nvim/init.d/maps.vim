@@ -10,15 +10,17 @@ nnoremap <c-s>g <plug>(ale_go_to_definition)
 nnoremap <c-s>i <plug>(ale_hover)
 
 " fzf
-nnoremap <c-s><c-s> :Buffers<cr>
+nnoremap <c-s><space> :Buffers<cr>
+nnoremap <c-s><c-space> :Buffers<cr>
 nnoremap <c-s>` :Marks<cr>
 nnoremap <c-s>/ :BLines<cr>
 nnoremap <c-s>? :Lines<cr>
-nnoremap <c-s>Gg :GGrep<cr>
+nnoremap <m-o> :Files<cr>
+nnoremap <c-s>o :Files<cr>
 nnoremap <c-s>O :GFiles?<cr>
 nnoremap <c-s>T :Tags<cr>
-nnoremap <c-s>o :Files<cr>
 nnoremap <c-s>r :Rg<cr>
+nnoremap <c-s>Gg :GGrep<cr>
 nnoremap <c-s>t :BTags<cr>
 
 nmap <c-s>m <plug>(fzf-maps-n)
