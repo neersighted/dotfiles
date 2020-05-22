@@ -27,7 +27,7 @@ else if command -q brew # macOS
   function __fish_command_not_found_handler --on-event fish_command_not_found -a cmd
     __fish_default_command_not_found_handler $cmd
 
-    if brew which-formula ---on-eventxplain $cmd | read -z text
+    if brew which-formula --explain $cmd | read -z text
         printf '%s' $text
     end
   end
