@@ -13,9 +13,7 @@ function man
   set -x LESS_TERMCAP_ue (set_color normal)
   set -x GROFF_NO_SGR yes
 
-  set -lx LESS "$LESS -R -M +Gg"
   set -q MANPATH; or set -lx MANPATH ''
-
   set fish_manpath (dirname $__fish_data_dir)/fish/man
   test -d $fish_manpath; and set -lx -p MANPATH $fish_manpath
 
