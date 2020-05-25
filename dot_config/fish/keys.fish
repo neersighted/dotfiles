@@ -1,3 +1,5 @@
+bind \r repaint-and-execute
+bind \n repaint-and-execute
 bind ! history-prev-command
 bind \$ history-prev-arguments
 bind \er push-line

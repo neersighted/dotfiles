@@ -2,9 +2,14 @@ function fish_right_prompt
   set last_pipestatus $pipestatus
   set last_duration $CMD_DURATION
 
-  set_color $fish_color_cwd
-  printf ' %s' (prompt_pwd)
-  set_color normal
+  set -q repainting; and set -e repainting; and return
+
+  if test $USER = 'root'
+    set_color $fish_color_cwd_root
+  else
+    set_color $fish_color_cwd
+  end
+  prompt_pwd
 
   prompt_version
   prompt_git
