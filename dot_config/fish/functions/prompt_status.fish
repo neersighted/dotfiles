@@ -1,4 +1,4 @@
-function __fish_prompt_status_humanize -d 'convert status codes to readable names' -a code
+function __prompt_status_humanize -d 'convert status codes to readable names' -a code
   set special  INVALCHAR EMPTYGLOB EXECFORMAT NOEXEC NOTFOUND
   set signals  HUP INT QUIT ILL TRAP ABRT EMT FPE KILL BUS SEGV SYS PIPE \
                ALRM TERM URG STOP TSTP CONT CHLD TTIN TTOU IO XCPU XFSZ \
@@ -17,14 +17,14 @@ function __fish_prompt_status_humanize -d 'convert status codes to readable name
   end
 end
 
-function fish_status_prompt
+function prompt_status
   set last_status $argv[-1]
   set last_pipestatus $argv
 
-  if not __fish_prompt_status_normal $last_status
+  if not __prompt_status_normal $last_status
     set_color $fish_color_status
     if test (count $last_pipestatus) -eq 1
-      set signal (__fish_prompt_status_humanize $last_status)
+      set signal (__prompt_status_humanize $last_status)
       if string match -rq '^\d+$' $signal
         printf ' [%s]' $signal
       else
@@ -32,7 +32,7 @@ function fish_status_prompt
       end
     else
       for code in $last_pipestatus
-        set -a signals (__fish_prompt_status_humanize $code)
+        set -a signals (__prompt_status_humanize $code)
       end
       printf ' ['
       string join ' | ' $signals

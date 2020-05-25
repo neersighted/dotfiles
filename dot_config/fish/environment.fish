@@ -29,8 +29,8 @@ end
 # wsl
 if is_wsl
   set --path WSLENV $WSLENV
-  wsl_env -p APPDATA
-  wsl_env -p LOCALAPPDATA
+  wslenv -p APPDATA
+  wslenv -p LOCALAPPDATA
   set -x BROWSER 'wslview'
   set -x COLORTERM 'truecolor'
 end

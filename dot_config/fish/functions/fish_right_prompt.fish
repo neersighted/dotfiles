@@ -6,8 +6,8 @@ function fish_right_prompt
   printf ' %s' (prompt_pwd)
   set_color normal
 
-  fish_version_prompt
-  fish_git_prompt
-  fish_status_prompt $last_pipestatus
-  fish_duration_prompt $last_duration
+  prompt_version
+  prompt_git
+  prompt_status $last_pipestatus
+  prompt_duration $last_duration
 end

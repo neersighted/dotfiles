@@ -1,14 +1,14 @@
-function fish_version_prompt
+function prompt_version
   if set -q GOENV_VERSION; or set version_file (upcate .go-version)
     set -q GOENV_VERSION; or read GOENV_VERSION < $version_file
 
-    set -a contents (string join '' (set_color $fish_color_golang) "go:$GOENV_VERSION" (set_color normal))
+    set -a contents (string join '' (set_color $prompt_version_color_golang) "go:$GOENV_VERSION" (set_color normal))
   end
 
   if set -q NODENV_VERSION; or set version_file (upcate .node-version)
     set -q NODENV_VERSION; or read NODENV_VERSION < $version_file
 
-    set -a contents (string join '' (set_color $fish_color_nodejs) "js:$NODENV_VERSION" (set_color normal))
+    set -a contents (string join '' (set_color $prompt_version_color_nodejs) "js:$NODENV_VERSION" (set_color normal))
   end
 
   if set -q PYENV_VERSION; or set version_file (upcate .python-version)
@@ -16,7 +16,7 @@ function fish_version_prompt
 
     set venv_name (string split '/' $VIRTUAL_ENV)[-1]
     if test "$PYENV_VERSION" != "$venv_name"
-      set -a contents (string join '' (set_color $fish_color_python) "py:$PYENV_VERSION" (set_color normal))
+      set -a contents (string join '' (set_color $prompt_version_color_python) "py:$PYENV_VERSION" (set_color normal))
     end
   end
 
@@ -27,19 +27,19 @@ function fish_version_prompt
       set venv $venv_path[-2]
     end
 
-    set -a contents (string join '' (set_color $fish_color_python_venv) "pyv:$venv" (set_color normal))
+    set -a contents (string join '' (set_color $prompt_version_color_python_venv) "pyv:$venv" (set_color normal))
   end
 
   if set -q RBENV_VERSION; or set version_file (upcate .ruby-version)
     set -q RBENV_VERSION; or read RBENV_VERSION < $version_file
 
-    set -a contents (string join '' (set_color $fish_color_ruby) "rb:$RBENV_VERSION" (set_color normal))
+    set -a contents (string join '' (set_color $prompt_version_color_ruby) "rb:$RBENV_VERSION" (set_color normal))
   end
 
   if set -q RUSTUP_TOOLCHAIN; or set toolchain_file (upcate .rust-toolchain)
     set -q RUSTUP_TOOLCHAIN; or read RUSTUP_TOOLCHAIN < $toolchain_file
 
-    set -a contents (string join '' (set_color $fish_color_rust) "rs:$RUSTUP_TOOLCHAIN" (set_color normal))
+    set -a contents (string join '' (set_color $prompt_version_color_rust) "rs:$RUSTUP_TOOLCHAIN" (set_color normal))
   end
 
   if string length -q $contents

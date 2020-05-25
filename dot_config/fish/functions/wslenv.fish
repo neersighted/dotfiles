@@ -1,4 +1,4 @@
-function wsl_env
+function wslenv
   if not is_wsl
     printf '%s: not running in WSL' (status function)
   end

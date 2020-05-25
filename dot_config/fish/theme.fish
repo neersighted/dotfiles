@@ -1,20 +1,20 @@
 # Nord
-set -l nord0  \#2E3440
-set -l nord1  \#3B4252
-set -l nord2  \#434C5E
-set -l nord3  \#4C566A
-set -l nord4  \#D8DEE9
-set -l nord5  \#E5E9F0
-set -l nord6  \#ECEFF4
-set -l nord7  \#8FBCBB
-set -l nord8  \#88C0D0
-set -l nord9  \#81A1C1
-set -l nord10 \#5E81AC
-set -l nord11 \#BF616A
-set -l nord12 \#D08770
-set -l nord13 \#EBCB8B
-set -l nord14 \#A3BE8C
-set -l nord15 \#B48EAD
+set nord0  \#2E3440
+set nord1  \#3B4252
+set nord2  \#434C5E
+set nord3  \#4C566A
+set nord4  \#D8DEE9
+set nord5  \#E5E9F0
+set nord6  \#ECEFF4
+set nord7  \#8FBCBB
+set nord8  \#88C0D0
+set nord9  \#81A1C1
+set nord10 \#5E81AC
+set nord11 \#BF616A
+set nord12 \#D08770
+set nord13 \#EBCB8B
+set nord14 \#A3BE8C
+set nord15 \#B48EAD
 
 #
 # exa colors
@@ -36,11 +36,29 @@ set -x FZF_DEFAULT_OPTS $FZF_BASE_OPTS \
 # fish colorscheme
 #
 
+# syntax highlighting
+set -g fish_color_normal $nord4
+set -g fish_color_command $nord14
+set -g fish_color_param $nord4
+set -g fish_color_redirection $nord15
+set -g fish_color_comment $nord2
+set -g fish_color_error $nord11
+set -g fish_color_escape $nord8
+set -g fish_color_operator $nord9
+set -g fish_color_end $nord3
+set -g fish_color_quote $nord4
+set -g fish_color_autosuggestion $nord3
+set -g fish_color_valid_path --underline
+set -g fish_color_match --background $nord9
+set -g fish_color_search_match nord13 --background $nord3
+set -g fish_color_selection $nord6 --background $nord3
+set -g fish_color_cancel -r
+
 # prompt
-set -g fish_prompt_pwd_dir_length 3
-set -g fish_prompt_pwd_threshold 60
 set -g fish_color_cwd $nord9
+set -g fish_color_cwd_root $fish_color_cwd
 set -g fish_color_host $nord15
+set -g fish_color_host_remote $nord15
 set -g fish_color_jobs $nord12
 set -g fish_color_status $nord11
 set -g fish_color_timer $nord3
@@ -48,36 +66,25 @@ set -g fish_color_user $nord10
 set -g fish_color_user_root $nord4
 
 # version prompt
-set -g fish_color_golang $nord8
-set -g fish_color_nodejs $nord14
-set -g fish_color_python $nord13
-set -g fish_color_python_venv $nord13
-set -g fish_color_ruby $nord11
-set -g fish_color_rust $nord12
+set -g prompt_version_color_golang $nord8
+set -g prompt_version_color_nodejs $nord14
+set -g prompt_version_color_python $nord13
+set -g prompt_version_color_python_venv $nord13
+set -g prompt_version_color_ruby $nord11
+set -g prompt_version_color_rust $nord12
 
 # git prompt
-set -g __fish_git_prompt_color_branch $nord9
-set -g __fish_git_prompt_color_cleanstate $nord14
-set -g __fish_git_prompt_color_dirtystate $nord13
-set -g __fish_git_prompt_color_invalidstate $nord11
-set -g __fish_git_prompt_color_stagedstate $nord8
-set -g __fish_git_prompt_color_stashstate $nord10
-set -g __fish_git_prompt_color_untrackedfiles $nord15
+set -g prompt_git_color_branch $nord10
+set -g prompt_git_color_detached $nord15
+set -g prompt_git_color_upstream $nord9
+set -g prompt_git_color_operation $nord12
+set -g prompt_git_color_staged $nord14
+set -g prompt_git_color_unstaged $nord8
+set -g prompt_git_color_unmerged $nord11
+set -g prompt_git_color_untracked $nord13
+set -g prompt_git_color_stashed $nord10
 
-set -g __fish_git_prompt_show_informative_status 1
-set -g __fish_git_prompt_describe_style 'contains'
-
-set -g __fish_git_prompt_char_upstream_ahead '>'
-set -g __fish_git_prompt_char_upstream_behind '<'
-set -g __fish_git_prompt_char_upstream_equal '='
-set -g __fish_git_prompt_char_stateseperator '|'
-
-set -g __fish_git_prompt_char_cleanstate '-'
-set -g __fish_git_prompt_char_dirtystate '~'
-set -g __fish_git_prompt_char_invalidstate '#'
-set -g __fish_git_prompt_char_stagedstate '+'
-set -g __fish_git_prompt_char_stashstate '$'
-set -g __fish_git_prompt_char_untrackedfiles '?'
+set -g prompt_git_clean ''
 
 # dirh
 set -g fish_color_history_current --bold
@@ -87,24 +94,6 @@ set -g fish_pager_color_prefix $nord3
 set -g fish_pager_color_completion $nord4
 set -g fish_pager_color_description $nord13
 set -g fish_pager_color_progress $nord6 --background $nord10
-
-# syntax highlighting
-set -g fish_color_normal $nord4
-set -g fish_color_command $nord14
-set -g fish_color_quote $nord4
-set -g fish_color_redirection $nord15
-set -g fish_color_end $nord3
-set -g fish_color_error $nord11
-set -g fish_color_param $nord4
-set -g fish_color_comment $nord2
-set -g fish_color_match --background $nord9
-set -g fish_color_selection $nord6 --background $nord3
-set -g fish_color_search_match nord13 --background $nord3
-set -g fish_color_operator $nord9
-set -g fish_color_escape $nord8
-set -g fish_color_autosuggestion $nord3
-set -g fish_color_valid_path --underline
-set -g fish_color_cancel -r
 
 # manpages
 set -g man_color_blink $nord15 --bold --underline
