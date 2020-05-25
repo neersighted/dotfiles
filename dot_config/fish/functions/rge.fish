@@ -1,10 +1,10 @@
-if command -q rg
-  function rge -w rg
-    set results (rg -l $argv | string join " ")
+command -q rg; or exit
 
-    if test -n "$results"
-      commandline -r "$EDITOR $results"
-      commandline -C (string length $EDITOR)
-    end
+function rge -w rg
+  set results (rg -l $argv | string join " ")
+
+  if test -n "$results"
+    commandline --replace "$EDITOR $results"
+    commandline --cursor (string length $EDITOR)
   end
 end

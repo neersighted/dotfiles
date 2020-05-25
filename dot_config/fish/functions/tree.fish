@@ -1,5 +1,5 @@
-if command -q exa
-  function tree -w exa
-    command exa --tree --long --git $argv
-  end
+command -q exa; or exit
+
+function tree -w exa
+  command exa --tree --long --git $argv
 end

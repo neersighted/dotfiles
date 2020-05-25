@@ -1,8 +1,6 @@
-function wslenv
-  if not is_wsl
-    printf '%s: not running in WSL' (status function)
-  end
+is_wsl; or exit
 
+function wslenv
   set -a options 'p/path' 'l/list'
 
   argparse $options -- $argv
@@ -20,7 +18,13 @@ function wslenv
   end
 
   if not contains $fullname $WSLENV
-    set value (cmd.exe /q /c echo %$name% 2>/dev/null | string trim)
+    set placeholder %$name%
+    set value (cmd.exe /q /c echo $placeholder 2>/dev/null | string trim)
+
+    # handle blank/empty variables
+    if test "$value" = "$placeholder"
+      set value ''
+    end
 
     if contains p $flags
       set value (wslpath -u $value)

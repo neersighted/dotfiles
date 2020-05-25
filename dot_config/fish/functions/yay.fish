@@ -1,10 +1,10 @@
-if command -q yay
-  function yay
-    set -x GOENV_VERSION system
-    set -x NODENV_VERSION system
-    set -x PYENV_VERSION system
-    set -x RBENV_VERSION system
+command -q yay; or exit
 
-    command yay $argv
-  end
+function yay
+  set -x GOENV_VERSION system
+  set -x NODENV_VERSION system
+  set -x PYENV_VERSION system
+  set -x RBENV_VERSION system
+
+  command yay $argv
 end

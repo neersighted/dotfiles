@@ -1,5 +1,5 @@
-if command -q exa
-  function ls -w exa
-    command exa --classify --git --group $argv
-  end
+command -q exa; or exit
+
+function ls -w exa
+  command exa --classify --git --group $argv
 end
