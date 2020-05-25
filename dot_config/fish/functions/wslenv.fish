@@ -3,7 +3,7 @@ function wslenv
     printf '%s: not running in WSL' (status function)
   end
 
-  set -a options 'p/translate' 'l/path'
+  set -a options 'p/path' 'l/list'
 
   argparse $options -- $argv
   or return
