@@ -15,7 +15,7 @@ databases/sqlite3
 devel/libffi
 devel/ncurses
 devel/readline
-security/libressl
+security/openssl
 textproc/libyaml
 
 # User Programs
