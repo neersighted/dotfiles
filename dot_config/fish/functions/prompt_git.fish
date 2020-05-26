@@ -1,3 +1,8 @@
+if not command -q git
+  function prompt_git; end
+  exit
+end
+
 function prompt_git
   set -q prompt_git_prefix; or set prompt_git_prefix '('
   set -q prompt_git_postfix; or set prompt_git_suffix ')'
