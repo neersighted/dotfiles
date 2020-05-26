@@ -8,9 +8,10 @@ readline
 xz
 
 # User Programs
+age
 asciinema
 bat
-twpayne/taps/chezmoi
+chezmoi
 coreutils
 ctags
 direnv

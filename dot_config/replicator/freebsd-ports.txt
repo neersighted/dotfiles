@@ -47,6 +47,7 @@ ports-mgmt/portfind
 ports-mgmt/portgrep
 ports-mgmt/portlint
 ports-mgmt/poudriere
+security/age
 security/gnupg
 security/pinentry-curses
 shells/bash

@@ -26,8 +26,10 @@ case "$UNAME" in
     ;;
   Darwin)
     PKGS="homebrew-formulae.txt"
+    TAPS="homebrew-taps.txt"
     INSTALL_CMD="brew install"
-    INSTALLED_CMD=$(brew ls --full-name -1)
+    INSTALLED_CMD=$(brew ls)
+    TAPPED_CMD=$(brew tap)
     UPDATE_CMD="brew update; brew upgrade"
     ;;
   *)
@@ -42,7 +44,7 @@ while IFS= read -r line; do
     continue
   fi
 
-  if printf '%s' "$line" | grep -Fq '@' && [ "$UNAME" = 'FreeBSD' ]; then
+  if [ "$UNAME" = 'FreeBSD' ] && printf '%s' "$line" | grep -Fq '@'; then
     origin=$(printf '%s' "$line" | cut -d@ -f1)
     flavor=$(printf '%s' "$line" | cut -d@ -f2)
 
@@ -59,6 +61,23 @@ while IFS= read -r line; do
 done <"$XDG_CONFIG_HOME/replicator/$PKGS"
 
 case "$UNAME" in
+  Darwin)
+    while IFS= read -r line; do
+      tap=$(printf '%s' "$line" | cut -d' ' -f1)
+      url=$(printf '%s' "$line" | cut -d' ' -f2)
+
+      if ! printf '%s' "$TAPPED_CMD" | grep -Fxq "$tap"; then
+        important "Tapping $tap..."
+        brew tap "$tap" "${url:+$url}"
+      fi
+    done < "$XDG_CONFIG_HOME/replicator/$TAPS"
+    ;;
+  FreeBSD)
+    if ! grep -Eq '^CONSERVATIVE_UPGRADE' /usr/local/etc/pkg.conf; then
+      important "Configuring pkg to upgrade Aggressively..."
+      printf '\n%s' 'CONSERVATIVE_UPGRADE: false;' >>/usr/local/etc/pkg.conf
+    fi
+    ;;
   Linux)
     # bootstrap yay
     if ! command -v yay >/dev/null; then
@@ -77,12 +96,6 @@ case "$UNAME" in
     # pass through language managers
     export GOENV_VERSION=system NODENV_VERSION=system PYENV_VERSION=system RBENV_VERSION=system
     ;;
-  FreeBSD)
-    if ! grep -Eq '^CONSERVATIVE_UPGRADE' /usr/local/etc/pkg.conf; then
-      important "Configuring pkg to upgrade Aggressively..."
-      printf '\n%s' 'CONSERVATIVE_UPGRADE: false;' >>/usr/local/etc/pkg.conf
-    fi
-    ;;
 esac
 
 if [ -n "$INSTALL" ]; then
@@ -95,20 +108,10 @@ fi
 important "Updating system packages with ${UPDATE_CMD%% *}..."
 eval "$UPDATE_CMD"
 
-case "$UNAME" in
-  FreeBSD)
-    if ! grep -Eq '^PKG_ENABLE_PLUGINS' /usr/local/etc/pkg.conf; then
-      important "Enabling pkg-provides..."
-      sed -e '/PKG_PLUGINS_DIR/s/^#//' -e '/PKG_ENABLE_PLUGINS/s/^#//' -e 's/#PLUGINS \[/PLUGINS [ provides ]/' -i '' /usr/local/etc/pkg.conf
-    fi
-    ;;
-  Darwin)
-    if ! brew tap | grep -Fxq 'homebrew/command-not-found'; then
-      important "Enabling command-not-found..."
-      brew tap homebrew/command-not-found
-    fi
-    ;;
-esac
+if [ "$UNAME" = 'FreeBSD' ] && ! grep -Eq '^PKG_ENABLE_PLUGINS' /usr/local/etc/pkg.conf; then
+  important "Enabling pkg-provides..."
+  sed -e '/PKG_PLUGINS_DIR/s/^#//' -e '/PKG_ENABLE_PLUGINS/s/^#//' -e 's/#PLUGINS \[/PLUGINS [ provides ]/' -i '' /usr/local/etc/pkg.conf
+fi
 
 if [ -n "$PROVIDES_CMD" ]; then
   important "Updating provides database..."

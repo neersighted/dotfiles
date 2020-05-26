@@ -23,6 +23,7 @@ xz
 zlib
 
 # User Programs
+age
 asciinema
 bat
 chezmoi
