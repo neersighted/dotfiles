@@ -49,6 +49,7 @@ jq
 lftp
 lsof
 man-db
+mkcert
 mosh
 neovim
 net-tools

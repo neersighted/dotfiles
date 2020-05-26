@@ -36,6 +36,7 @@ jq
 less
 lftp
 mas
+mkcert
 mosh
 mycli
 neovim

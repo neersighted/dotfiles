@@ -78,6 +78,7 @@ www/py-httpie@py38
 # diskus
 # gh
 # git-filter-repo
+# mkcert
 # watchexec
 
 # Other
