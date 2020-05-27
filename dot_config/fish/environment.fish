@@ -122,6 +122,9 @@ def LIBVIRT_DEFAULT_URI qemu:///system
 # lsof
 def LSOFDEVCACHE $XDG_CACHE_HOME/lsof
 
+# mysql
+def MYSQL_HISTFILE $XDG_DATA_HOME/mysql/history
+
 # (n)vim
 def VIM_CONFIG_PATH $XDG_CONFIG_HOME/nvim
 
