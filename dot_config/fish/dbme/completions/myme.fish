@@ -1,0 +1,13 @@
+complete -c myme -s n -l name -xa '(myme -L)' -d 'instance name'
+complete -c myme -s i -l image -x -d 'docker image'
+complete -c myme -s u -l user -x -d 'initial user name'
+complete -c myme -s p -l password -x -d 'initial user password'
+complete -c mongul -s P -l root-password -x -d 'root password'
+complete -c mongul -s s -l sha2-auth -x -d 'use caching_sha2_password'
+complete -c myme -s d -l db -x -d 'initial db name'
+complete -c myme -s l -l port -x -d 'tcp port'
+
+complete -c myme -s C -l console -f -d 'open console/cli'
+complete -c myme -s L -l list -f -d 'list instances'
+complete -c myme -s D -l delete -f -d 'delete instance'
+complete -c myme -s R -l reset -f -d 'reset instance'

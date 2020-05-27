@@ -111,15 +111,15 @@ function prompt_git
   end
   printf '%s' $head
 
-  if test (string replace -r '^.*/' '' $upstream) != "$head"
+  if test -n "$upstream"; and test (string replace -r '^.*/' '' $upstream) != "$head"
     set_color $prompt_git_color_upstream
     printf ' %s %s' $prompt_git_upstream $upstream
   end
-  if test "$behind" != '-0'
+  if test -n "$behind"; and test "$behind" != '-0'
     set_color $prompt_git_color_behind
     printf '%s%d' $prompt_git_behind (math $behind \* -1)
   end
-  if test "$ahead" != '+0'
+  if test -n "$ahead"; and test "$ahead" != '+0'
     set_color $prompt_git_color_ahead
     printf '%s%d' $prompt_git_ahead $ahead
   end

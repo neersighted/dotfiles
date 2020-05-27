@@ -5,6 +5,7 @@ complete -c pgme -s p -l password -x -d 'admin password'
 complete -c pgme -s d -l db -x -d 'database name'
 complete -c pgme -s l -l port -x -d 'tcp port'
 
+complete -c pgme -s C -l console -f -d 'open console/cli'
 complete -c pgme -s L -l list -f -d 'list instances'
 complete -c pgme -s D -l delete -f -d 'delete instance'
 complete -c pgme -s R -l reset -f -d 'reset instance'
