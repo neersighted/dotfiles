@@ -55,7 +55,7 @@ while IFS= read -r line; do
     install="$line"
   fi
 
-  if ! printf '%s' "$INSTALLED_CMD" | grep -Fxq "$(printf '%s' "$installed")"; then
+  if ! printf '%s' "$INSTALLED_CMD" | grep -Fxq "$installed"; then
     INSTALL="$INSTALL$install "
   fi
 done <"$XDG_CONFIG_HOME/replicator/$PKGS"
@@ -91,6 +91,11 @@ case "$UNAME" in
         cd "$YAY"
         makepkg -si --noconfirm
       )
+    fi
+
+    # add-in wslu
+    if uname -a | grep -iq microsoft && ! command -v wslview >/dev/null; then
+      INSTALL="${INSTALL}wslu"
     fi
 
     # pass through language managers
