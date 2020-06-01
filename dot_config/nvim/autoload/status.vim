@@ -11,8 +11,9 @@ let g:status#filetype_modes = {
   \ 'fugitiveblame': 'BLAME',
   \ 'help': 'HELP',
   \ 'man': 'MAN',
+  \ 'packager': 'PACK',
   \ 'startify': 'STARTIFY',
-  \ 'tagbar': 'TAGS',
+  \ 'vista': 'TAGS',
   \ }
 
 " Helpers
@@ -106,7 +107,11 @@ function! status#filetype() abort
     \ : ''
 endfunction
 
-function status#git_head() abort
+function! status#function() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
+function! status#git_head() abort
   if !exists('b:git_dir')
     return ''
   endif
@@ -135,7 +140,7 @@ function! status#lineinfo() abort
     \ : ''
 endfunction
 
-function! status#mode()
+function! status#mode() abort
   let l:mode = get(g:status#filetype_modes, &filetype, lightline#mode())
 
   if &buftype ==# 'quickfix'

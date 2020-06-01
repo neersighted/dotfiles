@@ -36,6 +36,7 @@ if exists('*packager#init')
   call packager#add('tpope/vim-unimpaired')
 
   " Integration
+  call packager#add('APZelos/blamer.nvim')
   call packager#add('christoomey/vim-tmux-navigator')
   call packager#add('dense-analysis/ale')
   call packager#add('jamessan/vim-gnupg')
@@ -79,9 +80,12 @@ if exists('*packager#init')
   call packager#add('justinmk/vim-dirvish')
   call packager#add('kristijanhusak/vim-dirvish-git')
   call packager#add('kshenoy/vim-signature')
-  call packager#add('majutsushi/tagbar', {'type': 'opt'})
-  call packager#add('mhinz/vim-sayonara', {'type': 'opt'})
+  call packager#add('liuchengxu/vista.vim')
+  call packager#add('lukas-reineke/indent-blankline.nvim')
+  call packager#add('machakann/vim-highlightedyank')
+  call packager#add('mhinz/vim-sayonara')
   call packager#add('mhinz/vim-startify')
+  call packager#add('psliwka/vim-smoothie')
   call packager#add('simnalamburt/vim-mundo', {'type': 'opt'})
   call packager#add('talek/obvious-resize')
   call packager#add('tommcdo/vim-kangaroo')
@@ -103,12 +107,6 @@ augroup packager_lazy
 
   " junegunn/vader.vim
   command! -nargs=* -range -bang Vader packadd vader.vim | call s:lazy_cmd('Vader', "<bang>", <line1>, <line2>, <q-args>)
-
-  " majutsushi/tagbar
-  command! -nargs=* -range -bang TagbarToggle packadd tagbar | call s:lazy_cmd('TagbarToggle', "<bang>", <line1>, <line2>, <q-args>)
-
-  " mhinz/vim-sayonara
-  command! -nargs=* -range -bang Sayonara packadd vim-sayonara | call s:lazy_cmd('Sayonara', "<bang>", <line1>, <line2>, <q-args>)
 
   " pangloss/vim-javascript
   autocmd FileType javascript packadd vim-javascript

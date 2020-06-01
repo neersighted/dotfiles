@@ -37,7 +37,7 @@ let g:lightline = {
   \     'left': [
   \       [ 'mode', 'paste' ],
   \       [ 'fileinfo' ],
-  \       [ 'git_status' ],
+  \       [ 'function', 'git_status' ],
   \     ],
   \     'right': [
   \       [ 'ale_error', 'ale_warning', 'percent', 'lineinfo' ],
@@ -69,6 +69,7 @@ let g:lightline = {
   \     'fileinfo':     'status#fileinfo',
   \     'filename':     'status#filename',
   \     'filetype':     'status#filetype',
+  \     'function':     'status#function',
   \     'indent':       'status#indent',
   \     'mode':         'status#mode',
   \     'paste':        'status#paste',
