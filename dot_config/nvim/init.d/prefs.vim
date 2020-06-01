@@ -46,3 +46,7 @@ set linebreak breakindent " Enable visual line wrapping.
 
 " Other
 let g:loaded_netrwPlugin = 1 " Disable Netrw.
+let g:carbon_now_sh_options = {
+      \ 't': 'Nord',
+      \ 'fm': 'Source Code Pro',
+      \ }
