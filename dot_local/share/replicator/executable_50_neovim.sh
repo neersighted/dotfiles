@@ -7,11 +7,6 @@ set -e
 
 section "Neovim"
 
-if [ -d "$XDG_CONFIG_HOME/nvim/pack" ]; then
-  important "Syncing neovim plugins..."
-  nvim --headless -c "silent PackSync!" >/dev/null 2>&1
-fi
-
 if ! pyenv versions --bare | grep -Fxq "neovim"; then
   important "Creating neovim virtual environment..."
   pyenv virtualenv neovim
