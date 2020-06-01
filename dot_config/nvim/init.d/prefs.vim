@@ -21,7 +21,12 @@ set grepformat^=%f:%l:%c:%m
 set mouse=a " Enable full mouse support.
 
 " Numbering
-set number relativenumber " Use relative line numbering.
+set number " Show line numbers.
+augroup numbertoggle " Show relative numbers in normal mode.
+  autocmd!
+  autocmd InsertEnter * set norelativenumber
+  autocmd VimEnter,InsertLeave * set relativenumber
+augroup END
 
 " Search
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.

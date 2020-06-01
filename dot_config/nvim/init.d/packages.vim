@@ -42,7 +42,7 @@ if exists('*packager#init')
   call packager#add('jamessan/vim-gnupg')
   call packager#add('junegunn/fzf')
   call packager#add('junegunn/fzf.vim')
-  call packager#add('junegunn/vader.vim', {'type': 'opt'})
+  call packager#add('junegunn/vader.vim')
   call packager#add('justinmk/vim-gtfo')
   call packager#add('kristijanhusak/vim-carbon-now-sh')
   call packager#add('ludovicchabant/vim-gutentags')
@@ -76,6 +76,7 @@ if exists('*packager#init')
   call packager#add('Yggdroot/indentLine')
   call packager#add('airblade/vim-gitgutter')
   call packager#add('itchyny/lightline.vim')
+  call packager#add('junegunn/gv.vim')
   call packager#add('junegunn/vim-peekaboo')
   call packager#add('junegunn/vim-slash')
   call packager#add('justinmk/vim-dirvish')
@@ -87,7 +88,7 @@ if exists('*packager#init')
   call packager#add('mhinz/vim-sayonara')
   call packager#add('mhinz/vim-startify')
   call packager#add('psliwka/vim-smoothie')
-  call packager#add('simnalamburt/vim-mundo', {'type': 'opt'})
+  call packager#add('simnalamburt/vim-mundo')
   call packager#add('talek/obvious-resize')
   call packager#add('tommcdo/vim-kangaroo')
   call packager#add('tpope/vim-characterize')
@@ -106,17 +107,11 @@ augroup packager_lazy
   " fatih/vim-go
   autocmd FileType go packadd vim-go
 
-  " junegunn/vader.vim
-  command! -nargs=* -range -bang Vader packadd vader.vim | call s:lazy_cmd('Vader', "<bang>", <line1>, <line2>, <q-args>)
-
   " pangloss/vim-javascript
   autocmd FileType javascript packadd vim-javascript
 
   " rust-lang/rust.vim
   autocmd FileType rust packadd rust.vim
-
-  " simnalamburt/vim-mundo
-  command! -nargs=* -range -bang MundoToggle packadd vim-mundo | call s:lazy_cmd('MundoToggle', "<bang>", <line1>, <line2>, <q-args>)
 
   " vim-python/python-syntax
   autocmd FileType python packadd python-syntax
