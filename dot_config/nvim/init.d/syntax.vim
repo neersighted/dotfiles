@@ -3,7 +3,7 @@
 "
 
 let g:rainbow_active = 1 " Enable rainbow pairs.
-if exists('g:terminal_color_1') 
+function! s:rainbow_reload()
   let g:rainbow_conf = {
         \   'guifgs': [
         \     g:terminal_color_4,
@@ -13,17 +13,20 @@ if exists('g:terminal_color_1')
         \     g:terminal_color_2,
         \   ]
         \ }
-endif
+endfunction
+augroup rainbow_reload
+  autocmd ColorScheme * call s:rainbow_reload()
+augroup END
+
+let g:carbon_now_sh_options = {
+      \ 't': g:colors_name,
+      \ 'fm': 'Source Code Pro',
+      \ }
 
 "
 " Go
 "
 
-let g:go_auto_type_info = 1 " Show info for word under cursor.
-let g:go_highlight_functions = 1 " Highlight all the things.
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
 "

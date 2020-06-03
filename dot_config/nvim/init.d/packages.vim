@@ -1,4 +1,4 @@
-let s:packager_path = fnamemodify($MYVIMRC, ':p:h') . '/pack/packager/opt/vim-packager'
+let s:packager_path = fnamemodify($MYVIMRC, ':p:h').'/pack/packager/opt/vim-packager'
 let s:packager_config = expand('<sfile>:p')
 
 command!       PackInstall packadd vim-packager | execute 'source' s:packager_config | call packager#install()
@@ -7,10 +7,10 @@ command!       PackClean   packadd vim-packager | execute 'source' s:packager_co
 command!       PackStatus  packadd vim-packager | execute 'source' s:packager_config | call packager#status()
 
 if empty(glob(s:packager_path))
-  silent execute '!git clone https://github.com/kristijanhusak/vim-packager ' . s:packager_path
+  silent execute '!git clone https://github.com/kristijanhusak/vim-packager '.s:packager_path
   augroup packager_bootstrap
     autocmd!
-    autocmd VimEnter * execute 'PackInstall' | packloadall | source $MYVIMRC
+    autocmd VimEnter * execute 'PackInstall' | echo 'Restart to use plugins!'
   augroup END
 endif
 
@@ -55,10 +55,10 @@ if exists('*packager#init')
   call packager#add('tpope/vim-repeat')
 
   " Syntax
+  call packager#add('blankname/vim-fish')
   call packager#add('cespare/vim-toml')
   call packager#add('chr4/nginx.vim')
   call packager#add('chrisbra/Colorizer')
-  call packager#add('dag/vim-fish')
   call packager#add('elzr/vim-json', {'type': 'opt'})
   call packager#add('ericpruitt/tmux.vim')
   call packager#add('fatih/vim-go', {'type': 'opt'})
@@ -70,11 +70,11 @@ if exists('*packager#init')
   call packager#add('rust-lang/rust.vim', {'type': 'opt'})
   call packager#add('vim-python/python-syntax', {'type': 'opt'})
   call packager#add('vim-ruby/vim-ruby', {'type': 'opt'})
-  call packager#add('wgwoods/vim-systemd-syntax')
 
   " UI
   call packager#add('Yggdroot/indentLine')
   call packager#add('airblade/vim-gitgutter')
+  call packager#add('dstein64/vim-startuptime')
   call packager#add('itchyny/lightline.vim')
   call packager#add('junegunn/gv.vim')
   call packager#add('junegunn/vim-peekaboo')

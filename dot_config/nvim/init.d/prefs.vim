@@ -5,8 +5,8 @@ set undofile " Persist undo history.
 set hidden " Allow backgrounding dirty buffers.
 
 " Colors
-set termguicolors " Use truecolor if available.
-silent! colorscheme nord " Default to the nord theme.
+set termguicolors " Use 24-bit color.
+let g:colors_name = 'nord' " Use nord theme.
 
 " Cursor/Movement
 set scrolloff=2 " Keep the cursor two lines from the top/bottom.
@@ -28,6 +28,10 @@ augroup numbertoggle " Show relative numbers in normal mode.
   autocmd VimEnter,InsertLeave * set relativenumber
 augroup END
 
+" Remote Plugins
+let g:loaded_python_provider = 0 " Disable Python 2.
+let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim/bin/python' " Locate Python 3 venv.
+
 " Search
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
 
@@ -41,6 +45,9 @@ let g:obvious_resize_run_tmux = 1 " Enable Tmux resizing integration.
 " Substitution
 set inccommand=split " Show incomplete substitutions in a preview split.
 
+" Terminal
+let $GIT_EDITOR = 'nvr --remote-wait -cc split' " Open commits in a split.
+
 " Whitespace
 set list listchars=tab:→·,nbsp:·,trail:~,extends:»,precedes:« " Show hidden characters.
 set showbreak=>\  " Show a character for wrapped lines.
@@ -52,7 +59,4 @@ set linebreak breakindent " Enable visual line wrapping.
 
 " Other
 let g:loaded_netrwPlugin = 1 " Disable Netrw.
-let g:carbon_now_sh_options = {
-      \ 't': 'Nord',
-      \ 'fm': 'Source Code Pro',
-      \ }
+let g:startuptime_self = 1 " Use 'self' time when profiling.

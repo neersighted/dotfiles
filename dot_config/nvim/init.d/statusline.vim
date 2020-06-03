@@ -1,8 +1,3 @@
-" Prevent errors if `colors_name` is undefined.
-if !exists('g:colors_name')
-  let g:colors_name = 'default'
-endif
-
 " Hook into other plugins to update the statusline.
 augroup lightline_hook
   autocmd!
@@ -17,18 +12,25 @@ let g:tagbar_status_func = 'TagbarStatusline'
 
 " Reload lightline on colorscheme change.
 function! s:lightline_reload()
-  if !has('vim_starting')
-    let g:lightline.colorscheme = g:colors_name
-    execute 'runtime autoload/lightline/colorscheme/'.g:lightline.colorscheme.'.vim'
-    call lightline#colorscheme()
+  if !exists('g:loaded_lightline')
+    return
   end
+
+  let g:lightline.colorscheme = s:lightline_colorscheme()
+  call lightline#init()
+  call lightline#colorscheme()
 endfunction
 augroup lightline_reload
   autocmd ColorScheme * call s:lightline_reload()
 augroup END
 
+" Helper to get the lightline colorscheme name.
+function! s:lightline_colorscheme()
+  return substitute(substitute(g:colors_name, '-', '_', 'g'), '256.*', '', '')
+endfunction
+
 let g:lightline = {
-  \ 'colorscheme': g:colors_name,
+  \ 'colorscheme': s:lightline_colorscheme(),
   \ 'mode_map': {
   \   'n': 'N', 'i': 'I', 'R': 'R', 'v': 'V', 'V': '-V-', "\<C-v>": '[V]',
   \   'c': ':', 's': 'S', 'S': '-S-', "\<C-s>": '[S]', 't': '$'
