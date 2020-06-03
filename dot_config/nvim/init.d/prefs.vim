@@ -36,6 +36,7 @@ set noshowmode showtabline=2 " Hide mode, always show tabline.
 
 " Splits
 set splitright splitbelow " Open vertical splits to the right, horizontal below.
+let g:obvious_resize_run_tmux = 1 " Enable Tmux resizing integration.
 
 " Substitution
 set inccommand=split " Show incomplete substitutions in a preview split.

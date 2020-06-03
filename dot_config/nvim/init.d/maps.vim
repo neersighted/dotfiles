@@ -10,8 +10,7 @@ nnoremap <c-s>g <plug>(ale_go_to_definition)
 nnoremap <c-s>i <plug>(ale_hover)
 
 " fzf
-nnoremap <c-s><space> :Buffers<cr>
-nnoremap <c-s><c-space> :Buffers<cr>
+nnoremap <c-s><c-s> :Buffers<cr>
 nnoremap <c-s>` :Marks<cr>
 nnoremap <c-s>/ :BLines<cr>
 nnoremap <c-s>? :Lines<cr>
