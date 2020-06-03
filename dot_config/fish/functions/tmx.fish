@@ -3,6 +3,9 @@ function tmx -d 'quickly attach to or create a new tmux session' -a query
   test -z "$session"; and return
   
   if is_tmux
+    if not tmux has-session -t $session &>/dev/null
+      tmux new -d -s $session
+    end
     tmux switch -t $session
   else
     tmux new -A -s $session
