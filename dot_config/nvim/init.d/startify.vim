@@ -4,15 +4,10 @@ augroup startify_settings
   autocmd User Startified setlocal cursorline buftype=nofile
 augroup END
 
-let g:startify_bookmarks = [
-  \ {'v': '~/.config/nvim/init.vim'},
-  \ {'f': '~/.config/fish/config.fish'},
-  \ {'t': '~/.config/tmux/tmux.conf'},
-  \ {'g': '~/.config/git/config'},
-  \ {'i': '~/.config/i3/config'},
-  \ ]
-
 let g:startify_commands = [
   \ {'T': ':terminal'},
   \ {'h': ':checkhealth'},
   \ ]
+
+let g:startify_change_to_vcs_root = 1 " Switch to root when opening file.
+let g:startify_files_number = 12 " Show more files.

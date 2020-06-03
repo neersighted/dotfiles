@@ -10,7 +10,7 @@ if empty(glob(s:packager_path))
   silent execute '!git clone https://github.com/kristijanhusak/vim-packager '.s:packager_path
   augroup packager_bootstrap
     autocmd!
-    autocmd VimEnter * execute 'PackInstall' | echo 'Restart to use plugins!'
+    autocmd VimEnter * packadd vim-packager | execute 'source' s:packager_config | call packager#install({'on_finish': 'echo "Restart to start using plugins!"'})
   augroup END
 endif
 

@@ -4,6 +4,10 @@
 
 let g:rainbow_active = 1 " Enable rainbow pairs.
 function! s:rainbow_reload()
+  if !exists('g:terminal_color_1')
+    return
+  end
+
   let g:rainbow_conf = {
         \   'guifgs': [
         \     g:terminal_color_4,
