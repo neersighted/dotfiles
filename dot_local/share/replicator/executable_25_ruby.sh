@@ -21,7 +21,7 @@ if ! $MAKE -C "$RBENV_ROOT/src" -q; then
   $MAKE -C "$RBENV_ROOT/src"
 fi
 
-RUBY_VERSION=$(rbenv install -l | selectversion)
+RUBY_VERSION=$(rbenv install -L | selectversion)
 if ! rbenv versions --bare | grep -Fxq "$RUBY_VERSION"; then
   important "Installing Ruby $RUBY_VERSION..."
   rbenv install -s "$RUBY_VERSION"
