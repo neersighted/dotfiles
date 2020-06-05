@@ -16,5 +16,6 @@ fi
 
 pipx_install "neovim-remote"
 pipx_install "vim-vint"
+go_get "github.com/rhysd/vim-startuptime"
 
 # vi: ft=sh

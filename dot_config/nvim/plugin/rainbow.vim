@@ -20,4 +20,4 @@ endfunction
 augroup rainbow_reload
   autocmd ColorScheme * call s:rainbow_reload()
 augroup END
-
+call s:rainbow_reload()

@@ -11,8 +11,10 @@ let g:status#filetype_modes = {
   \ 'fugitiveblame': 'BLAME',
   \ 'help': 'HELP',
   \ 'man': 'MAN',
+  \ 'markbar': 'MARKS',
   \ 'packager': 'PACK',
   \ 'startify': 'STARTIFY',
+  \ 'startuptime': 'STARTUPTIME',
   \ 'vista': 'TAGS',
   \ }
 
