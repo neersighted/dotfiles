@@ -75,6 +75,7 @@ def PIPX_HOME $XDG_DATA_HOME/pipx
 def PIPX_BIN_DIR $XDG_DATA_HOME/pipx/bin
 def POETRY_HOME $XDG_DATA_HOME/poetry
 def PYLINTHOME $XDG_CACHE_HOME/pylint
+def PYTHONSTARTUP $XDG_CONFIG_HOME/python/startup.py
 
 # ruby
 def RBENV_ROOT $XDG_DATA_HOME/rbenv
@@ -127,6 +128,9 @@ def MYSQL_HISTFILE $XDG_DATA_HOME/mysql/history
 
 # (n)vim
 def VIM_CONFIG_PATH $XDG_CONFIG_HOME/nvim
+
+# redis
+def REDISCLI_HISTFILE $XDG_DATA_HOME/rediscli/history
 
 # tmux
 set -x TMUX_TMPDIR $XDG_RUNTIME_DIR
