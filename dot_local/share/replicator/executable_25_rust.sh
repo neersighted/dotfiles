@@ -26,7 +26,6 @@ cargo_install "cargo-edit"
 cargo_install "cargo-expand"
 cargo_install "cargo-outdated"
 cargo_install "cargo-sweep"
-cargo_install "cargo-tree"
 cargo_install "cargo-update"
 cargo_install "cargo-watch"
 
