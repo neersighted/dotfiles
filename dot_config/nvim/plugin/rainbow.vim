@@ -1,8 +1,7 @@
-"
-" All
-"
+" Enable rainbow by default.
+let g:rainbow_active = 1
 
-let g:rainbow_active = 1 " Enable rainbow pairs.
+" Recycle colors from the current colorscheme.
 function! s:rainbow_reload()
   if !exists('g:terminal_color_1')
     return
@@ -22,19 +21,3 @@ augroup rainbow_reload
   autocmd ColorScheme * call s:rainbow_reload()
 augroup END
 
-let g:carbon_now_sh_options = {
-      \ 't': g:colors_name,
-      \ 'fm': 'Source Code Pro',
-      \ }
-
-"
-" Go
-"
-
-let g:go_highlight_build_constraints = 1
-
-"
-" Python
-"
-
-let g:python_highlight_all = 1

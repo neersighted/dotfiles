@@ -18,16 +18,15 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 command! -bang -nargs=? -complete=dir Files
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
-function! s:Rg(query, fullscreen)
+function! FzfRg(query, fullscreen)
   let l:basecmd = 'rg --color=always --column --smart-case -- %s || true'
   let l:startcmd = printf(l:basecmd, shellescape(a:query))
   let l:reloadcmd = printf(l:basecmd, '{q}')
   let l:spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.l:reloadcmd]}
   call fzf#vim#grep(basecmd, 1, fzf#vim#with_preview(spec, a:fullscreen ? 'up:60%' : 'right:50%:hidden'), a:fullscreen)
 endfunction
-command! -bang -nargs=* Rg call s:Rg(<q-args>, <bang>0)
 
-function! s:Ggrep(query, fullscreen)
+function! FzfGgrep(query, fullscreen)
   let l:basecmd = 'git grep --color=always --column -- %s || true'
   let l:startcmd = printf(l:basecmd, shellescape(a:query))
   let l:reloadcmd = printf(l:basecmd, '{q}')
@@ -35,4 +34,3 @@ function! s:Ggrep(query, fullscreen)
               \ 'dir': systemlist('git rev-parse --show-toplevel')[0]}
   call fzf#vim#grep(basecmd, 1, fzf#vim#with_preview(spec, a:fullscreen ? 'up:60%' : 'right:50%:hidden'), a:fullscreen)
 endfunction
-command! -bang -nargs=* Ggrep call s:Ggrep(<q-args>, <bang>0)
