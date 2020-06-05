@@ -142,6 +142,9 @@ def WGETRC $XDG_CONFIG_HOME/wget/wgetrc
 def VAGRANT_HOME $XDG_DATA_HOME/vagrant
 def VAGRANT_WSL_ENABLE_WINDOWS_ACCESS 1
 
+# z
+set -qU Z_OWNER; or set -U Z_OWNER $USER
+
 #
 # fzf
 #
