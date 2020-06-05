@@ -64,5 +64,7 @@ set colorcolumn=+1 " Show the wrapping column visually.
 set linebreak breakindent " Enable visual line wrapping.
 
 " Other
+let g:loaded_matchit = 1 " Disable matchit.
+let g:loaded_matchparen = 1 " Disable matchparen.
 let g:loaded_netrwPlugin = 1 " Disable Netrw.
 let g:startuptime_self = 1 " Use 'self' time when profiling.

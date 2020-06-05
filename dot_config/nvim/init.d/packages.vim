@@ -22,7 +22,6 @@ if exists('*packager#init')
 
   " Editing
   call packager#add('AndrewRadev/splitjoin.vim')
-  call packager#add('AndrewRadev/switch.vim')
   call packager#add('bfredl/nvim-miniyank')
   call packager#add('chaoren/vim-wordmotion')
   call packager#add('cohama/lexima.vim')
@@ -39,10 +38,8 @@ if exists('*packager#init')
   call packager#add('APZelos/blamer.nvim')
   call packager#add('christoomey/vim-tmux-navigator')
   call packager#add('dense-analysis/ale')
-  call packager#add('jamessan/vim-gnupg')
   call packager#add('junegunn/fzf')
   call packager#add('junegunn/fzf.vim')
-  call packager#add('junegunn/vader.vim')
   call packager#add('justinmk/vim-gtfo')
   call packager#add('kristijanhusak/vim-carbon-now-sh')
   call packager#add('ludovicchabant/vim-gutentags')
@@ -54,6 +51,7 @@ if exists('*packager#init')
   " Libraries
   call packager#add('kristijanhusak/vim-packager', {'type': 'opt'})
   call packager#add('tpope/vim-repeat')
+  call packager#add('inkarkat/vim-visualrepeat')
 
   " Syntax
   call packager#add('blankname/vim-fish')
@@ -74,6 +72,7 @@ if exists('*packager#init')
 
   " UI
   call packager#add('airblade/vim-gitgutter')
+  call packager#add('andymass/vim-matchup')
   call packager#add('dstein64/vim-startuptime')
   call packager#add('itchyny/lightline.vim')
   call packager#add('junegunn/gv.vim')
