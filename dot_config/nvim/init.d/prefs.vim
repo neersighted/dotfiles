@@ -21,11 +21,17 @@ set grepformat^=%f:%l:%c:%m
 set mouse=a " Enable full mouse support.
 
 " Numbering
-set number " Show line numbers.
-augroup numbertoggle " Show relative numbers in normal mode.
+set number relativenumber " Show (relative) line numbers.
+augroup numbertoggle " Toggle 'relativenumber' on insert.
   autocmd!
-  autocmd InsertEnter * set norelativenumber
-  autocmd VimEnter,InsertLeave * set relativenumber
+  autocmd InsertEnter,BufLeave,WinLeave,FocusLost * nested
+            \ if &l:number && empty(&buftype) |
+            \ setlocal norelativenumber |
+            \ endif
+  autocmd InsertLeave,BufEnter,WinEnter,FocusGained * nested
+              \ if &l:number && mode() != 'i' && empty(&buftype) |
+              \ setlocal relativenumber |
+              \ endif
 augroup END
 
 " Remote Plugins

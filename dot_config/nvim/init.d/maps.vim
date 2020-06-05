@@ -11,30 +11,22 @@ nnoremap <c-s>i <plug>(ale_hover)
 
 " fzf
 nnoremap <c-s><c-s> :Buffers<cr>
-nnoremap <c-s>` :Marks<cr>
-nnoremap <c-s>/ :BLines<cr>
-nnoremap <c-s>? :Lines<cr>
 nnoremap <m-o> :Files<cr>
 nnoremap <c-s>o :Files<cr>
-nnoremap <c-s>O :GFiles?<cr>
-nnoremap <c-s>T :Tags<cr>
+nnoremap <c-s>' :Marks<cr>
+nnoremap <c-s>/ :BLines<cr>
+nnoremap <c-s><c-/> :Lines<cr>
 nnoremap <c-s>r :Rg<cr>
-nnoremap <c-s>Gg :GGrep<cr>
+nnoremap <c-s><c-r> :Ggrep<cr>
 nnoremap <c-s>t :BTags<cr>
+nnoremap <c-s><c-t> :Tags<cr>
 
-nmap <c-s>m <plug>(fzf-maps-n)
-omap <c-s>m <plug>(fzf-maps-o)
-xmap <c-s>m <plug>(fzf-maps-x)
-
-" fugitive
-nnoremap <c-s>Gc :Gcommit<cr>
-nnoremap <c-s>Gp :Gpush<cr>
-nnoremap <c-s>GP :Gpull<cr>
-nnoremap <c-s>Gs :Gstatus<cr>
-nnoremap <c-s>Gd :Gdiff<cr>
-nnoremap <c-s>Gb :Gblame<cr>
+nmap <c-s>? <plug>(fzf-maps-n)
+omap <c-s>? <plug>(fzf-maps-o)
+xmap <c-s>? <plug>(fzf-maps-x)
 
 " Sidebars
+nnoremap <c-s>m :ToggleMarkbar<cr>
 nnoremap <c-s>u :MundoToggle<cr>
 nnoremap <c-s>y :TagbarToggle<cr>
 

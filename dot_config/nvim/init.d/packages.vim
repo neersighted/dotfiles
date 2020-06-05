@@ -49,6 +49,7 @@ if exists('*packager#init')
   call packager#add('tpope/vim-eunuch')
   call packager#add('tpope/vim-fugitive')
   call packager#add('tpope/vim-sleuth')
+  call packager#add('tpope/vim-tbone')
 
   " Libraries
   call packager#add('kristijanhusak/vim-packager', {'type': 'opt'})
@@ -72,7 +73,6 @@ if exists('*packager#init')
   call packager#add('vim-ruby/vim-ruby', {'type': 'opt'})
 
   " UI
-  call packager#add('Yggdroot/indentLine')
   call packager#add('airblade/vim-gitgutter')
   call packager#add('dstein64/vim-startuptime')
   call packager#add('itchyny/lightline.vim')
@@ -81,7 +81,6 @@ if exists('*packager#init')
   call packager#add('junegunn/vim-slash')
   call packager#add('justinmk/vim-dirvish')
   call packager#add('kristijanhusak/vim-dirvish-git')
-  call packager#add('kshenoy/vim-signature')
   call packager#add('liuchengxu/vista.vim')
   call packager#add('lukas-reineke/indent-blankline.nvim')
   call packager#add('machakann/vim-highlightedyank')
@@ -92,6 +91,8 @@ if exists('*packager#init')
   call packager#add('talek/obvious-resize')
   call packager#add('tommcdo/vim-kangaroo')
   call packager#add('tpope/vim-characterize')
+  call packager#add('Yggdroot/indentLine')
+  call packager#add('Yilin-Yang/vim-markbar')
 endif
 
 function! s:lazy_cmd(cmd, bang, start, end, args)
