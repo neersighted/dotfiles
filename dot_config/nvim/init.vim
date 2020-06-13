@@ -131,6 +131,10 @@ nmap gl   <plug>(EasyAlign)
 xmap gl   <plug>(EasyAlign)
 vmap <cr> <plug>(EasyAlign)
 
+" Move arguments/list items around.
+nnoremap ]v :SidewaysRight<cr>
+nnoremap [v :SidewaysLeft<cr>
+
 " EasyMotion-style Sneak.
 nmap <leader>s <Plug>SneakLabel_s
 nmap <leader>S <Plug>SneakLabel_S

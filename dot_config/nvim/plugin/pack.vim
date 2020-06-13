@@ -21,7 +21,12 @@ if exists('*packager#init')
   call packager#add('arcticicestudio/nord-vim')
 
   " Editing
+  call packager#add('AndrewRadev/dsf.vim')
+  call packager#add('AndrewRadev/inline_edit.vim')
+  call packager#add('AndrewRadev/sideways.vim')
   call packager#add('AndrewRadev/splitjoin.vim')
+  call packager#add('AndrewRadev/switch.vim')
+  call packager#add('AndrewRadev/tagalong.vim')
   call packager#add('bfredl/nvim-miniyank')
   call packager#add('chaoren/vim-wordmotion')
   call packager#add('cohama/lexima.vim')
