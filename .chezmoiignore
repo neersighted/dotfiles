@@ -4,10 +4,10 @@ tags
 
 {{ if ne .chezmoi.os "windows" }}
 AppData
+.gitconfig
 {{ else }}
 .config
 .gdbinit
-.gnupg
 .local
-.ssh
+.gnupg
 {{ end }}

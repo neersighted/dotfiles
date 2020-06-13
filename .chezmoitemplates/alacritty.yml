@@ -4,10 +4,12 @@
 # env:
 #   TERM: alacritty
 
-# shell:
-#   program: /bin/bash
-#   args:
-#     - --login
+
+{{ if eq .chezmoi.os "windows" }}
+shell:
+  program: wsl.exe
+  args: ['~']
+{{ end }}
 
 working_directory: None
 
@@ -39,10 +41,10 @@ window:
   # gtk_theme_variant: None
 
 # cursor:
-  # style: Block # Block,Underline,Beam
-  # vi_mode_style: None
-  # unfocused_hollow: true
-  # thickness: 0.15
+#   style: Block # Block,Underline,Beam
+#   vi_mode_style: None
+#   unfocused_hollow: true
+#   thickness: 0.15
 
 # scrolling:
 #   history: 10000
