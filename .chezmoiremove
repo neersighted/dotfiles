@@ -1,20 +1,3 @@
-.config/fish/conf.d/gpg.fish
-.config/fish/conf.d/less.fish
-.config/fish/functions/fish/fish_reload.fish
-.config/fish/functions/fish/fish_reset.fish
-.config/fish/functions/integration/__fzf_preview_dir.fish
-.config/fish/functions/integration/__fzf_preview_file.fish
-.config/fish/functions/integration/__fzf_z.fish
-.config/fish/functions/keys/__history_previous_arguments.fish
-.config/fish/functions/keys/__history_previous_command.fish
-.config/fish/functions/keys/__sudo_toggle.fish
-.config/fish/functions/wrappers/docker.fish
-.config/fish/functions/wrappers/git.fish
-.config/fish/paths.fish
-.config/fish/settings.fish
-.config/mpd/mpd.conf
-.config/ncmpcpp/config
-.config/nvim/init.d/completion.vim
-.local/bin/nvimr
-.local/bin/wsl-docker-relay
-.local/bin/wsl-gpg-relay
+{{ if eq .chezmoi.os "darwin" }}
+.config/xinit
+{{ end }}

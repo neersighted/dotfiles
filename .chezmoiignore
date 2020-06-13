@@ -7,7 +7,6 @@ AppData
 bin
 .gitconfig
 {{ if eq .chezmoi.os "darwin" }}
-.config/xinit
 .config/xinit/**
 .config/Xresources
 {{ end }}
