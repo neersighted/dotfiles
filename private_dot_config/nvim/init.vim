@@ -99,7 +99,7 @@ let g:loaded_netrwPlugin = 1 " Disable Netrw.
 let g:startuptime_self = 1 " Use 'self' time when profiling.
 
 "
-" Maps
+" Maps/Abbreviations
 "
 
 let g:mapleader = ' '
@@ -178,6 +178,8 @@ nnoremap <silent> yO :call maps#pasteonce()<cr>O
 " Simple buffer/window management.
 nnoremap <leader>x :Sayonara<cr>
 nnoremap <leader>d :Sayonara!<cr>
+cnoreabbrev wq w<bar>Sayonara
+cnoreabbrev  q       Sayonara
 
 " Simple resizing.
 noremap <silent> <c-up>    :<c-u>ObviousResizeUp<cr>
