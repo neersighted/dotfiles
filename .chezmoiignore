@@ -2,5 +2,12 @@ README.md
 LICENSE
 tags
 
-.local/zbootstrap/lib.sh
-.local/zbootstrap/*.txt
+{{ if ne .chezmoi.os "windows" }}
+AppData
+{{ else }}
+.config
+.gdbinit
+.gnupg
+.local
+.ssh
+{{ end }}
