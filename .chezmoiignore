@@ -4,7 +4,13 @@ tags
 
 {{ if ne .chezmoi.os "windows" }}
 AppData
+bin
 .gitconfig
+{{ if eq .chezmoi.os "darwin" }}
+.config/xinit
+.config/xinit/**
+.config/Xresources
+{{ end }}
 {{ else }}
 .config
 .gdbinit
