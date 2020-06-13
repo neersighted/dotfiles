@@ -77,7 +77,7 @@ let g:go_highlight_build_constraints = 1
 let g:python_highlight_all = 1
 
 " Terminal
-let $GIT_EDITOR = 'nvr --remote-wait -cc split' " Open commits in a split.
+let $GIT_EDITOR = 'git-editor -cc split' " Open commits in a split.
 
 " Whitespace
 set list listchars=tab:→·,nbsp:·,trail:~,extends:»,precedes:« " Show hidden characters.
