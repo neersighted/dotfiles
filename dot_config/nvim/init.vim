@@ -102,26 +102,29 @@ let g:startuptime_self = 1 " Use 'self' time when profiling.
 " Maps
 "
 
-" fzf
-nnoremap <c-s><c-s> :Buffers<cr>
-nnoremap <m-o> :Files<cr>
-nnoremap <c-s>o :Files<cr>
-nnoremap <c-s>' :Marks<cr>
-nnoremap <c-s>/ :BLines<cr>
-nnoremap <c-s><c-/> :Lines<cr>
-nnoremap <c-s>r :Rg<cr>
-nnoremap <c-s><c-r> :Ggrep<cr>
-nnoremap <c-s>t :BTags<cr>
-nnoremap <c-s><c-t> :Tags<cr>
+let g:mapleader = ' '
+let g:maplocalleader = '\\'
 
-nmap <c-s>? <plug>(fzf-maps-n)
-omap <c-s>? <plug>(fzf-maps-o)
-xmap <c-s>? <plug>(fzf-maps-x)
+" fzf
+nnoremap <leader><leader> :Buffers<cr>
+nnoremap <m-o> :Files<cr>
+nnoremap <leader>o :Files<cr>
+nnoremap <leader>' :Marks<cr>
+nnoremap <leader>/ :BLines<cr>
+nnoremap <leader><c-/> :Lines<cr>
+nnoremap <leader>r :Rg<cr>
+nnoremap <leader><c-r> :Ggrep<cr>
+nnoremap <leader>t :BTags<cr>
+nnoremap <leader><c-t> :Tags<cr>
+
+nmap <leader>? <plug>(fzf-maps-n)
+omap <leader>? <plug>(fzf-maps-o)
+xmap <leader>? <plug>(fzf-maps-x)
 
 " Sidebars
-nnoremap <c-s>m :ToggleMarkbar<cr>
-nnoremap <c-s>u :MundoToggle<cr>
-nnoremap <c-s>y :TagbarToggle<cr>
+nnoremap <leader>m :ToggleMarkbar<cr>
+nnoremap <leader>u :MundoToggle<cr>
+nnoremap <leader>y :TagbarToggle<cr>
 
 " Align text using EasyAlign.
 nmap gl   <plug>(EasyAlign)
@@ -129,8 +132,8 @@ xmap gl   <plug>(EasyAlign)
 vmap <cr> <plug>(EasyAlign)
 
 " EasyMotion-style Sneak.
-nmap <c-s>s <Plug>SneakLabel_s
-nmap <c-s>S <Plug>SneakLabel_S
+nmap <leader>s <Plug>SneakLabel_s
+nmap <leader>S <Plug>SneakLabel_S
 
 " Sneak on s (and better f/t).
 map s <plug>Sneak_s
@@ -152,25 +155,25 @@ map p <plug>(miniyank-autoput)
 map P <plug>(miniyank-autoPut)
 
 " Put from shared register.
-map <c-s>p <plug>(miniyank-startput)
-map <c-s>P <plug>(miniyank-startPut)
+map <leader>p <plug>(miniyank-startput)
+map <leader>P <plug>(miniyank-startPut)
 
 " Cycle yank history
-map <c-s>pn <plug>(miniyank-cycle)
-map <c-s>pp <Plug>(miniyank-cycleback)
+map <leader>pn <plug>(miniyank-cycle)
+map <leader>pp <Plug>(miniyank-cycleback)
 
 " Force register type.
-map <c-s>pc <plug>(miniyank-tochar)
-map <c-s>pl <plug>(miniyank-toline)
-map <c-s>pb <plug>(miniyank-toblock)
+map <leader>pc <plug>(miniyank-tochar)
+map <leader>pl <plug>(miniyank-toline)
+map <leader>pb <plug>(miniyank-toblock)
 
 " Enter paste mode and leave once insert is finished.
 nnoremap <silent> yo :call maps#pasteonce()<cr>o
 nnoremap <silent> yO :call maps#pasteonce()<cr>O
 
 " Simple buffer/window management.
-nnoremap <c-s>x :Sayonara<cr>
-nnoremap <c-s>d :Sayonara!<cr>
+nnoremap <leader>x :Sayonara<cr>
+nnoremap <leader>d :Sayonara!<cr>
 
 " Simple resizing.
 noremap <silent> <c-up>    :<c-u>ObviousResizeUp<cr>
@@ -183,8 +186,8 @@ nnoremap <c-e> 5<c-e>
 nnoremap <c-y> 5<c-y>
 
 " Toggle loclist/quickfix.
-nnoremap <c-s>q :call maps#qftoggle(1)<cr>
-nnoremap <c-s>Q :call maps#qftoggle(0)<cr>
+nnoremap <leader>q :call maps#qftoggle(1)<cr>
+nnoremap <leader>Q :call maps#qftoggle(0)<cr>
 
 " Ergonomic :terminal escape.
 tnoremap <esc> <c-\><c-n>
