@@ -1,3 +1,8 @@
+" Disable Startify for nvim-tmux.
+if $NVIM_TMUX !=# '0'
+  let g:startify_disable_at_vimenter = 1
+end
+
 " Show the cursorline in Startify, and don't treat it as a file buffer.
 augroup startify_settings
   autocmd!
