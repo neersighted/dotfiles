@@ -5,9 +5,9 @@ tags
 {{ if ne .chezmoi.os "windows" }} # ignore windows files on *nix
 AppData
 bin
-.gitconfig
 {{ else }} # ignore (most) *nix files on windows
-.config
+.config/*
+!.config/git
 .gdbinit
 .local
 .gnupg

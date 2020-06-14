@@ -1,1 +1,132 @@
-{{ template ".gitconfig" . }}
+#
+# User Details
+#
+
+[user]
+	name = {{ .user.name }}
+	email = {{ .user.email }}
+	signingKey = {{ .user.gpgkey }}
+[credential]
+	username = {{ .chezmoi.username }}
+	{{ if eq .chezmoi.os "linux" -}}
+	helper = cache --timeout=3600
+	{{ else if eq .chezmoi.os "darwin" -}}
+	helper = osxkeychain
+	{{ end -}}
+
+#
+# General Config
+#
+
+[core]
+	editor = git-editor
+	pager = delta
+{{ if eq .chezmoi.os "windows" }}
+	autocrlf = false
+{{ end }}
+[pull]
+	rebase = true
+[push]
+	followTags = true
+
+[commit]
+	verbose = true
+
+[diff]
+	mnemonicprefix = true
+	algorithm = patience
+	tool = nvr
+[merge]
+	tool = nvr
+[rebase]
+	stat = true
+	autoSquash = true
+
+[interactive]
+	diffFilter = delta --color-only
+	singleKey = true
+[sequence]
+	editor = interactive-rebase-tool
+
+[status]
+	short = true
+	branch = true
+	showStash = true
+	submoduleSummary = true
+[log]
+	abbrevCommit = true
+
+[format]
+	pretty = onelineplus
+[pretty]
+	onelineplus = format:%C(yellow)%h%C(auto)%d%C(reset) %s %C(blue)(%cr)%C(reset) %C(green)<%aN>
+	columns = format:%C(yellow)%h%C(magenta)% G? %C(blue)%<(12,trunc)%ar %C(green)%<(16,trunc)%aN %C(reset)%s%C(auto)%d
+
+#
+# Remotes
+#
+
+[url "git@github.com:"]
+	pushInsteadOf = https://github.com/
+	pushInsteadOf = git://github.com/
+
+#
+# Tools
+#
+
+[difftool "nvr"]
+	cmd = nvr -s -d $LOCAL $REMOTE
+[mergetool "nvr"]
+	cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[icdiff]
+	options = --line-numbers --no-bold
+
+#
+# Aliases
+#
+
+[alias]
+	# fzf primitives
+	fzf = "!f() { fzf-tmux -d -- --ansi --preview='git fzf-pre {}' -q \"$1\" | cut -d' ' -f1; }; f"
+	fzf-pre = "!f() { git show --stat --color $(echo $1 | cut -d ' ' -f1); }; f "
+	# interactively select commits
+	sel = "!f() { git log --oneline --color | git fzf $1; }; f"
+	rsel = "!f() { git log -g --oneline --color |  git fzf $1; }; f"
+	sel-ref = "!f() { git show-ref --abbrev | git fzf $1; }; f"
+	# quick and easy autosquash commits
+	squash = "!f() { git commit --squash=$(git sel $1); }; f"
+	fixup = "!f() { git commit --fixup=$(git sel $1); }; f"
+	# quick and easy branch tracking
+	track = "!f() { git branch -u $(git branch -r --format '%(refname:short)' | grep -v HEAD | git fzf $1); }; f"
+	# misc aliases
+	prune = fetch --prune
+	stash-all = stash save --include-untracked
+	preset = !git diff -p -R | grep -E '^(diff|(old|new) mode)' | git apply
+
+#
+# Colors
+#
+
+[color "diff"]
+	context = "normal"
+	meta = "blue"
+	frag = "magenta"
+	func = "black"
+	commit = "yellow"
+	old = "red"
+	new = "green"
+	whitespace = "yellow reverse"
+[color "diff-highlight"]
+	oldNormal = "red"
+	oldHighlight = "red reverse"
+	newNormal = "green"
+	newHighlight = "green reverse"
+
+# vi: ft=gitconfig
