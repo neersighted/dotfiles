@@ -132,6 +132,9 @@ def VIM_CONFIG_PATH $XDG_CONFIG_HOME/nvim
 # redis
 def REDISCLI_HISTFILE $XDG_DATA_HOME/rediscli/history
 
+# ripgrep
+def RIPGREP_CONFIG_PATH $XDG_CONFIG_HOME/ripgrep/config
+
 # tmux
 set -x TMUX_TMPDIR $XDG_RUNTIME_DIR
 
