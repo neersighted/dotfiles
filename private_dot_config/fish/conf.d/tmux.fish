@@ -29,7 +29,7 @@ function __tmux_auto_launch --on-event fish_startup
 end
 
 # run code on tmux reattach (signalled above)
-function tmux_resync --on-signal USR1
+function __tmux_resync --on-signal USR1
   if is_tmux
     # sync variables defined in tmux's update-environment array
     for entry in (tmux show-environment)
