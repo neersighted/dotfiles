@@ -1,3 +1,5 @@
+status is-interactive; or exit
+
 # Nord
 set nord0  \#2E3440
 set nord1  \#3B4252

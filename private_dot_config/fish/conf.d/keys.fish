@@ -1,3 +1,5 @@
+status is-interactive; or exit
+
 bind \r repaint-and-execute
 bind \n repaint-and-execute
 bind ! history-prev-command

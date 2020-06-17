@@ -1,6 +1,6 @@
 status is-interactive; or exit
 
-function tmux_session_name
+function __tmux_session_name
   if is_ssh
     # is a remote login
     printf '%s-%s' (prompt_hostname) (string replace -a '.' '-' (string split ' ' $SSH_CONNECTION)[1])
@@ -18,8 +18,8 @@ function tmux_session_name
   end
 end
 
-function tmux_auto_launch
-  set session (tmux_session_name); or return
+function __tmux_auto_launch --on-event fish_startup
+  set session (__tmux_session_name); or return
 
   if not tmux has-session -t $session
     tmux new -s $session
