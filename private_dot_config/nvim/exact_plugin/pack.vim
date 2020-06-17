@@ -1,4 +1,4 @@
-let s:packager_path = fnamemodify($MYVIMRC, ':p:h').'/pack/packager/opt/vim-packager'
+let s:packager_path = stdpath('config').'/pack/packager/opt/vim-packager'
 let s:packager_config = expand('<sfile>:p')
 
 command!       PackInstall packadd vim-packager | execute 'source' s:packager_config | call packager#install()
@@ -7,7 +7,7 @@ command!       PackClean   packadd vim-packager | execute 'source' s:packager_co
 command!       PackStatus  packadd vim-packager | execute 'source' s:packager_config | call packager#status()
 
 if empty(glob(s:packager_path))
-  silent execute '!git clone https://github.com/kristijanhusak/vim-packager '.s:packager_path
+  silent execute '!git clone https://github.com/kristijanhusak/vim-packager' s:packager_path
   augroup packager_bootstrap
     autocmd!
     autocmd VimEnter * packadd vim-packager | execute 'source' s:packager_config | call packager#install({'on_finish': 'echo "Restart to start using plugins!"'})
