@@ -7,8 +7,9 @@ set -e
 
 section "Utilities"
 
-# GDB Dashboard
+# gdb
 git_sync https://github.com/cyrus-and/gdb-dashboard "$XDG_DATA_HOME/gdb-dashboard"
+pipx_install "gdbgui"
 
 # ngrok
 if ! command -v ngrok >/dev/null; then
