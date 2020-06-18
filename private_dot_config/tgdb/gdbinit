@@ -7,11 +7,12 @@ gdb.execute(f"source {os.environ['XDG_DATA_HOME']}/gdb-dashboard/.gdbinit")
 end
 
 # custom layout
-dashboard -layout assembly source breakpoints threads stack variables registers memory expressions history
+dashboard -layout assembly source registers memory threads stack variables expressions breakpoints history
 
 # make variables readable
-dashboard variables -style compact False
 dashboard variables -style align True
+dashboard variables -style compact False
+dashboard variables -style sort True
 
 # use full height
 dashboard assembly -style height 0
