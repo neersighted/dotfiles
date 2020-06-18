@@ -2,6 +2,8 @@ README.md
 LICENSE
 tags
 
+.local/bin/*.c
+
 {{ if ne .chezmoi.os "windows" }} # ignore windows files on *nix
 AppData
 bin
