@@ -17,7 +17,7 @@ function nvim
 
     if is_tmux
       set editor_pane (tmux list-panes -F '#{pane_id} #{pane_current_command}' | string match -r '^(%\d+) nvim')[2]
-      or set editor_pane (tmux split-window -PF '#{pane_id}' -fhb -c $PWD -e NVIM_TMUX=(count $argv) -- nvim --listen $NVIM_LISTEN_ADDRESS)
+      or set editor_pane (tmux split-window -PF '#{pane_id}' -fhb -d -c $PWD -e NVIM_TMUX=(count $argv) -- nvim --listen $NVIM_LISTEN_ADDRESS)
       tmux select-pane -t $editor_pane
     end
 

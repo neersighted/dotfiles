@@ -26,6 +26,10 @@ let g:colors_name = util#has_colorscheme('nord') ? 'nord' : 'default' " Use nord
 set scrolloff=2 " Keep the cursor two lines from the top/bottom.
 set virtualedit=onemore,block " Allow cursor to the end of the line (and anywhere in visual-block.)
 let g:tmux_navigator_disable_when_zoomed = 1 " Disable Tmux integration when zoomed.
+augroup redraw " Redraw aggressively on focus gained/lost.
+  autocmd!
+  autocmd FocusGained,FocusLost,VimResized * mode
+augroup END
 
 " Grep
 set grepprg=rg\ -i\ --vimgrep " Use ripgrep.
