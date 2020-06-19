@@ -1,16 +1,13 @@
 function tgdb -d 'tmux-enabled gdb'
   if set -qx INNER
-    set dashboard_pane (tmux split-window -PF '#{pane_id}|#{pane_tty}' -bh -d -t $TMUX_PANE -- 'exec disowntty' | string split '|')
-    set inferior_pane (tmux split-window -PF '#{pane_id}|#{pane_tty}' -v -l 34% -d -t $dashboard_pane[1] -- 'exec disowntty' | string split '|')
-    set source_pane (tmux split-window -PF '#{pane_id}|#{pane_tty}' -bv -l 66% -d -t $TMUX_PANE -- 'exec disowntty' | string split '|')
-    set assembly_pane (tmux split-window -PF '#{pane_id}|#{pane_tty}' -bv -d -t $source_pane[1] -- 'exec disowntty' | string split '|')
+    set dashboard_tty (tmux split-window -PF '#{pane_tty}' -bh -d -- 'exec disowntty')
+    set inferior_tty (tmux split-window -PF '#{pane_tty}' -v -l 34% -d -t '{left}' -- 'exec disowntty')
+    set source_tty (tmux split-window -PF '#{pane_tty}' -bv -l 66% -d -- 'exec disowntty')
+    set assembly_tty (tmux split-window -PF '#{pane_tty}' -bv -d -t '{top-right}' -- 'exec disowntty')
 
-    gdb -x $XDG_CONFIG_HOME/tgdb/gdbinit -tty $inferior_pane[2] -ex 'dashboard -output '$dashboard_pane[2] -ex 'dashboard source -output '$source_pane[2] -ex 'dashboard assembly -output '$assembly_pane[2] -ex 'start' -quiet $argv
+    gdb -x $XDG_CONFIG_HOME/tgdb/gdbinit -tty $inferior_tty -ex 'dashboard -output '$dashboard_tty -ex 'dashboard source -output '$source_tty -ex 'dashboard assembly -output '$assembly_tty -ex 'start' -quiet $argv
 
-    tmux kill-pane -t $dashboard_pane[1]
-    tmux kill-pane -t $assembly_pane[1]
-    tmux kill-pane -t $source_pane[1]
-    tmux kill-pane -t $inferior_pane[1]
+    tmux kill-window
   else
     is_tmux; and set cmd new-window; or set cmd new
     tmux $cmd -n tgdb -e INNER=1 -- tgdb $argv
