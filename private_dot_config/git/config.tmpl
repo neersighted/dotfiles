@@ -93,19 +93,6 @@
 #
 
 [alias]
-	# fzf primitives
-	fzf = "!f() { fzf-tmux -d -- --ansi --preview='git fzf-pre {}' -q \"$1\" | cut -d' ' -f1; }; f"
-	fzf-pre = "!f() { git show --stat --color $(echo $1 | cut -d ' ' -f1); }; f "
-	# interactively select commits
-	sel = "!f() { git log --oneline --color | git fzf $1; }; f"
-	rsel = "!f() { git log -g --oneline --color |  git fzf $1; }; f"
-	sel-ref = "!f() { git show-ref --abbrev | git fzf $1; }; f"
-	# quick and easy autosquash commits
-	squash = "!f() { git commit --squash=$(git sel $1); }; f"
-	fixup = "!f() { git commit --fixup=$(git sel $1); }; f"
-	# quick and easy branch tracking
-	track = "!f() { git branch -u $(git branch -r --format '%(refname:short)' | grep -v HEAD | git fzf $1); }; f"
-	# misc aliases
 	prune = fetch --prune
 	stash-all = stash save --include-untracked
 	preset = !git diff -p -R | grep -E '^(diff|(old|new) mode)' | git apply
