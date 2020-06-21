@@ -5,6 +5,9 @@ set -x GPG_TTY $tty
 if is_wsl
   set -l netstat (netstat --protocol unix --listening)
 
+  # make sure the windows gpg-agent is up
+  setsid -f gpg-connect-agent.exe /bye &>/dev/null
+
   # connect ssh to windows gpg-agent via wsl2-ssh-pageant
   set -x SSH_AUTH_SOCK $HOME/.ssh/ssh-agent.sock
   if not string match -rq $SSH_AUTH_SOCK $netstat
