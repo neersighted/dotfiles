@@ -32,7 +32,9 @@ window:
     x: 2
     y: 2
   dynamic_padding: true
-  # decorations: full # none,full,transparent,buttonless
+  {{ if eq .chezmoi.os "darwin" }}
+  decorations: buttonless # none,full,transparent,buttonless
+  {{ end  }}
   startup_mode: Maximized # Windowed,Maximized,Fullscreen,SimpleFullscreen
   # title: Alacritty
   # class:
@@ -63,7 +65,11 @@ font:
   bold_italic:
     family: Source Code Pro
     style: Bold Italic
+  {{ if eq .chezmoi.os "darwin" }}
+  size: 12.0
+  {{ else }}
   size: 10.0
+  {{ end }}
   # offset:
   #   x: 0
   #   y: 0
