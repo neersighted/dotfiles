@@ -21,7 +21,7 @@ end
 function __tmux_auto_launch --on-event fish_startup
   set session (__tmux_session_name); or return
 
-  if not tmux has-session -t $session
+  if not tmux has-session -t $session &>/dev/null
     tmux new -s $session
   else if test -z (tmux list-clients -t $session)[1]
     tmux attach -t $session \; run-shell 'pkill -USR1 -P #{pid} fish'
