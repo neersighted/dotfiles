@@ -7,6 +7,9 @@ set -e
 
 section "Utilities"
 
+# cookiecutter
+pipx_install "cookiecutter"
+
 # gdb
 git_sync https://github.com/cyrus-and/gdb-dashboard "$XDG_DATA_HOME/gdb-dashboard"
 pipx_install "gdbgui"
