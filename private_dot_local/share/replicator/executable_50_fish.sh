@@ -46,7 +46,7 @@ fi
 
 if [ -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
   important "Syncing fish plugins..."
-  fish -c "fisher self-update; and fisher"
+  fish -c "fisher update"
 fi
 
 # vi: ft=sh
