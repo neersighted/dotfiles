@@ -28,7 +28,7 @@ case "$UNAME" in
     PKGS="homebrew-formulae.txt"
     TAPS="homebrew-taps.txt"
     INSTALL_CMD="brew install"
-    INSTALLED_CMD=$(brew ls)
+    INSTALLED_CMD=$(brew list --formula)
     TAPPED_CMD=$(brew tap)
     UPDATE_CMD="brew update; brew upgrade"
     ;;
