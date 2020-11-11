@@ -53,6 +53,7 @@ thefuck
 tmux
 tokei
 trash
+watch
 watchexec
 wget
 
