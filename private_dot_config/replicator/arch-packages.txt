@@ -39,7 +39,7 @@ git
 git-delta
 git-filter-repo
 git-lfs
-github-cli-bin
+github-cli
 hexyl
 htop
 httpie
