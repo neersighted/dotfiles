@@ -97,6 +97,9 @@ def CARGO_HOME $XDG_DATA_HOME/cargo
 def AWS_CONFIG_FILE $XDG_CONFIG_HOME/aws/config
 def AWS_SHARED_CREDENTIALS_FILE $XDG_CONFIG_HOME/aws/credentials
 
+# bash
+def HISTFILE $XDG_DATA_HOME/bash/history
+
 # bat
 def BAT_THEME Nord
 def BAT_PAGER 'less --quit-if-one-screen --no-init'
