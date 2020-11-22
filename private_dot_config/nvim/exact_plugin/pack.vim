@@ -48,6 +48,7 @@ if exists('*packager#init')
   call packager#add('justinmk/vim-gtfo')
   call packager#add('kristijanhusak/vim-carbon-now-sh')
   call packager#add('ludovicchabant/vim-gutentags')
+  call packager#add('mrossinek/vim-tmux-controller')
   call packager#add('tpope/vim-eunuch')
   call packager#add('tpope/vim-fugitive')
   call packager#add('tpope/vim-sleuth')
@@ -78,7 +79,7 @@ if exists('*packager#init')
   " UI
   call packager#add('airblade/vim-gitgutter')
   call packager#add('andymass/vim-matchup')
-  call packager#add('dstein64/vim-startuptime')
+  call packager#add('dstein64/vim-startuptime', {'type': 'opt'})
   call packager#add('itchyny/lightline.vim')
   call packager#add('junegunn/gv.vim')
   call packager#add('junegunn/vim-peekaboo')
@@ -105,6 +106,9 @@ endfunction
 
 augroup packager_lazy
   autocmd!
+
+  " dstein64/vim-startuptime
+  command! -nargs=* StartupTime packadd vim-startuptime | call startuptime#StartupTime(<q-mods>, <f-args>)
 
   " elzr/vim-json
   autocmd FileType json packadd vim-json
