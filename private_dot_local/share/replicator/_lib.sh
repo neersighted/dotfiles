@@ -158,8 +158,16 @@ github_api() {
 
 # shellcheck disable=SC2120
 selectversion() { # major, minor, patch
-  awk -v major="$1" -v minor="$2" -v patch="$3" -F '.' '
-    /^[ \t]*[0-9]+\.[0-9]+\.[0-9]+[ \t]*$/ {
+  awk -v major="$1" -v minor="$2" -v patch="$3" '
+    BEGIN {
+      FS = "."
+      OFS = "."
+    }
+    /^[ \t]*v?[0-9]+\.[0-9]+\.[0-9]+[ \t]*$/ {
+      if ($1 ~ /^v/) {
+        $1 = substr($1, 2)
+      }
+
       if ((major != "" && major != $1) ||
           (minor != "" && minor != $2) ||
           (patch != "" && patch != $3))

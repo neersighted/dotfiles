@@ -22,7 +22,7 @@ if ! $MAKE -C "$NODENV_ROOT/src" -q; then
   $MAKE -C "$NODENV_ROOT/src"
 fi
 
-NODEJS_VERSION=$(nodenv install -l | selectversion)
+NODEJS_VERSION=$(curl -sL "https://nodejs.org/dist/index.tab" | awk -F '\t' 'FNR > 1 { if ($10 != "-") { print $1 } }' | selectversion)
 if ! nodenv versions --bare | grep -Fxq "$NODEJS_VERSION"; then
   important "Installing Node.js $NODEJS_VERSION..."
   NODENV_VERSION=system nodenv install -s "$NODEJS_VERSION"
