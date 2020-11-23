@@ -58,7 +58,7 @@ for python in $(pyenv versions --bare --skip-aliases); do
   IFS=$OLDIFS
 done
 pipx upgrade-all
-poetry self update || true # FIXME: hack til upstream fixes $POETRY_HOME support
+poetry self update
 
 pipx_install "argcomplete"
 pipx_install "black"
