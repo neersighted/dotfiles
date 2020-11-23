@@ -28,17 +28,19 @@ if ! pyenv versions --bare | grep -Fxq "$PYTHON_VERSION"; then
   pyenv global "$PYTHON_VERSION"
 fi
 
-if [ ! -d "$PIPX_HOME/venvs/pipx" ]; then
-  important "Installing pipx..."
-  pip install pipx-in-pipx
-else
+if command -v pipx >/dev/null; then
   glob_python=$(realpath "$(pyenv which python)")
-  pipx_python=$(realpath "$PIPX_HOME/venvs/pipx/bin/python")
+  pipx_python=$(realpath "$PIPX_HOME/shared/bin/python")
   if [ "$pipx_python" != "$glob_python" ]; then
-    important "Reinstalling pipx with Python $PYTHON_VERSION..."
-    pipx uninstall pipx
-    pip install pipx-in-pipx
+    important "Python version changed! Refreshing pipx..."
+    $pipx_python -m pip uninstall -y pipx
+    rm -rf "$PIPX_HOME/shared"
   fi
+fi
+
+if ! command -v pipx >/dev/null; then
+  important "Installing pipx..."
+  python -m pip install --user pipx
 fi
 
 if [ ! -x "$POETRY_HOME/bin/poetry" ]; then
@@ -51,16 +53,19 @@ for python in $(pyenv versions --bare --skip-aliases); do
   OLDIFS=$IFS
   IFS="$(printf '%b_' '\t\n')"
   IFS="${IFS%_}"
-  for spec in $(PYENV_VERSION=$python pip list --outdated --format=json | jq -r '.[] | "\(.name) from \(.version) to \(.latest_version)"'); do
+  for spec in $(PYENV_VERSION=$python python -m pip list --outdated --format=json | jq -r '.[] | "\(.name) from \(.version) to \(.latest_version)"'); do
     info "Updating $spec (Python $python)..."
     PYENV_VERSION=$python python -m pip install -U "${spec%% *}"
   done
   IFS=$OLDIFS
 done
-pipx upgrade-all
+if [ "$pipx_python" != "$glob_python" ]; then
+  pipx reinstall-all
+else
+  pipx upgrade-all
+fi
 poetry self update
 
-pipx_install "argcomplete"
 pipx_install "black"
 pipx_install "dephell" "dephell[full]"
 pipx_install "flake8"
