@@ -11,26 +11,26 @@ case "$UNAME" in
   Linux)
     PKGS="arch-packages.txt"
     INSTALL_CMD="yay -Sy --noconfirm"
-    INSTALLED_CMD=$(pacman -Qq)
     UPDATE_CMD="yay -Syu --noconfirm"
     PROVIDES_CMD="yay -Fy"
+    INSTALLED_LIST=$(pacman -Qq)
     ;;
   FreeBSD)
     [ "$(id -u)" -eq 0 ] || exec su root -c "sh $0"
 
     PKGS="freebsd-ports.txt"
     INSTALL_CMD="pkg install -y"
-    INSTALLED_CMD=$(pkg query '%o')
     UPDATE_CMD="pkg upgrade -y"
     PROVIDES_CMD="pkg provides -u"
+    INSTALLED_LIST=$(pkg query '%o')
     ;;
   Darwin)
     PKGS="homebrew-formulae.txt"
     TAPS="homebrew-taps.txt"
     INSTALL_CMD="brew install"
-    INSTALLED_CMD=$(brew list --formula)
-    TAPPED_CMD=$(brew tap)
     UPDATE_CMD="brew update; brew upgrade"
+    INSTALLED_LIST=$(brew list --formula)
+    TAPPED_LIST=$(brew tap)
     ;;
   *)
     error "Unsupported operating system."
@@ -55,7 +55,7 @@ while IFS= read -r line; do
     install="$line"
   fi
 
-  if ! printf '%s' "$INSTALLED_CMD" | grep -Fxq "$installed"; then
+  if ! printf '%s' "$INSTALLED_LIST" | grep -Fxq "$installed"; then
     INSTALL="$INSTALL$install "
   fi
 done <"$XDG_CONFIG_HOME/replicator/$PKGS"
@@ -66,7 +66,7 @@ case "$UNAME" in
       tap=$(printf '%s' "$line" | cut -d' ' -f1)
       url=$(printf '%s' "$line" | cut -d' ' -f2)
 
-      if ! printf '%s' "$TAPPED_CMD" | grep -Fxq "$tap"; then
+      if ! printf '%s' "$TAPPED_LIST" | grep -Fxq "$tap"; then
         important "Tapping $tap..."
         brew tap "$tap" "${url:+$url}"
       fi
