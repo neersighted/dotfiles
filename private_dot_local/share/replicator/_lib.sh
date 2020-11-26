@@ -201,7 +201,6 @@ pyvenv_version() {
   '
 }
 
-
 xenv_ext() {
   name=$1
   root=$2

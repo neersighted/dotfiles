@@ -70,7 +70,7 @@ case "$UNAME" in
         important "Tapping $tap..."
         brew tap "$tap" "${url:+$url}"
       fi
-    done < "$XDG_CONFIG_HOME/replicator/$TAPS"
+    done <"$XDG_CONFIG_HOME/replicator/$TAPS"
     ;;
   FreeBSD)
     if ! grep -Eq '^CONSERVATIVE_UPGRADE' /usr/local/etc/pkg.conf; then
