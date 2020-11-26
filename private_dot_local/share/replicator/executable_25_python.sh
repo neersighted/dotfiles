@@ -28,24 +28,24 @@ if ! pyenv versions --bare | grep -Fxq "$PYTHON_VERSION"; then
   pyenv global "$PYTHON_VERSION"
 fi
 
-if command -v pipx >/dev/null; then
-  glob_python=$(realpath "$(pyenv which python)")
-  pipx_python=$(realpath "$PIPX_HOME/shared/bin/python")
-  if [ "$pipx_python" != "$glob_python" ]; then
-    important "Python version changed! Refreshing pipx..."
-    $pipx_python -m pip uninstall -y pipx
-    rm -rf "$PIPX_HOME/shared"
-  fi
-fi
-
-if ! command -v pipx >/dev/null; then
-  important "Installing pipx..."
-  python -m pip install --user pipx
-fi
-
-if [ ! -x "$POETRY_HOME/bin/poetry" ]; then
+if [ -x "$POETRY_HOME/bin/poetry" ]; then
+  important "Updating Poetry..."
+  poetry self update
+else
   important "Installing Poetry..."
   curl -sS https://raw.githubusercontent.com/python-poetry/poetry/develop/get-poetry.py | python - --no-modify-path
+fi
+
+if ! pyvenv_version pipx "$(pyenv version-name)"; then
+  important "Creating pipx virtual environment for Python $(pyenv version-name)..."
+  pyenv uninstall -f pipx
+  pyenv virtualenv pipx
+  PYENV_VERSION=pipx python -m pip install -U pip setuptools pipx
+  important "Reinstalling pipx apps..."
+  pipx reinstall-all
+else
+  important "Updating pipx apps..."
+  pipx upgrade-all
 fi
 
 important "Updating Python packages..."
@@ -59,12 +59,6 @@ for python in $(pyenv versions --bare --skip-aliases); do
   done
   IFS=$OLDIFS
 done
-if [ "$pipx_python" != "$glob_python" ]; then
-  pipx reinstall-all
-else
-  pipx upgrade-all
-fi
-poetry self update
 
 pipx_install "black"
 pipx_install "dephell" "dephell[full]"

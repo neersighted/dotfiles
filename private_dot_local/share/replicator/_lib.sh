@@ -13,7 +13,6 @@ fi
 if [ -z "$XDG_CACHE_HOME" ]; then
   export XDG_CACHE_HOME="$HOME/.cache"
 fi
-PATH="$HOME/.local/bin:$PATH"
 
 # c
 if [ -z "$CC" ]; then
@@ -100,6 +99,9 @@ if [ -z "$RUSTUP_HOME" ]; then
 fi
 PATH="$CARGO_HOME/bin:$PATH"
 
+# local tools
+PATH="$HOME/.local/bin:$PATH"
+
 # dedupe path
 PATH=$(printf '%s' "$PATH" | awk -v RS=: '!a[$0]++' | paste -s -d: -)
 
@@ -108,6 +110,11 @@ PATH=$(printf '%s' "$PATH" | awk -v RS=: '!a[$0]++' | paste -s -d: -)
 section() {
   # cyan
   printf '\033[0;36m%s\033[0m\n' "$@"
+}
+
+print() {
+  # blue
+  printf '\033[0;34m%s\033[0m\n' "$@"
 }
 
 important() {
@@ -143,17 +150,22 @@ base64decode() {
   fi
 }
 
-github_api() {
-  url=$1
-  shift
 
-  if [ -n "$GITHUB_TOKEN" ]; then
-    auth_header="Authorization: token $GITHUB_TOKEN"
-  else
-    warn "GITHUB_TOKEN not set, future API requests may be rate-limited!"
-  fi
-
-  curl -sS ${auth_header:+-H "$auth_header"} "$@" "https://api.github.com/$url"
+pyvenv_version() {
+  pyenv versions --bare --skip-aliases | awk -v venv="$1" -v version="$2" '
+    BEGIN {
+      FS = "/"
+      missing = 1
+    }
+    $2 == "envs" && NF == 3 {
+      if ($1 == version && $3 == venv) {
+        missing = 0
+      }
+    }
+    END {
+      exit missing
+    }
+  '
 }
 
 # shellcheck disable=SC2120
@@ -189,6 +201,19 @@ selectversion() { # major, minor, patch
 }
 
 ###
+
+github_api() {
+  url=$1
+  shift
+
+  if [ -n "$GITHUB_TOKEN" ]; then
+    auth_header="Authorization: token $GITHUB_TOKEN"
+  else
+    warn "GITHUB_TOKEN not set, future API requests may be rate-limited!"
+  fi
+
+  curl -sS ${auth_header:+-H "$auth_header"} "$@" "https://api.github.com/$url"
+}
 
 git_sync() { # url, target
   url=$1

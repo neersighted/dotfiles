@@ -1,19 +1,18 @@
 #!/bin/sh
 
 set -e
+cd
 
-print() {
-  # cyan
-  printf '\033[0;34m%s\033[0m\n' "$@"
-}
+# shellcheck source=../share/replicator/_lib.sh
+. "${XDG_DATA_HOME:-$HOME/.local/share}/replicator/_lib.sh"
+
+DOTFILES=${DOTFILES:-~/.local/share/chezmoi}
+REPO=${REPO:-https://github.com/neersighted/dotfiles.git}
 
 if [ -n "$1" ]; then
   command=$1
   shift
 fi
-
-DOTFILES=${DOTFILES:-~/.local/share/chezmoi}
-REPO=${REPO:-https://github.com/neersighted/dotfiles.git}
 
 case ${command:-apply} in
   apply | update | sync)
@@ -46,16 +45,12 @@ case ${command:-apply} in
       exec "$CMD" apply
     fi
 
-    # shellcheck source=../share/replicator/_lib.sh
-    . "${XDG_DATA_HOME:-$HOME/.local/share}/replicator/_lib.sh"
-
     for script in "$XDG_DATA_HOME/replicator"/*; do
       case "$script" in */_lib.sh) continue ;; esac
       [ -x "$script" ] && "$script"
     done
 
     if [ "$(dirname "$(command -v chezmoi)")" = "$HOME/.local/bin" ]; then
-      # shellcheck disable=SC2230
       if [ "$(which -a chezmoi | wc -l)" -gt 1 ]; then
         rm "$HOME/.local/bin/chezmoi"
       else

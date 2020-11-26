@@ -74,7 +74,7 @@ case "$UNAME" in
     ;;
   FreeBSD)
     if ! grep -Eq '^CONSERVATIVE_UPGRADE' /usr/local/etc/pkg.conf; then
-      important "Configuring pkg to upgrade Aggressively..."
+      important "Configuring pkg to upgrade aggressively..."
       printf '\n%s' 'CONSERVATIVE_UPGRADE: false;' >>/usr/local/etc/pkg.conf
     fi
     ;;
