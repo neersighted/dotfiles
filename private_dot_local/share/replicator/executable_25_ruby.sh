@@ -11,15 +11,7 @@ important "Updating rbenv..."
 git_sync https://github.com/rbenv/rbenv "$RBENV_ROOT"
 git_sync https://github.com/rbenv/ruby-build "$RBENV_ROOT/plugins/ruby-build"
 git_sync https://github.com/rbenv/rbenv-default-gems "$RBENV_ROOT/plugins/rbenv-default-gems"
-
-if ! $MAKE -C "$RBENV_ROOT/src" -q; then
-  info "Building rbenv native extensions..."
-  (
-    cd "$RBENV_ROOT"
-    ./src/configure
-  )
-  $MAKE -C "$RBENV_ROOT/src"
-fi
+xenv_ext rbenv "$RBENV_ROOT"
 
 RUBY_VERSION=$(rbenv install -L | selectversion)
 if ! rbenv versions --bare | grep -Fxq "$RUBY_VERSION"; then

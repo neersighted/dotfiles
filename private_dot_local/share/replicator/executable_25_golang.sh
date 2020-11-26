@@ -9,15 +9,7 @@ section "Golang"
 
 important "Updating goenv..."
 git_sync https://github.com/syndbg/goenv "$GOENV_ROOT"
-
-if ! $MAKE -C "$GOENV_ROOT/src" -q; then
-  info "Building goenv native extensions..."
-  (
-    cd "$GOENV_ROOT"
-    ./src/configure
-  )
-  $MAKE -C "$GOENV_ROOT/src"
-fi
+xenv_ext goenv "$GOENV_ROOT"
 
 GOLANG_VERSION=$(goenv install -l | selectversion)
 if ! goenv versions --bare | grep -Fxq "$GOLANG_VERSION"; then

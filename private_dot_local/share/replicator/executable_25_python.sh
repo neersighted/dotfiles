@@ -10,15 +10,7 @@ section "Python"
 important "Updating pyenv..."
 git_sync https://github.com/pyenv/pyenv "$PYENV_ROOT"
 git_sync https://github.com/pyenv/pyenv-virtualenv "$PYENV_ROOT/plugins/pyenv-virtualenv"
-
-if ! $MAKE -C "$PYENV_ROOT/src" -q; then
-  info "Building pyenv native extensions..."
-  (
-    cd "$PYENV_ROOT"
-    ./src/configure
-  )
-  $MAKE -C "$PYENV_ROOT/src"
-fi
+xenv_ext pyenv "$PYENV_ROOT"
 
 PYTHON_VERSION=$(pyenv install -l | selectversion)
 if ! pyenv versions --bare | grep -Fxq "$PYTHON_VERSION"; then

@@ -12,15 +12,7 @@ git_sync https://github.com/nodenv/nodenv "$NODENV_ROOT"
 git_sync https://github.com/nodenv/node-build "$NODENV_ROOT/plugins/node-build"
 git_sync https://github.com/nodenv/nodenv-package-rehash "$NODENV_ROOT/plugins/nodenv-package-rehash"
 git_sync https://github.com/nodenv/nodenv-default-packages "$NODENV_ROOT/plugins/nodenv-default-packages"
-
-if ! $MAKE -C "$NODENV_ROOT/src" -q; then
-  info "Building nodenv native extensions..."
-  (
-    cd "$NODENV_ROOT"
-    ./src/configure
-  )
-  $MAKE -C "$NODENV_ROOT/src"
-fi
+xenv_ext nodenv "$NODENV_ROOT"
 
 NODEJS_VERSION=$(curl -sL "https://nodejs.org/dist/index.tab" | awk -F '\t' 'FNR > 1 { if ($10 != "-") { print $1 } }' | selectversion)
 if ! nodenv versions --bare | grep -Fxq "$NODEJS_VERSION"; then

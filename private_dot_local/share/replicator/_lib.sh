@@ -150,24 +150,6 @@ base64decode() {
   fi
 }
 
-
-pyvenv_version() {
-  pyenv versions --bare --skip-aliases | awk -v venv="$1" -v version="$2" '
-    BEGIN {
-      FS = "/"
-      missing = 1
-    }
-    $2 == "envs" && NF == 3 {
-      if ($1 == version && $3 == venv) {
-        missing = 0
-      }
-    }
-    END {
-      exit missing
-    }
-  '
-}
-
 # shellcheck disable=SC2120
 selectversion() { # major, minor, patch
   awk -v major="$1" -v minor="$2" -v patch="$3" '
@@ -198,6 +180,40 @@ selectversion() { # major, minor, patch
       gsub(/[ \t]+$/, "", chosen)
       print chosen
     }'
+}
+
+###
+
+pyvenv_version() {
+  pyenv versions --bare --skip-aliases | awk -v venv="$1" -v version="$2" '
+    BEGIN {
+      FS = "/"
+      missing = 1
+    }
+    $2 == "envs" && NF == 3 {
+      if ($1 == version && $3 == venv) {
+        missing = 0
+      }
+    }
+    END {
+      exit missing
+    }
+  '
+}
+
+
+xenv_ext() {
+  name=$1
+  root=$2
+
+  if ! $MAKE -C "$root/src" -q; then
+    info "Building $name native extensions..."
+    (
+      cd "$root" || exit 1
+      ./src/configure
+    )
+    $MAKE -C "$root/src"
+  fi
 }
 
 ###
@@ -237,7 +253,7 @@ git_sync() { # url, target
   fi
 
   if [ "$sync" = 'true' ]; then
-    info "Syncing $(basename "$target") with git..."
+    info "Syncing $(basename "$target") with Git..."
     if [ -d "$target/.git" ]; then
       git -C "$target" pull --recurse-submodules
     else
