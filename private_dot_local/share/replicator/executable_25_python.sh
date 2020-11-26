@@ -60,6 +60,7 @@ for python in $(pyenv versions --bare --skip-aliases); do
   IFS=$OLDIFS
 done
 
+pipx_install "argcomplete"
 pipx_install "black"
 pipx_install "dephell" "dephell[full]"
 pipx_install "flake8"
