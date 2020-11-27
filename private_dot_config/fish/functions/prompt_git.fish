@@ -3,35 +3,35 @@ if not command -q git
   exit
 end
 
+set -q prompt_git_prefix; or set -g prompt_git_prefix '('
+set -q prompt_git_postfix; or set -g prompt_git_suffix ')'
+set -q prompt_git_seperator; or set -g prompt_git_seperator '|'
+set -q prompt_git_detached; or set -g prompt_git_detached ':'
+set -q prompt_git_upstream; or set -g prompt_git_upstream '⟳'
+set -q prompt_git_behind; or set -g prompt_git_behind '↓'
+set -q prompt_git_ahead; or set -g prompt_git_ahead '↑'
+set -q prompt_git_operation; or set -g prompt_git_operation ''
+set -q prompt_git_staged; or set -g prompt_git_staged '●'
+set -q prompt_git_unstaged; or set -g prompt_git_unstaged '✚'
+set -q prompt_git_unmerged; or set -g prompt_git_unmerged '✖'
+set -q prompt_git_untracked; or set -g prompt_git_untracked '…'
+set -q prompt_git_stashed; or set -g prompt_git_stashed '⚑'
+set -q prompt_git_clean; or set -g prompt_git_clean '✔'
+
+set -q prompt_git_color; or set -g prompt_git_color normal
+set -q prompt_git_color_branch; or set -g prompt_git_color_branch magenta
+set -q prompt_git_color_detached; or set -g prompt_git_color_detached cyan
+set -q prompt_git_color_upstream; or set -g prompt_git_color_upstream cyan
+set -q prompt_git_color_behind; or set -g prompt_git_color_behind $prompt_git_color
+set -q prompt_git_color_ahead; or set -g prompt_git_color_ahead $prompt_git_color
+set -q prompt_git_color_operation; or set -g prompt_git_color_operation yellow
+set -q prompt_git_color_staged; or set -g prompt_git_color_staged green
+set -q prompt_git_color_unstaged; or set -g prompt_git_color_unstaged red
+set -q prompt_git_color_unmerged; or set -g prompt_git_color_unmerged red
+set -q prompt_git_color_untracked; or set -g prompt_git_color_untracked $prompt_git_color
+set -q prompt_git_color_stashed; or set -g prompt_git_color_stashed blue
+
 function prompt_git
-  set -q prompt_git_prefix; or set prompt_git_prefix '('
-  set -q prompt_git_postfix; or set prompt_git_suffix ')'
-  set -q prompt_git_seperator; or set prompt_git_seperator '|'
-  set -q prompt_git_detached; or set prompt_git_detached ':'
-  set -q prompt_git_upstream; or set prompt_git_upstream '⟳'
-  set -q prompt_git_behind; or set prompt_git_behind '↓'
-  set -q prompt_git_ahead; or set prompt_git_ahead '↑'
-  set -q prompt_git_operation; or set prompt_git_operation ''
-  set -q prompt_git_staged; or set prompt_git_staged '●'
-  set -q prompt_git_unstaged; or set prompt_git_unstaged '✚'
-  set -q prompt_git_unmerged; or set prompt_git_unmerged '✖'
-  set -q prompt_git_untracked; or set prompt_git_untracked '…'
-  set -q prompt_git_stashed; or set prompt_git_stashed '⚑'
-  set -q prompt_git_clean; or set prompt_git_clean '✔'
-
-  set -q prompt_git_color; or set prompt_git_color normal
-  set -q prompt_git_color_branch; or set prompt_git_color_branch magenta
-  set -q prompt_git_color_detached; or set prompt_git_color_detached cyan
-  set -q prompt_git_color_upstream; or set prompt_git_color_upstream cyan
-  set -q prompt_git_color_behind; or set prompt_git_color_behind $prompt_git_color
-  set -q prompt_git_color_ahead; or set prompt_git_color_ahead $prompt_git_color
-  set -q prompt_git_color_operation; or set prompt_git_color_operation yellow
-  set -q prompt_git_color_staged; or set prompt_git_color_staged green
-  set -q prompt_git_color_unstaged; or set prompt_git_color_unstaged red
-  set -q prompt_git_color_unmerged; or set prompt_git_color_unmerged red
-  set -q prompt_git_color_untracked; or set prompt_git_color_untracked $prompt_git_color
-  set -q prompt_git_color_stashed; or set prompt_git_color_stashed blue
-
   set git_dir (command git rev-parse --git-dir 2>/dev/null); or return
 
   command git status --porcelain=v2 --branch -z | while read --list -z line
