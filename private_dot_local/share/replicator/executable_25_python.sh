@@ -32,7 +32,7 @@ if ! pyvenv_version pipx "$(pyenv version-name)"; then
   important "Creating pipx virtual environment for Python $(pyenv version-name)..."
   pyenv uninstall -f pipx
   pyenv virtualenv pipx
-  PYENV_VERSION=pipx python -m pip install -U pip setuptools pipx
+  PYENV_VERSION=pipx python -m pip install -U pip setuptools wheel pipx
   important "Reinstalling pipx apps..."
   pipx reinstall-all
 else
