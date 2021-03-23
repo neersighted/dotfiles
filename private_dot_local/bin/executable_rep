@@ -7,7 +7,7 @@ cd
 . "${XDG_DATA_HOME:-$HOME/.local/share}/replicator/_lib.sh"
 
 DOTFILES=${DOTFILES:-~/.local/share/chezmoi}
-REPO=${REPO:-https://github.com/neersighted/dotfiles.git}
+REPO=${REPO:-neersighted}
 
 if [ -n "$1" ]; then
   command=$1
@@ -78,8 +78,7 @@ case ${command:-apply} in
     done
     ;;
   status)
-    git -C "$DOTFILES" status
-    chezmoi diff
+    chezmoi status
     ;;
   *)
     printf 'unknown command: %s' "$command"
