@@ -14,6 +14,9 @@ pipx_install "cookiecutter"
 git_sync https://github.com/cyrus-and/gdb-dashboard "$XDG_DATA_HOME/gdb-dashboard"
 pipx_install "gdbgui"
 
+# http-prompt
+pipx_install "http-prompt"
+
 # ngrok
 if ! command -v ngrok >/dev/null; then
   goversion=$(go version | awk '{print $4}')
