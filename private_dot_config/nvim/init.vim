@@ -1,16 +1,6 @@
 scriptencoding utf-8
 
 "
-" Profiling
-"
-
-let s:start_time = reltime()
-augroup startup
-  autocmd!
-  autocmd VimEnter * if !empty(nvim_list_uis()) | echo reltimestr(reltime(s:start_time)) | endif
-augroup end
-
-"
 " Preferences
 "
 
