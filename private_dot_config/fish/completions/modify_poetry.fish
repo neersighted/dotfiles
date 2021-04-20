@@ -1,3 +1,5 @@
 #!/bin/sh
 
-poetry completions
+if command -v poetry >/dev/null; then
+  poetry completions
+fi
