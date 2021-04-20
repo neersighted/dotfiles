@@ -123,4 +123,13 @@ if [ -n "$PROVIDES_CMD" ]; then
   eval "$PROVIDES_CMD"
 fi
 
+if [ "$(dirname "$(command -v chezmoi)")" = "$HOME/.local/bin" ]; then
+  if [ "$(which -a chezmoi | wc -l)" -gt 1 ]; then
+    rm "$HOME/.local/bin/chezmoi"
+  else
+    print "Self-updating chezmoi..."
+    "$HOME/.local/bin/chezmoi" upgrade
+  fi
+fi
+
 # vi: ft=sh
