@@ -1,5 +1,6 @@
-README.md
 LICENSE
+README.md
+bootstrap.sh
 tags
 
 .local/bin/*.c
