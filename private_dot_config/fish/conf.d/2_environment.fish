@@ -216,7 +216,11 @@ if test -e $RBENV_ROOT/VERSION
   path_prepend MANPATH $RBENV_ROOT/versions/$RBENV_VERSION/share/man
 end
 # rust
-set -q RUSTUP_TOOLCHAIN; or set -l RUSTUP_TOOLCHAIN (string match -r 'default_toolchain = "(.*)"' < $RUSTUP_HOME/settings.toml)[2]
+if not set -q RUSTUP_TOOLCHAIN
+  test -e $RUSTUP_HOME/settings.toml
+  and set -l RUSTUP_TOOLCHAIN (string match -r 'default_toolchain = "(.*)"' < $RUSTUP_HOME/settings.toml)[2]
+  or set -l RUSTUP_TOOLCHAIN stable
+end
 path_prepend MANPATH $RUSTUP_HOME/toolchains/$RUSTUP_TOOLCHAIN/{,share/}man
 # dotfiles/local
 path_prepend MANPATH $HOME/.local/share/man
