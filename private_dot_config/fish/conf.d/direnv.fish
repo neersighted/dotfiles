@@ -1,4 +1,4 @@
-status is-interactive; or exit
+status is-interactive; and command -q direnv; or exit
 
 function __direnv_export_eval --on-variable PWD
   direnv export fish | source
