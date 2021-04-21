@@ -16,8 +16,3 @@ if [ -d "$DOTFILES" ]; then
 else
   $CHEZMOI init --apply "$REPO"
 fi
-
-echo "Setting up environment with replicator..."
-exec "$HOME/.local/bin/rep"
-
-echo "All done! Restart the shell to continue!"
