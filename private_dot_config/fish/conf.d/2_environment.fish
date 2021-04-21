@@ -155,16 +155,20 @@ set -qU Z_OWNER; or set -U Z_OWNER $USER
 # fzf
 #
 
+command -q fdfind
+and set -l fd fdfind
+or set -l fd fd
+
 # core
 def FZF_BASE_OPTS '--ansi --no-bold --cycle'
-def FZF_DEFAULT_COMMAND 'fd --color always --type file --type directory --follow --hidden .'
+def FZF_DEFAULT_COMMAND "$fd --color always --type file --type directory --follow --hidden ."
 
 # plugin (ui)
 test "$FZF_LEGACY_KEYBINDINGS" = 0; or set -U FZF_LEGACY_KEYBINDINGS 0
 test "$FZF_TMUX" = 1; or set -U FZF_TMUX 1
 
 # plugin (commands)
-def FZF_CD_COMMAND 'fd --color always --type directory --follow . $dir'
+def FZF_CD_COMMAND "$fd --color always --type directory --follow . $dir"
 def FZF_CD_WITH_HIDDEN_COMMAND $FZF_CD_COMMAND' --hidden'
 def FZF_FIND_FILE_COMMAND $FZF_DEFAULT_COMMAND' $dir'
 def FZF_OPEN_COMMAND $FZF_DEFAULT_COMMAND' $dir'
