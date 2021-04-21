@@ -165,7 +165,7 @@ def FZF_DEFAULT_COMMAND "$fd --color always --type file --type directory --follo
 
 # plugin (ui)
 test "$FZF_LEGACY_KEYBINDINGS" = 0; or set -U FZF_LEGACY_KEYBINDINGS 0
-test "$FZF_TMUX" = 1; or set -U FZF_TMUX 1
+command -q tmux; and set -g FZF_TMUX 1
 
 # plugin (commands)
 def FZF_CD_COMMAND "$fd --color always --type directory --follow . $dir"
