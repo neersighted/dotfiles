@@ -1,4 +1,4 @@
-status is-interactive; or exit
+status is-interactive; and command -q tmux; or exit
 
 function __tmux_session_name
   if is_ssh
