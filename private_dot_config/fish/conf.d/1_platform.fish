@@ -39,6 +39,10 @@ function is_nvim
   set -q NVIM_LISTEN_ADDRESS
 end
 
+function is_docker
+  test -f /.dockerenv
+end
+
 function is_vscode
   test "$TERM_PROGRAM" = 'vscode'
 end

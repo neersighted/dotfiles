@@ -1,3 +1,8 @@
 #!/usr/bin/env fish
 
+# detect vscode devcontainer
+if is_docker; and is_vscode; and command -q git-ed.sh
+    exec git-ed.sh $argv
+end
+
 nvim $argv
