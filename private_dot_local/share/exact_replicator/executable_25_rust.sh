@@ -7,12 +7,22 @@ set -e
 
 section "Rust"
 
+components='clippy rust-src rust-analysis rls llvm-tools-preview'
+
 if ! command -v rustup >/dev/null; then
-  important "Installing new Rust toolchain..."
-  curl -sS https://sh.rustup.rs | sh -s -- -y --no-modify-path -c rust-src rust-analysis rls miri llvm-tools-preview
+  important "Installing rustup and stable toolchain..."
+  # shellcheck disable=SC2086
+  curl -sS https://sh.rustup.rs | sh -s -- -y --no-modify-path -c $components
 else
-  important "Updating Rust toolchain..."
-  rustup update
+  if [ -d "$RUSTUP_HOME/toolchains" ]; then
+    important "Updating installed toolchains..."
+    rustup update
+  else
+    important "Installing stable toolchain..."
+    rustup install stable
+    # shellcheck disable=SC2086
+    rustup component add $components
+  fi
 fi
 
 if command -v cargo-install-update >/dev/null; then
