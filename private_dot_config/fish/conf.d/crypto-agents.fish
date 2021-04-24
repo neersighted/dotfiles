@@ -3,7 +3,7 @@ is_ssh; and exit
 set -x GPG_TTY $tty
 
 if is_wsl
-  set -l netstat (netstat --protocol unix --listening)
+  set -l netstat (ss --family=unix --listening)
 
   # make sure the windows gpg-agent is up
   setsid -f gpg-connect-agent.exe /bye &>/dev/null
