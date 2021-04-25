@@ -2,7 +2,7 @@
 
 set -e
 
-# shellcheck source=../share/replicator/_lib.sh
+# shellcheck source=../share/exact_replicator/_lib.sh
 . "${XDG_DATA_HOME:-$HOME/.local/share}/replicator/_lib.sh"
 
 SCRIPTS="$XDG_DATA_HOME/replicator"
@@ -17,10 +17,10 @@ case $cat in
     done
     ;;
   list)
-    find "$SCRIPTS" -type f -executable -exec basename {} \; | sort | sed 's/^[0-9]\{2\}_//; s/\.sh$//'
+    find "$SCRIPTS" -type f -perm -u=x -exec basename {} \; | sort | sed 's/^[0-9]\{2\}_//; s/\.sh$//'
     ;;
   *)
-    script=$(find "$SCRIPTS" -type f -executable -iname "??_${cat}.sh")
+    script=$(find "$SCRIPTS" -type f -perm -u=x -iname "??_${cat}.sh")
     if [ -n "$script" ]; then
       exec "$script"
     else
