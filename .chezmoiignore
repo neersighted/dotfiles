@@ -20,3 +20,7 @@ bin
 .config/xinit/**
 .config/Xresources
 {{ end }}
+
+{{ if ne .chezmoi.osRelease.id "ubuntu" }}
+.hushlogin
+{{ end }}
