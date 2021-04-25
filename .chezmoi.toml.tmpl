@@ -1,5 +1,9 @@
-[data]
-    [data.user]
-        name = "Bjorn Neergaard"
-        email = "bjorn@neersighted.com"
-        gpgkey = "0x08AAA409549C0EC5"
+{{- $email := get .user "email" -}}
+{{- if not $email -}}
+{{-   $email = promptString "email" -}}
+{{- end -}}
+
+[data.user]
+    name = "Bjorn Neergaard"
+    email = {{ $email | quote }}
+    gpgkey = "0x08AAA409549C0EC5"
