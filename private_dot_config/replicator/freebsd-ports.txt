@@ -24,6 +24,7 @@ benchmarks/hyperfine
 databases/py-mycli@py37
 databases/py-pgcli@py37
 devel/gdb@py37
+devel/gh
 devel/git
 devel/git-delta
 devel/git-lfs
@@ -76,7 +77,6 @@ www/py-httpie@py37
 # Missing
 # chezmoi
 # diskus
-# gh
 # git-filter-repo
 # mkcert
 # watchexec
