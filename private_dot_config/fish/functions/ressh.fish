@@ -1,4 +1,4 @@
-function ressh -d 'reconnect multiplexed ssh' 
-  ssh -O exit $argv
+function ressh -d 'reconnect multiplexed ssh'
+  dessh $argv
   ssh $argv
 end
