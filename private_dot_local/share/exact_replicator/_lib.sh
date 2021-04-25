@@ -68,7 +68,7 @@ if [ -z "$PIPX_BIN_DIR" ]; then
   export PIPX_BIN_DIR="$XDG_DATA_HOME/pipx/bin"
 fi
 if [ -z "$POETRY_HOME" ]; then
-  export POETRY_HOME="$XDG_DATA_HOME/poetry"
+  export POETRY_HOME="$XDG_DATA_HOME/pypoetry"
 fi
 if [ -z "$PYENV_ROOT" ]; then
   export PYENV_ROOT="$XDG_DATA_HOME/pyenv"

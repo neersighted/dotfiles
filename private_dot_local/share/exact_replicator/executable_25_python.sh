@@ -25,7 +25,7 @@ if [ -x "$POETRY_HOME/bin/poetry" ]; then
   poetry self update
 else
   important "Installing Poetry..."
-  curl -sS https://raw.githubusercontent.com/python-poetry/poetry/develop/get-poetry.py | python - --no-modify-path
+  curl -sS https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
 fi
 
 if ! pyvenv_version pipx "$(pyenv version-name)"; then
