@@ -34,10 +34,10 @@ if ! pyvenv_version pipx "$(pyenv version-name)"; then
   pyenv virtualenv pipx
   PYENV_VERSION=pipx python -m pip install -U pip setuptools wheel pipx
   important "Reinstalling pipx apps..."
-  pipx reinstall-all
+  PYENV_VERSION=pipx python -m pipx reinstall-all
 else
   important "Updating pipx apps..."
-  pipx upgrade-all
+  PYENV_VERSION=pipx python -m pipx upgrade-all
 fi
 
 important "Updating Python packages..."
