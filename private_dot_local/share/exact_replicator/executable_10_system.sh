@@ -93,11 +93,6 @@ case "$UNAME" in
       )
     fi
 
-    # add-in wslu
-    if uname -a | grep -iq microsoft && ! command -v wslview >/dev/null; then
-      INSTALL="${INSTALL}wslu"
-    fi
-
     # pass through language managers
     export GOENV_VERSION=system NODENV_VERSION=system PYENV_VERSION=system RBENV_VERSION=system
     ;;
