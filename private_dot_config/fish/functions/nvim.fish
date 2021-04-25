@@ -1,3 +1,5 @@
+command -q nvim; and command -q nvr; or exit
+
 function nvim
   if not status is-interactive; or status stack-trace | string match -rq "function 'edit_command_buffer'\$"
     set wait
