@@ -27,6 +27,10 @@ function is_wsl2
   set -q WSLENV; and set -q WSL_INTEROP
 end
 
+function is_docker
+  test -f /.dockerenv
+end
+
 function is_ssh
   set -q SSH_CONNECTION
 end
@@ -35,18 +39,18 @@ function is_tmux
   set -q TMUX
 end
 
-function is_nvim
-  set -q NVIM_LISTEN_ADDRESS
+function is_iterm
+  test "$TERM_PROGRAM" = 'iTerm.app'
 end
 
-function is_docker
-  test -f /.dockerenv
+function is_nvim
+  set -q NVIM_LISTEN_ADDRESS
 end
 
 function is_vscode
   test "$TERM_PROGRAM" = 'vscode'
 end
 
-function is_iterm
-  test "$TERM_PROGRAM" = 'iTerm.app'
+function is_editor
+  is_nvim; or is_vscode
 end

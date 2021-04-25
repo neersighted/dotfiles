@@ -4,7 +4,7 @@ function __tmux_session_name
   if is_ssh
     # is a remote login
     printf '%s-%s' (prompt_hostname) (string replace -a '.' '-' (string split ' ' $SSH_CONNECTION)[1])
-  else if not is_tmux
+  else if not is_tmux; and not is_editor
     if not string match -rq '^/dev/(pts/\d+|ttys\d+)$' $tty; and not is_wsl1
       # is a console/tty
       printf '%s' $tty
@@ -13,7 +13,7 @@ function __tmux_session_name
       printf '%s' (prompt_hostname)
     end
   else
-    # no nested tmux
+    # no nested tmux/tmux in editor
     return 1
   end
 end
