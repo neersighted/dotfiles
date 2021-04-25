@@ -14,7 +14,7 @@ git_sync https://github.com/nodenv/nodenv-package-rehash "$NODENV_ROOT/plugins/n
 git_sync https://github.com/nodenv/nodenv-default-packages "$NODENV_ROOT/plugins/nodenv-default-packages"
 xenv_ext nodenv "$NODENV_ROOT"
 
-NODEJS_VERSION=$(curl -sL "https://nodejs.org/dist/index.tab" | awk -F '\t' 'FNR > 1 { if ($10 != "-") { print $1 } }' | selectversion)
+NODEJS_VERSION=$(curl -sS "https://nodejs.org/dist/index.tab" | awk -F '\t' 'FNR > 1 { if ($10 != "-") { print $1 } }' | selectversion)
 if ! nodenv versions --bare | grep -Fxq "$NODEJS_VERSION"; then
   important "Installing Node.js $NODEJS_VERSION..."
   NODENV_VERSION=system nodenv install -s "$NODEJS_VERSION"
