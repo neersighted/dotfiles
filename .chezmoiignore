@@ -21,6 +21,6 @@ bin
 .config/Xresources
 {{ end }}
 
-{{ if ne .chezmoi.osRelease.id "ubuntu" }}
+{{ if or (ne .chezmoi.os "linux") (ne (index .chezmoi.osRelease "idLike") "debian") }}
 .hushlogin
 {{ end }}
