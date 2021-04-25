@@ -21,9 +21,9 @@ textproc/libyaml
 # User Programs
 archivers/unzip
 benchmarks/hyperfine
-databases/py-mycli@py39
-databases/py-pgcli@py39
-devel/gdb@py39
+databases/py-mycli@py37
+databases/py-pgcli@py37
+devel/gdb@py37
 devel/git
 devel/git-delta
 devel/git-lfs
@@ -63,15 +63,15 @@ sysutils/tealdeer
 sysutils/tmux
 textproc/bat
 textproc/fzf
-textproc/icdiff@py39
+textproc/icdiff@py37
 textproc/jq
-textproc/py-asciinema@py39
+textproc/py-asciinema@py37
 textproc/ripgrep
 textproc/sd
-www/py-httpie@py39
+www/py-httpie@py37
 
 # Needs Update
-# devel/py-gdbgui@py39
+# devel/py-gdbgui@py37
 
 # Missing
 # chezmoi
