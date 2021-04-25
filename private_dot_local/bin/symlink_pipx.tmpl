@@ -1,1 +1,3 @@
+{{ if ne (env "PYENV_ROOT") "" }}
 {{ expandenv "$PYENV_ROOT/versions/pipx/bin/pipx" }}
+{{ end }}
