@@ -3,8 +3,10 @@
 ## Installation
 
 ```sh
-# git, curl, and preferably chezmoi should be installed:
+# linux, macos:
 curl -sSfL https://raw.githubusercontent.com/neersighted/dotfiles/master/bootstrap.sh | sh
+# freebsd:
+fetch -o - https://raw.githubusercontent.com/neersighted/dotfiles/master/bootstrap.sh | sh
 ```
 
 Restart your shell to make sure the changes are fully applied.
