@@ -229,19 +229,6 @@ xenv_ext() {
 
 ###
 
-github_api() {
-  url=$1
-  shift
-
-  if [ -n "$GITHUB_TOKEN" ]; then
-    auth_header="Authorization: token $GITHUB_TOKEN"
-  else
-    warn "GITHUB_TOKEN not set, future API requests may be rate-limited!"
-  fi
-
-  curl -sS ${auth_header:+-H "$auth_header"} "$@" "https://api.github.com/$url"
-}
-
 git_sync() { # url, target
   url=$1
   target=$2
@@ -251,8 +238,7 @@ git_sync() { # url, target
     branch=$(git -C "$target" rev-parse --abbrev-ref HEAD)
     commit=$(git -C "$target" rev-parse "$branch")
 
-    request=$(github_api "repos/$repo/commits/$branch")
-    latest=$(printf '%s' "$request" | jq -r .sha)
+    latest=$(gh api "repos/$repo/commits/$branch" --jq '.sha')
 
     if [ "$commit" != "$latest" ]; then
       sync='true'
@@ -299,22 +285,22 @@ github_sync() { # repo, file, target, executable
     date_header=
   fi
 
-  request=$(github_api "repos/$repo/contents/$file" ${date_header:+-H "$date_header"} -w '%{http_code}')
-  request_body=$(printf '%s' "$request" | sed '$d')
-  request_status=$(printf '%s' "$request" | tail -n1)
+  response=$(gh api "repos/$repo/contents/$file" ${date_header:+-H "$date_header"} --include --jq '.content' 2>/dev/null || true)
+  response_headers=$(printf '%s' "$response" | sed '/^\s*$/,$d')
+  response_status=$(printf '%s' "$response_headers" | sed '2,$d; s#HTTP/[0-9]\.[0-9] \([0-9]\{3\}\) .*#\1#')
+  response_content=$(printf '%s' "$response" | sed '1,/^\s*$/d')
 
-  if [ "$request_status" -eq 200 ]; then
+  if [ "$response_status" -eq 200 ]; then
     info "Syncing $basename from Github..."
 
-    encoded_content=$(printf '%s' "$request_body" | jq -r .content)
-    printf '%s' "$encoded_content" | base64decode >"$3"
+    printf '%s' "$response_content" | base64decode >"$3"
 
     if [ ! -x "$target" ] && [ "$executable" = 'true' ]; then
       chmod +x "$target"
     elif [ -x "$target" ] && [ "$executable" != 'true' ]; then
       chmod -x "$target"
     fi
-  elif [ "$request_status" -ne 304 ]; then
+  elif [ "$response_status" -ne 304 ]; then
     error "Error retreiving $repo from Github..."
   fi
 }
