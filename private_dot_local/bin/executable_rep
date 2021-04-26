@@ -24,7 +24,7 @@ case $cat in
     if [ -n "$script" ]; then
       exec "$script"
     else
-      echo "$script does not exist!"
+      echo "$cat does not exist!"
       exit 1
     fi
     ;;
