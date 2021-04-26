@@ -54,6 +54,11 @@ def PAGER less
 # toolchains
 #
 
+# dotnet
+def DOTNET_ROOT $XDG_DATA_HOME/dotnet
+def DOTNET_TOOL_PATH $DOTNET_ROOT/tools
+def NUGET_PACKAGES $XDG_DATA_HOME/nuget
+
 # golang
 def GOENV_ROOT $XDG_DATA_HOME/goenv
 def GOENV_GOPATH_PREFIX $XDG_DATA_HOME/go
@@ -185,6 +190,8 @@ def FZF_OPEN_OPTS "--preview='peek {}'"
 # ccache {linux, {bsd, macos}}
 path_prepend PATH /usr/{lib/ccache/bin,local/{libexec/ccache,opt/ccache/libexec}}
 
+# dotnet
+path_prepend PATH $DOTNET_TOOL_PATH $DOTNET_ROOT
 # golang
 path_prepend PATH $GOBIN $GOENV_ROOT/{shims,bin}
 # nodejs

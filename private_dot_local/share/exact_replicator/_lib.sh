@@ -29,6 +29,18 @@ if [ -z "$MAKE" ]; then
   fi
 fi
 
+# dotnet
+if [ -z "$DOTNET_ROOT" ]; then
+  export DOTNET_ROOT="$XDG_DATA_HOME/dotnet"
+fi
+if [ -z "$DOTNET_TOOL_PATH" ]; then
+  export DOTNET_TOOL_PATH="$DOTNET_ROOT/tools"
+fi
+if [ -z "$NUGET_PACKAGES" ]; then
+  export NUGET_PACKAGES="$XDG_DATA_HOME/nuget"
+fi
+PATH="$DOTNET_TOOL_PATH:$DOTNET_ROOT:$PATH"
+
 # golang
 export GO111MODULE=on
 if [ -z "$GOBIN" ]; then
@@ -235,7 +247,7 @@ git_sync() { # url, target
   target=$2
 
   if [ -d "$target/.git" ] && printf '%s' "$url" | grep -Fq 'github.com'; then
-    repo=$(printf '%s' "$url" | sed -e 's#https://github.com/##' -e 's#.git$##')
+    repo=$(printf '%s' "$url" | sed 's#https://github.com/##; s/.git$//')
     branch=$(git -C "$target" rev-parse --abbrev-ref HEAD)
     commit=$(git -C "$target" rev-parse "$branch")
 
@@ -318,6 +330,16 @@ cargo_install() { # target, git
   if ! printf '%s' "$CARGO_INSTALLED" | grep -Eq "^$1"; then
     info "Installing $1 with cargo..."
     cargo install "$1" ${2:+--git "$2"}
+  fi
+}
+
+dotnet_tool_install() { # target
+  if [ -d "$DOTNET_TOOL_PATH/.store/$1" ]; then
+    info "Updating $1 with dotnet tool update..."
+    dotnet tool update --tool-path "$DOTNET_TOOL_PATH" "$1"
+  else
+    info "Installing $1 with dotnet tool install..."
+    dotnet tool install --tool-path "$DOTNET_TOOL_PATH" "$1"
   fi
 }
 
