@@ -5,7 +5,12 @@ function dotnet
   case 'tool install' 'tool uninstall' 'tool update' 'tool list'
     set -e argv[1..2]
 
-    command dotnet $operation --tool-path "$DOTNET_TOOL_PATH" $argv
+    if set i (contains -i -- '-g' $argv); or set i (contains -i -- '--global' $argv)
+      set -e argv\[$i]
+      set -p argv --tool-path "$DOTNET_TOOL_PATH"
+    end
+
+    command dotnet $operation $argv
   case '*'
     command dotnet $argv
   end
