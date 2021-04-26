@@ -1,3 +1,5 @@
+command -q nodenv; or exit
+
 function nodenv -d 'node environment manager'
   set command $argv[1]
 

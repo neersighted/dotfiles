@@ -1,3 +1,5 @@
+command -q rbenv; or exit
+
 function rbenv -d 'ruby environment manager'
   set command $argv[1]
 

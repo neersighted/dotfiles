@@ -1,3 +1,5 @@
+command -q pyenv; or exit
+
 function pyenv -d 'python environment manager'
   set command $argv[1]
 

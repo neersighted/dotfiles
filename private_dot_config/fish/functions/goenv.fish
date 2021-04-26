@@ -1,3 +1,5 @@
+command -q goenv; or exit
+
 function goenv -d 'go environment manager'
   set command $argv[1]
 
