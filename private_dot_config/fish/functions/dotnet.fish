@@ -1,3 +1,5 @@
+command -q dotnet; or exit
+
 function dotnet
   set operation $argv[1..2]
 
