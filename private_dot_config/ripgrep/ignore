@@ -1,2 +1,4 @@
 .git
 .yarn
+vendor/
+third_party/
