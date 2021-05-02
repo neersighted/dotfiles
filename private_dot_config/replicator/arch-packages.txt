@@ -6,6 +6,7 @@ ccache
 clang
 cmake
 gcc
+ltrace
 make
 man-pages
 pkgconf

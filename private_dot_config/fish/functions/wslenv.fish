@@ -3,8 +3,8 @@ is_wsl; or exit
 function wslenv
   set -a options 'p/path' 'l/list'
 
-  argparse $options -- $argv
-  or return
+  argparse $options -- $argv; or return
+  set -q argv[1]; or return
 
   set name $argv[1]
 
