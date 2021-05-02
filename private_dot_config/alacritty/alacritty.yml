@@ -1,9 +1,7 @@
 # live_config_reload: true
-# winpty_backend: false
 
 # env:
 #   TERM: alacritty
-
 
 {{ if eq .chezmoi.os "windows" }}
 shell:
@@ -16,8 +14,6 @@ working_directory: None
 # selection:
 #   semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
 #   save_to_clipboard: false
-
-# dynamic_title: true
 
 # alt_send_esc: true
 
@@ -32,10 +28,16 @@ window:
     x: 2
     y: 2
   dynamic_padding: true
+
   {{ if eq .chezmoi.os "darwin" }}
   decorations: buttonless # none,full,transparent,buttonless
+  {{ else }}
+  decorations: full
   {{ end  }}
+
   startup_mode: Maximized # Windowed,Maximized,Fullscreen,SimpleFullscreen
+
+  dynamic_title: true
   # title: Alacritty
   # class:
   #   instance: Alacritty
@@ -45,6 +47,7 @@ window:
 # cursor:
 #   style: Block # Block,Underline,Beam
 #   vi_mode_style: None
+#   blink_interval: 750
 #   unfocused_hollow: true
 #   thickness: 0.15
 
@@ -76,7 +79,9 @@ font:
   # glyph_offset:
   #   x: 0
   #   y: 0
+  {{ if eq .chezmoi.os "darwin" }}
   use_thin_strokes: true
+  {{ end }}
 
 colors:
   primary:
@@ -106,7 +111,7 @@ colors:
 
 draw_bold_text_with_bright_colors: false
 
-# visual_bell:
+# bell:
 #   animation: EaseOutExpo # Ease,EaseOut,EaseOutSine,EaseOutQuad,EaseOutCubic,EaseOutQuart,EaseOutQuint,EaseOutExpo,EaseOutCirc,Linear
 #   duration: 0
 #   color: '0xFFFFFF'
