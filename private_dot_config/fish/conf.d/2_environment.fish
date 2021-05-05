@@ -174,6 +174,7 @@ set FZF_DEFAULT_OPTS_BASE \
    --marker='*' \
    --cycle \
    --layout=reverse --preview-window=wrap \
+   --bind "'ctrl-\:toggle-preview'" \
    --bind "'ctrl-x:execute-silent(echo {+} | yankee)'"
 set -x FZF_TMUX_DEFAULT_OPTS '-p'
 set -x FZF_DEFAULT_COMMAND 'fd --type=file --type=directory --hidden --color=always .'
