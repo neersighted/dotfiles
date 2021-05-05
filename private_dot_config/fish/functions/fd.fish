@@ -1,5 +1,5 @@
 command -q fdfind; or exit
 
-function fd --wraps=fdfind
+function fd -w fdfind
   command fdfind $argv
 end
