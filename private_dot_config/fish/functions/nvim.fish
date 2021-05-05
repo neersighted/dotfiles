@@ -3,7 +3,6 @@ command -q nvim; and command -q nvr; or exit
 function nvim
   if not status is-interactive; or status stack-trace | string match -rq "function 'edit_command_buffer'\$"
     set wait
-    set -p argv --remote-wait-silent
   end
 
   if is_tmux; and not set -qx NVIM_LISTEN_ADDRESS
@@ -21,6 +20,10 @@ function nvim
       set editor_pane (tmux list-panes -F '#{pane_id} #{pane_current_command}' | string match -r '^(%\d+) nvim')[2]
       or set editor_pane (tmux split-window -PF '#{pane_id}' -fhb -d -c $PWD -e NVIM_TMUX=(count $argv) -- nvim --listen $NVIM_LISTEN_ADDRESS)
       tmux select-pane -t $editor_pane
+    end
+
+    if set -q wait
+      set -p argv --remote-wait-silent
     end
 
     if not is_tmux; or test (count $argv) -gt 0
