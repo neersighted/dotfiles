@@ -16,4 +16,7 @@ function dotnet
   case '*'
     command dotnet $argv
   end
+
+  # FIXME: dotnet arrow key bug
+  tput rmkx
 end

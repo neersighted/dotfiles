@@ -15,4 +15,7 @@ fi
 
 dotnet_tool_install installsdkglobaltool
 
+# FIXME: dotnet arrow key bug
+tput rmkx
+
 # vi: ft=sh
