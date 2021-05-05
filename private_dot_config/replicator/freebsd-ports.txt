@@ -61,6 +61,7 @@ sysutils/htop
 sysutils/renameutils
 sysutils/tealdeer
 sysutils/tmux
+sysutils/vivid
 textproc/bat
 textproc/fzf
 textproc/icdiff@py37

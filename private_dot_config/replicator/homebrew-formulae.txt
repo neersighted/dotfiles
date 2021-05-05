@@ -52,6 +52,7 @@ thefuck
 tmux
 tokei
 trash
+vivid
 watch
 watchexec
 wget
