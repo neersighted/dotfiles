@@ -1,2 +1,3 @@
 .git
+.yarn
 node_modules

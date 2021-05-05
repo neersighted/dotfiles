@@ -1,4 +1,5 @@
 .git
 .yarn
-vendor/
+node_modules
 third_party/
+vendor/
