@@ -176,7 +176,7 @@ set FZF_DEFAULT_OPTS_BASE \
    --layout=reverse --preview-window=wrap \
    --bind "'ctrl-\:toggle-preview'" \
    --bind "'ctrl-x:execute-silent(echo {+} | yankee)'"
-set -x FZF_TMUX_DEFAULT_OPTS '-p'
+set -x FZF_TMUX_DEFAULT_OPTS '-p 75%'
 set -x FZF_DEFAULT_COMMAND 'fd --type=file --type=directory --hidden --color=always .'
 
 # fzf.fish
@@ -186,7 +186,8 @@ set fzf_dir_opts \
    --bind 'ctrl-v:execute(command nvim {} >/dev/tty)'
 set fzf_git_status_opts \
    --bind 'ctrl-a:execute-silent(git add {})' \
-   --bind 'ctrl-r:execute-silent(git reset {})'
+   --bind 'ctrl-r:execute-silent(git reset {})' \
+   --preview 'git diff --color=always HEAD (string sub --start=4 {+})'
 set fzf_git_log_opts \
    --bind 'ctrl-o:execute-silent(git switch -d {})'
 
