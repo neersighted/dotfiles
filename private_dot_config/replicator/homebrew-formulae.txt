@@ -12,7 +12,6 @@ age
 asciinema
 bat
 chezmoi
-coreutils
 ctags
 direnv
 diskus

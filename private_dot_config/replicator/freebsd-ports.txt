@@ -53,7 +53,6 @@ security/gnupg
 security/pinentry-curses
 shells/bash
 shells/fish
-sysutils/coreutils
 sysutils/direnv
 sysutils/exa
 sysutils/fd
