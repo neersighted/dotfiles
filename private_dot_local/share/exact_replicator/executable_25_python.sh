@@ -20,11 +20,16 @@ if ! pyenv versions --bare | grep -Fxq "$PYTHON_VERSION"; then
   pyenv global "$PYTHON_VERSION"
 fi
 
-if [ -x "$POETRY_HOME/bin/poetry" ]; then
+if [ -x "$POETRY_HOME/venv/bin/python" ]; then
   important "Updating Poetry..."
   poetry self update
 else
-  important "Installing Poetry..."
+  if [ -x "$POETRY_HOME/venv/bin/poetry" ]; then
+    important "Reinstalling Poetry (Python $(pyenv version-name))..."
+    rm -rf "$POETRY_HOME"
+  else
+    important "Installing Poetry..."
+  fi
   curl -sS https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
 fi
 
