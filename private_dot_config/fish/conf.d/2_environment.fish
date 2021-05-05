@@ -126,9 +126,6 @@ set -x HOMEBREW_AUTO_UPDATE_SECS 86400
 # gnupg
 set -x GNUPGHOME $HOME/.gnupg
 
-# httpie
-set -x HTTPIE_CONFIG_DIR $XDG_CONFIG_HOME/httpie
-
 # less
 set -x LESS '--mouse --RAW-CONTROL-CHARS --tabs=2'
 set -x LESSHISTFILE $XDG_DATA_HOME/less/history

@@ -30,6 +30,7 @@ asciinema
 bat
 chezmoi
 ctags
+curlie
 direnv
 diskus
 exa
@@ -44,9 +45,7 @@ git-lfs
 github-cli
 hexyl
 htop
-httpie
 hyperfine
-icdiff
 jq
 lftp
 lsof
@@ -58,7 +57,6 @@ net-tools
 perl-file-mimeinfo
 pgcli
 mycli
-renameutils
 ripgrep
 sd
 shellcheck
@@ -71,9 +69,5 @@ tokei
 unzip
 vivid
 watchexec
-wget
 whois
 xdg-utils
-
-# Needs Update
-# python-gdbgui

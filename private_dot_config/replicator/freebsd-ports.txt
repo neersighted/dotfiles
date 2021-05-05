@@ -6,7 +6,6 @@ devel/ccache
 devel/cmake
 devel/gmake
 devel/pkgconf
-lang/gcc
 textproc/groff
 
 # Libraries
@@ -15,7 +14,6 @@ databases/sqlite3
 devel/libffi
 devel/ncurses
 devel/readline
-security/openssl
 textproc/libyaml
 
 # User Programs
@@ -36,7 +34,7 @@ devel/universal-ctags
 editors/neovim
 ftp/curl
 ftp/lftp
-ftp/wget
+lang/python
 misc/gnu-watch
 misc/thefuck
 net/mosh
@@ -47,7 +45,6 @@ ports-mgmt/pkg-provides
 ports-mgmt/portfind
 ports-mgmt/portgrep
 ports-mgmt/portlint
-ports-mgmt/poudriere
 security/age
 security/gnupg
 security/pinentry-curses
@@ -58,21 +55,16 @@ sysutils/exa
 sysutils/fd
 sysutils/hexyl
 sysutils/htop
-sysutils/renameutils
 sysutils/tealdeer
 sysutils/tmux
 sysutils/vivid
 textproc/bat
 textproc/fzf
-textproc/icdiff@py37
 textproc/jq
 textproc/py-asciinema@py37
 textproc/ripgrep
 textproc/sd
-www/py-httpie@py37
-
-# Needs Update
-# devel/py-gdbgui@py37
+www/curlie
 
 # Missing
 # chezmoi
@@ -80,6 +72,3 @@ www/py-httpie@py37
 # git-filter-repo
 # mkcert
 # watchexec
-
-# Other
-# ripgrep (asciidoctor)

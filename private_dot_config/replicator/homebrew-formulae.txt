@@ -3,7 +3,6 @@ ccache
 cmake
 
 # Libraries
-openssl@1.1
 readline
 xz
 
@@ -13,6 +12,7 @@ asciinema
 bat
 chezmoi
 ctags
+curlie
 direnv
 diskus
 exa
@@ -28,9 +28,7 @@ git-lfs
 gnupg
 hexyl
 htop
-httpie
 hyperfine
-icdiff
 jq
 less
 lftp
@@ -41,7 +39,6 @@ mycli
 neovim
 pgcli
 pinentry-mac
-renameutils
 ripgrep
 sd
 shellcheck
@@ -55,7 +52,3 @@ trash
 vivid
 watch
 watchexec
-wget
-
-# Missing
-# gdbgui
