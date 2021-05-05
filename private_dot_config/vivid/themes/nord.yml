@@ -1,0 +1,104 @@
+colors:
+  nord0  : '2E3440'
+  nord1  : '3B4252'
+  nord2  : '434C5E'
+  nord3  : '4C566A'
+  nord4  : 'D8DEE9'
+  nord5  : 'E5E9F0'
+  nord6  : 'ECEFF4'
+  nord7  : '8FBCBB'
+  nord8  : '88C0D0'
+  nord9  : '81A1C1'
+  nord10 : '5E81AC'
+  nord11 : 'BF616A'
+  nord12 : 'D08770'
+  nord13 : 'EBCB8B'
+  nord14 : 'A3BE8C'
+  nord15 : 'B48EAD'
+
+core:
+  regular_file: {}
+
+  directory:
+    foreground: nord9
+
+  executable_file:
+    foreground: nord14
+
+  symlink:
+    foreground: nord15
+
+  broken_symlink:
+    foreground: nord0
+    background: nord11
+
+  missing_symlink_target:
+    foreground: nord15
+    background: nord2
+
+  socket:
+    foreground: nord8
+    background: nord2
+
+  fifo:
+    foreground: nord13
+    background: nord2
+
+  block_device:
+    foreground: nord0
+    background: nord8
+
+  character_device:
+    foreground: nord0
+    background: nord13
+
+  normal_text: {}
+
+  other_writable: {}
+
+  sticky: {}
+
+  sticky_other_writable: {}
+
+text:
+  special:
+    foreground: nord13
+    font-style: underline
+
+  todo:
+    font-style: bold
+
+  licenses:
+    foreground: nord13
+    font-style: underline
+
+  configuration:
+    foreground: nord4
+
+  other:
+    foreground: nord4
+
+markup:
+  foreground: nord13
+
+programming:
+  source:
+    foreground: nord4
+
+  tooling:
+    foreground: nord4
+
+media:
+  foreground: nord7
+
+office:
+  foreground: nord10
+
+archives:
+  foreground: nord10
+
+executable:
+  foreground: nord8
+
+unimportant:
+  foreground: nord3

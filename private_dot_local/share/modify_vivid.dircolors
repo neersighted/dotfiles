@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if command -v vivid >/dev/null; then
+  vivid generate nord
+fi
