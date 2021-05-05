@@ -40,7 +40,8 @@ else
   open=$BROWSER
 fi
 
-tmux capture-pane -J ${full:+-S- -E-} ${pane:+-t $pane} -p | xurls | fzf-tmux -d -- --tac --multi -1 --prompt="$op: " | while read -r url; do
+# shellcheck disable=SC2086
+tmux capture-pane -J ${full:+-S- -E-} ${pane:+-t $pane} -p | xurls | fzf-tmux $FZF_TMUX_DEFAULT_OPTS -- --tac --multi -1 --prompt="$op: " | while read -r url; do
   case $op in
     open) $open "$url" ;;
     yank) echo "$url" | yankee ;;
