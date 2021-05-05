@@ -104,7 +104,6 @@ let g:maplocalleader = '\\'
 
 " fzf
 nnoremap <leader><leader> :Buffers<cr>
-nnoremap <m-o> :Files<cr>
 nnoremap <leader>o :Files<cr>
 nnoremap <leader>' :Marks<cr>
 nnoremap <leader>/ :BLines<cr>
