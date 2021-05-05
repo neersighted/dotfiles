@@ -10,7 +10,6 @@ AppData
 bin
 {{ else }} # ignore (most) *nix files on windows
 .config/*
-!.config/alacritty
 !.config/git
 .local
 .gnupg
