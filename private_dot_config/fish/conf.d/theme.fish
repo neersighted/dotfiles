@@ -17,10 +17,10 @@ set nord14 \#A3BE8C
 set nord15 \#B48EAD
 
 #
-# exa colors
+# ls colors
 #
 
-set -x EXA_COLORS uu=35:gu=35
+test -f $XDG_DATA_HOME/vivid.dircolors; and read -x LS_COLORS < $XDG_DATA_HOME/vivid.dircolors
 
 #
 # fzf colors
