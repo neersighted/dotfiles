@@ -55,6 +55,7 @@ if exists('*packager#init')
   call packager#add('tpope/vim-fugitive')
   call packager#add('tpope/vim-sleuth')
   call packager#add('tpope/vim-tbone')
+  call packager#add('wsdjeg/vim-fetch')
 
   " Libraries
   call packager#add('kristijanhusak/vim-packager', {'type': 'opt'})
