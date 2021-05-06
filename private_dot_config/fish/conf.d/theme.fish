@@ -17,15 +17,84 @@ set nord14 \#A3BE8C
 set nord15 \#B48EAD
 
 #
-# ls colors
+# fish colorscheme
 #
 
+# syntax highlighting
+set fish_color_normal $nord4
+set fish_color_command $nord14
+set fish_color_param $nord4
+set fish_color_redirection $nord15
+set fish_color_comment $nord2
+set fish_color_error $nord11
+set fish_color_escape $nord8
+set fish_color_operator $nord9
+set fish_color_end $nord3
+set fish_color_quote $nord4
+set fish_color_autosuggestion $nord3
+set fish_color_valid_path --underline
+set fish_color_match --background $nord9
+set fish_color_search_match nord13 --background $nord3
+set fish_color_selection $nord6 --background $nord3
+set fish_color_cancel -r
+
+# prompt
+set fish_color_cwd $nord9
+set fish_color_cwd_root $fish_color_cwd
+set fish_color_host $nord15
+set fish_color_host_remote $nord15
+set fish_color_jobs $nord12
+set fish_color_status $nord11
+set fish_color_timer $nord3
+set fish_color_user $nord10
+set fish_color_user_root $nord4
+
+# version prompt
+set prompt_version_color_golang $nord8
+set prompt_version_color_nodejs $nord14
+set prompt_version_color_python $nord13
+set prompt_version_color_python_venv $nord13
+set prompt_version_color_ruby $nord11
+set prompt_version_color_rust $nord12
+
+# git prompt
+set prompt_git_color_branch $nord10
+set prompt_git_color_detached $nord15
+set prompt_git_color_upstream $nord9
+set prompt_git_color_operation $nord12
+set prompt_git_color_staged $nord14
+set prompt_git_color_unstaged $nord8
+set prompt_git_color_unmerged $nord11
+set prompt_git_color_untracked $nord13
+set prompt_git_color_stashed $nord10
+
+set prompt_git_clean ''
+
+# dirh
+set fish_color_history_current --bold
+
+# pager
+set fish_pager_color_prefix $nord3
+set fish_pager_color_completion $nord4
+set fish_pager_color_description $nord13
+set fish_pager_color_progress $nord6 --background $nord10
+
+# manpages
+set man_color_blink $nord15 --bold --underline
+set man_color_bold $nord5
+set man_color_standout --reverse
+set man_color_underline $nord10 --underline
+
+status is-login; or test $SHLVL -eq 1; or exit
+
+#
+# tools
+#
+
+# ls/exa colors
 test -f $XDG_DATA_HOME/vivid.dircolors; and read -x LS_COLORS < $XDG_DATA_HOME/vivid.dircolors
 
-#
-# fzf colors
-#
-
+# fzf
 set -x FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS_BASE \
    --color=fg:$nord5,bg:$nord0,hl:$nord9 \
    --color=fg+:$nord5,bg+:$nord1,hl+:$nord9 \
@@ -33,79 +102,8 @@ set -x FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS_BASE \
    --color=marker:$nord14,spinner:$nord15,header:$nord14
 
 #
-# fish colorscheme
-#
-
-# syntax highlighting
-set -x fish_color_normal $nord4
-set -x fish_color_command $nord14
-set -x fish_color_param $nord4
-set -x fish_color_redirection $nord15
-set -x fish_color_comment $nord2
-set -x fish_color_error $nord11
-set -x fish_color_escape $nord8
-set -x fish_color_operator $nord9
-set -x fish_color_end $nord3
-set -x fish_color_quote $nord4
-set -x fish_color_autosuggestion $nord3
-set -x fish_color_valid_path --underline
-set -x fish_color_match --background $nord9
-set -x fish_color_search_match nord13 --background $nord3
-set -x fish_color_selection $nord6 --background $nord3
-set -x fish_color_cancel -r
-
-# prompt
-set -x fish_color_cwd $nord9
-set -x fish_color_cwd_root $fish_color_cwd
-set -x fish_color_host $nord15
-set -x fish_color_host_remote $nord15
-set -x fish_color_jobs $nord12
-set -x fish_color_status $nord11
-set -x fish_color_timer $nord3
-set -x fish_color_user $nord10
-set -x fish_color_user_root $nord4
-
-# version prompt
-set -x prompt_version_color_golang $nord8
-set -x prompt_version_color_nodejs $nord14
-set -x prompt_version_color_python $nord13
-set -x prompt_version_color_python_venv $nord13
-set -x prompt_version_color_ruby $nord11
-set -x prompt_version_color_rust $nord12
-
-# git prompt
-set -x prompt_git_color_branch $nord10
-set -x prompt_git_color_detached $nord15
-set -x prompt_git_color_upstream $nord9
-set -x prompt_git_color_operation $nord12
-set -x prompt_git_color_staged $nord14
-set -x prompt_git_color_unstaged $nord8
-set -x prompt_git_color_unmerged $nord11
-set -x prompt_git_color_untracked $nord13
-set -x prompt_git_color_stashed $nord10
-
-set -x prompt_git_clean ''
-
-# dirh
-set -x fish_color_history_current --bold
-
-# pager
-set -x fish_pager_color_prefix $nord3
-set -x fish_pager_color_completion $nord4
-set -x fish_pager_color_description $nord13
-set -x fish_pager_color_progress $nord6 --background $nord10
-
-# manpages
-set -x man_color_blink $nord15 --bold --underline
-set -x man_color_bold $nord5
-set -x man_color_standout --reverse
-set -x man_color_underline $nord10 --underline
-
-#
 # terminal theme
 #
-
-status is-login; or test "$SHLVL" -eq 1; or exit
 
 function hex_octets -a color
   string match -ar '[[:xdigit:]]{2}' $color
