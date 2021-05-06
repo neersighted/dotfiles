@@ -40,7 +40,11 @@ function is_tmux
 end
 
 function is_iterm
-  test "$TERM_PROGRAM" = 'iTerm.app'
+  set -q ITERM_SESSION_ID
+end
+
+function is_wt
+  set -q WT_SESSION
 end
 
 function is_nvim
@@ -48,7 +52,7 @@ function is_nvim
 end
 
 function is_vscode
-  test "$TERM_PROGRAM" = 'vscode'
+  set -q VSCODE_IPC_HOOK_CLI
 end
 
 function is_editor
