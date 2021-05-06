@@ -47,7 +47,6 @@ let g:loaded_node_provider = 0 " Disable Node.js.
 let g:loaded_python3_provider = 0 " Disable Python 3.
 let g:loaded_python_provider = 0 " Disable Python 2.
 let g:loaded_ruby_provider = 0 " Disable Ruby.
-" let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim/bin/python' " Locate Python 3 venv.
 
 " Search
 set ignorecase smartcase " Ignore case when searching, unless a uppercase letter is present.
@@ -75,6 +74,7 @@ let g:python_highlight_all = 1
 
 " Terminal
 let $GIT_EDITOR = 'git-editor -cc split' " Open commits in a split.
+set title titlestring=nvim\ %{status#fileinfo()}\ (%{status#cwd()})
 
 " Whitespace
 set list listchars=tab:→·,nbsp:·,trail:~,extends:»,precedes:« " Show hidden characters.

@@ -1,14 +1,15 @@
-function fish_title -a cmd
-  set basename (string replace -r '^.*/' '' $PWD)
-  set cwd (short_home $PWD)
+function fish_title
+  set -q argv[1]; or set argv 'fish'
 
   if is_ssh
     printf '(%s) ' (prompt_hostname)
   end
 
-  if test -n "$cmd"
-    printf '%s: %s' $basename $cmd
+  if test "$PWD" = "$HOME"
+    set pwd $HOME
   else
-    printf '%s %s' (status current-command) $cwd
+    set pwd (prompt_pwd)
   end
+
+  printf '%s: %s' $pwd $argv
 end
