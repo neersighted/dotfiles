@@ -1,9 +1,42 @@
 {{- $email := get .user "email" -}}
 {{- if not $email -}}
-{{-   $email = promptString "email" -}}
+{{-   if stdinIsATTY -}}
+{{-     $email = promptString "email" -}}
+{{-   else -}}
+{{-     $email = "bjorn@neersighted.com" -}}
+{{-   end -}}
 {{- end -}}
 
 [data.user]
     name = "Bjorn Neergaard"
     email = {{ $email | quote }}
     gpgkey = "0x08AAA409549C0EC5"
+
+[data.nord]
+    nord0  = '#2E3440'
+    nord1  = '#3B4252'
+    nord2  = '#434C5E'
+    nord3  = '#4C566A'
+    nord4  = '#D8DEE9'
+    nord5  = '#E5E9F0'
+    nord6  = '#ECEFF4'
+    nord7  = '#8FBCBB'
+    nord8  = '#88C0D0'
+    nord9  = '#81A1C1'
+    nord10 = '#5E81AC'
+    nord11 = '#BF616A'
+    nord12 = '#D08770'
+    nord13 = '#EBCB8B'
+    nord14 = '#A3BE8C'
+    nord15 = '#B48EAD'
+
+    nord1dim  = '#373E4D'
+    nord5dim  = '#AEB3BB'
+    nord8dim  = '#6D96A5'
+    nord9dim  = '#68809A'
+    nord11dim = '#94545D'
+    nord13dim = '#B29E75'
+    nord14dim = '#809575'
+    nord15dim = '#8C738C'
+
+# vi: ft=toml

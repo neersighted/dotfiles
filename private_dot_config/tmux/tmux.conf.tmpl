@@ -298,24 +298,6 @@ bind -T copy-mode-vi TripleClick1Pane select-pane \; send -X select-line
 # Colors and Style
 #
 
-# Nord
-set -g @nord0  '#2e3440'
-set -g @nord1  '#3b4252'
-set -g @nord2  '#434c5e'
-set -g @nord3  '#4c566a'
-set -g @nord4  '#d8dee9'
-set -g @nord5  '#e5e9f0'
-set -g @nord6  '#eceff4'
-set -g @nord7  '#8fbcbb'
-set -g @nord8  '#88c0d0'
-set -g @nord9  '#81a1c1'
-set -g @nord10 '#5e81ac'
-set -g @nord11 '#bf616a'
-set -g @nord12 '#d08770'
-set -g @nord13 '#ebcb8b'
-set -g @nord14 '#a3be8c'
-set -g @nord15 '#b48ead'
-
 # Selection
 set -gF mode-style 'reverse'
 
@@ -324,27 +306,29 @@ set -gF window-style 'bg=default'
 set -gF window-active-style '#{window-style}'
 
 # Pane
-set -gF pane-border-style 'fg=#{@nord3},bg=default'
+set -gF pane-border-style 'fg={{ .nord.nord3 }},bg=default'
 set -gF pane-active-border-style '#{pane-border-style}'
 
 # Messages
-set -gF message-style 'fg=#{@nord0},bg=#{@nord6}'
-set -gF message-command-style 'fg=#{@nord0},bg=#{@nord6}'
+set -gF message-style 'fg={{ .nord.nord0 }},bg={{ .nord.nord6 }}'
+set -gF message-command-style 'fg={{ .nord.nord0 }},bg={{ .nord.nord6 }}'
 
 # Status Line
-set -gF status-style 'bg=#{@nord1}'
-set -gF status-left-style 'fg=#{@nord6},bg=#{@nord2}'
-set -gF status-right-style 'fg=#{@nord6},bg=#{@nord2}'
-set -gF window-status-style 'fg=#{@nord4},bg=default'
-set -gF window-status-current-style 'fg=#{@nord6},bg=#{@nord3}'
+set -gF status-style 'bg={{ .nord.nord1 }}'
+set -gF status-left-style 'fg={{ .nord.nord6 }},bg={{ .nord.nord2 }}'
+set -gF status-right-style 'fg={{ .nord.nord6 }},bg={{ .nord.nord2 }}'
+set -gF window-status-style 'fg={{ .nord.nord4 }},bg=default'
+set -gF window-status-current-style 'fg={{ .nord.nord6 }},bg={{ .nord.nord3 }}'
 set -gF window-status-last-style '#{window-status-style}'
 set -gF window-status-activity-style 'bold'
 set -gF window-status-bell-style 'reverse'
 
 # Clock
 set -g clock-mode-style 12
-set -gF clock-mode-colour '#{@nord8}'
+set -gF clock-mode-colour '{{ .nord.nord8 }}'
 
 # Display Panes (Identify)
-set -gF display-panes-colour '#{@nord4}'
-set -gF display-panes-active-colour '#{@nord15}'
+set -gF display-panes-colour '{{ .nord.nord4 }}'
+set -gF display-panes-active-colour '{{ .nord.nord5 }}'
+
+# vi: ft=tmux

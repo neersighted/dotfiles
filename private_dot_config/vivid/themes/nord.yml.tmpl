@@ -1,20 +1,20 @@
 colors:
-  nord0  : '2E3440'
-  nord1  : '3B4252'
-  nord2  : '434C5E'
-  nord3  : '4C566A'
-  nord4  : 'D8DEE9'
-  nord5  : 'E5E9F0'
-  nord6  : 'ECEFF4'
-  nord7  : '8FBCBB'
-  nord8  : '88C0D0'
-  nord9  : '81A1C1'
-  nord10 : '5E81AC'
-  nord11 : 'BF616A'
-  nord12 : 'D08770'
-  nord13 : 'EBCB8B'
-  nord14 : 'A3BE8C'
-  nord15 : 'B48EAD'
+  nord0: '{{ .nord.nord0 | trimPrefix "#" }}'
+  nord1: '{{ .nord.nord1 | trimPrefix "#" }}'
+  nord2: '{{ .nord.nord2 | trimPrefix "#" }}'
+  nord3: '{{ .nord.nord3 | trimPrefix "#" }}'
+  nord4: '{{ .nord.nord4 | trimPrefix "#" }}'
+  nord5: '{{ .nord.nord5 | trimPrefix "#" }}'
+  nord6: '{{ .nord.nord6 | trimPrefix "#" }}'
+  nord7: '{{ .nord.nord7 | trimPrefix "#" }}'
+  nord8: '{{ .nord.nord8 | trimPrefix "#" }}'
+  nord9: '{{ .nord.nord9 | trimPrefix "#" }}'
+  nord10: '{{ .nord.nord10 | trimPrefix "#" }}'
+  nord11: '{{ .nord.nord11 | trimPrefix "#" }}'
+  nord12: '{{ .nord.nord12 | trimPrefix "#" }}'
+  nord13: '{{ .nord.nord13 | trimPrefix "#" }}'
+  nord14: '{{ .nord.nord14 | trimPrefix "#" }}'
+  nord15: '{{ .nord.nord15 | trimPrefix "#" }}'
 
 core:
   regular_file: {}
@@ -102,3 +102,5 @@ executable:
 
 unimportant:
   foreground: nord3
+
+# vi: ft=yaml

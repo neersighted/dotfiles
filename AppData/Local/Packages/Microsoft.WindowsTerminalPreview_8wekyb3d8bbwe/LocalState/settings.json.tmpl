@@ -1,10 +1,122 @@
 {
     "$schema": "https://aka.ms/terminal-profiles-schema",
+
+    "launchMode": "maximized",
+    "snapToGridOnResize": true,
+    "tabWidthMode": "titleLength",
+
     "defaultProfile": "{a5a97cb8-8961-5535-816d-772efe0c6a3f}",
+    "profiles": 
+    {
+        "defaults": 
+        {
+            "colorScheme": "Nord",
+            "cursorShape": "filledBox",
+            "padding": "0, 0",
+            "fontFace": "Source Code Pro",
+            "fontSize": 10,
+            "antialiasingMode": "cleartype"
+        },
+        "list": 
+        [
+            {
+                "guid": "{a5a97cb8-8961-5535-816d-772efe0c6a3f}",
+                "icon": "%USERPROFILE%\\bin\\icons\\Arch.ico",
+                "name": "Arch",
+                "scrollbarState": "hidden",
+                "source": "Windows.Terminal.Wsl",
+                "startingDirectory": "\\\\wsl$\\Arch\\home\\%USERNAME%"
+            },
+            {
+                "commandline": "wsl ssh -A beastiebox.lan",
+                "guid": "{0eb06ae8-5ce0-45dd-ac9c-c02bca2b62bf}",
+                "icon": "%USERPROFILE%\\bin\\icons\\FreeBSD.png",
+                "name": "FreeBSD VM (beastiebox)",
+                "scrollbarState": "hidden"
+            },
+            {
+                "commandline": "wsl ssh -A abaddon.lan",
+                "guid": "{5da3af36-c996-45c8-9007-af80a9c9f335}",
+                "icon": "%USERPROFILE%\\bin\\icons\\macOS.png",
+                "name": "macOS Machine (abaddon)",
+                "scrollbarState": "hidden"
+            },
+            {
+                "colorScheme": "Ubuntu Default",
+                "fontFace": "Ubuntu Mono",
+                "guid": "{d1569d34-e3dc-506e-b3ef-3ca18387f714}",
+                "icon": "C:\\Users\\neersighted\\bin\\icons\\Ubuntu.png",
+                "name": "Ubuntu Preview",
+                "source": "Windows.Terminal.Wsl"
+            },
+            {
+                "commandline": "powershell.exe",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "name": "Windows PowerShell"
+            },
+            {
+                "commandline": "cmd.exe",
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "name": "CMD"
+            },
+            {
+                "commandline": "%PROGRAMFILES%\\Git\\bin\\bash.exe -li",
+                "guid": "{c8159a47-0fa3-4d30-b653-b3bdeb98f6b3}",
+                "icon": "%PROGRAMFILES%\\Git\\mingw64\\share\\git\\git-for-windows.ico",
+                "name": "Git Bash",
+                "startingDirectory": "%USERPROFILE%"
+            },
+            {
+                "commandline": "cmd.exe /k \"%PROGRAMFILES(x86)%\\Microsoft Visual Studio\\2019\\Community\\Common7\\Tools\\VsDevCmd.bat\"",
+                "guid": "{3b6cff09-3c8c-40ad-b0ef-2066928e9462}",
+                "icon": "%USERPROFILE%\\bin\\icons\\VS.ico",
+                "name": "Developer Command Prompt for VS 2019",
+                "startingDirectory": "%USERPROFILE%"
+            },
+            {
+                "colorScheme": "Ubuntu Default",
+                "commandline": "multipass.exe shell",
+                "fontFace": "Ubuntu Mono",
+                "guid": "{aaaa9e6d-1e09-4be6-b76c-82b4ba1885fb}",
+                "icon": "C:/Program Files/Multipass/bin/multipass_wt.ico",
+                "name": "Multipass"
+            }
+        ]
+    },
     "disabledProfileSources": 
     [
-        "Windows.Terminal.Azure"
+        "Windows.Terminal.Azure",
+        "CanonicalGroupLimited.UbuntuonWindowsCommunityPrev_79rhkp1fndgsc"
     ],
+
+    "schemes": 
+    [
+       
+        {
+            "name": "Nord",
+            "background": "{{ .nord.nord0 }}",
+            "foreground": "{{ .nord.nord4 }}",
+            "cursorColor": "{{ .nord.nord4 }}",
+            "selectionBackground": "{{ .nord.nord3 }}",
+            "black": "{{ .nord.nord1 }}",
+            "red": "{{ .nord.nord11 }}",
+            "green": "{{ .nord.nord14 }}",
+            "yellow": "{{ .nord.nord13 }}",
+            "blue": "{{ .nord.nord9 }}",
+            "purple": "{{ .nord.nord15 }}",
+            "cyan": "{{ .nord.nord8 }}",
+            "white": "{{ .nord.nord5 }}",
+            "brightBlack": "{{ .nord.nord3 }}",
+            "brightRed": "{[ .nord.nord11 ]}",
+            "brightGreen": "{{ .nord.nord14 }}",
+            "brightYellow": "{{ .nord.nord13 }}",
+            "brightBlue": "{{ .nord.nord9 }}",
+            "brightPurple": "{{ .nord.nord15 }}",
+            "brightCyan": "{{ .nord.nord7 }}",
+            "brightWhite": "{{ .nord.nord6 }}"
+        }
+    ],
+
     "keybindings": 
     [
         {
@@ -40,116 +152,5 @@
             "keys": "alt+right"
         }
     ],
-    "launchMode": "maximized",
-    "profiles": 
-    {
-        "defaults": 
-        {
-            "antialiasingMode": "cleartype",
-            "colorScheme": "Nord",
-            "cursorShape": "filledBox",
-            "fontFace": "Source Code Pro",
-            "fontSize": 10,
-            "padding": "0, 0"
-        },
-        "list": 
-        [
-            {
-                "guid": "{a5a97cb8-8961-5535-816d-772efe0c6a3f}",
-                "icon": "%USERPROFILE%\\bin\\icons\\Arch.ico",
-                "name": "Arch",
-                "scrollbarState": "hidden",
-                "source": "Windows.Terminal.Wsl",
-                "startingDirectory": "\\\\wsl$\\Arch\\home\\%USERNAME%"
-            },
-            {
-                "commandline": "wsl ssh -A beastiebox.lan",
-                "guid": "{0eb06ae8-5ce0-45dd-ac9c-c02bca2b62bf}",
-                "icon": "%USERPROFILE%\\bin\\icons\\FreeBSD.png",
-                "name": "FreeBSD VM (beastiebox)",
-                "scrollbarState": "hidden"
-            },
-            {
-                "commandline": "wsl ssh -A abaddon.lan",
-                "guid": "{5da3af36-c996-45c8-9007-af80a9c9f335}",
-                "icon": "%USERPROFILE%\\bin\\icons\\macOS.png",
-                "name": "macOS Machine (abaddon)",
-                "scrollbarState": "hidden"
-            },
-			{
-				"colorScheme": "Ubuntu Default",
-                "fontFace": "Ubuntu Mono",
-                "guid": "{d1569d34-e3dc-506e-b3ef-3ca18387f714}",
-                "icon": "C:\\Users\\neersighted\\bin\\icons\\Ubuntu.png",
-                "name": "Ubuntu Preview",
-                "source": "Windows.Terminal.Wsl"
-            },
-			{
-                "guid": "{620e65d5-5d9b-55bf-873b-4a1dfa317ba4}",
-                "hidden": true,
-                "source": "CanonicalGroupLimited.UbuntuonWindowsCommunityPrev_79rhkp1fndgsc"
-            },
-            {
-                "commandline": "powershell.exe",
-                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-                "name": "Windows PowerShell"
-            },
-            {
-                "commandline": "cmd.exe",
-                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-                "name": "CMD"
-            },
-            {
-                "commandline": "%PROGRAMFILES%\\Git\\bin\\bash.exe -li",
-                "guid": "{c8159a47-0fa3-4d30-b653-b3bdeb98f6b3}",
-                "icon": "%PROGRAMFILES%\\Git\\mingw64\\share\\git\\git-for-windows.ico",
-                "name": "Git Bash",
-                "startingDirectory": "%USERPROFILE%"
-            },
-            {
-                "commandline": "cmd.exe /k \"%PROGRAMFILES(x86)%\\Microsoft Visual Studio\\2019\\Community\\Common7\\Tools\\VsDevCmd.bat\"",
-                "guid": "{3b6cff09-3c8c-40ad-b0ef-2066928e9462}",
-                "icon": "%USERPROFILE%\\bin\\icons\\VS.ico",
-                "name": "Developer Command Prompt for VS 2019",
-                "startingDirectory": "%USERPROFILE%"
-            },
-            {
-                "colorScheme": "Ubuntu Default",
-                "commandline": "multipass.exe shell",
-                "fontFace": "Ubuntu Mono",
-                "guid": "{aaaa9e6d-1e09-4be6-b76c-82b4ba1885fb}",
-                "icon": "C:/Program Files/Multipass/bin/multipass_wt.ico",
-                "name": "Multipass"
-            }
-		]
-    },
-    "schemes": 
-    [
-       
-        {
-            "background": "#2E3440",
-            "black": "#3B4252",
-            "blue": "#81A1C1",
-            "brightBlack": "#4C566A",
-            "brightBlue": "#81A1C1",
-            "brightCyan": "#8FBCBB",
-            "brightGreen": "#A3BE8C",
-            "brightPurple": "#B48EAD",
-            "brightRed": "#BF616A",
-            "brightWhite": "#ECEFF4",
-            "brightYellow": "#EBCB8B",
-            "cursorColor": "#FFFFFF",
-            "cyan": "#88C0D0",
-            "foreground": "#D8DEE9",
-            "green": "#A3BE8C",
-            "name": "Nord",
-            "purple": "#B48EAD",
-            "red": "#BF616A",
-            "selectionBackground": "#FFFFFF",
-            "white": "#E5E9F0",
-            "yellow": "#EBCB8B"
-        }
-    ],
-    "snapToGridOnResize": true,
-    "tabWidthMode": "titleLength"
+    "__vi__": "/* vi: set ft=json: */"
 }
