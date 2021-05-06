@@ -67,10 +67,10 @@
                 "startingDirectory": "%USERPROFILE%"
             },
             {
-                "commandline": "cmd.exe /k \"%PROGRAMFILES(x86)%\\Microsoft Visual Studio\\2019\\Community\\Common7\\Tools\\VsDevCmd.bat\"",
+                "commandline":"powershell.exe -NoExit -Command \"&{ $vsInstallPath=& \"${env:ProgramFiles(x86)}/'Microsoft Visual Studio'/Installer/vswhere.exe\" -prerelease -latest -property installationPath; Import-Module \"$vsInstallPath/Common7/Tools/Microsoft.VisualStudio.DevShell.dll\"; Enter-VsDevShell -VsInstallPath $vsInstallPath -SkipAutomaticLocation }\"",
                 "guid": "{3b6cff09-3c8c-40ad-b0ef-2066928e9462}",
                 "icon": "%USERPROFILE%\\bin\\icons\\VS.ico",
-                "name": "Developer Command Prompt for VS 2019",
+                "name": "Developer PowerShell for VS 2019",
                 "startingDirectory": "%USERPROFILE%"
             },
             {
