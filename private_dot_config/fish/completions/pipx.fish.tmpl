@@ -1,0 +1,3 @@
+{{- if stat (expandenv "$PYENV_ROOT/versions/pipx") -}}
+{{ output (expandenv "$PYENV_ROOT/versions/pipx/bin/register-python-argcomplete") "--shell" "fish" "pipx" }}
+{{- end -}}
