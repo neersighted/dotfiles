@@ -8,11 +8,11 @@
 	signingKey = {{ .user.gpgkey }}
 [credential]
 	username = {{ .chezmoi.username }}
-	{{ if eq .chezmoi.os "linux" -}}
+	{{ if eq .chezmoi.os "linux" }}
 	helper = cache --timeout=3600
-	{{ else if eq .chezmoi.os "darwin" -}}
+	{{ else if eq .chezmoi.os "darwin" }}
 	helper = osxkeychain
-	{{ end -}}
+	{{ end }}
 
 #
 # General Config
