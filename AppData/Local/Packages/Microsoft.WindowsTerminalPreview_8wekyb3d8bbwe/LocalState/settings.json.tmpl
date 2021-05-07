@@ -11,6 +11,7 @@
         "defaults": 
         {
             "colorScheme": "Nord",
+            "tabColor": "{{ .nord.nord0 }}",
             "cursorShape": "filledBox",
             "padding": "0, 0",
             "fontFace": "Source Code Pro",
@@ -20,66 +21,74 @@
         "list": 
         [
             {
-                "guid": "{a5a97cb8-8961-5535-816d-772efe0c6a3f}",
-                "icon": "%USERPROFILE%\\bin\\icons\\Arch.ico",
                 "name": "Arch",
-                "scrollbarState": "hidden",
+                "guid": "{a5a97cb8-8961-5535-816d-772efe0c6a3f}",
                 "source": "Windows.Terminal.Wsl",
-                "startingDirectory": "\\\\wsl$\\Arch\\home\\%USERNAME%"
+                "startingDirectory": "\\\\wsl$\\Arch\\home\\%USERNAME%",
+                "icon": "%USERPROFILE%\\bin\\icons\\Arch.ico",
+                "scrollbarState": "hidden"
             },
             {
-                "commandline": "wsl ssh -A beastiebox.lan",
-                "guid": "{0eb06ae8-5ce0-45dd-ac9c-c02bca2b62bf}",
-                "icon": "%USERPROFILE%\\bin\\icons\\FreeBSD.png",
                 "name": "FreeBSD VM (beastiebox)",
+                "guid": "{0eb06ae8-5ce0-45dd-ac9c-c02bca2b62bf}",
+                "commandline": "wsl ssh -A beastiebox.lan",
+                "icon": "%USERPROFILE%\\bin\\icons\\FreeBSD.png",
                 "scrollbarState": "hidden"
             },
             {
-                "commandline": "wsl ssh -A abaddon.lan",
-                "guid": "{5da3af36-c996-45c8-9007-af80a9c9f335}",
-                "icon": "%USERPROFILE%\\bin\\icons\\macOS.png",
                 "name": "macOS Machine (abaddon)",
+                "guid": "{5da3af36-c996-45c8-9007-af80a9c9f335}",
+                "commandline": "wsl ssh -A abaddon.lan",
+                "icon": "%USERPROFILE%\\bin\\icons\\macOS.png",
                 "scrollbarState": "hidden"
             },
             {
-                "colorScheme": "Ubuntu",
-                "fontFace": "Ubuntu Mono",
+                "name": "Ubuntu",
                 "guid": "{d1569d34-e3dc-506e-b3ef-3ca18387f714}",
+                "source": "Windows.Terminal.Wsl",
                 "icon": "C:\\Users\\neersighted\\bin\\icons\\Ubuntu.png",
-                "name": "Ubuntu Preview",
-                "source": "Windows.Terminal.Wsl"
-            },
-            {
-                "commandline": "powershell.exe",
-                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-                "name": "Windows PowerShell"
-            },
-            {
-                "commandline": "cmd.exe",
-                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-                "name": "CMD"
-            },
-            {
-                "commandline": "%PROGRAMFILES%\\Git\\bin\\bash.exe -li",
-                "guid": "{c8159a47-0fa3-4d30-b653-b3bdeb98f6b3}",
-                "icon": "%PROGRAMFILES%\\Git\\mingw64\\share\\git\\git-for-windows.ico",
-                "name": "Git Bash",
-                "startingDirectory": "%USERPROFILE%"
-            },
-            {
-                "commandline":"powershell.exe -NoExit -Command \"&{ $vsInstallPath=& \"${env:ProgramFiles(x86)}/'Microsoft Visual Studio'/Installer/vswhere.exe\" -prerelease -latest -property installationPath; Import-Module \"$vsInstallPath/Common7/Tools/Microsoft.VisualStudio.DevShell.dll\"; Enter-VsDevShell -VsInstallPath $vsInstallPath -SkipAutomaticLocation }\"",
-                "guid": "{3b6cff09-3c8c-40ad-b0ef-2066928e9462}",
-                "icon": "%USERPROFILE%\\bin\\icons\\VS.ico",
-                "name": "Developer PowerShell for VS 2019",
-                "startingDirectory": "%USERPROFILE%"
-            },
-            {
                 "colorScheme": "Ubuntu",
-                "commandline": "multipass.exe shell",
-                "fontFace": "Ubuntu Mono",
+                "tabColor": "#300a24",
+                "fontFace": "Ubuntu Mono"
+            },
+            {
+                "name": "Windows PowerShell",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "colorScheme": "Campbell Powershell",
+                "tabColor": "#012456"
+            },
+            {
+                "name": "CMD",
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "colorScheme": "Campbell",
+                "tabColor": "#0c0c0c"
+            },
+            {
+                "name": "Git Bash",
+                "guid": "{c8159a47-0fa3-4d30-b653-b3bdeb98f6b3}",
+                "commandline": "%PROGRAMFILES%\\Git\\bin\\bash.exe -li",
+                "startingDirectory": "%USERPROFILE%",
+                "icon": "%PROGRAMFILES%\\Git\\mingw64\\share\\git\\git-for-windows.ico",
+                "colorScheme": "Campbell",
+                "tabColor": "#0c0c0c"
+            },
+            {
+                "name": "Developer PowerShell for VS 2019",
+                "guid": "{3b6cff09-3c8c-40ad-b0ef-2066928e9462}",
+                "commandline":"powershell.exe -NoExit -Command \"&{ $vsInstallPath=& \"${env:ProgramFiles(x86)}/'Microsoft Visual Studio'/Installer/vswhere.exe\" -prerelease -latest -property installationPath; Import-Module \"$vsInstallPath/Common7/Tools/Microsoft.VisualStudio.DevShell.dll\"; Enter-VsDevShell -VsInstallPath $vsInstallPath -SkipAutomaticLocation }\"",
+                "icon": "%USERPROFILE%\\bin\\icons\\VS.ico",
+                "startingDirectory": "%USERPROFILE%",
+                "colorScheme": "Campbell Powershell",
+                "tabColor": "#012456"
+            },
+            {
+                "name": "Multipass",
                 "guid": "{aaaa9e6d-1e09-4be6-b76c-82b4ba1885fb}",
+                "commandline": "multipass.exe shell",
                 "icon": "C:/Program Files/Multipass/bin/multipass_wt.ico",
-                "name": "Multipass"
+                "colorScheme": "Ubuntu",
+                "tabColor": "#300a24",
+                "fontFace": "Ubuntu Mono"
             }
         ]
     },
