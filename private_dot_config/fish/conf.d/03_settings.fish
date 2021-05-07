@@ -144,6 +144,6 @@ set fzf_dir_opts \
 set fzf_git_status_opts \
    --bind 'ctrl-a:execute-silent(git add {})' \
    --bind 'ctrl-r:execute-silent(git reset {})' \
-   --preview 'git diff --color=always HEAD (string sub --start=4 {+})'
+   --preview '__fzf_preview_changed_file {} {2..}'
 set fzf_git_log_opts \
    --bind 'ctrl-o:execute-silent(git switch -d {})'
