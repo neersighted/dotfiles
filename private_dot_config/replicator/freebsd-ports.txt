@@ -19,9 +19,9 @@ textproc/libyaml
 # User Programs
 archivers/unzip
 benchmarks/hyperfine
-databases/py-mycli@py37
-databases/py-pgcli@py37
-devel/gdb@py37
+databases/py-mycli@py38
+databases/py-pgcli@py38
+devel/gdb@py38
 devel/gh
 devel/git
 devel/git-delta
@@ -61,7 +61,7 @@ sysutils/vivid
 textproc/bat
 textproc/fzf
 textproc/jq
-textproc/py-asciinema@py37
+textproc/py-asciinema@py38
 textproc/ripgrep
 textproc/sd
 www/curlie
