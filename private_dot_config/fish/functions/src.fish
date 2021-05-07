@@ -5,5 +5,5 @@ function src -d 'reload fish configuration'
   end
 
   # reload main config
-  source $__fish_config_dir/config.fish
+  test -f $__fish_config_dir/config.fish; and source $__fish_config_dir/config.fish
 end
