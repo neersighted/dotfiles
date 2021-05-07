@@ -1,9 +1,10 @@
 status is-interactive; or exit
 
 function rebind -a old new
-  set cmd (bind --user $old | string replace -r '^bind (--user )?\S+ ' '')
-  bind --erase $old
-  bind $new $cmd
+  if set cmd (bind --user $old | string replace -r '^bind (--user )?\S+ ' '' | string unescape)
+    bind --erase $old
+    bind $new $cmd
+  end
 end
 
 function __bind_keys --on-event fish_startup
