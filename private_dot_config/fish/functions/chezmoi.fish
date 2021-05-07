@@ -1,11 +1,10 @@
-function chezmoi
-  set command $argv[1]
-  set -e argv[1]
+command -q chezmoi; or exit
 
-  switch "$command"
+function chezmoi
+  switch $argv[1]
   case cd
     cd (chezmoi source-path)
   case '*'
-    command chezmoi $command $argv
+    command chezmoi $argv
   end
 end
