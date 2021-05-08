@@ -12,6 +12,9 @@ set -s focus-events on # pass focus through
 set -s set-clipboard on # pass OSC 52 escapes up the next nesting level
 set -s extended-keys on # support xterm-style extended keys (CSI u)
 
+# $SHELL
+set -g default-command "$SHELL"
+
 # Windows
 set -g base-index 1 # number windows from 1
 set -g set-titles on # pass titles to parent terminal

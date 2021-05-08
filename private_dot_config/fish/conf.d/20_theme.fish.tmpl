@@ -1,87 +1,74 @@
-#
-# fish colorscheme
-#
-
-function color
+function fish_color
   set -g $argv[1] $argv[2..-1]
   set -g -a fish_colors $argv[1]
 end
 
 # syntax highlighting
-color fish_color_normal '{{ .nord.nord4 }}'
-color fish_color_command '{{ .nord.nord14 }}'
-color fish_color_param '{{ .nord.nord4 }}'
-color fish_color_redirection '{{ .nord.nord15 }}'
-color fish_color_comment '{{ .nord.nord2 }}'
-color fish_color_error '{{ .nord.nord11 }}'
-color fish_color_escape '{{ .nord.nord8 }}'
-color fish_color_operator '{{ .nord.nord9 }}'
-color fish_color_end '{{ .nord.nord3 }}'
-color fish_color_quote '{{ .nord.nord4 }}'
-color fish_color_autosuggestion '{{ .nord.nord3 }}'
-color fish_color_valid_path --underline
-color fish_color_match --background '{{ .nord.nord9 }}'
-color fish_color_search_match nord13 --background '{{ .nord.nord3 }}'
-color fish_color_selection '{{ .nord.nord6 }}' --background '{{ .nord.nord3 }}'
-color fish_color_cancel -r
+fish_color fish_color_normal '{{ .nord.nord4 }}'
+fish_color fish_color_command '{{ .nord.nord14 }}'
+fish_color fish_color_param '{{ .nord.nord4 }}'
+fish_color fish_color_redirection '{{ .nord.nord15 }}'
+fish_color fish_color_comment '{{ .nord.nord2 }}'
+fish_color fish_color_error '{{ .nord.nord11 }}'
+fish_color fish_color_escape '{{ .nord.nord8 }}'
+fish_color fish_color_operator '{{ .nord.nord9 }}'
+fish_color fish_color_end '{{ .nord.nord3 }}'
+fish_color fish_color_quote '{{ .nord.nord4 }}'
+fish_color fish_color_autosuggestion '{{ .nord.nord3 }}'
+fish_color fish_color_valid_path --underline
+fish_color fish_color_match --background '{{ .nord.nord9 }}'
+fish_color fish_color_search_match nord13 --background '{{ .nord.nord3 }}'
+fish_color fish_color_selection '{{ .nord.nord6 }}' --background '{{ .nord.nord3 }}'
+fish_color fish_color_cancel -r
 
 # prompt
-color fish_color_cwd '{{ .nord.nord9 }}'
-color fish_color_cwd_root $fish_color_cwd
-color fish_color_host '{{ .nord.nord15 }}'
-color fish_color_host_remote '{{ .nord.nord15 }}'
-color fish_color_jobs '{{ .nord.nord12 }}'
-color fish_color_status '{{ .nord.nord11 }}'
-color fish_color_timer '{{ .nord.nord3 }}'
-color fish_color_user '{{ .nord.nord10 }}'
-color fish_color_user_root '{{ .nord.nord4 }}'
+fish_color fish_color_cwd '{{ .nord.nord9 }}'
+fish_color fish_color_cwd_root $fish_color_cwd
+fish_color fish_color_host '{{ .nord.nord15 }}'
+fish_color fish_color_host_remote '{{ .nord.nord15 }}'
+fish_color fish_color_jobs '{{ .nord.nord12 }}'
+fish_color fish_color_status '{{ .nord.nord11 }}'
+fish_color fish_color_timer '{{ .nord.nord3 }}'
+fish_color fish_color_user '{{ .nord.nord10 }}'
+fish_color fish_color_user_root '{{ .nord.nord4 }}'
 
 # version prompt
-color prompt_version_color_golang '{{ .nord.nord8 }}'
-color prompt_version_color_nodejs '{{ .nord.nord14 }}'
-color prompt_version_color_python '{{ .nord.nord13 }}'
-color prompt_version_color_python_venv '{{ .nord.nord13 }}'
-color prompt_version_color_ruby '{{ .nord.nord11 }}'
-color prompt_version_color_rust '{{ .nord.nord12 }}'
+fish_color prompt_version_color_golang '{{ .nord.nord8 }}'
+fish_color prompt_version_color_nodejs '{{ .nord.nord14 }}'
+fish_color prompt_version_color_python '{{ .nord.nord13 }}'
+fish_color prompt_version_color_python_venv '{{ .nord.nord13 }}'
+fish_color prompt_version_color_ruby '{{ .nord.nord11 }}'
+fish_color prompt_version_color_rust '{{ .nord.nord12 }}'
 
 # git prompt
-color prompt_git_color_branch '{{ .nord.nord10 }}'
-color prompt_git_color_detached '{{ .nord.nord15 }}'
-color prompt_git_color_upstream '{{ .nord.nord9 }}'
-color prompt_git_color_operation '{{ .nord.nord12 }}'
-color prompt_git_color_staged '{{ .nord.nord14 }}'
-color prompt_git_color_unstaged '{{ .nord.nord8 }}'
-color prompt_git_color_unmerged '{{ .nord.nord11 }}'
-color prompt_git_color_untracked '{{ .nord.nord13 }}'
-color prompt_git_color_stashed '{{ .nord.nord10 }}'
+fish_color prompt_git_color_branch '{{ .nord.nord10 }}'
+fish_color prompt_git_color_detached '{{ .nord.nord15 }}'
+fish_color prompt_git_color_upstream '{{ .nord.nord9 }}'
+fish_color prompt_git_color_operation '{{ .nord.nord12 }}'
+fish_color prompt_git_color_staged '{{ .nord.nord14 }}'
+fish_color prompt_git_color_unstaged '{{ .nord.nord8 }}'
+fish_color prompt_git_color_unmerged '{{ .nord.nord11 }}'
+fish_color prompt_git_color_untracked '{{ .nord.nord13 }}'
+fish_color prompt_git_color_stashed '{{ .nord.nord10 }}'
 
-color prompt_git_clean ''
+fish_color prompt_git_clean ''
 
 # dirh
-color fish_color_history_current --bold
+fish_color fish_color_history_current --bold
 
 # pager
-color fish_pager_color_prefix '{{ .nord.nord3 }}'
-color fish_pager_color_completion '{{ .nord.nord4 }}'
-color fish_pager_color_description '{{ .nord.nord13 }}'
-color fish_pager_color_progress '{{ .nord.nord6 }}' --background '{{ .nord.nord10 }}'
+fish_color fish_pager_color_prefix '{{ .nord.nord3 }}'
+fish_color fish_pager_color_completion '{{ .nord.nord4 }}'
+fish_color fish_pager_color_description '{{ .nord.nord13 }}'
+fish_color fish_pager_color_progress '{{ .nord.nord6 }}' --background '{{ .nord.nord10 }}'
 
 # manpages
-color man_color_blink '{{ .nord.nord15 }}' --bold --underline
-color man_color_bold '{{ .nord.nord5 }}'
-color man_color_standout --reverse
-color man_color_underline '{{ .nord.nord10 }}' --underline
+fish_color man_color_blink '{{ .nord.nord15 }}' --bold --underline
+fish_color man_color_bold '{{ .nord.nord5 }}'
+fish_color man_color_standout --reverse
+fish_color man_color_underline '{{ .nord.nord10 }}' --underline
 
-functions -e color
-
-status is-login; or test $SHLVL -eq 1; or exit
-
-#
-# tools
-#
-
-# ls/exa colors
-test -f $XDG_DATA_HOME/vivid.dircolors; and read -x LS_COLORS < $XDG_DATA_HOME/vivid.dircolors
+functions -e fish_color
 
 # fzf
 set -x FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS_BASE \
@@ -90,9 +77,16 @@ set -x FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS_BASE \
   --color=info:'{{ .nord.nord13 }}',prompt:'{{ .nord.nord11 }}',pointer:'{{ .nord.nord15 }}' \
   --color=marker:'{{ .nord.nord14 }}',spinner:'{{ .nord.nord15 }}',header:'{{ .nord.nord14 }}'
 
+# ls/exa colors
+if not set -q LS_COLORS; and test -f $XDG_DATA_HOME/vivid.dircolors
+  read -x LS_COLORS < $XDG_DATA_HOME/vivid.dircolors
+end
+
 #
 # terminal theme
 #
+
+status is-interactive; and status is-login; or test $SHLVL -eq 1; or exit
 
 function hex_octets -a color
   string match -ar '[[:xdigit:]]{2}' $color
