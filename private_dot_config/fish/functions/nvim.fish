@@ -11,7 +11,7 @@ function nvim
     set -x NVIM_LISTEN_ADDRESS $dir/(tmux display-message -p '#{window_id}').sock
   end
 
-  if set -q NVIM_LISTEN_ADDRESS
+  if set -q NVIM_LISTEN_ADDRESS; and not test $USER = 'root'
     if test -S $NVIM_LISTEN_ADDRESS; and not socat -u OPEN:/dev/null UNIX-CONNECT:$NVIM_LISTEN_ADDRESS &>/dev/null
       rm -f $NVIM_LISTEN_ADDRESS
     end

@@ -3,5 +3,6 @@ jethrokuan/z
 jorgebucaran/autopair.fish
 jorgebucaran/fisher
 jorgebucaran/replay.fish
-~/.config/fish/dbme
 PatrickF1/fzf.fish
+~/.config/fish/plugins/dbme.fish
+jorgebucaran/fishtape
