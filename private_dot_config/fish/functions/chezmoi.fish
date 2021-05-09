@@ -7,19 +7,19 @@ function chezmoi
   case edit
     if test (count $argv) -eq 1
       if set targets (chezmoi managed --include=files | fzf --multi)
-        chezmoi edit ~/$targets
+        set args '~/'$targets
+        commandline --replace "chezmoi edit $args"
       end
     else
       command chezmoi $argv
     end
   case add
     if test (count $argv) -eq 1
-      if set modified (
-        chezmoi status \
-        | string match -re '^M' | string split -f 2 ' ' \
-        | fzf --multi --preview 'chezmoi diff --color=true ~/{}'
-      )
-        chezmoi add ~/$modified
+      if set modified (chezmoi status \
+        | string match -re '^.M|^M.' | string sub --start 4 \
+        | fzf --multi --preview 'chezmoi diff --color=true ~/{}')
+        set args '~/'$modified
+        commandline --replace "chezmoi add $args"
       end
     else
       command chezmoi $argv

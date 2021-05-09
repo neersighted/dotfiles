@@ -18,7 +18,7 @@ function __fzf_preview_changed_file
     # untracked files: show contents
     case '??'
       __fzf_preview_file $path
-    # tracked files: show `git status` with `diff` output
+    # tracked files: emulate `git status` with `diff` output
     case '*'
       if string match -rq '\S.' $git_status
         echo 'Changes to be committed:'
