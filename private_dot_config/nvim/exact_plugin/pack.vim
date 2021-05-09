@@ -41,6 +41,7 @@ if exists('*packager#init')
 
   " Integration
   call packager#add('APZelos/blamer.nvim')
+  call packager#add('airblade/vim-rooter')
   call packager#add('christoomey/vim-tmux-navigator')
   call packager#add('dense-analysis/ale')
   call packager#add('direnv/direnv.vim')

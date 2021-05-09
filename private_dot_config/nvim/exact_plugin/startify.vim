@@ -1,5 +1,5 @@
-" Disable Startify for nvim-tmux.
-if $NVIM_TMUX !=# '0'
+" Speed nvim-tmux by disabling when files are in the arglist.
+if exists('$NVIM_TMUX') && $NVIM_TMUX !=# '0'
   let g:startify_disable_at_vimenter = 1
 end
 
