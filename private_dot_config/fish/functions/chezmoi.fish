@@ -20,7 +20,7 @@ function chezmoi
   case add
     if test (count $argv) -eq 1
       if set modified (chezmoi status \
-        | string match -re '^.M|^M.' | string sub --start 4 \
+        | string match -re '^.M|^M.' | string sub -s 4 \
         | fzf --multi --preview 'chezmoi diff --color=true ~/{}')
         set args '~/'$modified
         commandline --replace "chezmoi add $args"
