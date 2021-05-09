@@ -86,7 +86,8 @@ end
 # terminal theme
 #
 
-status is-interactive; and status is-login; or test $SHLVL -eq 1; or exit
+status is-interactive; or exit
+status is-login; or test $SHLVL -eq 1; or exit
 
 function hex_octets -a color
   string match -ar '[[:xdigit:]]{2}' $color
