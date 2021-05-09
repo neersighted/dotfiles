@@ -6,9 +6,8 @@ function nvim
   end
 
   if is_tmux; and not set -qx NVIM_LISTEN_ADDRESS
-    set -l dir $XDG_RUNTIME_DIR/nvim-tmux
-    test -d $dir; or mkdir $dir
-    set -x NVIM_LISTEN_ADDRESS $dir/(tmux display-message -p '#{window_id}').sock
+    mkdir -p $XDG_RUNTIME_DIR/nvim-tmux
+    set -x NVIM_LISTEN_ADDRESS $XDG_RUNTIME_DIR/nvim-tmux/(tmux display-message -p '#{window_id}').sock
   end
 
   if set -q NVIM_LISTEN_ADDRESS; and not test $USER = 'root'
