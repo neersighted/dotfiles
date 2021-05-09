@@ -89,87 +89,79 @@ end
 status is-interactive; or exit
 status is-login; or test $SHLVL -eq 1; or exit
 
+function osc -a data
+    printf '\e]%s\e\\' $data
+end
+
 function hex_octets -a color
   string match -ar '[[:xdigit:]]{2}' $color
 end
 
-function hex_color -a color
-  string replace '#' '' $color
-end
-
-function xrdb_color -a color
+function xrdb_spec -a color
   printf 'rgb:%s/%s/%s' (hex_octets $color)
 end
 
-set -l ESC \e
-set -l BEL \a
-set -l ST \e\\
+# iterm2 color names (in index order)
+set -l term_palette \
+  black red green yellow blue magenta cyan white \
+  br_black br_red br_green br_yellow br_blue br_magenta br_cyan br_white
 
-function term_color --inherit-variable ESC --inherit-variable ST -a idx color
-  if test $TERM = 'linux'
-    printf $ESC']P%x%s' $idx (hex_color $color)
+# iterm2 special color names
+set -l term_special \
+   fg bg bold link selbg selfg curbg curfg underline tab
+# osc commands (corresponding to the above list)
+set -l term_special_osc \
+   10 11 '5;0' '' 17 19 12 '' '5;1' 708
+
+function term_color -V term_palette -V term_special -V term_special_osc -a color_name hex_color
+  set hex_color (string replace '#' '' $hex_color)
+
+  if set color_index (contains -i $color_name $term_palette)
+    set color_index (math $color_index - 1)
+    set osc printf '%i;%i' 4 $color_index
+  else if set osc_index (contains -i $color_name $term_special)
+    set osc $term_special_osc[$osc_index]
+  end
+
+  if test $TERM = 'linux'; and set -q color_index
+    osc (printf 'P%x%s' $color_index $hex_color)
   else if is_iterm
-    printf $ESC']P%x%s'$ST $idx (hex_color $color)
-  else
-    printf $ESC']4;%i;%s'$ST $idx (xrdb_color $color)
+    osc (printf '1337;SetColors=%s=%s' $color_name $hex_color)
+  else if test -n "$osc"
+    osc (printf '%s;%s' $osc (xrdb_spec $hex_color))
   end
 end
 
-function term_special --inherit-variable ESC --inherit-variable BEL --inherit-variable ST -a idx color
-  if test $TERM = 'linux'
-    return
-  else if is_iterm
-    switch $idx
-      case 10; set idx g
-      case 11; set idx h
-      case 13; set idx m
-      case 14; set idx l
-      case 17; set idx j
-      case 19; set idx k
-      case 706; set idx i
-      case 708
-        set octets (hex_octets $color)
-        printf $ESC']6;1;bg;red;brightness;%d'$BEL 0x$octets[1]
-        printf $ESC']6;1;bg;green;brightness;%d'$BEL 0x$octets[2]
-        printf $ESC']6;1;bg;blue;brightness;%d'$BEL 0x$octets[3]
-        return
-      case \*; return
-    end
-
-    printf $ESC']P%s%s'$ST $idx (hex_color $color)
-  else
-    printf $ESC']%i;%s'$ST $idx (xrdb_color $color)
-  end
-end
-
-term_color 0 '{{ .nord.nord1 }}'   # black
-term_color 1 '{{ .nord.nord11 }}'  # red
-term_color 2 '{{ .nord.nord14 }}'  # green
-term_color 3 '{{ .nord.nord13 }}'  # yellow
-term_color 4 '{{ .nord.nord9 }}'   # blue
-term_color 5 '{{ .nord.nord15 }}'  # magenta
-term_color 6 '{{ .nord.nord8 }}'   # cyan
-term_color 7 '{{ .nord.nord5 }}'   # white
-term_color 8 '{{ .nord.nord3 }}'   # bright black
-term_color 9 '{{ .nord.nord11 }}'  # bright red
-term_color 10 '{{ .nord.nord14 }}' # bright green
-term_color 11 '{{ .nord.nord13 }}' # bright yellow
-term_color 12 '{{ .nord.nord9 }}'  # bright blue
-term_color 13 '{{ .nord.nord15 }}' # bright magenta
-term_color 14 '{{ .nord.nord7 }}'  # bright cyan
-term_color 15 '{{ .nord.nord6 }}'  # bright white
-
-term_special 10 '{{ .nord.nord4 }}'  # fg
-term_special 11 '{{ .nord.nord0 }}'  # bg
-term_special 12 '{{ .nord.nord4 }}'  # cursor (auto)
-term_special 13 '{{ .nord.nord0 }}'  # cursor (man) fg
-term_special 14 '{{ .nord.nord4 }}'  # cursor (man) bg
-term_special 17 '{{ .nord.nord2 }}'  # selection bg
-term_special 19 '{{ .nord.nord4 }}'  # selection fg
-term_special 706 '{{ .nord.nord4 }}' # bold
-term_special 708 '{{ .nord.nord0 }}' # chrome
+# 16-color palette
+term_color black      '{{ .nord.nord1 }}'
+term_color red        '{{ .nord.nord11 }}'
+term_color green      '{{ .nord.nord14 }}'
+term_color yellow     '{{ .nord.nord13 }}'
+term_color blue       '{{ .nord.nord9 }}'
+term_color magenta    '{{ .nord.nord15 }}'
+term_color cyan       '{{ .nord.nord8 }}'
+term_color white      '{{ .nord.nord5 }}'
+term_color br_black   '{{ .nord.nord3 }}'
+term_color br_red     '{{ .nord.nord11 }}'
+term_color br_green   '{{ .nord.nord14 }}'
+term_color br_yellow  '{{ .nord.nord13 }}'
+term_color br_blue    '{{ .nord.nord9 }}'
+term_color br_magenta '{{ .nord.nord15 }}'
+term_color br_cyan    '{{ .nord.nord7 }}'
+term_color br_white   '{{ .nord.nord6 }}'
+# special colors
+term_color fg         '{{ .nord.nord4 }}'
+term_color bg         '{{ .nord.nord0 }}'
+term_color bold       '{{ .nord.nord4 }}'
+term_color link       '{{ .nord.nord4 }}'
+term_color selbg      '{{ .nord.nord2 }}'
+term_color selfg      '{{ .nord.nord4 }}'
+term_color curbg      '{{ .nord.nord4 }}'
+term_color curfg      '{{ .nord.nord0 }}'
+term_color underline  '{{ .nord.nord4 }}'
+term_color tab        '{{ .nord.nord0 }}'
 
 # clean up
-functions -e hex_octets hex_color xrdb_color term_color term_special
+functions -e osc hex_octets xrdb_spec term_color
 
 # vi: ft=fish
