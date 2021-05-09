@@ -40,7 +40,7 @@ function __tmux_auto_launch --on-event fish_startup
   status is-interactive; or return
   set session (__tmux_session_name); or return
 
-  if not tmux has-session -t $session &>/dev/null
+  if not tmux has-session -t=$session &>/dev/null
     tmux new -s $session
   else if test -z (tmux list-clients -t $session)[1]
     tmux attach -t $session \; run-shell 'pkill -USR1 -P #{pid} fish'
