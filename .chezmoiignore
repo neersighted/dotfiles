@@ -22,6 +22,6 @@ bin
 .terminfo
 {{ end }}
 
-{{ if or (ne .chezmoi.os "linux") (ne (index .chezmoi.osRelease "idLike") "debian") }}
+{{ if or (ne .chezmoi.os "linux") (eq (index .chezmoi.osRelease "id") "arch") }} # hushlogin on everything but arch
 .hushlogin
 {{ end }}
