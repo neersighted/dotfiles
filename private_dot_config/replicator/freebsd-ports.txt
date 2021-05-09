@@ -33,6 +33,7 @@ devel/tokei
 devel/universal-ctags
 editors/neovim
 ftp/curl
+ftp/curlie
 ftp/lftp
 lang/python
 misc/gnu-watch
@@ -65,7 +66,6 @@ textproc/jq
 textproc/py-asciinema@py38
 textproc/ripgrep
 textproc/sd
-www/curlie
 
 # Missing
 # chezmoi
