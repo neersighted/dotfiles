@@ -37,6 +37,7 @@ ftp/lftp
 lang/python
 misc/gnu-watch
 misc/thefuck
+net/croc
 net/mosh
 net/socat
 net/whois

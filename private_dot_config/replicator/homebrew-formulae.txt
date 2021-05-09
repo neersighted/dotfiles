@@ -11,6 +11,7 @@ age
 asciinema
 bat
 chezmoi
+croc
 ctags
 curlie
 direnv
