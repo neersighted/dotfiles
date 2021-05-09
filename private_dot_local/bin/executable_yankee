@@ -108,7 +108,7 @@ yank() {
     encoded=$(b64)
   fi
   # escape data
-  escaped="\\033]52;c;$encoded\\e\\\\"
+  escaped="\\033]52;c;$encoded\\033\\\\"
 
   # check that the data isn't too big
   if [ "$(printf "%b" "$escaped" | wc -c)" -gt 100000 ]; then
