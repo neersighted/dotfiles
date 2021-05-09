@@ -164,7 +164,7 @@ if test -e $PYENV_ROOT/version
   path_prepend MANPATH $PYENV_ROOT/versions/$PYENV_VERSION/share/man
 end
 # ruby
-if test -e $RBENV_ROOT/VERSION
+if test -e $RBENV_ROOT/version
   set -q RBENV_VERSION; or read -l RBENV_VERSION < $RBENV_ROOT/version
   path_prepend MANPATH $RBENV_ROOT/versions/$RBENV_VERSION/share/man
 end
