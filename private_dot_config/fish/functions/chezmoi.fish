@@ -12,6 +12,9 @@ function chezmoi
         commandline --replace "chezmoi edit $args"
       end
     else
+      # use the git-editor wrapper to take advantage of custom logic
+      set -lx VISUAL git-editor
+
       command chezmoi $argv
     end
   case add
