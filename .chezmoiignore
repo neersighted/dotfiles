@@ -16,7 +16,7 @@ bin
 {{ end }}
 
 {{ if eq .chezmoi.os "darwin" }} # ignore x11 files on macos
-.config/xinit/**
+.config/xinit
 .config/Xresources
 {{ else }}
 .config/iterm2 # iterm2 only runs on macos
