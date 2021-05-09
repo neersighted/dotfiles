@@ -1,24 +1,24 @@
 status is-interactive; or exit
 
-abbr -a -g lt 'll -TL2'
+abbr -q lt; or abbr -a -- lt 'll -TL2'
 
 # chezmoi
-abbr -a -g chez 'chezmoi'
-abbr -a -g cad 'chezmoi add'
-abbr -a -g cap 'chezmoi apply'
-abbr -a -g ced 'chezmoi edit'
-abbr -a -g cup 'chezmoi update'
+abbr -q chez; or abbr -a -- chez 'chezmoi'
+abbr -q cad; or abbr -a -- cad 'chezmoi add'
+abbr -q cap; or abbr -a -- cap 'chezmoi apply'
+abbr -q ced; or abbr -a -- ced 'chezmoi edit'
+abbr -q cup; or abbr -a -- cup 'chezmoi update'
 
 # fisher
-abbr -a -g fad 'fisher install'
-abbr -a -g fls 'fisher list'
-abbr -a -g frm 'fisher uninstall'
-abbr -a -g fup 'fisher update'
+abbr -q fad; or abbr -a -- fad 'fisher install'
+abbr -q fls; or abbr -a -- fls 'fisher list'
+abbr -q frm; or abbr -a -- frm 'fisher uninstall'
+abbr -q fup; or abbr -a -- fup 'fisher update'
 
 # git
-abbr -a -g gco 'git commit'
-abbr -a -g gfe 'git fetch'
-abbr -a -g gpl 'git pull'
-abbr -a -g gpu 'git push'
-abbr -a -g gre 'git rebase'
-abbr -a -g gsw 'git switch'
+abbr -q gco; or abbr -a -- gco 'git commit'
+abbr -q gfe; or abbr -a -- gfe 'git fetch'
+abbr -q gpl; or abbr -a -- gpl 'git pull'
+abbr -q gpu; or abbr -a -- gpu 'git push'
+abbr -q gre; or abbr -a -- gre 'git rebase'
+abbr -q gsw; or abbr -a -- gsw 'git switch'
