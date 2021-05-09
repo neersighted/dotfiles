@@ -1,4 +1,3 @@
-{{- if eq .chezmoi.os "darwin" -}}
 #!/bin/sh
 
 if ! /usr/bin/infocmp tmux-256color >/dev/null 2>&1; then
@@ -9,5 +8,3 @@ if ! /usr/bin/infocmp tmux-256color >/dev/null 2>&1; then
     | sed 's/pairs#0x10000/pairs#0x1000/' > "$terminfo"
   /usr/bin/tic -x "$terminfo"
 fi
-
-{{- end -}}
