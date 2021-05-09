@@ -4,7 +4,7 @@ function fish_right_prompt
 
   set -q repainting; and set -e repainting; and return
 
-  if test $USER = 'root'
+  if fish_is_root_user
     set_color $fish_color_cwd_root
   else
     set_color $fish_color_cwd
