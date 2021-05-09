@@ -25,6 +25,7 @@
 	autocrlf = false
 {{ end }}
 [pull]
+	ff = only
 	rebase = true
 [push]
 	default = current
@@ -43,8 +44,9 @@
 [merge]
 	tool = nvr
 [rebase]
-	stat = true
 	autoSquash = true
+	autoStash = true
+	stat = true
 
 [interactive]
 	diffFilter = delta --color-only
