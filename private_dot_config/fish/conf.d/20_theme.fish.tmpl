@@ -89,16 +89,9 @@ end
 status is-interactive; or exit
 status is-login; or test $SHLVL -eq 1; or exit
 
+# OSC (ESC ]) DATA ST (ESC \)
 function osc -a data
     printf '\e]%s\e\\' $data
-end
-
-function hex_octets -a color
-  string match -ar '[[:xdigit:]]{2}' $color
-end
-
-function xrdb_spec -a color
-  printf 'rgb:%s/%s/%s' (hex_octets $color)
 end
 
 # iterm2 color names (in index order)
@@ -114,8 +107,6 @@ set -l term_special_osc \
    10 11 '5;0' '' 17 19 12 '' '5;1' 708
 
 function term_color -V term_palette -V term_special -V term_special_osc -a color_name hex_color
-  set hex_color (string replace '#' '' $hex_color)
-
   if set color_index (contains -i $color_name $term_palette)
     set color_index (math $color_index - 1)
     set osc printf '%i;%i' 4 $color_index
@@ -124,11 +115,11 @@ function term_color -V term_palette -V term_special -V term_special_osc -a color
   end
 
   if test $TERM = 'linux'; and set -q color_index
-    osc (printf 'P%x%s' $color_index $hex_color)
+    osc (printf 'P%x%s' $color_index (string sub -s 2 $hex_color))
   else if is_iterm
-    osc (printf '1337;SetColors=%s=%s' $color_name $hex_color)
+    osc (printf '1337;SetColors=%s=%s' $color_name (string sub -s 2 $hex_color))
   else if test -n "$osc"
-    osc (printf '%s;%s' $osc (xrdb_spec $hex_color))
+    osc (printf '%s;%s' $osc $hex_color)
   end
 end
 
@@ -162,6 +153,6 @@ term_color underline  '{{ .nord.nord4 }}'
 term_color tab        '{{ .nord.nord0 }}'
 
 # clean up
-functions -e osc hex_octets xrdb_spec term_color
+functions -e osc term_color
 
 # vi: ft=fish
