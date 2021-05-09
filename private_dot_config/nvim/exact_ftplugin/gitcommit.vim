@@ -1,3 +1,3 @@
-setlocal spell
+setlocal spell autoindent textwidth=80
 
-let b:undo_ftplugin = 'setlocal spell<'
+let b:undo_ftplugin = 'setlocal spell< autoindent< textwidth<'
