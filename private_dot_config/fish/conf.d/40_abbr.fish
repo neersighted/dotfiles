@@ -22,3 +22,7 @@ abbr -q gpl; or abbr -a -- gpl 'git pull'
 abbr -q gpu; or abbr -a -- gpu 'git push'
 abbr -q gre; or abbr -a -- gre 'git rebase'
 abbr -q gsw; or abbr -a -- gsw 'git switch'
+
+# tmux
+abbr -q tdp; or abbr -a -- tdp 'tmux display-message -p'
+abbr -q tso; or abbr -a -- tso 'tmux source-file'
