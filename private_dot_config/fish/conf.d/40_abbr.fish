@@ -12,7 +12,7 @@ abbr -q cup; or abbr -a -- cup 'chezmoi update'
 # fisher
 abbr -q fad; or abbr -a -- fad 'fisher install'
 abbr -q fls; or abbr -a -- fls 'fisher list'
-abbr -q frm; or abbr -a -- frm 'fisher uninstall'
+abbr -q frm; or abbr -a -- frm 'fisher remove'
 abbr -q fup; or abbr -a -- fup 'fisher update'
 
 # git
