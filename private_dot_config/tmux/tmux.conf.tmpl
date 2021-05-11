@@ -9,7 +9,7 @@ set -s default-terminal 'tmux-256color'
 set -sa terminal-features "xterm*:RGB:extkeys:clipboard" # add features supported by most xterm-compatible terminals
 set -s escape-time 25 # pass escape sequences (almost) instantly
 set -s focus-events on # pass focus through
-set -s set-clipboard on # pass OSC 52 escapes up the next nesting level
+set -s set-clipboard external # pass OSC 52 escapes up the next nesting level
 set -s extended-keys on # support xterm-style extended keys (CSI u)
 
 # Windows
