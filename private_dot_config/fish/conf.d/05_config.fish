@@ -49,5 +49,6 @@ set -qx LIBVIRT_DEFAULT_URI; or set -Ux LIBVIRT_DEFAULT_URI qemu:///system
 # vagrant
 set -x VAGRANT_WSL_ENABLE_WINDOWS_ACCESS 1
 
-# z
+# z/f
 set -qU Z_OWNER; or set -U Z_OWNER $USER
+set -qU F_OWNER; or set -U F_OWNER $USER

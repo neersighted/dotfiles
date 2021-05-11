@@ -35,7 +35,6 @@ if is_wsl
   wslenv -p APPDATA
   wslenv -p LOCALAPPDATA
   set -x BROWSER 'wslview'
-  set -x COLORTERM 'truecolor'
 end
 if is_wsl1
   set umask 0022
