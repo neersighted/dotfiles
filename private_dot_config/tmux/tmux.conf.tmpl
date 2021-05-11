@@ -9,7 +9,7 @@ set -s default-terminal 'tmux-256color'
 set -sa terminal-features "xterm*:RGB:extkeys:clipboard" # add features supported by most xterm-compatible terminals
 set -s escape-time 25 # pass escape sequences (almost) instantly
 set -s focus-events on # pass focus through
-set -s set-clipboard external # pass OSC 52 escapes up the next nesting level
+set -s set-clipboard external # bubble OSC 52 up
 set -s extended-keys on # support xterm-style extended keys (CSI u)
 
 # Windows
@@ -23,6 +23,9 @@ set -g history-limit 100000 # store 100k lines of history
 set -g mouse on # enable mouse support
 set -g mode-keys vi # vi-style copy
 set -g status-keys emacs # readline-style command line
+
+# Clipboard
+set -s copy-command 'yankee' # use yankee for copy-pipe and friends
 
 #
 # Status Line
@@ -167,9 +170,10 @@ bind -N 'Send C-Right' C-Right send C-Right
 bind -N 'List all paste buffers' '=' list-buffers
 bind -N 'Delete the most recent paste buffer' '-' delete-buffer
 bind -N 'Paste the most recent paste buffer' p paste-buffer -rp
-bind -N 'Choose a paste buffer to paste' P choose-buffer -Z 'paste-buffer -rp -b "%%"'
-bind -N 'Load a paste buffer from yankee' y run 'yankee -o | tmux load-buffer -'
-bind -N 'Pass the most recent paste bufer to yankee' Y run 'tmux save-buffer - | yankee'
+bind -N 'Load a paste buffer from yankee' P run 'yankee -o | tmux load-buffer -'
+bind -N 'Choose a paste buffer to paste' M-p choose-buffer -Z 'paste-buffer -rp -b "%%"'
+bind -N 'Pass the most recent paste bufer to yankee' y run 'tmux save-buffer - | yankee'
+bind -N 'Choose a paste buffer pass to yankee' Y choose-buffer -Z 'save-buffer -b "%%" - | yankee'
 
 # URL Selection
 bind -N 'Open URLs from pane' C-o run -b 'tmuxrl -t #{pane_id} -o'
@@ -185,9 +189,9 @@ bind -N 'Enter copy mode and scroll up' PgUp copy-mode -eu
 bind -n MouseDown1Status select-window -t=
 bind -n MouseDrag1Border resize-pane -M
 bind -n MouseDown1Pane select-pane \; send -M
-bind -n MouseDrag1Pane select-pane \; if -F '#{||:#{mouse_any_flag},#{pane_in_mode}}}' 'send -M' 'copy-mode -M'
-bind -n DoubleClick1Pane select-pane \; if -F '#{||:#{mouse_any_flag},#{pane_in_mode}}}' 'send -M' 'copy-mode; send -X select-word'
-bind -n TripleClick1Pane select-pane \; if -F '#{||:#{mouse_any_flag},#{pane_in_mode}}}' 'send -M' 'copy-mode; send -X select-line'
+bind -n MouseDrag1Pane select-pane \; if -F '#{||:#{mouse_any_flag},#{pane_in_mode}}' 'send -M' 'copy-mode -M'
+bind -n DoubleClick1Pane select-pane \; if -F '#{||:#{mouse_any_flag},#{pane_in_mode}}' 'send -M' 'copy-mode; send -X select-word'
+bind -n TripleClick1Pane select-pane \; if -F '#{||:#{mouse_any_flag},#{pane_in_mode}}' 'send -M' 'copy-mode; send -X select-line'
 
 # Scroll Wheel
 bind -n WheelUpStatus select-window -p
@@ -237,8 +241,8 @@ bind -T copy-mode-vi V send -X select-line
 bind -T copy-mode-vi C-v send -X rectangle-toggle
 bind -T copy-mode-vi C-j send -X copy-selection-and-cancel
 bind -T copy-mode-vi Enter send -X copy-selection-and-cancel
-bind -T copy-mode-vi y send -X copy-selection-and-cancel
-bind -T copy-mode-vi Y send -X copy-pipe-and-cancel 'yankee'
+bind -T copy-mode-vi y send -X copy-selection-no-clear
+bind -T copy-mode-vi Y send -X copy-pipe-no-clear
 bind -T copy-mode-vi A send -X append-selection-and-cancel
 bind -T copy-mode-vi D send -X copy-end-of-line
 bind -T copy-mode-vi p send -X copy-selection-and-cancel \; paste-buffer -rp

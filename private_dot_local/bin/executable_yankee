@@ -70,7 +70,12 @@ b64() {
 }
 
 yank() {
-  # GUI-only systems (macOS/WSL)
+  # tmux (plus built-in OSC 52)
+  if [ -n "$TMUX" ]; then
+    exec tmux load-buffer -w -
+  fi
+
+  # Local, GUI-only systems (macOS/WSL)
   if [ -z "$SSH_CONNECTION" ]; then
     if [ "$(uname)" = 'Darwin' ]; then
       exec pbcopy
@@ -97,27 +102,17 @@ yank() {
     fi
   fi
 
-  # tmux/OSC 52
-  if [ -n "$TMUX" ]; then
-    # save into tmux buffer
-    tmux load-buffer -
-    # and dump back out
-    encoded=$(tmux save-buffer - | b64)
-  else
-    # read directly from stdin
-    encoded=$(b64)
-  fi
-  # escape data
-  escaped="\\033]52;c;$encoded\\033\\\\"
-
-  # check that the data isn't too big
-  if [ "$(printf "%b" "$escaped" | wc -c)" -gt 100000 ]; then
+  # manual OSC 52
+  payload=$(b64) # read payload from stdin and encode
+  escape="\\033]52;c;${payload}\\033\\\\" # OSC 52 ; target ; b64 data ; ST
+  # check that the command is not too big
+  if [ "$(printf "%b" "$escape" | wc -c)" -gt 100000 ]; then
     echo "input data too long" >&2
     exit 1
+  else
+    printf "%b" "$escape" > "$(tty)"
+    exit
   fi
-  # write OSC 52 sequence
-  printf "%b" "$escaped"
-  exit
 }
 
 paste() {
