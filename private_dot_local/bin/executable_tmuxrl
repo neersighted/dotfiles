@@ -1,52 +1,21 @@
-#!/bin/sh
+#!/usr/bin/env fish
 
-set -ex
+set -a options (fish_opt --short=t --long=pane --required-val)
+set -a options (fish_opt --short=f --long=full)
+set -a options (fish_opt --short=o --long=open)
+set -a options (fish_opt --short=y --long=yank)
 
-while [ "$#" -gt 0 ]; do
-  case $1 in
-    -o)
-      op=open
-      shift
-      ;;
-    -y)
-      op=yank
-      shift
-      ;;
-    -t)
-      pane=${2:?missing value: $1}
-      shift 2
-      ;;
-    -f)
-      full=1
-      shift
-      ;;
-    -*)
-      echo "unknown option: $1" >&2
-      exit 1
-      ;;
-    *)
-      echo "unrecognized argument: $1" >&2
-      exit 1
-      ;;
-  esac
-done
+argparse $options -- $argv
+or exit
 
-op=${op:-print}
-if [ "$op" != 'yank' ]; then
-  multi=1
-fi
+set -q _flag_full; and set full -S- -E-
+set -q _flag_pane; and set pane -t $_flag_pane
 
-# shellcheck disable=SC2086
-tmux capture-pane -J ${full:+-S- -E-} ${pane:+-t $pane} -p | xurls | fzf-tmux $FZF_TMUX_DEFAULT_OPTS -- --tac ${multi:+--multi} -1 --prompt="$op: " | while read -r url; do
-  case $op in
-    open)
-      $SHELL -c "open '$url'"
-    ;;
-    yank)
-      echo "$url" | $SHELL -c "$(tmux display-message -p '#{copy-command}')"
-    ;;
-    print)
-      echo "$url"
-    ;;
-  esac
-done
+for url in (tmux capture-pane -J $full $pane -p | xurls | fzf-tmux $FZF_TMUX_DEFAULT_OPTS -- --tac --multi -1 --prompt="tmuxrl: ")
+  set -q _flag_open
+  and open "$url"
+  or echo "$url"
+end | begin
+  set -q _flag_yank
+  and clipboard-provider copy
+end
