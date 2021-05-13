@@ -1,10 +1,10 @@
 status is-interactive; or exit
 
-# wrappers to make fish_clipboard_copy/fish_clipboard_paste work with yankee
+# wrappers to make fish_clipboard_copy/fish_clipboard_paste work with clipboard-provider
 function pbcopy
-  yankee -i
+  clipboard-provider copy
 end
 
 function pbpaste
-  yankee -o
+  clipboard-provider paste
 end

@@ -1,15 +1,9 @@
 #!/bin/sh
 
+set -ex
+
 while [ "$#" -gt 0 ]; do
   case $1 in
-    -t)
-      pane=${2:?missing value: $1}
-      shift 2
-      ;;
-    -f)
-      full=1
-      shift
-      ;;
     -o)
       op=open
       shift
@@ -18,7 +12,14 @@ while [ "$#" -gt 0 ]; do
       op=yank
       shift
       ;;
-
+    -t)
+      pane=${2:?missing value: $1}
+      shift 2
+      ;;
+    -f)
+      full=1
+      shift
+      ;;
     -*)
       echo "unknown option: $1" >&2
       exit 1
@@ -31,20 +32,21 @@ while [ "$#" -gt 0 ]; do
 done
 
 op=${op:-print}
-
-if command -v open >/dev/null; then
-  open=open
-elif command -v xdg-open >/dev/null; then
-  open=xdg-open
-else
-  open=$BROWSER
+if [ "$op" != 'yank' ]; then
+  multi=1
 fi
 
 # shellcheck disable=SC2086
-tmux capture-pane -J ${full:+-S- -E-} ${pane:+-t $pane} -p | xurls | fzf-tmux $FZF_TMUX_DEFAULT_OPTS -- --tac --multi -1 --prompt="$op: " | while read -r url; do
+tmux capture-pane -J ${full:+-S- -E-} ${pane:+-t $pane} -p | xurls | fzf-tmux $FZF_TMUX_DEFAULT_OPTS -- --tac ${multi:+--multi} -1 --prompt="$op: " | while read -r url; do
   case $op in
-    open) $open "$url" ;;
-    yank) echo "$url" | yankee ;;
-    print) echo "$url" ;;
+    open)
+      $SHELL -c "open '$url'"
+    ;;
+    yank)
+      echo "$url" | $SHELL -c "$(tmux display-message -p '#{copy-command}')"
+    ;;
+    print)
+      echo "$url"
+    ;;
   esac
 done

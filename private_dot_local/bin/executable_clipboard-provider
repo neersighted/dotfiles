@@ -1,0 +1,147 @@
+#!/usr/bin/env fish
+
+set -q COPY_PROVIDERS; or set -x COPY_PROVIDERS tmux desktop file
+set -q PASTE_PROVIDERS; or set -x PASTE_PROVIDERS tmux desktop file
+
+function main -a op
+  set -l exit_status 99
+
+  switch $op
+    case copy
+      slurp
+      for p in $COPY_PROVIDERS
+        {$p}-provider copy; and set exit_status 0
+      end
+    case paste
+      for p in $PASTE_PROVIDERS
+        {$p}-provider paste; and set exit_status 0; and break
+      end
+  end
+
+  exit $exit_status
+end
+
+function slurp
+  read -g data
+end
+
+function spit
+  printf '%s' $data
+end
+
+function tty
+  begin
+    command tty 2>/dev/null
+    or tmux display-message -p '#{pane_tty}' 2>/dev/null
+    or begin
+      set -l ppid (string split ' ' </proc/self/stat)[4]
+      and command tty </proc/$ppid/fd/0 2>/dev/null
+    end
+  end | string match -e '/dev/'
+end
+
+function base64
+  if command -q base64
+    if command base64 --version &>/dev/null
+      command base64 -w0
+    else
+      command base64
+    end
+  else if command -q b64encode
+    b64encode -r -
+  else
+    return 1
+  end
+end
+
+function tmux-provider -a op
+  set -q TMUX; or return 1
+  switch $op
+    case copy; spit | tmux load-buffer -w -
+    case paste; tmux save-buffer -
+  end
+end
+
+function desktop-provider
+  wsl-provider $argv
+  or macos-provider $argv
+  or wayland-provider $argv
+  or x11-provider $argv
+  or osc52-provider $argv
+end
+
+function wsl-provider -a op
+  set -q WSLENV; or return 1
+  if command -q win32yank.exe
+    switch $op
+      case copy; spit | win32yank.exe -i --crlf
+      case paste; win32yank.exe -o --lf
+    end
+    return
+  else
+    switch $op
+      case copy; tr '\n' '\r\n' | clip.exe
+      case paste; powershell.exe -Command Get-Clipboard | tr '\r\n' '\n'
+    end
+    return
+  end
+  return 1
+end
+
+function macos-provider -a op
+  command -q pbcopy; or return 1
+  switch $op
+    case copy; spit | pbcopy
+    case paste; pbpaste
+  end
+end
+
+function wayland-provider -a op
+  set -q WAYLAND_DISPLAY; and command -q wl-copy; or return 1
+  switch $op
+    case copy; command -q wl-copy; and spit | wl-copy --type=text/plain
+    case paste; command -q wl-paste; and wl-paste --no-newline
+  end
+end
+
+function x11-provider -a op
+  xsel-provider $argv
+  or xclip-provider $argv
+end
+
+function xclip-provider -a op
+  set -q DISPLAY; and command -q xclip; or return 1
+  switch $op
+    case copy; spit | xclip -i -selection clipboard
+    case paste; xclip -o -selection clipboard
+  end
+end
+
+function xsel-provider -a op
+  set -q DISPLAY; and command -q xsel; or return 1
+  switch $op
+    case copy; spit | xsel -i --clipboard
+    case paste; xsel -o --clipboard
+  end
+end
+
+function osc52-provider -a op
+  set -l tty (tty); or return 1
+  set -l payload (spit | base64); or return 1
+  test (printf '\e]52;c;%s\e\\' $payload | string length) -le 100000; or return 1 # max length 100000 bytes
+
+  switch $op
+    case copy; printf '\e]52;c;%s\e\\' '!' $payload > $tty # OSC 52 ; target ; b64 data ; ST
+    case paste; return 1
+  end
+end
+
+function file-provider -a op
+  set -l clipboard_file $XDG_RUNTIME_DIR/clipboard
+  switch $op
+    case copy; spit > $clipboard_file
+    case paste; cat $clipboard_file
+  end
+end
+
+main $argv

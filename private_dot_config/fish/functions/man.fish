@@ -14,7 +14,7 @@ function man
   set -x GROFF_NO_SGR yes
 
   set -q MANPATH; or set -lx MANPATH ''
-  set fish_manpath (dirname $__fish_data_dir)/fish/man
+  set fish_manpath $__fish_data_dir/man
   test -d $fish_manpath; and set -lx -p MANPATH $fish_manpath
 
   command man $argv

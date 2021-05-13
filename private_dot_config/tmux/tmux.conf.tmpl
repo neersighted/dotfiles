@@ -9,7 +9,7 @@ set -s default-terminal 'tmux-256color'
 set -sa terminal-features "xterm*:RGB:extkeys:clipboard" # add features supported by most xterm-compatible terminals
 set -s escape-time 25 # pass escape sequences (almost) instantly
 set -s focus-events on # pass focus through
-set -s set-clipboard external # bubble OSC 52 up
+set -s set-clipboard on # bubble OSC 52 up
 set -s extended-keys on # support xterm-style extended keys (CSI u)
 
 # Windows
@@ -25,7 +25,7 @@ set -g mode-keys vi # vi-style copy
 set -g status-keys emacs # readline-style command line
 
 # Clipboard
-set -s copy-command 'yankee' # use yankee for copy-pipe and friends
+set -s copy-command 'COPY_PROVIDERS=desktop clipboard-provider copy' # use clipboard-provider for copy-pipe and friends
 
 #
 # Status Line
@@ -170,10 +170,10 @@ bind -N 'Send C-Right' C-Right send C-Right
 bind -N 'List all paste buffers' '=' list-buffers
 bind -N 'Delete the most recent paste buffer' '-' delete-buffer
 bind -N 'Paste the most recent paste buffer' p paste-buffer -rp
-bind -N 'Load a paste buffer from yankee' P run 'yankee -o | tmux load-buffer -'
+bind -N 'Load a paste buffer from the clipboard' P run 'PASTE_PROVIDERS=desktop clipboard-provider paste | tmux load-buffer -'
 bind -N 'Choose a paste buffer to paste' M-p choose-buffer -Z 'paste-buffer -rp -b "%%"'
-bind -N 'Pass the most recent paste bufer to yankee' y run 'tmux save-buffer - | yankee'
-bind -N 'Choose a paste buffer pass to yankee' Y choose-buffer -Z 'save-buffer -b "%%" - | yankee'
+bind -N 'Save the most recent paste bufer to the clipboard' y run 'tmux save-buffer - | #{copy-command}'
+bind -N 'Choose a paste buffer to save to the clipboard' Y choose-buffer -Z 'save-buffer -b "%%" - | #{copy-command}'
 
 # URL Selection
 bind -N 'Open URLs from pane' C-o run -b 'tmuxrl -t #{pane_id} -o'

@@ -23,7 +23,7 @@ set FZF_DEFAULT_OPTS_BASE \
    --cycle \
    --layout=reverse --preview-window=wrap \
    --bind "'ctrl-\:toggle-preview'" \
-   --bind "'ctrl-x:execute-silent(echo {+} | yankee)'"
+   --bind "'ctrl-x:execute-silent(echo {+} | clipboard-provider copy)'"
 set -x FZF_TMUX_DEFAULT_OPTS '-p 75%'
 set -x FZF_DEFAULT_COMMAND 'fd --type=file --type=directory --hidden --color=always .'
 
