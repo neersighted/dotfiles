@@ -38,16 +38,18 @@ set fzf_git_log_opts \
    --bind 'ctrl-o:execute-silent(git switch -d {})'
 
 # homebrew
-set -x HOMEBREW_AUTO_UPDATE_SECS 86400
+is_macos; and set -x HOMEBREW_AUTO_UPDATE_SECS 86400
 
 # less
 set -x LESS '--mouse --RAW-CONTROL-CHARS --tabs=2'
 
 # libvirt
-set -qx LIBVIRT_DEFAULT_URI; or set -Ux LIBVIRT_DEFAULT_URI qemu:///system
+if is_linux
+   set -qx LIBVIRT_DEFAULT_URI; or set -Ux LIBVIRT_DEFAULT_URI qemu:///system
+end
 
 # vagrant
-set -x VAGRANT_WSL_ENABLE_WINDOWS_ACCESS 1
+is_wsl; and set -x VAGRANT_WSL_ENABLE_WINDOWS_ACCESS 1
 
 # z/f
 set -qU Z_OWNER; or set -U Z_OWNER $USER
