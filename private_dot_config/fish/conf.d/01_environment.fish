@@ -133,6 +133,8 @@ set -x VAGRANT_HOME $XDG_DATA_HOME/vagrant
 # (MAN)PATH
 #
 
+# brewed utilities
+path_prepend PATH /usr/local/opt/{curl,sqlite}/bin
 # ccache {linux, {bsd, macos}}
 path_prepend PATH /usr/{lib/ccache/bin,local/{libexec/ccache,opt/ccache/libexec}}
 # dotnet

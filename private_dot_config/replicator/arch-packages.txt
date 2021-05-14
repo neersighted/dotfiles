@@ -14,6 +14,7 @@ pkgconf
 # Libraries
 bzip2
 gdbm
+gmp
 libffi
 libyaml
 ncurses

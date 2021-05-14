@@ -3,8 +3,11 @@ ccache
 cmake
 
 # Libraries
+gdbm
+gettext
+gmp
+openssl@1.1
 readline
-xz
 
 # User Programs
 age
@@ -13,6 +16,7 @@ bat
 chezmoi
 croc
 ctags
+curl
 curlie
 direnv
 diskus
