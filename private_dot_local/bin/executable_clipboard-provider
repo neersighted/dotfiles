@@ -9,11 +9,11 @@ function main -a op
   switch $op
     case copy
       slurp
-      for p in $COPY_PROVIDERS
+      for p in (string split ' ' $COPY_PROVIDERS)
         {$p}-provider copy; and set exit_status 0
       end
     case paste
-      for p in $PASTE_PROVIDERS
+      for p in (string split ' ' $PASTE_PROVIDERS)
         {$p}-provider paste; and set exit_status 0; and break
       end
   end
@@ -22,7 +22,7 @@ function main -a op
 end
 
 function slurp
-  read -g data
+  read -gz data
 end
 
 function spit
