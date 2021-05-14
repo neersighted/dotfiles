@@ -51,6 +51,7 @@ security/gnupg
 security/pinentry-curses
 shells/bash
 shells/fish
+sysutils/chezmoi
 sysutils/direnv
 sysutils/exa
 sysutils/fd
@@ -67,7 +68,6 @@ textproc/ripgrep
 textproc/sd
 
 # Missing
-# chezmoi
 # diskus
 # git-filter-repo
 # mkcert
