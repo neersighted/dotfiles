@@ -58,7 +58,7 @@ case $(uname) in
     yay -Syu
     important "Installing packages with Yay..."
     sed 's/[[:space:]]*#.*//;/^[[:space:]]*$/d' \
-      "$XDG_CONFIG_HOME/replicator/arch-pacakges.txt" | \
+      "$XDG_CONFIG_HOME/replicator/arch-packages.txt" | \
     yay -S --needed
     important "Updating pacman file database..."
     yay -Fy
