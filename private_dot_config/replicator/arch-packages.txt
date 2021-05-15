@@ -50,15 +50,16 @@ htop
 hyperfine
 jq
 lftp
+lostfiles
 lsof
 man-db
 mkcert
 mosh
+mycli
 neovim
 net-tools
 perl-file-mimeinfo
 pgcli
-mycli
 ripgrep
 sd
 shellcheck

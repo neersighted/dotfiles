@@ -1,2 +1,0 @@
-# Utilities
-devel/xdg-utils

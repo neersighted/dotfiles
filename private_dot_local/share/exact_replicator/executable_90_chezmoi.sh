@@ -7,10 +7,10 @@ section "Chezmoi"
 
 if [ "$(dirname "$(command -v chezmoi)")" = "$HOME/.local/bin" ]; then
   if [ "$(which -a chezmoi | wc -l)" -gt 1 ]; then
-    print "Switching to system-managed chezmoi..."
+    important "Switching to system-managed chezmoi..."
     rm "$HOME/.local/bin/chezmoi"
   else
-    print "Self-updating bootstrapped chezmoi..."
+    important "Self-updating bootstrapped chezmoi..."
     "$HOME/.local/bin/chezmoi" upgrade
   fi
 fi

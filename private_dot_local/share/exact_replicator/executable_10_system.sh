@@ -5,17 +5,24 @@ set -e
 # shellcheck source=_lib.sh
 . "${XDG_DATA_HOME:-~/.local/share}/replicator/_lib.sh"
 
-section "System Packages"
-
 case $(uname) in
   Darwin)
+    section "System (Homebrew)"
+
+    important "Upgrading packages with Homebrew..."
+    brew upgrade
     important "Installing packages with Homebrew Bundle..."
     brew bundle
     ;;
   FreeBSD)
+    [ "$(id -u)" -eq 0 ] || exec su root -c "sh $0"
+
+    section "System (ports)"
+
+    important "Upgrading ports with pkg..."
+    # pkg upgrade
     important "Installing ports with pkg..."
     # pkg install
-    # pkg provides -u
 
     if ! grep -Eq '^CONSERVATIVE_UPGRADE' /usr/local/etc/pkg.conf; then
       important "Configuring pkg to upgrade aggressively..."
@@ -28,6 +35,8 @@ case $(uname) in
     fi
     ;;
   Linux)
+    section "System (pacman)"
+
     # bootstrap yay
     if ! command -v yay >/dev/null; then
       (
@@ -45,8 +54,14 @@ case $(uname) in
     # pass through language managers
     export GOENV_VERSION=system NODENV_VERSION=system PYENV_VERSION=system RBENV_VERSION=system
 
-    # yay -Syu
-    # yay -Fy
+    important "Upgrading packages with Yay..."
+    yay -Syu
+    important "Installing packages with Yay..."
+    sed 's/[[:space:]]*#.*//;/^[[:space:]]*$/d' \
+      "$XDG_CONFIG_HOME/replicator/arch-pacakges.txt" | \
+    yay -S --needed
+    important "Updating pacman file database..."
+    yay -Fy
     ;;
 esac
 
