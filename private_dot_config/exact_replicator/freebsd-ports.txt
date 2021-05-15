@@ -22,7 +22,7 @@ databases/py-mycli
 databases/py-pgcli
 devel/gdb
 devel/gh
-devel/git
+git # devel/git
 devel/git-delta
 devel/git-lfs
 devel/hs-ShellCheck
