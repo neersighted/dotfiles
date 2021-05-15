@@ -6,4 +6,4 @@ if ! command -v fetch >/dev/null; then
   }
 fi
 
-fetch -o - https://git.io/chezmoi | sh -s -- -b "$HOME/.local/bin" init --apply --remove neersighted
+fetch -o - https://git.io/chezmoi | sh -s -- -b "$HOME/.local/bin" -- init --apply --remove neersighted
