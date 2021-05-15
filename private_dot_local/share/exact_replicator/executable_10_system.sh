@@ -58,11 +58,11 @@ case $(uname) in
     export GOENV_VERSION=system NODENV_VERSION=system PYENV_VERSION=system RBENV_VERSION=system
 
     important "Upgrading packages with Yay..."
-    yay -Syu
+    yay -Syu --noconfirm
     important "Installing packages with Yay..."
     sed 's/[[:space:]]*#.*//;/^[[:space:]]*$/d' \
       "$XDG_CONFIG_HOME/replicator/arch-packages.txt" | \
-    yay -S --needed
+    yay -S --needed --noconfirm
     important "Updating pacman file database..."
     yay -Fy
     ;;
