@@ -24,7 +24,7 @@ case $(uname) in
     important "Installing ports with pkg..."
     sed 's/[[:space:]]*#.*//;/^[[:space:]]*$/d' \
       "$XDG_CONFIG_HOME/replicator/freebsd-ports.txt" | \
-    pkg install -y
+    xargs pkg install -y
 
     if ! grep -Eq '^CONSERVATIVE_UPGRADE' /usr/local/etc/pkg.conf; then
       important "Configuring pkg to upgrade aggressively..."
@@ -33,7 +33,8 @@ case $(uname) in
 
     if ! grep -Eq '^PKG_ENABLE_PLUGINS' /usr/local/etc/pkg.conf; then
       important "Enabling pkg-provides..."
-      sed -e '/PKG_PLUGINS_DIR/s/^#//' -e '/PKG_ENABLE_PLUGINS/s/^#//' -e 's/#PLUGINS \[/PLUGINS [ provides ]/' -i '' /usr/local/etc/pkg.conf
+      sed -e '/PKG_PLUGINS_DIR/s/^#//' -e '/PKG_ENABLE_PLUGINS/s/^#//' \
+        -e 's/#PLUGINS \[/PLUGINS [ provides ]/' -i '' /usr/local/etc/pkg.conf
     fi
     ;;
   Linux)

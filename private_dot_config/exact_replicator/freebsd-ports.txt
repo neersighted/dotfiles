@@ -43,8 +43,6 @@ net/socat
 net/whois
 ports-mgmt/pkg
 ports-mgmt/pkg-provides
-ports-mgmt/portfind
-ports-mgmt/portgrep
 ports-mgmt/portlint
 security/age
 security/gnupg
