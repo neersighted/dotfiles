@@ -1,0 +1,83 @@
+# Taps
+tap "homebrew/core"
+tap "homebrew/cask"
+tap "homebrew/cask-drivers"
+tap "homebrew/cask-fonts"
+tap "homebrew/bundle"
+tap "homebrew/command-not-found"
+tap "beeftornado/rmtree"
+tap "filippo.io/age", "https://filippo.io/age"
+
+# Development Tools
+brew "ccache"
+brew "cmake"
+
+# Libraries
+brew "gdbm"
+brew "gettext"
+brew "gmp"
+brew "openssl@1.1"
+brew "readline"
+
+# User Programs
+brew "age"
+brew "asciinema"
+brew "bat"
+brew "chezmoi"
+brew "croc"
+brew "ctags"
+brew "curl"
+brew "curlie"
+brew "direnv"
+brew "diskus"
+brew "exa"
+brew "fd"
+brew "fish"
+brew "fzf"
+brew "gdb"
+brew "gh"
+brew "git"
+brew "git-delta"
+brew "git-filter-repo"
+brew "git-lfs"
+brew "gnupg"
+brew "hexyl"
+brew "htop"
+brew "hyperfine"
+brew "jq"
+brew "less"
+brew "lftp"
+brew "mas"
+brew "mkcert"
+brew "mosh"
+brew "mycli"
+brew "neovim"
+brew "pgcli"
+brew "pinentry-mac"
+brew "ripgrep"
+brew "sd"
+brew "shellcheck"
+brew "socat"
+brew "tealdeer"
+brew "terminal-notifier"
+brew "thefuck"
+brew "tmux"
+brew "tokei"
+brew "trash"
+brew "vivid"
+brew "watch"
+brew "watchexec"
+
+# GUI Software
+mas "1Password 7", id: 1333542190
+cask "1password-cli"
+mas "Serial", id: 877615577
+mas "The Unarchiver", id: 425424353
+mas "Xcode", id: 497799835
+cask "alacritty"
+cask "docker"
+cask "iterm2"
+cask "visual-studio-code"
+
+# Drivers
+cask "ftdi-vcp-driver"

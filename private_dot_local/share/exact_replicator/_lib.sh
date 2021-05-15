@@ -14,6 +14,11 @@ if [ -z "$XDG_CACHE_HOME" ]; then
   export XDG_CACHE_HOME="$HOME/.cache"
 fi
 
+# homebrew
+if [ -z "$HOMEBREW_BUNDLE_FILE" ]; then
+  export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/brew/Brewfile"
+fi
+
 # c
 if [ -z "$CC" ]; then
   export CC=cc

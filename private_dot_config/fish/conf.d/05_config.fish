@@ -38,7 +38,10 @@ set fzf_git_log_opts \
    --bind 'ctrl-o:execute-silent(git switch -d {})'
 
 # homebrew
-is_macos; and set -x HOMEBREW_AUTO_UPDATE_SECS 86400
+if is_macos
+   set -x HOMEBREW_AUTO_UPDATE_SECS 86400
+   set -x HOMEBREW_BUNDLE_FILE $XDG_CONFIG_HOME/brew/Brewfile
+end
 
 # less
 set -x LESS '--mouse --RAW-CONTROL-CHARS --tabs=2'
