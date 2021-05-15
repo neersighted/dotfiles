@@ -18,9 +18,9 @@ devel/readline
 # User Programs
 archivers/unzip
 benchmarks/hyperfine
-databases/py-mycli@py38
-databases/py-pgcli@py38
-devel/gdb@py38
+databases/py-mycli
+databases/py-pgcli
+devel/gdb
 devel/gh
 devel/git
 devel/git-delta
@@ -63,7 +63,7 @@ sysutils/vivid
 textproc/bat
 textproc/fzf
 textproc/jq
-textproc/py-asciinema@py38
+textproc/py-asciinema
 textproc/ripgrep
 textproc/sd
 
