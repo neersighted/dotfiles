@@ -20,9 +20,11 @@ case $(uname) in
     section "System (ports)"
 
     important "Upgrading ports with pkg..."
-    # pkg upgrade
+    pkg upgrade -y
     important "Installing ports with pkg..."
-    # pkg install
+    sed 's/[[:space:]]*#.*//;/^[[:space:]]*$/d' \
+      "$XDG_CONFIG_HOME/replicator/freebsd-ports.txt" | \
+    pkg install -y
 
     if ! grep -Eq '^CONSERVATIVE_UPGRADE' /usr/local/etc/pkg.conf; then
       important "Configuring pkg to upgrade aggressively..."
