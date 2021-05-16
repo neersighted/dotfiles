@@ -1,3 +1,4 @@
+{{- if and (lookPath "tmux") (lookPath "fzf") -}}
 function tmx -d 'quickly attach to or create a new tmux session' -a query
   set session (tmux list-sessions -F '#{session_name}' | fzf --tac --print-query)[-1]
   test -z "$session"; and return
@@ -11,3 +12,4 @@ function tmx -d 'quickly attach to or create a new tmux session' -a query
     tmux new -A -s $session
   end
 end
+{{- end -}}
