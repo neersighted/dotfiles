@@ -35,10 +35,11 @@ if is_wsl
   wslenv -p APPDATA
   wslenv -p LOCALAPPDATA
   set -x BROWSER 'wslview'
-end
-if is_wsl1
-  set umask 0022
-  set -x DISPLAY ':0'
+
+  if is_wsl1
+    set umask 0022
+    set -x DISPLAY ':0'
+  end
 end
 
 #
@@ -101,6 +102,9 @@ set -x CCACHE_DIR $XDG_CACHE_HOME/ccache
 
 # gnupg
 set -x GNUPGHOME $HOME/.gnupg
+
+# homebrew
+is_macos; and set -x HOMEBREW_BUNDLE_FILE $XDG_CONFIG_HOME/brew/Brewfile
 
 # less
 set -x LESSHISTFILE $XDG_DATA_HOME/less/history

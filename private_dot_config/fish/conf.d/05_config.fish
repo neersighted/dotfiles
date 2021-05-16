@@ -38,10 +38,7 @@ set fzf_git_log_opts \
    --bind 'ctrl-o:execute-silent(git switch -d {})'
 
 # homebrew
-if is_macos
-   set -x HOMEBREW_AUTO_UPDATE_SECS 86400
-   set -x HOMEBREW_BUNDLE_FILE $XDG_CONFIG_HOME/brew/Brewfile
-end
+is_macos; and set -x HOMEBREW_AUTO_UPDATE_SECS 86400
 
 # less
 set -x LESS '--mouse --RAW-CONTROL-CHARS --tabs=2'
@@ -53,7 +50,3 @@ end
 
 # vagrant
 is_wsl; and set -x VAGRANT_WSL_ENABLE_WINDOWS_ACCESS 1
-
-# z/f
-set -qU Z_OWNER; or set -U Z_OWNER $USER
-set -qU F_OWNER; or set -U F_OWNER $USER
