@@ -40,7 +40,14 @@ go_get "mvdan.cc/xurls/v2/cmd/xurls"
 # shfmt
 go_get "mvdan.cc/sh/v3/cmd/shfmt"
 
-important "Refreshing tldr pages..."
-tldr --update
+if [ "$(dirname "$(command -v chezmoi)")" = "$HOME/.local/bin" ]; then
+  if [ "$(which -a chezmoi | wc -l)" -gt 1 ]; then
+    important "Switching to system-managed chezmoi..."
+    rm "$HOME/.local/bin/chezmoi"
+  else
+    important "Self-updating bootstrapped chezmoi..."
+    "$HOME/.local/bin/chezmoi" upgrade
+  fi
+fi
 
 # vi: ft=sh
