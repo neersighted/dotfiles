@@ -19,3 +19,5 @@ end | begin
   set -q _flag_yank
   and clipboard-provider copy
 end
+
+exit 0 # exit successfully
