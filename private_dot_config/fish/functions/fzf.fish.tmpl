@@ -1,5 +1,4 @@
-command -q fzf; or exit
-
+{{- if lookPath "fzf" -}}
 function fzf
   if is_tmux
     fzf-tmux $FZF_TMUX_DEFAULT_OPTS -- $argv
@@ -7,3 +6,4 @@ function fzf
     command fzf $argv
   end
 end
+{{- end -}}

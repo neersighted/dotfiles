@@ -1,5 +1,4 @@
-command -q rg; and command -q fzf; or exit
-
+{{- if and (lookPath "rg") (lookPath "fzf") -}}
 function rzf -w rg
   set -a options 'L/no-lines'
 
@@ -24,3 +23,4 @@ function rzf -w rg
     commandline --cursor (string length $EDITOR)
   end
 end
+{{- end -}}

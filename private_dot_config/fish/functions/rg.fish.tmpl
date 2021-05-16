@@ -1,5 +1,4 @@
-command -q rg; or exit
-
+{{- if lookPath "rg" -}}
 function rg
   if isatty stdout
     set -lx -p LESS --no-init --quit-if-one-screen
@@ -8,3 +7,4 @@ function rg
     command rg $argv
   end
 end
+{{- end -}}

@@ -1,8 +1,4 @@
-if not command -q git
-  function prompt_git; end
-  exit
-end
-
+{{- if lookPath "git" -}}
 set -q prompt_git_prefix; or set -g prompt_git_prefix '('
 set -q prompt_git_postfix; or set -g prompt_git_suffix ')'
 set -q prompt_git_seperator; or set -g prompt_git_seperator '|'
@@ -163,3 +159,6 @@ function prompt_git
   set_color $prompt_git_color
   printf '%s' $prompt_git_suffix
 end
+{{- else -}}
+function prompt_git; end
+{{- end -}}

@@ -1,5 +1,4 @@
-command -q sudo; or exit
-
+{{- if lookPath "sudo" -}}
 function sudo
   if test $argv[1] = nvim
     set -e argv[1]
@@ -8,3 +7,4 @@ function sudo
     command sudo $argv
   end
 end
+{{- end -}}

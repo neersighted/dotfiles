@@ -1,5 +1,4 @@
-command -q yay; or exit
-
+{{- if lookPath "yay" -}}
 function yay
   set -x GOENV_VERSION system
   set -x NODENV_VERSION system
@@ -8,3 +7,4 @@ function yay
 
   command yay $argv
 end
+{{- end -}}

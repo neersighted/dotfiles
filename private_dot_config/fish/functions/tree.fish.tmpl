@@ -1,5 +1,5 @@
-command -q exa; or exit
-
+{{- if lookPath "exa" -}}
 function tree -w exa
   command exa --tree --long --git $argv
 end
+{{- end -}}

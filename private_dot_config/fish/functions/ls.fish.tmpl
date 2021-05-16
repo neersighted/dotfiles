@@ -1,5 +1,5 @@
-command -q exa; or exit
-
+{{- if lookPath "exa" -}}
 function ls -w exa
   command exa --classify --git --group $argv
 end
+{{- end -}}

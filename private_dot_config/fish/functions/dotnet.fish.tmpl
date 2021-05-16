@@ -1,5 +1,4 @@
-command -q dotnet; or exit
-
+{{- if lookPath "dotnet" -}}
 function dotnet
   set operation $argv[1..2]
 
@@ -20,3 +19,4 @@ function dotnet
   # FIXME: dotnet arrow key bug
   tput rmkx
 end
+{{- end -}}

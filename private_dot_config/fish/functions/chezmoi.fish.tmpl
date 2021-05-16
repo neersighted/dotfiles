@@ -1,5 +1,4 @@
-command -q chezmoi; or exit
-
+{{- if lookPath "chezmoi" -}}
 function chezmoi
   switch $argv[1]
   case cd
@@ -32,3 +31,4 @@ function chezmoi
     command chezmoi $argv
   end
 end
+{{- end -}}

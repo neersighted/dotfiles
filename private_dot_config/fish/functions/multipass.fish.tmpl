@@ -1,5 +1,5 @@
-command -q multipass.exe; or exit
-
+{{- if lookPath "multipass.exe" -}}
 function multipass -w multipass.exe
   multipass.exe $argv
 end
+{{- end -}}

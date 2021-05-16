@@ -1,5 +1,5 @@
-command -q fdfind; or exit
-
+{{- if lookPath "fdfind" -}}
 function fd -w fdfind
   command fdfind $argv
 end
+{{- end -}}

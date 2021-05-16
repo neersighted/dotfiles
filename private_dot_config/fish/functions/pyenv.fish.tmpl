@@ -1,5 +1,4 @@
-command -q pyenv; or exit
-
+{{- if lookPath "pyenv" -}}
 function pyenv -d 'python environment manager'
   set command $argv[1]
 
@@ -11,3 +10,4 @@ function pyenv -d 'python environment manager'
     command pyenv $argv
   end
 end
+{{- end -}}

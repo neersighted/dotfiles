@@ -1,5 +1,4 @@
-command -q rg; or exit
-
+{{- if lookPath "rg" -}}
 function rge -w rg
   set -a options 'L/no-lines'
 
@@ -18,3 +17,4 @@ function rge -w rg
     commandline --cursor (string length $EDITOR)
   end
 end
+{{- end -}}

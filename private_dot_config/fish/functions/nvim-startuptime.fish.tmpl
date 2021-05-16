@@ -1,5 +1,5 @@
-command -q vim-startuptime; or exit
-
+{{- if lookPath "vim-startuptime" -}}
 function nvim-startuptime -w vim-startuptime
   vim-startuptime -vimpath nvim $argv
 end
+{{- end -}}

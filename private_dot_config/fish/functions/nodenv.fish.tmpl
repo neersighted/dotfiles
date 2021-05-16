@@ -1,5 +1,4 @@
-command -q nodenv; or exit
-
+{{- if lookPath "nodenv" -}}
 function nodenv -d 'node environment manager'
   set command $argv[1]
 
@@ -11,3 +10,4 @@ function nodenv -d 'node environment manager'
     command nodenv $argv
   end
 end
+{{- end -}}
