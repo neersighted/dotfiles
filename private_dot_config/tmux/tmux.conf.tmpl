@@ -25,7 +25,7 @@ set -g mode-keys vi # vi-style copy
 set -g status-keys emacs # readline-style command line
 
 # Clipboard
-set -s copy-command 'COPY_PROVIDERS=desktop clipboard-provider copy' # use clipboard-provider for copy-pipe and friends
+set -s copy-command 'env COPY_PROVIDERS=desktop clipboard-provider copy' # use clipboard-provider for copy-pipe and friends
 
 #
 # Status Line
@@ -171,7 +171,7 @@ bind -N 'List all paste buffers' '=' list-buffers
 bind -N 'Delete the most recent paste buffer' '-' delete-buffer
 bind -N 'Paste the most recent paste buffer' p paste-buffer -rp
 bind -N 'Choose a paste buffer to paste' P choose-buffer -Z 'paste-buffer -rp -b "%%"'
-bind -N 'Load a paste buffer from the clipboard' M-p run 'PASTE_PROVIDERS=desktop clipboard-provider paste | tmux load-buffer -'
+bind -N 'Load a paste buffer from the clipboard' M-p run 'env PASTE_PROVIDERS=desktop clipboard-provider paste | tmux load-buffer -'
 bind -N 'Save the most recent paste bufer to the clipboard' y run 'tmux save-buffer - | #{copy-command}'
 bind -N 'Choose a paste buffer to save to the clipboard' Y choose-buffer -Z 'save-buffer -b "%%" - | #{copy-command}'
 
