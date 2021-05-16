@@ -19,6 +19,7 @@ xz
 zlib
 
 # User Programs
+1password-cli
 age
 asciinema
 bat
@@ -69,3 +70,4 @@ vivid
 watchexec
 whois
 xdg-utils
+zoxide-bin

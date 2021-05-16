@@ -44,6 +44,7 @@ net/whois
 ports-mgmt/pkg
 ports-mgmt/pkg-provides
 ports-mgmt/portlint
+security/1password-client
 security/age
 security/gnupg
 security/pinentry-curses
@@ -58,6 +59,7 @@ sysutils/htop
 sysutils/tealdeer
 sysutils/tmux
 sysutils/vivid
+sysutils/zoxide
 textproc/bat
 textproc/fzf
 textproc/jq

@@ -67,6 +67,7 @@ brew "trash"
 brew "vivid"
 brew "watch"
 brew "watchexec"
+brew "zoxide"
 
 # GUI Software
 mas "1Password 7", id: 1333542190
