@@ -25,6 +25,7 @@ devel/gh
 git # devel/git
 devel/git-delta
 devel/git-lfs
+devel/interactive_rebase_tool
 devel/hs-ShellCheck
 devel/p5-File-MimeInfo
 devel/tig

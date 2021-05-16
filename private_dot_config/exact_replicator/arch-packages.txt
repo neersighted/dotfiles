@@ -37,6 +37,7 @@ gdb
 git
 git-delta-bin
 git-filter-repo
+git-interactive-rebase-tool
 git-lfs
 github-cli
 hexyl
