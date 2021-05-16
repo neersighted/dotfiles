@@ -1,15 +1,8 @@
 # Development Tools
-autoconf
-automake
-bison
+base-devel
 ccache
 clang
 cmake
-gcc
-ltrace
-make
-man-pages
-pkgconf
 
 # Libraries
 bzip2
@@ -52,7 +45,9 @@ jq
 lftp
 lostfiles
 lsof
+ltrace
 man-db
+man-pages
 mkcert
 mosh
 mycli
