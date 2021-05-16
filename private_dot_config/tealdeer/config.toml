@@ -1,0 +1,21 @@
+[display]
+compact = true
+use_pager = false
+
+[updates]
+auto_update = true
+auto_update_interval_hours = 24
+
+[style.description]
+foreground = "purple"
+
+[style.command_name]
+foreground = "green"
+
+[style.example_text]
+foreground = "cyan"
+
+[style.example_code]
+
+[style.example_variable]
+underline = true
