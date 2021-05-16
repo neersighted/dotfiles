@@ -27,7 +27,7 @@ chezmoi
 croc
 ctags
 curlie
-direnv
+direnv-bin
 diskus
 exa
 fd
@@ -35,7 +35,7 @@ fish
 fzf
 gdb
 git
-git-delta
+git-delta-bin
 git-filter-repo
 git-lfs
 github-cli
@@ -60,7 +60,7 @@ ripgrep
 sd
 shellcheck
 socat
-tealdeer
+tealdeer-bin
 thefuck
 tig
 tmux

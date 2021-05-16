@@ -62,7 +62,7 @@ case $(uname) in
     important "Installing packages with Yay..."
     sed 's/[[:space:]]*#.*//;/^[[:space:]]*$/d' \
       "$XDG_CONFIG_HOME/replicator/arch-packages.txt" | \
-    yay -S --needed --noconfirm
+    yay -S --needed --noconfirm -
     important "Updating pacman file database..."
     yay -Fy
     ;;
