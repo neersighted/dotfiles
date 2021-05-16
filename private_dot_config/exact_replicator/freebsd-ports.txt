@@ -10,7 +10,7 @@ textproc/groff
 
 # Libraries
 databases/gdbm
-databases/sqlite3
+sqlite3 # databases/sqlite3
 devel/libffi
 devel/ncurses
 devel/readline
