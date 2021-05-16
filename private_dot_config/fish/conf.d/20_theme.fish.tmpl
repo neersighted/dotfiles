@@ -81,6 +81,7 @@ set -x FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS_BASE \
 if not set -q LS_COLORS; and test -f $XDG_DATA_HOME/vivid.dircolors
   read -x LS_COLORS < $XDG_DATA_HOME/vivid.dircolors
 end
+set -x EXA_COLORS 'uu=35:gu=35:un=33:gn=33'
 
 #
 # terminal theme
