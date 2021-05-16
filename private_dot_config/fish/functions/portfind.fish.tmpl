@@ -1,5 +1,5 @@
-is_freebsd; or exit
-
+{{- if eq .chezmoi.os "freebsd" -}}
 function portfind -d "search the ports tree"
   fd --base-directory /usr/ports --type directory $argv
 end
+{{- end -}}

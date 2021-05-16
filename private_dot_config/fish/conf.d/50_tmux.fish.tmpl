@@ -1,5 +1,4 @@
-command -q tmux; or exit
-
+{{- if lookPath "tmux" -}}
 # run code on tmux reattach (signaled below)
 function __tmux_resync --on-signal USR1
   if is_tmux
@@ -46,3 +45,4 @@ function __tmux_auto_launch --on-event fish_startup
     tmux attach -t $session \; run-shell 'pkill -USR1 -P #{pid} fish'
   end
 end
+{{- end -}}
