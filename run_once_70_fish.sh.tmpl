@@ -1,9 +1,4 @@
-#!/bin/sh
-
-set -e
-
-# shellcheck source=_lib.sh
-. "${XDG_DATA_HOME:-~/.local/share}/replicator/_lib.sh"
+{{ include ".lib.sh" }}
 
 getshell() { # shell
   case $(uname) in
@@ -49,4 +44,5 @@ if [ -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
   fish -c "fisher update"
 fi
 
+# run_once hash: {{ include "private_dot_config/fish/fish_plugins" | sha256sum }}
 # vi: ft=sh
