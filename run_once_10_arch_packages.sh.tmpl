@@ -1,0 +1,101 @@
+{{- if eq (index .chezmoi.osRelease "id") "arch" -}}
+{{ include ".lib.sh" }}
+section "Packages (pacman)"
+
+{{ if not (lookPath "yay") }}
+(
+important "Bootstrapping yay..."
+
+YAY="${TMPDIR:-/tmp}/yay"
+trap 'rm -rf $YAY' EXIT
+
+git clone https://aur.archlinux.org/yay.git "$YAY"
+cd "$YAY"
+makepkg -si --noconfirm
+)
+{{ end }}
+
+# pass through language managers
+export GOENV_VERSION=system \
+       NODENV_VERSION=system \
+       PYENV_VERSION=system \
+       RBENV_VERSION=system
+
+important "Installing packages with Yay..."
+sed 's/[[:space:]]*#.*//;/^[[:space:]]*$/d' \
+  "$XDG_CONFIG_HOME/replicator/arch-packages.txt" | \
+yay -Sy --needed --mflags '--skippgpcheck' --noconfirm \
+  `# Development Tools` \
+  base-devel \
+  ccache \
+  clang \
+  cmake \
+  `# Libraries` \
+  bzip2 \
+  gdbm \
+  gmp \
+  libffi \
+  libyaml \
+  ncurses \
+  openssl \
+  perl-term-readkey \
+  readline \
+  sqlite \
+  xz \
+  zlib \
+  `# User Programs` \
+  1password-cli \
+  age \
+  asciinema \
+  bat \
+  chezmoi \
+  croc \
+  ctags \
+  curlie \
+  direnv-bin \
+  diskus \
+  exa \
+  fd \
+  fish \
+  fzf \
+  gdb \
+  git \
+  git-delta-bin \
+  git-filter-repo \
+  git-interactive-rebase-tool \
+  git-lfs \
+  github-cli \
+  hexyl \
+  htop \
+  hyperfine \
+  jq \
+  lftp \
+  lostfiles \
+  lsof \
+  ltrace \
+  man-db \
+  man-pages \
+  mkcert \
+  mosh \
+  mycli \
+  neovim \
+  net-tools \
+  perl-file-mimeinfo \
+  pgcli \
+  ripgrep \
+  sd \
+  shellcheck \
+  socat \
+  tealdeer-bin \
+  thefuck \
+  tig \
+  tmux \
+  tokei \
+  unzip \
+  vivid \
+  watchexec \
+  whois \
+  xdg-utils \
+  zoxide-bin
+# vi: ft=sh
+{{- end -}}

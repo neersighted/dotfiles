@@ -1,8 +1,8 @@
 {{- if lookPath "vivid" -}}
 #!/bin/sh
 
-# run_once hash: {{ include "private_dot_config/vivid/themes/nord.yml.tmpl" | sha256sum }}
-
 vivid generate nord > "${XDG_DATA_HOME:-~/.local/share}/vivid.dircolors"
 
+# run_once hash: {{ include "private_dot_config/vivid/themes/nord.yml.tmpl" | sha256sum }}
+# vi: ft=sh
 {{- end -}}

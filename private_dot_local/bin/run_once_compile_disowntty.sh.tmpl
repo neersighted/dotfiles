@@ -1,7 +1,6 @@
 #!/bin/sh
 
-# run_once hash: {{ include "private_dot_local/bin/disowntty.c" | sha256sum }}
-
 cc -g -o "$HOME/.local/bin/disowntty" "{{ .chezmoi.sourceDir }}/private_dot_local/bin/disowntty.c"
 
+# run_once hash: {{ include "private_dot_local/bin/disowntty.c" | sha256sum }}
 # vi: ft=sh
