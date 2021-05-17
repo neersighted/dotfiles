@@ -1,10 +1,5 @@
-#!/bin/sh
-
-set -e
-
-# shellcheck source=_lib.sh
-. "${XDG_DATA_HOME:-~/.local/share}/replicator/_lib.sh"
-
+{{- if ne .chezmoi.os "freebsd" -}}
+{{ include ".lib.sh" }}
 section ".NET"
 
 if [ ! -d "$DOTNET_ROOT" ]; then
@@ -19,3 +14,4 @@ dotnet_tool_install installsdkglobaltool
 tput rmkx
 
 # vi: ft=sh
+{{- end -}}

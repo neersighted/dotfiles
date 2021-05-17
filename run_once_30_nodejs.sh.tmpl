@@ -1,9 +1,4 @@
-#!/bin/sh
-
-set -e
-
-# shellcheck source=_lib.sh
-. "${XDG_DATA_HOME:-~/.local/share}/replicator/_lib.sh"
+{{ include ".lib.sh" }}
 
 section "Node.js"
 
