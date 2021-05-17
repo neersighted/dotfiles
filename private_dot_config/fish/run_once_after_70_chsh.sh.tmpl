@@ -1,3 +1,4 @@
+{{- if and (lookPath "fish") (ne (lookPath "fish") (env "SHELL")) -}}
 {{ include ".lib.sh" }}
 
 getshell() { # shell
@@ -25,9 +26,7 @@ setshell() { # shell
   esac
 }
 
-section "fish"
-
-fish=$(command -v fish)
+fish="{{ lookPath "fish" }}"
 if [ "$(getshell)" != "$fish" ]; then
 
   if ! grep -Fxq "$fish" /etc/shells; then
@@ -39,10 +38,5 @@ if [ "$(getshell)" != "$fish" ]; then
   setshell "$fish"
 fi
 
-if [ -f "$XDG_CONFIG_HOME/fish/functions/fisher.fish" ]; then
-  important "Syncing fish plugins..."
-  fish -c "fisher update"
-fi
-
-# run_once hash: {{ include "private_dot_config/fish/fish_plugins" | sha256sum }}
 # vi: ft=sh
+{{- end -}}

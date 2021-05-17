@@ -1,0 +1,13 @@
+#!/bin/sh
+
+{{ if not (lookPath "nvr") }}}
+pipx install "neovim-remote"
+{{ end }}
+{{ if not (lookPath "vint") }}}
+pipx install "vim-vint"
+{{ end }}
+{{ if not (lookPath "vim-startuptime") }}}
+go get "github.com/rhysd/vim-startuptime"
+{{ end }}
+
+# vi: ft=sh
