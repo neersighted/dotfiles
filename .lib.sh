@@ -293,9 +293,9 @@ github_sync() { # repo, file, target, executable
   fi
 
   response=$(gh api "repos/$repo/contents/$file" ${date_header:+-H "$date_header"} --include --jq '.content' 2>/dev/null || true)
-  response_headers=$(printf '%s' "$response" | sed '/^\s*$/,$d')
+  response_headers=$(printf '%s' "$response" | sed '/^[[:space:]]*$/,$d')
   response_status=$(printf '%s' "$response_headers" | sed '2,$d; s#HTTP/[0-9]\.[0-9] \([0-9]\{3\}\) .*#\1#')
-  response_content=$(printf '%s' "$response" | sed '1,/^\s*$/d')
+  response_content=$(printf '%s' "$response" | sed '1,/^[[:space:]]*$/d')
 
   if [ "$response_status" -eq 200 ]; then
     info "Syncing $basename from Github..."
