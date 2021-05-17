@@ -1,11 +1,6 @@
-#!/bin/sh
+{{ include ".lib.sh" }}
 
-set -e
-
-# shellcheck source=_lib.sh
-. "${XDG_DATA_HOME:-~/.local/share}/replicator/_lib.sh"
-
-section "Utilities"
+section "Misc"
 
 # cookiecutter
 pipx_install "cookiecutter"

@@ -1,3 +1,5 @@
+shell git -C $XDG_DATA_HOME/gdb-dashboard pull -q
+
 python
 import os
 # load history file

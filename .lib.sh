@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # base
 if [ -z "$LANG" ] || [ "$LANG" = C.UTF-8 ]; then
   export LANG="en_US.UTF-8"

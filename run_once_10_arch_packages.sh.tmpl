@@ -1,5 +1,6 @@
 {{- if eq (index .chezmoi.osRelease "id") "arch" -}}
 {{ include ".lib.sh" }}
+
 section "Packages (pacman)"
 
 {{ if not (lookPath "yay") }}
