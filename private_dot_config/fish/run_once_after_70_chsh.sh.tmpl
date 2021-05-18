@@ -1,5 +1,5 @@
-{{- if and (lookPath "fish") (ne (lookPath "fish") (env "SHELL")) -}}
-{{ include ".lib.sh" }}
+{{- if lookPath "fish" -}}
+#!/bin/sh
 
 getshell() { # shell
   case $(uname) in
@@ -30,11 +30,11 @@ fish="{{ lookPath "fish" }}"
 if [ "$(getshell)" != "$fish" ]; then
 
   if ! grep -Fxq "$fish" /etc/shells; then
-    info "Adding $fish to /etc/shells..."
+    echo "Adding $fish to /etc/shells..."
     printf '%s\n' "$fish" | sudo tee -a /etc/shells
   fi
 
-  important "Changing login shell to fish..."
+  echo "Changing login shell to fish..."
   setshell "$fish"
 fi
 
