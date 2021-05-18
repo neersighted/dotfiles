@@ -1,3 +1,2 @@
-{{ if ne (env "PYENV_ROOT") "" }}
-{{ expandenv "$PYENV_ROOT/versions/pipx/bin/pipx" }}
-{{ end }}
+{{- $PYENV_ROOT := default "~/.local/share/pyenv" (env "PYENV_ROOT") -}}
+{{ joinPath $PYENV_ROOT "versions/pipx/bin/pipx" }}
