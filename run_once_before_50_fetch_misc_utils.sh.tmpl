@@ -4,13 +4,13 @@
   {{ if not (lookPath "shfmt") }}}
 go get "mvdan.cc/sh/v3/cmd/shfmt"
   {{ end }}
-  {{ if not (lookPath "xurls") }}}
+  {{ if not (lookPath "xurls") }}
 go get "mvdan.cc/xurls/v2/cmd/xurls"
   {{ end }}
 {{ end }}
 
 {{if lookPath "pipx" }}
-  {{ if not (lookPath "gdbgui") }}}
+  {{ if not (lookPath "gdbgui") }}
 pipx install "gdbgui"
   {{ end }}
 {{ end }}

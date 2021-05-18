@@ -7,10 +7,10 @@ go get "github.com/rhysd/vim-startuptime"
 {{ end }}
 
 {{if lookPath "pipx" }}
-  {{ if not (lookPath "nvr") }}}
+  {{ if not (lookPath "nvr") }}
 pipx install "neovim-remote"
   {{ end }}
-  {{ if not (lookPath "vint") }}}
+  {{ if not (lookPath "vint") }}
 pipx install "vim-vint"
   {{ end }}
 {{ end }}
