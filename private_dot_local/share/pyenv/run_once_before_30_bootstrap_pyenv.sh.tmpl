@@ -1,8 +1,0 @@
-#!/bin/sh
-
-echo "Bootstrapping pyenv..."
-test -d ".git" || git clone https://github.com/pyenv/pyenv .
-test -d "plugins/pyenv-virtualenv/.git" || git clone https://github.com/pyenv/pyenv-virtualenv plugins/pyenv-virtualenv
-{{ template "xenv_ext.sh" }}
-
-# vi: ft=sh
