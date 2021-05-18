@@ -1,0 +1,7 @@
+function is_macos
+{{- if eq .chezmoi.os "darwin" }}
+  true
+{{ else }}
+  false
+{{ end -}}
+end

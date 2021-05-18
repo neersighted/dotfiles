@@ -1,5 +1,5 @@
 {{- if eq (index .chezmoi.osRelease "id") "arch" -}}
-#!/bin/sh
+#!/bin/sh -e
 
 command -v yay >/dev/null && exit
 
