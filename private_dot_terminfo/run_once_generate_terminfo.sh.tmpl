@@ -1,0 +1,20 @@
+{{- if stat "/usr/local/opt/ncurses/bin/infocmp" -}}
+#!/bin/sh -e
+
+terminfo=$(mktemp)
+trap 'rm $terminfo' EXIT
+
+{{ range $i, $term := (list "alacritty-direct" "iterm2" "tmux-256color") }}
+if ! /usr/bin/infocmp "{{ $term }}" >/dev/null 2>&1; then
+  echo "Backporting brewed {{ $term }} terminfo..."
+
+  /usr/local/opt/ncurses/bin/infocmp -x "{{ $term }}" \
+    | sed 's/pairs#0x10000/pairs#0x1000/' > "$terminfo"
+  /usr/bin/tic -x "$terminfo"
+
+  # run_once hash: {{ output "/usr/local/opt/ncurses/bin/infocmp" $term | sha256sum }}
+fi
+{{ end }}
+
+# vi: ft=sh
+{{- end -}}
