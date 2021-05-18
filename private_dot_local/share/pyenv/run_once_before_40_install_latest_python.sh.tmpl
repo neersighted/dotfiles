@@ -1,0 +1,14 @@
+#!/bin/sh
+
+export PYENV_ROOT="${PYENV_ROOT:-.}"
+export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+
+PYTHON_VERSION=$(pyenv install -l | {{ template "latestversion.sh" }})
+if ! pyenv versions --bare | grep -Fxq "$PYTHON_VERSION"; then
+  echo "Installing Python $PYTHON_VERSION..."
+  pyenv install -s "$PYTHON_VERSION"
+  pyenv global "$PYTHON_VERSION"
+fi
+
+# run_once hash: "{{ output "pyenv" "install" "-l" | sha256sum }}"
+# vi: ft=sh

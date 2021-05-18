@@ -1,0 +1,35 @@
+#!/usr/bin/fish
+
+set_color red
+echo "Updating rbenv..."
+set_color normal
+
+for repo in $RBENV_ROOT $RBENV_ROOT/plugins/*
+  git -C $repo pull -q
+end
+
+set_color red
+echo "Updating gems..."
+set_color normal
+
+set latest_rubygems (curl -sS https://rubygems.org/api/v1/gems/rubygems-update.json | jq -r '.version')
+for ruby in (rbenv versions --bare)
+  set local_rubygems (RBENV_VERSION=$ruby gem --version)
+  if test "$local_rubygems" != "$latest_rubygems"
+    set_color red
+    echo "Updating RubyGems from $local_rubygems to $latest_rubygems ($ruby)..."
+    set_color normal
+
+    RBENV_VERSION=$ruby gem update --system
+  end
+
+  for gem in (RUBY_VERSION=$ruby gem outdated)
+    string match -rq '(?<name>.+) \((?<old>.+) < (?<new>.+)\)' $gem
+
+    set_color red
+    echo "Updating $name from $old to $new (Ruby $ruby)..."
+    set_color normal
+
+    RUBY_VERSION=$ruby gem update $name
+  end
+end

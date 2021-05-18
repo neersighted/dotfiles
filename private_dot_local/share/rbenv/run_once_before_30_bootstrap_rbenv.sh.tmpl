@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "Bootstrapping rbenv..."
+test -d ".git" || git clone https://github.com/rbenv/rbenv .
+test -d "plugins/ruby-build/.git" || git clone https://github.com/rbenv/ruby-build plugins/ruby-build
+test -d "plugins/rbenv-default-gems/.git" || git clone https://github.com/rbenv/rbenv-default-gems plugins/rbenv-default-gems
+{{ template "xenv_ext.sh" }}
+
+# vi: ft=sh

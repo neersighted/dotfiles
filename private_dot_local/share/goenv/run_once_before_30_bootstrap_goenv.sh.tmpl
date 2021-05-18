@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "Bootstrapping goenv..."
+test -d ".git" || git clone https://github.com/syndbg/goenv "$GOENV_ROOT"
+{{ template "xenv_ext.sh" }}
+
+# vi: ft=sh

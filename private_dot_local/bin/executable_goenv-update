@@ -1,0 +1,7 @@
+#!/usr/bin/fish
+
+set_color blue
+echo "Updating goenv..."
+set_color normal
+
+git -C $GOENV_ROOT pull -q

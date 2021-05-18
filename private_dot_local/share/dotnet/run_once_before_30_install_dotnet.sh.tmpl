@@ -1,0 +1,23 @@
+{{- if ne .chezmoi.os "freebsd" -}}
+#!/bin/sh
+
+export NUGET_PACKAGES="${NUGET_PACKAGES:-${XDG_DATA_HOME:-~/.local/share}/nuget}"
+export DOTNET_ROOT="${DOTNET_ROOT:-.}"
+export DOTNET_TOOL_PATH="${DOTNET_TOOL_PATH:-$DOTNET_ROOT/tools}"
+export PATH="$DOTNET_TOOL_PATH:$DOTNET_ROOT:$PATH"
+
+if [ ! -x "$DOTNET_ROOT/dotnet" ]; then
+  echo "Fetching .NET SDK..."
+  export DOTNET_INSTALL_DIR="$DOTNET_ROOT"
+  curl -sS https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh | bash -s -- --no-path --channel Current
+fi
+
+for tool in installsdkglobaltool; do
+  test -d "$DOTNET_TOOL_PATH/.store/$tool" || dotnet tool install --tool-path "$DOTNET_TOOL_PATH" "$tool"
+done
+
+# FIXME: dotnet arrow key bug
+tput rmkx
+
+# vi: ft=sh
+{{- end -}}

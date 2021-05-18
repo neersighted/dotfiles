@@ -1,0 +1,54 @@
+#!/bin/sh
+
+export PIPX_HOME="${PIPX_HOME:-${XDG_DATA_HOME:-~/.local/share}/pipx}"
+export PIPX_BIN_DIR="${PIPX_BIN_DIR:-${PIPX_HOME}/bin}"
+export POETRY_HOME="${POETRY_HOME:-${XDG_DATA_HOME:-~/.local/share}/pypoetry}"
+export PYENV_ROOT="${PYENV_ROOT:-.}"
+export PATH="$PIPX_BIN_DIR:$POETRY_HOME/bin:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+
+pyvenv_version() { # venv, version
+  pyenv versions --bare --skip-aliases | awk -v venv="$1" -v version="$2" '
+    BEGIN {
+      FS = "/"
+      missing = 1
+    }
+    $2 == "envs" && NF == 3 {
+      if ($1 == version && $3 == venv) {
+        missing = 0
+      }
+    }
+    END {
+      exit missing
+    }
+  '
+}
+
+PYTHON_VERSION=$(pyenv version-name)
+
+if [ ! -x "$POETRY_HOME/venv/bin/python" ]; then
+  if [ -x "$POETRY_HOME/venv/bin/poetry" ]; then
+    echo "Reinstalling Poetry..."
+    rm -rf "$POETRY_HOME"
+  else
+    echo "Installing Poetry..."
+  fi
+  curl -sS https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
+fi
+
+if ! pyvenv_version pipx "$PYTHON_VERSION"; then
+  echo "Installing pipx with $PYTHON_VERSION..."
+  pyenv uninstall -f pipx
+  pyenv virtualenv pipx
+  PYENV_VERSION=pipx python -m pip install -U pip setuptools wheel pipx
+  echo "Reinstalling pipx venvs..."
+  PYENV_VERSION=pipx python -m pipx reinstall-all
+fi
+
+for tool in black 'dephell[full]' flake8 mypy pip-run pip-tools pylint 'python-language-server[all]' 'twine'; do
+  PYENV_VERSION=pipx python -m pipx install "$tool"
+done
+
+exit 0 # exit success
+
+# run_once hash: "{{ output "pyenv" "install" "-l" | sha256sum }}"
+# vi: ft=sh

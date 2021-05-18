@@ -1,0 +1,27 @@
+#!/usr/bin/env fish
+
+set_color yellow
+echo "Updating nodenv..."
+set_color normal
+
+for repo in $NODENV_ROOT $NODENV_ROOT/plugins/*
+  git -C $repo pull -q
+end
+
+set_color green
+echo "Updating packages..."
+set_color normal
+
+for node in (nodenv versions --bare)
+  for spec in (NODENV_VERSION=$node npm outdated -g --json | jq -c 'to_entries[]')
+    set name (jq --argjson spec $spec -nr '$spec | "\(.key)"')
+    set current (jq --argjson spec $spec -nr '$spec | "\(.value.current)"')
+    set latest (jq --argjson spec $spec -nr '$spec | "\(.value.latest)"')
+
+    set_color green
+    echo "Updating $name (Node.js $node)..."
+    set_color normal
+
+    NODENV_VERSION=$node npm install -g "$name@$latest"
+  end
+end

@@ -1,0 +1,19 @@
+#!/usr/bin/env fish
+
+set_color red
+echo "Updating rustup..."
+set_color normal
+
+rustup self update
+
+set_color red
+echo "Updating default toolchain..."
+set_color normal
+
+rustup update --no-self-update
+
+set_color red
+echo "Updating crates..."
+set_color normal
+
+cargo install-update -ga
