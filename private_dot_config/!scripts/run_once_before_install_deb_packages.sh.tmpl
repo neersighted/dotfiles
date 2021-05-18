@@ -1,31 +1,25 @@
-{{- if eq (index .chezmoi.osRelease "id") "arch" -}}
+{{- if eq (index .chezmoi.osRelease "idLike") "debian" -}}
 #!/bin/sh
 
-# pass through language managers
-export GOENV_VERSION=system \
-       NODENV_VERSION=system \
-       PYENV_VERSION=system \
-       RBENV_VERSION=system
-
-echo "Installing packages with Yay..."
-yay -Sy --needed --mflags '--skippgpcheck' --noconfirm \
+echo "Installing packages with APT..."
+apt-get install -y \
   `# Development Tools` \
-  base-devel \
+  build-essential \
   ccache \
   clang \
   cmake \
   `# Libraries` \
-  bzip2 \
-  gdbm \
-  gmp \
-  libffi \
-  libyaml \
-  ncurses \
-  openssl \
-  readline \
-  sqlite \
-  xz \
-  zlib \
+  libbzip2-dev \
+  libffi-dev \
+  libgdbm-dev \
+  libgmp-dev \
+  libyaml-dev \
+  ncurses-dev \
+  openssl-dev \
+  readline-dev \
+  sqlite-dev \
+  xz-dev \
+  zlib-dev \
   `# User Programs` \
   1password-cli \
   age \
