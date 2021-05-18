@@ -159,16 +159,6 @@ error() {
 
 ###
 
-base64decode() {
-  if command -v base64 >/dev/null; then
-    base64 --decode
-  elif command -v b64encode >/dev/null; then
-    b64decode -r
-  else
-    error "unable to decode base64 data"
-  fi
-}
-
 # shellcheck disable=SC2120
 selectversion() { # major, minor, patch
   awk -v major="$1" -v minor="$2" -v patch="$3" '
@@ -268,47 +258,6 @@ git_sync() { # url, target
       git -C "$target" submodule update --recursive --init --depth 1
       git -C "$target" checkout -ft origin/master
     fi
-  fi
-}
-
-github_sync() { # repo, file, target, executable
-  repo=$1
-  file=$2
-  target=$3
-  executable=$4
-
-  basename=$(basename "$target")
-  dirname=$(dirname "$target")
-  if [ ! -d "$dirname" ]; then
-    mkdir -p "$dirname"
-  elif [ -L "$3" ]; then
-    rm "$target"
-  fi
-
-  if [ -f "$target" ]; then
-    mod_date=$(date -r "$target" +'%a, %d %b %Y %T %Z')
-    date_header="If-Modified-Since: $mod_date"
-  else
-    date_header=
-  fi
-
-  response=$(gh api "repos/$repo/contents/$file" ${date_header:+-H "$date_header"} --include --jq '.content' 2>/dev/null || true)
-  response_headers=$(printf '%s' "$response" | sed '/^[[:space:]]*$/,$d')
-  response_status=$(printf '%s' "$response_headers" | sed '2,$d; s#HTTP/[0-9]\.[0-9] \([0-9]\{3\}\) .*#\1#')
-  response_content=$(printf '%s' "$response" | sed '1,/^[[:space:]]*$/d')
-
-  if [ "$response_status" -eq 200 ]; then
-    info "Syncing $basename from Github..."
-
-    printf '%s' "$response_content" | base64decode >"$3"
-
-    if [ ! -x "$target" ] && [ "$executable" = 'true' ]; then
-      chmod +x "$target"
-    elif [ -x "$target" ] && [ "$executable" != 'true' ]; then
-      chmod -x "$target"
-    fi
-  elif [ "$response_status" -ne 304 ]; then
-    error "Error retreiving $repo from Github..."
   fi
 }
 
