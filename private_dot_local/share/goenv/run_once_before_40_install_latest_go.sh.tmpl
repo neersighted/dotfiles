@@ -16,5 +16,5 @@ fi
 echo "Installing gopls..."
 go get "golang.org/x/tools/gopls@latest"
 
-# run_once hash: "{{ output "goenv" "install" "-l" | sha256sum }}"
+# run_once hash: {{ output "goenv" "install" "-l" | sha256sum }}
 # vi: ft=sh

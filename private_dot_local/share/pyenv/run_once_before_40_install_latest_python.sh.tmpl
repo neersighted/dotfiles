@@ -10,5 +10,5 @@ if ! pyenv versions --bare | grep -Fxq "$PYTHON_VERSION"; then
   pyenv global "$PYTHON_VERSION"
 fi
 
-# run_once hash: "{{ output "pyenv" "install" "-l" | sha256sum }}"
+# run_once hash: {{ output "pyenv" "install" "-l" | sha256sum }}
 # vi: ft=sh

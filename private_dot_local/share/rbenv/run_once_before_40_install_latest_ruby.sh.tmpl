@@ -11,6 +11,6 @@ if ! rbenv versions --bare | grep -Fxq "$RUBY_VERSION"; then
   rbenv global "$RUBY_VERSION"
 fi
 
-# run_once hash: "{{ output (expandenv "$RBENV_ROOT/bin/rbenv") "install" "-L" | sha256sum }}"
+# run_once hash: {{ output (expandenv "$RBENV_ROOT/bin/rbenv") "install" "-L" | sha256sum }}
 # pwd: {{ output "pwd" }}
 # vi: ft=sh
