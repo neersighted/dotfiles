@@ -3,19 +3,6 @@
 
 section "Packages (pacman)"
 
-{{ if not (lookPath "yay") }}
-(
-important "Bootstrapping yay..."
-
-YAY="${TMPDIR:-/tmp}/yay"
-trap 'rm -rf $YAY' EXIT
-
-git clone https://aur.archlinux.org/yay.git "$YAY"
-cd "$YAY"
-makepkg -si --noconfirm
-)
-{{ end }}
-
 # pass through language managers
 export GOENV_VERSION=system \
        NODENV_VERSION=system \
