@@ -23,8 +23,6 @@ export GOENV_VERSION=system \
        RBENV_VERSION=system
 
 important "Installing packages with Yay..."
-sed 's/[[:space:]]*#.*//;/^[[:space:]]*$/d' \
-  "$XDG_CONFIG_HOME/replicator/arch-packages.txt" | \
 yay -Sy --needed --mflags '--skippgpcheck' --noconfirm \
   `# Development Tools` \
   base-devel \
