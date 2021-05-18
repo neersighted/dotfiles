@@ -28,7 +28,6 @@ setshell() { # shell
 
 fish="{{ lookPath "fish" }}"
 if [ "$(getshell)" != "$fish" ]; then
-
   if ! grep -Fxq "$fish" /etc/shells; then
     echo "Adding $fish to /etc/shells..."
     printf '%s\n' "$fish" | sudo tee -a /etc/shells

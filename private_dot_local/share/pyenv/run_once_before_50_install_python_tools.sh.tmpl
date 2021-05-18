@@ -44,6 +44,7 @@ if ! pyvenv_version pipx "$PYTHON_VERSION"; then
   PYENV_VERSION=pipx python -m pipx reinstall-all
 fi
 
+echo "Installing pipx-managed venvs..."
 for tool in black 'dephell[full]' flake8 mypy pip-run pip-tools pylint 'python-language-server[all]' 'twine'; do
   PYENV_VERSION=pipx python -m pipx install "$tool"
 done

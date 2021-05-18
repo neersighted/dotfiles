@@ -7,11 +7,12 @@ export DOTNET_TOOL_PATH="${DOTNET_TOOL_PATH:-$DOTNET_ROOT/tools}"
 export PATH="$DOTNET_TOOL_PATH:$DOTNET_ROOT:$PATH"
 
 if [ ! -x "$DOTNET_ROOT/dotnet" ]; then
-  echo "Fetching .NET SDK..."
+  echo "Downloading .NET SDK..."
   export DOTNET_INSTALL_DIR="$DOTNET_ROOT"
   curl -sS https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh | bash -s -- --no-path --channel Current
 fi
 
+echo "Installing .NET tools..."
 for tool in installsdkglobaltool; do
   test -d "$DOTNET_TOOL_PATH/.store/$tool" || dotnet tool install --tool-path "$DOTNET_TOOL_PATH" "$tool"
 done

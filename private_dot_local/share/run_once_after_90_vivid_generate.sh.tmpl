@@ -1,6 +1,7 @@
 {{- if lookPath "vivid" -}}
 #!/bin/sh
 
+echo 'Regenerating Vivid dircolors cache...'
 vivid generate nord > "${XDG_DATA_HOME:-~/.local/share}/vivid.dircolors"
 
 # run_once hash: {{ include "private_dot_config/vivid/themes/nord.yml.tmpl" | sha256sum }}

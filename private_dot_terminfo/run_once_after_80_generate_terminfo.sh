@@ -2,6 +2,8 @@
 
 for term in alacritty-direct iterm2 tmux-256color; do
   if ! /usr/bin/infocmp $term >/dev/null 2>&1; then
+    echo "Backporting brewed $term terminfo..."
+
     terminfo=$(mktemp)
     trap 'rm $terminfo' EXIT
 

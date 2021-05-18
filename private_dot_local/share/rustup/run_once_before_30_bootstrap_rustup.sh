@@ -5,10 +5,10 @@ export RUSTUP_HOME="${RUSTUP_HOME:-${XDG_DATA_HOME:-~/.local/share}/rustup}"
 export PATH="$CARGO_HOME/bin:$PATH"
 
 if [ ! "$(command -v rustup)" ]; then
-  echo "Installing rustup and stable toolchain..."
+  echo "Installing rustup and stable Rust toolchain..."
   curl -sS https://sh.rustup.rs | sh -s -- -y --no-modify-path
 else
-  echo "Installing stable toolchain..."
+  echo "Installing stable Rust toolchain..."
   rustup install stable
 fi
 

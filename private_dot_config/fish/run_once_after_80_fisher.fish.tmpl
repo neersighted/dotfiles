@@ -2,9 +2,16 @@
 #!/usr/bin/env fish
 
 if not functions -q fisher
+  set_color magenta
+  echo "Bootstrapping fisher..."
+  set_color normal
+
   curl -sSL https://git.io/fisher | source
 end
 
+set_color magenta
+echo "Updating fish plugins..."
+set_color normal
 fisher update
 
 # run_once hash: {{ include "private_dot_config/fish/fish_plugins" | sha256sum }}

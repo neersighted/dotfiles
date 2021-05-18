@@ -2,15 +2,18 @@
 
 {{if lookPath "go" }}
   {{ if not (lookPath "shfmt") }}}
+echo "Installing shfmt..."
 go get "mvdan.cc/sh/v3/cmd/shfmt"
   {{ end }}
   {{ if not (lookPath "xurls") }}
+echo "Installing xurls..."
 go get "mvdan.cc/xurls/v2/cmd/xurls"
   {{ end }}
 {{ end }}
 
 {{if lookPath "pipx" }}
   {{ if not (lookPath "gdbgui") }}
+echo "Installing gdbgui..."
 pipx install "gdbgui"
   {{ end }}
 {{ end }}
