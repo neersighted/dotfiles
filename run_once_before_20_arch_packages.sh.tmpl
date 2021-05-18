@@ -1,7 +1,5 @@
 {{- if eq (index .chezmoi.osRelease "id") "arch" -}}
-{{ include ".lib.sh" }}
-
-section "Packages (pacman)"
+#!/bin/sh
 
 # pass through language managers
 export GOENV_VERSION=system \
@@ -9,7 +7,7 @@ export GOENV_VERSION=system \
        PYENV_VERSION=system \
        RBENV_VERSION=system
 
-important "Installing packages with Yay..."
+echo "Installing packages with Yay..."
 yay -Sy --needed --mflags '--skippgpcheck' --noconfirm \
   `# Development Tools` \
   base-devel \
@@ -83,5 +81,6 @@ yay -Sy --needed --mflags '--skippgpcheck' --noconfirm \
   whois \
   xdg-utils \
   zoxide-bin
+
 # vi: ft=sh
 {{- end -}}

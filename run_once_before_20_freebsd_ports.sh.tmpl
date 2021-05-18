@@ -1,10 +1,9 @@
 {{- if eq .chezmoi.os "freebsd" -}}
-{{ include ".lib.sh" }}
+#!/bin/sh
+
 [ "$(id -u)" -eq 0 ] || exec su root -c "sh $0"
 
-section "Ports"
-
-important "Installing ports with pkg..."
+echo "Installing ports with pkg..."
 pkg install -y \
   `# Development Tools` \
   devel/ccache \
@@ -76,12 +75,12 @@ pkg install -y \
 # watchexec
 
 if ! grep -Eq '^CONSERVATIVE_UPGRADE' /usr/local/etc/pkg.conf; then
-  important "Configuring pkg to upgrade aggressively..."
+  echo "Configuring pkg to upgrade aggressively..."
   printf '\n%s' 'CONSERVATIVE_UPGRADE: false;' >>/usr/local/etc/pkg.conf
 fi
 
 if ! grep -Eq '^PKG_ENABLE_PLUGINS' /usr/local/etc/pkg.conf; then
-  important "Enabling pkg-provides..."
+  echo "Enabling pkg-provides..."
   sed -e '/PKG_PLUGINS_DIR/s/^#//' -e '/PKG_ENABLE_PLUGINS/s/^#//' \
     -e 's/#PLUGINS \[/PLUGINS [ provides ]/' -i '' /usr/local/etc/pkg.conf
 fi

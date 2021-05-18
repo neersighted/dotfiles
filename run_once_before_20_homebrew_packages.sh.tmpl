@@ -1,9 +1,12 @@
 {{- if eq .chezmoi.os "darwin" -}}
-{{ include ".lib.sh" }}
+#!/bin/sh
 
-section "Packages (Homebrew)"
+# homebrew
+if [ -z "$HOMEBREW_BUNDLE_FILE" ]; then
+  export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/brew/Brewfile"
+fi
 
-important "Installing packages from Brewfile..."
+echo "Installing packages from Brewfile..."
 brew bundle
 
 # run_once hash: {{ include "private_dot_config/brew/Brewfile" | sha256sum }}
