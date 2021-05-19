@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 if [ "$(basename "$PWD")" != 'pyenv' ]; then
   echo "Bootstrapping pyenv..."

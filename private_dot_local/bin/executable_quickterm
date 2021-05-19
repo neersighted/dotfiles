@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 cmd=${1:-$SHELL}
 name=quickterm-$(basename "$cmd")

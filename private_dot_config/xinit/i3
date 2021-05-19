@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 xrdb -merge "$XDG_CONFIG_HOME/Xresources"
 setxkbmap -option caps:escape

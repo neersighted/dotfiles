@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 echo "Writing iTerm2 preferences..."
 

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 IMAGE=$(mktemp --suffix=.png)
 trap 'rm $IMAGE' EXIT

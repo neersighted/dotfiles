@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 if [ "$(basename "$PWD")" != 'nodenv' ]; then
   echo "Bootstrapping nodenv..."

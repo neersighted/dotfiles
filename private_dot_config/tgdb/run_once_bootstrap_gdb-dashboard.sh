@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 if [ ! -d "${XDG_DATA_HOME:-~/.local/share}/gdb-dashboard" ]; then
   echo "Bootstrapping gdb-dashboard..."

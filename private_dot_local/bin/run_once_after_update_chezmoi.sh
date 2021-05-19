@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 if [ "$(dirname "$(command -v chezmoi)")" = "$(pwd)" ]; then
   if [ "$(which -a chezmoi | wc -l)" -gt 1 ]; then

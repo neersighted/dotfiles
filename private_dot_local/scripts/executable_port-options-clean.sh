@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 # portsdir=${PORTSDIR:-/usr/ports}
 # if [ ! -d "${portsdir}" ]; then

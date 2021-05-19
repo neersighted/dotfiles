@@ -1,5 +1,5 @@
 {{- if eq .chezmoi.os "freebsd" -}}
-#!/bin/sh
+#!/bin/sh -e
 
 [ "$(id -u)" -eq 0 ] || exec su root -c "sh $0"
 

@@ -1,5 +1,5 @@
 {{- if eq .chezmoi.os "darwin" -}}
-#!/bin/sh
+#!/bin/sh -e
 
 # homebrew
 if [ -z "$HOMEBREW_BUNDLE_FILE" ]; then

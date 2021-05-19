@@ -1,5 +1,5 @@
 {{- if eq (index .chezmoi.osRelease "idLike") "debian" -}}
-#!/bin/sh
+#!/bin/sh -e
 
 echo "Installing packages with APT..."
 sudo apt-get update
