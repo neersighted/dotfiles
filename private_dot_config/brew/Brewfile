@@ -11,6 +11,7 @@ tap "filippo.io/age", "https://filippo.io/age"
 # Development Tools
 brew "ccache"
 brew "cmake"
+brew "pkg-config"
 
 # Libraries
 brew "gdbm"
