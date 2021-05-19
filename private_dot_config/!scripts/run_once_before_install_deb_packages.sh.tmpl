@@ -2,78 +2,77 @@
 #!/bin/sh
 
 echo "Installing packages with APT..."
-apt-get install -y \
+sudo apt-get update
+sudo apt-get install -y \
   `# Development Tools` \
   build-essential \
   ccache \
   clang \
   cmake \
   `# Libraries` \
-  libbzip2-dev \
+  libbz2-dev \
   libffi-dev \
   libgdbm-dev \
   libgmp-dev \
+  liblzma-dev \
+  libncurses-dev \
+  libreadline-dev \
+  libsqlite3-dev \
+  libssl-dev \
   libyaml-dev \
-  ncurses-dev \
-  openssl-dev \
-  readline-dev \
-  sqlite-dev \
-  xz-dev \
-  zlib-dev \
+  zlib1g-dev \
   `# User Programs` \
-  1password-cli \
   age \
   asciinema \
   bat \
-  chezmoi \
-  croc \
-  ctags \
-  curlie \
-  direnv-bin \
-  diskus \
+  direnv \
   exa \
-  fd \
+  fd-find \
   fish \
   fzf \
   gdb \
   git \
-  git-delta-bin \
   git-filter-repo \
-  git-interactive-rebase-tool \
   git-lfs \
-  github-cli \
   hexyl \
   htop \
-  hyperfine \
   jq \
   lftp \
-  lostfiles \
-  lsof \
-  ltrace \
-  man-db \
-  man-pages \
-  mkcert \
+  libfile-mimeinfo-perl \
+  manpages-posix \
+  manpages-posix-dev \
   mosh \
   mycli \
   neovim \
-  net-tools \
-  perl-file-mimeinfo \
   pgcli \
   ripgrep \
-  sd \
   shellcheck \
   socat \
-  tealdeer-bin \
   thefuck \
   tig \
   tmux \
-  tokei \
+  universal-ctags \
   unzip \
-  vivid \
-  watchexec \
   whois \
   xdg-utils \
-  zoxide-bin
+  zoxide
+
+# Missing:
+# 1password-cli
+# croc
+# curlie
+# diskus
+# git-delta-bin
+# git-interactive-rebase-tool
+# gh
+# hyperfine
+# lostfiles
+# mkcert
+# sd
+# tealdeer
+# tokei
+# vivid
+# watchexec
 
 # vi: ft=sh
 {{- end -}}
