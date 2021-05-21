@@ -13,8 +13,10 @@ if ! goenv versions --bare | grep -Fxq "$GOLANG_VERSION"; then
   goenv global "$GOLANG_VERSION"
 fi
 
-echo "Installing gopls..."
-go get "golang.org/x/tools/gopls@latest"
+if [ ! "$(command -v gopls)" ]; then
+  echo "Installing gopls..."
+  go get "golang.org/x/tools/gopls@latest"
+fi
 
 # run_once hash: {{ output "goenv" "install" "-l" | sha256sum }}
 # vi: ft=sh

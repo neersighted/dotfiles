@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-set -e
-
 # base
 if [ -z "$LANG" ] || [ "$LANG" = C.UTF-8 ]; then
   export LANG="en_US.UTF-8"
@@ -30,4 +28,9 @@ else
   chezmoi=chezmoi
 fi
 
-exec $chezmoi init --apply --remove neersighted
+stdin='/dev/null'
+if [  "$(ps otty= $$)" != '?' ]; then
+  stdin='/dev/tty' # connect chezmoi to the tty when available
+fi
+
+exec $chezmoi init --apply --remove "$@" neersighted <$stdin

@@ -12,10 +12,15 @@ if [ ! -x "$DOTNET_ROOT/dotnet" ]; then
   curl -sS https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh | bash -s -- --no-path --channel Current
 fi
 
-echo "Installing .NET tools..."
 for tool in installsdkglobaltool; do
-  test -d "$DOTNET_TOOL_PATH/.store/$tool" || dotnet tool install --tool-path "$DOTNET_TOOL_PATH" "$tool"
+  test -d "$DOTNET_TOOL_PATH/.store/$tool" || wanted="$tool $wanted"
 done
+if [ -n "$wanted" ]; then
+  echo "Installing .NET tools..."
+  for tool in "$wanted"; do
+    dotnet tool install --tool-path "$DOTNET_TOOL_PATH" "$tool"
+  done
+fi
 
 # FIXME: dotnet arrow key bug
 tput rmkx
