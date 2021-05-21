@@ -4,13 +4,13 @@
 echo "Installing packages with APT..."
 sudo apt-get update
 sudo apt-get install -y \
-  `# Development Tools` \
+  {{/* Development Tools */ -}}
   build-essential \
   ccache \
   clang \
   cmake \
   pkgconf \
-  `# Libraries` \
+  {{/* Libraries */ -}}
   libbz2-dev \
   libffi-dev \
   libgdbm-dev \
@@ -22,7 +22,7 @@ sudo apt-get install -y \
   libssl-dev \
   libyaml-dev \
   zlib1g-dev \
-  `# User Programs` \
+  {{/* User Programs */ -}}
   age \
   asciinema \
   bat \

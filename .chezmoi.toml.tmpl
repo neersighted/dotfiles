@@ -1,11 +1,47 @@
+{{/* boolean feature tags */}}
+{{- $headless := false -}}{{/* no graphical interface */}}
+{{- $transient := false -}}{{/* temporary machine (VM/cloud instances/container) */}}
+
+{{/* first-time setup */}}
+{{- if .configured -}}
+{{-   $headless = .headless -}}
+{{-   $transient = .transient -}}
+{{- else -}}
+
+{{/* transient detection */}}
+{{-   if or (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") -}}
+{{-     $headless = true -}}
+{{-     $transient = true -}}
+{{-   end -}}
+
+{{/* feature configration */}}
+{{-   if not $transient -}}
+{{-     if stdinIsATTY -}}
+{{-       $headless = promptBool "headless" -}}
+{{-       $transient = promptBool "transient" -}}
+{{-     else -}}
+{{-       $headless = true -}}
+{{-       $transient = true -}}
+{{-     end -}}
+{{-   end -}}
+{{- end -}}
+
+{{/* email configuration */}}
 {{- $email := get .user "email" -}}
 {{- if not $email -}}
-{{-   if stdinIsATTY -}}
+{{-   if not $transient -}}
 {{-     $email = promptString "email" -}}
 {{-   else -}}
 {{-     $email = "bjorn@neersighted.com" -}}
 {{-   end -}}
 {{- end -}}
+
+remove = true
+
+[data]
+    configured = true
+    headless = {{ $headless }}
+    transient = {{ $transient }}
 
 [data.user]
     name = "Bjorn Neergaard"

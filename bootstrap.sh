@@ -29,8 +29,10 @@ else
 fi
 
 stdin='/dev/null'
-if [  "$(ps otty= $$)" != '?' ]; then
+if [ "$(ps otty= $$)" != '?' ]; then
   stdin='/dev/tty' # connect chezmoi to the tty when available
 fi
 
 exec $chezmoi init --apply --remove "$@" neersighted <$stdin
+
+echo "Bootstrap complete! Restart your shell and run 'chezmoi apply' for stage 2!"

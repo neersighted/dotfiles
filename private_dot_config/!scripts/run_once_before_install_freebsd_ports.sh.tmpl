@@ -5,24 +5,24 @@
 
 echo "Installing ports with pkg..."
 pkg install -y \
-  `# Development Tools` \
+  {{/* Development Tools */ -}}
   devel/ccache \
   devel/cmake \
   devel/gmake \
-  `# Libraries` \
+  {{/* Libraries */ -}}
   databases/gdbm \
-  sqlite3 `# databases/sqlite3` \
+  sqlite3 {{/* databases/sqlite3` */}} \
   devel/libffi \
   devel/ncurses \
   devel/readline \
-  `# User Programs` \
+  {{/* User Programs */ -}}
   archivers/unzip \
   benchmarks/hyperfine \
   databases/py-mycli \
   databases/py-pgcli \
   devel/gdb \
   devel/gh \
-  git `# devel/git` \
+  git {{/* devel/git */}} \
   devel/git-delta \
   devel/git-lfs \
   devel/interactive_rebase_tool \

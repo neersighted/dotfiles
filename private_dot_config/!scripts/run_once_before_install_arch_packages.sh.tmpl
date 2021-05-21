@@ -9,12 +9,12 @@ export GOENV_VERSION=system \
 
 echo "Installing packages with Yay..."
 yay -Sy --needed --mflags '--skippgpcheck' --noconfirm \
-  `# Development Tools` \
+  {{/* Development Tools */ -}}
   base-devel \
   ccache \
   clang \
   cmake \
-  `# Libraries` \
+  {{/* Libraries */ -}}
   bzip2 \
   gdbm \
   gmp \
@@ -26,7 +26,7 @@ yay -Sy --needed --mflags '--skippgpcheck' --noconfirm \
   sqlite \
   xz \
   zlib \
-  `# User Programs` \
+  {{/* User Programs */ -}}
   1password-cli \
   age \
   asciinema \
