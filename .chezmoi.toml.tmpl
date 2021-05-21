@@ -1,26 +1,44 @@
 {{/* boolean feature tags */}}
-{{- $headless := false -}}{{/* no graphical interface */}}
+{{- $headless  := false -}}{{/* no graphical interface */}}
 {{- $transient := false -}}{{/* temporary machine (VM/cloud instances/container) */}}
+{{- $dotnet    := false -}}{{/* install/manage dotnet toolchain */}}
+{{- $golang    := false -}}{{/* install/manage golang toolchain */}}
+{{- $node      := false -}}{{/* install/manage node toolchain */}}
+{{- $python    := false -}}{{/* install/manage python toolchain */}}
+{{- $ruby      := false -}}{{/* install/manage ruby toolchain */}}
+{{- $rust      := false -}}{{/* install/manage rust toolchain */}}
 
-{{/* first-time setup */}}
 {{- if .configured -}}
-{{-   $headless = .headless -}}
+{{-   $headless  = .headless -}}
 {{-   $transient = .transient -}}
+{{-   $dotnet    = .dotnet -}}
+{{-   $golang    = .golang -}}
+{{-   $node      = .node -}}
+{{-   $python    = .python -}}
+{{-   $ruby      = .ruby -}}
+{{-   $rust      = .rust -}}
 {{- else -}}
+{{/* first-time setup */}}
 
 {{/* transient detection */}}
 {{-   if or (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") -}}
-{{-     $headless = true -}}
+{{-     $headless  = true -}}
 {{-     $transient = true -}}
 {{-   end -}}
 
 {{/* feature configration */}}
 {{-   if not $transient -}}
 {{-     if stdinIsATTY -}}
-{{-       $headless = promptBool "headless" -}}
+{{-       $headless  = promptBool "headless" -}}
 {{-       $transient = promptBool "transient" -}}
+{{-       $dotnet    = promptBool "dotnet" -}}
+{{-       $golang    = promptBool "golang" -}}
+{{-       $node      = promptBool "node" -}}
+{{-       $python    = promptBool "python" -}}
+{{-       $ruby      = promptBool "ruby" -}}
+{{-       $rust      = promptBool "rust" -}}
 {{-     else -}}
-{{-       $headless = true -}}
+{{-       $headless  = true -}}
 {{-       $transient = true -}}
 {{-     end -}}
 {{-   end -}}
@@ -40,12 +58,18 @@ remove = true
 
 [data]
     configured = true
-    headless = {{ $headless }}
-    transient = {{ $transient }}
+    headless   = {{ $headless }}
+    transient  = {{ $transient }}
+    dotnet     = {{ $dotnet }}
+    golang     = {{ $golang }}
+    node       = {{ $node }}
+    python     = {{ $python }}
+    ruby       = {{ $ruby }}
+    rust       = {{ $rust }}
 
 [data.user]
-    name = "Bjorn Neergaard"
-    email = {{ $email | quote }}
+    name   = "Bjorn Neergaard"
+    email  = {{ $email | quote }}
     gpgkey = "0x08AAA409549C0EC5"
 
 [data.nord]
