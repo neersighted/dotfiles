@@ -1,4 +1,3 @@
-{{- if ne .chezmoi.os "freebsd" -}}
 #!/bin/sh -e
 
 export NUGET_PACKAGES="${NUGET_PACKAGES:-${XDG_DATA_HOME:-~/.local/share}/nuget}"
@@ -26,4 +25,3 @@ fi
 tput rmkx
 
 # vi: ft=sh
-{{- end -}}

@@ -3,25 +3,53 @@ README.md
 bootstrap.sh
 tags
 
-{{ if ne .chezmoi.os "windows" }} # ignore windows files on *nix
+# os-based ignores
+{{- if ne .chezmoi.os "windows" -}} # ignore windows files on *nix
 AppData
 bin
-{{ else }} # ignore *nix files on windows
+{{- else -}} # ignore *nix files on windows
 .config/*
 !.config/git # ...except git, which stores config files at the same paths
 .local
 .gnupg
-{{ end }}
+{{- end -}}
 
-{{ if eq .chezmoi.os "darwin" }} # ignore x11 files on macos
+{{- if eq .chezmoi.os "darwin" -}} # ignore x11 files on macos
 .config/xinit
 .config/Xresources
-{{ else }} # macos-only software
+{{- else -}} # macos-only software
 .config/brew
 .config/iterm2
 .terminfo # terminfo hacks are only needed on macos
-{{ end }}
+{{- end -}}
 
-{{ if or (ne .chezmoi.os "linux") (eq (index .chezmoi.osRelease "id") "arch") }} # hushlogin on everything but arch
+{{- if or (ne .chezmoi.os "linux") (eq (index .chezmoi.osRelease "id") "arch") -}} # hushlogin on everything but arch
 .hushlogin
-{{ end }}
+{{- end -}}
+
+# feature-based ignores
+{{- if not .dotnet -}}
+.local/share/dotnet
+{{- end -}}
+{{- if not .golang -}}
+.local/bin/goenv-update
+.local/share/goenv
+{{- end -}}
+{{- if not .node -}}
+.config/nodenv
+.local/bin/nodenv-update
+.local/share/nodenv
+{{- end -}}
+{{- if not .python -}}
+.local/bin/pipx
+.local/bin/pyenv-update
+.local/share/pyenv
+{{- end -}}
+{{- if not .ruby -}}
+.local/bin/rbenv-update
+.local/share/rbenv
+{{- end -}}
+{{- if not .rust -}}
+.local/bin/cargo-sys-update
+.local/share/rustup
+{{- end -}}

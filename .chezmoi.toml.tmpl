@@ -20,27 +20,31 @@
 {{- else -}}
 {{/* first-time setup */}}
 
-{{/* transient detection */}}
+{{/* codespaces detection */}}
 {{-   if or (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") -}}
 {{-     $headless  = true -}}
 {{-     $transient = true -}}
 {{-   end -}}
 
-{{/* feature configration */}}
+{{/* base configration */}}
 {{-   if not $transient -}}
 {{-     if stdinIsATTY -}}
 {{-       $headless  = promptBool "headless" -}}
 {{-       $transient = promptBool "transient" -}}
-{{-       $dotnet    = promptBool "dotnet" -}}
-{{-       $golang    = promptBool "golang" -}}
-{{-       $node      = promptBool "node" -}}
-{{-       $python    = promptBool "python" -}}
-{{-       $ruby      = promptBool "ruby" -}}
-{{-       $rust      = promptBool "rust" -}}
 {{-     else -}}
 {{-       $headless  = true -}}
 {{-       $transient = true -}}
 {{-     end -}}
+{{-   end -}}
+
+{{/* interactive-only configuration */}}
+{{-   if and (not $transient) (stdinIsATTY) -}}
+{{-     $dotnet    = promptBool "dotnet" -}}
+{{-     $golang    = promptBool "golang" -}}
+{{-     $node      = promptBool "node" -}}
+{{-     $python    = promptBool "python" -}}
+{{-     $ruby      = promptBool "ruby" -}}
+{{-     $rust      = promptBool "rust" -}}
 {{-   end -}}
 {{- end -}}
 
@@ -52,6 +56,11 @@
 {{-   else -}}
 {{-     $email = "bjorn@neersighted.com" -}}
 {{-   end -}}
+{{- end -}}
+
+{{/* special cases */}}
+{{- if eq .chezmoi.os "freebsd" -}}
+{{-   $dotnet = false -}}{{/* always disable dotnet on freebsd */}}
 {{- end -}}
 
 remove = true
