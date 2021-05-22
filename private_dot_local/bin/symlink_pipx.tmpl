@@ -1,2 +1,2 @@
-{{- $PYENV_ROOT := default "~/.local/share/pyenv" (env "PYENV_ROOT") -}}
+{{- $PYENV_ROOT := env "PYENV_ROOT" | default "~/.local/share/pyenv" -}}
 {{ joinPath $PYENV_ROOT "versions/pipx/bin/pipx" }}
