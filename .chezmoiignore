@@ -15,8 +15,9 @@ bin
 {{ end }}
 
 {{ if eq .chezmoi.os "darwin" }} # ignore x11 files on macos
-.config/xinit
 .config/Xresources
+.config/i3
+.config/xinit
 {{ else }} # macos-only software
 .config/brew
 .config/iterm2
@@ -28,6 +29,12 @@ bin
 {{ end }}
 
 # feature-based ignores
+{{ if .headless }}
+.config/Xresources
+.config/alacritty
+.config/i3
+.config/xinit
+{{ end }}
 {{ if not .dotnet }}
 .local/share/dotnet
 {{ end }}
