@@ -1,0 +1,14 @@
+{{- if not (lookPath "poetry") -}}
+#!/bin/sh
+
+export PYENV_VERSION=system
+export PIP_REQUIRE_VIRTUALENV=
+
+export POETRY_HOME="${POETRY_HOME:-${XDG_DATA_HOME:-~/.local/share}/pypoetry}"
+export PATH="$POETRY_HOME/bin:$PATH"
+
+echo "Installing Poetry..."
+curl -sS https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
+
+# vi: ft=sh
+{{- end -}}

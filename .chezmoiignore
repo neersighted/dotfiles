@@ -48,9 +48,9 @@ bin
 .local/share/nodenv
 {{ end }}
 {{ if not .python }}
-.local/bin/pipx
 .local/bin/pyenv-update
 .local/share/pyenv
+.local/share/pypoetry
 {{ end }}
 {{ if not .ruby }}
 .local/bin/rbenv-update
