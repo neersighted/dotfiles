@@ -1,3 +1,4 @@
+{{- if lookPath "pyenv" -}}
 #!/bin/sh
 
 export PIPX_HOME="${PIPX_HOME:-${XDG_DATA_HOME:-~/.local/share}/pipx}"
@@ -53,3 +54,4 @@ exit 0 # exit success
 
 # run_once hash: {{ output "pyenv" "install" "-l" | sha256sum }}
 # vi: ft=sh
+{{- end -}}

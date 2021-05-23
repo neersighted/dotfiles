@@ -12,24 +12,30 @@ set_color red
 echo "Updating gems..."
 set_color normal
 
+function gem
+  command rbenv exec gem $argv
+end
+
 set latest_rubygems (curl -sS https://rubygems.org/api/v1/gems/rubygems-update.json | jq -r '.version')
 for ruby in (rbenv versions --bare)
-  set local_rubygems (RBENV_VERSION=$ruby gem --version)
+  set -lx RBENV_VERSION $ruby
+
+  set local_rubygems (gem --version)
   if test "$local_rubygems" != "$latest_rubygems"
     set_color red
     echo "Updating RubyGems from $local_rubygems to $latest_rubygems ($ruby)..."
     set_color normal
 
-    RBENV_VERSION=$ruby gem update --system
+    gem update --system
   end
 
-  for gem in (RUBY_VERSION=$ruby gem outdated)
+  for gem in (gem outdated)
     string match -rq '(?<name>.+) \((?<old>.+) < (?<new>.+)\)' $gem
 
     set_color red
     echo "Updating $name from $old to $new (Ruby $ruby)..."
     set_color normal
 
-    RUBY_VERSION=$ruby gem update $name
+    gem update $name
   end
 end

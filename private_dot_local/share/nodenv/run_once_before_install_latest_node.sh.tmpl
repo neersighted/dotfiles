@@ -1,3 +1,4 @@
+{{- if lookPath "nodenv" -}}
 #!/bin/sh -e
 
 export NPM_CONFIG_USERCONFIG="${NPM_CONFIG_USERCONFIG:-${XDG_CONFIG_HOME:-~/.config}/npm/npmrc}"
@@ -14,3 +15,4 @@ fi
 
 # run_once hash: {{ output "nodenv" "install" "-l" | sha256sum }}
 # vi: ft=sh
+{{- end -}}

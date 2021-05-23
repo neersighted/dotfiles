@@ -1,3 +1,4 @@
+{{- if lookPath "rbenv" -}}
 #!/bin/sh -e
 
 export GEM_SPEC_CACHE="${GEM_SPEC_CACHE:-${XDG_CACHE_HOME:-~/.cache}/gem}"
@@ -12,5 +13,5 @@ if ! rbenv versions --bare | grep -Fxq "$RUBY_VERSION"; then
 fi
 
 # run_once hash: {{ output (expandenv "$RBENV_ROOT/bin/rbenv") "install" "-L" | sha256sum }}
-# pwd: {{ output "pwd" }}
 # vi: ft=sh
+{{- end -}}

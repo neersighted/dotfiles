@@ -12,8 +12,14 @@ set_color green
 echo "Updating packages..."
 set_color normal
 
+function npm
+  command nodenv exec npm $argv
+end
+
 for node in (nodenv versions --bare)
-  for spec in (NODENV_VERSION=$node npm outdated -g --json | jq -c 'to_entries[]')
+  set -lx NODENV_VERSION $node
+
+  for spec in (npm outdated -g --json | jq -c 'to_entries[]')
     set name (jq --argjson spec $spec -nr '$spec | "\(.key)"')
     set current (jq --argjson spec $spec -nr '$spec | "\(.value.current)"')
     set latest (jq --argjson spec $spec -nr '$spec | "\(.value.latest)"')
@@ -22,6 +28,6 @@ for node in (nodenv versions --bare)
     echo "Updating $name (Node.js $node)..."
     set_color normal
 
-    NODENV_VERSION=$node npm install -g "$name@$latest"
+    npm install -g "$name@$latest"
   end
 end

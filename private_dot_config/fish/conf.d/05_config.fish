@@ -48,5 +48,8 @@ if is_linux
    set -qx LIBVIRT_DEFAULT_URI; or set -Ux LIBVIRT_DEFAULT_URI qemu:///system
 end
 
+# pip
+set -x PIP_REQUIRE_VIRTUALENV 1
+
 # vagrant
 is_wsl; and set -x VAGRANT_WSL_ENABLE_WINDOWS_ACCESS 1

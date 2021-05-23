@@ -4,7 +4,7 @@ set_color yellow
 echo "Updating pyenv..."
 set_color normal
 
-for repo in $RBENV_ROOT $RBENV_ROOT/plugins/*
+for repo in $PYENV_ROOT $PYENV_ROOT/plugins/*
   git -C $repo pull -q
 end
 
@@ -24,8 +24,17 @@ set_color yellow
 echo "Updating packages..."
 set_color normal
 
+# allow running pip on global installations
+set -eg PIP_REQUIRE_VIRTUALENV
+
+function pip
+  command pyenv exec python -m pip $argv
+end
+
 for python in (pyenv versions --bare --skip-aliases)
-  for spec in (PYENV_VERSION=$python python -m pip list --outdated --format=json | jq -c '.[]')
+  set -lx PYENV_VERSION $python
+
+  for spec in (pip list --outdated --format=json | jq -c '.[]')
     set name (jq --argjson spec $spec -nr '$spec | "\(.name)"')
     set current (jq --argjson spec $spec -nr '$spec | "\(.version)"')
     set latest (jq --argjson spec $spec -nr '$spec | "\(.latest_version)"')
@@ -34,6 +43,6 @@ for python in (pyenv versions --bare --skip-aliases)
     echo "Updating $name from $current to $latest (Python $python)..."
     set_color normal
 
-    PYENV_VERSION=$python python -m pip install -U $name
+    pip install -U $name
   end
 end
