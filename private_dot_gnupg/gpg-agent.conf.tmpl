@@ -1,2 +1,2 @@
-  pinentry-program {{ .chezmoi.homeDir }}/.local/bin/pinentry
-
+{{- $XDG_BIN_HOME := env "XDG_BIN_HOME" | default (joinPath .chezmoi.homeDir ".local/bin") -}}
+pinentry-program {{ joinPath $XDG_BIN_HOME "pinentry" }}

@@ -21,7 +21,7 @@ if [ ! "$(command -v fetch)" ]; then
 fi
 
 if [ ! "$(command -v chezmoi)" ]; then
-  bin_dir="$HOME/.local/bin"
+  bin_dir="${XDG_BIN_HOME:-${HOME}/.local/bin}"
   chezmoi="$bin_dir/chezmoi"
   fetch -o - https://git.io/chezmoi | sh -s -- -b "$bin_dir"
 else

@@ -18,6 +18,9 @@ end
 if not set -q XDG_DATA_HOME
   set -x XDG_DATA_HOME $HOME/.local/share
 end
+if not set -q XDG_BIN_HOME
+  set -x XDG_BIN_HOME $HOME/.local/bin
+end
 if not set -q XDG_CACHE_HOME
   set -x XDG_CACHE_HOME $HOME/.cache
 end
@@ -154,7 +157,7 @@ path_prepend PATH $RBENV_ROOT/{shims,bin}
 # rust
 path_prepend PATH $CARGO_HOME/bin
 # dotfiles/local
-path_prepend PATH $HOME/.local/bin
+path_prepend PATH $HOME/.local/bin $XDG_BIN_HOME
 
 # base manpath
 set -q MANPATH; or set -x MANPATH ''
