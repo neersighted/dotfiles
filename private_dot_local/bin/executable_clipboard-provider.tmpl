@@ -41,25 +41,29 @@ function tty
 end
 
 function base64
-  if command -q base64
-    if command base64 --version &>/dev/null
-      command base64 -w0
-    else
-      command base64
-    end
-  else if command -q b64encode
-    b64encode -r -
+{{- if lookPath "base64" }}
+  if command base64 --version &>/dev/null
+    command base64 -w0
   else
-    return 1
+    command base64
   end
+{{ else if lookPath "b64encode" }}
+  b64encode -r -
+{{ else }}
+  return 1
+{{ end -}}
 end
 
 function tmux-provider -a op
+{{- if lookPath "tmux" }}
   set -q TMUX; or return 1
   switch $op
     case copy; spit | tmux load-buffer -w -
     case paste; tmux save-buffer -
   end
+{{ else }}
+  return 1
+{{ end -}}
 end
 
 function desktop-provider
@@ -71,37 +75,44 @@ function desktop-provider
 end
 
 function wsl-provider -a op
-  set -q WSLENV; or return 1
-  if command -q win32yank.exe
-    switch $op
-      case copy; spit | win32yank.exe -i --crlf
-      case paste; win32yank.exe -o --lf
-    end
-    return
-  else
-    switch $op
-      case copy; tr '\n' '\r\n' | clip.exe
-      case paste; powershell.exe -Command Get-Clipboard | tr '\r\n' '\n'
-    end
-    return
+{{- if env "WSLENV" }}
+{{-   if lookPath "win32yank.exe" }}
+  switch $op
+    case copy; spit | win32yank.exe -i --crlf
+    case paste; win32yank.exe -o --lf
   end
+{{   else }}
+  switch $op
+    case copy; tr '\n' '\r\n' | clip.exe
+    case paste; powershell.exe -Command Get-Clipboard | tr '\r\n' '\n'
+  end
+{{   end -}}
+{{ else }}
   return 1
+{{ end -}}
 end
 
 function macos-provider -a op
-  command -q pbcopy; or return 1
+{{- if eq .chezmoi.os "darwin" }}
   switch $op
     case copy; spit | pbcopy
     case paste; pbpaste
   end
+{{ else }}
+  return 1
+{{ end -}}
 end
 
 function wayland-provider -a op
-  set -q WAYLAND_DISPLAY; and command -q wl-copy; or return 1
+{{- if lookPath "wl-copy" }}
+  set -q WAYLAND_DISPLAY; or return 1
   switch $op
     case copy; command -q wl-copy; and spit | wl-copy --type=text/plain
     case paste; command -q wl-paste; and wl-paste --no-newline
   end
+{{ else }}
+  return 1
+{{ end -}}
 end
 
 function x11-provider -a op
@@ -110,19 +121,27 @@ function x11-provider -a op
 end
 
 function xclip-provider -a op
-  set -q DISPLAY; and command -q xclip; or return 1
+{{- if lookPath "xclip" }}
+  set -q DISPLAY; or return 1
   switch $op
     case copy; spit | xclip -i -selection clipboard
     case paste; xclip -o -selection clipboard
   end
+{{ else }}
+  return 1
+{{ end -}}
 end
 
 function xsel-provider -a op
-  set -q DISPLAY; and command -q xsel; or return 1
+{{- if lookPath "xsel" }}
+  set -q DISPLAY; or return 1
   switch $op
     case copy; spit | xsel -i --clipboard
     case paste; xsel -o --clipboard
   end
+{{ else }}
+  return 1
+{{ end -}}
 end
 
 function osc52-provider -a op
