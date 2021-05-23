@@ -1,4 +1,6 @@
-{{- if stat "/usr/local/opt/ncurses/bin/infocmp" -}}
+{{- $prefix := output "brew" "--prefix" -}}
+{{- $infocmp := joinPath $prefix "opt/ncurses/bin/infocmp" -}}
+{{- if stat $infocmp -}}
 #!/bin/sh -e
 
 terminfo=$(mktemp)
@@ -8,11 +10,11 @@ trap 'rm $terminfo' EXIT
 if ! /usr/bin/infocmp "{{ $term }}" >/dev/null 2>&1; then
   echo "Backporting brewed {{ $term }} terminfo..."
 
-  /usr/local/opt/ncurses/bin/infocmp -x "{{ $term }}" \
+  {{ $infocmp }} -x "{{ $term }}" \
     | sed 's/pairs#0x10000/pairs#0x1000/' > "$terminfo"
   /usr/bin/tic -x "$terminfo"
 
-  # run_once hash: {{ output "/usr/local/opt/ncurses/bin/infocmp" $term | sha256sum }}
+  # run_once hash: {{ output $infocmp $term | sha256sum }}
 fi
 {{ end }}
 
