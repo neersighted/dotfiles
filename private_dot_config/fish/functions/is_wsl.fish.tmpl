@@ -1,0 +1,3 @@
+function is_wsl
+  {{ env "WSLENV" | not | not }}
+end

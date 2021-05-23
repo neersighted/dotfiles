@@ -1,7 +1,3 @@
 function is_macos
-{{- if eq .chezmoi.os "darwin" }}
-  true
-{{ else }}
-  false
-{{ end -}}
+  {{ eq .chezmoi.os "darwin" }}
 end

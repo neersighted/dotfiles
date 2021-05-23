@@ -1,0 +1,3 @@
+function is_wsl1
+  {{ and (env "WSLENV" | not | not) (env "WSL_INTEROP" | not) }}
+end

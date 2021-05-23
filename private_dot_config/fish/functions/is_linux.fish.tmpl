@@ -1,7 +1,3 @@
 function is_linux
-{{- if eq .chezmoi.os "linux" }}
-  true
-{{ else }}
-  false
-{{ end -}}
+  {{ eq .chezmoi.os "linux" }}
 end

@@ -1,7 +1,3 @@
 function is_freebsd
-{{- if eq .chezmoi.os "freebsd" }}
-  true
-{{ else }}
-  false
-{{ end -}}
+  {{ eq .chezmoi.os "freebsd" }}
 end
