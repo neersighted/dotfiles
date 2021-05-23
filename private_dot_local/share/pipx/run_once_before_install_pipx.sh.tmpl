@@ -9,7 +9,7 @@ export PIPX_BIN_DIR="${PIPX_BIN_DIR:-${PIPX_HOME}/bin}"
 export PATH="$PIPX_BIN_DIR:$PATH"
 
 echo "Installing pipx..."
-python -m pip install -U pipx-in-pipx
+python3 -m pip install -U pipx-in-pipx
 
 # vi: ft=sh
 {{- end -}}
