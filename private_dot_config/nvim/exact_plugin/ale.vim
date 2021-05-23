@@ -9,6 +9,7 @@ let g:ale_fixers = {}
 
 let g:ale_linters.python = ['pyls']
 let g:ale_fixers.python = ['autopep8', 'black']
+let g:ale_python_pyls_executable = 'pylsp'
 
 let g:ale_linters.ruby = ['solargraph', 'standardrb']
 let g:ale_fixers.ruby = ['remove_trailing_lines', 'standardrb', 'trim_whitespace']
