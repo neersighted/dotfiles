@@ -33,7 +33,7 @@ for ruby in (rbenv versions --bare)
     string match -rq '(?<name>.+) \((?<old>.+) < (?<new>.+)\)' $gem
 
     set_color red
-    echo "Updating $name from $old to $new (Ruby $ruby)..."
+    echo "Updating $name from $old to $new ($ruby)..."
     set_color normal
 
     gem update $name

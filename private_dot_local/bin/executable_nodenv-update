@@ -25,7 +25,7 @@ for node in (nodenv versions --bare)
     set latest (jq --argjson spec $spec -nr '$spec | "\(.value.latest)"')
 
     set_color green
-    echo "Updating $name (Node.js $node)..."
+    echo "Updating $name from $current to $latest ($node)..."
     set_color normal
 
     npm install -g "$name@$latest"

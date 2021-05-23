@@ -40,7 +40,7 @@ for python in (pyenv versions --bare --skip-aliases)
     set latest (jq --argjson spec $spec -nr '$spec | "\(.latest_version)"')
 
     set_color yellow
-    echo "Updating $name from $current to $latest (Python $python)..."
+    echo "Updating $name from $current to $latest ($python)..."
     set_color normal
 
     pip install -U $name
