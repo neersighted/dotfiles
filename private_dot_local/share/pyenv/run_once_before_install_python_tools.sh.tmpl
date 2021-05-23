@@ -35,7 +35,7 @@ if ! [ -d "$PYENV_ROOT/versions/$(pyenv version-name)/envs/pipx" ]; then
   fi
 fi
 
-for spec in black flake8 mypy pip-run pip-tools pylint 'python-lsp-server[all]' twine; do
+for spec in black flake8 mypy pip-run pip-tools pylint 'python-lsp-server[all]' shiv twine; do
   tool=$(echo "$spec" | grep -o '^[^[]*')
   test ! -d "$PIPX_HOME/venvs/$tool" || continue
 

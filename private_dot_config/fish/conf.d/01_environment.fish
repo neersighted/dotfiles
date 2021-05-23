@@ -127,6 +127,9 @@ set -x REDISCLI_HISTFILE $XDG_DATA_HOME/rediscli/history
 # ripgrep
 set -x RIPGREP_CONFIG_PATH $XDG_CONFIG_HOME/ripgrep/config
 
+# shiv
+set -x SHIV_ROOT $XDG_CACHE_HOME/shiv
+
 # tmux
 set -x TMUX_TMPDIR $XDG_RUNTIME_DIR
 
