@@ -46,3 +46,5 @@ for python in (pyenv versions --bare --skip-aliases)
     pip install -U $name
   end
 end
+
+chezmoi apply

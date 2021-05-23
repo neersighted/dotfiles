@@ -31,3 +31,5 @@ for node in (nodenv versions --bare)
     npm install -g "$name@$latest"
   end
 end
+
+chezmoi apply

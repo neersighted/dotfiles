@@ -39,3 +39,5 @@ for ruby in (rbenv versions --bare)
     gem update $name
   end
 end
+
+chezmoi apply
