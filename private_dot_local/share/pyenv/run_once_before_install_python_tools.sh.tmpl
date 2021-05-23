@@ -7,25 +7,6 @@ export POETRY_HOME="${POETRY_HOME:-${XDG_DATA_HOME:-~/.local/share}/pypoetry}"
 export PYENV_ROOT="${PYENV_ROOT:-.}"
 export PATH="$PIPX_BIN_DIR:$POETRY_HOME/bin:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
 
-pyvenv_version() { # venv, version
-  pyenv versions --bare --skip-aliases | awk -v venv="$1" -v version="$2" '
-    BEGIN {
-      FS = "/"
-      missing = 1
-    }
-    $2 == "envs" && NF == 3 {
-      if ($1 == version && $3 == venv) {
-        missing = 0
-      }
-    }
-    END {
-      exit missing
-    }
-  '
-}
-
-PYTHON_VERSION=$(pyenv version-name)
-
 if [ ! -x "$POETRY_HOME/venv/bin/python" ]; then
   if [ -x "$POETRY_HOME/venv/bin/poetry" ]; then
     echo "Reinstalling Poetry..."
@@ -36,21 +17,31 @@ if [ ! -x "$POETRY_HOME/venv/bin/python" ]; then
   curl -sS https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
 fi
 
-if ! pyvenv_version pipx "$PYTHON_VERSION"; then
-  echo "Installing pipx with $PYTHON_VERSION..."
-  pyenv uninstall -f pipx
+if ! [ -d "$PYENV_ROOT/versions/$(pyenv version-name)/envs/pipx" ]; then
+  if [ -d "$PYENV_ROOT/versions/pipx" ]; then
+    echo "Reinstalling pipx..."
+    pyenv uninstall pipx
+    reinstall=1
+  else
+    echo "Installing pipx..."
+  fi
+
   pyenv virtualenv pipx
   PYENV_VERSION=pipx python -m pip install -U pip setuptools wheel pipx
-  echo "Reinstalling pipx venvs..."
-  PYENV_VERSION=pipx python -m pipx reinstall-all
+
+  if [ -n "$reinstall" ]; then
+    echo "Reinstalling pipx venvs..."
+    PYENV_VERSION=pipx python -m pipx reinstall-all
+  fi
 fi
 
-echo "Installing pipx-managed venvs..."
-for tool in black flake8 mypy pip-run pip-tools pylint 'python-lsp-server[all]' twine; do
-  PYENV_VERSION=pipx python -m pipx install "$tool"
-done
+for spec in black flake8 mypy pip-run pip-tools pylint 'python-lsp-server[all]' twine; do
+  tool=$(echo "$spec" | grep -o '^[^[]*')
+  test ! -d "$PIPX_HOME/venvs/$tool" || continue
 
-exit 0 # exit success
+  echo "Installing $tool..."
+  PYENV_VERSION=pipx python -m pipx install "$spec"
+done
 
 # run_once hash: {{ output "pyenv" "install" "-l" | sha256sum }}
 # vi: ft=sh
