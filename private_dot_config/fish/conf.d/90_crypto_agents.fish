@@ -1,5 +1,6 @@
 is_ssh; and exit
 
+set -q tty; or set tty (tty)
 set -x GPG_TTY $tty
 
 if is_wsl

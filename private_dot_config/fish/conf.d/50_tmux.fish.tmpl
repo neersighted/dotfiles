@@ -22,6 +22,7 @@ function __tmux_session_name
     # is a remote login
     printf '%s-%s' (prompt_hostname) (string replace -a '.' '-' (string split ' ' $SSH_CONNECTION)[1])
   else if not is_tmux; and not is_editor
+    set -q tty; or set -g tty (tty)
     if not string match -rq '^/dev/(pts/\d+|ttys\d+)$' $tty; and not is_wsl1
       # is a console/tty
       printf '%s' $tty

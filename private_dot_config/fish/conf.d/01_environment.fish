@@ -1,5 +1,7 @@
-set tty (tty)
+# pick up functions.d paths
+set -p fish_function_path $__fish_config_dir/functions.d/*
 
+# only run the remaining for login shells
 status is-login; or test $SHLVL -eq 1; or exit
 
 #

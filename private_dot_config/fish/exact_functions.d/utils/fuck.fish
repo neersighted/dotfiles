@@ -9,6 +9,6 @@ function fuck -d "Correct your previous console command"
   if test "$unfucked_command" != ""
     eval $unfucked_command
     history delete --exact --case-sensitive -- $fucked_up_command
-    history merge
+    history merge 2>/dev/null
   end
 end
