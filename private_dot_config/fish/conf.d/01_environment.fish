@@ -144,9 +144,10 @@ set -x VAGRANT_HOME $XDG_DATA_HOME/vagrant
 #
 
 # brewed utilities
-path_prepend PATH /usr/local/opt/{curl,sqlite}/bin
-# ccache {linux, {bsd, macos}}
-path_prepend PATH /usr/{lib/ccache/bin,local/{libexec/ccache,opt/ccache/libexec}}
+is_macos; and path_prepend PATH (brew --prefix)/opt/{curl,sqlite}/bin
+# ccache {linux, bsd}, macos
+is_macos; and path_prepend PATH (brew --prefix)/opt/ccache/libexec
+          or path_prepend PATH /usr/{lib/ccache/bin,local/libexec/ccache} 
 # dotnet
 path_prepend PATH $DOTNET_TOOL_PATH $DOTNET_ROOT
 # golang

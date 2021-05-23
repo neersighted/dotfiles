@@ -1,0 +1,10 @@
+{{- if eq .chezmoi.os "darwin" -}}
+# fast (brew --prefix) wrapper
+function brew
+  if test "$argv" = "--prefix"
+    echo "{{ output "brew" "--prefix" | trim }}"
+  else
+    command brew $argv
+  end
+end
+{{- end -}}
