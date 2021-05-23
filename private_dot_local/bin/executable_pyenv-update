@@ -4,9 +4,7 @@ set_color yellow
 echo "Updating pyenv..."
 set_color normal
 
-for repo in $PYENV_ROOT $PYENV_ROOT/plugins/*
-  git -C $repo pull -q
-end
+git -C $PYENV_ROOT pull -q
 
 set_color yellow
 echo "Updating Poetry..."
