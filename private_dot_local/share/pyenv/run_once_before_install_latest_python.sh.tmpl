@@ -1,3 +1,4 @@
+{{- if lookPath "pyenv" -}}
 #!/bin/sh -e
 
 export PYENV_ROOT="${PYENV_ROOT:-.}"
@@ -12,3 +13,4 @@ fi
 
 # run_once hash: {{ output "pyenv" "install" "-l" | sha256sum }}
 # vi: ft=sh
+{{- end -}}
