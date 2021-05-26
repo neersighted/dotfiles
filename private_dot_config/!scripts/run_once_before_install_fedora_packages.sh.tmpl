@@ -5,8 +5,8 @@ echo "Adding custom DNF repos..."
 sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
 
 echo "Installing packages with DNF..."
-sudo dnf groupinstall "C Development Tools and Libraries" "Development Tools" "Development Libraries"
-sudo dnf install \
+sudo dnf group install -y "C Development Tools and Libraries" "Development Tools" "Development Libraries"
+sudo dnf install -y \
   {{/* Development Tools */ -}}
   ccache \
   clang \
@@ -24,16 +24,13 @@ sudo dnf install \
   xz-devel \
   zlib-devel \
   {{/* User Programs */ -}}
-  1password-cli \
   age \
   asciinema \
   bat \
-  chezmoi \
-  croc \
   ctags \
   direnv \
   exa \
-  fd \
+  fd-find \
   fish \
   fzf \
   gdb \
@@ -71,6 +68,9 @@ sudo dnf install \
   zoxide
 
 # Missing:
+# 1password-cli
+# chezmoi
+# croc
 # curlie
 # diskus
 # git-interactive-rebase-tool
