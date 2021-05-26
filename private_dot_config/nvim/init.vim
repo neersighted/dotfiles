@@ -73,7 +73,6 @@ let g:go_highlight_build_constraints = 1
 let g:python_highlight_all = 1
 
 " Terminal
-let $GIT_EDITOR = 'git-editor -cc split' " Open commits in a split.
 set title titlestring=nvim\ %{status#fileinfo()}\ (%{status#cwd()})
 
 " Whitespace

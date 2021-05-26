@@ -107,8 +107,8 @@ function wayland-provider -a op
 {{- if lookPath "wl-copy" }}
   set -q WAYLAND_DISPLAY; or return 1
   switch $op
-    case copy; command -q wl-copy; and spit | wl-copy --type=text/plain
-    case paste; command -q wl-paste; and wl-paste --no-newline
+    case copy; spit | wl-copy --type=text/plain
+    case paste; wl-paste --no-newline
   end
 {{ else }}
   return 1
