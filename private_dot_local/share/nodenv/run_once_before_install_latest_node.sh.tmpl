@@ -1,8 +1,8 @@
 {{- if lookPath "nodenv" -}}
 #!/bin/sh -e
 
-export NPM_CONFIG_USERCONFIG="${NPM_CONFIG_USERCONFIG:-${XDG_CONFIG_HOME:-~/.config}/npm/npmrc}"
-export NPM_CONFIG_CACHE="${NPM_CONFIG_CACHE:-${XDG_CACHE_HOME:-~/.cache}/npm}"
+export NPM_CONFIG_USERCONFIG="${NPM_CONFIG_USERCONFIG:-${XDG_CONFIG_HOME:-$HOME/.config}/npm/npmrc}"
+export NPM_CONFIG_CACHE="${NPM_CONFIG_CACHE:-${XDG_CACHE_HOME:-$HOME/.cache}/npm}"
 export NODENV_ROOT="${NODENV_ROOT:-.}"
 export PATH="$NODENV_ROOT/shims:$NODENV_ROOT/bin:$PATH"
 

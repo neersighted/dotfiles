@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
-export NUGET_PACKAGES="${NUGET_PACKAGES:-${XDG_DATA_HOME:-~/.local/share}/nuget}"
-export DOTNET_ROOT="${DOTNET_ROOT:-${XDG_DATA_HOME:-~/.local/share}/dotnet}"
+export NUGET_PACKAGES="${NUGET_PACKAGES:-${XDG_DATA_HOME:-$HOME/.local/share}/nuget}"
+export DOTNET_ROOT="${DOTNET_ROOT:-${XDG_DATA_HOME:-$HOME/.local/share}/dotnet}"
 export DOTNET_TOOL_PATH="${DOTNET_TOOL_PATH:-$DOTNET_ROOT/tools}"
 export PATH="$DOTNET_TOOL_PATH:$DOTNET_ROOT:$PATH"
 

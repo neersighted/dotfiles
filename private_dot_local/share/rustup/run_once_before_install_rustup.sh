@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
-export CARGO_HOME="${CARGO_HOME:-${XDG_DATA_HOME:-~/.local/share}/cargo}"
-export RUSTUP_HOME="${RUSTUP_HOME:-${XDG_DATA_HOME:-~/.local/share}/rustup}"
+export CARGO_HOME="${CARGO_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/cargo}"
+export RUSTUP_HOME="${RUSTUP_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/rustup}"
 export PATH="$CARGO_HOME/bin:$PATH"
 
 if [ -z "$(find "$RUSTUP_HOME/toolchains" -maxdepth 1 -name "stable-*" -print -quit)" ]; then

@@ -3,7 +3,7 @@
 
 # homebrew
 if [ -z "$HOMEBREW_BUNDLE_FILE" ]; then
-  export HOMEBREW_BUNDLE_FILE="${XDG_CONFIG_HOME:-~/.config}/brew/Brewfile"
+  export HOMEBREW_BUNDLE_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/brew/Brewfile"
 fi
 
 echo "Installing packages from Brewfile..."

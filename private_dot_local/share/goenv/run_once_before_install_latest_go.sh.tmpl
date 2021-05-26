@@ -2,8 +2,8 @@
 #!/bin/sh -e
 
 export GO111MODULE=on
-export GOBIN="${GOBIN:-${XDG_DATA_HOME:-~/.local/share}/go/bin}"
-export GOENV_GOPATH_PREFIX="${GOENV_GOPATH_PREFIX:-${XDG_DATA_HOME:-~/.local/share}/go}"
+export GOBIN="${GOBIN:-${XDG_DATA_HOME:-$HOME/.local/share}/go/bin}"
+export GOENV_GOPATH_PREFIX="${GOENV_GOPATH_PREFIX:-${XDG_DATA_HOME:-$HOME/.local/share}/go}"
 export GOENV_ROOT="${GOENV_ROOT:-.}"
 export PATH="$GOBIN:$GOENV_ROOT/shims:$GOENV_ROOT/bin:$PATH"
 
