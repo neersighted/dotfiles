@@ -8,4 +8,6 @@ else if is_nvim
     set -p argv -cc split
 end
 
+set -g nvim_wait
 nvim $argv
+set -eg nvim_wait
