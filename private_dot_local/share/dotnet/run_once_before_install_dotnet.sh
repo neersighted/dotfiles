@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 export NUGET_PACKAGES="${NUGET_PACKAGES:-${XDG_DATA_HOME:-~/.local/share}/nuget}"
-export DOTNET_ROOT="${DOTNET_ROOT:-.}"
+export DOTNET_ROOT="${DOTNET_ROOT:-${XDG_DATA_HOME:-~/.local/share}/dotnet}"
 export DOTNET_TOOL_PATH="${DOTNET_TOOL_PATH:-$DOTNET_ROOT/tools}"
 export PATH="$DOTNET_TOOL_PATH:$DOTNET_ROOT:$PATH"
 
@@ -16,7 +16,7 @@ for tool in installsdkglobaltool; do
 done
 if [ -n "$wanted" ]; then
   echo "Installing .NET tools..."
-  for tool in "$wanted"; do
+  for tool in $wanted; do
     dotnet tool install --tool-path "$DOTNET_TOOL_PATH" "$tool"
   done
 fi
