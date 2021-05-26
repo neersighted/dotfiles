@@ -1,0 +1,82 @@
+{{- if eq (index .chezmoi.osRelease "idLike") "fedora" -}}
+#!/bin/sh -e
+
+echo "Adding custom DNF repos..."
+sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+
+echo "Installing packages with DNF..."
+sudo dnf groupinstall "C Development Tools and Libraries" "Development Tools" "Development Libraries"
+sudo dnf install \
+  {{/* Development Tools */ -}}
+  ccache \
+  clang \
+  cmake \
+  {{/* Libraries */ -}}
+  bzip2-devel \
+  gdbm-devel \
+  gmp-devel \
+  libffi-devel \
+  libyaml-devel \
+  ncurses-devel \
+  openssl-devel \
+  readline-devel \
+  sqlite-devel \
+  xz-devel \
+  zlib-devel \
+  {{/* User Programs */ -}}
+  1password-cli \
+  age \
+  asciinema \
+  bat \
+  chezmoi \
+  croc \
+  ctags \
+  direnv \
+  exa \
+  fd \
+  fish \
+  fzf \
+  gdb \
+  git \
+  git-delta \
+  git-filter-repo \
+  git-lfs \
+  gh \
+  hexyl \
+  htop \
+  hyperfine \
+  jq \
+  lftp \
+  lsof \
+  ltrace \
+  man-pages \
+  mosh \
+  mycli \
+  neovim \
+  net-tools \
+  perl-File-MimeInfo \
+  pgcli \
+  ripgrep \
+  sd \
+  ShellCheck \
+  socat \
+  tealdeer \
+  thefuck \
+  tig \
+  tmux \
+  tokei \
+  unzip \
+  whois \
+  xdg-utils \
+  zoxide
+
+# Missing:
+# curlie
+# diskus
+# git-interactive-rebase-tool
+# mkcert
+# vivid
+# watchexec
+
+# vi: ft=sh
+{{- end -}}
