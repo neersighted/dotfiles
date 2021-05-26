@@ -51,8 +51,10 @@
 [interactive]
 	diffFilter = delta --color-only
 	singleKey = true
+{{- if lookPath "interactive-rebase-tool" }}
 [sequence]
 	editor = interactive-rebase-tool
+{{- end }}
 
 [status]
 	short = true
