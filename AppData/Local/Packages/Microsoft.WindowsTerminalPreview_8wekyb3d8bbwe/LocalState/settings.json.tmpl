@@ -24,7 +24,7 @@
                 "name": "Arch",
                 "guid": "{a5a97cb8-8961-5535-816d-772efe0c6a3f}",
                 "source": "Windows.Terminal.Wsl",
-                "startingDirectory": "\\\\wsl$\\Arch\\home\\%USERNAME%",
+                "startingDirectory": "//wsl$//Arch//home//%USERNAME%",
                 "icon": "ms-appdata:///roaming/Arch.ico",
                 "scrollbarState": "hidden"
             },
@@ -43,10 +43,28 @@
                 "scrollbarState": "hidden"
             },
             {
+                "name": "Fedora",
+                "guid": "{d3f31bee-5823-5ed8-8e04-f31ed54f2cd9}",
+                "source": "Windows.Terminal.Wsl",
+                "startingDirectory": "//wsl$/fedoraremix/home/%USERNAME%",
+                "icon": "ms-appdata:///roaming/Fedora.ico",
+                "scrollbarState": "hidden"
+            },
+            {
                 "name": "Ubuntu",
                 "guid": "{d1569d34-e3dc-506e-b3ef-3ca18387f714}",
                 "source": "Windows.Terminal.Wsl",
+                "startingDirectory": "//wsl$/Ubuntu-CommPrev/home/%USERNAME%",
                 "icon": "ms-appdata:///roaming/Ubuntu.png",
+                "colorScheme": "Ubuntu",
+                "tabColor": "#300a24",
+                "fontFace": "Ubuntu Mono"
+            },
+            {
+                "name": "Multipass",
+                "guid": "{aaaa9e6d-1e09-4be6-b76c-82b4ba1885fb}",
+                "commandline": "multipass.exe shell",
+                "icon": "%PROGRAMFILES%/Multipass/bin/multipass_wt.ico",
                 "colorScheme": "Ubuntu",
                 "tabColor": "#300a24",
                 "fontFace": "Ubuntu Mono"
@@ -66,9 +84,9 @@
             {
                 "name": "Git Bash",
                 "guid": "{c8159a47-0fa3-4d30-b653-b3bdeb98f6b3}",
-                "commandline": "%PROGRAMFILES%\\Git\\bin\\bash.exe -li",
+                "commandline": "%PROGRAMFILES%/Git/bin/bash.exe -li",
                 "startingDirectory": "%USERPROFILE%",
-                "icon": "%PROGRAMFILES%\\Git\\mingw64\\share\\git\\git-for-windows.ico",
+                "icon": "%PROGRAMFILES%/Git/mingw64/share/git/git-for-windows.ico",
                 "colorScheme": "Campbell",
                 "tabColor": "#0c0c0c"
             },
@@ -80,15 +98,6 @@
                 "startingDirectory": "%USERPROFILE%",
                 "colorScheme": "Campbell Powershell",
                 "tabColor": "#012456"
-            },
-            {
-                "name": "Multipass",
-                "guid": "{aaaa9e6d-1e09-4be6-b76c-82b4ba1885fb}",
-                "commandline": "multipass.exe shell",
-                "icon": "%PROGRAMFILES%\\Multipass\\bin\\multipass_wt.ico",
-                "colorScheme": "Ubuntu",
-                "tabColor": "#300a24",
-                "fontFace": "Ubuntu Mono"
             }
         ]
     },
