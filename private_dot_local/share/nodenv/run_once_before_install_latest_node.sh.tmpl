@@ -8,7 +8,7 @@ export PATH="$NODENV_ROOT/shims:$NODENV_ROOT/bin:$PATH"
 
 NODEJS_VERSION=$(curl -sS https://nodejs.org/dist/index.tab | awk -F '\t' 'FNR > 1 { if ($10 != "-") { print $1 } }' | {{ template "latestversion.sh" }})
 if ! nodenv versions --bare | grep -Fxq "$NODEJS_VERSION"; then
-  important "Installing Node.js $NODEJS_VERSION..."
+  echo "Installing Node.js $NODEJS_VERSION..."
   NODENV_VERSION=system nodenv install -s "$NODEJS_VERSION"
   nodenv global "$NODEJS_VERSION"
 fi
