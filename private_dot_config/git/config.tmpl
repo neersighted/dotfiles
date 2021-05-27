@@ -19,11 +19,15 @@
 #
 
 [core]
+{{- if lookPath "git-editor" }}
 	editor = git-editor
+{{- end }}
+{{- if lookPath "delta" }}
 	pager = delta
-{{ if eq .chezmoi.os "windows" }}
+{{- end }}
+{{- if eq .chezmoi.os "windows" }}
 	autocrlf = false
-{{ end }}
+{{- end }}
 [pull]
 	ff = only
 	rebase = true
@@ -40,16 +44,20 @@
 	algorithm = patience
 	colorMoved = default
 	mnemonicprefix = true
+{{- if lookPath "nvr" }}
 	tool = nvr
 [merge]
 	tool = nvr
+{{- end }}
 [rebase]
 	autoSquash = true
 	autoStash = true
 	stat = true
 
 [interactive]
+{{- if lookPath "delta" }}
 	diffFilter = delta --color-only
+{{- end }}
 	singleKey = true
 {{- if lookPath "interactive-rebase-tool" }}
 [sequence]
