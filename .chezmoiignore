@@ -7,6 +7,7 @@ tags
 {{ if ne .chezmoi.os "windows" }} # ignore windows files on *nix
 AppData
 bin
+Documents
 {{ else }} # ignore *nix files on windows
 .config/*
 !.config/git # ...except git, which stores config files at the same paths
