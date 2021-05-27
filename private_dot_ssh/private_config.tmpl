@@ -1,5 +1,7 @@
 {{- if ne .chezmoi.os "windows" -}}
+{{- if not (env "WSLENV") }}
 Match host * exec "gpg-connect-agent updatestartuptty /bye"
+{{- end }}
 
 Host *
 	ControlMaster auto
