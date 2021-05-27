@@ -27,6 +27,7 @@
 {{- end }}
 {{- if eq .chezmoi.os "windows" }}
 	autocrlf = false
+	sshCommand = "{{ lookPath "ssh.exe" | replace "\\" "/" }}" # use windows ssh.exe
 {{- end }}
 [pull]
 	ff = only
@@ -90,20 +91,26 @@
 # Tools
 #
 
+{{- if lookPath "delta" }}
 [delta]
 	line-numbers = true
 	navigate = true
+{{- end}}
 
+{{- if lookPath "nvr" }}
 [difftool "nvr"]
 	cmd = nvr -s -d $LOCAL $REMOTE
 [mergetool "nvr"]
 	cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
+{{- end }}
 
+{{- if lookPath "git-lfs" }}
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+{{- end }}
 
 #
 # Aliases

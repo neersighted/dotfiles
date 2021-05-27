@@ -1,3 +1,4 @@
+{{- if ne .chezmoi.os "windows" -}}
 Match host * exec "gpg-connect-agent updatestartuptty /bye"
 
 Host *
@@ -6,3 +7,4 @@ Host *
 	ControlPersist 30m
 
 Include ~/.ssh/config.d/*
+{{- end -}}
