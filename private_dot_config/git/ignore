@@ -1,5 +1,6 @@
 
-# Created by https://www.gitignore.io/api/linux,macos,windows,tags,vim
+# Created by https://www.toptal.com/developers/gitignore/api/linux,macos,windows,tags,vim
+# Edit at https://www.toptal.com/developers/gitignore?templates=linux,macos,windows,tags,vim
 
 ### Linux ###
 *~
@@ -17,12 +18,14 @@
 .nfs*
 
 ### macOS ###
-*.DS_Store
+# General
+.DS_Store
 .AppleDouble
 .LSOverride
 
 # Icon must end with two \r
 Icon
+
 
 # Thumbnails
 ._*
@@ -49,9 +52,6 @@ TAGS
 .TAGS
 !TAGS/
 tags
-tags.lock
-tags.temp
-tags.tmp
 .tags
 !tags/
 gtags.files
@@ -66,23 +66,36 @@ cscope.po.out
 
 
 ### Vim ###
-# swap
-.sw[a-p]
-.*.sw[a-p]
-# session
+# Swap
+[._]*.s[a-v][a-z]
+!*.svg  # comment out if you don't need vector files
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# Session
 Session.vim
-# temporary
+Sessionx.vim
+
+# Temporary
 .netrwhist
-# auto-generated tag files
+# Auto-generated tag files
+# Persistent undo
+[._]*.un~
 
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
+Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
 
+# Dump file
+*.stackdump
+
 # Folder config file
-Desktop.ini
+[Dd]esktop.ini
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
@@ -90,11 +103,11 @@ $RECYCLE.BIN/
 # Windows Installer files
 *.cab
 *.msi
+*.msix
 *.msm
 *.msp
 
 # Windows shortcuts
 *.lnk
 
-
-# End of https://www.gitignore.io/api/linux,macos,windows,tags,vim
+# End of https://www.toptal.com/developers/gitignore/api/linux,macos,windows,tags,vim
