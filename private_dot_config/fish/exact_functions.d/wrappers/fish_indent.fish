@@ -1,4 +1,3 @@
-# Defined in /tmp/fish.wIEKuM/fish_indent.fish @ line 1
 function fish_indent
   # export color variables for syntax highlighting
   for color in $fish_colors
@@ -7,3 +6,4 @@ function fish_indent
 
   command fish_indent $argv
 end
+

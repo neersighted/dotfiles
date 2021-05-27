@@ -1,6 +1,6 @@
 {{- if lookPath "fzf" -}}
 function fzf
-  if is_tmux
+  if is_tmux; and not is_editor
     fzf-tmux $FZF_TMUX_DEFAULT_OPTS -- $argv
   else
     command fzf $argv
