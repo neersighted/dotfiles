@@ -6,7 +6,7 @@ sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.re
 
 echo "Installing packages with DNF..."
 sudo dnf group install -y "C Development Tools and Libraries" "Development Tools" "Development Libraries"
-sudo dnf install -y \
+sudo dnf install --skip-broken -y \
   {{/* Development Tools */ -}}
   ccache \
   clang \
