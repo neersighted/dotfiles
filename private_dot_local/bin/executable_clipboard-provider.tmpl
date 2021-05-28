@@ -75,7 +75,7 @@ function desktop-provider
 end
 
 function wsl-provider -a op
-{{- if env "WSLENV" }}
+{{- if .wsl }}
 {{-   if lookPath "win32yank.exe" }}
   switch $op
     case copy; spit | win32yank.exe -i --crlf
