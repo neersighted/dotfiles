@@ -1,3 +1,22 @@
+{{/* environment/hardware tags */}}
+{{- $codespaces := false }}{{/* github codespaces/vscode devcontainer */}}
+{{- $wsl        := false }}{{/* wsl 1/2 */}}
+{{- $wsl1       := false }}{{/* wsl 1 */}}
+{{- $wsl2       := false }}{{/* wsl 2 */}}
+
+{{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") -}}
+{{- $codespaces = true -}}
+{{- end -}}
+{{- if (env "WSLENV") -}}
+{{- $wsl = true -}}
+{{- end -}}
+{{- if and $wsl (env "WSL_INTEROP" | not) -}}
+{{- $wsl1 = true -}}
+{{- end -}}
+{{- if and $wsl (env "WSL_INTEROP") -}}
+{{- $wsl2 = true -}}
+{{- end -}}
+
 {{/* boolean feature tags */}}
 {{- $headless  := false -}}{{/* no graphical interface */}}
 {{- $transient := false -}}{{/* temporary machine (VM/cloud instances/container) */}}
@@ -18,23 +37,22 @@
 {{-   $ruby      = .ruby -}}
 {{-   $rust      = .rust -}}
 {{- else -}}
-{{/* first-time setup */}}
 
-{{/* codespaces detection */}}
-{{-   if or (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") -}}
+{{/* preset detection */}}
+{{-   if $codespaces -}}
 {{-     $headless  = true -}}
 {{-     $transient = true -}}
 {{-   end -}}
+{{-   if $wsl -}}
+{{-     $headless  = true -}}
+{{-   end -}}
 
 {{/* base configration */}}
-{{-   if not $transient -}}
-{{-     if stdinIsATTY -}}
-{{-       $headless  = promptBool "headless" -}}
+{{-   if and (not $headless) (stdinIsATTY) -}}
+{{-       $headless = promptBool "headless" -}}
+{{-   end -}}
+{{-   if and (not $transient) (stdinIsATTY) -}}
 {{-       $transient = promptBool "transient" -}}
-{{-     else -}}
-{{-       $headless  = true -}}
-{{-       $transient = true -}}
-{{-     end -}}
 {{-   end -}}
 
 {{/* interactive-only configuration */}}
@@ -68,6 +86,12 @@ remove = true
 
 [data]
     configured = true
+
+    codespaces = {{ $codespaces }}
+    wsl        = {{ $wsl }}
+    wsl1       = {{ $wsl1 }}
+    wsl2       = {{ $wsl2 }}
+
     headless   = {{ $headless }}
     transient  = {{ $transient }}
     dotnet     = {{ $dotnet }}
