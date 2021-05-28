@@ -1,31 +1,25 @@
 #!/bin/sh -e
 
-# base
-if [ -z "$LANG" ] || [ "$LANG" = C.UTF-8 ]; then
-  export LANG="en_US.UTF-8"
-fi
-if [ -z "$XDG_CONFIG_HOME" ]; then
-  export XDG_CONFIG_HOME="$HOME/.config"
-fi
-if [ -z "$XDG_DATA_HOME" ]; then
-  export XDG_DATA_HOME="$HOME/.local/share"
-fi
-if [ -z "$XDG_CACHE_HOME" ]; then
-  export XDG_CACHE_HOME="$HOME/.cache"
-fi
-
-if [ ! "$(command -v fetch)" ]; then
-  fetch() {
-    curl -sSfL "$@"
-  }
-fi
-
 if [ ! "$(command -v chezmoi)" ]; then
-  bin_dir="${XDG_BIN_HOME:-${HOME}/.local/bin}"
+  bin_dir="${XDG_BIN_HOME:-$HOME/.local/bin}"
   chezmoi="$bin_dir/chezmoi"
-  fetch -o - https://git.io/chezmoi | sh -s -- -b "$bin_dir"
+  if [ "$(command -v curl)" ]; then
+    curl -sSfL https://git.io/chezmoi | sh -s -- -b "$bin_dir"
+  elif [ "$(command -v fetch)" ]; then
+    fetch -o - https://git.io/chezmoi | sh -s -- -b "$bin_dir"
+  elif [ "$(command -v wget)" ]; then
+    wget -qO- https://git.io/chezmoi | sh -s -- -b "$bin_dir"
+  else
+    echo "To install chezmoi, you must have curl, fetch, or wget installed." >&2
+    exit 1
+  fi
 else
   chezmoi=chezmoi
+fi
+
+script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
+if [ -e "$script_dir/.git" ]; then
+  source_dir="$script_dir" # re-use a cloned source dir if it exists
 fi
 
 stdin='/dev/null'
@@ -33,6 +27,6 @@ if [ "$(ps otty= $$)" != '?' ]; then
   stdin='/dev/tty' # connect chezmoi to the tty when available
 fi
 
-exec $chezmoi init --apply --remove "$@" neersighted <$stdin
+$chezmoi init --apply ${source_dir:+--source="$source_dir"} "$@" neersighted <$stdin
 
 echo "Bootstrap complete! Restart your shell and run 'chezmoi apply' for stage 2!"

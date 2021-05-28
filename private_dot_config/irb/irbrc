@@ -1,2 +1,4 @@
+XDG_DATA_HOME = ENV.has_key?("XDG_DATA_HOME") ? ENV["XDG_DATA_HOME"] : File.join(Dir.home, ".local", "share")
+
 IRB.conf[:SAVE_HISTORY] ||= 1000
-IRB.conf[:HISTORY_FILE] ||= File.join(ENV["XDG_DATA_HOME"], "irb", "history")
+IRB.conf[:HISTORY_FILE] ||= File.join(XDG_DATA_HOME, "irb", "history")

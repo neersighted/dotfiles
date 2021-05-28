@@ -63,6 +63,7 @@
 {{-   $dotnet = false -}}{{/* always disable dotnet on freebsd */}}
 {{- end -}}
 
+sourceDir = {{ .chezmoi.sourceDir | quote }}
 remove = true
 
 [data]
