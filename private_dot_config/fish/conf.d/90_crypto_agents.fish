@@ -10,6 +10,8 @@ if is_wsl
     end
   else if is_wsl2
     function is_listening -a path
+      test -S $path; or return 1
+
       set -q __netstat; or set -g __netstat (ss --family=unix --listening)
 
       string match -rq $path $__netstat
