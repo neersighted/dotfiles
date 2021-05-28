@@ -19,7 +19,7 @@ if [ -z "$(find "$RUSTUP_HOME/toolchains" -maxdepth 1 -name "stable-*" -print -q
   done
 fi
 
-installed=$(cargo install --list | grep -o '^\S\+')
+installed=$(cargo install --list | { grep -o '^\S\+' || true; })
 for addon in binutils bloat edit expand outdated sweep update watch; do
   if ! echo "$installed" | grep -wq $addon; then
     wanted="$addon $wanted"
