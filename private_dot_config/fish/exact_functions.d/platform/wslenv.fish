@@ -1,17 +1,17 @@
 is_wsl; or exit
 
+set --path WSLENV $WSLENV
+
 function wslenv
-  set -a options 'p/path' 'l/list'
+  set -a options (fish_opt --short=p --long=path)
+  set -a options (fish_opt --short=l --long=list)
 
   argparse $options -- $argv; or return
-  set -q argv[1]; or return
-
-  set name $argv[1]
-
+  set -q argv[1]; and set name $argv[1]; or return
   set -q _flag_p; and set -a flags p
   set -q _flag_l; and set -a flags l
 
-  if test -n "$flags"
+  if set -q flags
     set fullname (printf '%s/%s' $name (string join '' $flags))
   else
     set fullname $name
@@ -36,6 +36,6 @@ function wslenv
       set -gx $name $value
     end
 
-    printf '%s imported: add to $WSLENV for faster startup\n' $fullname
+    printf 'wslenv: %s imported (add it to $WSLENV for faster startup)\n' $fullname
   end
 end

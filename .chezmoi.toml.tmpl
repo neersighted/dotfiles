@@ -7,7 +7,7 @@
 {{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") -}}
 {{- $codespaces = true -}}
 {{- end -}}
-{{- if (env "WSLENV") -}}
+{{- if (env "WSL_DISTRO_NAME") -}}
 {{- $wsl = true -}}
 {{- end -}}
 {{- if and $wsl (env "WSL_INTEROP" | not) -}}
