@@ -7,7 +7,7 @@ int main(void) {
   setbuf(stdout, NULL);
 
   if (signal(SIGHUP, SIG_IGN) != SIG_DFL) {
-    perror("signal(SIGHUP)");
+    perror("signal(SIGHUP, IGN)");
     return 1;
   }
 

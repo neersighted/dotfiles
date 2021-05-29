@@ -7,7 +7,9 @@ function tgdb -d 'tmux-enabled gdb'
 
     gdb -x $XDG_CONFIG_HOME/tgdb/gdbinit -tty $inferior_tty -ex 'dashboard -output '$dashboard_tty -ex 'dashboard source -output '$source_tty -ex 'dashboard assembly -output '$assembly_tty -ex 'start' -quiet $argv
 
-    tmux kill-window
+    for pid in (tmux list-panes -F '#{pane_pid}')
+      kill $pid
+    end
   else
     is_tmux; and set cmd new-window; or set cmd new
     tmux $cmd -n tgdb -e INNER=1 -- tgdb $argv
