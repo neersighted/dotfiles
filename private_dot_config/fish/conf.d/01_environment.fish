@@ -38,7 +38,6 @@ end
 if is_wsl
   wslenv -p APPDATA
   wslenv -p LOCALAPPDATA
-  wslenv foo
   set -x BROWSER 'wslview'
 
   if is_wsl1

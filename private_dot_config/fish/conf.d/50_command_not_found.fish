@@ -1,8 +1,4 @@
-if test -x /usr/lib/command-not-found # Generic
-  function fish_command_not_found -a cmd
-    /usr/lib/command-not-found -- $cmd
-  end
-else if command -q pacman # Arch
+if command -q pacman # Arch
   function fish_command_not_found -a cmd
     __fish_default_command_not_found_handler $cmd
 
