@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 {{if lookPath "go" }}
-  {{ if not (lookPath "shfmt") }}}
+  {{ if not (lookPath "shfmt") }}
 echo "Installing shfmt..."
 go get "mvdan.cc/sh/v3/cmd/shfmt"
   {{ end }}
