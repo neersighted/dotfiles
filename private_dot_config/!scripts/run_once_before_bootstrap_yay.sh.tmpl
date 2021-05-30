@@ -8,7 +8,7 @@ echo "Bootstrapping yay..."
 YAY="${TMPDIR:-/tmp}/yay"
 trap 'rm -rf $YAY' EXIT
 
-git clone https://aur.archlinux.org/yay.git "$YAY"
+git clone https://aur.archlinux.org/yay-bin.git "$YAY"
 cd "$YAY" || exit
 makepkg -si --noconfirm
 
