@@ -1,10 +1,10 @@
-{{- if lookPath "yay" -}}
-function yay
+{{- if lookPath "paru" -}}
+function paru
   set -x GOENV_VERSION system
   set -x NODENV_VERSION system
   set -x PYENV_VERSION system
   set -x RBENV_VERSION system
 
-  command yay $argv
+  command paru $argv
 end
 {{- end -}}

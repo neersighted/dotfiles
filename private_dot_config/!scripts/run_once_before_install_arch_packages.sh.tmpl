@@ -7,8 +7,8 @@ export GOENV_VERSION=system \
        PYENV_VERSION=system \
        RBENV_VERSION=system
 
-echo "Installing packages with Yay..."
-yay -Sy --needed --mflags '--skippgpcheck' --noconfirm \
+echo "Installing packages with paru..."
+paru -Sy --needed --mflags '--skippgpcheck' --noconfirm \
   {{/* Development Tools */ -}}
   base-devel \
   ccache \
