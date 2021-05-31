@@ -21,9 +21,21 @@ dashboard variables -style align True
 dashboard variables -style compact False
 dashboard variables -style sort True
 
+# show registers by column
+dashboard registers -style column-major True
+
 # use full height
 dashboard assembly -style height 0
 dashboard source -style height 0
 
 # use shell-builtin syntax highlighting
 dashboard -style syntax_highlighting 'native'
+
+# turn off confirmation
+set confirm off
+
+# allow pending breakpoints
+set breakpoint pending on
+
+# use intel disassembly
+set disassembly-flavor intel

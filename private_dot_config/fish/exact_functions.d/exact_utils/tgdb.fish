@@ -1,5 +1,5 @@
 function tgdb -d 'tmux-enabled gdb(-dashboard)'
-  if set -qx INNER
+  if set -qx TGDB_INNER
     set inferior_tty (tmux split-window -d -PF '#{pane_tty}' -bh -- 'exec disowntty')
     set dashboard_tty (tmux split-window -d -PF '#{pane_tty}' -bv -l 66% -t '{right}' -- 'exec disowntty')
     set source_tty (tmux split-window -d -PF '#{pane_tty}' -bv -l 66% -t '{left}' -- 'exec disowntty')
@@ -17,6 +17,6 @@ function tgdb -d 'tmux-enabled gdb(-dashboard)'
     end
   else
     is_tmux; and set cmd new-window; or set cmd new-session
-    tmux $cmd -n tgdb -e INNER=1 -- tgdb $argv
+    tmux $cmd -n tgdb -e TGDB_INNER=1 -- tgdb $argv
   end
 end
