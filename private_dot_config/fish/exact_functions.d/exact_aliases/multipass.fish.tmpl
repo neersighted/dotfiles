@@ -1,4 +1,4 @@
-{{- if lookPath "multipass.exe" -}}
+{{- if and .wsl (lookPath "multipass.exe") -}}
 function multipass -w multipass.exe
   multipass.exe $argv
 end
