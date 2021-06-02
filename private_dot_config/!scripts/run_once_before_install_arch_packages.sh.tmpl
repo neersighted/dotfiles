@@ -8,7 +8,7 @@ export GOENV_VERSION=system \
        RBENV_VERSION=system
 
 echo "Installing packages with paru..."
-paru -Sy --needed --mflags '--skippgpcheck' --noconfirm \
+paru -Sy --needed --noconfirm \
   {{/* Development Tools */ -}}
   base-devel \
   ccache \
@@ -51,6 +51,7 @@ paru -Sy --needed --mflags '--skippgpcheck' --noconfirm \
   git-interactive-rebase-tool \
   git-lfs \
   github-cli \
+  handlr-bin \
   hexyl \
   htop \
   hyperfine \
@@ -65,6 +66,8 @@ paru -Sy --needed --mflags '--skippgpcheck' --noconfirm \
   mosh \
   mycli \
   neovim \
+  pacman-contrib \
+  paru-bin \
   perf \
   net-tools \
   perl-file-mimeinfo \
@@ -83,7 +86,7 @@ paru -Sy --needed --mflags '--skippgpcheck' --noconfirm \
   vivid \
   watchexec \
   whois \
-  xdg-utils \
+  xdg-utils-handlr \
   zoxide-bin
 
 # vi: ft=sh
