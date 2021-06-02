@@ -13,8 +13,8 @@ gdb.execute(f"set history filename {XDG_DATA_HOME}/gdb/history")
 gdb.execute(f"source {XDG_DATA_HOME}/gdb-dashboard/.gdbinit")
 end
 
-# custom layout
-dashboard -layout assembly source registers memory threads stack variables expressions breakpoints history
+# tweak module order
+dashboard -layout source assembly breakpoints registers memory threads stack variables expressions history
 
 # make variables readable
 dashboard variables -style align True
@@ -39,10 +39,10 @@ dashboard -style syntax_highlighting 'native'
 
 # commands to toggle inline/expanded display of values
 define expand
-    dashboard -style compact_values False
+  dashboard -style compact_values False
 end
-define pack
-    dashboard -style compact_values True
+define compact
+  dashboard -style compact_values True
 end
 # ...and default to expanded values
 expand
@@ -58,3 +58,17 @@ set disassembly-flavor intel
 
 # make sure we're pretty printing
 set print pretty on
+
+# add hooks to refresh the dashboard more often
+define hookpost-up
+  dashboard
+end
+define hookpost-down
+  dashboard
+end
+define hookpost-frame
+  dashboard
+end
+define hookpost-print
+  dashboard
+end

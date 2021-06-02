@@ -1,9 +1,12 @@
 function tgdb -d 'tmux-enabled gdb(-dashboard)'
   if set -qx TGDB_INNER
-    set inferior_tty (tmux split-window -d -PF '#{pane_tty}' -bh -- 'exec disowntty')
-    set dashboard_tty (tmux split-window -d -PF '#{pane_tty}' -bv -l 66% -t '{right}' -- 'exec disowntty')
-    set source_tty (tmux split-window -d -PF '#{pane_tty}' -bv -l 66% -t '{left}' -- 'exec disowntty')
-    set assembly_tty (tmux split-window -d -PF '#{pane_tty}' -bv -t '{top-left}' -- 'exec disowntty')
+    set assembly_tty (tmux split-window -d -PF '#{pane_tty}' -bh -l 69 -- 'exec disowntty')
+    set breakpoint_tty (tmux split-window -d -PF '#{pane_tty}' -v -l 66% -t '{top-left}' -- 'exec disowntty')
+    set memreg_tty (tmux split-window -d -PF '#{pane_tty}' -bv -l 66% -t '{bottom-left}' -- 'exec disowntty')
+    set source_tty (tmux split-window -d -PF '#{pane_tty}' -bv -l 66% -t '{right}' -- 'exec disowntty')
+    set inferior_tty (tmux split-window -d -PF '#{pane_tty}' -h -l 50% -t '{bottom-right}' -- 'exec disowntty')
+    set backtrace_tty (tmux split-window -d -PF '#{pane_tty}' -h -l 34% -t '{top-right}' -- 'exec disowntty')
+    set varexp_tty (tmux split-window -d -PF '#{pane_tty}' -bv -l 50% -t '{top-right}' -- 'exec disowntty')
 
     function __tgdb_rust
       command -q rustc; or return
@@ -42,9 +45,16 @@ function tgdb -d 'tmux-enabled gdb(-dashboard)'
        -x $XDG_CONFIG_HOME/tgdb/gdbinit \
        $rust_args \
        $python_args \
-       -ex "dashboard -output $dashboard_tty" \
-       -ex "dashboard source -output $source_tty" \
        -ex "dashboard assembly -output $assembly_tty" \
+       -ex "dashboard breakpoints -output $breakpoint_tty" \
+       -ex "dashboard expressions -output $varexp_tty" \
+       -ex "dashboard history -output $varexp_tty" \
+       -ex "dashboard memory -output $memreg_tty" \
+       -ex "dashboard registers -output $memreg_tty" \
+       -ex "dashboard source -output $source_tty" \
+       -ex "dashboard stack -output $backtrace_tty" \
+       -ex "dashboard threads -output $backtrace_tty" \
+       -ex "dashboard variables -output $varexp_tty" \
        -ex 'start' -quiet $argv
 
     # mop up 'disowntty' instances
