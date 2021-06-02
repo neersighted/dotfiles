@@ -21,6 +21,12 @@ dashboard variables -style align True
 dashboard variables -style compact False
 dashboard variables -style sort True
 
+# align expressions
+dashboard expressions -style align True
+
+# sort the stack
+dashboard stack -style sort True
+
 # show registers by column
 dashboard registers -style column-major True
 
@@ -31,6 +37,16 @@ dashboard source -style height 0
 # use shell-builtin syntax highlighting
 dashboard -style syntax_highlighting 'native'
 
+# commands to toggle inline/expanded display of values
+define expand
+    dashboard -style compact_values False
+end
+define pack
+    dashboard -style compact_values True
+end
+# ...and default to expanded values
+expand
+
 # turn off confirmation
 set confirm off
 
@@ -39,3 +55,6 @@ set breakpoint pending on
 
 # use intel disassembly
 set disassembly-flavor intel
+
+# make sure we're pretty printing
+set print pretty on

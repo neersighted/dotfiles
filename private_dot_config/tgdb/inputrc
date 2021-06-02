@@ -1,0 +1,7 @@
+$include /etc/inputrc
+
+"\e[1;3A": "\C-a\C-kserver dashboard source scroll -1\n\C-y"
+"\e[1;3B": "\C-a\C-kserver dashboard source scroll +1\n\C-y"
+"\e[1;3C": "\C-a\C-kserver dashboard assembly scroll +1\n\C-y"
+"\e[1;3D": "\C-a\C-kserver dashboard assembly scroll -1\n\C-y"
+"\el": "\C-a\C-kserver dashboard source scroll\nserver dashboard assembly scroll\n\C-y"
