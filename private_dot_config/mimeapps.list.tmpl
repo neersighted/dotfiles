@@ -1,0 +1,7 @@
+[Added Associations]
+
+[Default Applications]
+{{- if .wsl }}
+x-scheme-handler/http=/usr/share/wslu/wslview.desktop;
+x-scheme-handler/https=/usr/share/wslu/wslview.desktop;
+{{ end -}}
