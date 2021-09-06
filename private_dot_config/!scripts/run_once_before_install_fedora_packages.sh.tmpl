@@ -1,4 +1,5 @@
-{{- if eq (index .chezmoi.osRelease "idLike") "fedora" -}}
+{{- if hasKey .chezmoi.osRelease "idlike" -}}
+{{- if eq .chezmoi.osRelease.idLike "fedora" -}}
 #!/bin/sh -e
 
 echo "Adding custom DNF repos..."
@@ -85,4 +86,5 @@ sudo dnf install --skip-broken -y \
 # watchexec
 
 # vi: ft=sh
+{{- end -}}
 {{- end -}}

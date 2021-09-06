@@ -1,4 +1,5 @@
-{{- if eq (index .chezmoi.osRelease "idLike") "debian" -}}
+{{- if hasKey .chezmoi.osRelease "idlike" -}}
+{{- if eq .chezmoi.osRelease.idLike "debian" -}}
 #!/bin/sh -e
 
 echo "Installing packages with APT..."
@@ -83,4 +84,5 @@ sudo apt-get install -y \
 # watchexec
 
 # vi: ft=sh
+{{- end -}}
 {{- end -}}
