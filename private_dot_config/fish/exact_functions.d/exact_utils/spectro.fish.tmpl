@@ -1,0 +1,6 @@
+{{- if and (lookPath "sox") (lookPath "feh") -}}
+function spectro -d "display spectrogram" -a file
+  sox $file -n spectrogram -x 1600 -Y 900 -o - | feh -
+end
+{{- end -}}
+
