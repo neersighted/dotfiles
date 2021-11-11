@@ -9,6 +9,12 @@ function __venv_auto_activate --on-variable PWD
   __poetry_shell_activate
 end
 
+function __venv_auto_activate_startup --on-event fish_prompt
+  functions -e __venv_auto_activate_startup
+
+  __venv_auto_activate
+end
+
 function __pyenv_virtualenv_activate
   # signal the plugin that we have loaded (and disable outdated prompt support)
   set -x PYENV_VIRTUALENV_INIT 1
