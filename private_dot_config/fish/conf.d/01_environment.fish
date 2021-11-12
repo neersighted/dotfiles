@@ -80,7 +80,6 @@ set -x NPM_CONFIG_STORE_DIR $XDG_CACHE_HOME/pnpm
 set -x PYENV_ROOT $XDG_DATA_HOME/pyenv
 set -x PIPX_HOME $XDG_DATA_HOME/pipx
 set -x PIPX_BIN_DIR $XDG_DATA_HOME/pipx/bin
-set -x POETRY_HOME $XDG_DATA_HOME/pypoetry
 set -x PYLINTHOME $XDG_CACHE_HOME/pylint
 set -x PYTHONSTARTUP $XDG_CONFIG_HOME/python/startup.py
 
@@ -162,7 +161,7 @@ path_prepend PATH $GOBIN $GOENV_ROOT/{shims,bin}
 # nodejs
 path_prepend PATH $NODENV_ROOT/{shims,bin}
 # python
-path_prepend PATH $PIPX_BIN_DIR $POETRY_HOME/bin $PYENV_ROOT/{shims,bin}
+path_prepend PATH $PIPX_BIN_DIR $PYENV_ROOT/{shims,bin}
 # ruby
 path_prepend PATH $RBENV_ROOT/{shims,bin}
 # rust

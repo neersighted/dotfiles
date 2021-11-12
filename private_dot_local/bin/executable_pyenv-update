@@ -7,19 +7,13 @@ set_color normal
 git -C $PYENV_ROOT pull -q
 
 set_color yellow
-echo "Updating Poetry..."
-set_color normal
-
-poetry self update
-
-set_color yellow
-echo "Updating pipx venvs..."
+echo "Updating pipx apps..."
 set_color normal
 
 pipx upgrade-all
 
 set_color yellow
-echo "Updating packages..."
+echo "Updating system packages..."
 set_color normal
 
 # allow running pip on global installations
