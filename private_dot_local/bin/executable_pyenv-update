@@ -20,7 +20,7 @@ set_color normal
 set -eg PIP_REQUIRE_VIRTUALENV
 
 function pip
-  command pyenv exec python -m pip $argv
+  command pyenv exec python -m pip --disable-pip-version-check $argv
 end
 
 for python in (pyenv versions --bare --skip-aliases)
