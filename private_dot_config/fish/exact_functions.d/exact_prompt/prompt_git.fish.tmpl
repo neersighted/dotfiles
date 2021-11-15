@@ -40,7 +40,7 @@ function prompt_git
             set head $line[3]
             if test "$head" = "(detached)"
               set detached true
-              set head (git describe --all --contains HEAD)
+              set head (git describe --all --contains HEAD 2>/dev/null)
               or set head (string sub -l 8 $oid)
             end
           case branch.upstream
