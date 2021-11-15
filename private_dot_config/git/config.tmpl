@@ -116,9 +116,11 @@
 #
 
 [alias]
+	fetch-pr = "!f() { git fetch origin \"pull/$1/head\"; }; f"
 	prune = fetch --prune
+	reset-perms = !git diff -p -R | grep -E '^(diff|(old|new) mode)' | git apply
+	showf = show --pretty=fuller
 	stash-all = stash save --include-untracked
-	preset = !git diff -p -R | grep -E '^(diff|(old|new) mode)' | git apply
 
 #
 # Colors
