@@ -7,8 +7,9 @@ if not functions -q fisher
   set_color normal
 
   curl -sSL https://git.io/fisher | source
-  fisher update
 end
+
+fisher update
 
 # run_once hash: {{ include "private_dot_config/fish/fish_plugins" | sha256sum }}
 # vi: ft=fish

@@ -1,0 +1,11 @@
+[".local/bin/git-standup"]
+type = "file"
+executable = true
+url = "https://raw.githubusercontent.com/kamranahmedse/git-standup/master/git-standup"
+refreshPeriod = "168h"
+
+[".local/bin/git-recent"]
+type = "file"
+executable = true
+url = "https://raw.githubusercontent.com/paulirish/git-recent/master/git-recent"
+refreshPeriod = "168h"
