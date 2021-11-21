@@ -12,7 +12,7 @@ Documents
 .config/*
 !.config/git # ...except git, which stores config files at the same paths
 .local
-.gnupg
+.ssh
 {{ end }}
 
 {{ if eq .chezmoi.os "darwin" }} # ignore x11 files on macos

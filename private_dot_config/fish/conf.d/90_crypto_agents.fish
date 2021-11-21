@@ -1,42 +1,21 @@
 is_ssh; and exit
 
 set -q tty; or set tty (tty)
-set -x GPG_TTY $tty
 
-if is_wsl
-  if is_wsl1
-    function is_listening -a path
-      socat -u OPEN:/dev/null UNIX-CONNECT:$path &>/dev/null
-    end
-  else if is_wsl2
-    function is_listening -a path
-      test -S $path; or return 1
+if is_wsl1
+  set -x SSH_AUTH_SOCK $USERPROFILE/wincrypt-wsl.sock
+else if is_wsl2
+  set -x SSH_AUTH_SOCK /tmp/wincrypt-hv.sock
 
-      set -q __netstat; or set -g __netstat (ss --family=unix --listening)
-
-      string match -rq $path $__netstat
-    end
-  end
-
-  # make sure the windows gpg-agent is up
-  setsid -f gpg-connect-agent.exe /bye &>/dev/null
-
-  # connect ssh to windows gpg-agent via wsl2-ssh-pageant
-  set -x SSH_AUTH_SOCK $HOME/.ssh/ssh-agent.sock
-  if not is_listening $SSH_AUTH_SOCK
+  if not string match -rq $SSH_AUTH_SOCK (ss --family=unix --listening)
     rm -f $SSH_AUTH_SOCK
-    setsid -f socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:'wsl2-ssh-pageant.exe' &>/dev/null
+    setsid -f socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork SOCKET-CONNECT:40:0:x0000x33332222x02000000x00000000 &>/dev/null
   end
+else
+  set sockets $XDG_RUNTIME_DIR/var/run/yubikey-agent.sock
+  is_macos; and set sockets -a (brew --prefix)/var/run/yubikey-agent.sock
 
-  # connect gpg to windows gpg-agent via wsl2-ssh-pageant
-  if not is_listening $GNUPGHOME/S.gpg-agent
-    rm -f $GNUPGHOME/S.gpg-agent
-    setsid -f socat UNIX-LISTEN:$GNUPGHOME/S.gpg-agent,fork EXEC:'wsl2-ssh-pageant.exe --gpg S.gpg-agent' &>/dev/null
+  for sock in $sockets
+    test -S $sock; and set -x SSH_AUTH_SOCK $sock
   end
-
-  set -eg __netstat
-  functions -e is_listening
-else if not string match -rq 'S.gpg-agent.ssh$' $SSH_AUTH_SOCK
-  # plumb ssh to gpg-agent
-  set -x SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 end

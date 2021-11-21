@@ -44,6 +44,7 @@ end
 if is_wsl
   wslenv -p APPDATA
   wslenv -p LOCALAPPDATA
+  wslenv -p USERPROFILE
   set -x BROWSER 'wslview'
 
   if is_wsl1
@@ -108,9 +109,6 @@ set -x HISTFILE $XDG_DATA_HOME/bash/history
 
 # ccache
 set -x CCACHE_DIR $XDG_CACHE_HOME/ccache
-
-# gnupg
-set -x GNUPGHOME $HOME/.gnupg
 
 # homebrew
 is_macos; and set -x HOMEBREW_BUNDLE_FILE $XDG_CONFIG_HOME/brew/Brewfile

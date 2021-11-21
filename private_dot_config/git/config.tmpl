@@ -5,7 +5,6 @@
 [user]
 	name = {{ .user.name }}
 	email = {{ .user.email }}
-	signingKey = {{ .user.gpgkey }}
 [credential]
 	username = {{ .chezmoi.username }}
 	{{ if eq .chezmoi.os "linux" }}
