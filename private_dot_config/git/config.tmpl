@@ -29,7 +29,7 @@
 	sshCommand = "{{ lookPath "ssh.exe" | replace "\\" "/" }}" # use windows ssh.exe
 {{- end }}
 [pull]
-	ff = only
+	ff = true
 	rebase = true
 [push]
 	default = current
@@ -47,6 +47,7 @@
 {{- if lookPath "nvr" }}
 	tool = nvr
 [merge]
+	ff = only
 	tool = nvr
 {{- end }}
 [rebase]
