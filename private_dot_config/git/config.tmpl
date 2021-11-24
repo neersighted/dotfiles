@@ -26,7 +26,7 @@
 {{- end }}
 {{- if eq .chezmoi.os "windows" }}
 	autocrlf = false
-	sshCommand = "{{ lookPath "ssh.exe" | replace "\\" "/" }}" # use windows ssh.exe
+	sshCommand = "{{ lookPath "ssh.exe" | osClean }}" # use windows ssh.exe
 {{- end }}
 [pull]
 	ff = true
@@ -36,7 +36,7 @@
 
 [init]
 	defaultBranch = main
-	templateDir = {{ .chezmoi.homeDir }}/.config/git/templates
+	templateDir = "{{ print .chezmoi.homeDir "/.config/git/templates" | osClean }}"
 [commit]
 	verbose = true
 
