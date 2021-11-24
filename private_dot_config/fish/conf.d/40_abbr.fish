@@ -35,3 +35,7 @@ abbr -q grc; or abbr -a -- grc 'gh repo clone'
 # tmux
 abbr -q tdp; or abbr -a -- tdp 'tmux display-message -p'
 abbr -q tso; or abbr -a -- tso 'tmux source-file'
+
+# clipboard-provider
+abbr -q clipc; or abbr -a -- clipc 'clipboard-provider copy'
+abbr -q clipp; or abbr -a -- clipp 'clipboard-provider paste'
