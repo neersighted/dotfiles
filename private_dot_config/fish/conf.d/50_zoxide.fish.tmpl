@@ -1,3 +1,6 @@
 {{- if lookPath "zoxide" -}}
+if fish_is_root_user
+  set -x _ZO_DATA_DIR ~root/.local/share/zoxide
+end
 {{ output "zoxide" "init" "fish" }}
 {{- end -}}
