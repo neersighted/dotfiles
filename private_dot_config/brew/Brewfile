@@ -8,7 +8,6 @@ tap "homebrew/command-not-found"
 tap "homebrew/core"
 tap "homebrew/services"
 tap "beeftornado/rmtree"
-tap "filippo.io/age", "https://filippo.io/age"
 
 # Development Tools
 brew "ccache"
