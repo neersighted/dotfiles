@@ -9,6 +9,10 @@ abbr -q cap; or abbr -a -- cap 'chezmoi apply'
 abbr -q ced; or abbr -a -- ced 'chezmoi edit'
 abbr -q cup; or abbr -a -- cup 'chezmoi update'
 
+# clipboard-provider
+abbr -q clipc; or abbr -a -- clipc 'clipboard-provider copy'
+abbr -q clipp; or abbr -a -- clipp 'clipboard-provider paste'
+
 # fisher
 abbr -q fad; or abbr -a -- fad 'fisher install'
 abbr -q fls; or abbr -a -- fls 'fisher list'
@@ -32,10 +36,9 @@ abbr -q gsw; or abbr -a -- gsw 'git switch'
 abbr -q gpc; or abbr -a -- gpc 'gh pr create'
 abbr -q grc; or abbr -a -- grc 'gh repo clone'
 
+# gpg
+abbr -q gpgt; or abbr -a -- gpgt 'set -x GPG_TTY (tty); gpg-connect-agent UPDATESTARTUPTTY /bye'
+
 # tmux
 abbr -q tdp; or abbr -a -- tdp 'tmux display-message -p'
 abbr -q tso; or abbr -a -- tso 'tmux source-file'
-
-# clipboard-provider
-abbr -q clipc; or abbr -a -- clipc 'clipboard-provider copy'
-abbr -q clipp; or abbr -a -- clipp 'clipboard-provider paste'

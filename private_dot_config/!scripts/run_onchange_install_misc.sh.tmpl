@@ -16,6 +16,10 @@ go get "mvdan.cc/xurls/v2/cmd/xurls"
 echo "Installing gdbgui..."
 pipx install "gdbgui"
   {{ end }}
+  {{ if not (lookPath "git-imerge") }}
+echo "Installing git-imerge..."
+pipx install "git-imerge"
+  {{ end }}
 {{ end }}
 
 # vi: ft=sh
