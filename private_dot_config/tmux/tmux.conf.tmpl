@@ -15,7 +15,7 @@ set -s extended-keys on # support xterm-style extended keys (CSI u)
 # Windows
 set -g base-index 1 # number windows from 1
 set -g set-titles on # pass titles to parent terminal
-set -g set-titles-string '#{pane_title}' # minimal title string
+set -g set-titles-string 'tmux: #{session_name}' # minimal title string
 set -g monitor-activity on # monitor background activity
 set -g history-limit 100000 # store 100k lines of history
 
