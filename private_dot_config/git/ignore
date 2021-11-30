@@ -1,19 +1,41 @@
+### IDEs ###
+.idea
+.vscode
 
-# Created by https://www.toptal.com/developers/gitignore/api/linux,macos,windows,tags,vim
-# Edit at https://www.toptal.com/developers/gitignore?templates=linux,macos,windows,tags,vim
+### Vim ###
+# Swap
+[._]*.s[a-v][a-z]
+!*.svg  # comment out if you don't need vector files
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# Session
+Session.vim
+Sessionx.vim
+
+# Temporary
+.netrwhist
+# Auto-generated tag files
+.tags
+tags
+!tags/
+tags.lock
+tags.tmp
+# Persistent undo
+[._]*.un~
 
 ### Linux ###
-*~
 
+# swapfiles
+*~
 # temporary files which can be created if a process still has a handle open of a deleted file
 .fuse_hidden*
-
 # KDE directory preferences
 .directory
-
 # Linux trash folder which might appear on any partition or disk
 .Trash-*
-
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
@@ -23,9 +45,7 @@
 .AppleDouble
 .LSOverride
 
-# Icon must end with two \r
-Icon
-
+Icon
 
 # Thumbnails
 ._*
@@ -46,46 +66,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-### Tags ###
-# Ignore tags created by etags, ctags, gtags (GNU global) and cscope
-TAGS
-.TAGS
-!TAGS/
-tags
-.tags
-!tags/
-gtags.files
-GTAGS
-GRTAGS
-GPATH
-GSYMS
-cscope.files
-cscope.out
-cscope.in.out
-cscope.po.out
-
-
-### Vim ###
-# Swap
-[._]*.s[a-v][a-z]
-!*.svg  # comment out if you don't need vector files
-[._]*.sw[a-p]
-[._]s[a-rt-v][a-z]
-[._]ss[a-gi-z]
-[._]sw[a-p]
-
-# Session
-Session.vim
-Sessionx.vim
-
-# Temporary
-.netrwhist
-# Auto-generated tag files
-tags.lock
-tags.temp
-# Persistent undo
-[._]*.un~
-
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
@@ -101,15 +81,3 @@ ehthumbs_vista.db
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msix
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
-
-# End of https://www.toptal.com/developers/gitignore/api/linux,macos,windows,tags,vim
