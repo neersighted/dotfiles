@@ -28,7 +28,11 @@ function __tmux_session_name
       printf '%s' $tty
     else
       # is a terminal/pty
-      printf '%s' (prompt_hostname)
+      if is_wsl
+        printf '%s' $WSL_DISTRO_NAME
+      else
+        printf '%s' (prompt_hostname)
+      end
     end
   else
     # no nested tmux/tmux in editor
