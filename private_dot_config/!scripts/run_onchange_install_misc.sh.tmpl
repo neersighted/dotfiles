@@ -3,11 +3,11 @@
 {{if lookPath "go" }}
   {{ if not (lookPath "shfmt") }}
 echo "Installing shfmt..."
-go get "mvdan.cc/sh/v3/cmd/shfmt"
+go install "mvdan.cc/sh/v3/cmd/shfmt@latest"
   {{ end }}
   {{ if not (lookPath "xurls") }}
 echo "Installing xurls..."
-go get "mvdan.cc/xurls/v2/cmd/xurls"
+go install "mvdan.cc/xurls/v2/cmd/xurls@latest"
   {{ end }}
 {{ end }}
 

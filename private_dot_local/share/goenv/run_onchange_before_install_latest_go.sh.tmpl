@@ -16,7 +16,7 @@ fi
 
 if [ ! "$(command -v gopls)" ]; then
   echo "Installing gopls..."
-  go get "golang.org/x/tools/gopls@latest"
+  go install "golang.org/x/tools/gopls@latest"
 fi
 
 # run_once hash: {{ output "goenv" "install" "-l" | sha256sum }}

@@ -3,7 +3,7 @@
 {{if lookPath "go" }}
   {{ if not (lookPath "vim-startuptime") }}
 echo "Installing vim-startuptime..."
-go get "github.com/rhysd/vim-startuptime"
+go install "github.com/rhysd/vim-startuptime@latest"
   {{ end }}
 {{ end }}
 
