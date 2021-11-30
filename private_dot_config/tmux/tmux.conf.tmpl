@@ -37,7 +37,7 @@ set -g status-left '#{?client_prefix,#[reverse],} #{session_name}#{?session_many
 set -g status-right '#[#{status-style}] #{window_index}:#{pane_index} (#{session_id} #{window_id} #{pane_id}) #[#{status-right-style}] %I:%M %p '
 
 set -g window-status-format ' (#{window_index}) #{window_name}#{?window_zoomed_flag,+,} '
-set -g window-status-current-format ' [#{window_index}] #{window_name}#{?window_zoomed_flag,+,} '
+set -g window-status-current-format ' [#{window_index}] #{pane_title}#{?window_zoomed_flag,+,} '
 
 #
 # Keybinds
