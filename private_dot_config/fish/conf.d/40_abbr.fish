@@ -42,3 +42,6 @@ abbr -q gpgt; or abbr -a -- gpgt 'set -x GPG_TTY (tty); gpg-connect-agent UPDATE
 # tmux
 abbr -q tdp; or abbr -a -- tdp 'tmux display-message -p'
 abbr -q tso; or abbr -a -- tso 'tmux source-file'
+
+# zoxide
+abbr -q zrm; or abbr -a -- zrm 'zoxide remove'
