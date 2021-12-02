@@ -9,6 +9,6 @@ fi
 echo "Installing packages from Brewfile..."
 brew bundle
 
-# run_once hash: {{ include "private_dot_config/brew/Brewfile" | sha256sum }}
+# run_onchange hash: {{ include "private_dot_config/brew/Brewfile" | sha256sum }}
 # vi: ft=sh
 {{- end -}}

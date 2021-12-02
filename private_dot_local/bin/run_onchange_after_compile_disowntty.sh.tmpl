@@ -3,5 +3,5 @@
 echo "Compiling disowntty..."
 ${CC:-cc} -g 'disowntty.c' -o 'disowntty' 
 
-# run_once hash: {{ include "private_dot_local/bin/disowntty.c" | sha256sum }}
+# run_onchange hash: {{ include "private_dot_local/bin/disowntty.c" | sha256sum }}
 # vi: ft=sh

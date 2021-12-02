@@ -1,4 +1,4 @@
 @echo off
 powershell.exe -File .\bootstrap.ps1
 
-:: run_once hash: {{ include "Documents/WindowsPowerShell/bootstrap.ps1" | sha256sum }}
+:: run_onchange hash: {{ include "Documents/WindowsPowerShell/bootstrap.ps1" | sha256sum }}

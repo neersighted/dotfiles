@@ -19,6 +19,6 @@ if [ ! "$(command -v gopls)" ]; then
   go install "golang.org/x/tools/gopls@latest"
 fi
 
-# run_once hash: {{ output "goenv" "install" "-l" | sha256sum }}
+# run_onchange hash: {{ output "goenv" "install" "-l" | sha256sum }}
 # vi: ft=sh
 {{- end -}}

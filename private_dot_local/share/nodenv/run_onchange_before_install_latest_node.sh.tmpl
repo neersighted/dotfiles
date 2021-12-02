@@ -13,6 +13,6 @@ if ! nodenv versions --bare | grep -Fxq "$NODEJS_VERSION"; then
   nodenv global "$NODEJS_VERSION"
 fi
 
-# run_once hash: {{ output "nodenv" "install" "-l" | sha256sum }}
+# run_onchange hash: {{ output "nodenv" "install" "-l" | sha256sum }}
 # vi: ft=sh
 {{- end -}}

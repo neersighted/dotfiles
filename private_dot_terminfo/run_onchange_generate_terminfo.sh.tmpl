@@ -14,7 +14,7 @@ if ! /usr/bin/infocmp "{{ $term }}" >/dev/null 2>&1; then
     | sed 's/pairs#0x10000/pairs#0x1000/' > "$terminfo"
   /usr/bin/tic -x "$terminfo"
 
-  # run_once hash: {{ output $infocmp $term | sha256sum }}
+  # run_onchange hash: {{ output $infocmp $term | sha256sum }}
 fi
 {{ end }}
 
