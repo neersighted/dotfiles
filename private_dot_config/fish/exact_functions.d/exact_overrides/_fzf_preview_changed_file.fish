@@ -1,4 +1,4 @@
-function __fzf_preview_changed_file
+function _fzf_preview_changed_file
   set git_status (string sub --length 2 $argv[1])
 
   # extract path from renamed files
@@ -17,7 +17,7 @@ function __fzf_preview_changed_file
       git -c color.status=always status --long
     # untracked files: show contents
     case '??'
-      __fzf_preview_file $path
+      _fzf_preview_file $path
     # tracked files: emulate `git status` with `diff` output
     case '*'
       if string match -rq '\S.' $git_status

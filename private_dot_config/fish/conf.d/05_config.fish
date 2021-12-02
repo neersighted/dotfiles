@@ -33,7 +33,7 @@ set fzf_preview_dir_cmd exa --all --classify --color=always
 set fzf_dir_opts \
    --bind 'ctrl-v:execute(command nvim {} >/dev/tty)'
 set fzf_git_status_opts \
-   --preview '__fzf_preview_changed_file {} {2..}'
+   --preview '_fzf_preview_changed_file {} {2..}'
 set fzf_git_log_opts \
    --bind 'ctrl-o:execute-silent(git switch -d {})'
 
