@@ -5,7 +5,7 @@ set -q tty; or set tty (tty)
 if is_wsl1
   set -x SSH_AUTH_SOCK $USERPROFILE/wincrypt-wsl.sock
 else if is_wsl2
-  set -x SSH_AUTH_SOCK /tmp/wincrypt-hv.sock
+  set -x SSH_AUTH_SOCK /mnt/wsl/wincrypt-hv.sock
 
   if not string match -rq $SSH_AUTH_SOCK (ss --family=unix --listening)
     rm -f $SSH_AUTH_SOCK
