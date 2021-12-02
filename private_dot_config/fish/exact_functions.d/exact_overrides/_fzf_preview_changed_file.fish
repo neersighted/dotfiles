@@ -18,6 +18,9 @@ function _fzf_preview_changed_file
     # untracked files: show contents
     case '??'
       _fzf_preview_file $path
+    # deleted files: show previous content
+    case '*D' 'D*'
+      git show HEAD:$path
     # tracked files: emulate `git status` with `diff` output
     case '*'
       if string match -rq '\S.' $git_status
