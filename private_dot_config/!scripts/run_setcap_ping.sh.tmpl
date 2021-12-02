@@ -1,0 +1,9 @@
+{{- $ping := lookPath "ping" -}}
+{{- if and .wsl (not (output "getcap" $ping)) -}}
+#!/bin/sh -e
+
+echo "Adding cap_net_raw to ping..."
+sudo setcap cap_net_raw+p "$(command -v ping)"
+
+# vi: ft=sh
+{{- end -}}
