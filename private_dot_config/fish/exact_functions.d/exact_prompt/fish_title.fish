@@ -7,5 +7,5 @@ function fish_title
     set pwd (prompt_pwd)
   end
 
-  printf '%s: %s' $argv $pwd
+  printf '%s: %s' (string trim $argv) $pwd
 end
