@@ -18,18 +18,3 @@ if [ -z "$(find "$RUSTUP_HOME/toolchains" -maxdepth 1 -name "stable-*" -print -q
     rustup component add "$comp"
   done
 fi
-
-installed=$(cargo install --list | { grep -o '^\S\+' || true; })
-for addon in binutils bloat edit expand outdated sweep update watch; do
-  if ! echo "$installed" | grep -wq $addon; then
-    wanted="$addon $wanted"
-  fi
-done
-if [ -n "$wanted" ]; then
-  echo "Installing Cargo add-ons..."
-  for addon in $wanted; do
-    cargo install "cargo-$addon"
-  done
-fi
-
-# vi: ft=sh
