@@ -107,7 +107,7 @@ if exists('*packager#init')
 endif
 
 function! s:lazy_cmd(cmd, bang, start, end, args)
-    exec printf('%s%s%s %s', (a:start == a:end ? '' : (a:start.','.a:end)), a:cmd, a:bang, a:args)
+    execute printf('%s%s%s %s', (a:start == a:end ? '' : (a:start.','.a:end)), a:cmd, a:bang, a:args)
 endfunction
 
 augroup packager_lazy

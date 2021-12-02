@@ -10,7 +10,9 @@ set hidden " Allow backgrounding dirty buffers.
 
 " Colors
 set termguicolors " Use 24-bit color.
-let g:colors_name = util#has_colorscheme('nord') ? 'nord' : 'default' " Use nord if available.
+if util#has_colorscheme('nord')
+  colorscheme nord
+endif
 
 " Cursor/Movement
 set scrolloff=2 " Keep the cursor two lines from the top/bottom.
