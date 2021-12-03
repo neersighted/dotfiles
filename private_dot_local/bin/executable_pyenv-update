@@ -4,13 +4,20 @@ set_color yellow
 echo "Updating pyenv..."
 set_color normal
 
-git -C $PYENV_ROOT pull -q
+for repo in $PYENV_ROOT $PYENV_ROOT/plugins/*
+  git -C $repo pull -q
+end
 
-set_color yellow
-echo "Updating pipx apps..."
-set_color normal
+set latest (pyenv latest -p)
+set installed (pyenv latest -P)
 
-pipx upgrade-all
+if test "$installed" != "$latest"
+  set_color yellow
+  echo "Installing latest Python..."
+  set_color normal
+
+  pyenv latest install
+end
 
 set_color yellow
 echo "Updating system packages..."
@@ -38,5 +45,3 @@ for python in (pyenv versions --bare --skip-aliases)
     pip install -U $name
   end
 end
-
-chezmoi apply

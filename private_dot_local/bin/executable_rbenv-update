@@ -8,6 +8,17 @@ for repo in $RBENV_ROOT $RBENV_ROOT/plugins/*
   git -C $repo pull -q
 end
 
+set latest (rbenv latest -p)
+set installed (rbenv latest -P)
+
+if test "$installed" != "$latest"
+  set_color red
+  echo "Installing latest Ruby..."
+  set_color normal
+
+  rbenv latest install
+end
+
 set_color red
 echo "Updating gems..."
 set_color normal

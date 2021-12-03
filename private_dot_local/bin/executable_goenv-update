@@ -4,6 +4,17 @@ set_color blue
 echo "Updating goenv..."
 set_color normal
 
-git -C $GOENV_ROOT pull -q
+for repo in $GOENV_ROOT $GOENV_ROOT/plugins/*
+  git -C $repo pull -q
+end
 
-chezmoi apply
+set latest (goenv latest -p)
+set installed (goenv latest -P)
+
+if test "$installed" != "$latest"
+  set_color blue
+  echo "Installing latest Go..."
+  set_color normal
+
+  goenv latest install
+end

@@ -8,6 +8,17 @@ for repo in $NODENV_ROOT $NODENV_ROOT/plugins/*
   git -C $repo pull -q
 end
 
+set latest (nodenv latest -p)
+set installed (nodenv latest -P)
+
+if test "$installed" != "$latest"
+  set_color green
+  echo "Installing latest Node..."
+  set_color normal
+
+  nodenv latest install
+end
+
 set_color green
 echo "Updating packages..."
 set_color normal
@@ -31,5 +42,3 @@ for node in (nodenv versions --bare)
     npm install -g "$name@$latest"
   end
 end
-
-chezmoi apply
