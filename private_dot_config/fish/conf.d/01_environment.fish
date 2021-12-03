@@ -72,9 +72,10 @@ set -x STACK_ROOT $XDG_DATA_HOME/stack
 # node.js
 set -x NODENV_ROOT $XDG_DATA_HOME/nodenv
 set -x NODE_REPL_HISTORY $XDG_DATA_HOME/node/repl_history
-set -x NPM_CONFIG_USERCONFIG $XDG_CONFIG_HOME/npm/npmrc
 set -x NPM_CONFIG_CACHE $XDG_CACHE_HOME/npm
+set -x NPM_CONFIG_PREFIX $HOME/.local
 set -x NPM_CONFIG_STORE_DIR $XDG_CACHE_HOME/pnpm
+set -x NPM_CONFIG_USERCONFIG $XDG_CONFIG_HOME/npm/npmrc
 
 # python
 set -x PYENV_ROOT $XDG_DATA_HOME/pyenv
