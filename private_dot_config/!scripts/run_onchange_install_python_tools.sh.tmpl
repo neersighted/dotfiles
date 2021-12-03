@@ -1,10 +1,10 @@
-{{- if not .python -}}
+{{- if .python -}}
 #!/bin/sh
 
 export PIPX_HOME="${PIPX_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/pipx}"
 export PIPX_BIN_DIR="${PIPX_BIN_DIR:-${PIPX_HOME}/bin}"
 
-for spec in black mypy pip-run pip-tools poetry pylint 'python-lsp-server[all]' shiv twine; do
+for spec in pip-run pip-tools poetry 'python-lsp-server[all]' shiv; do
   tool=$(echo "$spec" | grep -o '^[^[]*')
   test ! -d "$PIPX_HOME/venvs/$tool" || continue
 

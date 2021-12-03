@@ -11,15 +11,16 @@ go install "mvdan.cc/xurls/v2/cmd/xurls@latest"
   {{ end }}
 {{ end }}
 
-{{if lookPath "pipx" }}
-  {{ if not (lookPath "gdbgui") }}
+export PIPX_HOME="${PIPX_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/pipx}"
+export PIPX_BIN_DIR="${PIPX_BIN_DIR:-${PIPX_HOME}/bin}"
+
+{{ if not (lookPath "gdbgui") }}
 echo "Installing gdbgui..."
 pipx install "gdbgui"
-  {{ end }}
-  {{ if not (lookPath "git-imerge") }}
+{{ end }}
+{{ if not (lookPath "git-imerge") }}
 echo "Installing git-imerge..."
 pipx install "git-imerge"
-  {{ end }}
 {{ end }}
 
 # vi: ft=sh

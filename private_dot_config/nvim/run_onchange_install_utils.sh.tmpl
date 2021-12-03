@@ -7,15 +7,16 @@ go install "github.com/rhysd/vim-startuptime@latest"
   {{ end }}
 {{ end }}
 
-{{if lookPath "pipx" }}
-  {{ if not (lookPath "nvr") }}
+export PIPX_HOME="${PIPX_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/pipx}"
+export PIPX_BIN_DIR="${PIPX_BIN_DIR:-${PIPX_HOME}/bin}"
+
+{{ if not (lookPath "nvr") }}
 echo "Installing nvr..."
 pipx install "neovim-remote"
-  {{ end }}
-  {{ if not (lookPath "vint") }}
+{{ end }}
+{{ if not (lookPath "vint") }}
 echo "Installing vint..."
 pipx install "vim-vint"
-  {{ end }}
 {{ end }}
 
 # vi: ft=sh
