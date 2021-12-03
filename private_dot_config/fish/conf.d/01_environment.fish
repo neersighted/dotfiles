@@ -33,9 +33,8 @@ if not set -q XDG_CACHE_HOME
   set -x XDG_CACHE_HOME $HOME/.cache
 end
 if not set -q XDG_RUNTIME_DIR
-  if mkdir -p "$TMPDIR/runtime" &>/dev/null
-    set -x XDG_RUNTIME_DIR "$TMPDIR/runtime"
-  else
+  set -x XDG_RUNTIME_DIR "/run/user/"(id -u)
+  if not mkdir -p -m 0700 "$XDG_RUNTIME_DIR" &>/dev/null
     set -x XDG_RUNTIME_DIR $TMPDIR
   end
 end
