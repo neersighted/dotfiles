@@ -1,8 +1,8 @@
+{{- if not .python -}}
 #!/bin/sh
 
 export PIPX_HOME="${PIPX_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/pipx}"
 export PIPX_BIN_DIR="${PIPX_BIN_DIR:-${PIPX_HOME}/bin}"
-export PATH="$PIPX_BIN_DIR:$PATH"
 
 for spec in black mypy pip-run pip-tools poetry pylint 'python-lsp-server[all]' shiv twine; do
   tool=$(echo "$spec" | grep -o '^[^[]*')
@@ -13,3 +13,4 @@ for spec in black mypy pip-run pip-tools poetry pylint 'python-lsp-server[all]' 
 done
 
 # vi: ft=sh
+{{- end -}}
