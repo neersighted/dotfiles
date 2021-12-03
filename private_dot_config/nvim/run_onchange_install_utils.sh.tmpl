@@ -1,10 +1,8 @@
 #!/bin/sh -e
 
-{{if lookPath "go" }}
-  {{ if not (lookPath "vim-startuptime") }}
+{{ if not (lookPath "vim-startuptime") }}
 echo "Installing vim-startuptime..."
 go install "github.com/rhysd/vim-startuptime@latest"
-  {{ end }}
 {{ end }}
 
 export PIPX_HOME="${PIPX_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/pipx}"
