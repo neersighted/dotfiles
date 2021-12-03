@@ -2,7 +2,6 @@
 #!/bin/sh
 
 export PIPX_HOME="${PIPX_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/pipx}"
-export PIPX_BIN_DIR="${PIPX_BIN_DIR:-${PIPX_HOME}/bin}"
 
 for spec in pip-run pip-tools poetry 'python-lsp-server[all]' shiv; do
   tool=$(echo "$spec" | grep -o '^[^[]*')
