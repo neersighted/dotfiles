@@ -1,5 +1,6 @@
 {{- if lookPath "exa" -}}
+{{- $git := output "exa" "-v" | contains "+git" -}}
 function ls -w exa
-  command exa --classify --git --group $argv
+  command exa --classify {{ $git | ternary "--git " "" }}--group $argv
 end
 {{- end -}}
