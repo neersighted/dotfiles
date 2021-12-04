@@ -44,7 +44,6 @@ Documents
 .local/share/goenv
 {{ end }}
 {{ if not .node }}
-.config/nodenv
 .local/bin/nodenv-update
 .local/share/nodenv
 {{ end }}
@@ -57,6 +56,6 @@ Documents
 .local/share/rbenv
 {{ end }}
 {{ if not .rust }}
-.local/bin/cargo-sys-update
+.local/bin/rustupup
 .local/share/rustup
 {{ end }}

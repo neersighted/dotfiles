@@ -1,0 +1,29 @@
+#!/usr/bin/env fish
+
+set_color red
+echo "Updating rustup..."
+set_color normal
+
+rustup self update
+
+for toolchain in stable nightly
+  if rustup toolchain list | string match -rq "^$toolchain"
+    set_color red
+    echo "Updating $toolchain Rust toolchain..."
+    set_color normal
+
+    rustup update --no-self-update $toolchain
+  else
+    set_color red
+    echo "Installing $toolchain Rust toolchain..."
+    set_color normal
+
+    rustup toolchain install $toolchain
+  end
+end
+
+set_color red
+echo "Updating crates..."
+set_color normal
+
+cargo install-update -ga
