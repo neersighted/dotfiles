@@ -1,5 +1,3 @@
-shell sh -c 'git -C ${XDG_DATA_HOME:-$HOME/.local/share}/gdb-dashboard pull -q'
-
 python
 import os
 HOME = os.path.expanduser("~")

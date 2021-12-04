@@ -9,3 +9,10 @@ type = "file"
 executable = true
 url = "https://raw.githubusercontent.com/paulirish/git-recent/master/git-recent"
 refreshPeriod = "168h"
+
+[".local/share/gdb-dashboard"]
+type = "archive"
+exact = true
+url = "https://github.com/cyrus-and/gdb-dashboard/archive/master.tar.gz"
+stripComponents = 1
+refreshPeriod = "168h"
