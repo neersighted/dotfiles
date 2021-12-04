@@ -21,21 +21,11 @@
 {{- $headless  := false -}}{{/* no graphical interface */}}
 {{- $transient := false -}}{{/* temporary machine (VM/cloud instances/container) */}}
 {{- $dotnet    := false -}}{{/* install/manage dotnet toolchain */}}
-{{- $golang    := false -}}{{/* install/manage golang toolchain */}}
-{{- $node      := false -}}{{/* install/manage node toolchain */}}
-{{- $python    := false -}}{{/* install/manage python toolchain */}}
-{{- $ruby      := false -}}{{/* install/manage ruby toolchain */}}
-{{- $rust      := false -}}{{/* install/manage rust toolchain */}}
 
 {{- if .configured -}}
 {{-   $headless  = .headless -}}
 {{-   $transient = .transient -}}
 {{-   $dotnet    = .dotnet -}}
-{{-   $golang    = .golang -}}
-{{-   $node      = .node -}}
-{{-   $python    = .python -}}
-{{-   $ruby      = .ruby -}}
-{{-   $rust      = .rust -}}
 {{- else -}}
 
 {{/* preset detection */}}
@@ -58,11 +48,6 @@
 {{/* interactive-only configuration */}}
 {{-   if and (not $transient) (stdinIsATTY) -}}
 {{-     $dotnet    = promptBool "dotnet" -}}
-{{-     $golang    = promptBool "golang" -}}
-{{-     $node      = promptBool "node" -}}
-{{-     $python    = promptBool "python" -}}
-{{-     $ruby      = promptBool "ruby" -}}
-{{-     $rust      = promptBool "rust" -}}
 {{-   end -}}
 {{- end -}}
 
@@ -95,11 +80,6 @@ remove = true
     headless   = {{ $headless }}
     transient  = {{ $transient }}
     dotnet     = {{ $dotnet }}
-    golang     = {{ $golang }}
-    node       = {{ $node }}
-    python     = {{ $python }}
-    ruby       = {{ $ruby }}
-    rust       = {{ $rust }}
 
 [data.user]
     name   = "Bjorn Neergaard"

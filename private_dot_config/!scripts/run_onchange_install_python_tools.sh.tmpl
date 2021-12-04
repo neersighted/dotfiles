@@ -1,4 +1,3 @@
-{{- if .python -}}
 #!/bin/sh
 
 export PIPX_HOME="${PIPX_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/pipx}"
@@ -12,4 +11,3 @@ for spec in pip-run pip-tools poetry 'python-lsp-server[all]' shiv; do
 done
 
 # vi: ft=sh
-{{- end -}}

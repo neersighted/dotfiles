@@ -39,23 +39,3 @@ Documents
 {{ if not .dotnet }}
 .local/share/dotnet
 {{ end }}
-{{ if not .golang }}
-.local/bin/goenv-update
-.local/share/goenv
-{{ end }}
-{{ if not .node }}
-.local/bin/nodenv-update
-.local/share/nodenv
-{{ end }}
-{{ if not .python }}
-.local/bin/pyenv-update
-.local/share/pyenv
-{{ end }}
-{{ if not .ruby }}
-.local/bin/rbenv-update
-.local/share/rbenv
-{{ end }}
-{{ if not .rust }}
-.local/bin/rustupup
-.local/share/rustup
-{{ end }}
