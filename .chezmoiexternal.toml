@@ -1,4 +1,3 @@
-{{ if ne .chezmoi.os "windows" -}}
 [".local/bin/git-standup"]
 type = "file"
 executable = true
@@ -10,4 +9,3 @@ type = "file"
 executable = true
 url = "https://raw.githubusercontent.com/paulirish/git-recent/master/git-recent"
 refreshPeriod = "168h"
-{{- end }}
