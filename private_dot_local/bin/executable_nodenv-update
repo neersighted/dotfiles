@@ -8,15 +8,24 @@ for repo in $NODENV_ROOT $NODENV_ROOT/plugins/*
   git -C $repo pull -q
 end
 
-set latest (nodenv latest -p)
-set installed (nodenv latest -P)
+set lts (basename (readlink $NODENV_ROOT/versions/lts/active))
 
-if test "$installed" != "$latest"
-  set_color green
-  echo "Installing latest Node..."
-  set_color normal
+for release in $lts ""
+  set type "Active"
+  if test -n "$release"
+    set type "LTS"
+  end
 
-  nodenv latest install
+  set latest (nodenv latest -p $release)
+  set installed (nodenv latest -P $release)
+
+  if test "$installed" != "$latest"
+    set_color green
+    echo "Installing latest $type Node..."
+    set_color normal
+
+    nodenv latest install $release
+  end
 end
 
 set_color green
