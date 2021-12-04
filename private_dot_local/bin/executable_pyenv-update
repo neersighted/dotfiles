@@ -8,15 +8,17 @@ for repo in $PYENV_ROOT $PYENV_ROOT/plugins/*
   git -C $repo pull -q
 end
 
-set latest (pyenv latest -p)
-set installed (pyenv latest -P)
+for release in 3.6 3.7 3.8 3.9 3.10
+  set latest (pyenv latest -p $release)
+  set installed (pyenv latest -P $release)
 
-if test "$installed" != "$latest"
-  set_color yellow
-  echo "Installing latest Python..."
-  set_color normal
+  if test "$installed" != "$latest"
+    set_color yellow
+    echo "Installing latest Python $release..."
+    set_color normal
 
-  pyenv latest install
+    pyenv latest install $release
+  end
 end
 
 set_color yellow
