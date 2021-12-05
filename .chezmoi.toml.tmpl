@@ -1,8 +1,8 @@
 {{/* environment/hardware tags */}}
-{{- $codespaces := false }}{{/* github codespaces/vscode devcontainer */}}
-{{- $wsl        := false }}{{/* wsl 1/2 */}}
-{{- $wsl1       := false }}{{/* wsl 1 */}}
-{{- $wsl2       := false }}{{/* wsl 2 */}}
+{{- $codespaces := false -}}{{/* github codespaces/vscode devcontainer */}}
+{{- $wsl        := false -}}{{/* wsl 1/2 */}}
+{{- $wsl1       := false -}}{{/* wsl 1 */}}
+{{- $wsl2       := false -}}{{/* wsl 2 */}}
 
 {{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") -}}
 {{- $codespaces = true -}}
@@ -94,9 +94,12 @@ remove = true
     hydrogen = 18
     active = 16
 
-
+{{ $pythons := list "3.6" "3.7" "3.8" "3.9" "3.10" }}
+{{- if eq .chezmoi.os "darwin" -}}
+{{-   $pythons = slice $pythons 1 -}}
+{{- end -}}
 [data.python]
-    supported = ["3.6", "3.7", "3.8", "3.9", "3.10"]
+    supported = {{ $pythons | toJson }}
 
 [data.nord]
     nord0  = '#2e3440'
