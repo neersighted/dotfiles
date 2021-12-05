@@ -51,7 +51,9 @@ set_color yellow
 echo "Updating pipx apps..."
 set_color normal
 
-for app in $installed
+
+# specs -> apps
+for app in (string match -r '^[^[]*' $installed)
   pipx upgrade --include-injected "$app"
 end
 
