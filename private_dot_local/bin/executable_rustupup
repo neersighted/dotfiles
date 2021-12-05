@@ -68,4 +68,4 @@ set_color red
 echo "Updating crates..."
 set_color normal
 
-cargo install-update --git -- $installed
+cargo install-update -- $installed
