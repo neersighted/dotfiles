@@ -1,10 +1,10 @@
 {{- if .wsl -}}
-{{- $ping := lookPath "ping" -}}
+{{- $ping := output "realpath" (lookPath "ping") | trim -}}
 {{- if (not (output "getcap" $ping)) -}}
 #!/bin/sh -e
 
 echo "Adding cap_net_raw to ping..."
-sudo setcap cap_net_raw+p "$(realpath "{{ $ping }}")"
+sudo setcap cap_net_raw+p "{{ $ping }}"
 
 # vi: ft=sh
 {{- end -}}
