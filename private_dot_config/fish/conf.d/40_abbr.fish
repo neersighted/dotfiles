@@ -1,13 +1,28 @@
 status is-interactive; or exit
 
-abbr -q lt; or abbr -a -- lt 'll -TL2'
+set -l chezmoi_update 'chezmoi update --init'
+set -l update_command false
+
+if is_macos
+  set update_command 'brew upgrade'
+else if is_freebsd
+  set update_command 'sudo pkg upgrade'
+else if command -q paru
+  set update_command 'paru'
+else if command -q apt
+  set update_command 'sudo -c "apt update && apt full-upgrade --auto-remove"'
+else if command -q dnf
+  set update_command 'sudo dnf upgrade'
+end
+
+abbr -q up; or abbr -a -- up "$update_command; and $chezmoi_update"
 
 # chezmoi
 abbr -q chez; or abbr -a -- chez 'chezmoi'
 abbr -q cad; or abbr -a -- cad 'chezmoi add'
 abbr -q cap; or abbr -a -- cap 'chezmoi apply'
 abbr -q ced; or abbr -a -- ced 'chezmoi edit'
-abbr -q cup; or abbr -a -- cup 'chezmoi update --init'
+abbr -q cup; or abbr -a -- cup $chezmoi_update
 
 # clipboard-provider
 abbr -q clipc; or abbr -a -- clipc 'clipboard-provider copy'
@@ -38,6 +53,11 @@ abbr -q grc; or abbr -a -- grc 'gh repo clone'
 
 # gpg
 abbr -q gpgt; or abbr -a -- gpgt 'set -x GPG_TTY (tty); gpg-connect-agent UPDATESTARTUPTTY /bye'
+
+# ls/exa
+abbr -q ll; or abbr -a -- ll 'ls -lh'
+abbr -q la; or abbr -a -- la 'ls -lah'
+abbr -q lt; or abbr -a -- lt 'ls -lhTL2'
 
 # tmux
 abbr -q tdp; or abbr -a -- tdp 'tmux display-message -p'
