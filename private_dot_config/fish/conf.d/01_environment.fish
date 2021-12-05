@@ -147,7 +147,7 @@ set -x VAGRANT_HOME $XDG_DATA_HOME/vagrant
 #
 
 # brewed utilities
-is_macos; and path_prepend PATH (brew --prefix)/opt/{curl,sqlite}/bin
+is_macos; and path_prepend PATH (brew --prefix)/opt/{curl,sqlite,python/libexec}/bin
 # ccache {linux, bsd}, macos
 is_macos; and path_prepend PATH (brew --prefix)/opt/ccache/libexec
           or path_prepend PATH /usr/{lib/ccache/bin,local/libexec/ccache} 
