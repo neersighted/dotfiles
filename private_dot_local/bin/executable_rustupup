@@ -64,8 +64,10 @@ if test (count $wanted) -gt 0
   cargo install --locked --force -- $wanted
 end
 
-set_color red
-echo "Updating crates..."
-set_color normal
+if test (count $installed) -gt 0
+  set_color red
+  echo "Updating crates..."
+  set_color normal
 
-cargo install-update -- $installed
+  cargo install-update -- $installed
+end

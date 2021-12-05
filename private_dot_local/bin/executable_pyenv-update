@@ -47,14 +47,15 @@ if test (count $wanted) -gt 0
   end
 end
 
-set_color yellow
-echo "Updating pipx apps..."
-set_color normal
+if test (count $installed) -gt 0
+  set_color yellow
+  echo "Updating pipx apps..."
+  set_color normal
 
-
-# specs -> apps
-for app in (string match -r '^[^[]*' $installed)
-  pipx upgrade --include-injected "$app"
+  # specs -> apps
+  for app in (string match -r '^[^[]*' $installed)
+    pipx upgrade --include-injected "$app"
+  end
 end
 
 set_color yellow
