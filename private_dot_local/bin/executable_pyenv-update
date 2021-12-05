@@ -21,6 +21,40 @@ for release in 3.6 3.7 3.8 3.9 3.10
   end
 end
 
+set installed (pipx list --json | jq -r '.venvs[].metadata.main_package.package_or_url')
+
+set wanted \
+   pip-run \
+   pip-tools \
+   poetry \
+   'python-lsp-server[all]' \
+   shiv 
+
+for spec in $wanted
+  if contains -- $spec $installed
+    set i (contains -i -- $spec $wanted)
+    set -e wanted[$i]
+  end
+end
+
+if test (count $wanted) -gt 0
+  set_color yellow
+  echo "Installing Python development apps..."
+  set_color normal
+
+  for spec in $wanted
+    pipx install "$spec"
+  end
+end
+
+set_color yellow
+echo "Updating pipx apps..."
+set_color normal
+
+for app in $installed
+  pipx upgrade --include-injected "$app"
+end
+
 set_color yellow
 echo "Updating system packages..."
 set_color normal

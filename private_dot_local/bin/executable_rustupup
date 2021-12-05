@@ -22,8 +22,50 @@ for toolchain in stable nightly
   end
 end
 
+set installed (cargo install --list | string match -r '^\S+')
+
+set wanted \
+   cargo-audit \
+   cargo-asm \
+   cargo-binutils \
+   cargo-bloat \
+   cargo-depgraph \
+   cargo-edit \
+   cargo-expand \
+   cargo-feature \
+   cargo-fuzz \
+   cargo-release \
+   cargo-sort \
+   cargo-supply-chain \
+   cargo-outdated \
+   cargo-udeps \
+   cargo-update \
+   cargo-watch \
+   flamegraph
+
+if is_linux
+  set -a wanted \
+     cargo-tarpaulin \
+     cross
+end
+
+for crate in $wanted
+  if contains -- $crate $installed
+    set i (contains -i -- $crate $wanted)
+    set -e wanted[$i]
+  end
+end
+
+if test (count $wanted) -gt 0
+  set_color red
+  echo "Installing crates..."
+  set_color normal
+
+  cargo install --locked --force -- $wanted
+end
+
 set_color red
 echo "Updating crates..."
 set_color normal
 
-cargo install-update -ga
+cargo install-update --git -- $installed
