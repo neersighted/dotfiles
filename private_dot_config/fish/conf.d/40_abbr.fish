@@ -7,7 +7,7 @@ abbr -q chez; or abbr -a -- chez 'chezmoi'
 abbr -q cad; or abbr -a -- cad 'chezmoi add'
 abbr -q cap; or abbr -a -- cap 'chezmoi apply'
 abbr -q ced; or abbr -a -- ced 'chezmoi edit'
-abbr -q cup; or abbr -a -- cup 'chezmoi update'
+abbr -q cup; or abbr -a -- cup 'chezmoi update --init'
 
 # clipboard-provider
 abbr -q clipc; or abbr -a -- clipc 'clipboard-provider copy'

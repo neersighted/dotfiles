@@ -8,7 +8,7 @@ for repo in $PYENV_ROOT $PYENV_ROOT/plugins/*
   git -C $repo pull -q
 end
 
-for release in 3.6 3.7 3.8 3.9 3.10
+for release in (chezmoi data | jq -r '.python.supported[]')
   set latest (pyenv latest -p $release)
   set installed (pyenv latest -P $release)
 

@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+{{- range $name, $version := .node.lts }}
+ln -sf ../{{ $version }} {{ $name }}
+{{- end }}
+
+# vi: ft=sh

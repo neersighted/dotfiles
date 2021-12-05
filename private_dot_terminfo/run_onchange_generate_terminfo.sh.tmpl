@@ -6,7 +6,7 @@
 terminfo=$(mktemp)
 trap 'rm $terminfo' EXIT
 
-{{ range $i, $term := (list "alacritty-direct" "iterm2" "tmux-256color") }}
+{{- range $i, $term := (list "alacritty-direct" "iterm2" "tmux-256color") }}
 if ! /usr/bin/infocmp "{{ $term }}" >/dev/null 2>&1; then
   echo "Backporting brewed {{ $term }} terminfo..."
 
@@ -16,7 +16,7 @@ if ! /usr/bin/infocmp "{{ $term }}" >/dev/null 2>&1; then
 
   # run_onchange hash: {{ output $infocmp $term | sha256sum }}
 fi
-{{ end }}
+{{- end }}
 
 # vi: ft=sh
 {{- end -}}

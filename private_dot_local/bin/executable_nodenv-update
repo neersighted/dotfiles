@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-set_color yellow
+set_color green
 echo "Updating nodenv..."
 set_color normal
 
@@ -8,11 +8,13 @@ for repo in $NODENV_ROOT $NODENV_ROOT/plugins/*
   git -C $repo pull -q
 end
 
-set lts (basename (readlink $NODENV_ROOT/versions/lts/active))
+set current (chezmoi data | jq -r '.node.current')
+set lts (chezmoi data | jq -r '.node.lts.active')
 
-for release in $lts ""
-  set type "Active"
-  if test -n "$release"
+for release in $lts $current
+  if test "$release" = "$current"
+    set type "Current"
+  else
     set type "LTS"
   end
 
