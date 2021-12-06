@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export GO111MODULE="${GO111MODULE:-on}"
+
 {{ if not (lookPath "vim-startuptime") }}
 echo "Installing vim-startuptime..."
 go install "github.com/rhysd/vim-startuptime@latest"
