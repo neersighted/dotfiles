@@ -84,7 +84,7 @@ function wsl-provider -a op
 {{   else }}
   switch $op
     case copy; tr '\n' '\r\n' | clip.exe
-    case paste; powershell.exe -Command Get-Clipboard | tr '\r\n' '\n'
+    case paste; powershell.exe -NoProfile -Command Get-Clipboard | tr '\r\n' '\n'
   end
 {{   end -}}
 {{ else }}
