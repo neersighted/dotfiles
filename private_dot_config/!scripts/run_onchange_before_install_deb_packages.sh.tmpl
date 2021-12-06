@@ -56,7 +56,9 @@ sudo apt-get install -y \
   pre-commit \
   python-is-python3 \
   ripgrep \
+{{- if eq .chezmoi.arch "amd64" }}
   rr \
+{{- end }}
   shellcheck \
   socat \
   thefuck \
