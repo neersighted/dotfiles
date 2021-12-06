@@ -30,13 +30,17 @@ sudo apt-get install -y \
   bat \
   bpfcc-tools \
   direnv \
+{{- if not .codespaces }}
   exa \
+{{- end }}
   fd-find \
   fish \
   fzf \
   gdb \
   git \
+{{- if not .codespaces }}
   git-filter-repo \
+{{- end }}
   git-lfs \
   golang \
   hexyl \
@@ -53,7 +57,9 @@ sudo apt-get install -y \
   pcp \
   pgcli \
   pipx \
+{{- if not .codespaces }}
   pre-commit \
+{{- end }}
   python-is-python3 \
   ripgrep \
 {{- if eq .chezmoi.arch "amd64" }}
@@ -68,7 +74,11 @@ sudo apt-get install -y \
   unzip \
   whois \
   xdg-utils \
+{{- if not .codespaces }}
   zoxide
+{{ else }}
+  ""
+{{- end }}
 
 # Missing:
 # 1password-cli
