@@ -2,6 +2,7 @@ Host *
 	VerifyHostKeyDNS ask
 	StrictHostKeyChecking ask
 	UpdateHostKeys no
+	UserKnownHostsFile ~/.ssh/known_hosts ~/.ssh/common_hosts
 
 	ControlMaster auto
 	ControlPath ~/.ssh/%C.sock

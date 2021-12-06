@@ -57,6 +57,11 @@
 sourceDir = {{ .chezmoi.sourceDir | quote }}
 remove = true
 
+encryption = "age"
+[age]
+    identity = {{ joinPath .chezmoi.homeDir ".config/chezmoi/key.txt" | quote }}
+    recipient = "age1qdsdpzhafts3l3sxnma98z5rprgtv246cqevdsw9gzggmaajauhsx44f8x"
+
 [data]
     configured = true
 
