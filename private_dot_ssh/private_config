@@ -1,8 +1,24 @@
+Host *.lan
+	CheckHostIp no
+
+Host github.com *.github.com
+	CheckHostIp no
+
+Host git.launchpad.net
+	HostKeyAlgorithms +ssh-rsa
+
+Host heroku.com
+	HostKeyAlgorithms +ssh-rsa
+
+Host *.tmate.io
+	CheckHostIp no
+
 Host *
+	CheckHostIp yes
 	VerifyHostKeyDNS ask
 	StrictHostKeyChecking ask
 	UpdateHostKeys no
-	UserKnownHostsFile ~/.ssh/known_hosts ~/.ssh/common_hosts
+	UserKnownHostsFile ~/.ssh/local_hosts ~/.ssh/known_hosts ~/.ssh/common_hosts
 
 	ControlMaster auto
 	ControlPath ~/.ssh/%C.sock
