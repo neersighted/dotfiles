@@ -56,11 +56,6 @@ end
 # toolchains
 #
 
-# dotnet
-set -x DOTNET_ROOT $XDG_DATA_HOME/dotnet
-set -x DOTNET_TOOL_PATH $DOTNET_ROOT/tools
-set -x NUGET_PACKAGES $XDG_DATA_HOME/nuget
-
 # golang
 set -x GOENV_ROOT $XDG_DATA_HOME/goenv
 set -x GOENV_GOPATH_PREFIX $XDG_DATA_HOME/go
@@ -152,8 +147,6 @@ is_macos; and path_prepend PATH (brew --prefix)/opt/{curl,sqlite,python/libexec}
 # ccache {linux, bsd}, macos
 is_macos; and path_prepend PATH (brew --prefix)/opt/ccache/libexec
           or path_prepend PATH /usr/{lib/ccache/bin,local/libexec/ccache} 
-# dotnet
-path_prepend PATH $DOTNET_TOOL_PATH $DOTNET_ROOT
 # golang
 path_prepend PATH $GOBIN $GOENV_ROOT/{shims,bin}
 # nodejs

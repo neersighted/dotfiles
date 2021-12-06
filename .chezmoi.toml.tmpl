@@ -20,12 +20,10 @@
 {{/* boolean feature tags */}}
 {{- $headless  := false -}}{{/* no graphical interface */}}
 {{- $transient := false -}}{{/* temporary machine (VM/cloud instances/container) */}}
-{{- $dotnet    := false -}}{{/* install/manage dotnet toolchain */}}
 
 {{- if .configured -}}
 {{-   $headless  = .headless -}}
 {{-   $transient = .transient -}}
-{{-   $dotnet    = .dotnet -}}
 {{- else -}}
 
 {{/* preset detection */}}
@@ -41,13 +39,8 @@
 {{-   if and (not $headless) (stdinIsATTY) -}}
 {{-       $headless = promptBool "headless" -}}
 {{-   end -}}
-{{-   if and (not $transient) (stdinIsATTY) -}}
+{{-   if and ($transient) (stdinIsATTY) -}}
 {{-       $transient = promptBool "transient" -}}
-{{-   end -}}
-
-{{/* interactive-only configuration */}}
-{{-   if and (not $transient) (stdinIsATTY) -}}
-{{-     $dotnet    = promptBool "dotnet" -}}
 {{-   end -}}
 {{- end -}}
 
@@ -59,11 +52,6 @@
 {{-   else -}}
 {{-     $email = "bjorn@neersighted.com" -}}
 {{-   end -}}
-{{- end -}}
-
-{{/* special cases */}}
-{{- if eq .chezmoi.os "freebsd" -}}
-{{-   $dotnet = false -}}{{/* always disable dotnet on freebsd */}}
 {{- end -}}
 
 sourceDir = {{ .chezmoi.sourceDir | quote }}
@@ -79,7 +67,6 @@ remove = true
 
     headless   = {{ $headless }}
     transient  = {{ $transient }}
-    dotnet     = {{ $dotnet }}
 
 [data.user]
     name   = "Bjorn Neergaard"

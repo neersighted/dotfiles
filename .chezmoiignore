@@ -36,6 +36,3 @@ Documents
 .config/i3
 .config/xinit
 {{ end }}
-{{ if not .dotnet }}
-.local/share/dotnet
-{{ end }}
