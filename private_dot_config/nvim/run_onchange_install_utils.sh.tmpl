@@ -2,7 +2,7 @@
 
 export GO111MODULE="${GO111MODULE:-on}"
 
-{{ if not (lookPath "vim-startuptime") }}
+{{ if and (not (lookPath "vim-startuptime")) (not .codespaces) }}
 echo "Installing vim-startuptime..."
 go install "github.com/rhysd/vim-startuptime@latest"
 {{ end }}

@@ -1,3 +1,4 @@
+{{- if not .codespaces -}}
 #!/bin/sh -e
 
 export GO111MODULE="${GO111MODULE:-on}"
@@ -23,3 +24,4 @@ pipx install "git-imerge"
 {{ end }}
 
 # vi: ft=sh
+{{- end -}}
