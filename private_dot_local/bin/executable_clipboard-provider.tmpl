@@ -76,17 +76,19 @@ end
 
 function wsl-provider -a op
 {{- if .wsl }}
-{{-   if lookPath "win32yank.exe" }}
+{{- $win32yank := lookPath "win32yank.exe" -}}
+{{- $powershell := or (lookPath "pwsh.exe") (lookPath "powershell.exe") -}}
+{{-   if $win32yank }}
   switch $op
-    case copy; spit | win32yank.exe -i --crlf
-    case paste; win32yank.exe -o --lf
+    case copy; spit | "{{ $win32yank }}" -i --crlf
+    case paste; "{{ $win32yank }}" -o --lf
   end
-{{   else }}
+{{    else }}
   switch $op
     case copy; tr '\n' '\r\n' | clip.exe
-    case paste; powershell.exe -NoProfile -Command Get-Clipboard | tr '\r\n' '\n'
+    case paste; "{{ $powershell }}" -NoProfile -Command Get-Clipboard | tr '\r\n' '\n'
   end
-{{   end -}}
+{{    end -}}
 {{ else }}
   return 1
 {{ end -}}
