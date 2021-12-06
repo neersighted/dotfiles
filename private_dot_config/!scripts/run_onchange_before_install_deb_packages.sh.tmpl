@@ -2,6 +2,12 @@
 {{- if eq .chezmoi.osRelease.idLike "debian" -}}
 #!/bin/sh -e
 
+{{ if eq .chezmoi.osRelease.id "ubuntu" -}}
+echo "Adding custom Ubuntu repos..."
+sudo apt-add-repository --yes --no-update ppa:fish-shell/release-3 # FIXME: new syntax is --ppa
+{{ end -}}
+
+# FIXME: codespaces special-casing
 echo "Installing packages with APT..."
 sudo apt-get update
 sudo apt-get install -y \
