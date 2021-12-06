@@ -1,4 +1,8 @@
 Host *
+	VerifyHostKeyDNS ask
+	StrictHostKeyChecking ask
+	UpdateHostKeys no
+
 	ControlMaster auto
 	ControlPath ~/.ssh/%C.sock
 	ControlPersist 30m
