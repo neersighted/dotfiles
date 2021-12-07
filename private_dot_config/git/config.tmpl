@@ -55,7 +55,7 @@
 
 [init]
 	defaultBranch = main
-	templateDir = "{{ print .chezmoi.homeDir "/.config/git/templates" | replace "\\" "/" }}"
+	templateDir = {{ print .chezmoi.homeDir "/.config/git/templates" | replace "\\" "/" | quote }}
 [commit]
 	verbose = true
 

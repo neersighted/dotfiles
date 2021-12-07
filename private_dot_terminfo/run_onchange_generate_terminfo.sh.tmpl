@@ -7,10 +7,10 @@ terminfo=$(mktemp)
 trap 'rm $terminfo' EXIT
 
 {{- range $i, $term := (list "alacritty-direct" "iterm2" "tmux-256color") }}
-if ! /usr/bin/infocmp "{{ $term }}" >/dev/null 2>&1; then
+if ! /usr/bin/infocmp {{ $term | quote }} >/dev/null 2>&1; then
   echo "Backporting brewed {{ $term }} terminfo..."
 
-  {{ $infocmp }} -x "{{ $term }}" \
+  {{ $infocmp | quote }} -x {{ $term | quote }} \
     | sed 's/pairs#0x10000/pairs#0x1000/' > "$terminfo"
   /usr/bin/tic -x "$terminfo"
 

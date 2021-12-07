@@ -80,13 +80,13 @@ function wsl-provider -a op
 {{- $powershell := or (lookPath "pwsh.exe") (lookPath "powershell.exe") -}}
 {{-   if $win32yank }}
   switch $op
-    case copy; spit | "{{ $win32yank }}" -i --crlf
-    case paste; "{{ $win32yank }}" -o --lf
+    case copy; spit | {{ $win32yank | quote }} -i --crlf
+    case paste; {{ $win32yank | quote}} -o --lf
   end
 {{    else }}
   switch $op
     case copy; tr '\n' '\r\n' | clip.exe
-    case paste; "{{ $powershell }}" -NoProfile -Command Get-Clipboard | tr '\r\n' '\n'
+    case paste; {{ $powershell | quote }} -NoProfile -Command Get-Clipboard | tr '\r\n' '\n'
   end
 {{    end -}}
 {{ else }}
