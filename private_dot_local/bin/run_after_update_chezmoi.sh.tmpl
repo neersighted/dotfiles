@@ -1,0 +1,15 @@
+{{- $chezmoi_bin := dir .chezmoi.executable -}}
+{{- $xdg_bin_dir := or (env "XDG_BIN_DIR") (expandenv "$HOME/.local/bin") -}}
+{{- if eq $chezmoi_bin $xdg_bin_dir -}}
+#!/bin/sh -e
+
+if [ "$(which -a chezmoi | uniq | wc -l)" -gt 1 ]; then
+  echo "Switching to system-managed chezmoi..."
+  rm ./chezmoi
+else
+  echo "Self-updating bootstrapped chezmoi..."
+  ./chezmoi upgrade
+fi
+
+# vi: ft=sh
+{{- end -}}
