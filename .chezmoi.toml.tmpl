@@ -39,8 +39,18 @@
 {{-   if and (not $headless) (stdinIsATTY) -}}
 {{-       $headless = promptBool "headless" -}}
 {{-   end -}}
-{{-   if and ($transient) (stdinIsATTY) -}}
+{{-   if and (not $transient) (stdinIsATTY) -}}
 {{-       $transient = promptBool "transient" -}}
+{{-   end -}}
+{{- end -}}
+
+{{/* name configuration */}}
+{{- $name := get .user "name" -}}
+{{- if not $name -}}
+{{-   if env "GITPOD_GIT_USER_NAME" -}}
+{{-     $name = env "GITPOD_GIT_USER_NAME" -}}
+{{-   else -}}
+{{-     $name = "Bjorn Neergaard" -}}
 {{-   end -}}
 {{- end -}}
 
@@ -49,6 +59,8 @@
 {{- if not $email -}}
 {{-   if not $transient -}}
 {{-     $email = promptString "email" -}}
+{{-   else if env "GITPOD_GIT_USER_EMAIL" -}}
+{{-     $email = env "GITPOD_GIT_USER_EMAIL" -}}
 {{-   else -}}
 {{-     $email = "bjorn@neersighted.com" -}}
 {{-   end -}}
@@ -88,7 +100,7 @@ encryption = "age"
     transient  = {{ $transient }}
 
 [data.user]
-    name   = "Bjorn Neergaard"
+    name   = {{ $name | quote }}
     email  = {{ $email | quote }}
     github = {{ $github | quote }}
 
