@@ -5,12 +5,15 @@
 arch=$(dpkg --print-architecture)
 codename={{ .chezmoi.osRelease.ubuntuCodename | quote }}
 
+GNUPGHOME="$(mktemp -d)"
+trap 'sudo rm -rf -- "$GNUPGHOME"' EXIT
+
 echo "Adding custom Ubuntu repos..."
 
 # fish
 keyring="/usr/share/keyrings/fish-shell-maintainers.gpg"
 if ! [ -e "$keyring" ]; then
-  sudo gpg --no-default-keyring --keyring "$keyring" --keyserver "hkps://keyserver.ubuntu.com" --recv-keys 0x59FDA1CE1B84B3FAD89366C027557F056DC33CA5 
+  sudo gpg --homedir "$GNUPGHOME" --no-default-keyring --keyring "$keyring" --keyserver "hkps://keyserver.ubuntu.com" --recv-keys 0x59FDA1CE1B84B3FAD89366C027557F056DC33CA5 
 fi
 echo "deb [arch=$arch signed-by=$keyring] http://ppa.launchpad.net/fish-shell/release-3/ubuntu $codename main" | sudo tee /etc/apt/sources.list.d/fish-ppa.list >/dev/null
 
