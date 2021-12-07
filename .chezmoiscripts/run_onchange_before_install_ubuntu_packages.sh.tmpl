@@ -6,7 +6,7 @@ echo "Asking for root credentials..."
 sudo -v
 
 echo "Adding custom Ubuntu repos..."
-arch=$(dpkg --print-architecture)
+arch={{ .chezmoi.arch | quote }}
 codename={{ .chezmoi.osRelease.ubuntuCodename | quote }}
 
 GNUPGHOME="$(sudo mktemp -d)"
