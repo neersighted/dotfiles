@@ -3,7 +3,7 @@
 {{- if eq $chezmoi_bin $xdg_bin_dir -}}
 #!/bin/sh -e
 
-if [ "$(which -a chezmoi | xargs realpath | uniq | wc -l)" -gt 1 ]; then
+if [ "$(which -a chezmoi | xargs realpath 2>/dev/null | uniq | wc -l)" -gt 1 ]; then
   echo "Switching to system-managed chezmoi..."
   rm ./chezmoi
 else
