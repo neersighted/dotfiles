@@ -11,18 +11,22 @@
 #
 
 [credential]
-	username = {{ .user.github }}
-{{- if eq .chezmoi.os "windows" }}
+	helper =
+{{- if env "GITPOD_WORKSPACE_ID" }}
+	helper = !/usr/bin/gp credential-helper
+{{  else }}
+{{-   if eq .chezmoi.os "windows" }}
 	helper = manager-core
-{{ else if eq .chezmoi.os "darwin" }}
+{{    else if eq .chezmoi.os "darwin" }}
 	helper = osxkeychain
-{{ else }}
+{{    else }}
 	helper = store
-{{- end }}
-{{- if lookPath "gh" }}
+{{-   end }}
+{{-   if lookPath "gh" }}
 [credential "https://github.com"]
-	helper = 
+	helper =
 	helper = !{{ lookPath "gh" }} auth git-credential
+{{-   end }}
 {{- end }}
 
 #
