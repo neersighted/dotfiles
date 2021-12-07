@@ -3,6 +3,17 @@ README.md
 bootstrap.sh
 tags
 
+# feature-based ignores
+{{ if .headless }}
+.config/Xresources
+.config/alacritty
+.config/i3
+.config/xinit
+{{ end }}
+{{ if .transient }}
+.ssh/known_hosts
+{{ end }}
+
 # os-based ignores
 {{ if ne .chezmoi.os "windows" }} # ignore windows files on *nix
 AppData
@@ -26,12 +37,4 @@ Documents
 
 {{ if or (ne .chezmoi.os "linux") (eq (index .chezmoi.osRelease "id") "arch") }} # hushlogin on everything but arch
 .hushlogin
-{{ end }}
-
-# feature-based ignores
-{{ if .headless }}
-.config/Xresources
-.config/alacritty
-.config/i3
-.config/xinit
 {{ end }}
