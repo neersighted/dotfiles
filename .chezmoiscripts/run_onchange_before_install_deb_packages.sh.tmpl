@@ -1,13 +1,14 @@
-{{- if hasKey .chezmoi.osRelease "idLike" -}}
-{{- if eq .chezmoi.osRelease.idLike "debian" -}}
+{{- if eq (index .chezmoi.osRelease "id") "ubuntu" -}}
+{{- $impish := semverCompare "~21.10" .chezmoi.osRelease.versionID -}}
 #!/bin/sh -e
 
-{{ if eq .chezmoi.osRelease.id "ubuntu" -}}
 echo "Adding custom Ubuntu repos..."
-sudo apt-add-repository --yes --no-update ppa:fish-shell/release-3 # FIXME: new syntax is --ppa
+{{ if $impish -}}
+sudo apt-add-repository --yes --no-update --ppa fish-shell/release-3
+{{ else }}
+sudo apt-add-repository --yes --no-update ppa:fish-shell/release-3
 {{ end -}}
 
-# FIXME: codespaces special-casing/20.04 rust packaging bug
 echo "Installing packages with APT..."
 sudo apt-get update
 sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
@@ -30,7 +31,7 @@ sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
   libssl-dev \
   libyaml-dev \
   zlib1g-dev \
-{{- if not .codespaces }}
+{{- if $impish }}
   {{/* User Programs */ -}}
   age \
 {{- end }}
@@ -38,7 +39,7 @@ sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
   bat \
   bpfcc-tools \
   direnv \
-{{- if not .codespaces }}
+{{- if $impish }}
   exa \
 {{- end }}
   fd-find \
@@ -46,7 +47,7 @@ sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
   fzf \
   gdb \
   git \
-{{- if not .codespaces }}
+{{- if $impish }}
   git-filter-repo \
 {{- end }}
   git-lfs \
@@ -65,11 +66,11 @@ sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
   pcp \
   pgcli \
   pipx \
-{{- if not .codespaces }}
+{{- if $impish }}
   pre-commit \
 {{- end }}
   python-is-python3 \
-{{- if .codespaces }}
+{{- if not $impish }}
   python3-venv \
 {{- end }}
   ripgrep \
@@ -85,7 +86,7 @@ sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
   unzip \
   whois \
   xdg-utils \
-{{- if not .codespaces }}
+{{- if $impish }}
   zoxide
 {{ else }}
   ""
@@ -109,5 +110,4 @@ sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
 # watchexec
 
 # vi: ft=sh
-{{- end -}}
 {{- end -}}
