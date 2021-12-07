@@ -1,11 +1,11 @@
 {{/* environment/hardware tags */}}
-{{- $codespaces := false -}}{{/* github codespaces/vscode devcontainer */}}
-{{- $wsl        := false -}}{{/* wsl 1/2 */}}
-{{- $wsl1       := false -}}{{/* wsl 1 */}}
-{{- $wsl2       := false -}}{{/* wsl 2 */}}
+{{- $devcontainer := false -}}{{/* devcontainer (codespaces, gitpod, vscode) */}}
+{{- $wsl          := false -}}{{/* wsl 1/2 */}}
+{{- $wsl1         := false -}}{{/* wsl 1 */}}
+{{- $wsl2         := false -}}{{/* wsl 2 */}}
 
-{{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") -}}
-{{- $codespaces = true -}}
+{{- if or (env "CODESPACES") (env "GITPOD_WORKSPACE_ID") (env "REMOTE_CONTAINERS_IPC") -}}
+{{- $devcontainer = true -}}
 {{- end -}}
 {{- if (env "WSL_DISTRO_NAME") -}}
 {{- $wsl = true -}}
@@ -27,7 +27,7 @@
 {{- else -}}
 
 {{/* preset detection */}}
-{{-   if $codespaces -}}
+{{-   if $devcontainer -}}
 {{-     $headless  = true -}}
 {{-     $transient = true -}}
 {{-   end -}}
@@ -59,6 +59,8 @@
 {{- if not $github -}}
 {{-   if not $transient -}}
 {{-     $github = promptString "github" -}}
+{{-   else if env "GITHUB_USER" -}}
+{{-     $github = env "GITHUB_USER" -}}
 {{-   else -}}
 {{-     $github = "neersighted" -}}
 {{-   end -}}
@@ -77,10 +79,10 @@ encryption = "age"
 [data]
     configured = true
 
-    codespaces = {{ $codespaces }}
-    wsl        = {{ $wsl }}
-    wsl1       = {{ $wsl1 }}
-    wsl2       = {{ $wsl2 }}
+    devcontainer = {{ $devcontainer }}
+    wsl          = {{ $wsl }}
+    wsl1         = {{ $wsl1 }}
+    wsl2         = {{ $wsl2 }}
 
     headless   = {{ $headless }}
     transient  = {{ $transient }}
