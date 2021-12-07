@@ -1,0 +1,33 @@
+{{- if lookPath "fish" -}}
+#!/usr/bin/env fish
+
+set fish (status fish-path)
+set username {{ .chezmoi.username | quote }}
+
+function getshell
+  if is_macos
+    dscl . read "/Users/$username" UserShell | string replace -r '^UserShell: (.*)' '$1'
+  else
+    getent passwd $username | string replace -r '.*:([^:]+)$' '$1'
+  end
+end
+function setshell -a shell
+  if is_macos
+    sudo dscl . create "/Users/$username" UserShell $shell
+  else if is_freebsd
+    su root -c "pw usermod -n '$username' -s '$shell'"
+  else
+    sudo usermod -s $shell $username
+  end
+end
+
+if test (getshell) != $fish
+  if not string match -eq (status fish-path) < /etc/shells
+    echo "Adding $fish to /etc/shells..."
+    printf '%s\n' "$fish" | sudo tee -a /etc/shells
+  end
+
+  echo "Changing login shell to $fish..."
+  setshell $fish
+end
+{{- end -}}
