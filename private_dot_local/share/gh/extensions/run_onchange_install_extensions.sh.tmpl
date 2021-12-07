@@ -13,10 +13,16 @@ dlvhdr/gh-prs
 {{- end }}
 '
 
+# FIXME: tempoarily force https
+proto=$(gh config get git_protocol)
+gh config set git_protocol https
+
 for repo in $wanted; do
   basename=$(basename "$repo")
-  test -d "$basename" || gh extension install "https://github.com/$repo"
+  test -d "$basename" || gh extension install "$repo"
 done
+
+gh config set git_protocol "$proto"
 
 # run_onchange hash: {{ $gh_auth | not | not }}
 # vi: ft=sh
