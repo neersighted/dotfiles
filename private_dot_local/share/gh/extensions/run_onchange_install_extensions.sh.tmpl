@@ -1,0 +1,20 @@
+{{- if lookPath "gh" -}}
+#!/bin/sh -e
+
+wanted='
+mislav/gh-branch
+mislav/gh-cp
+yusukebe/gh-markdown-preview
+{{- if ne .chezmoi.os "freebsd" }}
+seachicken/gh-poi
+dlvhdr/gh-prs
+{{- end }}
+'
+
+for repo in $wanted; do
+  basename=$(basename "$repo")
+  test -d "$basename" || gh extension install "https://github.com/$repo"
+done
+
+# vi: ft=sh
+{{- end -}}
