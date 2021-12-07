@@ -1,9 +1,3 @@
-{{- if env "GITHUB_TOKEN" -}}
-{{   range (gitHubKeys "") -}}
-{{     .Key }} {{ .Title }}
-{{   end -}}
-{{ else }}
-{{   range (gitHubKeys .user.github) -}}
-{{     .Key }}
-{{   end -}}
-{{- end -}}
+{{ range (gitHubKeys .user.github) -}}
+{{   .Key }}
+{{ end -}}
