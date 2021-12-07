@@ -15,7 +15,7 @@ trap 'sudo rm -rf -- "$GNUPGHOME"' EXIT
 # fish
 keyring="/usr/share/keyrings/fish-shell-maintainers.gpg"
 if ! [ -e "$keyring" ]; then
-  sudo gpg --homedir "$GNUPGHOME" --no-default-keyring --keyring "$keyring" --keyserver "hkps://keyserver.ubuntu.com" --recv-keys 0x59FDA1CE1B84B3FAD89366C027557F056DC33CA5 
+  sudo gpg --homedir "$GNUPGHOME" --no-default-keyring --keyring "$keyring" --keyserver keyserver.ubuntu.com --recv-keys 0x59FDA1CE1B84B3FAD89366C027557F056DC33CA5 
 fi
 echo "deb [arch=$arch signed-by=$keyring] http://ppa.launchpad.net/fish-shell/release-3/ubuntu $codename main" | sudo tee /etc/apt/sources.list.d/fish-ppa.list >/dev/null
 
@@ -29,7 +29,7 @@ echo "deb [arch=$arch signed-by=$keyring] https://cli.github.com/packages $coden
 # neovim
 keyring="/usr/share/keyrings/neovim-ppa-team.gpg"
 if ! [ -e "$keyring" ]; then
-  sudo gpg --homedir "$GNUPGHOME" --no-default-keyring --keyring "$keyring" --keyserver "hkps://keyserver.ubuntu.com" --recv-keys 0x9DBB0BE9366964F134855E2255F96FCF8231B6DD
+  sudo gpg --homedir "$GNUPGHOME" --no-default-keyring --keyring "$keyring" --keyserver keyserver.ubuntu.com --recv-keys 0x9DBB0BE9366964F134855E2255F96FCF8231B6DD
 fi
 echo "deb [arch=$arch signed-by=$keyring] http://ppa.launchpad.net/neovim-ppa/stable/ubuntu $codename main" | sudo tee /etc/apt/sources.list.d/neovim-ppa.list >/dev/null
 
