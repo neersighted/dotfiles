@@ -27,6 +27,6 @@ if [ "$(ps otty= $$)" != '?' ]; then
   stdin='/dev/tty' # connect chezmoi to the tty when available
 fi
 
-$chezmoi --verbose --keep-going init --apply  ${source_dir:+--source="$source_dir"} "$@" neersighted <$stdin
+$chezmoi --verbose --keep-going init --apply --exclude encrypted ${source_dir:+--source="$source_dir"} "$@" neersighted <$stdin
 
 echo "Bootstrap complete! Restart your shell and run 'chezmoi apply' for stage 2!"

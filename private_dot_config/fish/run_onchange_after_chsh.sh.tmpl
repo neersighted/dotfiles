@@ -1,25 +1,25 @@
 {{- if lookPath "fish" -}}
 #!/bin/sh -e
 
+username={{ .chezmoi.username | quote }}
 getshell() {
   {{- if eq .chezmoi.os "darwin" }}
-  dscl . read "/Users/$USER" UserShell | awk '{print $2}'
+  dscl . read "/Users/$username" UserShell | awk '{print $2}'
   {{ else }}
-  getent passwd "$USER" | awk -F: '{print $7}'
-  {{ end -}}
+  getent passwd "$username" | awk -F: '{print $7}'
+  {{- end }}
 }
-
 setshell() { # shell
   {{- if eq .chezmoi.os "darwin" }}
-  sudo dscl . create "/Users/$USER" UserShell "$1"
+  sudo dscl . create "/Users/$username" UserShell "$1"
   {{ else if eq .chezmoi.os "freebsd" }}
-  su root -c "pw usermod -n '$USER' -s '$1'"
+  su root -c "pw usermod -n '$username' -s '$1'"
   {{ else }}
-  sudo usermod -s "$1" "$USER"
-  {{ end -}}
+  sudo usermod -s "$1" "$username"
+  {{- end }}
 }
 
-fish="{{ lookPath "fish" }}"
+fish={{ lookPath "fish" | quote }}
 if [ "$(getshell)" != "$fish" ]; then
   if ! grep -Fxq "$fish" /etc/shells; then
     echo "Adding $fish to /etc/shells..."
