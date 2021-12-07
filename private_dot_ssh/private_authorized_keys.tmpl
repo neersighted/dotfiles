@@ -3,7 +3,7 @@
 {{     .Key }} {{ .Title }}
 {{   end -}}
 {{ else }}
-{{   range (gitHubKeys "neersighted") -}}
+{{   range (gitHubKeys .user.github) -}}
 {{     .Key }}
 {{   end -}}
 {{- end -}}

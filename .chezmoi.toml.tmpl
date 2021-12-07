@@ -54,6 +54,16 @@
 {{-   end -}}
 {{- end -}}
 
+{{/* github configuration */}}
+{{- $github := get .user "github" -}}
+{{- if not $github -}}
+{{-   if not $transient -}}
+{{-     $github = promptString "github" -}}
+{{-   else -}}
+{{-     $github = "neersighted" -}}
+{{-   end -}}
+{{- end -}}
+
 sourceDir = {{ .chezmoi.sourceDir | quote }}
 remove = true
 
@@ -78,6 +88,7 @@ encryption = "age"
 [data.user]
     name   = "Bjorn Neergaard"
     email  = {{ $email | quote }}
+    github = {{ $github | quote }}
 
 [data.node]
     current = 17
