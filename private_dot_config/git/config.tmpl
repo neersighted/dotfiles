@@ -12,15 +12,17 @@
 
 [credential]
 	username = {{ .user.github }}
-{{- if eq .chezmoi.os "linux" }}
-	helper = cache --timeout=3600
+{{- if eq .chezmoi.os "windows" }}
+	helper = manager-core
 {{ else if eq .chezmoi.os "darwin" }}
 	helper = osxkeychain
+{{ else }}
+	helper = store
 {{- end }}
 {{- if lookPath "gh" }}
 [credential "https://github.com"]
 	helper = 
-	helper = !/usr/bin/gh auth git-credential
+	helper = !{{ lookPath "gh" }} auth git-credential
 {{- end }}
 
 #
@@ -44,7 +46,6 @@
 {{- end }}
 {{- if eq .chezmoi.os "windows" }}
 	autocrlf = false
-	sshCommand = "{{ lookPath "ssh.exe" | replace "\\" "/" }}" # use windows ssh.exe
 {{- end }}
 [pull]
 	ff = true
