@@ -1,4 +1,6 @@
 {{- if lookPath "gh" -}}
+{{- $gh_auth := stat (expandenv "$HOME/.config/gh/hosts.yml") -}}
+{{- if $gh_auth -}}
 #!/bin/sh -e
 
 wanted='
@@ -16,5 +18,7 @@ for repo in $wanted; do
   test -d "$basename" || gh extension install "https://github.com/$repo"
 done
 
+# run_onchange hash: {{ $gh_auth | not | not }}
 # vi: ft=sh
+{{- end -}}
 {{- end -}}
