@@ -3,7 +3,7 @@
 #!/bin/sh -e
 
 echo "Adding custom DNF repos..."
-sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo # github-cli
 
 echo "Installing packages with DNF..."
 sudo dnf group install -y "C Development Tools and Libraries" "Development Tools" "Development Libraries"

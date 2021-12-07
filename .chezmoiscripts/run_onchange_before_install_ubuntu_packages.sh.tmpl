@@ -1,19 +1,25 @@
 {{- if eq (index .chezmoi.osRelease "id") "ubuntu" -}}
-{{- $impish := semverCompare "~21.10" .chezmoi.osRelease.versionID -}}
+{{- $impishPlus := semverCompare "~21.10" .chezmoi.osRelease.versionID -}}
 #!/bin/sh -e
 
-echo "Adding custom Ubuntu repos..."
-{{ if $impish -}}
-sudo apt-add-repository --yes --no-update --ppa fish-shell/release-3
-sudo apt-add-repository --yes --no-update --uri https://cli.github.com/packages
-{{ else }}
-sudo apt-add-repository --yes --no-update ppa:fish-shell/release-3
-sudo apt-add-repository --yes --no-update https://cli.github.com/packages
-{{ end -}}
-if ! [ -e "/etc/apt/trusted.gpg.d/github-cli.gpg" ]; then
-  curl -sSfL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/etc/apt/trusted.gpg.d/github-cli.gpg
-fi
+arch=$(dpkg --print-architecture)
+codename={{ .chezmoi.osRelease.ubuntuCodename | quote }}
 
+echo "Adding custom Ubuntu repos..."
+
+# fish
+keyring="/usr/share/keyrings/fish-shell-maintainers.gpg"
+if ! [ -e "$keyring" ]; then
+  sudo gpg --no-default-keyring --keyring "$keyring" --keyserver "hkps://keyserver.ubuntu.com" --recv-keys 0x59FDA1CE1B84B3FAD89366C027557F056DC33CA5 
+fi
+echo "deb [arch=$arch signed-by=$keyring] http://ppa.launchpad.net/fish-shell/release-3/ubuntu $codename main" | sudo tee /etc/apt/sources.list.d/fish-ppa.list >/dev/null
+
+# github-cli
+keyring="/usr/share/keyrings/githubcli-archive-keyring.gpg"
+if ! [ -e "$keyring" ]; then
+  sudo curl -sSfL https://cli.github.com/packages/githubcli-archive-keyring.gpg -o "$keyring"
+fi
+echo "deb [arch=$arch signed-by=$keyring] https://cli.github.com/packages $codename main" | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
 
 echo "Installing packages with APT..."
 sudo apt-get update
@@ -37,7 +43,7 @@ sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
   libssl-dev \
   libyaml-dev \
   zlib1g-dev \
-{{- if $impish }}
+{{- if $impishPlus }}
   {{/* User Programs */ -}}
   age \
 {{- end }}
@@ -45,7 +51,7 @@ sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
   bat \
   bpfcc-tools \
   direnv \
-{{- if $impish }}
+{{- if $impishPlus }}
   exa \
 {{- end }}
   fd-find \
@@ -54,7 +60,7 @@ sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
   gdb \
   gh \
   git \
-{{- if $impish }}
+{{- if $impishPlus }}
   git-filter-repo \
 {{- end }}
   git-lfs \
@@ -73,11 +79,11 @@ sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
   pcp \
   pgcli \
   pipx \
-{{- if $impish }}
+{{- if $impishPlus }}
   pre-commit \
 {{- end }}
   python-is-python3 \
-{{- if not $impish }}
+{{- if not $impishPlus }}
   python3-venv \
 {{- end }}
   ripgrep \
@@ -94,7 +100,7 @@ sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
   unzip \
   whois \
   xdg-utils \
-{{- if $impish }}
+{{- if $impishPlus }}
   zoxide
 {{ else }}
   ""
