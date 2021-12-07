@@ -11,6 +11,16 @@ tags
 .config/xinit
 {{ end }}
 {{ if .transient }}
+.local/bin/goenv-update
+.local/bin/nodenv-update
+.local/bin/pyenv-update
+.local/bin/rbenv-update
+.local/bin/rustupup
+.local/share/goenv
+.local/share/nodenv
+.local/share/pyenv
+.local/share/rbenv
+.local/share/rustup
 .ssh/authorized_keys
 .ssh/known_hosts
 {{ end }}
