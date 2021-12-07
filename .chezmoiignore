@@ -31,7 +31,8 @@ AppData
 bin
 Documents
 {{ else }} # ignore *nix files on windows
-.config/*
+.chezmoiscripts/*.sh
+.config
 !.config/git # ...except git, which stores config files at the same paths
 .local
 {{ end }}
