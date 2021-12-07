@@ -8,6 +8,11 @@ sudo apt-add-repository --yes --no-update --ppa fish-shell/release-3
 {{ else }}
 sudo apt-add-repository --yes --no-update ppa:fish-shell/release-3
 {{ end -}}
+if ! [ -e "/etc/apt/sources.list.d/github-cli.list" ]; then
+  curl -sSfL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
+fi
+
 
 echo "Installing packages with APT..."
 sudo apt-get update
@@ -46,6 +51,7 @@ sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
   fish \
   fzf \
   gdb \
+  gh \
   git \
 {{- if $impish }}
   git-filter-repo \

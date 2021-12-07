@@ -24,7 +24,7 @@ end
 if test (getshell) != $fish
   if not string match -eq (status fish-path) < /etc/shells
     echo "Adding $fish to /etc/shells..."
-    printf '%s\n' "$fish" | sudo tee -a /etc/shells
+    printf '%s\n' "$fish" | sudo tee -a /etc/shells >/dev/null
   end
 
   echo "Changing login shell to $fish..."
