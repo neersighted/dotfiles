@@ -1,7 +1,10 @@
 {{- if eq .chezmoi.os "freebsd" -}}
 #!/bin/sh -e
 
-[ "$(id -u)" -eq 0 ] || exec su root -c "sh $0"
+if [ "$(id -u)" -ne 0 ]; then
+  echo "Asking for root credentials..."
+  exec su root -c "sh $0"
+fi
 
 echo "Installing ports with pkg..."
 pkg install -y \

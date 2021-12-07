@@ -2,13 +2,15 @@
 {{- $impishPlus := semverCompare "~21.10" .chezmoi.osRelease.versionID -}}
 #!/bin/sh -e
 
+echo "Asking for root credentials..."
+sudo -v
+
+echo "Adding custom Ubuntu repos..."
 arch=$(dpkg --print-architecture)
 codename={{ .chezmoi.osRelease.ubuntuCodename | quote }}
 
-GNUPGHOME="$(mktemp -d)"
+GNUPGHOME="$(sudo mktemp -d)"
 trap 'sudo rm -rf -- "$GNUPGHOME"' EXIT
-
-echo "Adding custom Ubuntu repos..."
 
 # fish
 keyring="/usr/share/keyrings/fish-shell-maintainers.gpg"

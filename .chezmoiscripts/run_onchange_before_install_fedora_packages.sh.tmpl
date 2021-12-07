@@ -2,6 +2,9 @@
 {{- if eq .chezmoi.osRelease.idLike "fedora" -}}
 #!/bin/sh -e
 
+echo "Asking for root credentials..."
+sudo -v
+
 echo "Adding custom DNF repos..."
 sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo # github-cli
 
