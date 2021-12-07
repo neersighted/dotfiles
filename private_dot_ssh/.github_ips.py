@@ -25,4 +25,5 @@ with urllib.request.urlopen("https://api.github.com/meta") as response:
             else:
                 hosts.extend((str(host) for host in network.hosts()))
 
-    print(json.dumps(hosts, indent=2, sort_keys=True))
+    with open(".github_ips.json", "w") as output:
+        output.write(json.dumps(hosts, indent=2, sort_keys=True))
