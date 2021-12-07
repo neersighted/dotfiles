@@ -29,4 +29,4 @@ fi
 
 $chezmoi init --apply --exclude encrypted ${source_dir:+--source="$source_dir"} "$@" neersighted <$stdin
 
-echo "Bootstrap complete! Restart your shell and run 'chezmoi apply' for stage 2!"
+echo "Bootstrap complete! Restart your terminal to load your new environment!"
