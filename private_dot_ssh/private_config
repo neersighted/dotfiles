@@ -1,9 +1,6 @@
 Host *.lan
 	CheckHostIp no
 
-Host github.com *.github.com
-	CheckHostIp no
-
 Host git.launchpad.net
 	HostKeyAlgorithms +ssh-rsa
 
