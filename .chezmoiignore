@@ -11,6 +11,7 @@ tags
 .config/xinit
 {{ end }}
 {{ if .transient }}
+.ssh/authorized_keys
 .ssh/known_hosts
 {{ end }}
 
