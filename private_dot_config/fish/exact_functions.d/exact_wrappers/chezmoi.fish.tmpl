@@ -6,7 +6,8 @@ function chezmoi
   case edit
     if test (count $argv) -eq 1
       if set targets (chezmoi managed --include=files,symlinks,scripts \
-        | fzf --multi --preview 'bat --style=numbers --color=always ~/{}')
+        | fzf --multi --preview \
+          'chezmoi cat ~/{} | bat --style=numbers --color=always --file-name ~/{}')
         set args '~/'$targets
         commandline --replace "chezmoi edit $args"
       end
