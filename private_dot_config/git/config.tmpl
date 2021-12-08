@@ -12,7 +12,7 @@
 
 [credential]
 	helper =
-{{- if env "GITPOD_WORKSPACE_ID" }}
+{{- if .devcontainer.gitpod }}
 	helper = !/usr/bin/gp credential-helper
 {{  else }}
 {{-   if eq .chezmoi.os "windows" }}

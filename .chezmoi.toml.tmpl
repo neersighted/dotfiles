@@ -1,12 +1,27 @@
 {{/* environment/hardware tags */}}
 {{- $devcontainer := false -}}{{/* devcontainer (codespaces, gitpod, vscode) */}}
+{{- $codespaces   := false -}}{{/* github codespaces */}}
+{{- $gitpod       := false -}}{{/* gitpod */}}
+{{- $vscontainer  := false -}}{{/* vs code remote containers */}}
 {{- $wsl          := false -}}{{/* wsl 1/2 */}}
 {{- $wsl1         := false -}}{{/* wsl 1 */}}
 {{- $wsl2         := false -}}{{/* wsl 2 */}}
 
-{{- if or (env "CODESPACES") (env "GITPOD_WORKSPACE_ID") (env "REMOTE_CONTAINERS_IPC") -}}
+{{/* devcontainer detection */}}
+{{- if (env "CODESPACES") -}}
+{{- $codespaces = true -}}
+{{- end -}}
+{{- if (env "GITPOD_WORKSPACE_ID") -}}
+{{- $gitpod = true -}}
+{{- end -}}
+{{- if (env "REMOTE_CONTAINERS_IPC") -}}
+{{- $vscontainer = true -}}
+{{- end -}}
+{{- if or $codespaces $gitpod $vscontainer -}}
 {{- $devcontainer = true -}}
 {{- end -}}
+
+{{/* wsl detection */}}
 {{- if (env "WSL_DISTRO_NAME") -}}
 {{- $wsl = true -}}
 {{- end -}}
@@ -91,8 +106,6 @@ encryption = "age"
 [data]
     configured = true
 
-    devcontainer = {{ $devcontainer }}
-
     headless   = {{ $headless }}
     transient  = {{ $transient }}
 
@@ -100,6 +113,12 @@ encryption = "age"
     name   = {{ $name | quote }}
     email  = {{ $email | quote }}
     github = {{ $github | quote }}
+
+[data.devcontainer]
+    any         = {{ $devcontainer }}
+    codespaces  = {{ $codespaces }}
+    gitpod      = {{ $gitpod }}
+    vscontainer = {{ $vscontainer }}
 
 [data.wsl]
     any          = {{ $wsl }}
