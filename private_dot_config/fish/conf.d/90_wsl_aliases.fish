@@ -2,18 +2,30 @@ is_wsl; or exit
 
 set -l aliases \
   adb \
+  clion \
   cmd \
+  goland \
+  idea \
   multipass \
   neovide \
   powershell \
+  pycharm \
+  rider \
+  studio \
   wsl \
   ykman
 set -l alias_commands \
   "adb.exe" \
+  "cmd.exe /c clion.cmd" \
   "cmd.exe" \
+  "cmd.exe /c golang.cmd" \
+  "cmd.exe /c idea.cmd" \
   "multipass.exe" \
   "neovide.exe --wsl" \
   "powershell.exe" \
+  "cmd /c pycharm.cmd" \
+  "cmd /c Rider.cmd" \
+  "cmd /c studio.cmd" \
   "wsl.exe" \
   "ykman.exe"
 
