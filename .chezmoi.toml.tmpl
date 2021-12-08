@@ -142,20 +142,20 @@ encryption = "age"
 {{- end }}
 
 [data.node]
-    current = 17
+    current  = 17
 [data.node.lts]
-    erbium = 12
-    fermium = 14
-    gallium = 16
+    erbium   = 12
+    fermium  = 14
+    gallium  = 16
     hydrogen = 18
-    active = 16
+    active   = 16
 
-{{ $pythons := list "3.6" "3.7" "3.8" "3.9" "3.10" }}
-{{- if eq .chezmoi.os "darwin" -}}
-{{-   $pythons = slice $pythons 1 -}}
-{{- end -}}
 [data.python]
-    supported = {{ $pythons | toJson }}
+{{- if eq .chezmoi.os "darwin" }}
+    supported = ["3.7", "3.8", "3.9", "3.10"]
+{{ else }}
+    supported = ["3.6", "3.7", "3.8", "3.9", "3.10"]
+{{- end }}
 
 [data.nord]
     nord0  = '#2e3440'
