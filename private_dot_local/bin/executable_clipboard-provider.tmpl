@@ -59,7 +59,7 @@ function tmux-provider -a op
   set -q TMUX; or return 1
   switch $op
     case copy; spit | tmux load-buffer -w -
-    case paste; tmux save-buffer -
+    case paste; tmux save-buffer - 2>/dev/null
   end
 {{ else }}
   return 1
