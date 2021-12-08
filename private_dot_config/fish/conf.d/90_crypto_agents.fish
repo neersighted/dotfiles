@@ -1,7 +1,5 @@
 is_ssh; and exit
 
-set -q tty; or set tty (tty)
-
 if is_wsl1
   set -x SSH_AUTH_SOCK $USERPROFILE/wincrypt-wsl.sock
 else if is_wsl2
