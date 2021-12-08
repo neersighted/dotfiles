@@ -10,5 +10,3 @@ if [ "$(basename "$PWD")" != 'nodenv' ]; then
   nodenv/src/configure
   make -C nodenv/src
 fi
-
-# vi: ft=sh

@@ -9,5 +9,3 @@ if [ "$(basename "$PWD")" != 'pyenv' ]; then
   pyenv/src/configure
   make -C pyenv/src
 fi
-
-# vi: ft=sh

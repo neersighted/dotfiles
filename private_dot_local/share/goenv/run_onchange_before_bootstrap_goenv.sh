@@ -9,5 +9,3 @@ if [ "$(basename "$PWD")" != 'goenv' ]; then
   goenv/src/configure
   make -C goenv/src
 fi
-
-# vi: ft=sh

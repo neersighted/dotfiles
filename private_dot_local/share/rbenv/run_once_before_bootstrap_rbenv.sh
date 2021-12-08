@@ -10,5 +10,3 @@ if [ "$(basename "$PWD")" != 'rbenv' ]; then
   rbenv/src/configure
   make -C rbenv/src
 fi
-
-# vi: ft=sh
