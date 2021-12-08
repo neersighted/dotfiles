@@ -1,4 +1,4 @@
-{{- if .wsl -}}
+{{- if .wsl.any -}}
 {{- $ping := output "realpath" (lookPath "ping") | trim -}}
 {{- if (not (output "getcap" $ping)) -}}
 #!/bin/sh -e

@@ -75,7 +75,7 @@ function desktop-provider
 end
 
 function wsl-provider -a op
-{{- if .wsl }}
+{{- if .wsl.any }}
 {{- $win32yank := lookPath "win32yank.exe" -}}
 {{- $powershell := or (lookPath "pwsh.exe") (lookPath "powershell.exe") -}}
 {{-   if $win32yank }}

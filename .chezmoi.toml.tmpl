@@ -92,9 +92,6 @@ encryption = "age"
     configured = true
 
     devcontainer = {{ $devcontainer }}
-    wsl          = {{ $wsl }}
-    wsl1         = {{ $wsl1 }}
-    wsl2         = {{ $wsl2 }}
 
     headless   = {{ $headless }}
     transient  = {{ $transient }}
@@ -103,6 +100,27 @@ encryption = "age"
     name   = {{ $name | quote }}
     email  = {{ $email | quote }}
     github = {{ $github | quote }}
+
+[data.wsl]
+    any          = {{ $wsl }}
+    wsl1         = {{ $wsl1 }}
+    wsl2         = {{ $wsl2 }}
+{{- if $wsl }}
+[data.wsl.aliases]
+    adb        = "adb.exe"
+    clion      = "cmd.exe /c clion.cmd"
+    cmd        = "cmd.exe"
+    goland     = "cmd.exe /c goland.cmd"
+    idea       = "cmd.exe /c idea.cmd"
+    multipass  = "multipass.exe"
+    neovide    = "neovide.exe --wsl"
+    powershell = "powershell.exe"
+    pycharm    = "cmd /c pycharm.cmd"
+    rider      = "cmd /c Rider.cmd"
+    studio     = "cmd /c studio.cmd"
+    wsl        = "wsl.exe"
+    ykman      = "ykman.exe"
+{{- end }}
 
 [data.node]
     current = 17
