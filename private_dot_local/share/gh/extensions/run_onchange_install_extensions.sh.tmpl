@@ -1,5 +1,5 @@
 {{- if lookPath "gh" -}}
-{{- $gh_auth := stat (expandenv "$HOME/.config/gh/hosts.yml") -}}
+{{- $gh_auth := stat (joinPath .chezmoi.homeDir ".config/gh/hosts.yml") -}}
 {{- if $gh_auth -}}
 #!/bin/sh -e
 

@@ -1,5 +1,5 @@
 {{- $chezmoi_bin := dir .chezmoi.executable -}}
-{{- $xdg_bin_dir := or (env "XDG_BIN_DIR") (expandenv "$HOME/.local/bin") -}}
+{{- $xdg_bin_dir := or (env "XDG_BIN_DIR") (joinPath .chezmoi.homeDir ".local/bin") -}}
 {{- if eq $chezmoi_bin $xdg_bin_dir -}}
 #!/bin/sh -e
 
