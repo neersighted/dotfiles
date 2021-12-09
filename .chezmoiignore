@@ -27,14 +27,14 @@ tags
 
 # os-based ignores
 {{ if ne .chezmoi.os "windows" }} # ignore windows files on *nix
-AppData
-bin
-Documents
+AppData/*
+bin/*
+Documents/*
 {{ else }} # ignore *nix files on windows
 .chezmoiscripts/*.sh
-.config
+.config/*
 !.config/git # ...except git, which stores config files at the same paths
-.local
+.local/*
 {{ end }}
 
 {{ if eq .chezmoi.os "darwin" }} # ignore x11 files on macos
