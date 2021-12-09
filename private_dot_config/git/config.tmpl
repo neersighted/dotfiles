@@ -17,7 +17,7 @@
 {{ else if or (eq .chezmoi.os "windows") (lookPath "git-credential-manager-core") }}
 	helper = manager-core
 {{ else if .wsl.any }}
-	helper = {{ lookPath "git.exe" | replace " " "\\\\ " }} credential-manager-core
+	helper = !{{ lookPath "git.exe" | quote }} credential-manager-core
 {{ else }}
 	helper = store
 {{ end -}}
@@ -153,4 +153,4 @@
 	newNormal = "green"
 	newHighlight = "green reverse"
 
-# vi: ft=gitconfig
+# vi: ft=gitconfig.chezmoitmpl
