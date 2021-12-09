@@ -62,8 +62,10 @@
 	mnemonicprefix = true
 {{- if lookPath "nvr" }}
 	tool = nvr
+{{- end }}
 [merge]
 	ff = only
+{{- if lookPath "nvr" }}
 	tool = nvr
 {{- end }}
 [rebase]
