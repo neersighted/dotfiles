@@ -386,12 +386,16 @@
 	</array>
 	<key>QuitWhenAllWindowsClosed</key>
 	<true/>
+	<key>SoundForEsc</key>
+	<false/>
 	<key>StatusBarPosition</key>
 	<integer>0</integer>
 	<key>TabStyleWithAutomaticOption</key>
 	<integer>6</integer>
 	<key>UseLionStyleFullscreen</key>
 	<true/>
+	<key>VisualIndicatorForEsc</key>
+	<false/>
 	<key>WindowNumber</key>
 	<false/>
 </dict>
