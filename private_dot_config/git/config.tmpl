@@ -16,6 +16,8 @@
 	helper = {{ lookPath "gp" }} credential-helper
 {{ else if or (eq .chezmoi.os "windows") (lookPath "git-credential-manager-core") }}
 	helper = manager-core
+{{ else if .wsl.any }}
+	helper = {{ lookPath "git.exe" | replace " " "\\\\ " }} credential-manager-core
 {{ else }}
 	helper = store
 {{ end -}}
