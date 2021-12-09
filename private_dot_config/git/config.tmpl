@@ -12,22 +12,21 @@
 
 [credential]
 	helper =
-{{- if .devcontainer.gitpod }}
-	helper = !/usr/bin/gp credential-helper
-{{  else }}
-{{-   if eq .chezmoi.os "windows" }}
+{{- if and (lookPath "gp") .devcontainer.gitpod }}
+	helper = {{ lookPath "gp" }} credential-helper
+{{ else if or (eq .chezmoi.os "windows") (lookPath "git-credential-manager-core") }}
 	helper = manager-core
-{{    else if eq .chezmoi.os "darwin" }}
-	helper = osxkeychain
-{{    else }}
+{{ else }}
 	helper = store
-{{-   end }}
-{{-   if lookPath "gh" }}
+{{ end -}}
 [credential "https://github.com"]
+	username = {{ .user.github }}
+{{- if and (lookPath "gh") (not .devcontainer.gitpod) }}
 	helper =
-	helper = !{{ lookPath "gh" }} auth git-credential
-{{-   end }}
+	helper = {{ lookPath "gh" }} auth git-credential
 {{- end }}
+[credential "https://dev.azure.com"]
+	useHttpPath = true
 
 #
 # General Config
