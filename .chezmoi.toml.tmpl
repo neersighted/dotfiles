@@ -59,7 +59,7 @@
 {{- $name := get .user "name" -}}
 {{- $defaultName := "Bjorn Neergaard" -}}
 {{- if not $name -}}
-{{-   if env "GITPOD_GIT_USER_NAME" -}}
+{{-   if $gitpod -}}
 {{-     $name = env "GITPOD_GIT_USER_NAME" -}}
 {{-   else if stdinIsATTY -}}
 {{-     $name = promptString "name" $defaultName -}}
@@ -72,7 +72,7 @@
 {{- $email := get .user "email" -}}
 {{- $defaultEmail := "bjorn@neersighted.com" -}}
 {{- if not $email -}}
-{{-   if env "GITPOD_GIT_USER_EMAIL" -}}
+{{-   if $gitpod -}}
 {{-     $email = env "GITPOD_GIT_USER_EMAIL" -}}
 {{-   else if stdinIsATTY -}}
 {{-     $email = promptString "email" $defaultEmail -}}
@@ -87,7 +87,7 @@
 {{- if not $github -}}
 {{-   if env "GITHUB_USER" -}}
 {{-     $github = env "GITHUB_USER" -}}
-{{-   else if stdinIsATTY -}}
+{{-   else if and (stdinIsATTY) (not $gitpod) -}}
 {{-     $github = promptString "github" $defaultGithub -}}
 {{-   else -}}
 {{-     $github = $defaultGithub -}}
