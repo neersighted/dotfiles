@@ -21,25 +21,39 @@ $null = New-Item -Path HKCU:\Software\Policies\Microsoft\Windows\Explorer -Name 
 
 $path = [Environment]::GetEnvironmentVariable('PATH', 'User').Split(';')
 if (!$path.Contains($PSScriptRoot)) {
-	Write-Host "Adding $PSScriptRoot to PATH"
-	$path = [String]::Join(';', $path + $PSScriptRoot)
-	[Environment]::SetEnvironmentVariable('PATH', $path, 'User')
+    Write-Host "Adding $PSScriptRoot to PATH"
+    $path = [String]::Join(';', $path + $PSScriptRoot)
+    [Environment]::SetEnvironmentVariable('PATH', $path, 'User')
+}
+
+foreach ($var in @("APPDATA/p", "LOCALAPPDATA/p", "USERPROFILE/p", "TERMINAL_EMULATOR")) {
+    $wslenv = [Environment]::GetEnvironmentVariable('WSLENV', 'User')
+    if ($wslenv) {
+        $wslenv = $wslenv.Split(':')
+    } else {
+        $wslenv = @()
+    }
+
+    if (!$wslenv.Contains($var)) {
+        Write-Host "Adding $var to WSLENV"
+        $wslenv = [String]::Join(':', $wslenv + $var)
+        [Environment]::SetEnvironmentVariable('WSLENV', $wslenv, 'User')
+    }
 }
 
 if (!(Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-All).State) {
-	Write-Host 'Enabling Hyper-V...'
-	Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-All
+    Write-Host 'Enabling Hyper-V...'
+    Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V-All
 }
 
 if (!(Get-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform).State) {
-	Write-Host 'Enabling Virtual Machine Platform...'
-	Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform
+    Write-Host 'Enabling Virtual Machine Platform...'
+    Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform
 }
 
-
 if (!(Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux).State) {
-	Write-Host 'Enabling WSL...'
-	Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+    Write-Host 'Enabling WSL...'
+    Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
 }
 
 Write-Host 'Done!'
