@@ -10,7 +10,7 @@ if [ ! "$(command -v chezmoi)" ]; then
   elif [ "$(command -v wget)" ]; then
     wget -qO- https://git.io/chezmoi | sh -s -- -b "$bin_dir"
   else
-    echo "To install chezmoi, you must have curl, fetch, or wget installed." >&2
+    echo "To install chezmoi, ycu must have curl, fetch, or wget installed." >&2
     exit 1
   fi
 else
@@ -20,6 +20,9 @@ fi
 script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 if [ -e "$script_dir/.git" ]; then
   source_dir="$script_dir" # re-use a cloned source dir if it exists
+fi
+if [ -n "$GITPOD_WORKSPACE_ID" ]; then
+  source_dir="/workspace/.dotfiles" # TODO: more elegant persistance on gitpod
 fi
 
 stdin='/dev/null'
