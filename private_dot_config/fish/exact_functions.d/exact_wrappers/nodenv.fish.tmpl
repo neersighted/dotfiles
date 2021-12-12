@@ -1,5 +1,6 @@
 {{- if lookPath "nodenv" -}}
 function nodenv -d 'node environment manager'
+  set -lx NODENV_SHELL fish
   set command $argv[1]
 
   switch $command

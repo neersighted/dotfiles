@@ -1,5 +1,6 @@
 {{- if lookPath "rbenv" -}}
 function rbenv -d 'ruby environment manager'
+  set -lx RBENV_SHELL fish
   set command $argv[1]
 
   switch $command

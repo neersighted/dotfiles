@@ -1,5 +1,6 @@
 {{- if lookPath "pyenv" -}}
 function pyenv -d 'python environment manager'
+  set -lx PYENV_SHELL fish
   set command $argv[1]
 
   switch $command

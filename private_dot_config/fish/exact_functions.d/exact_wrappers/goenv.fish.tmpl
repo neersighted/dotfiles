@@ -1,5 +1,6 @@
 {{- if lookPath "goenv" -}}
 function goenv -d 'go environment manager'
+  set -lx GOENV_SHELL fish
   set command $argv[1]
 
   switch $command
