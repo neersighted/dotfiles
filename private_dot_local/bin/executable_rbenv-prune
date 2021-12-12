@@ -1,0 +1,11 @@
+#!/usr/bin/env fish
+
+set majors (string replace -rf '.*/(\d+\.\d+).*' '$1' $RBENV_ROOT/versions/* | uniq)
+
+for major in $majors
+  set_color red
+  echo "Pruning Ruby $major..."
+  set_color normal
+
+  rbenv latest uninstall $major
+end

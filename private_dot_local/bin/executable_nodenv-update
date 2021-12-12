@@ -18,8 +18,8 @@ for release in $lts $current
     set type "LTS"
   end
 
-  set latest (nodenv latest -p $release)
-  set installed (nodenv latest -P $release)
+  set latest (nodenv latest --print $release)
+  set installed (nodenv latest --print-installed $release)
 
   if test "$installed" != "$latest"
     set_color green

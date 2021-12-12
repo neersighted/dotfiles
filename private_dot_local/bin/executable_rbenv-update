@@ -8,8 +8,8 @@ for repo in $RBENV_ROOT $RBENV_ROOT/plugins/*
   git -C $repo pull -q
 end
 
-set latest (rbenv latest -p)
-set installed (rbenv latest -P)
+set latest (rbenv latest --print)
+set installed (rbenv latest --print-installed)
 
 if test "$installed" != "$latest"
   set_color red

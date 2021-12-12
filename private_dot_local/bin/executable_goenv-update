@@ -8,8 +8,8 @@ for repo in $GOENV_ROOT $GOENV_ROOT/plugins/*
   git -C $repo pull -q
 end
 
-set latest (goenv latest -p)
-set installed (goenv latest -P)
+set latest (goenv latest --print)
+set installed (goenv latest --print-installed)
 
 if test "$installed" != "$latest"
   set_color blue

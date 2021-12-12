@@ -9,8 +9,8 @@ for repo in $PYENV_ROOT $PYENV_ROOT/plugins/*
 end
 
 for release in (chezmoi data | jq -r '.python.supported[]')
-  set latest (pyenv latest -p $release)
-  set installed (pyenv latest -P $release)
+  set latest (pyenv latest --print $release)
+  set installed (pyenv latest --print-installed $release)
 
   if test "$installed" != "$latest"
     set_color yellow

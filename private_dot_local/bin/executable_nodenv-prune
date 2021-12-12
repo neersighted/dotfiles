@@ -1,0 +1,11 @@
+#!/usr/bin/env fish
+
+set majors (string replace -rf '.*/(\d+).*' '$1' $NODENV_ROOT/versions/* | uniq)
+
+for major in $majors
+  set_color green
+  echo "Pruning Node $major..."
+  set_color normal
+
+  nodenv latest uninstall $major
+end
