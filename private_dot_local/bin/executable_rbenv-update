@@ -17,6 +17,7 @@ if test "$installed" != "$latest"
   set_color normal
 
   rbenv latest install
+  and echo "$latest" > $RBENV_ROOT/version
 end
 
 set_color red
