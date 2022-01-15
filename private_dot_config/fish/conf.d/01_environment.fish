@@ -105,6 +105,9 @@ set -x HISTFILE $XDG_DATA_HOME/bash/history
 # ccache
 set -x CCACHE_DIR $XDG_CACHE_HOME/ccache
 
+# docker
+set -x DOCKER_BUILDKIT 1
+
 # homebrew
 is_macos; and set -x HOMEBREW_BUNDLE_FILE $XDG_CONFIG_HOME/brew/Brewfile
 
