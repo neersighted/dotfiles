@@ -15,12 +15,9 @@ function __venv_auto_activate_startup --on-event fish_prompt
 end
 
 function __poetry_project_activate
-  # disable built-in venv prompt
-  set -x VIRTUAL_ENV_DISABLE_PROMPT 1
-
   if not set -q VIRTUAL_ENV; and set pyproject (upcate pyproject.toml); and string match -q '[tool.poetry]' < $pyproject
     set project (string replace -r '^(.+)/[^/]+$' '$1' $pyproject)
-    set venv (poetry env info --path; or $path/.venv)
+    set venv (poetry env info --path; or echo $path/.venv)
 
     if test -e $venv
       source "$venv/bin/activate.fish"
