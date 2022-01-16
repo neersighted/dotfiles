@@ -37,7 +37,7 @@ while [ "$#" -gt 0 ]; do
 done
 
 for term in alacritty kitty urxvt; do
-  command -v "$term" >/dev/null && break
+  [ "$(command -v "$term")" ] && break
 done
 
 case $term in
