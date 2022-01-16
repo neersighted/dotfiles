@@ -1,0 +1,169 @@
+format = """
+($username )\
+($hostname )\
+($jobs )\
+($shlvl )\
+($character )
+"""
+
+right_format = """
+$directory\
+( [git:]({{ .nord.nord10 }})\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+)\
+( \
+($docker_context )\
+($dotnet )\
+($golang )\
+($nodejs )\
+($python )\
+($ruby )\
+($rust )\
+($status )\
+$cmd_duration
+)
+"""
+
+add_newline = false
+
+[username]
+format = "[$user]($style)"
+style_root = {{ .nord.nord11 | quote }}
+style_user = {{ .nord.nord4 | quote }}
+
+[hostname]
+format = "[$hostname]($style)"
+style = {{ .nord.nord15 | quote }}
+
+[jobs]
+format = "[$number$symbol]($style)"
+style = {{ .nord.nord12 | quote }}
+symbol_threshold = 1
+number_threshold = 1
+symbol = "!"
+
+[shlvl]
+disabled = false
+format = "[$shlvl$symbol]($style)"
+style = {{ .nord.nord8 | quote }}
+symbol = '\$'
+threshold = 3
+
+[character]
+format = "$symbol"
+success_symbol = "[λ]({{ .nord.nord10 }})"
+error_symbol = "[λ]({{ .nord.nord11 }})"
+
+[directory]
+format = "[$path]($style)[$read_only]($read_only_style)"
+style = {{ .nord.nord9 | quote }}
+read_only_style = {{ .nord.nord11 | quote }}
+read_only = "!"
+home_symbol = "~"
+truncation_length = 3
+truncate_to_repo = true
+fish_style_pwd_dir_length = 2
+use_logical_path = true
+
+[git_branch]
+format = "[$branch( ⟳ $remote_name/$remote_branch)]($style)"
+style = {{ .nord.nord7 | quote }}
+only_attached = true
+
+[git_commit]
+format = "[$hash]($style)"
+style = {{ .nord.nord15 | quote }}
+
+[git_state]
+format = " \\[[$state( $progress_current/$progress_total)]($style)\\]"
+style = {{ .nord.nord12 | quote }}
+
+[git_status]
+format = """( \\([
+$ahead_behind
+[$staged]({{ .nord.nord14 }})
+[$modified]({{ .nord.nord8 }})
+[$renamed]({{ .nord.nord8 }})
+[$deleted]({{ .nord.nord8 }})
+[$conflicted]({{ .nord.nord11 }})
+[$untracked]({{ .nord.nord13 }})
+[$stashed]({{ .nord.nord10 }})
+]($style)\\))"""
+style = {{ .nord.nord4 | quote }}
+ahead = "↑$count"
+behind = "↓$count"
+conflicted = "✖$count"
+deleted = "x$count"
+diverged = "↑$ahead_count↓$behind_count"
+modified = "✚$count"
+renamed = "»$count"
+staged = "●$count"
+stashed = "⚑$count"
+untracked = "…$count"
+
+[package]
+format = "[$symbol:$context]($style)"
+style = {{ .nord.nord15 | quote }}
+symbol = "pkg"
+version_format = "${raw}"
+
+[docker_context]
+format = "[$symbol:$context]($style)"
+style = {{ .nord.nord8 | quote }}
+symbol = "docker"
+only_with_files = false
+
+[dotnet]
+format = "[$symbol:$version]($style)"
+style = {{ .nord.nord10 | quote }}
+symbol = ".net"
+version_format = "${raw}"
+heuristic = true
+
+[golang]
+format = "[$symbol:$version]($style)"
+style = {{ .nord.nord8 | quote }}
+symbol = "go"
+version_format = "${raw}"
+
+[nodejs]
+format = "[$symbol:$version]($style)"
+style = {{ .nord.nord14 | quote }}
+not_capable_style = {{ .nord.nord11 | quote }}
+symbol = "node"
+version_format = "${raw}"
+
+[python]
+format = "[$symbol:$version( \\($virtualenv\\))]($style)"
+style = {{ .nord.nord13 | quote }}
+symbol = "py"
+version_format = "${raw}"
+python_binary = "python3"
+
+[ruby]
+format = "[$symbol:$version]($style)"
+style = {{ .nord.nord11 | quote }}
+symbol = "rb"
+version_format = "${raw}"
+
+[rust]
+format = "[$symbol:$version]($style)"
+style = {{ .nord.nord12 | quote }}
+symbol = "rs"
+version_format = "${raw}"
+
+[status]
+disabled = false
+format = "[$common_meaning$signal_name$maybe_int]($style)"
+style = {{ .nord.nord11 | quote }}
+
+[cmd_duration]
+format = "[$duration]($style)"
+style = {{ .nord.nord3 | quote }}
+show_milliseconds = true
+min_time = 50
+show_notifications = true
+min_time_to_notify = 30_000
