@@ -82,15 +82,15 @@ format = " \\[[$state( $progress_current/$progress_total)]($style)\\]"
 style = {{ .nord.nord12 | quote }}
 
 [git_status]
-format = """( \\([
-$ahead_behind
-[$staged]({{ .nord.nord8 }})
-[$modified]({{ .nord.nord7 }})
-[$renamed]({{ .nord.nord9 }})
-[$deleted]({{ .nord.nord12 }})
-[$conflicted]({{ .nord.nord11 }})
-[$untracked]({{ .nord.nord10 }})
-[$stashed]({{ .nord.nord15 }})
+format = """( \\([\
+$ahead_behind\
+[$staged]({{ .nord.nord8 }})\
+[$modified]({{ .nord.nord7 }})\
+[$renamed]({{ .nord.nord9 }})\
+[$deleted]({{ .nord.nord12 }})\
+[$conflicted]({{ .nord.nord11 }})\
+[$untracked]({{ .nord.nord10 }})\
+[$stashed]({{ .nord.nord15 }})\
 ]($style)\\))"""
 style = {{ .nord.nord4 | quote }}
 ahead = "${count}↑"
