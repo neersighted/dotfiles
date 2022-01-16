@@ -1,0 +1,10 @@
+{{- $starship_bin := dir (lookPath "starship") -}}
+{{- $xdg_bin_dir := or (env "XDG_BIN_DIR") (joinPath .chezmoi.homeDir ".local/bin") -}}
+{{- if or (not $starship_bin) (eq $starship_bin $xdg_bin_dir) -}}
+#!/bin/sh
+
+echo "Updating Starship..."
+curl -fsSL https://starship.rs/install.sh | sh -s -- -b "{{ $xdg_bin_dir }}" -y >/dev/null
+
+# vi: ft=sh
+{{- end -}}
