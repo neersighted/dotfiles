@@ -1,5 +1,4 @@
 format = """
-($username )\
 ($hostname )\
 ($jobs )\
 ($shlvl )\
@@ -7,6 +6,7 @@ format = """
 """
 
 right_format = """
+($username )
 $directory\
 ( [git:]({{ .nord.nord10 }})\
 $git_branch\
@@ -30,7 +30,7 @@ $cmd_duration
 add_newline = false
 
 [username]
-format = "[$user]($style)"
+format = "[user:$user]($style)"
 style_root = {{ .nord.nord11 | quote }}
 style_user = {{ .nord.nord4 | quote }}
 
