@@ -84,25 +84,25 @@ style = {{ .nord.nord12 | quote }}
 [git_status]
 format = """( \\([
 $ahead_behind
-[$staged]({{ .nord.nord14 }})
-[$modified]({{ .nord.nord8 }})
-[$renamed]({{ .nord.nord8 }})
-[$deleted]({{ .nord.nord8 }})
+[$staged]({{ .nord.nord8 }})
+[$modified]({{ .nord.nord7 }})
+[$renamed]({{ .nord.nord9 }})
+[$deleted]({{ .nord.nord12 }})
 [$conflicted]({{ .nord.nord11 }})
-[$untracked]({{ .nord.nord13 }})
-[$stashed]({{ .nord.nord10 }})
+[$untracked]({{ .nord.nord10 }})
+[$stashed]({{ .nord.nord15 }})
 ]($style)\\))"""
 style = {{ .nord.nord4 | quote }}
-ahead = "↑$count"
-behind = "↓$count"
-conflicted = "✖$count"
-deleted = "x$count"
-diverged = "↑$ahead_count↓$behind_count"
-modified = "✚$count"
-renamed = "»$count"
-staged = "●$count"
-stashed = "⚑$count"
-untracked = "…$count"
+ahead = "${count}↑"
+behind = "${count}↓"
+conflicted = "${count}&"
+deleted = "${count}x"
+diverged = "${ahead_count}↑${behind_count}↓"
+modified = "${count}*"
+renamed = "${count}>"
+staged = "${count}+"
+stashed = "${count}!"
+untracked = "${count}?"
 
 [package]
 format = "[$symbol:$context]($style)"
