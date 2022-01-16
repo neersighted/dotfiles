@@ -1,0 +1,10 @@
+{{- if lookPath "starship" -}}
+{{ output "starship" "init" "fish" "--print-full-init" }}
+{{- else -}}
+function fish_prompt
+  printf 'λ '
+end
+function fish_right_prompt
+  prompt_pwd
+end
+{{- end -}}
