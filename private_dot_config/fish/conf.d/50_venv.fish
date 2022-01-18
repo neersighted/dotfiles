@@ -24,7 +24,7 @@ function __poetry_project_activate
       and set -g __poetry_project $project
     end
   else if set -q __poetry_project; and not string match -q "$__poetry_project/*" $PWD/
-      deactivate
+      functions -q deactivate; and deactivate
       set -e __poetry_project
   end
 end
