@@ -21,7 +21,7 @@ for release in (chezmoi data | jq -r '.python.supported[]')
   end
 end
 
-set installed (pipx list --json | jq -r '.venvs[].metadata.main_package.package_or_url')
+set installed (pipx list --json | jq -r '.venvs[].metadata.main_package.package_or_url' | string match -r '^[^=]+')
 
 set wanted \
    pip-run \
