@@ -4,7 +4,7 @@
 #!/bin/sh
 
 echo "Updating Starship..."
-curl -fsSL https://starship.rs/install.sh | sh -s -- -b "{{ $xdg_bin_dir }}" -y >/dev/null
+curl -sSfL https://starship.rs/install.sh | sh -s -- -b "{{ $xdg_bin_dir }}" -y >/dev/null
 
 # vi: ft=sh
 {{- end -}}
