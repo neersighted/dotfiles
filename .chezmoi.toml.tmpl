@@ -155,11 +155,7 @@ encryption = "age"
     active   = 16
 
 [data.python]
-{{- if eq .chezmoi.os "darwin" }}
     supported = ["3.7", "3.8", "3.9", "3.10"]
-{{ else }}
-    supported = ["3.6", "3.7", "3.8", "3.9", "3.10"]
-{{- end }}
 
 [data.nord]
     nord0  = '#2e3440'
