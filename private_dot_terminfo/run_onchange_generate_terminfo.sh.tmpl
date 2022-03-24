@@ -1,4 +1,4 @@
-{{- $prefix := output "brew" "--prefix" -}}
+{{- $prefix := output "brew" "--prefix" | trim -}}
 {{- $infocmp := joinPath $prefix "opt/ncurses/bin/infocmp" -}}
 {{- if stat $infocmp -}}
 #!/bin/sh -e
