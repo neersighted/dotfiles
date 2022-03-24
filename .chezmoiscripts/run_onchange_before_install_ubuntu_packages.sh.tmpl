@@ -15,21 +15,24 @@ trap 'sudo rm -rf -- "$GNUPGHOME"' EXIT
 # fish
 keyring="/usr/share/keyrings/fish-shell-maintainers.gpg"
 if ! [ -e "$keyring" ]; then
-  sudo gpg --homedir "$GNUPGHOME" --no-default-keyring --keyring "$keyring" --keyserver keyserver.ubuntu.com --recv-keys 0x59FDA1CE1B84B3FAD89366C027557F056DC33CA5 
+  sudo gpg --homedir "$GNUPGHOME" --no-default-keyring --keyring "gnupg-ring:$keyring" --keyserver keyserver.ubuntu.com --recv-keys 0x59FDA1CE1B84B3FAD89366C027557F056DC33CA5
+  sudo chmod +r "$keyring"
 fi
 echo "deb [arch=$arch signed-by=$keyring] http://ppa.launchpad.net/fish-shell/release-3/ubuntu $codename main" | sudo tee /etc/apt/sources.list.d/fish-ppa.list >/dev/null
 
 # github-cli
 keyring="/usr/share/keyrings/githubcli-archive-keyring.gpg"
 if ! [ -e "$keyring" ]; then
-  sudo curl -sSfL https://cli.github.com/packages/githubcli-archive-keyring.gpg -o "$keyring"
+  sudo gpg --homedir "$GNUPGHOME" --no-default-keyring --keyring "gnupg-ring:$keyring" --keyserver keyserver.ubuntu.com --recv-keys 0x2CA32056ED206CB81F44A8CAC99B11DEB97541F0
+  sudo chmod +r "$keyring"
 fi
 echo "deb [arch=$arch signed-by=$keyring] https://cli.github.com/packages $codename main" | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
 
 # neovim
 keyring="/usr/share/keyrings/neovim-ppa-team.gpg"
 if ! [ -e "$keyring" ]; then
-  sudo gpg --homedir "$GNUPGHOME" --no-default-keyring --keyring "$keyring" --keyserver keyserver.ubuntu.com --recv-keys 0x9DBB0BE9366964F134855E2255F96FCF8231B6DD
+  sudo gpg --homedir "$GNUPGHOME" --no-default-keyring --keyring "gnupg-ring:$keyring" --keyserver keyserver.ubuntu.com --recv-keys 0x9DBB0BE9366964F134855E2255F96FCF8231B6DD
+  sudo chmod +r "$keyring"
 fi
 echo "deb [arch=$arch signed-by=$keyring] http://ppa.launchpad.net/neovim-ppa/stable/ubuntu $codename main" | sudo tee /etc/apt/sources.list.d/neovim-ppa.list >/dev/null
 
