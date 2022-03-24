@@ -6,7 +6,7 @@
 terminfo=$(mktemp)
 trap 'rm $terminfo' EXIT
 
-{{- range $i, $term := (list "alacritty-direct" "iterm2" "tmux-256color") }}
+{{- range $i, $term := (list "iterm2" "tmux-256color") }}
 if ! /usr/bin/infocmp {{ $term | quote }} >/dev/null 2>&1; then
   echo "Backporting brewed {{ $term }} terminfo..."
 
