@@ -1,15 +1,21 @@
 {{- if eq (index .chezmoi.osRelease "id") "arch" -}}
 #!/bin/sh -e
 
-fingerprint="B9BBB9AFF017C6F638DEF280A2861ABFD897DD37"
+{{- if .wsl.any }}
+keyring={{ joinPath .chezmoi.sourceDir ".keyring" "wslutilities.asc" | quote}}
+fingerprint=$(gpg --show-keys --with-colons "$keyring" | grep fpr | cut -d: -f10 | head -n1)
+
 if ! pacman-key --list-keys 2>/dev/null | grep -q "$fingerprint"; then
-  sudo pacman-key --recv-key "$fingerprint"
+  echo "Importing wslutilities signing key..."
+  sudo pacman-key --add "$keyring"
   sudo pacman-key --lsign-key "$fingerprint"
 fi
 
 if ! grep -Eq '^\[wslutilities\]' /etc/pacman.conf; then
+  echo "Enabling wslutilities repo..."
   printf '\n%s\n%s' '[wslutilities]' 'Server = https://pkg.wslutiliti.es/arch/' | sudo tee -a /etc/pacman.conf >/dev/null
 fi
+{{- end }}
 
 # pass through language managers
 export GOENV_VERSION=system \
