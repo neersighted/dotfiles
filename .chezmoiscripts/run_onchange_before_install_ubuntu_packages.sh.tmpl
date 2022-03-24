@@ -5,36 +5,20 @@
 echo "Asking for root credentials..."
 sudo -v
 
-echo "Adding custom Ubuntu repos..."
-arch={{ .chezmoi.arch | quote }}
-codename={{ .chezmoi.osRelease.ubuntuCodename | quote }}
-
-GNUPGHOME="$(sudo mktemp -d)"
-trap 'sudo rm -rf -- "$GNUPGHOME"' EXIT
-
-# fish
-keyring="/usr/share/keyrings/fish-shell-maintainers.gpg"
-if ! [ -e "$keyring" ]; then
-  sudo gpg --homedir "$GNUPGHOME" --no-default-keyring --keyring "gnupg-ring:$keyring" --keyserver keyserver.ubuntu.com --recv-keys 0x59FDA1CE1B84B3FAD89366C027557F056DC33CA5
-  sudo chmod +r "$keyring"
-fi
-echo "deb [arch=$arch signed-by=$keyring] http://ppa.launchpad.net/fish-shell/release-3/ubuntu $codename main" | sudo tee /etc/apt/sources.list.d/fish-ppa.list >/dev/null
-
-# github-cli
-keyring="/usr/share/keyrings/githubcli-archive-keyring.gpg"
-if ! [ -e "$keyring" ]; then
-  sudo gpg --homedir "$GNUPGHOME" --no-default-keyring --keyring "gnupg-ring:$keyring" --keyserver keyserver.ubuntu.com --recv-keys 0x2CA32056ED206CB81F44A8CAC99B11DEB97541F0
-  sudo chmod +r "$keyring"
-fi
-echo "deb [arch=$arch signed-by=$keyring] https://cli.github.com/packages $codename main" | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
-
-# neovim
-keyring="/usr/share/keyrings/neovim-ppa-team.gpg"
-if ! [ -e "$keyring" ]; then
-  sudo gpg --homedir "$GNUPGHOME" --no-default-keyring --keyring "gnupg-ring:$keyring" --keyserver keyserver.ubuntu.com --recv-keys 0x9DBB0BE9366964F134855E2255F96FCF8231B6DD
-  sudo chmod +r "$keyring"
-fi
-echo "deb [arch=$arch signed-by=$keyring] http://ppa.launchpad.net/neovim-ppa/stable/ubuntu $codename main" | sudo tee /etc/apt/sources.list.d/neovim-ppa.list >/dev/null
+{{- range $name, $uri := (dict "fish-ppa" "http://ppa.launchpad.net/fish-shell/release-3/ubuntu" "github-cli" "https://cli.github.com/packages" "neovim-ppa" "http://ppa.launchpad.net/neovim-ppa/stable/ubuntu") }}
+  if ! [ -f "/etc/apt/sources.list.d/{{ $name }}.sources" ]; then
+    echo "Enabling {{ $name }} repo..."
+    sudo tee "/etc/apt/sources.list.d/{{ $name }}.sources" <<EOF >/dev/null
+Types: deb
+URIs: {{ $uri }}
+Suites: {{ $.chezmoi.osRelease.ubuntuCodename }}
+Components: main
+Architectures: {{ $.chezmoi.arch }}
+Signed-By:
+{{ include (joinPath ".keyring" (printf "%s.asc" $name)) | replace "\n\n" "\n.\n" | indent 1 }}
+EOF
+  fi
+{{- end }}
 
 echo "Installing packages with APT..."
 sudo apt-get update
