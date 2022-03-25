@@ -5,8 +5,17 @@
 echo "Asking for root credentials..."
 sudo -v
 
-echo "Adding custom DNF repos..."
-sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo # github-cli
+if ! [ -f "/etc/yum.repos.d/github-cli.repo" ]; then
+  echo "Enabling github-cli repo..."
+
+  sudo tee "/etc/yum.repos.d/github-cli.repo" <<EOF >/dev/null
+[github-cli]
+enabled=1
+name=packages for the GitHub CLI
+baseurl=https://cli.github.com/packages/rpm
+gpgkey=file://{{ joinPath .chezmoi.sourceDir ".keyring" "github-cli.asc" }}
+EOF
+fi
 
 echo "Installing packages with DNF..."
 sudo dnf group install -y "C Development Tools and Libraries" "Development Tools" "Development Libraries"
