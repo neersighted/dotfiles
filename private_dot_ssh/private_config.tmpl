@@ -16,9 +16,10 @@ Host *
 	StrictHostKeyChecking ask
 	UpdateHostKeys no
 	UserKnownHostsFile ~/.ssh/local_hosts ~/.ssh/known_hosts ~/.ssh/common_hosts
-
+{{- if ne .chezmoi.os "windows" }}
 	ControlMaster auto
 	ControlPath ~/.ssh/%C.sock
 	ControlPersist 30m
+{{- end }}
 
 Include ~/.ssh/config.d/*
