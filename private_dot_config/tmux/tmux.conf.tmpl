@@ -27,6 +27,9 @@ set -g status-keys emacs # readline-style command line
 # Clipboard
 set -s copy-command 'env COPY_PROVIDERS=desktop clipboard-provider copy' # use clipboard-provider for copy-pipe and friends
 
+# Environment
+set -ga update-environment 'WSL_INTEROP'
+
 #
 # Status Line
 #
