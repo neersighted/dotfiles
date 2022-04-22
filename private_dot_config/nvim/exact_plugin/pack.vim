@@ -18,7 +18,7 @@ if exists('*packager#init')
   call packager#init({'jobs': 0})
 
   " Colors
-  call packager#add('arcticicestudio/nord-vim')
+  call packager#add('shaunsingh/nord.nvim')
 
   " Editing
   call packager#add('AndrewRadev/dsf.vim')
