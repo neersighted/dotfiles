@@ -1,21 +1,23 @@
 {{- if eq (index .chezmoi.osRelease "id") "ubuntu" -}}
-{{- $impishPlus := semverCompare "~21.10" .chezmoi.osRelease.versionID -}}
 #!/bin/sh -e
 
 echo "Asking for root credentials..."
 sudo -v
 
-{{- range $name, $uri := (dict "fish-ppa" "http://ppa.launchpad.net/fish-shell/release-3/ubuntu" "github-cli" "https://cli.github.com/packages" "neovim-ppa" "http://ppa.launchpad.net/neovim-ppa/stable/ubuntu") }}
-  if ! [ -f "/etc/apt/sources.list.d/{{ $name }}.sources" ]; then
-    echo "Enabling {{ $name }} repo..."
-    sudo tee "/etc/apt/sources.list.d/{{ $name }}.sources" <<EOF >/dev/null
+{{- $fish_repo := dict "name" "fish-ppa" "uri" "http://ppa.launchpad.net/fish-shell/release-3/ubuntu" "suite" .chezmoi.osRelease.ubuntuCodename }}
+{{- $github_repo := dict "name" "github-cli" "uri" "https://cli.github.com/packages" "suite" "stable" }}
+{{- $neovim_repo := dict "name" "neovim-ppa" "uri" "http://ppa.launchpad.net/neovim-ppa/stable/ubuntu" "suite" .chezmoi.osRelease.ubuntuCodename }}
+{{- range list $fish_repo $github_repo $neovim_repo }}
+  if ! [ -f "/etc/apt/sources.list.d/{{ .name }}.sources" ]; then
+    echo "Enabling {{ .name }} repo..."
+    sudo tee "/etc/apt/sources.list.d/{{ .name }}.sources" <<EOF >/dev/null
 Types: deb
-URIs: {{ $uri }}
-Suites: {{ $.chezmoi.osRelease.ubuntuCodename }}
+URIs: {{ .uri }}
+Suites: {{ .suite }}
 Components: main
 Architectures: {{ $.chezmoi.arch }}
 Signed-By:
-{{ include (joinPath ".keyring" (printf "%s.asc" $name)) | replace "\n\n" "\n.\n" | indent 1 }}
+{{ include (joinPath ".keyring" (printf "%s.asc" .name)) | replace "\n\n" "\n.\n" | indent 1 }}
 EOF
   fi
 {{- end }}
@@ -42,49 +44,40 @@ sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
   libssl-dev \
   libyaml-dev \
   zlib1g-dev \
-{{- if $impishPlus }}
   {{/* User Programs */ -}}
   age \
-{{- end }}
   asciinema \
   bat \
   bpfcc-tools \
   direnv \
-{{- if $impishPlus }}
   exa \
-{{- end }}
   fd-find \
   fish \
   fzf \
   gdb \
   gh \
   git \
-{{- if $impishPlus }}
   git-filter-repo \
-{{- end }}
   git-lfs \
   golang \
   hexyl \
   htop \
+  hyperfine \
   jq \
   lftp \
   libfile-mimeinfo-perl \
   linux-tools-common \
   manpages-posix \
   manpages-posix-dev \
+  mkcert \
   mosh \
   mycli \
   neovim \
   pcp \
   pgcli \
   pipx \
-{{- if $impishPlus }}
   pre-commit \
-{{- end }}
   python-is-python3 \
-{{- if not $impishPlus }}
-  python3-venv \
-{{- end }}
   ripgrep \
 {{- if eq .chezmoi.arch "amd64" }}
   rr \
@@ -99,11 +92,7 @@ sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
   unzip \
   whois \
   xdg-utils \
-{{- if $impishPlus }}
   zoxide
-{{ else }}
-  ""
-{{- end }}
 
 # Missing:
 # 1password-cli
@@ -112,10 +101,7 @@ sudo apt-get install -o Dpkg::Options::="--force-overwrite" -y \
 # diskus
 # git-delta-bin
 # git-interactive-rebase-tool
-# gh
-# hyperfine
 # lostfiles
-# mkcert
 # sd
 # tealdeer
 # tokei
