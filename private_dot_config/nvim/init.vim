@@ -20,7 +20,7 @@ endif
 set scrolloff=2 " Keep the cursor two lines from the top/bottom.
 set virtualedit=onemore,block " Allow cursor to the end of the line (and anywhere in visual-block.)
 let g:tmux_navigator_disable_when_zoomed = 1 " Disable Tmux integration when zoomed.
-augroup redraw " Redraw aggressively on focus gained/lost.
+augroup redraw " Redraw aggressively on focus gained/resize.
   autocmd!
   autocmd FocusGained,VimResized * mode
 augroup END
@@ -36,11 +36,11 @@ set mouse=a " Enable full mouse support.
 set number relativenumber " Show (relative) line numbers.
 augroup numbertoggle " Toggle 'relativenumber' on insert.
   autocmd!
-  autocmd InsertEnter,BufLeave,WinLeave * nested
+  autocmd InsertEnter,BufLeave,WinLeave,FocusLost * nested
             \ if &l:number && empty(&buftype) |
             \ setlocal norelativenumber |
             \ endif
-  autocmd InsertLeave,BufEnter,WinEnter * nested
+  autocmd InsertLeave,BufEnter,WinEnter,FocusGained * nested
               \ if &l:number && mode() != 'i' && empty(&buftype) |
               \ setlocal relativenumber |
               \ endif
@@ -181,10 +181,10 @@ cnoreabbrev wq w<bar>Sayonara
 cnoreabbrev  q       Sayonara
 
 " Simple resizing.
-noremap <silent> <c-up>    :<c-u>ObviousResizeUp<cr>
-noremap <silent> <c-down>  :<c-u>ObviousResizeDown<cr>
-noremap <silent> <c-left>  :<c-u>ObviousResizeLeft<cr>
-noremap <silent> <c-right> :<c-u>ObviousResizeRight<cr>
+noremap <silent> <m-h>  :<c-u>ObviousResizeLeft<cr>
+noremap <silent> <m-j>  :<c-u>ObviousResizeDown<cr>
+noremap <silent> <m-k>    :<c-u>ObviousResizeUp<cr>
+noremap <silent> <m-l> :<c-u>ObviousResizeRight<cr>
 
 " Make <c-e>/<c-y> faster.
 nnoremap <c-e> 5<c-e>
