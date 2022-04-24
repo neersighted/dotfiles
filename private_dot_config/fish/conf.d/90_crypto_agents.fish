@@ -7,7 +7,7 @@ else if is_wsl2
 
   if not string match -rq $SSH_AUTH_SOCK (ss --family=unix --listening)
     rm -f $SSH_AUTH_SOCK
-    setsid -f socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork SOCKET-CONNECT:40:0:x0000x33332222x02000000x00000000 &>/dev/null
+     setsid -f socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork VSOCK-CONNECT:2:0x22223333
   end
 else
   set sockets $XDG_RUNTIME_DIR/var/run/yubikey-agent.sock
