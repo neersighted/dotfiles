@@ -2,22 +2,24 @@
 # Terminal
 #
 
-# $TERM
+# Escapes
 set -s default-terminal 'tmux-256color'
-
-# Escape Sequences
-set -sa terminal-features "xterm*:RGB:extkeys:clipboard" # add features supported by most xterm-compatible terminals
-set -s escape-time 25 # pass escape sequences (almost) instantly
-set -s focus-events on # pass focus through
-set -s set-clipboard on # bubble OSC 52 up
+set -sa terminal-features "xterm*:RGB:extkeys" # add features supported by most xterm-compatible terminals
 set -s extended-keys on # support xterm-style extended keys (CSI u)
+set -s escape-time 25 # pass escape sequences (almost) instantly
 
-# Windows
-set -g base-index 1 # number windows from 1
-set -g set-titles on # pass titles to parent terminal
-set -g set-titles-string 'tmux: #{session_name}' # minimal title string
-set -g monitor-activity on # monitor background activity
-set -g history-limit 100000 # store 100k lines of history
+# Environment
+set -ga update-environment 'WSL_INTEROP' # update WSL interop socket on reattach
+
+# Processes
+set -g remain-on-exit failed # keep panes that exit abonormally open
+
+# Alerting
+set -s focus-events on # pass focus events through
+set -g monitor-activity on # monitor for background activity
+set -g activity-action none # don't alert on activity
+set -g monitor-bell on # process bells
+set -g bell-action current # only process bells for the current window
 
 # Input
 set -g mouse on # enable mouse support
@@ -25,22 +27,16 @@ set -g mode-keys vi # vi-style copy
 set -g status-keys emacs # readline-style command line
 
 # Clipboard
+set -s set-clipboard on # bubble OSC 52 up
 set -s copy-command 'env COPY_PROVIDERS=desktop clipboard-provider copy' # use clipboard-provider for copy-pipe and friends
 
-# Environment
-set -ga update-environment 'WSL_INTEROP'
+# Windows
+set -g base-index 1 # number windows from 1
+set -g set-titles on # pass titles to parent terminal
+set -g set-titles-string 'tmux: #{session_name}' # minimal title string
 
-#
-# Status Line
-#
-
-set -g status-left-length 40
-set -g status-right-length 40
-set -g status-left '#{?client_prefix,#[reverse],} #{session_name}#{?session_many_attached,*,} #[#{status-style},noreverse] '
-set -g status-right '#[#{status-style}] #{window_index}:#{pane_index} (#{session_id} #{window_id} #{pane_id}) #[#{status-right-style}] %I:%M %p '
-
-set -g window-status-format ' (#{window_index}) #{window_name}#{?window_zoomed_flag,+,} '
-set -g window-status-current-format ' [#{window_index}] #{pane_title}#{?window_zoomed_flag,+,} '
+# History
+set -g history-limit 100000 # store 100k lines of history
 
 #
 # Keybinds
@@ -56,18 +52,21 @@ unbind -a -T copy-mode-vi
 
 # Keys
 set -g prefix C-q
+bind -N 'Send the prefix key' q send-prefix
 bind -N 'Send the prefix key' -n C-s send-prefix
-bind -N 'List key bindings' ? list-keys -N
-bind -N 'Describe key bindings' / command-prompt -k 'list-keys -N -1 -- "%%"'
+bind -N 'Activate customize mode' C customize-mode
+bind -N 'List and search key bindings' / list-keys -N
+bind -N 'Describe key bindings' ? command-prompt -k 'list-keys -N -1 -- "%%"'
 bind -N 'Display a clock' C-t clock-mode
+bind -N 'Display debugging info' M-d display-message -a
 
 # Passthrough
-bind -N "tmx.fish" -n M-x run -b 'fish -c "tmx"'
+bind -N "tmx.fish" -n M-x run -b 'fish -c tmx'
 
 # Meta
 bind -N 'Prompt for a command' ':' command-prompt
 bind -N 'Show messages' '~' show-messages
-bind -N 'Reload configuration' \; source "$XDG_CONFIG_HOME/tmux/tmux.conf"
+bind -N 'Reload configuration' \; source "#{current_file}"
 
 # Session Management
 bind -N 'Create a new session' N new-session
@@ -80,14 +79,13 @@ bind -N 'Rename the current session' R command-prompt -I '#{session_name}' 'rena
 # Window Management
 bind -N 'Create a new window' n new-window -c '#{pane_current_path}'
 bind -N 'Kill the current window' X confirm -p 'kill-window #{window_index}? (y/n)' kill-window
-bind -N 'Move the current window' m command-prompt 'move-window -t "%%"'
-bind -N 'Swap the current window' M command-prompt 'swap-window -d -t "%%"'
+bind -N 'Move the current window' m command-prompt -T 'move-window -t "%%"'
+bind -N 'Swap the current window' M command-prompt -W 'swap-window -d -t "%%"'
 bind -N 'Swap the current window backward' -r < swap-window -d -t -1
 bind -N 'Swap the current window forward' -r > swap-window -d -t +1
 bind -N 'Rename the current window' r command-prompt -I '#{window_name}' 'rename-window -- "%%"'
-bind -N 'Renumber all windows' '#' move-window -r
-bind -N 'Display pane numbers' i display-panes -d 0
-bind -N 'Display current window information' I display-message
+bind -N 'Renumber all windows' M-r move-window -r
+bind -N 'Display pane numbers' '#' display-panes -d 0
 
 # Pane Management
 bind -N 'Split window horizontally' s split-window -c '#{pane_current_path}' -v
@@ -108,7 +106,6 @@ bind -N 'Apply the main-vertical layout' M-4 select-layout main-vertical
 bind -N 'Apply the tiled layout' M-5 select-layout tiled
 bind -N 'Spread panes out evenly' C-e select-layout -E
 bind -N 'Rotate panes' -r C-r rotate-window
-bind -N 'Rotate panes in reverse' -r M-r rotate-window -D
 bind -N 'Swap the active pane with the pane above' -r , swap-pane -U
 bind -N 'Swap the active pane with the pane below' -r . swap-pane -D
 bind -N 'Swap the active/marked pane' C-m choose-tree -Z 'swap-pane -t "%%"'
@@ -118,13 +115,12 @@ bind -N 'Break pane out into a new window' Z break-pane
 bind -N 'Zoom the active pane' z resize-pane -Z
 
 # Session Navigation
-bind -N 'Switch to previous current session' L switch-client -l
+bind -N 'Switch to last session' M-q switch-client -l
 bind -N 'Switch to next session' -r '}' switch-client -n
 bind -N 'Switch to previous session' -r '{' switch-client -p
-bind -N 'Switch to session from a list' C choose-tree -Zs
 
 # Window Navigation
-bind -N 'Select the previous current window' C-q select-window -l
+bind -N 'Select the last window' C-q select-window -l
 bind -N 'Select the next window' -r ']' select-window -n
 bind -N 'Select the previous window' -r '[' select-window -p
 bind -N 'Select the next window with an alert' -r "'" next-window -a
@@ -139,7 +135,7 @@ bind -N 'Select window 7' 7 select-window -t =7
 bind -N 'Select window 8' 8 select-window -t =8
 bind -N 'Select window 9' 9 select-window -t =9
 bind -N 'Select window 10' 0 select-window -t =10
-bind -N 'Select a window by index' g command-prompt 'select-window -t "%%"' # FIXME: 3.2: add -W
+bind -N 'Select a window by index' g command-prompt -W 'select-window -t "%%"'
 bind -N 'Select a window from a list' c choose-tree -Zw
 bind -N 'Search for a pane' f command-prompt 'find-window -Z -- "%%"'
 
@@ -220,6 +216,10 @@ bind -T copy-mode-vi Down send -X cursor-down
 bind -T copy-mode-vi Left send -X cursor-left
 bind -T copy-mode-vi Right send -X cursor-right
 
+# Copy Mode (Mark)
+bind -T copy-mode-vi x send -X set-mark
+bind -T copy-mode-vi X send -X jump-to-mark
+
 # Copy Mode (Scroll)
 bind -T copy-mode-vi C-f send -X page-down
 bind -T copy-mode-vi C-b send -X page-up
@@ -242,9 +242,8 @@ bind -T copy-mode-vi Space send -X begin-selection
 bind -T copy-mode-vi v send -X begin-selection
 bind -T copy-mode-vi V send -X select-line
 bind -T copy-mode-vi C-v send -X rectangle-toggle
-bind -T copy-mode-vi C-j send -X copy-selection-and-cancel
 bind -T copy-mode-vi Enter send -X copy-selection-and-cancel
-bind -T copy-mode-vi y send -X copy-selection-no-clear
+bind -T copy-mode-vi y send -X copy-pipe-and-cancel
 bind -T copy-mode-vi Y send -X copy-pipe-no-clear
 bind -T copy-mode-vi A send -X append-selection-and-cancel
 bind -T copy-mode-vi D send -X copy-end-of-line
@@ -261,7 +260,7 @@ bind -T copy-mode-vi T command-prompt -1 -p '(jump to backward)' 'send -X jump-t
 bind -T copy-mode-vi '*' send -XF search-forward '#{copy_cursor_word}'
 bind -T copy-mode-vi '#' send -XF search-backward '#{copy_cursor_word}'
 bind -T copy-mode-vi '%' send -X next-matching-bracket
-bind -T copy-mode-vi ':' command-prompt -p '(goto line)' 'send -X goto-line "%%"'
+bind -T copy-mode-vi ':' command-prompt -N -p '(goto line)' 'send -X goto-line "%%"'
 
 # Copy Mode (Repeat)
 bind -T copy-mode-vi n send -X search-again
@@ -302,6 +301,18 @@ bind -T copy-mode-vi DoubleClick1Pane select-pane \; send -X select-word
 bind -T copy-mode-vi TripleClick1Pane select-pane \; send -X select-line
 
 #
+# Status Line
+#
+
+set -g status-left-length 40
+set -g status-right-length 40
+set -g status-left '#{?client_prefix,#[reverse],} #{session_name}#{?session_many_attached,*,} #[#{status-style},noreverse] '
+set -g status-right '#[#{status-style}] #{window_index}:#{pane_index} (#{session_id} #{window_id} #{pane_id}) #[#{status-right-style}] %I:%M %p '
+
+set -g window-status-format ' (#{window_index}) #{window_name}#{?window_zoomed_flag,+,} '
+set -g window-status-current-format ' [#{window_index}] #{pane_title}#{?window_zoomed_flag,+,} '
+
+#
 # Colors and Style
 #
 
@@ -309,33 +320,34 @@ bind -T copy-mode-vi TripleClick1Pane select-pane \; send -X select-line
 set -gF mode-style 'reverse'
 
 # Window
-set -gF window-style 'bg=default'
-set -gF window-active-style '#{window-style}'
+set -g window-style 'bg=default'
+set -g window-active-style '#{window-style}'
 
 # Pane
-set -gF pane-border-style 'fg={{ .nord.nord3 }},bg=default'
-set -gF pane-active-border-style '#{pane-border-style}'
+set -g pane-border-lines double
+set -g pane-border-style 'fg={{ .nord.nord3 }},bg=default'
+set -g pane-active-border-style '#{pane-border-style}'
 
 # Messages
-set -gF message-style 'fg={{ .nord.nord0 }},bg={{ .nord.nord6 }}'
-set -gF message-command-style 'fg={{ .nord.nord0 }},bg={{ .nord.nord6 }}'
+set -g message-style 'fg={{ .nord.nord0 }},bg={{ .nord.nord6 }}'
+set -g message-command-style 'fg={{ .nord.nord0 }},bg={{ .nord.nord6 }}'
 
 # Status Line
-set -gF status-style 'fg={{ .nord.nord4 }},bg={{ .nord.nord1 }}'
-set -gF status-left-style 'fg={{ .nord.nord6 }},bg={{ .nord.nord2 }}'
-set -gF status-right-style 'fg={{ .nord.nord6 }},bg={{ .nord.nord2 }}'
-set -gF window-status-style 'fg=default,bg=default'
-set -gF window-status-current-style 'fg={{ .nord.nord6 }},bg={{ .nord.nord3 }}'
-set -gF window-status-last-style '#{window-status-style}'
-set -gF window-status-activity-style 'bold'
-set -gF window-status-bell-style 'reverse'
+set -g status-style 'fg={{ .nord.nord4 }},bg={{ .nord.nord1 }}'
+set -g status-left-style 'fg={{ .nord.nord6 }},bg={{ .nord.nord2 }}'
+set -g status-right-style 'fg={{ .nord.nord6 }},bg={{ .nord.nord2 }}'
+set -g window-status-style 'fg=default,bg=default'
+set -g window-status-current-style 'fg={{ .nord.nord6 }},bg={{ .nord.nord3 }}'
+set -g window-status-last-style '#{window-status-style}'
+set -g window-status-activity-style 'bold'
+set -g window-status-bell-style 'reverse'
 
 # Clock
 set -g clock-mode-style 12
-set -gF clock-mode-colour '{{ .nord.nord8 }}'
+set -g clock-mode-colour '{{ .nord.nord8 }}'
 
 # Display Panes (Identify)
-set -gF display-panes-colour '{{ .nord.nord4 }}'
-set -gF display-panes-active-colour '{{ .nord.nord5 }}'
+set -g display-panes-colour '{{ .nord.nord4 }}'
+set -g display-panes-active-colour '{{ .nord.nord5 }}'
 
 # vi: ft=tmux
