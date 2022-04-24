@@ -1,0 +1,7 @@
+Host *
+	CheckHostIP yes
+	VerifyHostKeyDNS ask
+	StrictHostKeyChecking accept-new
+	UserKnownHostsFile ~/.ssh/local_hosts ~/.ssh/known_hosts ~/.ssh/common_hosts
+
+# vi: ft=sshconfig

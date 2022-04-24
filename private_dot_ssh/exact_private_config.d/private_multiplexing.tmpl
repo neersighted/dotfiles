@@ -1,0 +1,8 @@
+{{- if ne .chezmoi.os "windows" }}
+Host *
+	ControlMaster auto
+	ControlPath ~/.ssh/controlmaster.d/%C.sock
+	ControlPersist 30m
+{{- end }}
+
+# vi: ft=sshconfig

@@ -1,0 +1,7 @@
+Host git.launchpad.net heroku.com
+	HostKeyAlgorithms +ssh-rsa
+
+Host *.tmate.io *.lan
+	CheckHostIp no
+
+# vi: ft=sshconfig
