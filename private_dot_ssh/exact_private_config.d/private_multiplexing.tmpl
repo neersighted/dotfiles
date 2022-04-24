@@ -1,7 +1,7 @@
 {{- if ne .chezmoi.os "windows" }}
 Host *
 	ControlMaster auto
-	ControlPath ~/.ssh/controlmaster.d/%C.sock
+	ControlPath ~/.ssh/controlmaster.d/%C
 	ControlPersist 30m
 {{- end }}
 
