@@ -11,6 +11,8 @@ set hidden " Allow backgrounding dirty buffers.
 " Colors
 set termguicolors " Use 24-bit color.
 if util#has_colorscheme('nord')
+  let g:nord_borders = v:true " Show vertical border charaters.
+  let g:nord_contrast = v:true " Use a different background color for sidebars/popups.
   colorscheme nord
 endif
 
@@ -20,7 +22,7 @@ set virtualedit=onemore,block " Allow cursor to the end of the line (and anywher
 let g:tmux_navigator_disable_when_zoomed = 1 " Disable Tmux integration when zoomed.
 augroup redraw " Redraw aggressively on focus gained/lost.
   autocmd!
-  autocmd FocusGained,FocusLost,VimResized * mode
+  autocmd FocusGained,VimResized * mode
 augroup END
 
 " Grep
@@ -34,11 +36,11 @@ set mouse=a " Enable full mouse support.
 set number relativenumber " Show (relative) line numbers.
 augroup numbertoggle " Toggle 'relativenumber' on insert.
   autocmd!
-  autocmd InsertEnter,BufLeave,WinLeave,FocusLost * nested
+  autocmd InsertEnter,BufLeave,WinLeave * nested
             \ if &l:number && empty(&buftype) |
             \ setlocal norelativenumber |
             \ endif
-  autocmd InsertLeave,BufEnter,WinEnter,FocusGained * nested
+  autocmd InsertLeave,BufEnter,WinEnter * nested
               \ if &l:number && mode() != 'i' && empty(&buftype) |
               \ setlocal relativenumber |
               \ endif
