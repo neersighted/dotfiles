@@ -11,8 +11,8 @@ if is_macos
   set update_command 'brew upgrade'
 else if is_freebsd
   set update_command 'sudo pkg upgrade'
-else if command -q paru
-  set update_command 'paru'
+else if command -q pacman
+  set update_command 'paru -Syu; and sudo pacman -Fy'
 else if command -q apt
   set update_command 'sudo sh -c "apt update && apt full-upgrade --auto-remove"'
 else if command -q dnf
