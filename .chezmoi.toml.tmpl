@@ -42,6 +42,9 @@
 {{- else -}}
 
 {{/* preset detection */}}
+{{-   if (eq .chezmoi.username "root" "ubuntu" "vagrant") -}}
+{{-     $transient = true -}}
+{{-   end -}}
 {{-   if $devcontainer -}}
 {{-     $headless  = true -}}
 {{-     $transient = true -}}
@@ -52,45 +55,6 @@
 {{-   end -}}
 {{-   if and (not $transient) stdinIsATTY -}}
 {{-       $transient = promptBool "transient" false -}}
-{{-   end -}}
-{{- end -}}
-
-{{/* name configuration */}}
-{{- $name := get .user "name" -}}
-{{- $defaultName := "Bjorn Neergaard" -}}
-{{- if not $name -}}
-{{-   if $gitpod -}}
-{{-     $name = env "GITPOD_GIT_USER_NAME" -}}
-{{-   else if stdinIsATTY -}}
-{{-     $name = promptString "name" $defaultName -}}
-{{-   else -}}
-{{-     $name = $defaultName -}}
-{{-   end -}}
-{{- end -}}
-
-{{/* email configuration */}}
-{{- $email := get .user "email" -}}
-{{- $defaultEmail := "bjorn@neersighted.com" -}}
-{{- if not $email -}}
-{{-   if $gitpod -}}
-{{-     $email = env "GITPOD_GIT_USER_EMAIL" -}}
-{{-   else if stdinIsATTY -}}
-{{-     $email = promptString "email" $defaultEmail -}}
-{{-   else -}}
-{{-     $email = $defaultEmail -}}
-{{-   end -}}
-{{- end -}}
-
-{{/* github configuration */}}
-{{- $github := get .user "github" -}}
-{{- $defaultGithub := "neersighted" -}}
-{{- if not $github -}}
-{{-   if env "GITHUB_USER" -}}
-{{-     $github = env "GITHUB_USER" -}}
-{{-   else if and (stdinIsATTY) (not $gitpod) -}}
-{{-     $github = promptString "github" $defaultGithub -}}
-{{-   else -}}
-{{-     $github = $defaultGithub -}}
 {{-   end -}}
 {{- end -}}
 
@@ -112,11 +76,6 @@ encryption = "age"
 
     headless   = {{ $headless }}
     transient  = {{ $transient }}
-
-[data.user]
-    name   = {{ $name | quote }}
-    email  = {{ $email | quote }}
-    github = {{ $github | quote }}
 
 [data.devcontainer]
     any         = {{ $devcontainer }}

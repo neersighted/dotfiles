@@ -3,13 +3,13 @@
 #
 
 [user]
-	name = {{ .user.name }}
-	email = {{ .user.email }}
+	name = Bjorn Neergaard
+	email = bjorn@neersighted.com
 
 [credential]
 	helper =
 {{- if and (lookPath "gp") .devcontainer.gitpod }}
-	helper = {{ lookPath "gp" }} credential-helper
+	helper = !{{ lookPath "gp" }} credential-helper
 {{ else if or (eq .chezmoi.os "windows") (lookPath "git-credential-manager-core") }}
 	helper = manager-core
 {{ else if .wsl.any }}
@@ -17,11 +17,12 @@
 {{ else }}
 	helper = store
 {{ end -}}
-[credential "https://github.com"]
-	username = {{ .user.github }}
 {{- if and (lookPath "gh") (not .devcontainer.gitpod) }}
+{{-   range (list "https://github.com" "https://gist.github.com")}}
+[credential {{ . | quote }}]
 	helper =
-	helper = {{ lookPath "gh" }} auth git-credential
+	helper = !{{ lookPath "gh" }} auth git-credential
+{{-   end }}
 {{- end }}
 [credential "https://dev.azure.com"]
 	useHttpPath = true
@@ -146,5 +147,12 @@
 	oldHighlight = "red reverse"
 	newNormal = "green"
 	newHighlight = "green reverse"
+
+#
+# Conditional Config
+#
+
+[includeIf "gitdir/i:Mirantis/"]
+	path = ./config.mirantis
 
 # vi: ft=gitconfig.chezmoitmpl
