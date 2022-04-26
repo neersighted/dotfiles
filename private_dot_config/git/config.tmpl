@@ -8,16 +8,14 @@
 
 [credential]
 	helper =
-{{- if and (lookPath "gp") .devcontainer.gitpod }}
-	helper = !{{ lookPath "gp" }} credential-helper
-{{ else if or (eq .chezmoi.os "windows") (lookPath "git-credential-manager-core") }}
+{{ if or (eq .chezmoi.os "windows") (lookPath "git-credential-manager-core") }}
 	helper = manager-core
 {{ else if .wsl.any }}
 	helper = !{{ lookPath "git.exe" | quote }} credential-manager-core
 {{ else }}
 	helper = store
 {{ end -}}
-{{- if and (lookPath "gh") (not .devcontainer.gitpod) }}
+{{- if lookPath "gh" }}
 {{-   range (list "https://github.com" "https://gist.github.com")}}
 [credential {{ . | quote }}]
 	helper =

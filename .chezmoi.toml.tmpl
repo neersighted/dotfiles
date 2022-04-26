@@ -1,7 +1,6 @@
 {{/* environment/hardware tags */}}
-{{- $devcontainer := false -}}{{/* devcontainer (codespaces, gitpod, vscode) */}}
+{{- $devcontainer := false -}}{{/* devcontainer (codespaces, vscode) */}}
 {{- $codespaces   := false -}}{{/* github codespaces */}}
-{{- $gitpod       := false -}}{{/* gitpod */}}
 {{- $vscontainer  := false -}}{{/* vs code remote containers */}}
 {{- $wsl          := false -}}{{/* wsl 1/2 */}}
 {{- $wsl1         := false -}}{{/* wsl 1 */}}
@@ -11,13 +10,10 @@
 {{- if (env "CODESPACES") -}}
 {{- $codespaces = true -}}
 {{- end -}}
-{{- if (env "GITPOD_WORKSPACE_ID") -}}
-{{- $gitpod = true -}}
-{{- end -}}
 {{- if (env "REMOTE_CONTAINERS_IPC") -}}
 {{- $vscontainer = true -}}
 {{- end -}}
-{{- if or $codespaces $gitpod $vscontainer -}}
+{{- if or $codespaces $vscontainer -}}
 {{- $devcontainer = true -}}
 {{- end -}}
 
@@ -80,7 +76,6 @@ encryption = "age"
 [data.devcontainer]
     any         = {{ $devcontainer }}
     codespaces  = {{ $codespaces }}
-    gitpod      = {{ $gitpod }}
     vscontainer = {{ $vscontainer }}
 
 [data.wsl]

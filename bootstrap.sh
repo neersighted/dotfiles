@@ -21,9 +21,6 @@ script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 if [ -e "$script_dir/.git" ]; then
   source_dir="$script_dir" # re-use a cloned source dir if it exists
 fi
-if [ -n "$GITPOD_WORKSPACE_ID" ]; then
-  source_dir="/workspace/.dotfiles" # TODO: more elegant persistance on gitpod
-fi
 
 stdin='/dev/null'
 if [ "$(ps otty= $$)" != '?' ]; then
