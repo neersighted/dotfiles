@@ -3,10 +3,6 @@ set -qx EDITOR; or set -Ux EDITOR nvim
 set -qx VISUAL; or set -Ux VISUAL $EDITOR
 set -qx PAGER; or set -Ux PAGER less
 
-# bat
-set -x BAT_THEME Nord
-set -x BAT_PAGER 'less --quit-if-one-screen --no-init'
-
 # bd
 set BD_OPT 'insensitive'
 
@@ -41,15 +37,7 @@ set fzf_git_log_opts \
 is_macos; and set -x HOMEBREW_AUTO_UPDATE_SECS 86400
 
 # less
-set -x LESS '--mouse --RAW-CONTROL-CHARS --tabs=2'
-
-# libvirt
-if is_linux
-   set -qx LIBVIRT_DEFAULT_URI; or set -Ux LIBVIRT_DEFAULT_URI qemu:///system
-end
+set -x LESS '--mouse --tabs=2 --RAW-CONTROL-CHARS'
 
 # pip
 set -x PIP_REQUIRE_VIRTUALENV 1
-
-# vagrant
-is_wsl; and set -x VAGRANT_WSL_ENABLE_WINDOWS_ACCESS 1

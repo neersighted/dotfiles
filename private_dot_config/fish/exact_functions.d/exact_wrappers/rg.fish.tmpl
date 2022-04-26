@@ -1,8 +1,8 @@
 {{- if lookPath "rg" -}}
 function rg
   if isatty stdout
-    set -lx -p LESS --no-init --quit-if-one-screen
-    command rg -p $argv | $PAGER
+    set -lx -a LESS --quit-if-one-screen
+    command rg --pretty $argv | $PAGER
   else
     command rg $argv
   end
