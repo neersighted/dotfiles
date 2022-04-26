@@ -1,0 +1,12 @@
+{{- if lookPath "fd" -}}
+function fd
+  set -p argv --hidden
+
+  if isatty stdout
+    set -lx -a LESS --quit-if-one-screen
+    command fd --color=always $argv | $PAGER
+  else
+    command fd $argv
+  end
+end
+{{- end -}}
