@@ -32,7 +32,7 @@ bin
 Documents
 {{ else }} # ignore *nix files on windows
 .chezmoiscripts/*.sh
-.config
+.config/*
 !.config/git # ...except git, which stores config files at the same paths
 .local
 {{ end }}
