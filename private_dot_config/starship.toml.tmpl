@@ -14,17 +14,15 @@ $git_commit\
 $git_state\
 $git_status\
 )\
-( \
-($docker_context )\
-($dotnet )\
-($golang )\
-($nodejs )\
-($python )\
-($ruby )\
-($rust )\
-($status )\
-$cmd_duration
-)
+( $docker_context)\
+( $dotnet)\
+( $golang)\
+( $nodejs)\
+( $python)\
+( $ruby)\
+( $rust)\
+( $status)\
+( $cmd_duration)
 """
 
 add_newline = false
@@ -157,7 +155,9 @@ version_format = "${raw}"
 
 [status]
 disabled = false
+pipestatus = true
 format = "[$common_meaning$signal_name$maybe_int]($style)"
+pipestatus_format = "\\[$pipestatus\\] => [$common_meaning$signal_name$maybe_int]($style)"
 style = {{ .nord.nord11 | quote }}
 
 [cmd_duration]
