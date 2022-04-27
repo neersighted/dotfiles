@@ -38,6 +38,8 @@
 {{- end }}
 {{- if eq .chezmoi.os "windows" }}
 	autocrlf = false
+[safe]
+	directory = *
 {{- end }}
 [pull]
 	ff = true
