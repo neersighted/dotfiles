@@ -5,36 +5,35 @@ end
 
 # syntax highlighting
 fish_color fish_color_normal '{{ .nord.nord4 }}'
-fish_color fish_color_command '{{ .nord.nord14 }}'
-fish_color fish_color_param '{{ .nord.nord4 }}'
+fish_color fish_color_command '{{ .nord.nord7 }}'
+fish_color fish_color_keyword {'{ .nord.nord9 }'}
+fish_color fish_color_quote '{{ .nord.nord14 }}'
 fish_color fish_color_redirection '{{ .nord.nord15 }}'
+fish_color fish_color_end '{{ .nord.nord8 }}'
+fish_color fish_color_error '{{ .nord.nord13 }}'
+fish_color fish_color_param '{{ .nord.nord6 }}'
+fish_color fish_color_option '{{ .nord.nord10 }}'
 fish_color fish_color_comment '{{ .nord.nord2 }}'
-fish_color fish_color_error '{{ .nord.nord11 }}'
-fish_color fish_color_escape '{{ .nord.nord8 }}'
-fish_color fish_color_operator '{{ .nord.nord9 }}'
-fish_color fish_color_end '{{ .nord.nord3 }}'
-fish_color fish_color_quote '{{ .nord.nord4 }}'
-fish_color fish_color_autosuggestion '{{ .nord.nord3 }}'
-fish_color fish_color_valid_path --underline
-fish_color fish_color_match --background '{{ .nord.nord9 }}'
-fish_color fish_color_search_match nord13 --background '{{ .nord.nord3 }}'
-fish_color fish_color_selection '{{ .nord.nord6 }}' --background '{{ .nord.nord3 }}'
-fish_color fish_color_cancel -r
-
-# dirh
+fish_color fish_color_match --background '{{ .nord.nord8 }}'
+fish_color fish_color_selection '{{ .nord.nord5 }}' --bold --background '{{ .nord.nord2 }}'
+fish_color fish_color_search_match nord13 --background '{{ .nord.nord2 }}'
 fish_color fish_color_history_current --bold
-
-# pager
-fish_color fish_pager_color_prefix '{{ .nord.nord3 }}'
+fish_color fish_color_operator '{{ .nord.nord8 }}'
+fish_color fish_color_escape '{{ .nord.nord8 }}'
+fish_color fish_color_valid_path --underline
+fish_color fish_color_autosuggestion '{{ .nord.nord3 }}'
+fish_color fish_color_cancel -r
 fish_color fish_pager_color_completion '{{ .nord.nord4 }}'
+fish_color fish_pager_color_prefix --bold --underline
 fish_color fish_pager_color_description '{{ .nord.nord13 }}'
-fish_color fish_pager_color_progress '{{ .nord.nord6 }}' --background '{{ .nord.nord10 }}'
+fish_color fish_pager_color_progress '{{ .nord.nord6 }}' --background '{{ .nord.nord8 }}'
+fish_color fish_pager_color_selected_background --background '{{ .nord.nord2 }}'
 
 # manpages
-fish_color man_color_blink '{{ .nord.nord15 }}' --bold --underline
-fish_color man_color_bold '{{ .nord.nord5 }}'
+fish_color man_color_blink '{{ .nord.nord11 }}' --underline
+fish_color man_color_bold '{{ .nord.nord10 }}'
 fish_color man_color_standout --reverse
-fish_color man_color_underline '{{ .nord.nord10 }}' --underline
+fish_color man_color_underline '{{ .nord.nord7 }}' --underline
 
 functions -e fish_color
 

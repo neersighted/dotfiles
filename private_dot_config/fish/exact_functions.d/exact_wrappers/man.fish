@@ -7,7 +7,7 @@ function man
   set -x LESS_TERMCAP_mb (set_color $man_color_blink)
   set -x LESS_TERMCAP_md (set_color $man_color_bold)
   set -x LESS_TERMCAP_me (set_color normal)
-  set -x LESS_TERMCAP_so (set_color $man_color_standout)
+  set -x LESS_TERMCAP_so (set_color $man_color_reverse)
   set -x LESS_TERMCAP_se (set_color normal)
   set -x LESS_TERMCAP_us (set_color $man_color_underline)
   set -x LESS_TERMCAP_ue (set_color normal)
