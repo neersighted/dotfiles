@@ -1,14 +1,8 @@
 # pick up functions.d paths
 set -p fish_function_path $__fish_config_dir/functions.d/*
 
-# only run the remaining for login shells
-if not status is-login
-and not begin
-  not set -q SHLVL # FIXME: WSL2 does not set SHLVL
-  or test $SHLVL -eq 1
-end
-  exit
-end
+# only run the remaining for login/'root' shells
+not status is-login; or test $SHLVL -ne 1; and exit
 
 #
 # base
