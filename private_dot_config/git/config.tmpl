@@ -38,6 +38,7 @@
 {{- end }}
 {{- if eq .chezmoi.os "windows" }}
 	autocrlf = false
+	sshCommand = "C:/Windows/System32/OpenSSH/ssh.exe"
 [safe]
 	directory = *
 {{- end }}
