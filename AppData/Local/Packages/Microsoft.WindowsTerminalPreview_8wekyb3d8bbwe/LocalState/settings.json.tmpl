@@ -63,13 +63,20 @@
                 "fontFace": "Ubuntu Mono"
             },
             {
+                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "name": "PowerShell",
+                "source": "Windows.Terminal.PowershellCore",
+                "colorScheme": "Campbell Powershell",
+                "tabColor": "#012456"
+            },
+            {
                 "name": "Windows PowerShell",
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "colorScheme": "Campbell Powershell",
                 "tabColor": "#012456"
             },
             {
-                "name": "CMD",
+                "name": "Command Prompt",
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
                 "colorScheme": "Campbell",
                 "tabColor": "#0c0c0c"
@@ -84,11 +91,16 @@
                 "tabColor": "#0c0c0c"
             },
             {
-                "name": "Developer PowerShell for Visual Studio",
-                "guid": "{3b6cff09-3c8c-40ad-b0ef-2066928e9462}",
-                "commandline":"powershell.exe -NoExit -Command \"&{ $vsInstallPath=& \"${env:ProgramFiles(x86)}/'Microsoft Visual Studio'/Installer/vswhere.exe\" -prerelease -latest -property installationPath; Import-Module \"$vsInstallPath/Common7/Tools/Microsoft.VisualStudio.DevShell.dll\"; Enter-VsDevShell -VsInstallPath $vsInstallPath -SkipAutomaticLocation }\"",
-                "icon": "ms-appdata:///roaming/VS.ico",
-                "startingDirectory": "%USERPROFILE%",
+                "guid": "{e441b99b-7542-57bb-86c0-cccd04b820e9}",
+                "name": "Developer Command Prompt for VS 2022",
+                "source": "Windows.Terminal.VisualStudio",
+                "colorScheme": "Campbell",
+                "tabColor": "#0c0c0c"
+            },
+            {
+                "guid": "{f3e75b2a-c550-5406-8987-81f2dd09e866}",
+                "name": "Developer PowerShell for VS 2022",
+                "source": "Windows.Terminal.VisualStudio",
                 "colorScheme": "Campbell Powershell",
                 "tabColor": "#012456"
             }
