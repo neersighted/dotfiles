@@ -1,4 +1,4 @@
-{{- if and (lookPath "nvim") (lookPath "nvr") -}}
+{{- if lookPath "nvim" -}}
 function nvim -d 'tmux-enabled nvim wrapper'
   # determine the server address. no need to re-do this work if it's already set.
   # right now we only do this for tmux. we run one session per window.
@@ -8,7 +8,9 @@ function nvim -d 'tmux-enabled nvim wrapper'
   end
 
   # if we have an address for a remote instance, start driving it
-  if set -q NVIM_LISTEN_ADDRESS; and not fish_is_root_user
+  # FIXME: $nvim_wait functionality broken as --remote-wait is not implemented
+  # wait for a future release or revert to nvr
+  if set -q NVIM_LISTEN_ADDRESS; and not fish_is_root_user; and not set -q nvim_wait
     # make sure the address (socket) is still live
     if test -S $NVIM_LISTEN_ADDRESS; and not socat -u OPEN:/dev/null UNIX-CONNECT:$NVIM_LISTEN_ADDRESS &>/dev/null
       rm -f $NVIM_LISTEN_ADDRESS
@@ -23,21 +25,21 @@ function nvim -d 'tmux-enabled nvim wrapper'
     end
 
     # if we're asked to wait, make sure nvr knows to block.
-    if set -q nvim_wait
-      set -p argv --remote-wait-silent
-    end
+    # if set -q nvim_wait
+    #   set -p argv --remote-wait-silent
+    # end
 
     # this is a bit tricky. if we're not in tmux, this will have nvr start its own instance (instead of $editor_pane above).
     # if we are in tmux and we have arguments, have nvr forward them on to the above instance/pane.
     if not is_tmux; or test (count $argv) -gt 0
-      nvr -s $argv
+      command nvim --server $NVIM_LISTEN_ADDRESS --remote $argv
       set editor_status $status
     end
 
     # finally, switch back to the original pane if the editor finished waiting and we're in tmux.
-    if is_tmux; and set -q nvim_wait
-      tmux select-pane -t $TMUX_PANE
-    end
+    # if is_tmux; and set -q nvim_wait
+    #   tmux select-pane -t $TMUX_PANE
+    # end
 
     # return the saved status from above. this may be empty, which is Synonymous with success
     return $editor_status

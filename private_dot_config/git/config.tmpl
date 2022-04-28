@@ -57,14 +57,8 @@
 	algorithm = patience
 	colorMoved = default
 	mnemonicPrefix = true
-{{- if lookPath "nvr" }}
-	tool = nvr
-{{- end }}
 [merge]
 	ff = only
-{{- if lookPath "nvr" }}
-	tool = nvr
-{{- end }}
 [rebase]
 	autoSquash = true
 	autoStash = true
@@ -113,13 +107,6 @@
 	line-numbers = true
 	navigate = true
 {{- end}}
-
-{{- if lookPath "nvr" }}
-[difftool "nvr"]
-	cmd = nvr -s -d $LOCAL $REMOTE
-[mergetool "nvr"]
-	cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
-{{- end }}
 
 {{- if lookPath "git-lfs" }}
 [filter "lfs"]
