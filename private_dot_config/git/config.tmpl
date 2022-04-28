@@ -38,10 +38,15 @@
 {{- end }}
 {{- if eq .chezmoi.os "windows" }}
 	autocrlf = false
+	fscache = true
+	symlinks = true
 	longpaths = true
+	useBuiltinFSMonitor = true
 	sshCommand = "C:/Windows/System32/OpenSSH/ssh.exe"
 [safe]
 	directory = *
+[http]
+	sslBackend = schannel
 {{- end }}
 [pull]
 	ff = true
