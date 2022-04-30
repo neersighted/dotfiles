@@ -48,6 +48,12 @@ if is_wsl
   end
 end
 
+# macos
+if is_macos
+  test -x /usr/local/bin/brew; and /usr/local/bin/brew shellenv | source
+  test -x /opt/homebrew/bin/brew; and /opt/homebrew/bin/brew shellenv | source
+end
+
 #
 # toolchains
 #
