@@ -9,6 +9,7 @@ tap "homebrew/core"
 tap "homebrew/services"
 tap "beeftornado/rmtree"
 tap "microsoft/git"
+tap "tavianator/tap"
 
 # Development Tools
 brew "ccache"
