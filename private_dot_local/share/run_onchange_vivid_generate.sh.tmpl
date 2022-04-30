@@ -4,6 +4,6 @@
 echo 'Regenerating Vivid dircolors cache...'
 vivid generate nord > "${XDG_DATA_HOME:-$HOME/.local/share}/vivid.dircolors"
 
-# run_onchange hash: {{ include "private_dot_config/vivid/themes/nord.yml.tmpl" | sha256sum }}
+# run_onchange hash: {{ output "vivid" "--version" }}
 # vi: ft=sh
 {{- end -}}
