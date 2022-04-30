@@ -24,7 +24,7 @@ done
 
 gh config set git_protocol "$proto"
 
-# run_onchange hash: {{ $gh_auth }}
+# run_onchange hash: {{ sha256sum $gh_auth }}
 # vi: ft=sh
 {{- end -}}
 {{- end -}}

@@ -4,6 +4,6 @@
 echo 'Regenerating Vivid dircolors cache...'
 vivid generate nord > "${XDG_DATA_HOME:-$HOME/.local/share}/vivid.dircolors"
 
-# run_onchange hash: {{ output "vivid" "--version" }}
+# run_onchange hash: {{ output "vivid" "--version" | sha256sum }}
 # vi: ft=sh
 {{- end -}}
