@@ -11,7 +11,7 @@ else if is_wsl2
   end
 else
   set sockets $XDG_RUNTIME_DIR/var/run/yubikey-agent.sock
-  is_macos; and set sockets -a (brew --prefix)/var/run/yubikey-agent.sock
+  is_macos; and set sockets -a $HOMEBREW_PREFIX/var/run/yubikey-agent.sock
 
   for sock in $sockets
     test -S $sock; and set -x SSH_AUTH_SOCK $sock
