@@ -17,12 +17,6 @@ if ! grep -Eq '^\[wslutilities\]' /etc/pacman.conf; then
 fi
 {{- end }}
 
-# pass through language managers
-export GOENV_VERSION=system \
-       NODENV_VERSION=system \
-       PYENV_VERSION=system \
-       RBENV_VERSION=system
-
 echo "Installing packages with paru..."
 paru -Sy --needed --noconfirm \
   {{/* Development Tools */ -}}
