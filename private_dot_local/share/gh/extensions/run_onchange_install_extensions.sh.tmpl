@@ -19,12 +19,13 @@ gh config set git_protocol https
 
 for repo in $wanted; do
   basename=$(basename "$repo")
+  echo "Installing gh extension $basename..."
   test -d "$basename" || gh extension install "$repo"
 done
 
 gh config set git_protocol "$proto"
 
-# run_onchange hash: {{ sha256sum $gh_auth }}
+# run_onchange hash: {{ $gh_auth | toString | sha256sum }}
 # vi: ft=sh
 {{- end -}}
 {{- end -}}
