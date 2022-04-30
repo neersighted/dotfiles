@@ -89,7 +89,7 @@ brew "zoxide"
 cask "1password-beta"
 cask "1password-cli"
 mas "Serial", id: 877615577
-mas "The Unarchiver", id: 425424353
+cask "the-unarchiver"
 mas "Xcode", id: 497799835
 cask "alacritty"
 cask "docker"
@@ -98,3 +98,5 @@ cask "visual-studio-code"
 cask "hot"
 cask "silicon"
 cask "font-source-code-pro"
+mas "Amphetamine", id: 937984704
+cask "flux"
