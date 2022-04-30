@@ -88,7 +88,8 @@ brew "zoxide"
 # GUI Software
 cask "1password-beta"
 cask "1password-cli"
-cask "the-unarchiver"
+cask "keka"
+cask "kekaexternalhelper"
 mas "Xcode", id: 497799835
 cask "alacritty"
 cask "docker"
@@ -104,3 +105,6 @@ mas "PCalc", id: 403504866
 mas "Boop", id: 1518425043
 mas "ColorSlurp", id: 1287239339
 cask "serial"
+cask "dash"
+cask "maccy"
+cask "rectangle"
