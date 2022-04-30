@@ -88,7 +88,6 @@ brew "zoxide"
 # GUI Software
 cask "1password-beta"
 cask "1password-cli"
-mas "Serial", id: 877615577
 cask "the-unarchiver"
 mas "Xcode", id: 497799835
 cask "alacritty"
@@ -100,3 +99,8 @@ cask "silicon"
 cask "font-source-code-pro"
 mas "Amphetamine", id: 937984704
 cask "flux"
+cask "hex-fiend"
+mas "PCalc", id: 403504866
+mas "Boop", id: 1518425043
+mas "ColorSlurp", id: 1287239339
+cask "serial"
