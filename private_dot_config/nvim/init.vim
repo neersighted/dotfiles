@@ -89,6 +89,7 @@ set colorcolumn=+1 " Show the wrapping column visually.
 set linebreak breakindent " Enable visual line wrapping.
 
 " Other
+let g:plist_display_format = 'json' " Force display of .plist files as JSON.
 let g:carbon_now_sh_options = {
       \ 't': g:colors_name,
       \ 'fm': 'Source Code Pro',
