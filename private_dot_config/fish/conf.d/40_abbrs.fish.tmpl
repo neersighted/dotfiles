@@ -1,12 +1,17 @@
 {{- $hash := include .chezmoi.sourceFile | sha256sum -}}
 
+status is-interactive; or exit
+
 if not set -q fish_abbr_hash; or test $fish_abbr_hash != {{ $hash }}
   # Reset existing abbreviations...
   abbr -e (set -U | string replace -rf '^_fish_abbr_(\S+) .*' '$1')
 
   set -l chezmoi_update 'chezmoi update --init'
-  set -l update_command false
+  if string match -e $HOME {{ .chezmoi.executable }}
+    set chezmoi_update "$chezmoi_update; and chezmoi upgrade" # self-update unmanaged chezmoi
+  end
 
+  set -l update_command true
   if is_macos
     set update_command 'brew upgrade'
   else if is_freebsd
