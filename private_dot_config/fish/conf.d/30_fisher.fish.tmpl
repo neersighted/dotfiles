@@ -1,0 +1,19 @@
+{{- $hash := include "private_dot_config/fish/fish_plugins" | sha256sum -}}
+
+status is-interactive; or exit
+
+if not functions -q fisher
+  set_color magenta
+  echo "Bootstrapping fisher..."
+  set_color normal
+
+  curl -sSL https://git.io/fisher | source
+end
+
+if not set -q fish_plugins_hash; or test $fish_plugins_hash != {{ $hash }}
+  echo "Updating fish plugins..."
+  fisher update
+
+  set -U fish_plugins_hash {{ $hash }}
+end
+
