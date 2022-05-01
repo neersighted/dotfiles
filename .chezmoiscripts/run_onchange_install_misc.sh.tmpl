@@ -3,24 +3,9 @@
 
 export GO111MODULE="${GO111MODULE:-on}"
 
-{{ if not (lookPath "shfmt") }}
-echo "Installing shfmt..."
-go install "mvdan.cc/sh/v3/cmd/shfmt@latest"
-{{ end }}
 {{ if not (lookPath "xurls") }}
 echo "Installing xurls..."
 go install "mvdan.cc/xurls/v2/cmd/xurls@latest"
-{{ end }}
-
-export PIPX_HOME="${PIPX_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/pipx}"
-
-{{ if not (lookPath "gdbgui") }}
-echo "Installing gdbgui..."
-pipx install "gdbgui"
-{{ end }}
-{{ if not (lookPath "git-imerge") }}
-echo "Installing git-imerge..."
-pipx install "git-imerge"
 {{ end }}
 
 # vi: ft=sh
