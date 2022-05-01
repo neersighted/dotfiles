@@ -1,14 +1,17 @@
 #!/bin/sh -e
 
-if [ ! "$(command -v chezmoi)" ]; then
+if ! command -v chezmoi >/dev/null; then
   bin_dir="${XDG_BIN_HOME:-$HOME/.local/bin}"
   chezmoi="$bin_dir/chezmoi"
-  if [ "$(command -v curl)" ]; then
-    curl -sSfL https://git.io/chezmoi | sh -s -- -b "$bin_dir"
-  elif [ "$(command -v fetch)" ]; then
-    fetch -o - https://git.io/chezmoi | sh -s -- -b "$bin_dir"
-  elif [ "$(command -v wget)" ]; then
-    wget -qO- https://git.io/chezmoi | sh -s -- -b "$bin_dir"
+
+  chezmoi_url="https://chezmoi.io/get"
+
+  if command -v curl >/dev/null; then
+    curl -sSfL "$chezmoi_url" | sh -s -- -b "$bin_dir"
+  elif command -v fetch >/dev/null; then
+    fetch -o - "$chezmoi_url" | sh -s -- -b "$bin_dir"
+  elif command -v wget >/dev/null; then
+    wget -qO- "$chezmoi_url" | sh -s -- -b "$bin_dir"
   else
     echo "To install chezmoi, you must have curl, fetch, or wget installed." >&2
     exit 1

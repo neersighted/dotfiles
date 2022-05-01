@@ -10,7 +10,7 @@ fetch -o - https://raw.githubusercontent.com/neersighted/dotfiles/master/bootstr
 ```
 ```pwsh
 # windows:
-(iwr -UseBasicParsing https://git.io/chezmoi.ps1).Content | powershell -c -; .\bin\chezmoi.exe init --apply --remove neersighted
+(iwr -UseBasicParsing https://chezmoi.io/get.ps1).Content | powershell -c -; .\bin\chezmoi.exe init --apply --remove neersighted
 ```
 
 Restart your shell to make sure the changes are fully applied.

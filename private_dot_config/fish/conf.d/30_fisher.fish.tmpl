@@ -7,7 +7,7 @@ if not functions -q fisher
   echo "Bootstrapping fisher..."
   set_color normal
 
-  curl -sSL https://git.io/fisher | source
+  curl -sSL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
 end
 
 if not set -q fish_plugins_hash; or test $fish_plugins_hash != {{ $hash }}
