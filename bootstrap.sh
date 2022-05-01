@@ -10,7 +10,7 @@ if [ ! "$(command -v chezmoi)" ]; then
   elif [ "$(command -v wget)" ]; then
     wget -qO- https://git.io/chezmoi | sh -s -- -b "$bin_dir"
   else
-    echo "To install chezmoi, ycu must have curl, fetch, or wget installed." >&2
+    echo "To install chezmoi, you must have curl, fetch, or wget installed." >&2
     exit 1
   fi
 else
