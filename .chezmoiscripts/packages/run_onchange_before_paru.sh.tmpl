@@ -1,0 +1,33 @@
+{{- if eq .osid "linux-arch" -}}
+#!/bin/sh -e
+
+if ! command -v paru >/dev/null; then
+  echo "Bootstrapping paru..."
+
+  PARU="${TMPDIR:-/tmp}/paru"
+  trap 'rm -rf $PARU' EXIT
+
+  git clone https://aur.archlinux.org/paru-bin.git "$PARU"
+  (cd $PARU && makepkg -si --noconfirm)
+fi
+
+{{- if .wsl.any }}
+keyring={{ joinPath .chezmoi.sourceDir ".keyring" "wslutilities.asc" | quote}}
+fingerprint=$(gpg --show-keys --with-colons "$keyring" | grep fpr | cut -d: -f10 | head -n1)
+
+if ! pacman-key --list-keys 2>/dev/null | grep -q "$fingerprint"; then
+  echo "Importing wslutilities signing key..."
+  sudo pacman-key --add "$keyring"
+  sudo pacman-key --lsign-key "$fingerprint"
+fi
+
+if ! grep -Eq '^\[wslutilities\]' /etc/pacman.conf; then
+  echo "Enabling wslutilities repo..."
+  printf '\n%s\n%s' '[wslutilities]' 'Server = https://pkg.wslutiliti.es/arch/' | sudo tee -a /etc/pacman.conf >/dev/null
+fi
+{{- end }}
+
+echo "Installing packages with paru..."
+paru -Sy --needed --noconfirm {{ .packages.packages | sortAlpha | uniq | join " " }}
+
+{{- end -}}

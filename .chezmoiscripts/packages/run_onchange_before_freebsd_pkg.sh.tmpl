@@ -1,0 +1,18 @@
+{{- if eq .chezmoi.os "freebsd" -}}
+#!/bin/sh -e
+
+if [ "$(id -u)" -ne 0 ]; then
+  echo "Asking for root credentials..."
+  exec su root -c "sh $0"
+fi
+
+echo "Installing ports with pkg..."
+pkg install -y {{ .packages.ports | sortAlpha | uniq | join " " }}
+
+# Set up pkg-provides.
+if ! grep -Eq '^PKG_ENABLE_PLUGINS' /usr/local/etc/pkg.conf; then
+  sed -e '/PKG_PLUGINS_DIR/s/^#//' -e '/PKG_ENABLE_PLUGINS/s/^#//' \
+    -e 's/#PLUGINS \[/PLUGINS [ provides ]/' -i '' /usr/local/etc/pkg.conf
+fi
+
+{{- end -}}

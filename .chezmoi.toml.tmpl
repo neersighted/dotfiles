@@ -6,6 +6,12 @@
 {{- $wsl1         := false -}}{{/* wsl 1 */}}
 {{- $wsl2         := false -}}{{/* wsl 2 */}}
 
+{{/* os environment detection */}}
+{{- $osid := .chezmoi.os -}}
+{{- if hasKey .chezmoi.osRelease "id" -}}
+{{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- end -}}
+
 {{/* devcontainer detection */}}
 {{- if (env "CODESPACES") -}}
 {{- $codespaces = true -}}
@@ -70,6 +76,7 @@ encryption = "age"
 [data]
     configured = true
 
+    osid       = {{ $osid | quote }}
     headless   = {{ $headless }}
     transient  = {{ $transient }}
 
@@ -111,31 +118,327 @@ encryption = "age"
 [data.python]
     supported = ["3.7", "3.8", "3.9", "3.10"]
 
-[data.nord]
-    nord0  = '#2e3440'
-    nord1  = '#3b4252'
-    nord2  = '#434c5e'
-    nord3  = '#4c566a'
-    nord4  = '#d8dee9'
-    nord5  = '#e5e9f0'
-    nord6  = '#eceff4'
-    nord7  = '#8fbcbb'
-    nord8  = '#88c0d0'
-    nord9  = '#81a1c1'
-    nord10 = '#5e81ac'
-    nord11 = '#bf616a'
-    nord12 = '#d08770'
-    nord13 = '#ebcb8b'
-    nord14 = '#a3be8c'
-    nord15 = '#b48ead'
+{{- if eq .chezmoi.os "darwin" }}
+[data.packages]
+    taps = [
+        "homebrew/bundle",
+        "homebrew/cask",
+        "homebrew/cask-drivers",
+        "homebrew/cask-fonts",
+        "homebrew/cask-versions",
+        "homebrew/command-not-found",
+        "homebrew/core",
+        "homebrew/services",
+        "beeftornado/rmtree",
+        "microsoft/git",
+        "tavianator/tap",
+    ]
 
-    nord1dim  = '#373e4d'
-    nord5dim  = '#aeb3bb'
-    nord8dim  = '#6d96a5'
-    nord9dim  = '#68809a'
-    nord11dim = '#94545d'
-    nord13dim = '#b29e75'
-    nord14dim = '#809575'
-    nord15dim = '#8c738c'
+    formulae = [
+        # Toolchain
+        "ccache",
+        "cmake",
+        "pkg-config",
+
+        # Libraries
+        "gdbm",
+        "gettext",
+        "gmp",
+        "openssl@1.1",
+        "readline",
+
+        # User Programs
+        "age",
+        "asciinema",
+        "bat",
+        "bfs",
+        "caddy",
+        "chezmoi",
+        "croc",
+        "ctags",
+        "curl",
+        "curlie",
+        "direnv",
+        "diskus",
+        "dust",
+        "exa",
+        "fd",
+        "fish",
+        "fzf",
+        "gdb",
+        "gh",
+        "git",
+        "git-delta",
+        "git-filter-repo",
+        "git-interactive-rebase-tool",
+        "git-lfs",
+        "go",
+        "hexyl",
+        "htop",
+        "hyperfine",
+        "jq",
+        "less",
+        "lftp",
+        "mas",
+        "mkcert",
+        "mosh",
+        "mycli",
+        "neovim",
+        "openssh",
+        "pgcli",
+        "pipx",
+        "pre-commit",
+        "rclone",
+        "ripgrep",
+        "sd",
+        "shellcheck",
+        "socat",
+        "starship",
+        "svn",
+        "tealdeer",
+        "terminal-notifier",
+        "thefuck",
+        "tmate",
+        "tmux",
+        "tokei",
+        "trash",
+        "vivid",
+        "watch",
+        "watchexec",
+        "yubikey-agent",
+        "zoxide",
+    ]
+
+    casks = [
+        "1password-beta",
+        "1password-cli",
+        "alacritty",
+        "dash",
+        "docker",
+        "flux",
+        "font-source-code-pro",
+        "git-credential-manager-core",
+        "hex-fiend",
+        "hot",
+        "iterm2",
+        "keka",
+        "kekaexternalhelper",
+        "maccy",
+        "rectangle",
+        "serial",
+        "silicon",
+        "visual-studio-code",
+    ]
+
+    app_store = [
+        { name = "Xcode", id = 497799835},
+        { name = "Amphetamine", id = 937984704},
+        { name = "PCalc", id = 403504866},
+        { name = "Boop", id = 1518425043},
+        { name = "ColorSlurp", id = 1287239339},
+    ]
+
+{{ else if eq .chezmoi.os "freebsd" }}
+[data.packages]
+    ports = [
+        # Toolchain
+        "devel/ccache",
+        "devel/cmake",
+        "devel/gmake",
+        # Libraries
+        "databases/gdbm",
+        "sqlite3", # origin: databases/sqlite3
+        "devel/libffi",
+        "devel/ncurses",
+        "devel/readline",
+        # User Programs
+        "archivers/unzip",
+        "benchmarks/hyperfine",
+        "databases/py-mycli",
+        "databases/py-pgcli",
+        "devel/gdb",
+        "devel/gh",
+        "git", # origin: devel/git
+        "devel/git-delta",
+        "devel/git-filter-repo",
+        "devel/git-lfs",
+        "devel/hs-ShellCheck",
+        "devel/interactive_rebase_tool",
+        "devel/p5-File-MimeInfo",
+        "devel/py-pipx",
+        "devel/py-pre-commit",
+        "devel/tig",
+        "devel/tokei",
+        "devel/universal-ctags",
+        "editors/neovim",
+        "ftp/curl",
+        "ftp/curlie",
+        "ftp/lftp",
+        "lang/go",
+        "lang/python",
+        "lang/python3",
+        "misc/gnu-watch",
+        "misc/thefuck",
+        "net/croc",
+        "net/mosh",
+        "net/rclone",
+        "net/socat",
+        "net/whois",
+        "ports-mgmt/pkg",
+        "ports-mgmt/pkg-provides",
+        "ports-mgmt/portlint",
+        "ports-mgmt/poudriere",
+        "security/1password-client",
+        "security/age",
+        "shells/bash",
+        "shells/fish",
+        "shells/starship",
+        "sysutils/bfs",
+        "sysutils/chezmoi",
+        "sysutils/direnv",
+        "sysutils/diskus",
+        "sysutils/dtrace-toolkit",
+        "sysutils/dust",
+        "sysutils/exa",
+        "sysutils/fd",
+        "sysutils/hexyl",
+        "sysutils/htop",
+        "sysutils/tealdeer",
+        "sysutils/tmate",
+        "sysutils/tmux",
+        "sysutils/vivid",
+        "sysutils/zoxide",
+        "textproc/bat",
+        "textproc/fzf",
+        "textproc/jq",
+        "textproc/py-asciinema",
+        "textproc/ripgrep",
+        "textproc/sd",
+        "www/caddy",
+        # missing: mkcert
+        # missing: watchexec
+    ]
+
+{{ else if eq $osid "linux-arch" }}
+[data.packages]
+    packages = [
+        # Toolchain
+        "base-devel",
+        "ccache",
+        "clang",
+        "cmake",
+        "musl",
+        # Libraries
+        "bzip2",
+        "gdbm",
+        "gmp",
+        "libffi",
+        "libyaml",
+        "ncurses",
+        "openssl",
+        "readline",
+        "sqlite",
+        "xz",
+        "zlib",
+        # User Programs
+        "1password-cli",
+        "age",
+        "asciinema",
+        "bat",
+        "bcc-tools",
+        "bfs",
+        "caddy",
+        "chezmoi",
+        "croc",
+        "ctags",
+        "curlie",
+        "diskus",
+        "dstat",
+        "dust",
+        "exa",
+        "fd",
+        "fish",
+        "fuse2",
+        "fzf",
+        "gdb",
+        "git",
+        "git-delta",
+        "git-filter-repo",
+        "git-interactive-rebase-tool-bin",
+        "git-lfs",
+        "github-cli",
+        "go",
+        "handlr",
+        "hexyl",
+        "htop",
+        "hyperfine",
+        "jq",
+        "lftp",
+        "lostfiles",
+        "lsof",
+        "ltrace",
+        "man-db",
+        "man-pages",
+        "mkcert",
+        "mosh",
+        "mycli",
+        "neovim",
+        "net-tools",
+        "pacman-contrib",
+        "paru-bin",
+        "perf",
+        "perl-file-mimeinfo",
+        "pgcli",
+        "python-pipx",
+        "python-pre-commit",
+        "rclone",
+        "ripgrep",
+        "rr-bin",
+        "sd",
+        "shellcheck",
+        "socat",
+        "starship",
+        "tealdeer",
+        "thefuck",
+        "tig",
+        "tmate",
+        "tmux",
+        "tokei",
+        "unzip",
+        "vivid",
+        "watchexec",
+        "whois",
+        "wslu",
+        "xdg-utils-handlr",
+        "zoxide",
+    ]
+{{- end }}
+
+[data.nord]
+    nord0  = "#2e3440"
+    nord1  = "#3b4252"
+    nord2  = "#434c5e"
+    nord3  = "#4c566a"
+    nord4  = "#d8dee9"
+    nord5  = "#e5e9f0"
+    nord6  = "#eceff4"
+    nord7  = "#8fbcbb"
+    nord8  = "#88c0d0"
+    nord9  = "#81a1c1"
+    nord10 = "#5e81ac"
+    nord11 = "#bf616a"
+    nord12 = "#d08770"
+    nord13 = "#ebcb8b"
+    nord14 = "#a3be8c"
+    nord15 = "#b48ead"
+
+    nord1dim  = "#373e4d"
+    nord5dim  = "#aeb3bb"
+    nord8dim  = "#6d96a5"
+    nord9dim  = "#68809a"
+    nord11dim = "#94545d"
+    nord13dim = "#b29e75"
+    nord14dim = "#809575"
+    nord15dim = "#8c738c"
 
 # vi: ft=toml

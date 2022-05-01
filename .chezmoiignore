@@ -47,6 +47,6 @@ Documents
 .terminfo # terminfo hacks are only needed on macos
 {{ end }}
 
-{{ if or (ne .chezmoi.os "linux") (eq (index .chezmoi.osRelease "id") "arch") }} # hushlogin on everything but arch
+{{ if ne .osid "linux-arch" }} # hushlogin on everything but arch
 .hushlogin
 {{ end }}
