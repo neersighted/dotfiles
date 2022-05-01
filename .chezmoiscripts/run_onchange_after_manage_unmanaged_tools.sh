@@ -8,8 +8,11 @@ if [ -f "./chezmoi" ] && [ "$(which -a chezmoi | wc -l)" -gt 1 ]; then
 fi
 
 if ! command -v eget >/dev/null; then
-  if [ "$(uname -s)" = Darwin ] && [ "$(uname -m)" = arm64 ]; then
+  if [ "$(uname -s)-$(uname -m)" = 'Darwin-arm64' ]; then
     export GETEGET_PLATFORM='darwin_amd64'
+  fi
+  if [ "$(uname -s)-$(uname -m)" = 'FreeBSD-amd64' ]; then
+    export GETEGET_PLATFORM='linux_amd64'
   fi
 
   echo "Fetching eget binary..."
