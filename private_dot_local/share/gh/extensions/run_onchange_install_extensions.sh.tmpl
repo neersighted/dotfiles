@@ -19,12 +19,13 @@ gh config set -h github.com git_protocol https
 
 for repo in $wanted; do
   basename=$(basename "$repo")
-  echo "Installing gh extension $basename..."
-  test -d "$basename" || gh extension install "$repo"
+  if ! test -d "$basename"; then
+    echo "Installing gh extension $basename..."
+    gh extension install "$repo"
+  fi
 done
 
 gh config set -h github.com git_protocol "$proto"
 
-# vi: ft=sh
 {{- end -}}
 {{- end -}}

@@ -1,5 +1,4 @@
-{{- $prefix := output "brew" "--prefix" | trim -}}
-{{- $infocmp := joinPath $prefix "opt/ncurses/bin/infocmp" -}}
+{{- $infocmp := expandenv "$HOMEBREW_PREFIX/opt/ncurses/bin/infocmp" -}}
 {{- if stat $infocmp -}}
 #!/bin/sh -e
 
@@ -17,6 +16,4 @@ if ! /usr/bin/infocmp {{ $term | quote }} >/dev/null 2>&1; then
   # run_onchange hash: {{ output $infocmp $term | sha256sum }}
 fi
 {{- end }}
-
-# vi: ft=sh
 {{- end -}}
