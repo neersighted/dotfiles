@@ -64,10 +64,10 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
 remove = true
 
 encryption = "age"
-{{- if not $transient }}
 [age]
-    identity = {{ joinPath (dir .chezmoi.configFile) "key.txt" | quote }}
     recipient = "age1qdsdpzhafts3l3sxnma98z5rprgtv246cqevdsw9gzggmaajauhsx44f8x"
+{{- if not $transient }}
+    identity = {{ joinPath (dir .chezmoi.configFile) "key.txt" | quote }}
 {{- end }}
 
 [completion]
