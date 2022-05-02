@@ -2,6 +2,8 @@
 #!/bin/sh
 
 if ! grep -q 'pam_tid.so' /etc/pam.d/sudo; then
+  HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(brew --prefix)}"
+
   echo "Enabling pam_tid.so..."
   sudo sed -i -e "2s#^#auth       optional       $HOMEBREW_PREFIX/lib/pam/pam_reattach.so\nauth       sufficient     pam_tid.so\n#" /etc/pam.d/sudo
 fi
