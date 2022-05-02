@@ -33,24 +33,8 @@ if not set -q fish_abbr_hash; or test $fish_abbr_hash != {{ $hash }}
   abbr -a -- clipc 'clipboard-provider copy'
   abbr -a -- clipp 'clipboard-provider paste'
 
-  # fisher
-  abbr -a -- fad 'fisher install'
-  abbr -a -- fls 'fisher list'
-  abbr -a -- frm 'fisher remove'
-  abbr -a -- fup 'fisher update'
-
-  # git
-  abbr -a -- gad 'git add'
-  abbr -a -- gbr 'git branch'
-  abbr -a -- gco 'git commit'
-  abbr -a -- gcm 'git commit -m'
-  abbr -a -- gfe 'git fetch'
-  abbr -a -- gin 'git init'
-  abbr -a -- gpl 'git pull'
-  abbr -a -- gpu 'git push'
-  abbr -a -- gre 'git rebase'
-  abbr -a -- grm 'git rm'
-  abbr -a -- gsw 'git switch'
+  # docker
+  abbr -a -- dspa 'docker system prune -a'
 
   # gh
   abbr -a -- gpc 'gh pr create'
@@ -63,10 +47,6 @@ if not set -q fish_abbr_hash; or test $fish_abbr_hash != {{ $hash }}
   abbr -a -- ll 'ls -lh'
   abbr -a -- la 'ls -lah'
   abbr -a -- lt 'ls -lhTL2'
-
-  # tmux
-  abbr -a -- tdp 'tmux display-message -p'
-  abbr -a -- tso 'tmux source-file'
 
   # zoxide
   abbr -a -- zrm 'zoxide remove'
