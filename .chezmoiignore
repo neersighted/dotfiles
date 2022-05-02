@@ -11,6 +11,7 @@ tags
 .config/xinit
 {{ end }}
 {{ if .transient }}
+.chezmoiscripts/packages/*
 .local/bin/goenv-update
 .local/bin/nodenv-update
 .local/bin/pyenv-update
