@@ -1,12 +1,12 @@
-{{ range .packages.taps | sortAlpha | uniq -}}
+{{ range .packages.macos.taps | sortAlpha | uniq -}}
 tap {{ . | quote }}
 {{ end -}}
-{{ range .packages.formulae | sortAlpha | uniq -}}
+{{ range .packages.macos.formulae | sortAlpha | uniq -}}
 brew {{ . | quote }}
 {{ end -}}
-{{ range .packages.casks | sortAlpha | uniq -}}
+{{ range .packages.macos.casks | sortAlpha | uniq -}}
 cask {{ . | quote }}
 {{ end -}}
-{{ range .packages.app_store -}}
+{{ range .packages.macos.app_store -}}
 mas {{ .name | quote }}, id: {{ .id }}
 {{ end -}}

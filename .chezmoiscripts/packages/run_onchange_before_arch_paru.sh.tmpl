@@ -28,6 +28,6 @@ fi
 {{- end }}
 
 echo "Installing packages with paru..."
-paru -Sy --needed --noconfirm {{ .packages.packages | sortAlpha | uniq | join " " }}
+paru -Sy --needed --noconfirm {{ .packages.arch.packages | sortAlpha | uniq | join " " }}
 
 {{- end -}}
