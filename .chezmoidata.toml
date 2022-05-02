@@ -153,11 +153,12 @@
     ]
 
     app_store = [
-        { name = "Xcode", id = 497799835},
-        { name = "Amphetamine", id = 937984704},
-        { name = "PCalc", id = 403504866},
-        { name = "Boop", id = 1518425043},
-        { name = "ColorSlurp", id = 1287239339},
+        { name = "Amphetamine", id = 937984704 },
+        { name = "Boop", id = 1518425043 },
+        { name = "ColorSlurp", id = 1287239339 },
+        { name = "PCalc", id = 403504866 },
+        { name = "Tailscale", id = 1475387142 },
+        { name = "Xcode", id = 497799835 },
     ]
 
 [packages.freebsd]
@@ -212,6 +213,7 @@
         "ports-mgmt/poudriere",
         "security/1password-client",
         "security/age",
+        "security/tailscale",
         "shells/bash",
         "shells/fish",
         "shells/starship",
@@ -322,6 +324,7 @@
         "shfmt",
         "socat",
         "starship",
+        "tailscale",
         "tealdeer",
         "thefuck",
         "tig",
