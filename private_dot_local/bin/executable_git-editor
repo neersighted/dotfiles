@@ -4,9 +4,7 @@ if is_vscode
     set -l code code
     command -q code-insiders; and set code code-insiders
     exec $code --wait $argv
-else if is_nvim
-    set -p argv +split
 end
 
-set nvim_wait
-nvim $argv
+set -g nvim_wait
+$EDITOR $argv
