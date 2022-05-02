@@ -17,4 +17,5 @@ if test "$installed" != "$latest"
   set_color normal
 
   goenv latest install
+  and echo "$latest" > $GOENV_ROOT/version
 end
