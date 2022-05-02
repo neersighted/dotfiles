@@ -1,0 +1,52 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+
+echo "Configurating macOS settings..."
+
+killall -q "System Preferences" # Kill System Preferences.app if it is open.
+
+defaults -currentHost write com.apple.Spotlight MenuItemHidden -bool false # Hide Spotlight in the menu bar.
+defaults write -globalDomain AppleInterfaceStyle Dark # Use dark mode.
+defaults write -globalDomain AppleShowAllExtensions -bool true # Show all file extensions.
+defaults write -globalDomain AppleShowScrollBars -string "Automatic" # Automatically hide/show scrollbars.
+defaults write -globalDomain InitialKeyRepeat -int 15 # Make initial key repeat faster.
+defaults write -globalDomain KeyRepeat -int 2 # And held repeat much much faster.
+defaults write -globalDomain NSNavPanelExpandedStateForSaveMode -bool true # Expand save pane by default.
+defaults write -globalDomain NSNavPanelExpandedStateForSaveMode2 -bool true # Ditto.
+defaults write -globalDomain NSTextShowsControlCharacters -bool true # Show control characters in text views.
+defaults write -globalDomain PMPrintingExpandedStateForPrint -bool true # Expand print panel by default.
+defaults write -globalDomain PMPrintingExpandedStateForPrint2 -bool true # Ditto.
+defaults write com.apple.LaunchServices LSQuarantine -bool false # Disable the Quarantine confirmation dialog.
+defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true # Check for updates automatically.
+defaults write com.apple.SoftwareUpdate AutomaticDownload -bool true # Download updates automatically.
+defaults write com.apple.SoftwareUpdate ScheduleFrequency -bool true # Check for updates daily.
+defaults write com.apple.dock show-recents -bool false # Don't show recent items in the dock.
+defaults write com.apple.finder AppleShowAllFiles -bool true # Show hidden files in the Finder.
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false # Don't warn when changing an extension.
+defaults write com.apple.finder NewWindowTarget -string "PfLo" # Set the default path for new windows to a location.
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}" # ...which is the home folder.
+defaults write com.apple.finder ShowStatusBar -bool false # Show the Finder status bar.
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool true # Show the full path in the title bar.
+defaults write com.apple.finder _FXSortFoldersFirst -bool true # Keep folders on top when sorting by name.
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true # Quit the printer app when done.
+defaults write com.apple.screensaver askForPassword -bool true # Ask for password when sleep or screensaver starts.
+defaults write com.apple.screensaver askForPasswordDelay -int 0 # Do so immediately.
+defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false # Don't restore windows on relaunch.
+
+duti -s com.googlecode.iTerm2 com.apple.terminal.shell-script shell # Use Iterm2 for .command scripts.
+
+sudo systemsetup -setcomputersleep Never # Disable sleep mode.
+sudo systemsetup -setremotelogin on # Enable remote login (SSH).
+sudo systemsetup -setrestartfreeze on # Restart automatically on freeze.
+
+sudo pmset -a displaysleep 15 # Sleep the display after 15 minutes.
+sudo nvram StartupMute=%01 # Mute the startup sound.
+
+brew services start yubikey-agent # Enable the yubikey-agent daemon.
+
+echo "Done! System UI will restart!"
+
+killall cfprefsd
+killall Dock
+killall Finder
+{{- end -}}
