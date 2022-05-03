@@ -4,4 +4,8 @@ Host *
 	StrictHostKeyChecking accept-new
 	UserKnownHostsFile ~/.ssh/local_hosts ~/.ssh/known_hosts ~/.ssh/common_hosts
 
+Host *.local *.localdomain *.domain *.lan *.home *.host *.corp
+	CheckHostIP no
+	VerifyHostKeyDNS no
+
 # vi: ft=sshconfig
