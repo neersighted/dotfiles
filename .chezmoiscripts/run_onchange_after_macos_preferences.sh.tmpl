@@ -16,7 +16,6 @@ defaults write -globalDomain NSNavPanelExpandedStateForSaveMode2 -bool true # Di
 defaults write -globalDomain NSTextShowsControlCharacters -bool true # Show control characters in text views.
 defaults write -globalDomain PMPrintingExpandedStateForPrint -bool true # Expand print panel by default.
 defaults write -globalDomain PMPrintingExpandedStateForPrint2 -bool true # Ditto.
-defaults write com.apple.LaunchServices LSQuarantine -bool false # Disable the Quarantine confirmation dialog.
 defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true # Check for updates automatically.
 defaults write com.apple.SoftwareUpdate AutomaticDownload -bool true # Download updates automatically.
 defaults write com.apple.SoftwareUpdate ScheduleFrequency -bool true # Check for updates daily.
@@ -35,12 +34,10 @@ defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false 
 
 duti -s com.googlecode.iTerm2 com.apple.terminal.shell-script shell # Use Iterm2 for .command scripts.
 
-sudo systemsetup -setcomputersleep Never # Disable sleep mode.
+sudo nvram StartupMute=%01 # Mute the startup sound.
+sudo pmset -a displaysleep 15 # Sleep the display after 15 minutes.
 sudo systemsetup -setremotelogin on # Enable remote login (SSH).
 sudo systemsetup -setrestartfreeze on # Restart automatically on freeze.
-
-sudo pmset -a displaysleep 15 # Sleep the display after 15 minutes.
-sudo nvram StartupMute=%01 # Mute the startup sound.
 
 brew services start yubikey-agent # Enable the yubikey-agent daemon.
 
