@@ -22,17 +22,13 @@ $git_status\
 ( $ruby)\
 ( $rust)\
 ( $status)\
-( $cmd_duration)
+( $cmd_duration)\
+( $battery)
 """
 
 add_newline = false
 
 command_timeout = 1000
-
-[username]
-format = "[user:$user]($style)"
-style_root = {{ .nord.nord11 | quote }}
-style_user = {{ .nord.nord4 | quote }}
 
 [hostname]
 format = "[$hostname]($style)"
@@ -56,6 +52,11 @@ threshold = 3
 format = "$symbol"
 success_symbol = "[λ]({{ .nord.nord10 }})"
 error_symbol = "[λ]({{ .nord.nord11 }})"
+
+[username]
+format = "[user:$user]($style)"
+style_root = {{ .nord.nord11 | quote }}
+style_user = {{ .nord.nord4 | quote }}
 
 [directory]
 format = "[$path]($style)[$read_only]($read_only_style)"
@@ -167,3 +168,11 @@ format = "[$duration]($style)"
 style = {{ .nord.nord3 | quote }}
 show_notifications = true
 min_time_to_notify = 30_000
+
+[[battery.display]]
+threshold = 10
+style = {{ .nord.nord12 | quote }}
+
+[[battery.display]]
+threshold = 25
+style = {{ .nord.nord13 | quote }}
