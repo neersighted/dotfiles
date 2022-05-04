@@ -10,8 +10,8 @@ if ! /usr/bin/infocmp {{ $term | quote }} >/dev/null 2>&1; then
   echo "Backporting brewed {{ $term }} terminfo..."
 
   {{ $infocmp | quote }} -x {{ $term | quote }} \
-    | sed 's/pairs#0x10000/pairs#0x1000/' > "$terminfo"
-  /usr/bin/tic -x "$terminfo"
+    | sed 's/pairs#0x10000/pairs#0x1000/' >"$terminfo"
+  /usr/bin/tic -x "$terminfo" -o .
 
   # run_onchange hash: {{ output $infocmp $term | sha256sum }}
 fi

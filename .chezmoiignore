@@ -45,7 +45,7 @@ Documents
 {{ else }} # macos-only software
 .config/brew
 .config/iterm2
-.terminfo # terminfo hacks are only needed on macos
+.local/share/terminfo # terminfo hacks are only needed on macos
 {{ end }}
 
 {{ if ne .osid "linux-arch" }} # hushlogin on everything but arch

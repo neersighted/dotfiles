@@ -52,6 +52,7 @@ end
 if is_macos
   test -x /usr/local/bin/brew; and /usr/local/bin/brew shellenv | source
   test -x /opt/homebrew/bin/brew; and /opt/homebrew/bin/brew shellenv | source
+  set -q TERMINFO_DIRS; or set -x TERMINFO_DIRS ":$XDG_DATA_HOME/terminfo"
 end
 
 #
