@@ -5,7 +5,13 @@ echo "Configuring macOS settings..."
 
 killall -q "System Preferences" # Kill System Preferences.app if it is open.
 
-defaults -currentHost write com.apple.Spotlight MenuItemHidden -bool false # Hide Spotlight in the menu bar.
+# Remove all unused default apps from the Dock (using dockutil).
+# FIXME: dockutil 3.x needed for 12.3+ and homebrew packages dockutil 2.x
+# for app in "Launchpad" "Safari" "Messages" "Mail" "Maps" "Photos" "FaceTime" "Calendar" "Contacts" "Reminders" "Notes" "TV" "Music" "News" "App Store" "System Preferences"; do
+#   dockutil --remove "$app"
+# done
+
+defaults -currentHost write com.apple.Spotlight MenuItemHidden -bool true # Hide Spotlight in the menu bar.
 defaults write -globalDomain AppleInterfaceStyle Dark # Use dark mode.
 defaults write -globalDomain AppleShowAllExtensions -bool true # Show all file extensions.
 defaults write -globalDomain AppleShowScrollBars -string "Automatic" # Automatically hide/show scrollbars.
@@ -36,8 +42,6 @@ duti -s com.googlecode.iTerm2 com.apple.terminal.shell-script shell # Use Iterm2
 
 sudo nvram StartupMute=%01 # Mute the startup sound.
 sudo pmset -a displaysleep 15 # Sleep the display after 15 minutes.
-sudo systemsetup -setremotelogin on # Enable remote login (SSH).
-sudo systemsetup -setrestartfreeze on # Restart automatically on freeze.
 
 brew services start yubikey-agent # Enable the yubikey-agent daemon.
 
