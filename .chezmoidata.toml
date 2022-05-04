@@ -159,7 +159,6 @@
         { name = "ColorSlurp", id = 1287239339 },
         { name = "PCalc", id = 403504866 },
         { name = "Tailscale", id = 1475387142 },
-        { name = "Xcode", id = 497799835 },
     ]
 
 [packages.freebsd]
