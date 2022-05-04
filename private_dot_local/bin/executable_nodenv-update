@@ -27,6 +27,9 @@ for release in $lts $current
     set_color normal
 
     nodenv latest install $release
+    if test $status -eq 0; and test "$release" = "$lts"
+      echo "$latest" > $NODENV_ROOT/version
+    end
   end
 end
 
