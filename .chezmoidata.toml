@@ -133,7 +133,7 @@
     ]
 
     casks = [
-        "1password-beta",
+        "1password",
         "1password-cli",
         "alacritty",
         "bartender",
@@ -148,6 +148,7 @@
         "keka",
         "kekaexternalhelper",
         "maccy",
+        "multipass",
         "rectangle",
         "serial",
         "silicon",
