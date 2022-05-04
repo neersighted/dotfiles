@@ -22,13 +22,10 @@ function __tmux_session_name
   is_editor; and return 1
   # no nested tmux
   is_tmux; and return 1
+  # no remote connections
+  is_ssh; and return 1
 
-  # is a remote login
-  if is_ssh
-    printf '%s-%s' (prompt_hostname) (string replace -a '.' '-' (string split ' ' $SSH_CONNECTION)[1]); return
-  end
-
-  set -q tty; or set -g tty (tty)
+  set -f tty (tty)
 
   # is a console/tty
   if not string match -rq '^/dev/(pts/\d+|ttys\d+)$' $tty; and not is_wsl1
