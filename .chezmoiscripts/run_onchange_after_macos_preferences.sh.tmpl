@@ -39,6 +39,9 @@ defaults write com.apple.screensaver askForPasswordDelay -int 0 # Do so immediat
 defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false # Don't restore windows on relaunch.
 
 duti -s com.googlecode.iTerm2 com.apple.terminal.shell-script shell # Use Iterm2 for .command scripts.
+for uti in public.json public.plain-text; do
+  duti -s com.microsoft.VSCode "$uti" all
+done
 
 sudo nvram StartupMute=%01 # Mute the startup sound.
 sudo pmset -a displaysleep 15 # Sleep the display after 15 minutes.
