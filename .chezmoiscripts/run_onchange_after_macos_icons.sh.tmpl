@@ -1,0 +1,26 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+
+{{- range glob (joinPath .chezmoi.sourceDir "private_dot_local/share/icons/Folders/*.icns") }}
+{{-   $folder_name := base . | replace ".icns" "" }}
+{{-   $folder := joinPath $.chezmoi.homeDir $folder_name }}
+  if diskutil info {{ $folder | quote }} >/dev/null 2>&1; then
+    cp {{ . | quote }} {{ (joinPath $folder ".VolumeIcon.icns") | quote }}
+    echo "Custom icon assigned to {{ $folder | squote }} based on {{ . | squote }}."
+  elif [ -d {{ $folder | quote }} ]; then
+    fileicon set {{ $folder | quote }} {{ . | quote }}
+  fi
+{{- end }}
+
+{{- range glob (joinPath .chezmoi.sourceDir "private_dot_local/share/icons/Applications/*.icns") }}
+{{-   $app := base . | replace ".icns" "" | printf "%s.app" }}
+{{-   $app_dir := joinPath "/Applications" $app }}
+  if [ -d {{ $app_dir | quote }} ]; then
+    fileicon set {{ $app_dir | quote }} {{ . | quote }}
+  fi
+{{- end }}
+
+{{- range glob (joinPath .chezmoi.sourceDir "private_dot_local/share/icons/**/*.icns") }}
+  # run_onchange hash: {{ include . | sha256sum }}
+{{- end}}
+{{- end -}}
