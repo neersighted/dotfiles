@@ -5,11 +5,11 @@
 wanted='
 mislav/gh-branch
 mislav/gh-cp
-yusukebe/gh-markdown-preview
 {{- if ne .chezmoi.os "freebsd" }}
-seachicken/gh-poi
-dlvhdr/gh-prs
+dlvhdr/gh-dash
 {{- end }}
+yusukebe/gh-markdown-preview
+seachicken/gh-poi
 '
 
 for repo in $wanted; do
