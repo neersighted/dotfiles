@@ -1,4 +1,3 @@
-{{- if lookPath "gh" -}}
 {{- $gh_auth := stat (joinPath .chezmoi.homeDir ".config/gh/hosts.yml") -}}
 {{- if $gh_auth -}}
 #!/bin/sh -e
@@ -13,19 +12,12 @@ dlvhdr/gh-prs
 {{- end }}
 '
 
-# FIXME: tempoarily force https
-proto=$(gh config get -h github.com git_protocol)
-gh config set -h github.com git_protocol https
-
 for repo in $wanted; do
   basename=$(basename "$repo")
   if ! test -d "$basename"; then
     echo "Installing gh extension $basename..."
-    gh extension install "$repo"
+    gh extension install "https://github.com/$repo"
   fi
 done
 
-gh config set -h github.com git_protocol "$proto"
-
-{{- end -}}
 {{- end -}}
