@@ -6,7 +6,28 @@ if (!(new-object System.Security.Principal.WindowsPrincipal([System.Security.Pri
     return
 }
 
-Write-Host 'Setting up Explorer/Shell options...'
+# We must manually create the HKCD: drive.
+New-PSDrive -PSProvider registry -Root HKEY_CLASSES_ROOT -Name HKCR
+
+$AppModelUnlock = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock"
+if (!(Test-Path -Path $AppModelUnlock)) {
+    Write-Host 'Enabling Developer Mode...'
+    $null = New-Item -Path $AppModelUnlock -ItemType Directory -Force
+}
+Set-ItemProperty -Path $AppModelUnlock -Name AllowDevelopmentWithoutDevLicense -Value 1
+
+$UEFIMenu = "HKCR:\DesktopBackground\Shell\UEFI"
+if (!(Test-Path -Path $UEFIMenu)) {
+    Write-Host 'Adding "Reboot into UEFI Firmware" to the Desktop context menu...'
+    $null = New-Item -Path $UEFIMenu -ItemType Directory -Force
+    $null = New-Item -Path $UEFIMenu'\command' -ItemType Directory -Force
+}
+Set-ItemProperty -Path $UEFIMenu -Name Icon -Value "bootux.dll,-1016"
+Set-ItemProperty -Path $UEFIMenu -Name MUIVerb -Value "Reboot into UEFI Firmware"
+Set-ItemProperty -Path $UEFIMenu -Name Position -Value "Bottom"
+Set-ItemProperty -Path $UEFIMenu'\command' -Name '(Default)' -Value "powershell -WindowStyle Hidden -NoProfile -Command `"Start-Process shutdown -ArgumentList '/r /f /t 0 /fw' -Verb runAs`""
+
+Write-Host 'Setting up Explorer/Shell preferences...'
 Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState -Name FullPath -Value 1
 Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name Hidden -Value 1
 Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name HideFileExt -Value 0
@@ -16,8 +37,6 @@ Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\
 Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name NavPaneShowAllFolders -Value 1
 Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name LaunchTo -Value 1
 Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name MMTaskbarMode -Value 2
-
-$null = New-Item -Path HKCU:\Software\Policies\Microsoft\Windows\Explorer -Name ShowRunAsDifferentUserInStart -Force -Value 1
 
 $path = [Environment]::GetEnvironmentVariable('PATH', 'User').Split(';')
 if (!$path.Contains($PSScriptRoot)) {
