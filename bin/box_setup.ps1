@@ -6,7 +6,7 @@ if (!(new-object System.Security.Principal.WindowsPrincipal([System.Security.Pri
     return
 }
 
-# We must manually create the HKCD: drive.
+# We must manually create the HKCR: drive.
 New-PSDrive -PSProvider registry -Root HKEY_CLASSES_ROOT -Name HKCR
 
 $AppModelUnlock = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock"
@@ -28,7 +28,6 @@ Set-ItemProperty -Path $UEFIMenu -Name Position -Value "Bottom"
 Set-ItemProperty -Path $UEFIMenu'\command' -Name '(Default)' -Value "powershell -WindowStyle Hidden -NoProfile -Command `"Start-Process shutdown -ArgumentList '/r /f /t 0 /fw' -Verb runAs`""
 
 Write-Host 'Setting up Explorer/Shell preferences...'
-Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState -Name FullPath -Value 1
 Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name Hidden -Value 1
 Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name HideFileExt -Value 0
 Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name ShowSuperHidden -Value 0
