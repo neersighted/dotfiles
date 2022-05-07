@@ -40,6 +40,12 @@ set -g set-titles-string 'tmux: #{session_name}' # minimal title string
 set -g history-limit 100000 # store 100k lines of history
 
 #
+# Hooks
+#
+
+set-hook -g client-attached { run-shell 'pkill -USR1 -P #{pid} fish' } # signal fish to refresh env vars
+
+#
 # Keybinds
 #
 
