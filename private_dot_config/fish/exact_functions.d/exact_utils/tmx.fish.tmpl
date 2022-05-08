@@ -5,11 +5,11 @@ function tmx -d 'quickly attach to or create a new tmux session' -a query
 
   if is_tmux
     if not tmux has-session -t $session &>/dev/null
-      tmux new -d -s $session
+      tmux new-session -d -s $session
     end
-    tmux switch -t $session
+    tmux switch-client -t $session
   else
-    tmux new -A -s $session
+    tmux new-session -A -s $session
   end
 end
 {{- end -}}
