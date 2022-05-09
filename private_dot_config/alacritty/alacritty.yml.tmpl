@@ -1,5 +1,3 @@
-# live_config_reload: true
-
 # env:
 #   TERM: alacritty
 
@@ -9,21 +7,9 @@ shell:
   args: ['~']
 {{ end }}
 
-working_directory: None
-
-# selection:
-#   semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
-#   save_to_clipboard: false
-
-# alt_send_esc: true
+# alt_send_esc: false
 
 window:
-  # dimensions:
-  #   columns: 0
-  #   lines: 0
-  # position:
-  #   x: 0
-  #   y: 0
   padding:
     x: 2
     y: 2
@@ -34,26 +20,6 @@ window:
   {{ else }}
   decorations: full
   {{ end  }}
-
-  startup_mode: Maximized # Windowed,Maximized,Fullscreen,SimpleFullscreen
-
-  dynamic_title: true
-  # title: Alacritty
-  # class:
-  #   instance: Alacritty
-  #   general: Alacritty
-  # gtk_theme_variant: None
-
-# cursor:
-#   style: Block # Block,Underline,Beam
-#   vi_mode_style: None
-#   blink_interval: 750
-#   unfocused_hollow: true
-#   thickness: 0.15
-
-# scrolling:
-#   history: 10000
-#   multiplier: 3
 
 font:
   normal:
@@ -73,12 +39,6 @@ font:
   {{ else }}
   size: 10.0
   {{ end }}
-  # offset:
-  #   x: 0
-  #   y: 0
-  # glyph_offset:
-  #   x: 0
-  #   y: 0
   {{ if eq .chezmoi.os "darwin" }}
   use_thin_strokes: true
   {{ end }}
@@ -131,24 +91,3 @@ colors:
     magenta: '{{ .nord.nord15dim }}'
     cyan: '{{ .nord.nord8dim }}'
     white: '{{ .nord.nord5dim }}'
-
-draw_bold_text_with_bright_colors: false
-
-# bell:
-#   animation: EaseOutExpo # Ease,EaseOut,EaseOutSine,EaseOutQuad,EaseOutCubic,EaseOutQuart,EaseOutQuint,EaseOutExpo,EaseOutCirc,Linear
-#   duration: 0
-#   color: '0xFFFFFF'
-
-# background_opacity: 1.0
-
-# mouse:
-#   double_click: { threshold: 300 }
-#   triple_click: { threshold: 300 }
-
-#   hide_when_typing: false
-
-#   url:
-#     launcher:
-#       program: xdg-open
-#       args: []
-#     modifiers: None
