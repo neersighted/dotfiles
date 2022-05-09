@@ -12,7 +12,7 @@ if ! command -v paru >/dev/null; then
 fi
 
 {{- if .wsl.any }}
-keyring={{ joinPath .chezmoi.sourceDir ".keyring" "wslutilities.asc" | quote}}
+keyring={{ joinPath .chezmoi.workingTree ".keyring" "wslutilities.asc" | quote}}
 fingerprint=$(gpg --show-keys --with-colons "$keyring" | grep fpr | cut -d: -f10 | head -n1)
 
 if ! pacman-key --list-keys 2>/dev/null | grep -q "$fingerprint"; then
