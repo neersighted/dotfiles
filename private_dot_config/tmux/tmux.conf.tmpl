@@ -34,7 +34,11 @@ set -s copy-command 'env COPY_PROVIDERS=desktop clipboard-provider copy' # use c
 # Windows
 set -g base-index 1 # number windows from 1
 set -g set-titles on # pass titles to parent terminal
-set -g set-titles-string 'tmux: #{session_name}' # minimal title string
+if 'test -n "$SSH_CONNECTION"' { # minimal title string
+  set -g set-titles-string '#{host_short}: #{session_name}'
+} {
+  set -g set-titles-string 'tmux: #{session_name}'
+}
 
 # History
 set -g history-limit 100000 # store 100k lines of history
