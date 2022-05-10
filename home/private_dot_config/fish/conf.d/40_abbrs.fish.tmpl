@@ -13,7 +13,7 @@ if not set -q fish_abbr_hash; or test $fish_abbr_hash != {{ $hash }}
 
   set -l update_command true
   if is_macos
-    set update_command 'brew upgrade'
+    set update_command 'softwareupdate --all --install; mas upgrade; brew upgrade'
   else if is_freebsd
     set update_command 'sudo pkg upgrade'
   else if command -q pacman
