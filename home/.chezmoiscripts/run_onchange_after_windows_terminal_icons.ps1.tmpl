@@ -1,0 +1,9 @@
+{{- range $pkg := list "Microsoft.WindowsTerminal_8wekyb3d8bbwe" "Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe" }}
+{{- range $icon := glob (printf "%s/%s" $.chezmoi.workingTree "icons/windows/terminal/*") }}{{/* FIXME: joinPath not compatible with glob */}}
+{{- $base := osBase $icon }}
+{{- $source := osClean $icon }}
+{{- $target := joinPath $.chezmoi.homeDir "AppData/Local/Packages" $pkg "RoamingState" $base }}
+Write-Host "Linking {{ $source }} to {{ $target }}..."
+$null = New-Item -Path {{ quote $target }} -ItemType HardLink -Value {{ quote $source }} -Force
+{{- end }}
+{{- end }}

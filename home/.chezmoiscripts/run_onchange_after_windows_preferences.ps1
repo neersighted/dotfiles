@@ -1,14 +1,15 @@
 # Re-execute as admin if we're not already elevated.
 if (!(new-object System.Security.Principal.WindowsPrincipal([System.Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    $elevated = new-object System.Diagnostics.ProcessStartInfo 'PowerShell'
-    $elevated.Arguments = $myInvocation.MyCommand.Definition
+    $elevated = new-object System.Diagnostics.ProcessStartInfo 'powershell.exe'
+    $elevated.Arguments = $myInvocation.MyCommand.Definition + @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-WindowStyle', 'hidden')
     $elevated.Verb = 'runas'
-    $null = [System.Diagnostics.Process]::Start($elevated)
+    $child = [System.Diagnostics.Process]::Start($elevated)
+    $child.WaitForExit()
     return
 }
 
 # Create the HKCR: prefix for registry access.
-New-PSDrive -PSProvider registry -Root HKEY_CLASSES_ROOT -Name HKCR
+$null = New-PSDrive -PSProvider registry -Root HKEY_CLASSES_ROOT -Name HKCR
 
 # Set my shell preferences.
 Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name Hidden -Value 1
@@ -78,6 +79,3 @@ if (!(Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsyste
     Write-Host 'Enabling WSL...'
     Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
 }
-
-Write-Host -NoNewLine 'Done! Press any key to exit...'
-$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');

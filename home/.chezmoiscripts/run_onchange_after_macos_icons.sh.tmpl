@@ -22,5 +22,5 @@
 
 {{- range $icon := glob (joinPath .chezmoi.workingTree "icons/macos/**/*.icns") }}
   # run_onchange hash: {{ include $icon | sha256sum }}
-{{- end}}
+{{- end }}
 {{- end -}}
