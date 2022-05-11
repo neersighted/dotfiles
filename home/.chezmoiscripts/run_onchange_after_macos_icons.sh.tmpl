@@ -1,7 +1,7 @@
 {{- if eq .chezmoi.os "darwin" -}}
 #!/bin/sh
 
-{{- range glob (joinPath .chezmoi.sourceDir "private_dot_local/share/icons/Folders/*.icns") }}
+{{- range glob (joinPath .chezmoi.workingTree "icons/macos/Folders/*.icns") }}
 {{-   $folder_name := base . | replace ".icns" "" }}
 {{-   $folder := joinPath $.chezmoi.homeDir $folder_name }}
   if diskutil info {{ $folder | quote }} >/dev/null 2>&1; then
@@ -12,7 +12,7 @@
   fi
 {{- end }}
 
-{{- range glob (joinPath .chezmoi.sourceDir "private_dot_local/share/icons/Applications/*.icns") }}
+{{- range glob (joinPath .chezmoi.workingTree "icons/macos/Applications/*.icns") }}
 {{-   $app := base . | replace ".icns" "" | printf "%s.app" }}
 {{-   $app_dir := joinPath "/Applications" $app }}
   if [ -d {{ $app_dir | quote }} ]; then
@@ -20,7 +20,7 @@
   fi
 {{- end }}
 
-{{- range glob (joinPath .chezmoi.sourceDir "private_dot_local/share/icons/**/*.icns") }}
+{{- range glob (joinPath .chezmoi.workingTree "icons/macos/**/*.icns") }}
   # run_onchange hash: {{ include . | sha256sum }}
 {{- end}}
 {{- end -}}
