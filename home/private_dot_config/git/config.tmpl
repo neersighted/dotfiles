@@ -11,13 +11,13 @@
 {{ if or (eq .chezmoi.os "windows") (lookPath "git-credential-manager-core") }}
 	helper = manager-core
 {{ else if .wsl.any }}
-	helper = !{{ lookPath "git.exe" | quote }} credential-manager-core
+	helper = !{{ quote (lookPath "git.exe") }} credential-manager-core
 {{ else }}
 	helper = store
 {{ end -}}
 {{- if lookPath "gh" }}
 {{-   range (list "https://github.com" "https://gist.github.com")}}
-[credential {{ . | quote }}]
+[credential {{ quote . }}]
 	helper =
 	helper = !{{ lookPath "gh" }} auth git-credential
 {{-   end }}
@@ -56,7 +56,7 @@
 
 [init]
 	defaultBranch = main
-	templateDir = {{ joinPath .chezmoi.homeDir ".config/git/templates" | quote }}
+	templateDir = {{ quote (joinPath .chezmoi.homeDir ".config/git/templates") }}
 [commit]
 	verbose = true
 

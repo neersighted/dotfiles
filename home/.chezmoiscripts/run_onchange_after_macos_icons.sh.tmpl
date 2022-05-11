@@ -4,19 +4,19 @@
 {{- range $icon := glob (joinPath .chezmoi.workingTree "icons/macos/Folders/*.icns") }}
 {{-   $folder_name := base $icon | replace ".icns" "" }}
 {{-   $folder := joinPath $.chezmoi.homeDir $folder_name }}
-  if diskutil info {{ $folder | quote }} >/dev/null 2>&1; then
-    cp {{ $icon | quote }} {{ (joinPath $folder ".VolumeIcon.icns") | quote }}
+  if diskutil info {{ quote $folder }} >/dev/null 2>&1; then
+    cp {{ quote $icon }} {{ quote (joinPath $folder ".VolumeIcon.icns") }}
     echo "Custom icon assigned to {{ $folder | squote }} based on {{ $icon | squote }}."
-  elif [ -d {{ $folder | quote }} ]; then
-    fileicon set {{ $folder | quote }} {{ $icon | quote }}
+  elif [ -d {{ quote $folder }} ]; then
+    fileicon set {{ quote $folder }} {{ quote $icon }}
   fi
 {{- end }}
 
 {{- range $icon := glob (joinPath .chezmoi.workingTree "icons/macos/Applications/*.icns") }}
 {{-   $app := base $icon | replace ".icns" "" | printf "%s.app" }}
 {{-   $app_dir := joinPath "/Applications" $app }}
-  if [ -d {{ $app_dir | quote }} ]; then
-    fileicon set {{ $app_dir | quote }} {{ $icon | quote }}
+  if [ -d {{ quote $app_dir }} ]; then
+    fileicon set {{ quote $app_dir }} {{ quote $icon }}
   fi
 {{- end }}
 

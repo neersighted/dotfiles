@@ -4,7 +4,7 @@
 #!/bin/sh -e
 
 echo "Setting cap_net_raw+p on {{ $ping }}..."
-sudo setcap cap_net_raw+p {{ $ping | quote }}
+sudo setcap cap_net_raw+p {{ quote $ping }}
 
 {{- end -}}
 {{- end -}}

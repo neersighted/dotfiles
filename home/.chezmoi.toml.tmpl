@@ -1,3 +1,6 @@
+{{/* chezmoi meta-variables */}}
+{{- $configDir := dir .chezmoi.configFile -}}
+
 {{/* environment/hardware tags */}}
 {{- $devcontainer := false -}}{{/* devcontainer (codespaces, vscode) */}}
 {{- $codespaces   := false -}}{{/* github codespaces */}}
@@ -60,14 +63,14 @@
 {{-   end -}}
 {{- end -}}
 
-sourceDir = {{ .chezmoi.sourceDir | quote }}
+sourceDir = {{ quote .chezmoi.sourceDir }}
 remove = true
 
 encryption = "age"
 [age]
     recipient = "age1qdsdpzhafts3l3sxnma98z5rprgtv246cqevdsw9gzggmaajauhsx44f8x"
 {{- if not $transient }}
-    identity = {{ joinPath (dir .chezmoi.configFile) "key.txt" | quote }}
+    identity = {{ quote (joinPath $configDir "key.txt")}}
 {{- end }}
 
 [completion]
@@ -76,7 +79,7 @@ encryption = "age"
 [data]
     configured = true
 
-    osid       = {{ $osid | quote }}
+    osid       = {{ quote $osid }}
     headless   = {{ $headless }}
     transient  = {{ $transient }}
 

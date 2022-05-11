@@ -32,11 +32,11 @@ command_timeout = 1000
 
 [hostname]
 format = "[$hostname]($style)"
-style = {{ .nord.nord15 | quote }}
+style = {{ quote .nord.nord15 }}
 
 [jobs]
 format = "[$number$symbol]($style)"
-style = {{ .nord.nord12 | quote }}
+style = {{ quote .nord.nord12 }}
 symbol_threshold = 1
 number_threshold = 1
 symbol = "!"
@@ -44,7 +44,7 @@ symbol = "!"
 [shlvl]
 disabled = false
 format = "[$shlvl$symbol]($style)"
-style = {{ .nord.nord8 | quote }}
+style = {{ quote .nord.nord8 }}
 symbol = '\$'
 threshold = 3
 
@@ -55,13 +55,13 @@ error_symbol = "[λ]({{ .nord.nord11 }})"
 
 [username]
 format = "[user:$user]($style)"
-style_root = {{ .nord.nord11 | quote }}
-style_user = {{ .nord.nord4 | quote }}
+style_root = {{ quote .nord.nord11 }}
+style_user = {{ quote .nord.nord4 }}
 
 [directory]
 format = "[$path]($style)[$read_only]($read_only_style)"
-style = {{ .nord.nord9 | quote }}
-read_only_style = {{ .nord.nord11 | quote }}
+style = {{ quote .nord.nord9 }}
+read_only_style = {{ quote .nord.nord11 }}
 read_only = "!"
 home_symbol = "~"
 truncation_length = 3
@@ -71,16 +71,16 @@ use_logical_path = true
 
 [git_branch]
 format = "[$branch( ⟳ $remote_name/$remote_branch)]($style)"
-style = {{ .nord.nord7 | quote }}
+style = {{ quote .nord.nord7 }}
 only_attached = true
 
 [git_commit]
 format = "[$hash]($style)"
-style = {{ .nord.nord15 | quote }}
+style = {{ quote .nord.nord15 }}
 
 [git_state]
 format = " \\[[$state( $progress_current/$progress_total)]($style)\\]"
-style = {{ .nord.nord12 | quote }}
+style = {{ quote .nord.nord12 }}
 
 [git_status]
 format = """( \\([\
@@ -93,7 +93,7 @@ $ahead_behind\
 [$untracked]({{ .nord.nord10 }})\
 [$stashed]({{ .nord.nord15 }})\
 ]($style)\\))"""
-style = {{ .nord.nord4 | quote }}
+style = {{ quote .nord.nord4 }}
 ahead = "${count}↑"
 behind = "${count}↓"
 conflicted = "${count}&"
@@ -107,52 +107,52 @@ untracked = "${count}?"
 
 [package]
 format = "[$symbol:$context]($style)"
-style = {{ .nord.nord15 | quote }}
+style = {{ quote .nord.nord15 }}
 symbol = "pkg"
 version_format = "${raw}"
 
 [docker_context]
 format = "[$symbol:$context]($style)"
-style = {{ .nord.nord8 | quote }}
+style = {{ quote .nord.nord8 }}
 symbol = "docker"
 only_with_files = false
 
 [dotnet]
 format = "[$symbol:$version]($style)"
-style = {{ .nord.nord10 | quote }}
+style = {{ quote .nord.nord10 }}
 symbol = ".net"
 version_format = "${raw}"
 heuristic = true
 
 [golang]
 format = "[$symbol:$version]($style)"
-style = {{ .nord.nord8 | quote }}
+style = {{ quote .nord.nord8 }}
 symbol = "go"
 version_format = "${raw}"
 
 [nodejs]
 format = "[$symbol:$version]($style)"
-style = {{ .nord.nord14 | quote }}
-not_capable_style = {{ .nord.nord11 | quote }}
+style = {{ quote .nord.nord14 }}
+not_capable_style = {{ quote .nord.nord11 }}
 symbol = "node"
 version_format = "${raw}"
 
 [python]
 format = "[$symbol:$version( \\($virtualenv\\))]($style)"
-style = {{ .nord.nord13 | quote }}
+style = {{ quote .nord.nord13 }}
 symbol = "py"
 version_format = "${raw}"
 python_binary = "python3"
 
 [ruby]
 format = "[$symbol:$version]($style)"
-style = {{ .nord.nord11 | quote }}
+style = {{ quote .nord.nord11 }}
 symbol = "rb"
 version_format = "${raw}"
 
 [rust]
 format = "[$symbol:$version]($style)"
-style = {{ .nord.nord12 | quote }}
+style = {{ quote .nord.nord12 }}
 symbol = "rs"
 version_format = "${raw}"
 
@@ -161,18 +161,18 @@ disabled = false
 pipestatus = true
 format = "[$common_meaning$signal_name$maybe_int]($style)"
 pipestatus_format = "\\[$pipestatus\\] => [$common_meaning$signal_name$maybe_int]($style)"
-style = {{ .nord.nord11 | quote }}
+style = {{ quote .nord.nord11 }}
 
 [cmd_duration]
 format = "[$duration]($style)"
-style = {{ .nord.nord3 | quote }}
+style = {{ quote .nord.nord3 }}
 show_notifications = true
 min_time_to_notify = 30_000
 
 [[battery.display]]
 threshold = 10
-style = {{ .nord.nord12 | quote }}
+style = {{ quote .nord.nord12 }}
 
 [[battery.display]]
 threshold = 25
-style = {{ .nord.nord13 | quote }}
+style = {{ quote .nord.nord13 }}

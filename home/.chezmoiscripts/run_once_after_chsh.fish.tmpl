@@ -2,7 +2,7 @@
 #!/usr/bin/env fish
 
 set fish (status fish-path)
-set username {{ .chezmoi.username | quote }}
+set username {{ quote .chezmoi.username }}
 
 function getshell
   if is_macos
