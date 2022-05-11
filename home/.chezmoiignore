@@ -23,6 +23,7 @@
 
 # os-based ignores
 {{ if ne .chezmoi.os "windows" }} # ignore windows files on *nix
+.chezmoiscripts/*.ps1
 AppData
 bin
 Documents
