@@ -20,7 +20,11 @@ if not set -q fish_abbr_hash; or test $fish_abbr_hash != {{ $hash }}
     set update_command 'paru; and sudo pacman -Fy'
   end
 
+  # system/special
   abbr -a -- up "$update_command; and $chezmoi_update"
+
+  # aur
+  abbr -a -- aur 'ssh aur@aur.archlinux.org'
 
   # chezmoi
   abbr -a -- chez 'chezmoi'

@@ -19,7 +19,7 @@
 {{-   range (list "https://github.com" "https://gist.github.com")}}
 [credential {{ quote . }}]
 	helper =
-	helper = !{{ lookPath "gh" }} auth git-credential
+	helper = !{{ quote (lookPath "gh") }} auth git-credential
 {{-   end }}
 {{- end }}
 [credential "https://dev.azure.com"]
@@ -100,7 +100,6 @@
 #
 
 [alias]
-	fetch-pr = "!f() { git fetch origin \"pull/${1}/head\"; }; f"
 	fixup = "!f() { SHA=$(git fzf-commit \"$1\"); git commit --fixup \"${SHA}\"; git rebase-auto \"${SHA}~\"; }; f"
 	fzf-commit = "!f() { git log --no-merges --color=always | fzf --tiebreak=index --query \"$1\" | cut -d' ' -f1; }; f"
 	prune = fetch --prune
@@ -141,6 +140,13 @@
 	oldHighlight = "red reverse"
 	newNormal = "green"
 	newHighlight = "green reverse"
+
+#
+# URL Aliases
+#
+
+[url "aur@aur.archlinux.org:"]
+	insteadOf = aur:
 
 #
 # Conditional Config
