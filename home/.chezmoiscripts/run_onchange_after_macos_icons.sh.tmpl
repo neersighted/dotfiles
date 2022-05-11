@@ -1,26 +1,26 @@
 {{- if eq .chezmoi.os "darwin" -}}
 #!/bin/sh
 
-{{- range glob (joinPath .chezmoi.workingTree "icons/macos/Folders/*.icns") }}
-{{-   $folder_name := base . | replace ".icns" "" }}
+{{- range $icon := glob (joinPath .chezmoi.workingTree "icons/macos/Folders/*.icns") }}
+{{-   $folder_name := base $icon | replace ".icns" "" }}
 {{-   $folder := joinPath $.chezmoi.homeDir $folder_name }}
   if diskutil info {{ $folder | quote }} >/dev/null 2>&1; then
-    cp {{ . | quote }} {{ (joinPath $folder ".VolumeIcon.icns") | quote }}
-    echo "Custom icon assigned to {{ $folder | squote }} based on {{ . | squote }}."
+    cp {{ $icon | quote }} {{ (joinPath $folder ".VolumeIcon.icns") | quote }}
+    echo "Custom icon assigned to {{ $folder | squote }} based on {{ $icon | squote }}."
   elif [ -d {{ $folder | quote }} ]; then
-    fileicon set {{ $folder | quote }} {{ . | quote }}
+    fileicon set {{ $folder | quote }} {{ $icon | quote }}
   fi
 {{- end }}
 
-{{- range glob (joinPath .chezmoi.workingTree "icons/macos/Applications/*.icns") }}
-{{-   $app := base . | replace ".icns" "" | printf "%s.app" }}
+{{- range $icon := glob (joinPath .chezmoi.workingTree "icons/macos/Applications/*.icns") }}
+{{-   $app := base $icon | replace ".icns" "" | printf "%s.app" }}
 {{-   $app_dir := joinPath "/Applications" $app }}
   if [ -d {{ $app_dir | quote }} ]; then
-    fileicon set {{ $app_dir | quote }} {{ . | quote }}
+    fileicon set {{ $app_dir | quote }} {{ $icon | quote }}
   fi
 {{- end }}
 
-{{- range glob (joinPath .chezmoi.workingTree "icons/macos/**/*.icns") }}
-  # run_onchange hash: {{ include . | sha256sum }}
+{{- range $icon := glob (joinPath .chezmoi.workingTree "icons/macos/**/*.icns") }}
+  # run_onchange hash: {{ include $icon | sha256sum }}
 {{- end}}
 {{- end -}}
