@@ -98,10 +98,6 @@ set -x CARGO_HOME $XDG_DATA_HOME/cargo
 # tools
 #
 
-# aws
-set -x AWS_CONFIG_FILE $XDG_CONFIG_HOME/aws/config
-set -x AWS_SHARED_CREDENTIALS_FILE $XDG_CONFIG_HOME/aws/credentials
-
 # bash
 set -x HISTFILE $XDG_DATA_HOME/bash/history
 
