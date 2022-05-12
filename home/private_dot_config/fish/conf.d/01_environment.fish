@@ -62,8 +62,8 @@ end
 # golang
 set -x GOENV_ROOT $XDG_DATA_HOME/goenv
 set -x GOENV_GOPATH_PREFIX $XDG_DATA_HOME/go
+set -x GOENV_PREPEND_GOPATH 1
 set -x GOBIN $XDG_DATA_HOME/go/bin
-set -x GO111MODULE on
 
 # haskell
 set -x STACK_ROOT $XDG_DATA_HOME/stack
