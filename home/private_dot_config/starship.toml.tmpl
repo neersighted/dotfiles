@@ -83,6 +83,9 @@ format = " \\[[$state( $progress_current/$progress_total)]($style)\\]"
 style = {{ quote .nord.nord12 }}
 
 [git_status]
+{{- if lookPath "starship.exe" }}
+windows_starship = {{ quote (lookPath "starship.exe") }}
+{{- end }}
 format = """( \\([\
 $ahead_behind\
 [$staged]({{ .nord.nord8 }})\
