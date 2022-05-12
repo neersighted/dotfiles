@@ -1,6 +1,6 @@
 {{- if lookPath "tmux" -}}
 # run code on tmux reattach (signaled below)
-function __tmux_resync --on-signal USR1
+function __tmux_resync --on-signal SIGUSR2
   if is_tmux
     # sync variables defined in tmux's update-environment array
     for entry in (tmux show-environment)
@@ -12,7 +12,7 @@ function __tmux_resync --on-signal USR1
       end
     end
   else
-    # default is to exit on USR1, which we do when not in TMUX
+    # default is to exit on SIGUSR2, which we do when not in TMUX
     exit
   end
 end

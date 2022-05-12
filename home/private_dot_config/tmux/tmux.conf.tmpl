@@ -47,8 +47,8 @@ set -g history-limit 100000 # store 100k lines of history
 # Hooks
 #
 
-set-hook -g client-attached { run-shell 'pkill -USR1 -P #{pid} fish' } # signal fish to refresh env
-set-hook -g client-session-changed { if -F "#{==:#{session_created},#{session_last_attached}}" {} { run-shell 'pkill -USR1 -P #{pid} fish' }} # ...except during new sessions
+set-hook -g client-attached { run-shell 'pkill -SIGUSR2 -P #{pid} fish' } # signal fish to refresh env
+set-hook -g client-session-changed { if -F "#{==:#{session_created},#{session_last_attached}}" {} { run-shell 'pkill -SIGUSR2 -P #{pid} fish' }} # ...except during new sessions
 
 #
 # Keybinds
