@@ -60,13 +60,8 @@ end
 #
 
 # golang
-set -x GOENV_ROOT $XDG_DATA_HOME/goenv
-set -x GOENV_GOPATH_PREFIX $XDG_DATA_HOME/go
-set -x GOENV_PREPEND_GOPATH 1
-set -x GOBIN $XDG_DATA_HOME/go/bin
-
-# haskell
-set -x STACK_ROOT $XDG_DATA_HOME/stack
+set -x GOPATH $XDG_DATA_HOME/go
+set -x GOROOT $XDG_DATA_HOME/go/root
 
 # node.js
 set -x NODENV_ROOT $XDG_DATA_HOME/nodenv
@@ -149,7 +144,7 @@ is_macos; and path_prepend PATH $HOMEBREW_PREFIX/opt/{curl,sqlite,python/libexec
 is_macos; and path_prepend PATH $HOMEBREW_PREFIX/opt/ccache/libexec
           or path_prepend PATH /usr/{lib/ccache/bin,local/libexec/ccache} 
 # golang
-path_prepend PATH $GOBIN $GOENV_ROOT/{shims,bin}
+path_prepend PATH {$GOPATH,$GOROOT}/bin
 # nodejs
 path_prepend PATH $NODENV_ROOT/{shims,bin}
 # python

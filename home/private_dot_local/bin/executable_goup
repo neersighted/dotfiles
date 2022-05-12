@@ -1,0 +1,60 @@
+#!/usr/bin/env fish
+
+function goos
+  switch (uname -s)
+    case Linux
+      echo linux
+    case Darwin
+      echo darwin
+    case FreeBSD
+      echo freebsd
+  end
+end
+
+function goarch
+  switch (uname -m)
+    case x86_64 amd64
+      echo amd64
+    case i686 i386
+      echo 386
+    case aarch64 arm64
+      echo arm64
+    case armv6l armv7l
+      echo armv6l
+  end
+end
+
+set_color blue
+echo "Updating go..."
+set_color normal
+
+set release_meta (curl -sSf 'https://go.dev/dl/?mode=json&include=all' | yq -ojson -I0 '[.[] | select(.stable == true)][0]')
+
+if not test -x $GOROOT/bin/go; or test ($GOROOT/bin/go version | string match -rg 'go version (go\d+\.\d+\.\d+)') != (printf '%s' $release_meta | yq '.version')
+  set archive (printf '%s' $release_meta | yq -ojson -I0 '.files[] | select(.os == "'(goos)'" and .arch == "'(goarch)'" and .kind == "archive")')
+  set archive_checksum (printf '%s' $archive | yq '.sha256')
+  set archive_filename (printf '%s' $archive | yq '.filename')
+
+  set_color blue
+  echo "Downloading $archive_filename..."
+  set_color normal
+
+  set tmpdir (mktemp -d)
+  trap 'rm -rf "$tmpdir"' EXIT
+
+  set download_file "$tmpdir/$archive_filename"
+  set download_checksum (curl -sSf "https://dl.google.com/go/$archive_filename" | tee $download_file | sha256)
+
+  if not string match -eq $archive_checksum $download_checksum
+    echo "Checksum failure? Remote hash $archive_checksum did not match local hash $download_checksome."
+    exit
+  end
+
+  set_color blue
+  echo "Installing $archive_filename..."
+  set_color normal
+
+  rm -rf $GOROOT
+  mkdir -p $GOROOT
+  tar -xf $download_file --strip-components=1 -C $GOROOT
+end
