@@ -34,7 +34,7 @@ function __tmux_session_name
 
   # is a terminal/pty
   if is_wsl
-    printf '%s' $WSL_DISTRO_NAME
+    set -q WSL_DISTRO_NAME; and printf '%s' $WSL_DISTRO_NAME; or return 1
   else
     printf '%s' (prompt_hostname)
   end

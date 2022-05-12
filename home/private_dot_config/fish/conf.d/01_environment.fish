@@ -35,10 +35,12 @@ end
 
 # wsl
 if is_wsl
-  wslenv -p APPDATA
-  wslenv -p LOCALAPPDATA
-  wslenv -p USERPROFILE
-  wslenv TERMINAL_EMULATOR
+  if not test "$SUDO_USER" = "$USER" # XXX: avoid spammy messages when sudoing as myself
+    wslenv -p APPDATA
+    wslenv -p LOCALAPPDATA
+    wslenv -p USERPROFILE
+    wslenv TERMINAL_EMULATOR
+  end
 
   set -x BROWSER 'wslview'
 

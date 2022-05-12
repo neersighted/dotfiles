@@ -15,10 +15,11 @@ function wslenv
     return
   end
 
+  set name $argv[1]
   if set -q flags
     set fullname (printf '%s/%s' $argv[1] (string join '' $flags))
   else
-    set fullname $argv[1]
+    set fullname $name
   end
 
   if not contains $fullname $WSLENV
