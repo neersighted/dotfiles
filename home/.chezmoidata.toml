@@ -231,7 +231,6 @@
         "sysutils/chezmoi",
         "sysutils/direnv",
         "sysutils/diskus",
-        "sysutils/dtrace-toolkit",
         "sysutils/dust",
         "sysutils/exa",
         "sysutils/fd",
