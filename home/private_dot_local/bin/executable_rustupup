@@ -1,10 +1,19 @@
 #!/usr/bin/env fish
 
-set_color red
-echo "Updating rustup..."
-set_color normal
+if not command -q rustup
+  set_color red
+  echo "Installing rustup..."
+  set_color normal
 
-rustup self update
+  curl -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --default-toolchain none
+  path_prepend $CARGO_HOME/bin
+else
+  set_color red
+  echo "Updating rustup..."
+  set_color normal
+
+  rustup self update
+end
 
 for toolchain in stable nightly
   if rustup toolchain list | string match -rq "^$toolchain"

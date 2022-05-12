@@ -16,7 +16,6 @@
 .local/share/nodenv
 .local/share/pyenv
 .local/share/rbenv
-.local/share/rustup
 .ssh/authorized_keys
 .ssh/known_hosts
 {{ end }}
