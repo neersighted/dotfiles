@@ -28,7 +28,7 @@ function gem
   command rbenv exec gem $argv
 end
 
-set latest_rubygems (curl -sS https://rubygems.org/api/v1/gems/rubygems-update.json | jq -r '.version')
+set latest_rubygems (curl -sSf https://rubygems.org/api/v1/gems/rubygems-update.json | yq '.version')
 for ruby in (rbenv versions --bare)
   set -lx RBENV_VERSION $ruby
 

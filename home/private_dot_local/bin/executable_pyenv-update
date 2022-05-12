@@ -8,7 +8,7 @@ for repo in $PYENV_ROOT $PYENV_ROOT/plugins/*
   git -C $repo pull -q
 end
 
-for release in (chezmoi data | jq -r '.python.supported[]')
+for release in (chezmoi data | yq '.python.supported[]')
   set latest (pyenv latest --print $release)
   set installed (pyenv latest --print-installed $release)
 
@@ -21,7 +21,7 @@ for release in (chezmoi data | jq -r '.python.supported[]')
   end
 end
 
-set installed (pipx list --json | jq -r '.venvs[].metadata.main_package.package_or_url' | string match -r '^[^=]+')
+set installed (pipx list --json | yq '.venvs[].metadata.main_package.package_or_url' | string match -r '^[^=]+')
 
 set wanted \
    pip-run \
@@ -72,10 +72,10 @@ end
 for python in (pyenv versions --bare --skip-aliases)
   set -lx PYENV_VERSION $python
 
-  for spec in (pip list --outdated --format=json | jq -c '.[]')
-    set name (jq --argjson spec $spec -nr '$spec | "\(.name)"')
-    set current (jq --argjson spec $spec -nr '$spec | "\(.version)"')
-    set latest (jq --argjson spec $spec -nr '$spec | "\(.latest_version)"')
+  for spec in (pip list --outdated --format=json | yq -ojson -I0 '.[]')
+    set name (printf '%s' $spec | yq '.name')
+    set current (printf '%s' $spec | yq '.version')
+    set latest (printf '%s' $spec | yq '.latest_version')
 
     set_color yellow
     echo "Updating $name from $current to $latest ($python)..."

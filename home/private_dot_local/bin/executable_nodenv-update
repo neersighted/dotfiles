@@ -8,8 +8,8 @@ for repo in $NODENV_ROOT $NODENV_ROOT/plugins/*
   git -C $repo pull -q
 end
 
-set current (chezmoi data | jq -r '.node.current')
-set lts (chezmoi data | jq -r '.node.lts.active')
+set current (chezmoi data | yq '.node.current')
+set lts (chezmoi data | yq '.node.lts.active')
 
 for release in $lts $current
   if test "$release" = "$current"
@@ -41,13 +41,13 @@ function npm
   command nodenv exec npm $argv
 end
 
-for node in (nodenv versions --bare)
+for node in (nodenv versions --bare | string match -r '\d+\.\d+\.\d+')
   set -lx NODENV_VERSION $node
 
-  for spec in (npm outdated -g --json | jq -c 'to_entries[]')
-    set name (jq --argjson spec $spec -nr '$spec | "\(.key)"')
-    set current (jq --argjson spec $spec -nr '$spec | "\(.value.current)"')
-    set latest (jq --argjson spec $spec -nr '$spec | "\(.value.latest)"')
+  for spec in (npm outdated -g --json | yq -ojson -I0 '(to_entries)[]')
+    set name (printf '%s' $spec | yq '.key')
+    set current (printf '%s' $spec | yq '.value.current')
+    set latest (printf '%s' $spec | yq '.value.latest')
 
     set_color green
     echo "Updating $name from $current to $latest ($node)..."
