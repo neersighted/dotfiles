@@ -24,6 +24,10 @@ function goarch
   end
 end
 
+if not set -q GOROOT; or not set -q GOPATH
+  echo '$GOROOT and $GOPATH need to be set to use goup!'; exit 1
+end
+
 set_color blue
 echo "Updating go..."
 set_color normal
