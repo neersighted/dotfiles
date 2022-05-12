@@ -4,10 +4,10 @@ if ! command -v chezmoi >/dev/null; then
   bin_dir="${XDG_BIN_HOME:-$HOME/.local/bin}"
   chezmoi="$bin_dir/chezmoi"
 
-  chezmoi_url="https://chezmoi.io/get"
+  chezmoi_url="https://www.chezmoi.io/get"
 
   if command -v curl >/dev/null; then
-    curl -sSfL "$chezmoi_url" | sh -s -- -b "$bin_dir"
+    curl -sSf "$chezmoi_url" | sh -s -- -b "$bin_dir"
   elif command -v fetch >/dev/null; then
     fetch -o - "$chezmoi_url" | sh -s -- -b "$bin_dir"
   elif command -v wget >/dev/null; then

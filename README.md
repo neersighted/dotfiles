@@ -4,7 +4,7 @@
 
 ```sh
 # linux, macos:
-curl -sSfL https://raw.githubusercontent.com/neersighted/dotfiles/master/bootstrap.sh | sh
+curl -sSf https://raw.githubusercontent.com/neersighted/dotfiles/master/bootstrap.sh | sh
 # freebsd:
 fetch -o - https://raw.githubusercontent.com/neersighted/dotfiles/master/bootstrap.sh | sh
 ```
