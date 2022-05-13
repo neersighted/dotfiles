@@ -1,9 +1,6 @@
 status is-interactive; or exit
 
 function __bind_keys --on-event fish_startup
-  bind \r repaint-and-execute
-  bind \n repaint-and-execute
-
   bind ! history-prev-command
   bind \$ history-prev-arguments
 
