@@ -104,7 +104,15 @@ set -x CCACHE_DIR $XDG_CACHE_HOME/ccache
 set -x DOCKER_BUILDKIT 1
 
 # homebrew
-is_macos; and set -x HOMEBREW_BUNDLE_FILE $XDG_CONFIG_HOME/brew/Brewfile
+if is_macos
+  set -x HOMEBREW_AUTO_UPDATE_SECS 60
+  set -x HOMEBREW_BAT 1
+  set -x HOMEBREW_BUNDLE_FILE $XDG_CONFIG_HOME/brew/Brewfile
+  set -x HOMEBREW_CASK_OPTS --no-quarantine
+  set -x HOMEBREW_CLEANUP_MAX_AGE_DAYS 30
+  set -x HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS 7
+  set -x HOMEBREW_DEVELOPER 1
+end
 
 # less
 set -x LESSHISTFILE $XDG_DATA_HOME/less/history
