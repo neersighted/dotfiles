@@ -1,6 +1,6 @@
-status is-interactive; or exit
-
 function __bind_keys --on-event fish_startup
+  bind \r execute-or-preexec
+
   bind ! history-prev-command
   bind \$ history-prev-arguments
 
