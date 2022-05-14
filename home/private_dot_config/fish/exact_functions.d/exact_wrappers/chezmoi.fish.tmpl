@@ -1,17 +1,16 @@
 {{- if lookPath "chezmoi" -}}
-
 function __chezmoi_targets
-  echo '~/'(command chezmoi managed --include=files,symlinks,scripts \
-     | fzf --multi --preview 'chezmoi cat ~/{}')
+  command chezmoi managed --include=files,symlinks,scripts \
+    | fzf --multi --preview 'chezmoi cat ~/{}'
 end
 
 function chezmoi
+  set argc (count $argv)
   switch $argv[1]
   case cat
-    set argc (count $argv)
     if test $argc -eq 1
       if set targets (__chezmoi_targets)
-        commandline --replace "chezmoi cat $targets"
+        chezmoi cat '~/'$targets
       end
     else if test $argc -eq 2
       command chezmoi $argv | bat --style=numbers --color=always --file-name $argv[-1]
@@ -23,7 +22,7 @@ function chezmoi
   case edit
     if test (count $argv) -eq 1
       if set targets (__chezmoi_targets)
-        commandline --replace "chezmoi edit $targets"
+        chezmoi edit '~/'$targets
       end
     else
       # use the git-editor wrapper to take advantage of custom logic
@@ -32,12 +31,12 @@ function chezmoi
       command chezmoi $argv
     end
   case add
-    if test (count $argv) -eq 1
+    if test $argc -eq 1
       if set modified (chezmoi status \
         | string match -re '^.M|^M.' | string sub -s 4 \
         | fzf --multi --preview 'chezmoi diff --reverse --color=true ~/{}')
-        set args '~/'$modified
-        commandline --replace "chezmoi re-add $args"
+        set targets '~/'$modified
+        chezmoi add $modified
       end
     else
       command chezmoi $argv

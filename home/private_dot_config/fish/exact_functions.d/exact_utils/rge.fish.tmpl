@@ -1,20 +1,23 @@
 {{- if lookPath "rg" -}}
 function rge -w rg
-  set -a options 'L/no-lines'
+  set -a options 'l/lines'
 
   argparse $options -- $argv; or return
 
   set results (rg --line-number $argv)
 
-  if set -q _flag_L
-    set results (string split -f 1 : $results)
-  else
+  if set -q _flag_l
     set results (string match -r '[^:]*:[^:]*' $results)
+  else
+    set results (string split -f 1 : $results | uniq)
   end
 
-  if test -n "$results"
-    commandline --replace "$EDITOR "(string escape $results | string join ' ')
-    commandline --cursor (string length $EDITOR)
+  set results (string escape $results)
+
+  echo "Press enter to edit:"
+  read -P "$EDITOR $results" -n1 do
+  if test -z "$do"
+    eval $EDITOR $results
   end
 end
 {{- end -}}
