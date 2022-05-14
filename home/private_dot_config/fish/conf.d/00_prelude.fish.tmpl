@@ -28,10 +28,10 @@ end
 
 {{- if eq .chezmoi.os "darwin" }}
 {{   $brew := or (lookPath "/opt/homebrew/bin/brew") (lookPath "/usr/local/bin/brew") }}
-# only run in root shell
-status is-login; and test $SHLVL -eq 1; or exit
-# include homebrew shellenv
-{{   output "fish" "-c" (printf "%s shellenv" $brew) }}
+# homebrew shellenv
+set -x HOMEBREW_PREFIX {{ quote (output $brew "--prefix" | trim) }}
+set -x HOMEBREW_CELLAR {{ quote (output $brew "--cellar" | trim) }}
+set -x HOMEBREW_REPOSITORY {{ quote (output $brew "--repo" | trim) }}
 # fall back to backported terminfo
 set -x TERMINFO_DIRS ":$XDG_DATA_HOME/terminfo"
 {{- end }}

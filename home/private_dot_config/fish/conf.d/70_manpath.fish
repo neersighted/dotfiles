@@ -9,6 +9,11 @@ end
 # ensure the system manpath is represented
 set -q MANPATH; or set -x MANPATH ''
 
+if is_macos
+  manup $HOMEBREW_PREFIX/share/man
+  set -x INFOPATH $HOMEBREW_PREFIX/share/info ''
+end
+
 # nodejs
 if set -q NODENV_VERSION; or test -e $NODENV_ROOT/version
   set -q NODENV_VERSION; or read -l NODENV_VERSION < $NODENV_ROOT/version

@@ -1,9 +1,16 @@
 {{- $hash := include .chezmoi.sourceFile | sha256sum -}}
 
+function fish_repath
+  set -U -e fish_user_paths fish_path_hash
+  source (status current-filename)
+end
+
 if not set -q fish_path_hash; or test $fish_path_hash != {{ $hash }}
   status is-interactive; and echo 'Setting default PATH...' >&2
 
   if is_macos
+    # homebrew
+    fish_add_path -m $HOMEBREW_PREFIX/{bin,sbin}
     # homebrew overrides
     fish_add_path -m $HOMEBREW_PREFIX/opt/curl/bin
     fish_add_path -m $HOMEBREW_PREFIX/opt/sqlite/bin
