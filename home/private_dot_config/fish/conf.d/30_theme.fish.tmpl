@@ -1,10 +1,10 @@
 {{- $hash := include .chezmoi.sourceFile | sha256sum -}}
 
 if not set -q fish_colors_hash; or test $fish_colors_hash != {{ $hash }}
-  set -U -e $fish_colors
+  set -U -e fish_colors $fish_colors
 
   function fish_color -a color
-    set -U $color $argv
+    set -U $argv
     set -U -a fish_colors $color
   end
 
