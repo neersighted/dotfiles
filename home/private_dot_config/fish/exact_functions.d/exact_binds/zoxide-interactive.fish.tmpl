@@ -1,0 +1,8 @@
+{{- if and (lookPath "zoxide") (lookPath "fzf") -}}
+function zoxide-interactive -d 'select a directory to jump to using zoxide'
+  if set target (zoxide query --interactive)
+    commandline --replace "cd $target"
+    commandline -f execute
+  end
+end
+{{- end -}}
