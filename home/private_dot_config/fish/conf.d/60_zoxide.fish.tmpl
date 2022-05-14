@@ -2,5 +2,6 @@
 if test $USER = root
   set -x _ZO_DATA_DIR ~root/.local/share/zoxide
 end
+# XXX: startup optimization: don't do abbr -e
 {{ output "sh" "-c" "zoxide init fish | sed '/^abbr /d'" }}
 {{- end -}}

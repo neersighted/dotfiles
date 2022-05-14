@@ -1,0 +1,16 @@
+{{- if lookPath "direnv" }}
+status is-interactive; or exit
+
+function __direnv_export_eval --on-variable PWD
+  direnv export fish | source
+end
+
+function __direnv_export_eval_startup --on-event fish_startup
+  __direnv_export_eval
+end
+
+{{-   if eq .chezmoi.os "darwin"}}
+# XXX: optimization: delete vendor direnv hook
+rm -f $HOMEBREW_PREFIX/share/fish/vendor_conf.d/direnv
+{{-   end }}
+{{- end }}

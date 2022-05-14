@@ -1,0 +1,32 @@
+{{- if eq .osid "linux-arch" }}
+function fish_command_not_found -a cmd
+  __fish_default_command_not_found_handler $cmd
+
+  if set pkgs (pacman -Fq /usr/bin/$cmd)
+    printf '%s may be found in the following packages:\n' $cmd
+    for pkg in $pkgs
+      printf '  %s\n' $pkg
+    end
+  end
+end
+{{- else if eq .chezmoi.os "freebsd" }}
+function fish_command_not_found -a cmd
+  __fish_default_command_not_found_handler $cmd
+
+  set pkgs (pkg provides "local/[s]?bin/$cmd\$")
+  if test -n "$pkgs"
+    printf '%s may be found in the following packages:\n' $cmd
+    for pkg in $pkgs
+      printf '  %s\n' $pkg
+    end
+  end
+end
+{{- else if eq .chezmoi.os "darwin"}}
+function fish_command_not_found -a cmd
+  __fish_default_command_not_found_handler $cmd
+
+  if brew which-formula --explain $cmd | read -z text
+      printf '%s' $text
+  end
+end
+{{- end }}
