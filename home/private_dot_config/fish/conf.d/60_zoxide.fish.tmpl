@@ -1,6 +1,6 @@
 {{- if lookPath "zoxide" -}}
-if fish_is_root_user
+if test $USER = root
   set -x _ZO_DATA_DIR ~root/.local/share/zoxide
 end
-{{ output "zoxide" "init" "fish" }}
+{{ output "sh" "-c" "zoxide init fish | sed '/^abbr /d'" }}
 {{- end -}}

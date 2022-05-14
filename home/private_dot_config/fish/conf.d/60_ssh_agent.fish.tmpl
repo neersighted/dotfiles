@@ -1,0 +1,20 @@
+is_ssh; and exit
+
+{{- if .wsl.wsl1 }}
+set -q USERPROFILE; and set -x SSH_AUTH_SOCK $USERPROFILE/wincrypt-wsl.sock
+{{- else if .wsl.wsl2}}
+set -x SSH_AUTH_SOCK /mnt/wsl/wincrypt-hv.sock
+
+if not test -S $SSH_AUTH_SOCK
+  setsid -f socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork VSOCK-CONNECT:2:0x22223333
+end
+{{- else }}
+set -l socket
+if is_macos
+  set socket $XDG_RUNTIME_DIR/var/run/yubikey-agent.sock
+else
+  set socket $HOMEBREW_PREFIX/var/run/yubikey-agent.sock
+end
+
+test -S $socket; and set -x SSH_AUTH_SOCK $socket
+{{- end }}

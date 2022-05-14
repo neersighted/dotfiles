@@ -1,5 +1,19 @@
-{{- if lookPath "starship" -}}
-{{ output "starship" "init" "fish" "--print-full-init" }}
+{{- $starship := lookPath "starship" -}}
+{{- if $starship -}}
+set -x STARSHIP_SHELL "fish"
+set -x STARSHIP_SESSION_KEY (random 1000000000000000 9999999999999999)
+
+function fish_prompt
+  {{ quote $starship }} prompt --terminal-width="$COLUMNS" --status="$status" --pipestatus="$pipestatus" --cmd-duration="$CMD_DURATION" --jobs=(jobs -p)
+end
+function fish_right_prompt
+  {{ quote $starship }} prompt --right --terminal-width="$COLUMNS" --status="$status" --pipestatus="$pipestatus" --cmd-duration="$CMD_DURATION" --jobs=(jobs -p)
+end
+
+# disable builtin mode prompt
+functions -e fish_mode_prompt
+# disable virtualenv prompt
+set VIRTUAL_ENV_DISABLE_PROMPT 1
 {{- else -}}
 function fish_prompt
   printf 'λ '

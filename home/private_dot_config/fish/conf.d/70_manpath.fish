@@ -1,8 +1,9 @@
 # prepend an entry to manpath, moving if it already exists
 function manup
   for entry in $argv[-1..1]
-    set i (contains -i $entry $MANPATH); and set -e MANPATH[$i]
-    test -e $entry; and set -p MANPATH $entry
+    if not contains $entry $MANPATH; and test -e $entry
+      set -p MANPATH $entry
+    end
   end
 end
 

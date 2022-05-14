@@ -1,54 +1,64 @@
-function fish_color
-  set -g $argv[1] $argv[2..-1]
-  set -g -a fish_colors $argv[1]
+{{- $hash := include .chezmoi.sourceFile | sha256sum -}}
+
+if not set -q fish_colors_hash; or test $fish_colors_hash != {{ $hash }}
+  set -U -e $fish_colors
+
+  function fish_color -a color
+    set -U $color $argv
+    set -U -a fish_colors $color
+  end
+
+  # syntax highlighting
+  fish_color fish_color_normal '{{ .nord.nord4 }}'
+  fish_color fish_color_command '{{ .nord.nord7 }}'
+  fish_color fish_color_keyword {'{ .nord.nord9 }'}
+  fish_color fish_color_quote '{{ .nord.nord14 }}'
+  fish_color fish_color_redirection '{{ .nord.nord15 }}'
+  fish_color fish_color_end '{{ .nord.nord8 }}'
+  fish_color fish_color_error '{{ .nord.nord13 }}'
+  fish_color fish_color_param '{{ .nord.nord6 }}'
+  fish_color fish_color_option '{{ .nord.nord10 }}'
+  fish_color fish_color_comment '{{ .nord.nord2 }}'
+  fish_color fish_color_match --background '{{ .nord.nord8 }}'
+  fish_color fish_color_selection '{{ .nord.nord5 }}' --bold --background '{{ .nord.nord2 }}'
+  fish_color fish_color_search_match nord13 --background '{{ .nord.nord2 }}'
+  fish_color fish_color_history_current --bold
+  fish_color fish_color_operator '{{ .nord.nord8 }}'
+  fish_color fish_color_escape '{{ .nord.nord8 }}'
+  fish_color fish_color_valid_path --underline
+  fish_color fish_color_autosuggestion '{{ .nord.nord3 }}'
+  fish_color fish_color_cancel -r
+  fish_color fish_pager_color_completion '{{ .nord.nord4 }}'
+  fish_color fish_pager_color_prefix --bold --underline
+  fish_color fish_pager_color_description '{{ .nord.nord13 }}'
+  fish_color fish_pager_color_progress '{{ .nord.nord6 }}' --background '{{ .nord.nord8 }}'
+  fish_color fish_pager_color_selected_background --background '{{ .nord.nord2 }}'
+
+  # manpages
+  fish_color man_color_blink '{{ .nord.nord11 }}' --underline
+  fish_color man_color_bold '{{ .nord.nord10 }}'
+  fish_color man_color_standout --reverse
+  fish_color man_color_underline '{{ .nord.nord7 }}' --underline
+
+  # fzf
+  set -U -x FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS_BASE \
+    --color=fg:'{{ .nord.nord5 }}',bg:'{{ .nord.nord0 }}',hl:'{{ .nord.nord9 }}' \
+    --color=fg+:'{{ .nord.nord5 }}',bg+:'{{ .nord.nord1 }}',hl+:'{{ .nord.nord9 }}' \
+    --color=info:'{{ .nord.nord13 }}',prompt:'{{ .nord.nord11 }}',pointer:'{{ .nord.nord15 }}' \
+    --color=marker:'{{ .nord.nord14 }}',spinner:'{{ .nord.nord15 }}',header:'{{ .nord.nord14 }}'
+
+  # ls/exa colors
+{{- if lookPath "vivid" }}
+  set -U -x LS_COLORS {{ quote (output "vivid" "generate" "nord") }}
+{{- end }}
+{{- if lookPath "exa" }}
+  set -U -x EXA_COLORS 'uu=35:gu=35:un=33:gn=33'
+{{- end }}
+
+  # cleanup
+  functions -e fish_color
+  set -U fish_colors_hash {{ $hash }}
 end
-
-# syntax highlighting
-fish_color fish_color_normal '{{ .nord.nord4 }}'
-fish_color fish_color_command '{{ .nord.nord7 }}'
-fish_color fish_color_keyword {'{ .nord.nord9 }'}
-fish_color fish_color_quote '{{ .nord.nord14 }}'
-fish_color fish_color_redirection '{{ .nord.nord15 }}'
-fish_color fish_color_end '{{ .nord.nord8 }}'
-fish_color fish_color_error '{{ .nord.nord13 }}'
-fish_color fish_color_param '{{ .nord.nord6 }}'
-fish_color fish_color_option '{{ .nord.nord10 }}'
-fish_color fish_color_comment '{{ .nord.nord2 }}'
-fish_color fish_color_match --background '{{ .nord.nord8 }}'
-fish_color fish_color_selection '{{ .nord.nord5 }}' --bold --background '{{ .nord.nord2 }}'
-fish_color fish_color_search_match nord13 --background '{{ .nord.nord2 }}'
-fish_color fish_color_history_current --bold
-fish_color fish_color_operator '{{ .nord.nord8 }}'
-fish_color fish_color_escape '{{ .nord.nord8 }}'
-fish_color fish_color_valid_path --underline
-fish_color fish_color_autosuggestion '{{ .nord.nord3 }}'
-fish_color fish_color_cancel -r
-fish_color fish_pager_color_completion '{{ .nord.nord4 }}'
-fish_color fish_pager_color_prefix --bold --underline
-fish_color fish_pager_color_description '{{ .nord.nord13 }}'
-fish_color fish_pager_color_progress '{{ .nord.nord6 }}' --background '{{ .nord.nord8 }}'
-fish_color fish_pager_color_selected_background --background '{{ .nord.nord2 }}'
-
-# manpages
-fish_color man_color_blink '{{ .nord.nord11 }}' --underline
-fish_color man_color_bold '{{ .nord.nord10 }}'
-fish_color man_color_standout --reverse
-fish_color man_color_underline '{{ .nord.nord7 }}' --underline
-
-functions -e fish_color
-
-# fzf
-set -x FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS_BASE \
-  --color=fg:'{{ .nord.nord5 }}',bg:'{{ .nord.nord0 }}',hl:'{{ .nord.nord9 }}' \
-  --color=fg+:'{{ .nord.nord5 }}',bg+:'{{ .nord.nord1 }}',hl+:'{{ .nord.nord9 }}' \
-  --color=info:'{{ .nord.nord13 }}',prompt:'{{ .nord.nord11 }}',pointer:'{{ .nord.nord15 }}' \
-  --color=marker:'{{ .nord.nord14 }}',spinner:'{{ .nord.nord15 }}',header:'{{ .nord.nord14 }}'
-
-# ls/exa colors
-if not set -q LS_COLORS; and test -f "$XDG_DATA_HOME/vivid.dircolors"
-  read -x LS_COLORS < $XDG_DATA_HOME/vivid.dircolors
-end
-set -x EXA_COLORS 'uu=35:gu=35:un=33:gn=33'
 
 #
 # terminal theme

@@ -1,5 +1,5 @@
 # pick up functions.d paths
-set -p fish_function_path (realpath (status dirname)/..)/functions.d/*
+set -p fish_function_path (builtin realpath (status dirname)/..)/functions.d/*
 
 # ensure tmpdir is set
 set -q TMPDIR; or set -x TMPDIR /tmp
@@ -16,14 +16,6 @@ if not set -q XDG_RUNTIME_DIR
   if is_macos; or not mkdir -p -m 0700 "$XDG_RUNTIME_DIR" &>/dev/null
     set -x XDG_RUNTIME_DIR $TMPDIR
   end
-end
-
-if is_wsl
-  # import necessary variables from windows
-  wslenv -p APPDATA
-  wslenv -p LOCALAPPDATA
-  wslenv -p USERPROFILE
-  wslenv TERMINAL_EMULATOR
 end
 
 {{- if eq .chezmoi.os "darwin" }}
