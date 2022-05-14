@@ -8,13 +8,13 @@
 
 [credential]
 	helper =
-{{ if or (eq .chezmoi.os "windows") (lookPath "git-credential-manager-core") }}
+{{- if or (eq .chezmoi.os "windows") (lookPath "git-credential-manager-core") }}
 	helper = manager-core
-{{ else if .wsl.any }}
+{{- else if .wsl.any }}
 	helper = !{{ quote (lookPath "git.exe") }} credential-manager-core
-{{ else }}
+{{- else }}
 	helper = store
-{{ end -}}
+{{- end }}
 {{- if lookPath "gh" }}
 {{-   range (list "https://github.com" "https://gist.github.com")}}
 [credential {{ quote . }}]
@@ -66,6 +66,10 @@
 	mnemonicPrefix = true
 [merge]
 	ff = only
+{{- $smerge := and (lookPath "smerge") (lookPath "smerge.exe") }}
+{{- if $smerge }}
+	tool = smerge
+{{- end }}
 [rebase]
 	autoSquash = true
 	autoStash = true
@@ -112,6 +116,12 @@
 [delta]
 	line-numbers = true
 	navigate = true
+{{- end}}
+
+{{- if $smerge }}
+[mergetool "smerge"]
+	cmd = {{ quote $smerge }} mergetool "$BASE" "$LOCAL" "$REMOTE" -o "$MERGED"
+	trustExitCode = true
 {{- end}}
 
 {{- if lookPath "git-lfs" }}
