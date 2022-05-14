@@ -55,5 +55,6 @@ if not set -q fish_abbr_hash; or test $fish_abbr_hash != {{ $hash }}
   # zoxide
   abbr -a -- zrm 'zoxide remove'
 
+  # cleanup
   set -U fish_abbr_hash {{ $hash }}
 end

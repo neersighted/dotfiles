@@ -1,0 +1,166 @@
+{{- $hash := include .chezmoi.sourceFile | sha256sum -}}
+
+function fish_reset
+  for pref in $fish_prefs
+    set -S $pref
+    set -U -e $pref
+    printf '\n'
+  end
+  set -U -e fish_prefs fish_prefs_hash
+  source (status current-filename)
+end
+
+if not set -q fish_prefs_hash; or test $fish_prefs_hash != {{ $hash }}
+  function def
+    set -f -a options (fish_opt --short=x --long=export)
+
+    argparse --min-args 2 --stop-nonopt $options -- $argv; or return
+    set -q _flag_x; and set -a flags -x
+
+    set -Ua fish_prefs $argv[1]
+    if not set -q $argv[1]
+      set -U $flags $argv
+    end
+  end
+
+  status is-interactive; and echo 'Setting default preferences...' >&2
+
+  #
+  # toolchains
+  #
+
+  # golang
+  def -x GOPATH $XDG_DATA_HOME/go
+  def -x GOROOT $XDG_DATA_HOME/go/root
+
+  # node.js
+  def -x NODENV_ROOT $XDG_DATA_HOME/nodenv
+  def -x NODE_REPL_HISTORY $XDG_DATA_HOME/node/repl_history
+  def -x NPM_CONFIG_CACHE $XDG_CACHE_HOME/npm
+  def -x NPM_CONFIG_STORE_DIR $XDG_CACHE_HOME/pnpm
+  def -x NPM_CONFIG_USERCONFIG $XDG_CONFIG_HOME/npm/npmrc
+
+  # python
+  def -x PYENV_ROOT $XDG_DATA_HOME/pyenv
+  def -x PIPX_HOME $XDG_DATA_HOME/pipx
+  def -x PYLINTHOME $XDG_CACHE_HOME/pylint
+  def -x PYTHONSTARTUP $XDG_CONFIG_HOME/python/startup.py
+
+  # ruby
+  def -x RBENV_ROOT $XDG_DATA_HOME/rbenv
+  def -x IRBRC $XDG_CONFIG_HOME/irb/irbrc
+  def -x GEM_SPEC_CACHE $XDG_CACHE_HOME/gem
+  def -x BUNDLE_USER_CONFIG $XDG_CONFIG_HOME/bundle
+  def -x BUNDLE_USER_CACHE $XDG_CACHE_HOME/bundle
+  def -x BUNDLE_USER_PLUGIN $XDG_DATA_HOME/bundle
+
+  # rust
+  def -x RUSTUP_HOME $XDG_DATA_HOME/rustup
+  def -x CARGO_HOME $XDG_DATA_HOME/cargo
+
+  #
+  # defaults
+  #
+
+  # universal
+  def -x EDITOR nvim
+  def -x VISUAL nvim
+  def -x PAGER less
+
+  # wsl
+  if is_wsl
+    def -x BROWSER 'wslview'
+  end
+
+  #
+  # tools
+  #
+
+  # bash
+  def -x HISTFILE $XDG_DATA_HOME/bash/history
+
+  # bd
+  def BD_OPT 'insensitive'
+
+  # ccache
+  def -x CCACHE_DIR $XDG_CACHE_HOME/ccache
+
+  # docker
+  def -x DOCKER_BUILDKIT 1
+
+  # fish
+  def fish_greeting ''
+  def fish_term24bit 1
+  def fish_key_bindings fish_default_key_bindings
+  def fish_features 3.0 3.1 3.4
+
+   # fzf
+   def FZF_DEFAULT_OPTS_BASE \
+      --ansi --no-bold \
+      --marker='*' \
+      --cycle \
+      --layout=reverse --preview-window=wrap \
+      --bind "'ctrl-\:toggle-preview'" \
+      --bind "'ctrl-x:execute-silent(echo {+} | clipboard-provider copy)'"
+   def -x FZF_TMUX_DEFAULT_OPTS '-p 75%'
+   def -x FZF_DEFAULT_COMMAND 'fd --type=file --type=directory --hidden --strip-cwd-prefix --color=always .'
+
+   # fzf.fish
+   def fzf_fd_opts --hidden
+   def fzf_preview_dir_cmd exa --all --classify --color=always
+   def fzf_dir_opts \
+      --bind 'ctrl-v:execute(command nvim {} >/dev/tty)'
+   def fzf_git_status_opts \
+      --preview '_fzf_preview_changed_file {} {2..}'
+   def fzf_git_log_opts \
+      --bind 'ctrl-o:execute-silent(git switch -d {})'
+
+  # homebrew
+  if is_macos
+    def -x HOMEBREW_AUTO_UPDATE_SECS 60
+    def -x HOMEBREW_BAT 1
+    def -x HOMEBREW_BUNDLE_FILE $XDG_CONFIG_HOME/brew/Brewfile
+    def -x HOMEBREW_CASK_OPTS --no-quarantine
+    def -x HOMEBREW_CLEANUP_MAX_AGE_DAYS 30
+    def -x HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS 7
+    def -x HOMEBREW_DEVELOPER 1
+  end
+
+  # less
+  def -x LESS '--mouse --tabs=2 --RAW-CONTROL-CHARS'
+  def -x LESSHISTFILE $XDG_DATA_HOME/less/history
+
+  # pip
+  def -x PIP_REQUIRE_VIRTUALENV 1
+
+  # lsof
+  def -x LSOFDEVCACHE $XDG_CACHE_HOME/lsof
+
+  # mysql
+  def -x MYSQL_HISTFILE $XDG_DATA_HOME/mysql/history
+
+  # (n)vim
+  def -x VIM_CONFIG_PATH $XDG_CONFIG_HOME/nvim
+
+  # redis
+  def -x REDISCLI_HISTFILE $XDG_DATA_HOME/rediscli/history
+
+  # ripgrep
+  def -x RIPGREP_CONFIG_PATH $XDG_CONFIG_HOME/ripgrep/config
+
+  # shiv
+  def -x SHIV_ROOT $XDG_CACHE_HOME/shiv
+
+  # tmux
+  def -x TMUX_TMPDIR $XDG_RUNTIME_DIR
+
+  # wget
+  def -x WGETRC $XDG_CONFIG_HOME/wget/wgetrc
+
+  # vagrant
+  def -x VAGRANT_HOME $XDG_DATA_HOME/vagrant
+
+  # cleanup
+  functions -e defz
+  set -U fish_prefs_hash {{ $hash }}
+end

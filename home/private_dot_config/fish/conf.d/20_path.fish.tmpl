@@ -1,0 +1,35 @@
+{{- $hash := include .chezmoi.sourceFile | sha256sum -}}
+
+if not set -q fish_path_hash; or test $fish_path_hash != {{ $hash }}
+  status is-interactive; and echo 'Setting default PATH...' >&2
+
+  if is_macos
+    # homebrew overrides
+    fish_add_path -m $HOMEBREW_PREFIX/opt/curl/bin
+    fish_add_path -m $HOMEBREW_PREFIX/opt/sqlite/bin
+    fish_add_path -m $HOMEBREW_PREFIX/python/libexec
+    # ccache (macos)
+    fish_add_path -m $HOMEBREW_PREFIX/opt/ccache/libexec
+  else
+    # ccache (linux)
+    fish_add_path -m /usr/lib/ccache/bin
+    # ccache (bsd)
+    fish_add_path -m /local/libexec/ccache
+  end
+
+  # golang
+  fish_add_path -m {$GOPATH,$GOROOT}/bin
+  # nodejs
+  fish_add_path -m $NODENV_ROOT/{shims,bin}
+  # python
+  fish_add_path -m $PYENV_ROOT/{shims,bin}
+  # ruby
+  fish_add_path -m $RBENV_ROOT/{shims,bin}
+  # rust
+  fish_add_path -m $CARGO_HOME/bin
+  # dotfiles/local
+  fish_add_path -m $HOME/.local/bin $XDG_BIN_HOME
+
+  # cleanup
+  set -U fish_path_hash {{ $hash }}
+end

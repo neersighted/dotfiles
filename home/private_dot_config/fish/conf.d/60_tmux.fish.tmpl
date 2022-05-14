@@ -1,5 +1,5 @@
 {{- if lookPath "tmux" -}}
-# run code on tmux reattach (signaled below)
+# run code on tmux reattach (signalled by USR2)
 function __tmux_resync --on-signal SIGUSR2
   if is_tmux
     # sync variables defined in tmux's update-environment array

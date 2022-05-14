@@ -6,7 +6,7 @@ if not command -q rustup
   set_color normal
 
   curl -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --default-toolchain none
-  path_prepend $CARGO_HOME/bin
+  set -p PATH $CARGO_HOME/bin
 else
   set_color red
   echo "Updating rustup..."
