@@ -1,11 +1,11 @@
 {{- if .wsl.any -}}
 
 {{- range $alias, $command := .wsl.aliases }}
-if {{ lookPath $alias | not }}{{/* do not alias on top of installed commands */}}
-  function {{ $alias }} -d "wsl wrapper for {{ $command }}" -w {{ quote $command }}
-    {{ $command }} $argv
-  end
+{{-   if not (lookPath $alias) }}{{/* do not alias on top of installed commands */}}
+function {{ $alias }} -d "wsl wrapper for {{ $command }}" -w {{ quote $command }}
+  {{ $command }} $argv
 end
+{{-  end}}
 {{- end }}
 
 {{- end -}}

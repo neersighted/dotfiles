@@ -1,5 +1,6 @@
 function execute-or-preexec
-  if test -z (commandline)
+  set -f commandline (commandline)
+  if test -z "$commandline"
     emit fish_preexec
   end
   commandline -f execute

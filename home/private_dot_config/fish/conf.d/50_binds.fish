@@ -1,4 +1,6 @@
 function __bind_keys --on-event fish_startup
+  functions -e (status current-function)
+
   bind \r execute-or-preexec
 
   bind ! history-prev-command
@@ -11,6 +13,4 @@ function __bind_keys --on-event fish_startup
 
   fzf_configure_bindings --directory=\co --variables=\ev
   bind \cg fzf-git-recent-branch
-
-  functions -e __bind_keys
 end

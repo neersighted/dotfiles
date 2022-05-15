@@ -1,7 +1,7 @@
 {{- $starship := lookPath "starship" -}}
 {{- if $starship -}}
 set -x STARSHIP_SHELL "fish"
-set -x STARSHIP_SESSION_KEY (random 1000000000000000 9999999999999999)
+set -x STARSHIP_SESSION_KEY (uuidgen)
 
 function fish_prompt
   {{ quote $starship }} prompt --terminal-width="$COLUMNS" --status="$status" --pipestatus="$pipestatus" --cmd-duration="$CMD_DURATION" --jobs=(jobs -p)

@@ -1,5 +1,5 @@
 function emit_startup --on-event fish_prompt
-  emit fish_startup
-
   functions -e (status current-function)
+
+  emit fish_startup
 end

@@ -1,0 +1,55 @@
+# prepend an entry to manpath, moving if it already exists
+function manup
+  for entry in $argv[-1..1]
+    if not contains $entry $MANPATH; and test -e $entry
+      set -p MANPATH $entry
+    end
+  end
+end
+
+# ensure the system manpath is represented
+set -q MANPATH; or set -x MANPATH ''
+
+{{- if eq .chezmoi.os "darwin" }}
+# macos
+manup $HOMEBREW_PREFIX/share/man
+set -x INFOPATH $HOMEBREW_PREFIX/share/info ''
+{{- end }}
+
+{{- $nodenv_version := (expandenv "$NODENV_ROOT/version") }}
+{{- if stat $nodenv_version }}
+# nodejs
+set -q NODENV_VERSION; or set -l NODENV_VERSION {{ include $nodenv_version | trim }}
+manup MANPATH $NODENV_ROOT/versions/$NODENV_VERSION/share/man
+{{- end}}
+
+{{- $pyenv_version := (expandenv "$PYENV_ROOT/version") }}
+{{- if stat $pyenv_version }}
+# python
+set -q PYENV_VERSION; or set -l PYENV_VERSION {{ include $pyenv_version | trim }}
+manup MANPATH $PYENV_ROOT/versions/$PYENV_VERSION/share/man
+{{- end}}
+
+{{- $rbenv_version := (expandenv "$RBENV_ROOT/version") }}
+{{- if stat $rbenv_version }}
+# ruby
+set -q RBENV_VERSION; or set -l RBENV_VERSION {{ include $rbenv_version | trim }}
+manup MANPATH $RBENV_ROOT/versions/$RBENV_VERSION/share/man
+{{- end}}
+
+# rust
+if test -e $RUSTUP_HOME/toolchains
+  set -l rustup_toolchain stable
+  if set -q RUSTUP_TOOLCHAIN
+    set rustup_toolchain $RUSTUP_TOOLCHAIN
+  else if test -e $RUSTUP_HOME/settings.toml
+    set rustup_toolchain (string match -r 'default_toolchain = "(.*)"' < $RUSTUP_HOME/settings.toml)[2]
+  end
+  manup MANPATH $RUSTUP_HOME/toolchains/$rustup_toolchain*/{,share/}man
+end
+
+# local
+manup MANPATH $HOME/.local/share/man
+
+# cleanup
+functions -e manup
