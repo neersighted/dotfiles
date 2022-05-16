@@ -11,9 +11,9 @@ end
 {{- else }}
 set -l socket
 if is_macos
-  set socket $XDG_RUNTIME_DIR/var/run/yubikey-agent.sock
-else
   set socket $HOMEBREW_PREFIX/var/run/yubikey-agent.sock
+else
+  set socket $XDG_RUNTIME_DIR/var/run/yubikey-agent.sock
 end
 
 test -S $socket; and set -x SSH_AUTH_SOCK $socket
