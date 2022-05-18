@@ -9,7 +9,7 @@ function __poetry_auto_activate --on-variable PWD
 
   if not set -q VIRTUAL_ENV; and set pyproject (upcate pyproject.toml); and string match -q '[tool.poetry]' < $pyproject
     set project (string replace -r '^(.+)/[^/]+$' '$1' $pyproject)
-    set venv (poetry env info --path; or echo $path/.venv)
+    set venv (poetry env info --path); or set venv $project/.venv
 
     if test -e $venv
       source "$venv/bin/activate.fish"
