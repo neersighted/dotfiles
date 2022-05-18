@@ -1,0 +1,13 @@
+{{- if eq .chezmoi.os "darwin" -}}
+function bcd -d 'cd into homebrew repo' -a query
+  set -f repo (brew tap | fzf --tiebreak=end --query=$query --select-1 --exit-0)
+
+  # if the target doesn't look like a tap, go to the brew command repo
+  if not string match -rq '[^/]+/[^/]+' $repo
+    cd $HOMEBREW_REPOSITORY
+  else
+    cd (brew --repo $repo)
+  end
+
+end
+{{- end -}}
