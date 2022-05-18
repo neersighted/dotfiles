@@ -1,5 +1,5 @@
 {{- range $pkg := list "Microsoft.WindowsTerminal_8wekyb3d8bbwe" "Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe" }}
-{{- range $icon := glob (printf "%s/%s" $.chezmoi.workingTree "icons/windows/terminal/*") }}{{/* FIXME: joinPath not compatible with glob */}}
+{{- range $icon := glob (joinPath $.chezmoi.workingTree "icons/windows/terminal/*") }}
 {{- $base := osBase $icon }}
 {{- $source := osClean $icon }}
 {{- $target := joinPath $.chezmoi.homeDir "AppData/Local/Packages" $pkg "RoamingState" $base }}
