@@ -387,7 +387,7 @@
 			<key>Vertical Spacing</key>
 			<real>1</real>
 			<key>Window Type</key>
-			<integer>15</integer>
+			<integer>0</integer>
 		</dict>
 	</array>
 	<key>PointerActions</key>
