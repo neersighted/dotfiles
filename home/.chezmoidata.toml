@@ -52,6 +52,7 @@
         "beeftornado/rmtree",
         "microsoft/git",
         "tavianator/tap",
+        "qmk/qmk",
     ]
 
     formulae = [
@@ -111,6 +112,7 @@
         "pgcli",
         "pipx",
         "pre-commit",
+        "qmk",
         "rclone",
         "ripgrep",
         "sd",
@@ -239,6 +241,7 @@
         "sysutils/fd",
         "sysutils/hexyl",
         "sysutils/htop",
+        "sysutils/py-qmk",
         "sysutils/smug",
         "sysutils/tealdeer",
         "sysutils/tmate",
@@ -333,6 +336,7 @@
         "pgcli",
         "python-pipx",
         "python-pre-commit",
+        "qmk",
         "rclone",
         "ripgrep",
         "rr-bin",
