@@ -25,6 +25,7 @@ defaults write -globalDomain PMPrintingExpandedStateForPrint2 -bool true # Ditto
 defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true # Check for updates automatically.
 defaults write com.apple.SoftwareUpdate AutomaticDownload -bool true # Download updates automatically.
 defaults write com.apple.SoftwareUpdate ScheduleFrequency -bool true # Check for updates daily.
+defaults write com.apple.dock autohide -bool true # Automatically hide/show the dock.
 defaults write com.apple.dock show-recents -bool false # Don't show recent items in the dock.
 defaults write com.apple.finder AppleShowAllFiles -bool true # Show hidden files in the Finder.
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false # Don't warn when changing an extension.
@@ -38,8 +39,9 @@ defaults write com.apple.screensaver askForPassword -bool true # Ask for passwor
 defaults write com.apple.screensaver askForPasswordDelay -int 0 # Do so immediately.
 defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false # Don't restore windows on relaunch.
 
+duti -s org.mozilla.firefox mailto # Use Firefox for email handling.
 duti -s com.googlecode.iTerm2 com.apple.terminal.shell-script shell # Use Iterm2 for .command scripts.
-for uti in public.json public.plain-text; do
+for uti in public.json public.plain-text; do # Use VSCode for text and JSON.
   duti -s com.microsoft.VSCode "$uti" all
 done
 
