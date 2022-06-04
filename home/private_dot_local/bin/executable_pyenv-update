@@ -62,11 +62,8 @@ set_color yellow
 echo "Updating system packages..."
 set_color normal
 
-# allow running pip on global installations
-set -eg PIP_REQUIRE_VIRTUALENV
-
 function pip
-  command pyenv exec python -m pip --disable-pip-version-check $argv
+  PIP_REQUIRE_VIRTUALENV= command pyenv exec python -m pip --disable-pip-version-check $argv
 end
 
 for python in (pyenv versions --bare --skip-aliases)
