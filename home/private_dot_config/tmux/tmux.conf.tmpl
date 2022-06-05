@@ -90,11 +90,11 @@ bind -N 'Rename the current session' R { command-prompt -I '#{session_name}' { r
 # Window Management
 bind -N 'Create a new window' n { new-window -c '#{pane_current_path}' }
 bind -N 'Kill the current window' X { confirm -p 'kill-window #{window_index}? (y/n)' kill-window }
-bind -N 'Move the current window' m { command-prompt -T { move-window -t '%%' } } # FIXME: 3.3 -T target
-bind -N 'Swap the current window' M { command-prompt -W { swap-window -d -t '%%' } } # FIXME: 3.3 -T window-target
+bind -N 'Move the current window' m { command-prompt -T target "move-window -t '%%'" }
+bind -N 'Swap the current window' M { command-prompt -T window-target "swap-window -d -t '%%'" }
 bind -N 'Swap the current window forward' -r ] { swap-window -d -t:+1 }
 bind -N 'Swap the current window backward' -r [ { swap-window -d -t:-1 }
-bind -N 'Rename the current window' r { command-prompt -I '#{window_name}' { rename-window -- '%%' } }
+bind -N 'Rename the current window' r { command-prompt -I '#{window_name}' "rename-window -- '%%'" }
 bind -N 'Renumber all windows' \\ { move-window -r }
 bind -N 'Display pane numbers' '#' { display-panes }
 
@@ -141,9 +141,9 @@ bind -N 'Select window 7' 7  { select-window -t:=7 }
 bind -N 'Select window 8' 8  { select-window -t:=8 }
 bind -N 'Select window 9' 9  { select-window -t:=9 }
 bind -N 'Select window 10' 0 { select-window -t:=10 }
-bind -N 'Prompt for window index to select' g { command-prompt -W { select-window -t ':%%' } } # FIXME: 3.3 -T window-target
+bind -N 'Prompt for window index to select' g { command-prompt -T window-target "select-window -t ':%%'" }
 bind -N 'Choose a window from a list' c { choose-tree -Zw }
-bind -N 'Search for a pane' f { command-prompt { find-window -Z -- '%%' } }
+bind -N 'Search for a pane' f { command-prompt "find-window -Z -- '%%'" }
 
 # Pane Navigation
 bind -N 'Select leftward pane' h { if -F '#{pane_at_left}' '' { select-pane -L } }
@@ -197,7 +197,7 @@ bind -N 'Enter copy mode and search down' / { copy-mode; send -X history-top; se
 bind -T copy-mode-vi q { send -X cancel }
 bind -T copy-mode-vi C-c { send -X cancel }
 bind -T copy-mode-vi r { send -X refresh-from-pane }
-# bind -T copy-mode-vi M-p { send -x toggle-position } # FIXME: 3.3
+bind -T copy-mode-vi M-p { send -X toggle-position }
 
 # Copy Mode (Cursor)
 bind -T copy-mode-vi C-h { send -X cursor-left }
@@ -244,35 +244,35 @@ bind -T copy-mode-vi Enter { send -X copy-selection-and-cancel }
 bind -T copy-mode-vi y { send -X copy-selection-and-cancel }
 bind -T copy-mode-vi Y { send -X copy-pipe-and-cancel }
 bind -T copy-mode-vi A { send -X append-selection-and-cancel }
-bind -T copy-mode-vi D { send -X copy-end-of-line } # FIXME: 3.3 copy-end-of-line-and-cancel
+bind -T copy-mode-vi D { send -X copy-end-of-line-and-cancel }
 bind -T copy-mode-vi p { send -X copy-selection-and-cancel; paste-buffer -p -r }
 
 # Copy Mode (Search / Jump)
-bind -T copy-mode-vi / { command-prompt -p '(search down)' { send -X search-forward '%%' } } # FIXME: 3.3 -T search
-bind -T copy-mode-vi ? { command-prompt -p '(search up)' { send -X search-backward '%%' } } # FIXME: 3.3 -T search
-bind -T copy-mode-vi f { command-prompt -1 -p '(jump forward)' { send -X jump-forward '%%' } }
-bind -T copy-mode-vi F { command-prompt -1 -p '(jump backward)' { send -X jump-backward '%%' } }
-bind -T copy-mode-vi t { command-prompt -1 -p '(jump to forward)' { send -X jump-to-forward '%%' } }
-bind -T copy-mode-vi T { command-prompt -1 -p '(jump to backward)' { send -X jump-to-backward '%%'} }
-bind -T copy-mode-vi '*' { send -XF { search-forward '#{copy_cursor_word}' } }
-bind -T copy-mode-vi '#' { send -XF { search-backward '#{copy_cursor_word}' } }
+bind -T copy-mode-vi / { command-prompt -p '(search down)' -T search "send -X search-forward '%%'" }
+bind -T copy-mode-vi ? { command-prompt -p '(search up)' -T search "send -X search-backward '%%'" }
+bind -T copy-mode-vi f { command-prompt -1 -p '(jump forward)' "send -X jump-forward '%%'" }
+bind -T copy-mode-vi F { command-prompt -1 -p '(jump backward)' "send -X jump-backward '%%'" }
+bind -T copy-mode-vi t { command-prompt -1 -p '(jump to forward)' "send -X jump-to-forward '%%'" }
+bind -T copy-mode-vi T { command-prompt -1 -p '(jump to backward)' "send -X jump-to-backward '%%'" }
+bind -T copy-mode-vi '*' { send -XF "search-forward '#{copy_cursor_word}'" }
+bind -T copy-mode-vi '#' { send -XF "search-backward '#{copy_cursor_word}'" }
 bind -T copy-mode-vi '%' { send -X next-matching-bracket }
-bind -T copy-mode-vi ':' { command-prompt -N -p '(goto line)' { send -X goto-line '%%' } }
+bind -T copy-mode-vi ':' { command-prompt -N -p '(goto line)' "send -X goto-line '%%'" }
 
 # Copy Mode (Repeat)
 bind -T copy-mode-vi n { send -X search-again }
 bind -T copy-mode-vi N { send -X search-reverse }
 bind -T copy-mode-vi ';' { send -X jump-again }
 bind -T copy-mode-vi , { send -X jump-reverse }
-bind -T copy-mode-vi 1 { command-prompt -N -p '(repeat)' -I1 { send -N '%%' } }
-bind -T copy-mode-vi 2 { command-prompt -N -p '(repeat)' -I2 { send -N '%%' } }
-bind -T copy-mode-vi 3 { command-prompt -N -p '(repeat)' -I3 { send -N '%%' } }
-bind -T copy-mode-vi 4 { command-prompt -N -p '(repeat)' -I4 { send -N '%%' } }
-bind -T copy-mode-vi 5 { command-prompt -N -p '(repeat)' -I5 { send -N '%%' } }
-bind -T copy-mode-vi 6 { command-prompt -N -p '(repeat)' -I6 { send -N '%%' } }
-bind -T copy-mode-vi 7 { command-prompt -N -p '(repeat)' -I7 { send -N '%%' } }
-bind -T copy-mode-vi 8 { command-prompt -N -p '(repeat)' -I8 { send -N '%%' } }
-bind -T copy-mode-vi 9 { command-prompt -N -p '(repeat)' -I9 { send -N '%%' } }
+bind -T copy-mode-vi 1 { command-prompt -N -p '(repeat)' -I1 "send -N '%%'" }
+bind -T copy-mode-vi 2 { command-prompt -N -p '(repeat)' -I2 "send -N '%%'" }
+bind -T copy-mode-vi 3 { command-prompt -N -p '(repeat)' -I3 "send -N '%%'" }
+bind -T copy-mode-vi 4 { command-prompt -N -p '(repeat)' -I4 "send -N '%%'" }
+bind -T copy-mode-vi 5 { command-prompt -N -p '(repeat)' -I5 "send -N '%%'" }
+bind -T copy-mode-vi 6 { command-prompt -N -p '(repeat)' -I6 "send -N '%%'" }
+bind -T copy-mode-vi 7 { command-prompt -N -p '(repeat)' -I7 "send -N '%%'" }
+bind -T copy-mode-vi 8 { command-prompt -N -p '(repeat)' -I8 "send -N '%%'" }
+bind -T copy-mode-vi 9 { command-prompt -N -p '(repeat)' -I9 "send -N '%%'" }
 
 # Copy Mode (Motions)
 bind -T copy-mode-vi 0 { send -X start-of-line }
