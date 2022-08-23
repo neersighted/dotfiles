@@ -164,6 +164,7 @@
         "silicon",
         "sublime-merge",
         "sublime-text",
+        "tailscale",
         "utm",
         "visual-studio-code",
     ]
@@ -173,7 +174,6 @@
         { name = "Boop", id = 1518425043 },
         { name = "ColorSlurp", id = 1287239339 },
         { name = "PCalc", id = 403504866 },
-        { name = "Tailscale", id = 1475387142 },
     ]
 
 [packages.freebsd]
