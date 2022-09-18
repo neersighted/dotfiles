@@ -34,7 +34,7 @@ set_color normal
 
 set release_meta (curl -sSf 'https://go.dev/dl/?mode=json&include=all' | yq -ojson -I0 '[.[] | select(.stable == true)][0]')
 
-if not test -x $GOROOT/bin/go; or test ($GOROOT/bin/go version | string match -rg 'go version (go\d+\.\d+\.\d+)') != (printf '%s' $release_meta | yq '.version')
+if not test -x $GOROOT/bin/go; or test ($GOROOT/bin/go version | string match -rg 'go version (go\d+\.\d+(\.\d+)?)') != (printf '%s' $release_meta | yq '.version')
   set archive (printf '%s' $release_meta | yq -ojson -I0 '.files[] | select(.os == "'(goos)'" and .arch == "'(goarch)'" and .kind == "archive")')
   set archive_checksum (printf '%s' $archive | yq '.sha256')
   set archive_filename (printf '%s' $archive | yq '.filename')
