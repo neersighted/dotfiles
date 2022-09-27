@@ -12,5 +12,6 @@ function __bind_keys --on-event fish_startup
   bind \ez zoxide-interactive
 
   fzf_configure_bindings --directory=\co --variables=\ev
-  bind \cg fzf-git-recent-branch
+  bind \eg fzf-git-switch
+  bind \cg fzf-git-commit
 end
