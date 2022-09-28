@@ -1,1 +1,1 @@
-{{ include "private_dot_config/alacritty/alacritty.yml.tmpl" | output .chezmoi.executable "execute-template" }}
+{{ includeTemplate "private_dot_config/alacritty/alacritty.yml.tmpl" . }}
