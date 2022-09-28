@@ -1,4 +1,6 @@
 [user]
 	email = bneergaard@mirantis.com
+[commit]
+	gpgSign = true
 
 # vi: ft=gitconfig
