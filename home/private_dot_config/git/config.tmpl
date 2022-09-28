@@ -74,6 +74,13 @@
 	autoStash = true
 	stat = true
 
+[gpg]
+	format = ssh
+{{- if ne .chezmoi.os "windows" }}
+[gpg.ssh]
+	defaultKeyCommand = {{ .chezmoi.homeDir }}/.config/git/keycommand.sh
+{{- end }}
+
 [interactive]
 {{- if lookPath "delta" }}
 	diffFilter = delta --color-only
