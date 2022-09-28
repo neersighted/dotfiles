@@ -1,4 +1,4 @@
-{{- if and (lookPath "docker") (lookPath "jq") (lookPath "fzf") -}}
+{{- if and (lookPath "docker") (lookPath "yq") (lookPath "fzf") -}}
 function dcon -d 'switch docker contexts' -a query
   set context (docker context list --format json | yq '.[] | select(.Current != true) | .Name' | fzf --query="$query")[1]
   docker context use $context
