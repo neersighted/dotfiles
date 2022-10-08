@@ -111,7 +111,7 @@
 #
 
 [alias]
-	fixup = "!f() { SHA=$(git fzf-commit \"$1\"); git commit --fixup \"${SHA}\"; git rebase-auto \"${SHA}~\"; }; f"
+	fixup = "!f() { SHA=$(git fzf-commit \"$1\"); git commit --fixup=amend:\"${SHA}\"; git rebase-auto \"${SHA}~\"; }; f"
 	fzf-commit = "!f() { git log --no-merges --color=always | fzf --tiebreak=index --query \"$1\" | cut -d' ' -f1; }; f"
 	prune = fetch --prune
 	rebase-auto = -c sequence.editor=touch rebase --interactive --autosquash --autostash
