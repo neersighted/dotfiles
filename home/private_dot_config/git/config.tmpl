@@ -69,7 +69,7 @@
 	mnemonicPrefix = true
 [merge]
 	ff = only
-{{- $smerge := and (lookPath "smerge") (lookPath "smerge.exe") }}
+{{- $smerge := or (lookPath "smerge") (lookPath "smerge.exe") }}
 {{- if $smerge }}
 	tool = smerge
 {{- end }}
