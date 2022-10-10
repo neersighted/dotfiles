@@ -69,9 +69,10 @@
 	mnemonicPrefix = true
 [merge]
 	ff = only
+	tool = nvimdiff2
 {{- $smerge := or (lookPath "smerge") (lookPath "smerge.exe") }}
 {{- if $smerge }}
-	tool = smerge
+	guitool = smerge
 {{- end }}
 [rebase]
 	autoSquash = true
@@ -131,9 +132,11 @@
 	navigate = true
 {{- end}}
 
+[mergetool]
+	keepBackup = false
 {{- if $smerge }}
 [mergetool "smerge"]
-	cmd = {{ quote $smerge }} mergetool "$BASE" "$LOCAL" "$REMOTE" -o "$MERGED"
+	cmd = {{ base $smerge }} mergetool "$BASE" "$LOCAL" "$REMOTE" -o "$MERGED"
 	trustExitCode = true
 {{- end}}
 
