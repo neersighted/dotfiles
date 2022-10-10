@@ -43,11 +43,15 @@
 	symlinks = true
 	longpaths = true
 	sshCommand = "C:/Windows/System32/OpenSSH/ssh.exe"
-[safe]
-	directory = *
 [http]
 	sslBackend = schannel
 {{- end }}
+[safe]
+	bareRepository = explicit
+{{- if eq .chezmoi.os "windows" }}
+	directory = *
+{{- end }}
+
 [pull]
 	ff = true
 	rebase = true
