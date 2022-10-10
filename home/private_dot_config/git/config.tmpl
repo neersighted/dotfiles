@@ -103,6 +103,8 @@
 	submoduleSummary = true
 [log]
 	abbrevCommit = true
+[blame]
+	coloring = highlightRecent
 
 [format]
 	pretty = onelineplus
@@ -147,6 +149,9 @@
 # Colors
 #
 
+[color "blame"]
+	highlightRecent = "blue,12 month ago,green,6 month ago,yellow,1 month ago,red"
+	repeatedLines = "blue"
 [color "diff"]
 	context = "normal"
 	meta = "blue"
