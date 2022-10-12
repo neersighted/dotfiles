@@ -112,6 +112,7 @@
 [pretty]
 	onelineplus = format:%C(yellow)%h%C(auto)%d%C(reset) %s %C(blue)(%cr)%C(reset) %C(green)<%aN>
 	columns = format:%C(yellow)%h%C(magenta)% G? %C(blue)%<(12,trunc)%ar %C(green)%<(16,trunc)%aN %C(reset)%s%C(auto)%d
+	github = format:- %s
 
 #
 # Tools
@@ -120,6 +121,7 @@
 [alias]
 	fixup = "!f() { SHA=$(git fzf-commit \"$1\"); git commit --fixup=amend:\"${SHA}\"; git rebase-auto \"${SHA}~\"; }; f"
 	fzf-commit = "!f() { git log --no-merges --color=always | fzf --tiebreak=index --query \"$1\" | cut -d' ' -f1; }; f"
+	pr-log = log --reverse --format=github refs/remotes/origin/HEAD..HEAD
 	prune = fetch --prune
 	rebase-auto = -c sequence.editor=touch rebase --interactive --autosquash --autostash
 	reset-perms = !git diff -p -R | grep -E '^(diff|(old|new) mode)' | git apply
