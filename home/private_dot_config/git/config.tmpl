@@ -11,7 +11,9 @@
 {{- if or (eq .chezmoi.os "windows") (lookPath "git-credential-manager-core") }}
 	helper = manager-core
 {{- else if .wsl.any }}
-	helper = !{{ quote (lookPath "git.exe") }} credential-manager-core
+	helper = !git.exe credential-manager-core
+{{- else if eq .chemoi.os "darwin" }}
+	helper = osxkeychain
 {{- else }}
 	helper = store
 {{- end }}
@@ -19,7 +21,7 @@
 {{-   range (list "https://github.com" "https://gist.github.com")}}
 [credential {{ quote . }}]
 	helper =
-	helper = !{{ quote (lookPath "gh") }} auth git-credential
+	helper = !gh auth git-credential
 {{-   end }}
 {{- end }}
 [credential "https://dev.azure.com"]
