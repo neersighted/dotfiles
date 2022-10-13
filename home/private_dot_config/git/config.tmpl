@@ -78,10 +78,7 @@
 [merge]
 	ff = only
 	tool = nvimdiff2
-{{- $smerge := or (lookPath "smerge") (lookPath "smerge.exe") }}
-{{- if $smerge }}
 	guitool = smerge
-{{- end }}
 [rebase]
 	autoSquash = true
 	autoStash = true
@@ -144,9 +141,9 @@
 
 [mergetool]
 	keepBackup = false
-{{- if $smerge }}
+{{- if and .wsl.any (lookPath "smerge.exe") }}
 [mergetool "smerge"]
-	cmd = {{ osBase $smerge }} mergetool "$BASE" "$LOCAL" "$REMOTE" -o "$MERGED"
+	cmd = smerge.exe mergetool "$BASE" "$LOCAL" "$REMOTE" -o "$MERGED"
 	trustExitCode = true
 {{- end}}
 
