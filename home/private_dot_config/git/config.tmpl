@@ -77,8 +77,12 @@
 	mnemonicPrefix = true
 [merge]
 	ff = only
+{{- if eq .chezmoi.os "windows" }}
+	tool = smerge
+{{- else }}
 	tool = nvimdiff2
 	guitool = smerge
+{{- end }}
 [rebase]
 	autoSquash = true
 	autoStash = true
