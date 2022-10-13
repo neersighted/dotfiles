@@ -87,7 +87,7 @@ set -l term_special_osc \
 function term_color -V term_palette -V term_special -V term_special_osc -a color_name hex_color
   if set color_index (contains -i $color_name $term_palette)
     set color_index (math $color_index - 1)
-    set osc printf '%i;%i' 4 $color_index
+    set osc (printf '%i;%i' 4 $color_index)
   else if set osc_index (contains -i $color_name $term_special)
     set osc $term_special_osc[$osc_index]
   end
