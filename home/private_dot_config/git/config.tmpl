@@ -32,7 +32,13 @@
 #
 
 [core]
-{{- if lookPath "git-editor" }}
+{{- if eq .chezmoi.os "windows" }}
+{{-   if lookPath "subl" }}
+	editor = subl --wait
+{{-   else if lookPath "code" }}
+	editor = code --wait
+{{-   end }}
+{{- else }}
 	editor = git-editor
 {{- end }}
 {{- if lookPath "delta" }}
