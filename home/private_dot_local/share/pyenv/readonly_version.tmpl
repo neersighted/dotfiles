@@ -1,0 +1,5 @@
+{{- if lookPath "pyenv" -}}
+{{    range (reverse .python.supported) }}{{ output "pyenv" "latest" "-P" .}}{{ end }}
+{{- else -}}
+system
+{{- end -}}
