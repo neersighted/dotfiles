@@ -26,7 +26,7 @@ manup MANPATH $NODENV_ROOT/versions/$NODENV_VERSION/share/man
 {{- $pyenv_version := (expandenv "$PYENV_ROOT/version") }}
 {{- if stat $pyenv_version }}
 # python
-set -q PYENV_VERSION; or set -l PYENV_VERSION {{ include $pyenv_version | trim }}
+set -q PYENV_VERSION; or set -l PYENV_VERSION {{ (split "\n" (include $pyenv_version))._0 }}
 manup MANPATH $PYENV_ROOT/versions/$PYENV_VERSION/share/man
 {{- end}}
 
