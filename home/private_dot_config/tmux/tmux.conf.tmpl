@@ -5,6 +5,7 @@
 # Escapes
 set -s default-terminal 'tmux-256color'
 set -sa terminal-features 'xterm*:RGB:extkeys' # add features supported by most xterm-compatible terminals
+set -sa terminal-overrides "alacritty:RGB:extkeys" # ...and alacritty
 set -s extended-keys on # support xterm-style extended keys (CSI u)
 set -s escape-time 25 # pass escape sequences (almost) instantly
 
