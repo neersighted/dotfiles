@@ -43,15 +43,15 @@ defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false 
 defaults write org.alacritty AppleFontSmoothing -int 0
 
 duti -s org.mozilla.firefox mailto # Use Firefox for email handling.
-duti -s com.googlecode.iTerm2 com.apple.terminal.shell-script shell # Use Iterm2 for .command scripts.
-for uti in public.json public.plain-text; do # Use VSCode for text and JSON.
-  duti -s com.microsoft.VSCode "$uti" all
+duti -s com.googlecode.iTerm2 com.apple.terminal.shell-script shell # Use iTerm2 for .command scripts.
+for uti in public.json public.plain-text; do # Use Sublime Text for text and JSON.
+  duti -s com.sublimetext.4 "$uti" all
 done
 
 sudo nvram StartupMute=%01 # Mute the startup sound.
 sudo pmset -a displaysleep 15 # Sleep the display after 15 minutes.
 
-brew services start yubikey-agent # Enable the yubikey-agent daemon.
+brew services restart -v yubikey-agent # Enable the yubikey-agent daemon.
 
 echo "Done! System UI will restart!"
 
