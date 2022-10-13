@@ -12,7 +12,7 @@
 	helper = manager-core
 {{- else if .wsl.any }}
 	helper = /mnt/c/Program Files/Git/mingw64/bin/git-credential-manager-core.exe
-{{- else if eq .chemoi.os "darwin" }}
+{{- else if eq .chezmoi.os "darwin" }}
 	helper = osxkeychain
 {{- else }}
 	helper = store
