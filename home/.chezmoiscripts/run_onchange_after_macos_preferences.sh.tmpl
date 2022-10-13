@@ -39,6 +39,9 @@ defaults write com.apple.screensaver askForPassword -bool true # Ask for passwor
 defaults write com.apple.screensaver askForPasswordDelay -int 0 # Do so immediately.
 defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false # Don't restore windows on relaunch.
 
+# Use thinner text in alacritty.
+defaults write org.alacritty AppleFontSmoothing -int 0
+
 duti -s org.mozilla.firefox mailto # Use Firefox for email handling.
 duti -s com.googlecode.iTerm2 com.apple.terminal.shell-script shell # Use Iterm2 for .command scripts.
 for uti in public.json public.plain-text; do # Use VSCode for text and JSON.

@@ -15,12 +15,6 @@ window:
     y: 2
   dynamic_padding: true
 
-  {{ if eq .chezmoi.os "darwin" }}
-  decorations: buttonless # none,full,transparent,buttonless
-  {{ else }}
-  decorations: full
-  {{ end  }}
-
 font:
   normal:
     family: Source Code Pro
@@ -39,58 +33,6 @@ font:
   {{ else }}
   size: 10.0
   {{ end }}
-  {{ if eq .chezmoi.os "darwin" }}
-  use_thin_strokes: true
-  {{ end }}
-
-colors:
-  primary:
-    background: '{{ .nord.nord0 }}'
-    foreground: '{{ .nord.nord4 }}'
-    dim_foreground: '#a5abb6'
-  cursor:
-    text: '{{ .nord.nord0 }}'
-    cursor: '{{ .nord.nord4 }}'
-  vi_mode_cursor:
-    text: '{{ .nord.nord0 }}'
-    cursor: '{{ .nord.nord4 }}'
-  selection:
-    text: CellForeground
-    background: '{{ .nord.nord3 }}'
-  search:
-    matches:
-      foreground: CellBackground
-      background: '{{ .nord.nord8 }}'
-    bar:
-      background: '{{ .nord.nord2 }}'
-      foreground: '{{ .nord.nord4 }}'
-  normal:
-    black: '{{ .nord.nord1 }}'
-    red: '{{ .nord.nord11 }}'
-    green: '{{ .nord.nord14 }}'
-    yellow: '{{ .nord.nord13 }}'
-    blue: '{{ .nord.nord9 }}'
-    magenta: '{{ .nord.nord15 }}'
-    cyan: '{{ .nord.nord8 }}'
-    white: '{{ .nord.nord5 }}'
-  bright:
-    black: '{{ .nord.nord3 }}'
-    red: '{{ .nord.nord11 }}'
-    green: '{{ .nord.nord14 }}'
-    yellow: '{{ .nord.nord13 }}'
-    blue: '{{ .nord.nord9 }}'
-    magenta: '{{ .nord.nord15 }}'
-    cyan: '{{ .nord.nord7 }}'
-    white: '{{ .nord.nord6 }}'
-  dim:
-    black: '{{ .nord.nord1dim }}'
-    red: '{{ .nord.nord11dim }}'
-    green: '{{ .nord.nord14dim }}'
-    yellow: '{{ .nord.nord13dim }}'
-    blue: '{{ .nord.nord9dim }}'
-    magenta: '{{ .nord.nord15dim }}'
-    cyan: '{{ .nord.nord8dim }}'
-    white: '{{ .nord.nord5dim }}'
 
 key_bindings:
   - { key: L,         mods: Control|Alt, chars: "\x1b\x0c"          }
