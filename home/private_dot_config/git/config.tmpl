@@ -11,7 +11,7 @@
 {{- if or (eq .chezmoi.os "windows") (lookPath "git-credential-manager-core") }}
 	helper = manager-core
 {{- else if .wsl.any }}
-	helper = !git.exe credential-manager-core
+	helper = /mnt/c/Program Files/Git/mingw64/bin/git-credential-manager-core.exe
 {{- else if eq .chemoi.os "darwin" }}
 	helper = osxkeychain
 {{- else }}
