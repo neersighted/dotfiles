@@ -101,6 +101,17 @@ function term_color -V term_palette -V term_special -V term_special_osc -a color
   end
 end
 
+# special colors
+term_color bg         '{{ .nord.nord0 }}'
+term_color fg         '{{ .nord.nord4 }}'
+term_color bold       '{{ .nord.nord4 }}'
+term_color link       '{{ .nord.nord4 }}'
+term_color selbg      '{{ .nord.nord2 }}'
+term_color selfg      '{{ .nord.nord4 }}'
+term_color curbg      '{{ .nord.nord4 }}'
+term_color curfg      '{{ .nord.nord0 }}'
+term_color underline  '{{ .nord.nord4 }}'
+term_color tab        '{{ .nord.nord0 }}'
 # 16-color palette
 term_color black      '{{ .nord.nord1 }}'
 term_color red        '{{ .nord.nord11 }}'
@@ -118,17 +129,6 @@ term_color br_blue    '{{ .nord.nord9 }}'
 term_color br_magenta '{{ .nord.nord15 }}'
 term_color br_cyan    '{{ .nord.nord7 }}'
 term_color br_white   '{{ .nord.nord6 }}'
-# special colors
-term_color fg         '{{ .nord.nord4 }}'
-term_color bg         '{{ .nord.nord0 }}'
-term_color bold       '{{ .nord.nord4 }}'
-term_color link       '{{ .nord.nord4 }}'
-term_color selbg      '{{ .nord.nord2 }}'
-term_color selfg      '{{ .nord.nord4 }}'
-term_color curbg      '{{ .nord.nord4 }}'
-term_color curfg      '{{ .nord.nord0 }}'
-term_color underline  '{{ .nord.nord4 }}'
-term_color tab        '{{ .nord.nord0 }}'
 
 # clean up
 functions -e osc term_color
