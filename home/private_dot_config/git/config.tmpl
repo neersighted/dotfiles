@@ -146,7 +146,7 @@
 	keepBackup = false
 {{- if $smerge }}
 [mergetool "smerge"]
-	cmd = {{ base $smerge }} mergetool "$BASE" "$LOCAL" "$REMOTE" -o "$MERGED"
+	cmd = {{ osBase $smerge }} mergetool "$BASE" "$LOCAL" "$REMOTE" -o "$MERGED"
 	trustExitCode = true
 {{- end}}
 
