@@ -82,7 +82,7 @@ set -l term_special \
    fg bg bold link selbg selfg curbg curfg underline tab
 # osc commands (corresponding to the above list)
 set -l term_special_osc \
-   10 11 '5;0' '' 17 19 12 '' '5;1' 708
+   10 11 '5;0' '' 17 19 12 '' '5;1' '4;264'
 
 function term_color -V term_palette -V term_special -V term_special_osc -a color_name hex_color
   if set color_index (contains -i $color_name $term_palette)
