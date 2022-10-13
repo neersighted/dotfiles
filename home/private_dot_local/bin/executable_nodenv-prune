@@ -7,5 +7,5 @@ for major in $majors
   echo "Pruning Node $major..."
   set_color normal
 
-  nodenv latest uninstall $major
+  nodenv latest uninstall $argv $major
 end

@@ -7,5 +7,5 @@ for major in $majors
   echo "Pruning Ruby $major..."
   set_color normal
 
-  rbenv latest uninstall $major
+  rbenv latest uninstall $argv $major
 end

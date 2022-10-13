@@ -7,5 +7,5 @@ for major in $majors
   echo "Pruning Python $major..."
   set_color normal
 
-  pyenv latest uninstall $major
+  pyenv latest uninstall $argv $major
 end
