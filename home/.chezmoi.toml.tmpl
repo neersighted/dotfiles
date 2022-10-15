@@ -11,7 +11,7 @@
 
 {{/* os environment detection */}}
 {{- $osid := .chezmoi.os -}}
-{{- if hasKey .chezmoi.osRelease "id" -}}
+{{- if .chezmoi.osRelease -}}
 {{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
 {{- end -}}
 
