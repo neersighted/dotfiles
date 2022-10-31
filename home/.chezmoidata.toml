@@ -26,14 +26,13 @@
     nord15dim = "#8c738c"
 
 [node]
-    current  = 18
+    current  = 19
 
 [node.lts]
-    erbium   = 12
     fermium  = 14
     gallium  = 16
     hydrogen = 18
-    active   = 16
+    active   = 18
 
 [python]
     supported = ["3.7", "3.8", "3.9", "3.10", "3.11"]
