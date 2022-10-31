@@ -1,11 +1,17 @@
 #!/usr/bin/env fish
 
-set majors (string replace -rf '.*/(\d+\.\d+).*' '$1' $PYENV_ROOT/versions/* | uniq)
+set pythons (pyenv versions --bare)
+set old_pythons $pythons
 
-for major in $majors
-  set_color yellow
-  echo "Pruning Python $major..."
-  set_color normal
-
-  pyenv latest uninstall $argv $major
+for major in (string match -r '(\d+\.\d+)' $pythons)
+  set -l latest (pyenv latest $major)
+  if set -l i (contains -i $latest $old_pythons)
+    set -e old_pythons[$i]
+  end
 end
+
+set_color yellow
+echo "Pruning Pythons..."
+set_color normal
+
+pyenv uninstall $argv $old_pythons

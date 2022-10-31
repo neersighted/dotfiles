@@ -36,7 +36,7 @@
     active   = 16
 
 [python]
-    supported = ["3.7", "3.8", "3.9", "3.10"]
+    supported = ["3.7", "3.8", "3.9", "3.10", "3.11"]
 
 [packages.macos]
     taps = [
@@ -166,6 +166,7 @@
         "tailscale",
         "utm",
         "visual-studio-code",
+        "vivid",
     ]
 
     app_store = [
