@@ -21,13 +21,12 @@ for release in (chezmoi data | yq '.python.supported[]')
   end
 end
 
-set installed (pipx list --json | yq '.venvs[].metadata.main_package.package_or_url' | string match -r '^[^=]+')
+set installed (pipx list --json | yq '.venvs[].metadata.main_package | [.package, .suffix] | join("")')
 
 set wanted \
    pip-run \
    pip-tools \
    poetry \
-   'python-lsp-server[all]' \
    shiv 
 
 for spec in $wanted

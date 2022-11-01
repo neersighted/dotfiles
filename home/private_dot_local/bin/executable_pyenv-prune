@@ -14,4 +14,4 @@ set_color yellow
 echo "Pruning Pythons..."
 set_color normal
 
-pyenv uninstall $argv $old_pythons
+test -n "$old_pythons" && pyenv uninstall $argv $old_pythons
