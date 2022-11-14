@@ -107,7 +107,7 @@ bind -N 'Split window vertically' V { split-window -c '#{pane_current_path}' -h 
 bind -N 'Kill the active pane' x { confirm -p 'kill-pane #{pane_index}? (y/n)' kill-pane }
 bind -N 'Respawn the active pane' C-n { confirm -p 'respawn-pane #{pane_index}? (y/n)' 'respawn-pane -k' }
 bind -N 'Toggle the marked pane' t { select-pane -m }
-bind -N 'Clear the marked pane' T { select-pane -M }
+bind -N 'Unset the marked pane' T { select-pane -M }
 
 # Pane Layout
 bind -N 'Set the the even-horizontal layout' M-1 { select-layout even-horizontal }
@@ -172,6 +172,10 @@ bind -N 'Send M-h' M-h { send M-h }
 bind -N 'Send M-j' M-j { send M-j }
 bind -N 'Send M-k' M-k { send M-k }
 bind -N 'Send M-l' M-l { send M-l }
+
+# History Management
+bind -N 'Clear pane contents' b { send -R C-l }
+bind -N 'Clear pane contents and history' B { send -R C-l; clear-history }
 
 # Clipboard/Buffer Management
 bind -N 'List all buffers' '=' { list-buffers }
