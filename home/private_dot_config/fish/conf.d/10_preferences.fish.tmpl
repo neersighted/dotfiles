@@ -115,6 +115,7 @@ if not set -q fish_prefs_hash; or test $fish_prefs_hash != {{ $hash }}
 
   # homebrew
   if is_macos
+    def -x HOMEBREW_AUTOREMOVE 1
     def -x HOMEBREW_AUTO_UPDATE_SECS 60
     def -x HOMEBREW_BAT 1
     def -x HOMEBREW_BUNDLE_FILE $XDG_CONFIG_HOME/brew/Brewfile
@@ -122,6 +123,11 @@ if not set -q fish_prefs_hash; or test $fish_prefs_hash != {{ $hash }}
     def -x HOMEBREW_CLEANUP_MAX_AGE_DAYS 30
     def -x HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS 7
     def -x HOMEBREW_DEVELOPER 1
+    def -x HOMEBREW_NO_COMPAT 1
+    def -x HOMEBREW_NO_ENV_HINTS 1
+    def -x HOMEBREW_NO_INSECURE_REDIRECT 1
+    def -x HOMEBREW_UPDATE_REPORT_ALL_FORMULAE 1
+    def -x HOMEBREW_UPDATE_TO_TAG 1
   end
 
   # less
