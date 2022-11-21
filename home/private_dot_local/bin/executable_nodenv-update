@@ -43,6 +43,8 @@ end
 
 for node in (nodenv versions --bare | string match -r '\d+\.\d+\.\d+')
   set -lx NODENV_VERSION $node
+  set -lx NPM_CONFIG_UPDATE_NOTIFIER false
+  set -lx NPM_CONFIG_FUND false
 
   for spec in (npm outdated -g --json | yq -ojson -I0 '(to_entries)[]')
     set name (printf '%s' $spec | yq '.key')
