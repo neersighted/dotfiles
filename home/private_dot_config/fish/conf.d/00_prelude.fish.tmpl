@@ -18,6 +18,13 @@ if not set -q XDG_RUNTIME_DIR
   end
 end
 
+# export GitHub token to the environment
+{{- if and (lookPath "gh") (stat (joinPath .chezmoi.homeDir ".config/gh/hosts.yml")) }}
+{{   $token := output "gh" "auth" "token" | trim }}
+set -x HOMEBREW_GITHUB_API_TOKEN {{ quote $token }}
+set -x CHEZMOI_GITHUB_ACCESS_TOKEN {{ quote $token }}
+{{- end }}
+
 {{- if eq .chezmoi.os "darwin" }}
 {{   $brew := or (lookPath "/opt/homebrew/bin/brew") (lookPath "/usr/local/bin/brew") }}
 # homebrew shellenv
