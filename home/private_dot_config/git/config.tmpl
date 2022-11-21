@@ -65,11 +65,14 @@
 	rebase = true
 [push]
 	default = current
+	gpgSign = if-asked
 
 [init]
 	defaultBranch = main
 [commit]
 	verbose = true
+[tag]
+	gpgSign = true
 
 [diff]
 	algorithm = patience
