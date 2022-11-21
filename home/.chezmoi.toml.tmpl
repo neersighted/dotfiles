@@ -17,24 +17,26 @@
 
 {{/* devcontainer detection */}}
 {{- if (env "CODESPACES") -}}
-{{- $codespaces = true -}}
+{{-   $codespaces = true -}}
 {{- end -}}
 {{- if (env "REMOTE_CONTAINERS_IPC") -}}
-{{- $vscontainer = true -}}
+{{-   $vscontainer = true -}}
 {{- end -}}
 {{- if or $codespaces $vscontainer -}}
-{{- $devcontainer = true -}}
+{{-   $devcontainer = true -}}
 {{- end -}}
 
 {{/* wsl detection */}}
-{{- if (env "WSL_DISTRO_NAME") -}}
-{{- $wsl = true -}}
-{{- end -}}
-{{- if and $wsl (env "WSL_INTEROP" | not) -}}
-{{- $wsl1 = true -}}
-{{- end -}}
-{{- if and $wsl (env "WSL_INTEROP") -}}
-{{- $wsl2 = true -}}
+{{- if eq .chezmoi.os "linux" -}}
+{{-   if contains "Microsoft" .chezmoi.kernel.osrelease -}}
+{{-     $wsl1 = true -}}
+{{-   end -}}
+{{-   if contains "microsoft" .chezmoi.kernel.osrelease -}}
+{{-     $wsl2 = true -}}
+{{-   end -}}
+{{-   if or $wsl1 $wsl2 -}}
+{{-     $wsl = true -}}
+{{-   end -}}
 {{- end -}}
 
 {{/* boolean feature tags */}}
