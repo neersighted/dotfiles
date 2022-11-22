@@ -11,7 +11,11 @@ if ! command -v paru >/dev/null; then
   (cd $PARU && makepkg -si --noconfirm)
 fi
 
+{{- $packages := .packages.arch.packages | sortAlpha | uniq -}}
+
 {{- if .wsl.any }}
+{{-   $packages = append $packages "wslu" }}
+
 keyring={{ quote (joinPath .chezmoi.workingTree "keyring/wslutilities.asc") }}
 fingerprint=$(gpg --show-keys --with-colons "$keyring" | grep fpr | cut -d: -f10 | head -n1)
 
@@ -27,7 +31,11 @@ if ! grep -Eq '^\[wslutilities\]' /etc/pacman.conf; then
 fi
 {{- end }}
 
+{{- if eq .osid "linux-archarm" }}
+{{    $packages = without $packages "qmk" "shellcheck" }}
+{{- end }}
+
 echo "Installing packages with paru..."
-paru -Sy --needed --noconfirm {{ .packages.arch.packages | sortAlpha | uniq | join " " }}
+paru -Sy --needed --noconfirm {{ join " " $packages }}
 
 {{- end -}}
