@@ -11,6 +11,8 @@ killall -q "System Preferences" # Kill System Preferences.app if it is open.
 #   dockutil --remove "$app"
 # done
 
+sudo defaults write /Library/Preferences/com.apple.RemoteManagement.plist VNCOnlyLocalConnections -bool true # Only allow VNC connections from localhost (e.g. SSH tunnels).
+
 defaults -currentHost write com.apple.Spotlight MenuItemHidden -bool true # Hide Spotlight in the menu bar.
 defaults write -globalDomain AppleInterfaceStyle Dark # Use dark mode.
 defaults write -globalDomain AppleShowAllExtensions -bool true # Show all file extensions.
@@ -39,8 +41,8 @@ defaults write com.apple.screensaver askForPassword -bool true # Ask for passwor
 defaults write com.apple.screensaver askForPasswordDelay -int 0 # Do so immediately.
 defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false # Don't restore windows on relaunch.
 
-# Use thinner text in alacritty.
-defaults write org.alacritty AppleFontSmoothing -int 0
+# Use thinner text in Alacritty.
+defaults write -app Alacritty AppleFontSmoothing -int 0
 
 duti -s org.mozilla.firefox mailto # Use Firefox for email handling.
 duti -s com.googlecode.iTerm2 com.apple.terminal.shell-script shell # Use iTerm2 for .command scripts.
