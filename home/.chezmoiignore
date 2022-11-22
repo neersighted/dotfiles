@@ -42,6 +42,6 @@ Documents
 .local/share/terminfo # terminfo hacks are only needed on macos
 {{ end }}
 
-{{ if ne .osid "linux-arch" }} # hushlogin on everything but arch
+{{ if hasPrefix "linux-arch" .osid }} # hushlogin on everything but arch
 .hushlogin
 {{ end }}

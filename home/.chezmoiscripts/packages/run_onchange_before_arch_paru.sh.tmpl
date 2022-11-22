@@ -1,4 +1,4 @@
-{{- if eq .osid "linux-arch" -}}
+{{- if hasPrefix "linux-arch" .osid -}}
 #!/bin/sh -e
 
 if ! command -v paru >/dev/null; then

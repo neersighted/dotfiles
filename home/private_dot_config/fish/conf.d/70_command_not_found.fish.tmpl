@@ -1,4 +1,4 @@
-{{- if eq .osid "linux-arch" }}
+{{- if hasPrefix "linux-arch" .osid }}
 function fish_command_not_found -a cmd
   __fish_default_command_not_found_handler $cmd
 
