@@ -32,9 +32,10 @@ fi
 {{- end }}
 
 {{- if eq .osid "linux-archarm" }}
-{{/* qmk is unavailable on Arm, and shellcheck is shellcheck-bin */}}
-{{    $packages = without $packages "qmk" "shellcheck" }}
-{{    $packages = append $packages "shellcheck-bin" }}
+{{/* 1password-cli, qmk and rr are unavailable on aarch64 */}}
+{{    $packages = without $packages "1password-cli" "git-interactive-rebase-tool-bin" "qmk" "rr-bin" "shellcheck" }}
+{{/* git-interactive-rebase-tool must be built, and shellcheck is shellcheck-bin */}}
+{{    $packages = concat $packages (list "git-interactive-rebase-tool" "shellcheck-bin") }}
 {{- end }}
 
 echo "Installing packages with paru..."
