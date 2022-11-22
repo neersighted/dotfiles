@@ -43,7 +43,7 @@
 {{- $headless  := false -}}{{/* no graphical interface */}}
 {{- $transient := false -}}{{/* temporary machine (VM/cloud instances/container) */}}
 
-{{- if .configured -}}
+{{- if hasKey . "configured" -}}
 {{-   $headless  = .headless -}}
 {{-   $transient = .transient -}}
 {{- else -}}
