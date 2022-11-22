@@ -32,7 +32,9 @@ fi
 {{- end }}
 
 {{- if eq .osid "linux-archarm" }}
+{{/* qmk is unavailable on Arm, and shellcheck is shellcheck-bin */}}
 {{    $packages = without $packages "qmk" "shellcheck" }}
+{{    $packages = append $packages "shellcheck-bin" }}
 {{- end }}
 
 echo "Installing packages with paru..."
