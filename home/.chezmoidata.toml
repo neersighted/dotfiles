@@ -51,7 +51,6 @@
         "beeftornado/rmtree",
         "microsoft/git",
         "tavianator/tap",
-        "qmk/qmk",
     ]
 
     formulae = [
@@ -112,7 +111,6 @@
         "pgcli",
         "pipx",
         "pre-commit",
-        "qmk",
         "rclone",
         "ripgrep",
         "sd",
@@ -157,6 +155,7 @@
         "maccy",
         "meetingbar",
         "multipass",
+        "qmk-toolbox",
         "rectangle-pro",
         "serial",
         "silicon",
