@@ -7,6 +7,9 @@ import urllib.request
 
 with urllib.request.urlopen("https://api.github.com/meta") as response:
     meta = json.loads(response.read())
+    with open(".github_keys.json", "w") as output:
+        output.write(json.dumps(meta["ssh_keys"], indent=2, sort_keys=True))
+
     networks = [ipaddress.ip_network(cidr) for cidr in meta["git"]]
 
     hosts = []

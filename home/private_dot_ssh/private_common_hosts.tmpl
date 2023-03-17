@@ -1,7 +1,10 @@
 # github
-{{- $github := prepend (include "private_dot_ssh/.github_ips.json" | fromJson) "github.com,gist.github.com" -}}
-{{- range $github }}
-{{   . }} ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+{{- $github_ips := prepend (include "private_dot_ssh/.github_ips.json" | fromJson) "github.com,gist.github.com" -}}
+{{- $github_keys := (include "private_dot_ssh/.github_keys.json" | fromJson) -}}
+{{- range $ip := $github_ips }}
+{{-   range $key := $github_keys }}
+{{   $ip }} {{ $key }}
+{{-   end }}
 {{- end }}
 
 # other forges
