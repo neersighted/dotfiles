@@ -1,60 +1,50 @@
-{{- $hash := include .chezmoi.sourceFile | sha256sum -}}
-
 status is-interactive; or exit
 
-if not set -q fish_abbr_hash; or test $fish_abbr_hash != {{ $hash }}
-  # Reset existing abbreviations...
-  abbr -e (set -U | string replace -rf '^_fish_abbr_(\S+) .*' '$1')
-
-  set -l chezmoi_update 'chezmoi update --init'
-  if string match -e $HOME {{ .chezmoi.executable }}
-    set chezmoi_update "$chezmoi_update; and chezmoi upgrade" # self-update unmanaged chezmoi
-  end
-
-  set -l update_command true
-  if is_macos
-    set update_command 'mas upgrade; and brew upgrade'
-  else if is_freebsd
-    set update_command 'sudo pkg upgrade'
-  else if command -q pacman
-    set update_command 'paru; and sudo pacman -Fy'
-  end
-
-  # system/special
-  abbr -a -- up "$update_command; and $chezmoi_update"
-
-  # aur
-  abbr -a -- aur 'ssh aur@aur.archlinux.org'
-
-  # chezmoi
-  abbr -a -- cz 'chezmoi'
-  abbr -a -- cad 'chezmoi add'
-  abbr -a -- cap 'chezmoi apply --init'
-  abbr -a -- ced 'chezmoi edit'
-  abbr -a -- cup $chezmoi_update
-
-  # clipboard-provider
-  abbr -a -- clipc 'clipboard-provider copy'
-  abbr -a -- clipp 'clipboard-provider paste'
-
-  # docker
-  abbr -a -- dspa 'docker system prune -a'
-
-  # gh
-  abbr -a -- gpc 'gh pr create'
-  abbr -a -- grc 'gh repo clone'
-
-  # gpg
-  abbr -a -- gpgt 'set -x GPG_TTY (tty); gpg-connect-agent UPDATESTARTUPTTY /bye'
-
-  # ls/exa
-  abbr -a -- ll 'ls -lh'
-  abbr -a -- la 'ls -lah'
-  abbr -a -- lt 'ls -lhTL2'
-
-  # zoxide
-  abbr -a -- zrm 'zoxide remove'
-
-  # cleanup
-  set -U fish_abbr_hash {{ $hash }}
+set -l chezmoi_update 'chezmoi update --init'
+if string match -eq $HOME {{ .chezmoi.executable }}
+  set chezmoi_update "$chezmoi_update; and chezmoi upgrade" # self-update unmanaged chezmoi
 end
+
+set -l update_command true
+if is_macos
+  set update_command 'mas upgrade; and brew upgrade'
+else if is_freebsd
+  set update_command 'sudo pkg upgrade'
+else if command -q pacman
+  set update_command 'paru; and sudo pacman -Fy'
+end
+
+# system/special
+abbr -a -- up "$update_command; and $chezmoi_update"
+
+# aur
+abbr -a -- aur 'ssh aur@aur.archlinux.org'
+
+# chezmoi
+abbr -a -- cz 'chezmoi'
+abbr -a -- cad 'chezmoi add'
+abbr -a -- cap 'chezmoi apply --init'
+abbr -a -- ced 'chezmoi edit'
+abbr -a -- cup $chezmoi_update
+
+# clipboard-provider
+abbr -a -- clipc 'clipboard-provider copy'
+abbr -a -- clipp 'clipboard-provider paste'
+
+# docker
+abbr -a -- dspa 'docker system prune -a'
+
+# gh
+abbr -a -- gpc 'gh pr create'
+abbr -a -- grc 'gh repo clone'
+
+# gpg
+abbr -a -- gpgt 'set -x GPG_TTY (tty); gpg-connect-agent UPDATESTARTUPTTY /bye'
+
+# ls/exa
+abbr -a -- ll 'ls -lh'
+abbr -a -- la 'ls -lah'
+abbr -a -- lt 'ls -lhTL2'
+
+# zoxide
+abbr -a -- zrm 'zoxide remove'
