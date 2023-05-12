@@ -17,11 +17,12 @@
 {{- else }}
 	helper = store
 {{- end }}
-{{- if lookPath "gh" }}
+{{- $gh := lookPath "gh" -}}
+{{- if $gh }}
 {{-   range (list "https://github.com" "https://gist.github.com")}}
 [credential {{ quote . }}]
 	helper =
-	helper = !gh auth git-credential
+	helper = {{ quote $gh }} auth git-credential
 {{-   end }}
 {{- end }}
 [credential "https://dev.azure.com"]
