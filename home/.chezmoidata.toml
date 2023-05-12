@@ -155,7 +155,6 @@
         "keka",
         "kekaexternalhelper",
         "maccy",
-        "meetingbar",
         "multipass",
         "qmk-toolbox",
         "rectangle-pro",
@@ -171,10 +170,13 @@
     ]
 
     app_store = [
-        { name = "Amphetamine", id = 937984704 },
+        { name = "Battery Indicator", id = 1206020918 },
         { name = "Boop", id = 1518425043 },
         { name = "ColorSlurp", id = 1287239339 },
+        { name = "Dato", id = 1470584107 },
+        { name = "Lungo", id = 1263070803 },
         { name = "PCalc", id = 403504866 },
+        { name = "Velja", id = 1607635845 },
     ]
 
 [packages.freebsd]
