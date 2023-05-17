@@ -85,9 +85,6 @@ if not set -q fish_prefs_hash; or test $fish_prefs_hash != {{ $hash }}
   # ccache
   def -x CCACHE_DIR $XDG_CACHE_HOME/ccache
 
-  # docker
-  def -x DOCKER_BUILDKIT 1
-
   # fish
   def fish_greeting ''
   def fish_term24bit 1
