@@ -55,9 +55,8 @@
 [http]
 	sslBackend = schannel
 {{- end }}
-[safe]
-	bareRepository = explicit
 {{- if eq .chezmoi.os "windows" }}
+[safe]
 	directory = *
 {{- end }}
 
@@ -92,6 +91,8 @@
 	autoStash = true
 	stat = true
 	updateRefs = true
+[rerere]
+	enabled = true
 
 [gpg]
 	format = ssh
