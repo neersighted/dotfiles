@@ -310,6 +310,7 @@
         "fzf",
         "gdb",
         "git",
+        "git-credential-manager-core-bin",
         "git-delta",
         "git-filter-repo",
         "git-interactive-rebase-tool-bin",
