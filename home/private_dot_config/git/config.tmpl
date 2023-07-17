@@ -8,8 +8,10 @@
 
 [credential]
 	helper =
-{{- if or (eq .chezmoi.os "windows") (lookPath "git-credential-manager-core") }}
-	helper = manager-core
+
+{{-  $gcm := lookPath "git-credential-manager" -}}
+{{- if $gcm }}
+	helper = {{ $gcm }}
 {{- else if .wsl.any }}
 	helper = /mnt/c/Program Files/Git/mingw64/bin/git-credential-manager-core.exe
 {{- else if eq .chezmoi.os "darwin" }}
@@ -21,8 +23,8 @@
 {{- if $gh }}
 {{-   range (list "https://github.com" "https://gist.github.com")}}
 [credential {{ quote . }}]
-	helper =
-	helper = {{ quote $gh }} auth git-credential
+	helper = {{/* gh auth setup-git adds a trailing space here */}}
+	helper = !{{ $gh }} auth git-credential
 {{-   end }}
 {{- end }}
 [credential "https://dev.azure.com"]
