@@ -26,11 +26,10 @@ set -x CHEZMOI_GITHUB_ACCESS_TOKEN {{ quote $token }}
 {{- end }}
 
 {{- if eq .chezmoi.os "darwin" }}
-{{   $brew := or (lookPath "/opt/homebrew/bin/brew") (lookPath "/usr/local/bin/brew") }}
 # homebrew shellenv
-set -x HOMEBREW_PREFIX {{ quote (output $brew "--prefix" | trim) }}
-set -x HOMEBREW_CELLAR {{ quote (output $brew "--cellar" | trim) }}
-set -x HOMEBREW_REPOSITORY {{ quote (output $brew "--repo" | trim) }}
+set -x HOMEBREW_PREFIX {{ quote (output "brew" "--prefix" | trim) }}
+set -x HOMEBREW_CELLAR {{ quote (output "brew" "--cellar" | trim) }}
+set -x HOMEBREW_REPOSITORY {{ quote (output "brew" "--repo" | trim) }}
 # fall back to backported terminfo
 set -x TERMINFO_DIRS ":$XDG_DATA_HOME/terminfo"
 {{- end }}
