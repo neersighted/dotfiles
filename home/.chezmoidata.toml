@@ -42,7 +42,6 @@
         "homebrew/autoupdate",
         "homebrew/bundle",
         "homebrew/cask",
-        "homebrew/cask-drivers",
         "homebrew/cask-fonts",
         "homebrew/cask-versions",
         "homebrew/command-not-found",
