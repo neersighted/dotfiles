@@ -5,6 +5,10 @@ function __chezmoi_targets
 end
 
 function chezmoi
+  if command -q gh
+    set -fx GITHUB_TOKEN (gh auth token -h github.com 2>/dev/null)
+  end
+
   set argc (count $argv)
   switch $argv[1]
   case cat
