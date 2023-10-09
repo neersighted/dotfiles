@@ -106,6 +106,7 @@ if not set -q fish_prefs_hash; or test $fish_prefs_hash != {{ $hash }}
    def fzf_fd_opts --hidden
    def fzf_preview_dir_cmd exa --all --classify --color=always
    def fzf_directory_opts \
+      --scheme=path \
       --bind 'ctrl-v:execute(command nvim {} >/dev/tty)'
    def fzf_git_log_opts \
       --bind 'ctrl-o:execute-silent(git switch -d {})'
