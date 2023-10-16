@@ -2,7 +2,7 @@
 function rge -w rg
   set -a options 'l/lines'
 
-  argparse $options -- $argv; or return
+  argparse -i $options -- $argv; or return
 
   set results (rg --line-number $argv)
 
