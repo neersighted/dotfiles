@@ -316,7 +316,7 @@
         "git-lfs",
         "github-cli",
         "go-yq",
-        "handlr",
+        "handlr-regex",
         "hexyl",
         "htop",
         "hyperfine",
