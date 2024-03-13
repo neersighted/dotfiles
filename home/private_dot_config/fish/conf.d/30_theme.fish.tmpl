@@ -47,12 +47,12 @@ if not set -q fish_colors_hash; or test $fish_colors_hash != {{ $hash }}
     --color=info:'{{ .nord.nord13 }}',prompt:'{{ .nord.nord11 }}',pointer:'{{ .nord.nord15 }}' \
     --color=marker:'{{ .nord.nord14 }}',spinner:'{{ .nord.nord15 }}',header:'{{ .nord.nord14 }}'
 
-  # ls/exa colors
+  # ls/eza colors
 {{- if lookPath "vivid" }}
   set -U -x LS_COLORS {{ quote (output "vivid" "generate" "nord") }}
 {{- end }}
-{{- if lookPath "exa" }}
-  set -U -x EXA_COLORS 'uu=35:gu=35:un=33:gn=33'
+{{- if lookPath "eza" }}
+  set -U -x EZA_COLORS 'uu=35:gu=35:un=33:gn=33'
 {{- end }}
 
   # cleanup
