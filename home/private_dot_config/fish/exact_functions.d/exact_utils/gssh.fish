@@ -6,7 +6,7 @@ function gssh -d 'ssh with GPG keys'
   gpgconf --launch gpg-agent # start GPG agent
   gpg-connect-agent UPDATESTARTUPTTY /bye >/dev/null # update GPG agent ssh-askpass TTY
 
-  set -lx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+  set -fx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 
   set command "ssh"
   if set -q _flag_c
