@@ -26,16 +26,17 @@
     nord15dim = "#8c738c"
 
 [node]
-    current  = 19
+    current  = 21
 
 [node.lts]
     fermium  = 14
     gallium  = 16
     hydrogen = 18
-    active   = 18
+    iron     = 20
+    active   = 20
 
 [python]
-    supported = ["3.7", "3.8", "3.9", "3.10", "3.11"]
+    supported = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
 [packages.macos]
     taps = [
@@ -146,7 +147,7 @@
         "daisydisk",
         "dash",
         "font-source-code-pro",
-        "git-credential-manager-core",
+        "git-credential-manager",
         "hex-fiend",
         "hot",
         "iterm2",
