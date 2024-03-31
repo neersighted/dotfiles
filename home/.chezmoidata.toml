@@ -90,6 +90,7 @@
         "gdb",
         "gh",
         "git",
+        "git-absorb",
         "git-delta",
         "git-filter-repo",
         "git-interactive-rebase-tool",
@@ -199,6 +200,7 @@
         "devel/gdb",
         "devel/gh",
         "git", # origin: devel/git
+        "devel/git-absorb",
         "devel/git-delta",
         "devel/git-filter-repo",
         "devel/git-lfs",
@@ -310,6 +312,7 @@
         "fzf",
         "gdb",
         "git",
+        "git-absorb",
         "git-credential-manager-core-bin",
         "git-delta",
         "git-filter-repo",
