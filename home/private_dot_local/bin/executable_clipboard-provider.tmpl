@@ -34,7 +34,7 @@ function tty
     command tty 2>/dev/null
     or tmux display-message -p '#{pane_tty}' 2>/dev/null
     or begin
-      set -l ppid (string split ' ' </proc/self/stat)[4]
+      set -l ppid (string split -f 4 ' ' </proc/self/stat)
       and command tty </proc/$ppid/fd/0 2>/dev/null
     end
   end | string match -e '/dev/'
