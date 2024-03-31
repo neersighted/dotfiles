@@ -1,4 +1,5 @@
 function fzf-git-commit
-  commandline --insert (git fzf-commit)
-end
+  set commit (git log --no-merges --color=always | fzf --scheme=history --query (commandline) | string split -f 1 ' ')
 
+  commandline --insert $commit
+end
