@@ -113,7 +113,6 @@ if not set -q fish_prefs_hash; or test $fish_prefs_hash != {{ $hash }}
 
   # homebrew
   if is_macos
-    def -x HOMEBREW_AUTOREMOVE 1
     def -x HOMEBREW_AUTO_UPDATE_SECS 60
     def -x HOMEBREW_BAT 1
     def -x HOMEBREW_BUNDLE_FILE $XDG_CONFIG_HOME/brew/Brewfile
