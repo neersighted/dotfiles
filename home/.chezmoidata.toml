@@ -26,14 +26,15 @@
     nord15dim = "#8c738c"
 
 [node]
-    current  = 21
+    current  = 23
 
 [node.lts]
-    fermium  = 14
-    gallium  = 16
     hydrogen = 18
     iron     = 20
-    active   = 20
+    jod      = 22
+    krypton  = 24
+    lithium  = 26
+    active   = 22
 
 [python]
     supported = ["3.8", "3.9", "3.10", "3.11", "3.12"]
@@ -43,8 +44,6 @@
         "homebrew/autoupdate",
         "homebrew/bundle",
         "homebrew/cask",
-        "homebrew/cask-fonts",
-        "homebrew/cask-versions",
         "homebrew/command-not-found",
         "homebrew/core",
         "homebrew/services",
