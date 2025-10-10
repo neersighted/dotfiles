@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+test -f ".pre-commit-config.yaml" || exit
+command -v pre-commit >/dev/null || exit
+
+exec pre-commit hook-impl \
+  --config=.pre-commit-config.yaml \
+  --hook-type=pre-commit \
+  --hook-dir="$(dirname "${BASH_SOURCE[0]}")" \
+  -- "$@"
+
