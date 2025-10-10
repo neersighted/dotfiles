@@ -1,18 +1,6 @@
 {{- if lookPath "rg" -}}
 function rge -w rg
-  set -a options 'l/lines'
-
-  argparse -i $options -- $argv; or return
-
-  set results (rg --line-number $argv)
-
-  if set -q _flag_l
-    set results (string match -r '[^:]*:[^:]*' $results)
-  else
-    set results (string split -f 1 : $results | uniq)
-  end
-
-  set results (string escape $results)
+  set results (string escape (rg --files-with-matches $argv))
 
   echo "Press enter to edit:"
   read -P "$EDITOR $results" -n1 do

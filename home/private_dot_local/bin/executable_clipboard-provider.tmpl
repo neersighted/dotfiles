@@ -10,11 +10,11 @@ function main -a op
     case copy
       slurp
       for p in (string split ' ' $COPY_PROVIDERS)
-        {$p}-provider copy; and set exit_status 0
+        $p-provider copy; and set exit_status 0
       end
     case paste
       for p in (string split ' ' $PASTE_PROVIDERS)
-        {$p}-provider paste; and set exit_status 0; and break
+        $p-provider paste; and set exit_status 0; and break
       end
   end
 
