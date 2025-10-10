@@ -17,8 +17,7 @@
                 "size": 10
             },
             "intenseTextStyle": "bold",
-            "antialiasingMode": "cleartype",
-            "experimental.useAtlasEngine": true
+            "antialiasingMode": "cleartype"
         },
         "list": 
         [
@@ -37,16 +36,9 @@
                 "scrollbarState": "hidden"
             },
             {
-                "name": "macOS [amd64] (abaddon)",
-                "guid": "{9b34b211-e46c-4789-a927-035bdca48f61}",
-                "commandline": "ssh -A abaddon",
-                "icon": "ms-appdata:///roaming/Apple.ico",
-                "scrollbarState": "hidden"
-            },
-            {
-                "name": "macOS [arm] (wildhunt)",
+                "name": "macOS (rorqual)",
                 "guid": "{5da3af36-c996-45c8-9007-af80a9c9f335}",
-                "commandline": "ssh -A wildhunt",
+                "commandline": "ssh -A rorqual",
                 "icon": "ms-appdata:///roaming/Apple.ico",
                 "scrollbarState": "hidden"
             },
