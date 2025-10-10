@@ -13,24 +13,6 @@ fi
 
 {{- $packages := .packages.arch.packages | sortAlpha | uniq -}}
 
-{{- if .wsl.any }}
-{{-   $packages = append $packages "wslu" }}
-
-keyring={{ quote (joinPath .chezmoi.workingTree "keyring/wslutilities.asc") }}
-fingerprint=$(gpg --show-keys --with-colons "$keyring" | grep fpr | cut -d: -f10 | head -n1)
-
-if ! pacman-key --list-keys 2>/dev/null | grep -q "$fingerprint"; then
-  echo "Importing wslutilities signing key..."
-  sudo pacman-key --add "$keyring"
-  sudo pacman-key --lsign-key "$fingerprint"
-fi
-
-if ! grep -Eq '^\[wslutilities\]' /etc/pacman.conf; then
-  echo "Enabling wslutilities repo..."
-  printf '\n%s\n%s' '[wslutilities]' 'Server = https://pkg.wslutiliti.es/arch/' | sudo tee -a /etc/pacman.conf >/dev/null
-fi
-{{- end }}
-
 {{- if eq .osid "linux-archarm" }}
 {{/* 1password-cli, qmk and rr are unavailable on aarch64 */}}
 {{    $packages = without $packages "1password-cli" "git-interactive-rebase-tool-bin" "qmk" "rr-bin" "shellcheck" }}
