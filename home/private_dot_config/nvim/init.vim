@@ -121,7 +121,6 @@ omap <leader>? <plug>(fzf-maps-o)
 xmap <leader>? <plug>(fzf-maps-x)
 
 " Sidebars
-nnoremap <leader>m :ToggleMarkbar<cr>
 nnoremap <leader>u :MundoToggle<cr>
 nnoremap <leader>y :TagbarToggle<cr>
 

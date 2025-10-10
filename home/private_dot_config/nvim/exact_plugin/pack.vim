@@ -85,8 +85,10 @@ if exists('*packager#init')
   call packager#add('vim-ruby/vim-ruby', {'type': 'opt'})
 
   " UI
+  call packager#add('Yggdroot/indentLine')
   call packager#add('airblade/vim-gitgutter')
   call packager#add('andymass/vim-matchup')
+  call packager#add('chentoast/marks.nvim')
   call packager#add('dstein64/vim-startuptime', {'type': 'opt'})
   call packager#add('itchyny/lightline.vim')
   call packager#add('junegunn/gv.vim')
@@ -104,8 +106,6 @@ if exists('*packager#init')
   call packager#add('talek/obvious-resize')
   call packager#add('tommcdo/vim-kangaroo')
   call packager#add('tpope/vim-characterize')
-  call packager#add('Yggdroot/indentLine')
-  call packager#add('Yilin-Yang/vim-markbar')
 endif
 
 function! s:lazy_cmd(cmd, bang, start, end, args)
