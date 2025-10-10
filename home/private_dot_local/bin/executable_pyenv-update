@@ -10,7 +10,7 @@ end
 
 for release in (chezmoi data | yq '.python.supported[]')
   set latest (pyenv latest --known $release)
-  set installed (pyenv latest --quiet $release)
+  set installed (pyenv latest $release)
 
   if test "$installed" != "$latest"
     set_color yellow

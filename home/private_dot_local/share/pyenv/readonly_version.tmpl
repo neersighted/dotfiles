@@ -1,6 +1,6 @@
 {{- if lookPath "pyenv" -}}
 {{-   range (reverse .python.supported) -}}
-{{      output "sh" "-c" (cat "pyenv latest --quiet" . "|| true") }}
+{{      output "sh" "-c" (cat "pyenv latest -b " . "|| true") }}
 {{-   end -}}
 {{- else -}}
 system
