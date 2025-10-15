@@ -319,6 +319,7 @@
         "git-interactive-rebase-tool-bin",
         "git-lfs",
         "github-cli",
+        "go-task",
         "go-yq",
         "handlr-regex",
         "hexyl",
