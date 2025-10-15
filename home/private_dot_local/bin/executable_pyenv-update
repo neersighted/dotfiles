@@ -8,7 +8,9 @@ for repo in $PYENV_ROOT $PYENV_ROOT/plugins/*
   git -C $repo pull -q
 end
 
-for release in (chezmoi data | yq '.python.supported[]')
+set releases (curl -sSf https://raw.githubusercontent.com/python/devguide/main/include/release-cycle.json | yq -ojson -I0)
+
+for release in (printf '%s' $releases | yq -r 'to_entries[] | select(.value.status | contains("bugfix", "security")) | .key')
   set latest (pyenv latest --known $release)
   set installed (pyenv latest $release)
 
