@@ -1,0 +1,32 @@
+[env]
+TERM = 'alacritty'
+
+{{ if eq .chezmoi.os "windows" }}
+[shell]
+  program = 'wsl.exe'
+  args = ['~']
+{{ end }}
+
+[window]
+dynamic_padding = true
+option_as_alt = 'Both'
+padding = { x = 2, y = 2 }
+
+[font]
+size = 12.5
+
+[font.normal]
+family = 'Source Code Pro'
+style = 'Regular'
+
+[font.bold]
+family = 'Source Code Pro'
+style = 'Bold'
+
+[font.italic]
+family = 'Source Code Pro'
+style = 'Italic'
+
+[font.bold_italic]
+family = 'Source Code Pro'
+style = 'Bold Italic'
