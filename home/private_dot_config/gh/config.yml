@@ -1,0 +1,13 @@
+version: "1"
+
+browser:
+editor:
+pager: less --no-init --quit-if-one-screen
+
+aliases:
+    co: pr checkout
+
+prompt: enabled
+
+git_protocol: https
+http_unix_socket:
