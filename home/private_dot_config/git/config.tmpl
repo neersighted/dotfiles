@@ -62,6 +62,8 @@
 	directory = *
 {{- end }}
 
+[fetch]
+	prune = true
 [pull]
 	ff = true
 	rebase = true
@@ -136,7 +138,6 @@
 
 [alias]
 	pr-log = log --reverse --format=github refs/remotes/origin/HEAD..HEAD
-	prune = fetch --prune
 	reset-perms = !git diff -p -R | grep -E '^(diff|(old|new) mode)' | git apply
 	showf = show --pretty=fuller
 	stash-all = stash save --include-untracked
