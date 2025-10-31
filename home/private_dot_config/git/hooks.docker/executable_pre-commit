@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-test -f ".pre-commit-config.yaml" || exit
-command -v pre-commit >/dev/null || exit
+set -e
+
+test -f ".pre-commit-config.yaml" || exit 0
+command -v pre-commit >/dev/null || exit 0
 
 exec pre-commit hook-impl \
   --config=.pre-commit-config.yaml \
