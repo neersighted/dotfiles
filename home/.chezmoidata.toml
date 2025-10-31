@@ -62,7 +62,7 @@
         "gdbm",
         "gettext",
         "gmp",
-        "openssl@1.1",
+        "openssl@3",
         "readline",
 
         # User Programs
@@ -158,14 +158,14 @@
         "qmk-toolbox",
         "rectangle-pro",
         "serial",
-        "silicon",
+        "silicon-app",
         "soundsource",
         "sublime-merge",
         "sublime-text",
-        "tailscale",
+        "tailscale-app",
         "utm",
         "visual-studio-code",
-        "vivid",
+        "vivid-app",
     ]
 
     app_store = [
