@@ -6,6 +6,7 @@ pager: less --no-init --quit-if-one-screen
 
 aliases:
     co: pr checkout
+    ch: pr checks --watch --interval 1
 
 prompt: enabled
 
