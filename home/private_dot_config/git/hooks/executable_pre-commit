@@ -1,0 +1,9 @@
+#!/bin/sh -eu
+
+if test -f '.pre-commit-config.yaml' && command -v pre-commit >/dev/null; then
+  exec pre-commit hook-impl \
+    --hook-type=pre-commit \
+    --hook-dir="$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)" \
+    -- "$@"
+fi
+

@@ -1,0 +1,13 @@
+#!/bin/sh -eu
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+
+if [ "${GIT_COMMIT_SIGNOFF:-0}" -eq 1 ] || [ "$(git config get --bool --default=false commit.signOff)" = true ]; then
+  # Add Signed-off-by: if it's not already present.
+  IDENT="$(git var GIT_COMMITTER_IDENT | sed -n 's/^\(.*>\).*$/\1/p')"
+  git interpret-trailers --in-place --trailer "Signed-off-by: $IDENT" "$COMMIT_MSG_FILE"
+  if test -z "$COMMIT_SOURCE"; then
+    /usr/bin/perl -i.bak -pe 'print "\n" if !$first_line++' "$COMMIT_MSG_FILE"
+  fi
+fi

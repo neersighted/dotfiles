@@ -35,6 +35,7 @@
 #
 
 [core]
+	hooksPath = {{ .chezmoi.homeDir }}/.config/git/hooks
 {{- if eq .chezmoi.os "windows" }}
 {{-   if lookPath "subl" }}
 	editor = subl --wait
@@ -75,6 +76,7 @@
 	defaultBranch = main
 [commit]
 	verbose = true
+	signoff = true
 [tag]
 	gpgSign = true
 
@@ -192,12 +194,5 @@
 
 [url "aur@aur.archlinux.org:"]
 	insteadOf = aur:
-
-#
-# Conditional Config
-#
-
-[includeIf "gitdir:Docker/"]
-	path = ./config.docker
 
 # vi: ft=gitconfig.chezmoitmpl
