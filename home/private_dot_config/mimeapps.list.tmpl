@@ -1,7 +1,10 @@
 [Added Associations]
 
+[Removed Associations]
+
 [Default Applications]
 {{- if .wsl.any }}
-x-scheme-handler/http=/usr/share/wslu/wslview.desktop;
-x-scheme-handler/https=/usr/share/wslu/wslview.desktop;
+x-scheme-handler/file={{ .chezmoi.homeDir }}/.local/share/applications/wslopen.desktop;
+x-scheme-handler/http={{ .chezmoi.homeDir }}/.local/share/applications/wslopen.desktop;
+x-scheme-handler/https={{ .chezmoi.homeDir }}/.local/share/applications/wslopen.desktop;
 {{ end -}}
