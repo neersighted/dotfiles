@@ -12,9 +12,7 @@ if not set -q fish_path_hash; or test $fish_path_hash != {{ $hash }}
     # homebrew
     fish_add_path -m $HOMEBREW_PREFIX/{bin,sbin}
     # homebrew overrides
-    fish_add_path -m $HOMEBREW_PREFIX/opt/curl/bin
-    fish_add_path -m $HOMEBREW_PREFIX/opt/sqlite/bin
-    fish_add_path -m $HOMEBREW_PREFIX/python/libexec
+    fish_add_path -m $HOMEBREW_PREFIX/opt/{curl,gnu-getopt}/bin
     # ccache (macos)
     fish_add_path -m $HOMEBREW_PREFIX/opt/ccache/libexec
   else

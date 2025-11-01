@@ -113,17 +113,18 @@ if not set -q fish_prefs_hash; or test $fish_prefs_hash != {{ $hash }}
 
   # homebrew
   if is_macos
-    def -x HOMEBREW_AUTO_UPDATE_SECS 60
     def -x HOMEBREW_BAT 1
-    def -x HOMEBREW_BUNDLE_FILE $XDG_CONFIG_HOME/brew/Brewfile
-    def -x HOMEBREW_CASK_OPTS --no-quarantine
+    def -x HOMEBREW_CASK_OPTS --require-sha --no-quarantine
     def -x HOMEBREW_CLEANUP_MAX_AGE_DAYS 30
     def -x HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS 7
     def -x HOMEBREW_DEVELOPER 1
-    def -x HOMEBREW_NO_COMPAT 1
+    def -x HOMEBREW_DOWNLOAD_CONCURRENCY auto
+    def -x HOMEBREW_NO_AUTO_UPDATE 1
     def -x HOMEBREW_NO_ENV_HINTS 1
     def -x HOMEBREW_NO_INSECURE_REDIRECT 1
     def -x HOMEBREW_UPDATE_TO_TAG 1
+    def -x HOMEBREW_USE_INTERNAL_API 1
+    def -x HOMEBREW_VERIFY_ATTESTATIONS 1
   end
 
   # less
@@ -161,6 +162,6 @@ if not set -q fish_prefs_hash; or test $fish_prefs_hash != {{ $hash }}
   def -x VAGRANT_HOME $XDG_DATA_HOME/vagrant
 
   # cleanup
-  functions -e defz
+  functions -e def
   set -U fish_prefs_hash {{ $hash }}
 end

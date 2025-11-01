@@ -3,7 +3,7 @@
 
 echo "Installing packages from Brewfile..."
 brew bundle --file=/dev/stdin <<EOF
-{{ includeTemplate "private_dot_config/brew/Brewfile.tmpl" . }}
+{{ includeTemplate "private_dot_config/homebrew/Brewfile.tmpl" . }}
 EOF
 
 {{- end -}}
