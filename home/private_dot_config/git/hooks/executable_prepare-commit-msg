@@ -1,7 +1,7 @@
 #!/bin/sh -eu
 
-COMMIT_MSG_FILE=$1
-COMMIT_SOURCE=$2
+COMMIT_MSG_FILE=${1-}
+COMMIT_SOURCE=${2-}
 
 if [ "${GIT_COMMIT_SIGNOFF:-0}" -eq 1 ] || [ "$(git config get --bool --default=false commit.signOff)" = true ]; then
   # Add Signed-off-by: if it's not already present.
