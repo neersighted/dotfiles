@@ -1,5 +1,9 @@
 #!/bin/sh -eu
 
+if test "${PRECOMMIT:-1}" -eq 0; then
+  exit
+fi
+
 if test -f '.pre-commit-config.yaml' && command -v pre-commit >/dev/null; then
   exec pre-commit hook-impl \
     --hook-type=pre-commit \
