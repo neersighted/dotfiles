@@ -42,7 +42,7 @@ end
 
 function base64
 {{- if lookPath "base64" }}
-  if command base64 --version &>/dev/null
+  if command base64 -w0 </dev/null 2>/dev/null
     command base64 -w0
   else
     command base64
@@ -85,7 +85,7 @@ function wsl-provider -a op
   end
 {{    else }}
   switch $op
-    case copy; tr '\n' '\r\n' | clip.exe
+    case copy; spit | tr '\n' '\r\n' | clip.exe
     case paste; {{ quote $powershell }} -NoProfile -Command Get-Clipboard | tr '\r\n' '\n'
   end
 {{    end -}}
@@ -149,10 +149,14 @@ end
 function osc52-provider -a op
   set -l tty (tty); or return 1
   set -l payload (spit | base64); or return 1
-  test (printf '\e]52;c;%s\e\\' $payload | string length) -le 100000; or return 1 # max length 100000 bytes
+  test (printf '\e]52;c;%s\e\\' $payload | string length -b) -le 100000; or return 1 # max length 100000 bytes
 
+  # OSC 52: ESC ] 52 ; <target> ; <data> ESC \  (ST = String Terminator)
+  #   target "c" = clipboard; data = base64 content, "?" to query, or invalid base64 to clear
+  #   https://ghostty.org/docs/vt/osc/52
+  # "!" = clear clipboard (invalid base64); $payload = set clipboard
   switch $op
-    case copy; printf '\e]52;c;%s\e\\' '!' $payload > $tty # OSC 52 ; target ; b64 data ; ST
+    case copy; printf '\e]52;c;%s\e\\' '!' $payload > $tty
     case paste; return 1
   end
 end
