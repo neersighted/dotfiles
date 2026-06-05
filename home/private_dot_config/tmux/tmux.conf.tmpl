@@ -17,13 +17,21 @@ set -ga update-environment 'WSL_INTEROP' # update WSL interop socket on reattach
 set -g remain-on-exit failed # keep panes that exit abonormally open
 
 # Alerting
-set -s focus-events on # pass focus events through
-set -g monitor-activity on # monitor for background activity
-set -g activity-action none # don't alert on activity
+set -g monitor-activity off # do not monitor for window output
+set -g activity-action none
+set -g visual-activity on # but if we do, alert visually instead of with a bell
+
+set -g monitor-silence 0 # do not monitor for window output stopping
+set -g silence-action none # don't alert on silence
+set -g visual-silence on # but if we do, alert visually instead of with a bell
+
 set -g monitor-bell on # process bells
-set -g bell-action current # only process bells for the current window
+set -g bell-action other # only process bells for unfocused windows
+set -g visual-bell off # emit a bell on a monitored bell
 
 # Input
+set -s focus-events on # pass focus events through
+
 set -g mouse on # enable mouse support
 set -g mode-keys vi # vi-style copy
 set -g status-keys emacs # readline-style command line

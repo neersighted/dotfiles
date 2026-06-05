@@ -7,6 +7,13 @@ TERM = 'alacritty'
   args = ['~']
 {{ end }}
 
+[bell]
+{{ if eq .chezmoi.os "darwin" -}}
+command = { program = "afplay", args = ["/System/Library/Sounds/Ping.aiff"] }
+{{- else if and (eq .chezmoi.os "linux") (stat "/usr/share/sounds/freedesktop/stereo/dialog-information.oga") -}}
+command = { program = "paplay", args = ["/usr/share/sounds/freedesktop/stereo/dialog-information.oga"] }
+{{- end }}
+
 [window]
 dynamic_padding = true
 option_as_alt = 'Both'
