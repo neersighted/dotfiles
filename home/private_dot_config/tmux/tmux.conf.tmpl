@@ -26,8 +26,8 @@ set -g silence-action none # don't alert on silence
 set -g visual-silence on # but if we do, alert visually instead of with a bell
 
 set -g monitor-bell on # process bells
-set -g bell-action other # only process bells for unfocused windows
-set -g visual-bell off # emit a bell on a monitored bell
+set -g bell-action any # process bells from all windows
+set -g visual-bell off # pass through BEL
 
 # Input
 set -s focus-events on # pass focus events through
