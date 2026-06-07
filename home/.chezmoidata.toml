@@ -50,7 +50,7 @@
         # Toolchain
         "ccache",
         "cmake",
-        "pkg-config",
+        "pkgconf",
 
         # Libraries
         "gdbm",
@@ -82,6 +82,7 @@
         "findutils",
         "fish",
         "fzf",
+        "gawk",
         "gdb",
         "gh",
         "git",
@@ -94,10 +95,12 @@
         "gnu-sed",
         "gnu-tar",
         "gnu-time",
+        "go-task",
         "grep",
         "hexyl",
         "htop",
         "hyperfine",
+        "ijq",
         "jless",
         "jq",
         "less",
@@ -112,6 +115,7 @@
         "pipx",
         "pre-commit",
         "rclone",
+        "regclient",
         "ripgrep",
         "sd",
         "shellcheck",
@@ -129,6 +133,7 @@
         "vivid",
         "watch",
         "watchexec",
+        "wget",
         "yq",
         "yubikey-agent",
         "zoxide",
@@ -207,6 +212,7 @@
         "devel/py-pipx",
         "devel/py-pre-commit",
         "devel/shfmt",
+        "devel/task",
         "devel/tig",
         "devel/tokei",
         "devel/universal-ctags",
@@ -214,6 +220,8 @@
         "ftp/curl",
         "ftp/curlie",
         "ftp/lftp",
+        "ftp/wget",
+        "lang/gawk",
         "lang/python",
         "lang/python3",
         "misc/broot",
@@ -259,7 +267,9 @@
         "textproc/ripgrep",
         "textproc/sd",
         "www/caddy",
+        # missing: ijq
         # missing: mkcert
+        # missing: regclient
         # missing: watchexec
     ]
 
@@ -306,6 +316,7 @@
         "fish",
         "fuse2",
         "fzf",
+        "gawk",
         "gdb",
         "git",
         "git-absorb",
@@ -361,6 +372,7 @@
         "unzip",
         "vivid",
         "watchexec",
+        "wget",
         "whois",
         "xdg-utils-handlr",
         "zip",
