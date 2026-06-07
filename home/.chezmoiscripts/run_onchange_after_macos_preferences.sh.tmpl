@@ -10,6 +10,9 @@ killall -q "System Preferences" # Kill System Preferences.app if it is open.
 sudo defaults write /Library/Preferences/com.apple.RemoteManagement.plist VNCOnlyLocalConnections -bool true # Only allow VNC connections from localhost (e.g. SSH tunnels).
 sudo nvram StartupMute=%01 # Mute the startup sound.
 sudo pmset -a displaysleep 10 # Sleep the display after 10 minutes.
+sudo pmset -a sleep 0 # Never sleep the system from idle.
+sudo pmset -a womp 0 # Disable Wake on Magic Packet (Wake-on-LAN).
+sudo pmset -b lowpowermode 1 # Force Low Power Mode while on battery.
 defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true # Check for updates automatically.
 defaults write com.apple.SoftwareUpdate AutomaticDownload -bool true # Download updates automatically.
 defaults write com.apple.SoftwareUpdate ScheduleFrequency -bool true # Check for updates daily.
