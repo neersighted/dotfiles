@@ -1,0 +1,14 @@
+{
+  "trustedcasks": [
+{{- range $i, $c := .packages.macos.unofficial.casks }}
+{{- if $i }},{{ end }}
+    {{ quote $c }}
+{{- end }}
+  ],
+  "trustedcommands": [
+{{- range $i, $c := .packages.macos.unofficial.commands }}
+{{- if $i }},{{ end }}
+    {{ quote $c }}
+{{- end }}
+  ]
+}

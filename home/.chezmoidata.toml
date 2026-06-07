@@ -173,7 +173,6 @@
         "plexamp",
         "rectangle-pro",
         "resilio-sync",
-        "sbx",
         "serial",
         "silicon-app",
         "slack",
@@ -207,6 +206,17 @@
         { name = "Shareful", id = 1522267256 },
         { name = "Velja", id = 1607635845 },
         { name = "Windows App", id = 1295203466 },
+    ]
+
+[packages.macos.unofficial]
+    formulae = []
+
+    casks = [
+        "docker/tap/sbx",
+    ]
+
+    commands = [
+        "beeftornado/rmtree/rmtree",
     ]
 
 [packages.freebsd]

@@ -1,10 +1,10 @@
 {{ range .packages.macos.taps | sortAlpha | uniq -}}
 tap {{ quote . }}
 {{ end -}}
-{{ range .packages.macos.formulae | sortAlpha | uniq -}}
+{{ range (concat .packages.macos.formulae (.packages.macos.unofficial.formulae | default list)) | sortAlpha | uniq -}}
 brew {{ quote . }}
 {{ end -}}
-{{ range .packages.macos.casks | sortAlpha | uniq -}}
+{{ range (concat .packages.macos.casks (.packages.macos.unofficial.casks | default list)) | sortAlpha | uniq -}}
 cask {{ quote . }}
 {{ end -}}
 {{ range .packages.macos.app_store -}}
