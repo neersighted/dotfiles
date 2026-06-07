@@ -10,7 +10,9 @@
 	helper =
 
 {{-  $gcm := lookPath "git-credential-manager" -}}
-{{- if $gcm }}
+{{- if and (eq .chezmoi.os "darwin") $gcm }}
+	helper = /usr/local/share/gcm-core/git-credential-manager
+{{- else if $gcm }}
 	helper = {{ $gcm }}
 {{- else if .wsl.any }}
 	helper = /mnt/c/Program Files/Git/mingw64/bin/git-credential-manager-core.exe
