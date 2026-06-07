@@ -148,24 +148,18 @@
         "bettertouchtool",
         "cleanshot",
         "contexts",
-        "daisydisk",
         "dash",
         "discord",
         "docker-desktop",
         "elgato-stream-deck",
         "firefox",
-        "font-source-code-pro",
         "git-credential-manager",
-        "google-chrome",
         "hex-fiend",
         "hot",
         "iterm2",
         "jetbrains-toolbox",
         "keka",
         "kekaexternalhelper",
-        "logi-options+",
-        "logitech-g-hub",
-        "logitune",
         "maccy",
         "mimestream",
         "multipass",
@@ -173,12 +167,9 @@
         "obsidian",
         "plexamp",
         "rectangle-pro",
-        "resilio-sync",
         "serial",
         "silicon-app",
         "slack",
-        "soundsource",
-        "spotify",
         "sublime-merge",
         "sublime-text",
         "tailscale-app",
@@ -218,6 +209,21 @@
 
     commands = [
         "beeftornado/rmtree/rmtree",
+    ]
+
+# Casks declaring sha256 :no_check upstream (typically auto-updating vendor
+# installers); installed without require_sha enforcement.
+[packages.macos.no_sha]
+    casks = [
+        "daisydisk",
+        "font-source-code-pro",
+        "google-chrome",
+        "logi-options+",
+        "logitech-g-hub",
+        "logitune",
+        "resilio-sync",
+        "soundsource",
+        "spotify",
     ]
 
 [packages.freebsd]

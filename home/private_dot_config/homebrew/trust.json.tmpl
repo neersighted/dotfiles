@@ -5,6 +5,12 @@
     {{ quote $c }}
 {{- end }}
   ],
+  "trustedformulae": [
+{{- range $i, $f := .packages.macos.unofficial.formulae }}
+{{- if $i }},{{ end }}
+    {{ quote $f }}
+{{- end }}
+  ],
   "trustedcommands": [
 {{- range $i, $c := .packages.macos.unofficial.commands }}
 {{- if $i }},{{ end }}

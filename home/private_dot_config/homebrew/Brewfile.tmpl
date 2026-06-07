@@ -4,8 +4,12 @@ tap {{ quote . }}
 {{ range (concat .packages.macos.formulae (.packages.macos.unofficial.formulae | default list)) | sortAlpha | uniq -}}
 brew {{ quote . }}
 {{ end -}}
-{{ range (concat .packages.macos.casks (.packages.macos.unofficial.casks | default list)) | sortAlpha | uniq -}}
-cask {{ quote . }}
+{{ range $c := (concat .packages.macos.casks (.packages.macos.unofficial.casks | default list)) | sortAlpha | uniq -}}
+cask {{ quote $c }}, args: { require_sha: true }
+{{ end -}}
+# no_sha: upstream declares sha256 :no_check (typically auto-updating vendor installers)
+{{ range $c := (.packages.macos.no_sha.casks | default list) | sortAlpha | uniq -}}
+cask {{ quote $c }}
 {{ end -}}
 {{ range .packages.macos.app_store -}}
 mas {{ quote .name }}, id: {{ .id }}
