@@ -5,44 +5,80 @@ echo "Configuring macOS settings..."
 
 killall -q "System Preferences" # Kill System Preferences.app if it is open.
 
-# Remove all unused default apps from the Dock (using dockutil).
-# FIXME: dockutil 3.x needed for 12.3+ and homebrew packages dockutil 2.x
-# for app in "Launchpad" "Safari" "Messages" "Mail" "Maps" "Photos" "FaceTime" "Calendar" "Contacts" "Reminders" "Notes" "TV" "Music" "News" "App Store" "System Preferences"; do
-#   dockutil --remove "$app"
-# done
+# ----- System -----
 
 sudo defaults write /Library/Preferences/com.apple.RemoteManagement.plist VNCOnlyLocalConnections -bool true # Only allow VNC connections from localhost (e.g. SSH tunnels).
-
-defaults -currentHost write com.apple.Spotlight MenuItemHidden -bool true # Hide Spotlight in the menu bar.
-defaults write -globalDomain AppleInterfaceStyle Dark # Use dark mode.
-defaults write -globalDomain AppleShowAllExtensions -bool true # Show all file extensions.
-defaults write -globalDomain AppleShowScrollBars -string "Automatic" # Automatically hide/show scrollbars.
-defaults write -globalDomain InitialKeyRepeat -int 15 # Make initial key repeat faster.
-defaults write -globalDomain KeyRepeat -int 2 # And held repeat much much faster.
-defaults write -globalDomain NSNavPanelExpandedStateForSaveMode -bool true # Expand save pane by default.
-defaults write -globalDomain NSNavPanelExpandedStateForSaveMode2 -bool true # Ditto.
-defaults write -globalDomain NSTextShowsControlCharacters -bool true # Show control characters in text views.
-defaults write -globalDomain PMPrintingExpandedStateForPrint -bool true # Expand print panel by default.
-defaults write -globalDomain PMPrintingExpandedStateForPrint2 -bool true # Ditto.
+sudo nvram StartupMute=%01 # Mute the startup sound.
+sudo pmset -a displaysleep 10 # Sleep the display after 10 minutes.
 defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true # Check for updates automatically.
 defaults write com.apple.SoftwareUpdate AutomaticDownload -bool true # Download updates automatically.
 defaults write com.apple.SoftwareUpdate ScheduleFrequency -bool true # Check for updates daily.
-defaults write com.apple.dock autohide -bool true # Automatically hide/show the dock.
-defaults write com.apple.dock show-recents -bool false # Don't show recent items in the dock.
-defaults write com.apple.finder AppleShowAllFiles -bool true # Show hidden files in the Finder.
-defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false # Don't warn when changing an extension.
-defaults write com.apple.finder NewWindowTarget -string "PfLo" # Set the default path for new windows to a location.
-defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}" # ...which is the home folder.
-defaults write com.apple.finder ShowStatusBar -bool false # Show the Finder status bar.
-defaults write com.apple.finder _FXShowPosixPathInTitle -bool true # Show the full path in the title bar.
-defaults write com.apple.finder _FXSortFoldersFirst -bool true # Keep folders on top when sorting by name.
-defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true # Quit the printer app when done.
-defaults write com.apple.screensaver askForPassword -bool true # Ask for password when sleep or screensaver starts.
-defaults write com.apple.screensaver askForPasswordDelay -int 0 # Do so immediately.
 defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false # Don't restore windows on relaunch.
 
-# Use thinner text in Alacritty.
-defaults write -app Alacritty AppleFontSmoothing -int 0
+# ----- Appearance -----
+
+defaults write -globalDomain AppleInterfaceStyle Dark # Use dark mode.
+defaults write -globalDomain AppleMiniaturizeOnDoubleClick -bool false # Don't minimize on title-bar double-click.
+defaults write -globalDomain AppleShowScrollBars -string "Automatic" # Automatically hide/show scrollbars.
+defaults -currentHost write com.apple.Spotlight MenuItemHidden -bool true # Hide Spotlight in the menu bar.
+defaults write com.apple.screensaver askForPassword -bool true # Ask for password when sleep or screensaver starts.
+defaults write com.apple.screensaver askForPasswordDelay -int 0 # Do so immediately.
+defaults write -app Alacritty AppleFontSmoothing -int 0 # Use thinner text in Alacritty.
+
+# ----- Keyboard / Text -----
+
+defaults write -globalDomain AppleKeyboardUIMode -int 2 # Full keyboard access: Tab focuses all controls.
+defaults write -globalDomain InitialKeyRepeat -int 15 # Make initial key repeat faster.
+defaults write -globalDomain KeyRepeat -int 2 # And held repeat much much faster.
+defaults write -globalDomain NSAutomaticSpellingCorrectionEnabled -bool false # Disable autocorrect.
+defaults write -globalDomain WebAutomaticSpellingCorrectionEnabled -bool false # ...and in web views.
+defaults write -globalDomain NSTextShowsControlCharacters -bool true # Show control characters in text views.
+
+# ----- Trackpad / Mouse -----
+
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool false # No tap-to-click on the internal trackpad.
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool false # ...or any Bluetooth trackpad.
+defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 0 # ...for the current user.
+
+# ----- Dock -----
+
+# Remove default apps from the Dock.
+for app in "Launchpad" "Safari" "Messages" "Mail" "Maps" "Photos" "FaceTime" "Calendar" "Contacts" "Reminders" "Notes" "TV" "Music" "News" "App Store" "System Preferences"; do
+  dockutil --remove "$app" --no-restart 2>/dev/null || true
+done
+
+defaults write com.apple.dock autohide -bool false # Keep the dock visible.
+defaults write com.apple.dock show-recents -bool false # Don't show recent items in the dock.
+defaults write com.apple.dock wvous-tl-corner -int 0 # Disable all hot corners.
+defaults write com.apple.dock wvous-tl-modifier -int 0
+defaults write com.apple.dock wvous-tr-corner -int 0
+defaults write com.apple.dock wvous-tr-modifier -int 0
+defaults write com.apple.dock wvous-bl-corner -int 0
+defaults write com.apple.dock wvous-bl-modifier -int 0
+defaults write com.apple.dock wvous-br-corner -int 0
+defaults write com.apple.dock wvous-br-modifier -int 0
+
+# ----- Finder -----
+
+defaults write -globalDomain AppleShowAllExtensions -bool true # Show all file extensions.
+defaults write com.apple.finder AppleShowAllFiles -bool true # Show hidden files in the Finder.
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false # Don't warn when changing an extension.
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv" # Default to list view.
+defaults write com.apple.finder NewWindowTarget -string "PfLo" # Set the default path for new windows to a location.
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}" # ...which is the home folder.
+defaults write com.apple.finder ShowStatusBar -bool false # Don't show the Finder status bar.
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool true # Show the full path in the title bar.
+defaults write com.apple.finder _FXSortFoldersFirst -bool true # Keep folders on top when sorting by name.
+
+# ----- Save / Print dialogs -----
+
+defaults write -globalDomain NSNavPanelExpandedStateForSaveMode -bool true # Expand save pane by default.
+defaults write -globalDomain NSNavPanelExpandedStateForSaveMode2 -bool true # Ditto.
+defaults write -globalDomain PMPrintingExpandedStateForPrint -bool true # Expand print panel by default.
+defaults write -globalDomain PMPrintingExpandedStateForPrint2 -bool true # Ditto.
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true # Quit the printer app when done.
+
+# ----- File handlers -----
 
 duti -s org.mozilla.firefox mailto # Use Firefox for email handling.
 duti -s com.googlecode.iTerm2 com.apple.terminal.shell-script shell # Use iTerm2 for .command scripts.
@@ -50,10 +86,11 @@ for uti in public.json public.plain-text; do # Use Sublime Text for text and JSO
   duti -s com.sublimetext.4 "$uti" all
 done
 
-sudo nvram StartupMute=%01 # Mute the startup sound.
-sudo pmset -a displaysleep 15 # Sleep the display after 15 minutes.
+# ----- Services -----
 
 brew services restart -v yubikey-agent # Enable the yubikey-agent daemon.
+
+# ----- Apply -----
 
 echo "Done! System UI will restart!"
 
