@@ -193,10 +193,18 @@
     app_store = [
         { name = "Battery Indicator", id = 1206020918 },
         { name = "Boop", id = 1518425043 },
+        { name = "Camera Preview", id = 1632827132 },
         { name = "ColorSlurp", id = 1287239339 },
         { name = "Dato", id = 1470584107 },
+        { name = "Keynote", id = 361285480 },
         { name = "Lungo", id = 1263070803 },
+        { name = "Numbers", id = 361309726 },
+        { name = "Pages", id = 361304891 },
+        { name = "Pasteboard Viewer", id = 1499215709 },
         { name = "PCalc", id = 403504866 },
+        { name = "Pixelmator Pro", id = 1289583905 },
+        { name = "Pure Paste", id = 1611378436 },
+        { name = "Shareful", id = 1522267256 },
         { name = "Velja", id = 1607635845 },
     ]
 
