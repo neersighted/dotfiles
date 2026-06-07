@@ -1,0 +1,11 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/sh -e
+
+HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(brew --prefix)}"
+
+echo "Writing /etc/pam.d/sudo_local..."
+sudo tee /etc/pam.d/sudo_local >/dev/null <<EOF
+auth       optional       $HOMEBREW_PREFIX/lib/pam/pam_reattach.so ignore_ssh
+auth       sufficient     pam_tid.so
+EOF
+{{- end -}}
