@@ -41,9 +41,8 @@
 
 [packages.macos]
     taps = [
-        "homebrew/cask",
-        "homebrew/core",
         "beeftornado/rmtree",
+        "docker/tap",
     ]
 
     formulae = [
@@ -174,6 +173,7 @@
         "plexamp",
         "rectangle-pro",
         "resilio-sync",
+        "sbx",
         "serial",
         "silicon-app",
         "slack",
@@ -206,6 +206,7 @@
         { name = "Pure Paste", id = 1611378436 },
         { name = "Shareful", id = 1522267256 },
         { name = "Velja", id = 1607635845 },
+        { name = "Windows App", id = 1295203466 },
     ]
 
 [packages.freebsd]
