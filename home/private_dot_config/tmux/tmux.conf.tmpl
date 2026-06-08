@@ -78,11 +78,11 @@ bind -N 'Activate customize mode' C { customize-mode -Z }
 bind -N 'Display debug information' M-d display-message -a
 bind -N 'List key bindings' M-/ { list-keys -N }
 bind -N 'Describe key binding' M-? { command-prompt -k -p 'key' { list-keys -N1 '%%' } }
-bind -N 'Display manpage' F1 { popup -E -h '90%' -w '75%' 'man tmux' }
+bind -N 'Display manpage' F1 { popup -E -h '90%' -w '75%' -T ' man tmux ' 'man tmux' }
 bind -N 'Display a clock' C-t { clock-mode }
 
 # Passthrough
-bind -N 'Select or create session' -n M-x { popup -E 'fish -c tmux-select' }
+bind -N 'Select or create session' -n M-x { popup -E -T ' select session ' 'fish -c tmux-select' }
 
 # Meta
 bind -N 'Show messages' '~' { show-messages }
