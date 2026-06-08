@@ -8,7 +8,7 @@ function upcate -a target path -d 'locate a target upwards in the directory tree
       printf '%s/%s' $path $target
       return
     else
-      set path (builtin realpath $path/..)
+      set path (path resolve $path/..)
     end
   end
 
