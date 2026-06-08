@@ -431,7 +431,6 @@
         "watchexec",
         "wget",
         "whois",
-        "xdg-utils-handlr",
         "zip",
         "zoxide",
     ]
