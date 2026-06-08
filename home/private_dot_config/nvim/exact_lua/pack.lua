@@ -62,7 +62,7 @@ vim.pack.add({
   'https://github.com/andymass/vim-matchup',
   'https://github.com/chentoast/marks.nvim',
   'https://github.com/dstein64/vim-startuptime',
-  'https://github.com/itchyny/lightline.vim',
+  'https://github.com/nvim-lualine/lualine.nvim',
   'https://github.com/junegunn/gv.vim',
   'https://github.com/junegunn/vim-peekaboo',
   'https://github.com/junegunn/vim-slash',

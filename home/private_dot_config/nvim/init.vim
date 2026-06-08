@@ -85,7 +85,7 @@ set inccommand=split " Show incomplete substitutions in a preview split.
 " Syntax
 
 " Terminal
-set title titlestring=nvim\ %{status#fileinfo()}\ (%{status#cwd()})
+set title titlestring=nvim\ %t%(\ %m%r%)\ (%{fnamemodify(getcwd(),':~')})
 
 " Whitespace
 set list listchars=tab:→·,nbsp:·,trail:~,extends:»,precedes:« " Show hidden characters.
