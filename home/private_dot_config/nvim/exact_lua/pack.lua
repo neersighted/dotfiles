@@ -20,8 +20,7 @@ vim.pack.add({
 
   -- Integration
   'https://github.com/direnv/direnv.vim',
-  'https://github.com/junegunn/fzf',
-  'https://github.com/junegunn/fzf.vim',
+  'https://github.com/ibhagwan/fzf-lua',
   'https://github.com/ludovicchabant/vim-gutentags',
   'https://github.com/nanotee/zoxide.vim',
   'https://github.com/stevearc/conform.nvim',

@@ -99,20 +99,18 @@ let g:startuptime_self = 1 " Use 'self' time when profiling.
 let g:mapleader = ' '
 let g:maplocalleader = '\\'
 
-" fzf
-nnoremap <leader><leader> :Buffers<cr>
-nnoremap <leader>o :Files<cr>
-nnoremap <leader>' :Marks<cr>
-nnoremap <leader>/ :BLines<cr>
-nnoremap <leader><c-/> :Lines<cr>
-nnoremap <leader>r :Rg<cr>
-nnoremap <leader><c-r> :Ggrep<cr>
-nnoremap <leader>t :BTags<cr>
-nnoremap <leader><c-t> :Tags<cr>
-
-nmap <leader>? <plug>(fzf-maps-n)
-omap <leader>? <plug>(fzf-maps-o)
-xmap <leader>? <plug>(fzf-maps-x)
+" fzf-lua
+nnoremap <leader><leader> <cmd>lua FzfLua.builtin()<cr>
+nnoremap <leader>b <cmd>lua FzfLua.buffers()<cr>
+nnoremap <leader>o <cmd>lua FzfLua.files()<cr>
+nnoremap <leader>' <cmd>lua FzfLua.marks()<cr>
+nnoremap <leader>/ <cmd>lua FzfLua.blines()<cr>
+nnoremap <leader><c-/> <cmd>lua FzfLua.lines()<cr>
+nnoremap <leader>g <cmd>lua FzfLua.live_grep()<cr>
+nnoremap <leader>G <cmd>lua FzfLua.live_grep({ cwd = require('rooter').find() })<cr>
+nnoremap <leader>t <cmd>lua FzfLua.btags()<cr>
+nnoremap <leader><c-t> <cmd>lua FzfLua.tags()<cr>
+nnoremap <leader>? <cmd>lua FzfLua.keymaps()<cr>
 
 " Sidebars
 nnoremap <silent> <leader>u <cmd>lua require('undotree').toggle()<cr>

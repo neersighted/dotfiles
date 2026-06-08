@@ -5,6 +5,6 @@ require('gitsigns').setup({
   },
 })
 
-vim.keymap.set('n', '<leader>gb', function()
+vim.keymap.set('n', '<leader>B', function()
   require('gitsigns').blame_line({ full = true })
 end, { desc = 'Blame current line (popup)' })
