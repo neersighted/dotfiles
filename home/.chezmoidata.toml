@@ -117,6 +117,7 @@
         "rclone",
         "regclient",
         "ripgrep",
+        "rsync",
         "sd",
         "shellcheck",
         "shfmt",
