@@ -42,6 +42,12 @@ $git_status \
 $directory\
 """
 
+# Minimal collapsed prompt shown for past commands once transience kicks in
+# (see fish_prompt's --final-rendering branch in conf.d/60_starship.fish).
+# Just the character glyph (λ), status-colored via [character] — add_newline=false
+# above keeps it on one line.
+transient = "$character "
+
 [hostname]
 format = "[$hostname]($style)"
 style = {{ quote .nord.nord15 }}

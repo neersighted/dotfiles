@@ -1,18 +1,31 @@
 {{- $starship := lookPath "starship" -}}
 {{- if $starship -}}
 set -x STARSHIP_SHELL "fish"
-set -x STARSHIP_SESSION_KEY (uuidgen)
+set -x STARSHIP_SESSION_KEY (random 1000000000000000 9999999999999999)
+
+# Replace past prompts with a minimal version.
+set -g fish_transient_prompt 1
 
 function fish_prompt
-  {{ quote $starship }} prompt --terminal-width="$COLUMNS" --status="$status" --pipestatus="$pipestatus" --cmd-duration="$CMD_DURATION" --jobs=(jobs -p)
+  set -l s $status
+  set -l ps $pipestatus
+
+  if contains -- --final-rendering $argv
+    {{ quote $starship }} prompt --profile transient --status="$s"
+  else
+    {{ quote $starship }} prompt --terminal-width="$COLUMNS" --status="$s" --pipestatus="$ps" --cmd-duration="$CMD_DURATION" --jobs=(jobs -g | count)
+  end
 end
 function fish_right_prompt
-  {{ quote $starship }} prompt --right --terminal-width="$COLUMNS" --status="$status" --pipestatus="$pipestatus" --cmd-duration="$CMD_DURATION" --jobs=(jobs -p)
+  set -l s $status
+  set -l ps $pipestatus
+
+  contains -- --final-rendering $argv; and return
+  {{ quote $starship }} prompt --right --terminal-width="$COLUMNS" --status="$s" --pipestatus="$ps" --cmd-duration="$CMD_DURATION" --jobs=(jobs -g | count)
 end
 
-# disable builtin mode prompt
+# disable default prompts
 functions -e fish_mode_prompt
-# disable virtualenv prompt
 set VIRTUAL_ENV_DISABLE_PROMPT 1
 {{- else -}}
 function fish_prompt

@@ -10,7 +10,8 @@ function __direnv_export_eval_startup --on-event fish_startup
 end
 
 {{-   if eq .chezmoi.os "darwin"}}
-# XXX: optimization: delete vendor direnv hook
-rm -f $HOMEBREW_PREFIX/share/fish/vendor_conf.d/direnv
+# masOS: delete vendor direnv hook
+test -e $HOMEBREW_PREFIX/share/fish/vendor_conf.d/direnv.fish
+and rm -f $HOMEBREW_PREFIX/share/fish/vendor_conf.d/direnv.fish
 {{-   end }}
 {{- end }}
