@@ -4,9 +4,8 @@
 
 # Escapes
 set -s default-terminal 'tmux-256color'
-set -sa terminal-features 'xterm*:RGB:extkeys:hyperlinks' # add features supported by most xterm-compatible terminals
-set -sa terminal-features 'alacritty:RGB:extkeys:hyperlinks' # ...and alacritty
-set -sa terminal-features 'iterm2:RGB:extkeys:hyperlinks' # ...and iTerm2
+set -sa terminal-features 'xterm*:extkeys' # CSI-u is nearly universal
+set -sa terminal-features 'alacritty:extkeys:hyperlinks' # tmux can't detect extkeys or hyperlinks for alacritty
 set -s extended-keys on # support xterm-style extended keys (CSI u)
 set -s escape-time 25 # pass escape sequences (almost) instantly
 
