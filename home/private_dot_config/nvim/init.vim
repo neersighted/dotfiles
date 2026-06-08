@@ -123,7 +123,7 @@ xmap <leader>? <plug>(fzf-maps-x)
 
 " Sidebars
 nnoremap <silent> <leader>u <cmd>lua require('undotree').toggle()<cr>
-nnoremap <leader>y :TagbarToggle<cr>
+nnoremap <leader>y :Vista!!<cr>
 
 " Align text using EasyAlign.
 nmap gl   <plug>(EasyAlign)
@@ -150,10 +150,6 @@ map T <plug>Sneak_T
 vnoremap < <gv
 vnoremap > >gv
 
-" Enter paste mode and leave once insert is finished.
-nnoremap <silent> yo :call maps#pasteonce()<cr>o
-nnoremap <silent> yO :call maps#pasteonce()<cr>O
-
 " Simple buffer/window management.
 nnoremap <leader>x :Sayonara<cr>
 nnoremap <leader>d :Sayonara!<cr>
@@ -167,8 +163,13 @@ nnoremap <c-e> 5<c-e>
 nnoremap <c-y> 5<c-y>
 
 " Toggle loclist/quickfix.
-nnoremap <leader>q :call maps#qftoggle(1)<cr>
-nnoremap <leader>Q :call maps#qftoggle(0)<cr>
+function! s:qftoggle(loc) abort
+  let l:key = a:loc ? 'loclist' : 'quickfix'
+  let l:open = !empty(filter(getwininfo(), 'v:val[l:key] == 1'))
+  execute (l:open ? (a:loc ? 'lclose' : 'cclose') : (a:loc ? 'lopen' : 'copen'))
+endfunction
+nnoremap <leader>q :call <SID>qftoggle(1)<cr>
+nnoremap <leader>Q :call <SID>qftoggle(0)<cr>
 
 " Ergonomic :terminal escape.
 tnoremap <esc> <c-\><c-n>
