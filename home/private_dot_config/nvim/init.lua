@@ -19,6 +19,11 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'VimResized' }, {
   group = redraw, command = 'mode', desc = 'Redraw aggressively on focus gained/resize',
 })
 
+-- Folding
+vim.opt.foldmethod = 'expr' -- Treesitter's expr fails gracefully.
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.opt.foldlevelstart = 99 -- Start with all folds open.
+
 -- Grep
 vim.opt.grepprg = 'rg -i --vimgrep' -- Use ripgrep.
 vim.opt.grepformat:prepend('%f:%l:%c:%m')
