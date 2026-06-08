@@ -6,6 +6,9 @@ use_pager = false
 auto_update = true
 auto_update_interval_hours = 24
 
+[search]
+languages = ["en"]
+
 [style.description]
 foreground = "purple"
 
