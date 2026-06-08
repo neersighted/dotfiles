@@ -13,11 +13,11 @@ fi
 
 {{- $packages := .packages.arch.packages | sortAlpha | uniq -}}
 
-{{- if eq .osid "linux-archarm" }}
-{{/* 1password-cli, qmk and rr are unavailable on aarch64 */}}
-{{    $packages = without $packages "1password-cli" "git-interactive-rebase-tool-bin" "qmk" "rr-bin" "shellcheck" }}
-{{/* git-interactive-rebase-tool must be built, and shellcheck is shellcheck-bin */}}
-{{    $packages = concat $packages (list "git-interactive-rebase-tool" "shellcheck-bin") }}
+{{- if eq .osid "linux-archarm" -}}
+{{/* 1password-cli, qmk and rr are unavailable on aarch64 */ -}}
+{{    $packages = without $packages "1password-cli" "git-interactive-rebase-tool-bin" "qmk" "rr-bin" "shellcheck" -}}
+{{/* git-interactive-rebase-tool must be built, and shellcheck is shellcheck-bin */ -}}
+{{    $packages = concat $packages (list "git-interactive-rebase-tool" "shellcheck-bin") -}}
 {{- end }}
 
 echo "Installing packages with paru..."

@@ -1,4 +1,4 @@
-{{- if hasPrefix "linux-arch" .osid }}
+{{- if hasPrefix "linux-arch" .osid -}}
 function fish_command_not_found -a cmd
   __fish_default_command_not_found_handler $cmd
 
@@ -9,7 +9,7 @@ function fish_command_not_found -a cmd
     end
   end
 end
-{{- else if eq .chezmoi.os "freebsd" }}
+{{- else if eq .chezmoi.os "freebsd" -}}
 function fish_command_not_found -a cmd
   __fish_default_command_not_found_handler $cmd
 
@@ -21,7 +21,7 @@ function fish_command_not_found -a cmd
     end
   end
 end
-{{- else if eq .chezmoi.os "darwin"}}
+{{- else if eq .chezmoi.os "darwin" -}}
 function fish_command_not_found -a cmd
   __fish_default_command_not_found_handler $cmd
 
