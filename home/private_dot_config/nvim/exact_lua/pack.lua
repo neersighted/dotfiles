@@ -5,7 +5,7 @@ vim.pack.add({
   -- Editing
   'https://github.com/AndrewRadev/inline_edit.vim',
   'https://github.com/AndrewRadev/sideways.vim',
-  'https://github.com/Wansmer/treesj',
+  'https://github.com/nvim-mini/mini.splitjoin',
   'https://github.com/AndrewRadev/switch.vim',
   'https://github.com/AndrewRadev/tagalong.vim',
   'https://github.com/gbprod/yanky.nvim',
