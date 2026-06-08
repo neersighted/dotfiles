@@ -15,9 +15,15 @@ local function detail_cond()
 end
 
 local ft_overrides = {
-  Mundo = 'UNDO', MundoDiff = 'UNDODIFF', dirvish = 'DIR',
-  fugitiveblame = 'BLAME', help = 'HELP', man = 'MAN',
-  startify = 'STARTIFY', startuptime = 'STARTUPTIME', vista = 'TAGS',
+  dirvish = 'DIR',
+  fugitiveblame = 'BLAME',
+  help = 'HELP',
+  man = 'MAN',
+  startify = 'STARTIFY',
+  startuptime = 'STARTUPTIME',
+  undotree = 'UNDO',
+  undotreeDiff = 'UNDODIFF',
+  vista = 'TAGS',
 }
 
 local mode_map = {

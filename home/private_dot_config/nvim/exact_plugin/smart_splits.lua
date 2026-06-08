@@ -1,5 +1,4 @@
 local ss = require('smart-splits')
-ss.setup({})
 
 vim.keymap.set('n', '<M-h>', ss.resize_left,  { desc = 'Resize left' })
 vim.keymap.set('n', '<M-j>', ss.resize_down,  { desc = 'Resize down' })

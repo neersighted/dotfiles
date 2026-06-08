@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-lua require('pack')
+lua vim.loader.enable() -- Cache compiled Lua modules to disk (~30% speedup on require chains).
 
 "
 " Preferences
@@ -10,23 +10,8 @@ lua require('pack')
 set undofile " Persist undo history.
 set hidden " Allow backgrounding dirty buffers.
 
-" Colors
+" Colors (real setup happens at the bottom after plugins load).
 set termguicolors " Use 24-bit color.
-if util#has_colorscheme('nord')
-  lua <<EOF
-  require('nord').setup({
-    borders = true,
-    on_highlights = function(hl, c)
-      -- Different background for sidebars/popups, matching the old shaunsingh g:nord_contrast.
-      hl.NormalFloat = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
-      hl.NormalNC    = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
-      hl.Pmenu       = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
-      hl.SignColumn  = { bg = c.polar_night.bright }
-    end,
-  })
-EOF
-  colorscheme nord
-endif
 
 " Cursor/Movement
 set scrolloff=2 " Keep the cursor two lines from the top/bottom.
@@ -59,6 +44,7 @@ augroup END
 
 " Remote Plugins
 let g:loaded_node_provider = 0 " Disable Node.js.
+let g:loaded_perl_provider = 0 " Disable Perl.
 let g:loaded_python3_provider = 0 " Disable Python 3.
 let g:loaded_python_provider = 0 " Disable Python 2.
 let g:loaded_ruby_provider = 0 " Disable Ruby.
@@ -72,6 +58,7 @@ set noshowmode showtabline=2 " Hide mode, always show tabline.
 
 " Splits
 set splitright splitbelow " Open vertical splits to the right, horizontal below.
+lua vim.g.smart_splits_multiplexer_integration = vim.env.TMUX and 'tmux' or false -- Make smart-splits multiplexer check trivial.
 
 " Sneak
 let g:sneak#s_next = 1 " Enable 'clever s' jumping.
@@ -102,13 +89,14 @@ augroup highlight_yank
 augroup END
 
 " Other
-let g:carbon_now_sh_options = {
-      \ 't': g:colors_name,
-      \ 'fm': 'Source Code Pro',
-      \ }
-let g:loaded_matchit = 1 " Disable matchit.
-let g:loaded_matchparen = 1 " Disable matchparen.
-let g:loaded_netrwPlugin = 1 " Disable Netrw.
+let g:loaded_2html_plugin = 1 " Disable :TOhtml.
+let g:loaded_matchit = 1 " Disable matchit (replaced by vim-matchup).
+let g:loaded_matchparen = 1 " Disable matchparen (replaced by vim-matchup).
+let g:loaded_netrwPlugin = 1 " Disable Netrw (replaced by dirvish).
+let g:loaded_tarPlugin = 1 " Disable in-nvim .tar file handling.
+let g:loaded_tohtml = 1 " Disable :TOhtml (alt name).
+let g:loaded_tutor = 1 " Disable :Tutor.
+let g:loaded_zipPlugin = 1 " Disable in-nvim .zip file handling.
 let g:startuptime_self = 1 " Use 'self' time when profiling.
 
 "
@@ -134,7 +122,7 @@ omap <leader>? <plug>(fzf-maps-o)
 xmap <leader>? <plug>(fzf-maps-x)
 
 " Sidebars
-nnoremap <leader>u :MundoToggle<cr>
+nnoremap <silent> <leader>u <cmd>lua require('undotree').toggle()<cr>
 nnoremap <leader>y :TagbarToggle<cr>
 
 " Align text using EasyAlign.
@@ -185,3 +173,29 @@ nnoremap <leader>Q :call maps#qftoggle(0)<cr>
 " Ergonomic :terminal escape.
 tnoremap <esc> <c-\><c-n>
 tnoremap <a-[> <esc>
+
+"
+" Colors
+"
+
+" Plugin load needs to happen before :colorscheme
+lua require('pack')
+
+" Eager load colorscheme, but defer customization to load less at startup.
+if util#has_colorscheme('nord')
+  colorscheme nord
+  lua <<EOF
+  vim.schedule(function()
+    require('nord').setup({
+      borders = true,
+      on_highlights = function(hl, c)
+        hl.NormalFloat = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
+        hl.NormalNC    = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
+        hl.Pmenu       = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
+        hl.SignColumn  = { bg = c.polar_night.bright }
+      end,
+    })
+    vim.cmd.colorscheme('nord')
+  end)
+EOF
+endif

@@ -1,6 +1,3 @@
--- Plugin manager: nvim's built-in vim.pack (0.12+).
--- Plugins live in ~/.local/share/nvim/site/pack/core/opt/<name>/
-
 vim.pack.add({
   -- Colors
   'https://github.com/gbprod/nord.nvim',
@@ -29,9 +26,7 @@ vim.pack.add({
   'https://github.com/junegunn/fzf',
   'https://github.com/junegunn/fzf.vim',
   'https://github.com/justinmk/vim-gtfo',
-  'https://github.com/kristijanhusak/vim-carbon-now-sh',
   'https://github.com/ludovicchabant/vim-gutentags',
-  'https://github.com/mrossinek/vim-tmux-controller',
   'https://github.com/nanotee/zoxide.vim',
   'https://github.com/stevearc/conform.nvim',
   'https://github.com/tpope/vim-eunuch',
@@ -68,13 +63,12 @@ vim.pack.add({
   'https://github.com/junegunn/vim-slash',
   'https://github.com/justinmk/vim-dirvish',
   'https://github.com/karb94/neoscroll.nvim',
-  'https://github.com/kristijanhusak/vim-dirvish-git',
   'https://github.com/lewis6991/gitsigns.nvim',
   'https://github.com/liuchengxu/vista.vim',
   'https://github.com/lukas-reineke/indent-blankline.nvim',
   'https://github.com/mhinz/vim-startify',
   'https://github.com/mrjones2014/smart-splits.nvim',
-  'https://github.com/simnalamburt/vim-mundo',
+  'https://github.com/jiaoshijie/undotree',
   'https://github.com/tommcdo/vim-kangaroo',
   'https://github.com/tpope/vim-characterize',
 })
