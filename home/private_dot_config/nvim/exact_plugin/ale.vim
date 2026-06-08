@@ -7,12 +7,11 @@ let g:ale_echo_msg_format = '[%linter%:%severity%] %code%: %s'
 let g:ale_linters = {}
 let g:ale_fixers = {}
 
-let g:ale_linters.python = ['pyls']
-let g:ale_fixers.python = ['autopep8', 'black']
-let g:ale_python_pyls_executable = 'pylsp'
+let g:ale_linters.python = ['pylsp']
+let g:ale_fixers.python = ['ruff_format', 'ruff']
 
 let g:ale_linters.ruby = ['solargraph', 'standardrb']
 let g:ale_fixers.ruby = ['remove_trailing_lines', 'standardrb', 'trim_whitespace']
 
-let g:ale_linters.rust = ['rls']
+let g:ale_linters.rust = ['analyzer']
 let g:ale_fixers.rust = ['rustfmt']

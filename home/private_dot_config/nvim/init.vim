@@ -82,11 +82,16 @@ set title titlestring=nvim\ %{status#fileinfo()}\ (%{status#cwd()})
 " Whitespace
 set list listchars=tab:→·,nbsp:·,trail:~,extends:»,precedes:« " Show hidden characters.
 set showbreak=>\  " Show a character for wrapped lines.
-let g:indentLine_char = '┊' " Use a small line to show space-based indentation.
 
 " Wrapping
 set colorcolumn=+1 " Show the wrapping column visually.
 set linebreak breakindent " Enable visual line wrapping.
+
+" Yank
+augroup highlight_yank
+  autocmd!
+  autocmd TextYankPost * silent! lua vim.hl.on_yank()
+augroup END
 
 " Other
 let g:carbon_now_sh_options = {
@@ -148,9 +153,6 @@ map T <plug>Sneak_T
 " Keep indent selection in visual mode.
 vnoremap < <gv
 vnoremap > >gv
-
-" Yank to end of line.
-nnoremap Y y$
 
 " Put (tracking history).
 map p <plug>(miniyank-autoput)
