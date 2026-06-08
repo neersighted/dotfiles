@@ -1,3 +1,7 @@
+add_newline = false
+
+command_timeout = 2500
+
 format = """
 ($hostname )\
 ($jobs )\
@@ -26,9 +30,17 @@ $git_status\
 ( $battery)
 """
 
-add_newline = false
-
-command_timeout = 2500
+[profiles]
+claude-code = """
+$claude_model \
+$claude_context\
+$fill\
+$claude_cost \
+$git_branch\
+$git_state\
+$git_status \
+$directory\
+"""
 
 [hostname]
 format = "[$hostname]($style)"
@@ -64,7 +76,7 @@ style = {{ quote .nord.nord9 }}
 read_only_style = {{ quote .nord.nord11 }}
 read_only = "!"
 home_symbol = "~"
-truncation_length = 3
+truncation_length = 5
 truncate_to_repo = true
 fish_style_pwd_dir_length = 2
 use_logical_path = true
@@ -179,3 +191,32 @@ style = {{ quote .nord.nord12 }}
 [[battery.display]]
 threshold = 25
 style = {{ quote .nord.nord13 }}
+
+[fill]
+symbol = " "
+
+[claude_model]
+format = "[$model]({{ .nord.nord10 }})"
+
+[claude_context]
+format = "[$gauge $percentage]($style)"
+gauge_width = 8
+
+[[claude_context.display]]
+threshold = 0
+style = {{ quote .nord.nord14 }}
+
+[[claude_context.display]]
+threshold = 40
+style = {{ quote .nord.nord13 }}
+
+[[claude_context.display]]
+threshold = 70
+style = {{ quote .nord.nord12 }}
+
+[[claude_context.display]]
+threshold = 90
+style = {{ quote .nord.nord11 }}
+
+[claude_cost]
+format = "[\\$$cost]({{ .nord.nord12 }})"
