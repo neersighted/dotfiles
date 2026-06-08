@@ -12,7 +12,6 @@ vim.pack.add({
   'https://github.com/gbprod/yanky.nvim',
   'https://github.com/chaoren/vim-wordmotion',
   'https://github.com/cohama/lexima.vim',
-  'https://github.com/farmergreg/vim-lastplace',
   'https://github.com/junegunn/vim-easy-align',
   'https://github.com/justinmk/vim-sneak',
   'https://github.com/machakann/vim-sandwich',
@@ -21,11 +20,9 @@ vim.pack.add({
   'https://github.com/tpope/vim-unimpaired',
 
   -- Integration
-  'https://github.com/airblade/vim-rooter',
   'https://github.com/direnv/direnv.vim',
   'https://github.com/junegunn/fzf',
   'https://github.com/junegunn/fzf.vim',
-  'https://github.com/justinmk/vim-gtfo',
   'https://github.com/ludovicchabant/vim-gutentags',
   'https://github.com/nanotee/zoxide.vim',
   'https://github.com/stevearc/conform.nvim',
@@ -33,7 +30,6 @@ vim.pack.add({
   'https://github.com/tpope/vim-fugitive',
   'https://github.com/tpope/vim-sleuth',
   'https://github.com/tpope/vim-tbone',
-  'https://github.com/wsdjeg/vim-fetch',
 
   -- Libraries
   'https://github.com/tpope/vim-repeat',

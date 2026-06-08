@@ -182,20 +182,18 @@ tnoremap <a-[> <esc>
 lua require('pack')
 
 " Eager load colorscheme, but defer customization to load less at startup.
-if util#has_colorscheme('nord')
-  colorscheme nord
-  lua <<EOF
-  vim.schedule(function()
-    require('nord').setup({
-      borders = true,
-      on_highlights = function(hl, c)
-        hl.NormalFloat = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
-        hl.NormalNC    = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
-        hl.Pmenu       = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
-        hl.SignColumn  = { bg = c.polar_night.bright }
-      end,
-    })
-    vim.cmd.colorscheme('nord')
-  end)
+colorscheme nord
+lua <<EOF
+vim.schedule(function()
+  require('nord').setup({
+    borders = true,
+    on_highlights = function(hl, c)
+      hl.NormalFloat = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
+      hl.NormalNC    = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
+      hl.Pmenu       = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
+      hl.SignColumn  = { bg = c.polar_night.bright }
+    end,
+  })
+  vim.cmd.colorscheme('nord')
+end)
 EOF
-endif
