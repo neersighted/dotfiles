@@ -4,7 +4,7 @@ function fd
 
   if isatty stdout
     set -lx -a LESS --quit-if-one-screen
-    command fd --color=always $argv | $PAGER
+    command fd --color=always --hyperlink=auto $argv | $PAGER
   else
     command fd $argv
   end

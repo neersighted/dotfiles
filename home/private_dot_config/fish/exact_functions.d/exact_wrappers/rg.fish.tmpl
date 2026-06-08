@@ -2,7 +2,7 @@
 function rg
   if isatty stdout
     set -lx -a LESS --quit-if-one-screen
-    command rg --pretty $argv | $PAGER
+    command rg --pretty --hyperlink-format=default $argv | $PAGER
   else
     command rg $argv
   end
