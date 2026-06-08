@@ -24,9 +24,7 @@ vim.pack.add({
   'https://github.com/tpope/vim-unimpaired',
 
   -- Integration
-  'https://github.com/APZelos/blamer.nvim',
   'https://github.com/airblade/vim-rooter',
-  'https://github.com/christoomey/vim-tmux-navigator',
   'https://github.com/dense-analysis/ale',
   'https://github.com/direnv/direnv.vim',
   'https://github.com/junegunn/fzf',
@@ -61,7 +59,6 @@ vim.pack.add({
   'https://github.com/vim-ruby/vim-ruby',
 
   -- UI
-  'https://github.com/airblade/vim-gitgutter',
   'https://github.com/andymass/vim-matchup',
   'https://github.com/chentoast/marks.nvim',
   'https://github.com/dstein64/vim-startuptime',
@@ -70,14 +67,14 @@ vim.pack.add({
   'https://github.com/junegunn/vim-peekaboo',
   'https://github.com/junegunn/vim-slash',
   'https://github.com/justinmk/vim-dirvish',
+  'https://github.com/karb94/neoscroll.nvim',
   'https://github.com/kristijanhusak/vim-dirvish-git',
+  'https://github.com/lewis6991/gitsigns.nvim',
   'https://github.com/liuchengxu/vista.vim',
   'https://github.com/lukas-reineke/indent-blankline.nvim',
-  'https://github.com/mhinz/vim-sayonara',
   'https://github.com/mhinz/vim-startify',
-  'https://github.com/psliwka/vim-smoothie',
+  'https://github.com/mrjones2014/smart-splits.nvim',
   'https://github.com/simnalamburt/vim-mundo',
-  'https://github.com/talek/obvious-resize',
   'https://github.com/tommcdo/vim-kangaroo',
   'https://github.com/tpope/vim-characterize',
 })

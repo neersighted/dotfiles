@@ -31,7 +31,6 @@ endif
 " Cursor/Movement
 set scrolloff=2 " Keep the cursor two lines from the top/bottom.
 set virtualedit=onemore,block " Allow cursor to the end of the line (and anywhere in visual-block.)
-let g:tmux_navigator_disable_when_zoomed = 1 " Disable Tmux integration when zoomed.
 augroup redraw " Redraw aggressively on focus gained/resize.
   autocmd!
   autocmd FocusGained,VimResized * mode
@@ -73,7 +72,6 @@ set noshowmode showtabline=2 " Hide mode, always show tabline.
 
 " Splits
 set splitright splitbelow " Open vertical splits to the right, horizontal below.
-let g:obvious_resize_run_tmux = 1 " Enable Tmux resizing integration.
 
 " Sneak
 let g:sneak#s_next = 1 " Enable 'clever s' jumping.
@@ -192,10 +190,6 @@ cnoreabbrev wq w<bar>Sayonara
 cnoreabbrev  q       Sayonara
 
 " Simple resizing.
-noremap <silent> <m-h>  :<c-u>ObviousResizeLeft<cr>
-noremap <silent> <m-j>  :<c-u>ObviousResizeDown<cr>
-noremap <silent> <m-k>    :<c-u>ObviousResizeUp<cr>
-noremap <silent> <m-l> :<c-u>ObviousResizeRight<cr>
 
 " Make <c-e>/<c-y> faster.
 nnoremap <c-e> 5<c-e>

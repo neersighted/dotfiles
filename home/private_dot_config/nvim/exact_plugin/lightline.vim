@@ -3,7 +3,7 @@ augroup lightline_hook
   autocmd!
   autocmd User ALELintPost call lightline#update()
   autocmd User Fugitive call lightline#update()
-  autocmd User GitGutter call lightline#update()
+  autocmd User GitSignsUpdate call lightline#update()
 augroup END
 function! TagbarStatusline(current, sort, fname, ...) abort
   return lightline#statusline(0)

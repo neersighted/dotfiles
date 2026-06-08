@@ -122,12 +122,12 @@ function! status#git_head() abort
 endfunction
 
 function! status#git_status() abort
-  if !exists('b:gitgutter') || !status#is_filelike() || !status#show_detail()
+  if !exists('b:gitsigns_status_dict') || !status#is_filelike() || !status#show_detail()
     return ''
   endif
 
-  let l:summary = get(b:gitgutter, 'summary', [0, 0, 0])
-  return printf('+%s~%s-%s', l:summary[0], l:summary[1], l:summary[2])
+  let l:s = b:gitsigns_status_dict
+  return printf('+%d~%d-%d', get(l:s, 'added', 0), get(l:s, 'changed', 0), get(l:s, 'removed', 0))
 endfunction
 
 function! status#indent() abort
