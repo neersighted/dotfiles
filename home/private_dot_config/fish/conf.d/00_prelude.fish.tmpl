@@ -4,6 +4,9 @@ for f in $conf_d/fish_frozen_key_bindings.fish $conf_d/fish_frozen_theme.fish
   test -e $f; and rm $f
 end
 
+# opt into future feature flags early
+contains 4.1 $fish_features; or set -U fish_features 4.1
+
 # pick up functions.d paths
 set -p fish_function_path (builtin realpath (status dirname)/..)/functions.d/*
 
