@@ -162,23 +162,6 @@ map T <plug>Sneak_T
 vnoremap < <gv
 vnoremap > >gv
 
-" Put (tracking history).
-map p <plug>(miniyank-autoput)
-map P <plug>(miniyank-autoPut)
-
-" Put from shared register.
-map <leader>p <plug>(miniyank-startput)
-map <leader>P <plug>(miniyank-startPut)
-
-" Cycle yank history
-map <leader>pn <plug>(miniyank-cycle)
-map <leader>pp <Plug>(miniyank-cycleback)
-
-" Force register type.
-map <leader>pc <plug>(miniyank-tochar)
-map <leader>pl <plug>(miniyank-toline)
-map <leader>pb <plug>(miniyank-toblock)
-
 " Enter paste mode and leave once insert is finished.
 nnoremap <silent> yo :call maps#pasteonce()<cr>o
 nnoremap <silent> yO :call maps#pasteonce()<cr>O

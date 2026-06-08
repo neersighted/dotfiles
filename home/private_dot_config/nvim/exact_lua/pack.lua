@@ -12,7 +12,7 @@ vim.pack.add({
   'https://github.com/AndrewRadev/splitjoin.vim',
   'https://github.com/AndrewRadev/switch.vim',
   'https://github.com/AndrewRadev/tagalong.vim',
-  'https://github.com/bfredl/nvim-miniyank',
+  'https://github.com/gbprod/yanky.nvim',
   'https://github.com/chaoren/vim-wordmotion',
   'https://github.com/cohama/lexima.vim',
   'https://github.com/farmergreg/vim-lastplace',
