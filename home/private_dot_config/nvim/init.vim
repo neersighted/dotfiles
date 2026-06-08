@@ -59,12 +59,6 @@ set noshowmode showtabline=2 " Hide mode, always show tabline.
 " Splits
 set splitright splitbelow " Open vertical splits to the right, horizontal below.
 
-" Sneak
-let g:sneak#s_next = 1 " Enable 'clever s' jumping.
-let g:sneak#f_reset = 1 " Set ; and , when f is used...
-let g:sneak#t_reset = 1 " ...same for t.
-let g:sneak#absolute_dir = 1 " Make ; and , move in a consistent direction.
-
 " Substitution
 set inccommand=split " Show incomplete substitutions in a preview split.
 
@@ -132,18 +126,6 @@ vmap <cr> <plug>(EasyAlign)
 " Move arguments/list items around.
 nnoremap ]v :SidewaysRight<cr>
 nnoremap [v :SidewaysLeft<cr>
-
-" EasyMotion-style Sneak.
-nmap <leader>s <Plug>SneakLabel_s
-nmap <leader>S <Plug>SneakLabel_S
-
-" Sneak on s (and better f/t).
-map s <plug>Sneak_s
-map S <plug>Sneak_S
-map f <plug>Sneak_f
-map F <plug>Sneak_F
-map t <plug>Sneak_t
-map T <plug>Sneak_T
 
 " Keep indent selection in visual mode.
 vnoremap < <gv

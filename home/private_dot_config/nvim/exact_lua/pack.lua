@@ -13,7 +13,7 @@ vim.pack.add({
   'https://github.com/chaoren/vim-wordmotion',
   'https://github.com/cohama/lexima.vim',
   'https://github.com/junegunn/vim-easy-align',
-  'https://github.com/justinmk/vim-sneak',
+  'https://codeberg.org/andyg/leap.nvim',
   'https://github.com/machakann/vim-sandwich',
   'https://github.com/tommcdo/vim-ninja-feet',
   'https://github.com/tpope/vim-rsi',
