@@ -71,7 +71,7 @@ require('lualine').setup({
     lualine_c = { func_context, 'diff' },
     lualine_x = {
       { 'diagnostics',
-        sources = { 'nvim_diagnostic', 'ale' },
+        sources = { 'nvim_diagnostic' },
         symbols = { error = 'x ', warn = '! ', info = 'i ', hint = '? ' } },
       { 'progress', cond = show_lines },
       { 'location', cond = show_lines },

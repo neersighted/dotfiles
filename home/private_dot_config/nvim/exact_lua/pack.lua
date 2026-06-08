@@ -25,7 +25,6 @@ vim.pack.add({
 
   -- Integration
   'https://github.com/airblade/vim-rooter',
-  'https://github.com/dense-analysis/ale',
   'https://github.com/direnv/direnv.vim',
   'https://github.com/junegunn/fzf',
   'https://github.com/junegunn/fzf.vim',
@@ -34,6 +33,7 @@ vim.pack.add({
   'https://github.com/ludovicchabant/vim-gutentags',
   'https://github.com/mrossinek/vim-tmux-controller',
   'https://github.com/nanotee/zoxide.vim',
+  'https://github.com/stevearc/conform.nvim',
   'https://github.com/tpope/vim-eunuch',
   'https://github.com/tpope/vim-fugitive',
   'https://github.com/tpope/vim-sleuth',
