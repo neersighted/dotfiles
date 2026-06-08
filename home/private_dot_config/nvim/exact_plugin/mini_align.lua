@@ -1,6 +1,6 @@
--- gl matches vim-easy-align muscle memory (binds normal + visual);
+-- gl matches vim-easy-align muscle memory (binds normal + visual)
 -- gL adds the live-preview variant
--- ga/gA is taken by vim-characterize
+-- ga is used for charinfo
 require('mini.align').setup({
   mappings = {
     start = 'gl',

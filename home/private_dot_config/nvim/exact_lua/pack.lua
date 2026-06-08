@@ -36,10 +36,8 @@ vim.pack.add({
 
   -- UI
   'https://github.com/andymass/vim-matchup',
-  'https://github.com/chentoast/marks.nvim',
   'https://github.com/dstein64/vim-startuptime',
   'https://github.com/nvim-lualine/lualine.nvim',
-  'https://github.com/junegunn/gv.vim',
   'https://github.com/junegunn/vim-peekaboo',
   'https://github.com/junegunn/vim-slash',
   'https://github.com/justinmk/vim-dirvish',
@@ -50,7 +48,6 @@ vim.pack.add({
   'https://github.com/nvim-mini/mini.starter',
   'https://github.com/mrjones2014/smart-splits.nvim',
   'https://github.com/jiaoshijie/undotree',
-  'https://github.com/tpope/vim-characterize',
 })
 
 vim.api.nvim_create_user_command('PackUpdate', function()
