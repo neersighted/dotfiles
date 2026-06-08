@@ -11,8 +11,18 @@ set hidden " Allow backgrounding dirty buffers.
 " Colors
 set termguicolors " Use 24-bit color.
 if util#has_colorscheme('nord')
-  let g:nord_borders = v:true " Show vertical border charaters.
-  let g:nord_contrast = v:true " Use a different background color for sidebars/popups.
+  lua <<EOF
+  require('nord').setup({
+    borders = true,
+    on_highlights = function(hl, c)
+      -- Different background for sidebars/popups, matching the old shaunsingh g:nord_contrast.
+      hl.NormalFloat = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
+      hl.NormalNC    = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
+      hl.Pmenu       = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
+      hl.SignColumn  = { bg = c.polar_night.bright }
+    end,
+  })
+EOF
   colorscheme nord
 endif
 
