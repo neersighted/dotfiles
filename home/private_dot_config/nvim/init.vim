@@ -85,8 +85,6 @@ let g:sneak#absolute_dir = 1 " Make ; and , move in a consistent direction.
 set inccommand=split " Show incomplete substitutions in a preview split.
 
 " Syntax
-let g:go_highlight_build_constraints = 1
-let g:python_highlight_all = 1
 
 " Terminal
 set title titlestring=nvim\ %{status#fileinfo()}\ (%{status#cwd()})

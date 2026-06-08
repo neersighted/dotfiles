@@ -29,7 +29,6 @@ vim.pack.add({
   'https://github.com/christoomey/vim-tmux-navigator',
   'https://github.com/dense-analysis/ale',
   'https://github.com/direnv/direnv.vim',
-  'https://github.com/ellisonleao/glow.nvim',
   'https://github.com/junegunn/fzf',
   'https://github.com/junegunn/fzf.vim',
   'https://github.com/justinmk/vim-gtfo',
@@ -48,22 +47,17 @@ vim.pack.add({
   'https://github.com/inkarkat/vim-visualrepeat',
 
   -- Syntax
+  -- tree-sitter-manager: actively-maintained successor to the archived
+  -- nvim-treesitter (purpose-built post-archive). git-clone based, so
+  -- works in environments where curl-tarball downloads fail.
+  'https://github.com/romus204/tree-sitter-manager.nvim',
+  'https://github.com/HiPhish/rainbow-delimiters.nvim',
   'https://github.com/alker0/chezmoi.vim',
-  'https://github.com/blankname/vim-fish',
-  'https://github.com/cespare/vim-toml',
+  'https://github.com/catgoose/nvim-colorizer.lua',
   'https://github.com/chr4/nginx.vim',
-  'https://github.com/chrisbra/Colorizer',
-  'https://github.com/elzr/vim-json',
   'https://github.com/ericpruitt/tmux.vim',
-  'https://github.com/fatih/vim-go',
-  'https://github.com/gregjurman/vim-nc',
-  'https://github.com/lifepillar/pgsql.vim',
-  'https://github.com/luochen1990/rainbow',
   'https://github.com/mboughaba/i3config.vim',
-  'https://github.com/pangloss/vim-javascript',
   'https://github.com/pprovost/vim-ps1',
-  'https://github.com/rust-lang/rust.vim',
-  'https://github.com/vim-python/python-syntax',
   'https://github.com/vim-ruby/vim-ruby',
 
   -- UI

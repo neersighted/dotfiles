@@ -13,5 +13,7 @@ let g:ale_fixers.python = ['ruff_format', 'ruff']
 let g:ale_linters.ruby = ['solargraph', 'standardrb']
 let g:ale_fixers.ruby = ['remove_trailing_lines', 'standardrb', 'trim_whitespace']
 
-let g:ale_linters.rust = ['analyzer']
+" Go and Rust are driven by native vim.lsp (see plugin/lsp.lua).
+let g:ale_linters.go = []
+let g:ale_linters.rust = []
 let g:ale_fixers.rust = ['rustfmt']
