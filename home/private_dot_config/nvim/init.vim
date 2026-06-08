@@ -1,5 +1,7 @@
 scriptencoding utf-8
 
+lua require('pack')
+
 "
 " Preferences
 "
