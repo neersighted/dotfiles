@@ -1,5 +1,11 @@
 local ss = require('smart-splits')
 
+ss.setup({
+  default_amount = 1,  -- Match the tmux side's 1-cell resize step.
+  at_edge = 'stop',    -- Don't wrap; stop at the outermost edge.
+  log_level = 'error', -- Silence the harmless "could not detect pane ID" warning in popups.
+})
+
 vim.keymap.set('n', '<M-h>', ss.resize_left,  { desc = 'Resize left' })
 vim.keymap.set('n', '<M-j>', ss.resize_down,  { desc = 'Resize down' })
 vim.keymap.set('n', '<M-k>', ss.resize_up,    { desc = 'Resize up' })

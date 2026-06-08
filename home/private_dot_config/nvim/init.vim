@@ -58,7 +58,6 @@ set noshowmode showtabline=2 " Hide mode, always show tabline.
 
 " Splits
 set splitright splitbelow " Open vertical splits to the right, horizontal below.
-lua vim.g.smart_splits_multiplexer_integration = vim.env.TMUX and 'tmux' or false -- Make smart-splits multiplexer check trivial.
 
 " Sneak
 let g:sneak#s_next = 1 " Enable 'clever s' jumping.
