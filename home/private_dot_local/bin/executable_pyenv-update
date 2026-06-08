@@ -8,7 +8,14 @@ for repo in $PYENV_ROOT $PYENV_ROOT/plugins/*
   git -C $repo pull -q
 end
 
-set releases (curl -sSf https://raw.githubusercontent.com/python/devguide/main/include/release-cycle.json | yq -ojson -I0)
+set release_cycle (curl -sSf https://peps.python.org/api/release-cycle.json)
+or begin
+  set_color red
+  echo "pyenv-update: could not fetch the Python release cycle" >&2
+  set_color normal
+  exit 1
+end
+set releases (printf '%s' $release_cycle | yq -ojson -I0)
 
 for release in (printf '%s' $releases | yq -r 'to_entries[] | select(.value.status | contains("bugfix", "security")) | .key')
   set latest (pyenv latest --known $release)
