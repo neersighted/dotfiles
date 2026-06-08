@@ -1,6 +1,7 @@
 -- Replacement for mhinz/vim-sayonara: close the current buffer without
--- closing its window unless the bang variant is used.
-local function close_buffer(close_window)
+-- closing its window. `!` also closes the window; `!!` force-discards a
+-- dirty buffer (keeping the window open).
+local function close_buffer(close_window, force)
   local buf = vim.api.nvim_get_current_buf()
   local alt = vim.fn.bufnr('#')
   if alt > 0 and vim.api.nvim_buf_is_loaded(alt) and alt ~= buf then
@@ -11,10 +12,15 @@ local function close_buffer(close_window)
       vim.cmd('enew')
     end
   end
-  pcall(vim.api.nvim_buf_delete, buf, { force = false })
+  pcall(vim.api.nvim_buf_delete, buf, { force = force })
   if close_window then vim.cmd('quit') end
 end
 
 vim.api.nvim_create_user_command('Sayonara', function(opts)
-  close_buffer(opts.bang)
-end, { bang = true, desc = 'Close buffer (! also closes window)' })
+  if opts.args ~= '' and opts.args ~= '!' then
+    vim.notify("Sayonara: expected no argument or '!' (e.g. :Sayonara!!)", vim.log.levels.ERROR)
+    return
+  end
+  local force = opts.args == '!'
+  close_buffer(opts.bang and not force, force)
+end, { bang = true, nargs = '?', desc = 'Close buffer (! closes window; !! force-discards dirty)' })
