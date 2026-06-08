@@ -1,3 +1,7 @@
+-- Collect diagnostics into the loclist (buffer)/qflist (workspace).
+vim.keymap.set('n', '<leader>e', function() vim.diagnostic.setloclist() end, { desc = 'Buffer diagnostics (loclist)' })
+vim.keymap.set('n', '<leader>E', function() vim.diagnostic.setqflist() end, { desc = 'Workspace diagnostics (quickfix)' })
+
 -- Defer the vim.lsp / vim.diagnostic require chains until the first relevant
 -- filetype is opened.
 local servers = {
