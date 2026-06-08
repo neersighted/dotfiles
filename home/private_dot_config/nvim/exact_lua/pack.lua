@@ -21,7 +21,6 @@ vim.pack.add({
   -- Integration
   'https://github.com/direnv/direnv.vim',
   'https://github.com/ibhagwan/fzf-lua',
-  'https://github.com/ludovicchabant/vim-gutentags',
   'https://github.com/nanotee/zoxide.vim',
   'https://github.com/stevearc/conform.nvim',
   'https://github.com/tpope/vim-eunuch',
@@ -55,7 +54,7 @@ vim.pack.add({
   'https://github.com/justinmk/vim-dirvish',
   'https://github.com/karb94/neoscroll.nvim',
   'https://github.com/lewis6991/gitsigns.nvim',
-  'https://github.com/liuchengxu/vista.vim',
+  'https://github.com/stevearc/aerial.nvim',
   'https://github.com/lukas-reineke/indent-blankline.nvim',
   'https://github.com/nvim-mini/mini.starter',
   'https://github.com/mrjones2014/smart-splits.nvim',

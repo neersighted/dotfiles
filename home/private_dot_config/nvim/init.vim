@@ -108,13 +108,12 @@ nnoremap <leader>/ <cmd>lua FzfLua.blines()<cr>
 nnoremap <leader><c-/> <cmd>lua FzfLua.lines()<cr>
 nnoremap <leader>g <cmd>lua FzfLua.live_grep()<cr>
 nnoremap <leader>G <cmd>lua FzfLua.live_grep({ cwd = require('rooter').find() })<cr>
-nnoremap <leader>t <cmd>lua FzfLua.btags()<cr>
-nnoremap <leader><c-t> <cmd>lua FzfLua.tags()<cr>
+nnoremap <leader>] <cmd>lua FzfLua.lsp_workspace_symbols()<cr>
+nnoremap <leader>\ <cmd>lua FzfLua.lsp_document_symbols()<cr>
 nnoremap <leader>? <cmd>lua FzfLua.keymaps()<cr>
 
 " Sidebars
 nnoremap <silent> <leader>u <cmd>lua require('undotree').toggle()<cr>
-nnoremap <leader>y :Vista!!<cr>
 
 " Move arguments/list items around.
 nnoremap ]v :SidewaysRight<cr>

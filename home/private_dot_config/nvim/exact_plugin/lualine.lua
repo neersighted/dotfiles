@@ -23,7 +23,7 @@ local ft_overrides = {
   startuptime = 'STARTUPTIME',
   undotree = 'UNDO',
   undotreeDiff = 'UNDODIFF',
-  vista = 'TAGS',
+  aerial = 'TAGS',
 }
 
 local mode_map = {
@@ -55,7 +55,11 @@ local function fileinfo()
 end
 
 local function func_context()
-  return vim.b.vista_nearest_method_or_function or ''
+  local aerial = package.loaded['aerial']
+  if not aerial then return '' end
+  local loc = aerial.get_location(true)
+  local nearest = loc[#loc]
+  return nearest and nearest.name or ''
 end
 
 local function indent_indicator()

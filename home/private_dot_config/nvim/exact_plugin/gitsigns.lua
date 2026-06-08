@@ -1,4 +1,5 @@
-require('gitsigns').setup({
+local gitsigns = require('gitsigns')
+gitsigns.setup({
   current_line_blame = true,
   current_line_blame_opts = {
     delay = 500,
@@ -6,5 +7,5 @@ require('gitsigns').setup({
 })
 
 vim.keymap.set('n', '<leader>B', function()
-  require('gitsigns').blame_line({ full = true })
+  gitsigns.blame_line({ full = true })
 end, { desc = 'Blame current line (popup)' })
