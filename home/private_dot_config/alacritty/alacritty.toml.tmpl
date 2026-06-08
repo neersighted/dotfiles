@@ -1,12 +1,12 @@
 [env]
 TERM = 'alacritty'
 
-{{ if eq .chezmoi.os "windows" }}
+{{ if eq .chezmoi.os "windows" -}}
 [terminal.shell]
   program = 'wsl.exe'
   args = ['~']
-{{ end }}
 
+{{ end -}}
 [bell]
 {{ if eq .chezmoi.os "darwin" -}}
 command = { program = "afplay", args = ["/System/Library/Sounds/Ping.aiff"] }
