@@ -131,10 +131,6 @@ vim.keymap.set('n', '<leader>?', function() FzfLua.keymaps() end, { desc = 'Keym
 -- Sidebars
 vim.keymap.set('n', '<leader>u', function() require('undotree').toggle() end, { silent = true, desc = 'Undotree' })
 
--- Move arguments/list items around.
-vim.keymap.set('n', ']v', '<cmd>SidewaysRight<cr>', { desc = 'Move argument right' })
-vim.keymap.set('n', '[v', '<cmd>SidewaysLeft<cr>', { desc = 'Move argument left' })
-
 -- Keep the selection when indenting in visual mode.
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')

@@ -3,19 +3,15 @@ vim.pack.add({
   'https://github.com/gbprod/nord.nvim',
 
   -- Editing
-  'https://github.com/AndrewRadev/inline_edit.vim',
-  'https://github.com/AndrewRadev/sideways.vim',
   'https://github.com/nvim-mini/mini.splitjoin',
   'https://github.com/AndrewRadev/switch.vim',
-  'https://github.com/AndrewRadev/tagalong.vim',
+  'https://github.com/windwp/nvim-ts-autotag',
   'https://github.com/gbprod/yanky.nvim',
   'https://github.com/chaoren/vim-wordmotion',
   'https://github.com/cohama/lexima.vim',
   'https://github.com/nvim-mini/mini.align',
   'https://codeberg.org/andyg/leap.nvim',
   'https://github.com/nvim-mini/mini.surround',
-  'https://github.com/tommcdo/vim-ninja-feet',
-  'https://github.com/tpope/vim-rsi',
   'https://github.com/nvim-mini/mini.bracketed',
 
   -- Integration
@@ -30,7 +26,6 @@ vim.pack.add({
 
   -- Libraries
   'https://github.com/tpope/vim-repeat',
-  'https://github.com/inkarkat/vim-visualrepeat',
 
   -- Syntax
   'https://github.com/romus204/tree-sitter-manager.nvim',
@@ -38,10 +33,7 @@ vim.pack.add({
   'https://github.com/HiPhish/rainbow-delimiters.nvim',
   'https://github.com/alker0/chezmoi.vim',
   'https://github.com/nvim-mini/mini.hipatterns',
-  'https://github.com/chr4/nginx.vim',
-  'https://github.com/ericpruitt/tmux.vim',
   'https://github.com/mboughaba/i3config.vim',
-  'https://github.com/pprovost/vim-ps1',
 
   -- UI
   'https://github.com/andymass/vim-matchup',
@@ -59,7 +51,6 @@ vim.pack.add({
   'https://github.com/nvim-mini/mini.starter',
   'https://github.com/mrjones2014/smart-splits.nvim',
   'https://github.com/jiaoshijie/undotree',
-  'https://github.com/tommcdo/vim-kangaroo',
   'https://github.com/tpope/vim-characterize',
 })
 

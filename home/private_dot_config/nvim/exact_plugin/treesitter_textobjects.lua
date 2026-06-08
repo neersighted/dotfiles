@@ -34,10 +34,10 @@ for key, spec in pairs(moves) do
   end, { desc = spec[3] })
 end
 
--- Move the parameter under the cursor
-vim.keymap.set('n', '<leader>a', function()
+-- Move the argument under the cursor (replaces sideways.vim's ]v/[v).
+vim.keymap.set('n', ']v', function()
   swap.swap_next('@parameter.inner', 'textobjects')
-end, { desc = 'Swap parameter with next' })
-vim.keymap.set('n', '<leader>A', function()
+end, { desc = 'Move argument right' })
+vim.keymap.set('n', '[v', function()
   swap.swap_previous('@parameter.inner', 'textobjects')
-end, { desc = 'Swap parameter with previous' })
+end, { desc = 'Move argument left' })
