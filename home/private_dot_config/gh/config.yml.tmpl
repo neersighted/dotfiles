@@ -1,0 +1,19 @@
+version: "1"
+
+browser:
+editor:
+pager: less --no-init --quit-if-one-screen
+
+aliases:
+    co: pr checkout
+    ch: pr checks --watch --interval 1
+{{- if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "freebsd") }}
+    standup: '!gh search prs --author=@me --updated=">=$(date -v-${1:-1}d +%Y-%m-%d)"'
+{{- else }}
+    standup: '!gh search prs --author=@me --updated=">=$(date -d "${1:-1} days ago" +%Y-%m-%d)"'
+{{- end }}
+
+prompt: enabled
+
+git_protocol: https
+http_unix_socket:

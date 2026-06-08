@@ -10,10 +10,8 @@
 	helper =
 
 {{-  $gcm := lookPath "git-credential-manager" -}}
-{{- if and (eq .chezmoi.os "darwin") $gcm }}
-	helper = /usr/local/share/gcm-core/git-credential-manager
-{{- else if $gcm }}
-	helper = {{ $gcm }}
+{{- if $gcm }}
+	helper = {{ output "realpath" $gcm | trim }}
 {{- else if .wsl.any }}
 	helper = /mnt/c/Program Files/Git/mingw64/bin/git-credential-manager-core.exe
 {{- else if eq .chezmoi.os "darwin" }}
@@ -82,7 +80,7 @@
 	gpgSign = true
 
 [diff]
-	algorithm = patience
+	algorithm = histogram
 	colorMoved = default
 	mnemonicPrefix = true
 [merge]
@@ -147,6 +145,7 @@
 
 {{- if lookPath "delta" }}
 [delta]
+	hyperlinks = true
 	line-numbers = true
 	navigate = true
 {{- end}}

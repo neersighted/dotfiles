@@ -1,9 +1,3 @@
-[".local/bin/git-standup"]
-type = "file"
-executable = true
-url = "https://raw.githubusercontent.com/nilbuild/git-standup/master/git-standup"
-refreshPeriod = "168h"
-
 [".local/bin/git-recent"]
 type = "file"
 executable = true
