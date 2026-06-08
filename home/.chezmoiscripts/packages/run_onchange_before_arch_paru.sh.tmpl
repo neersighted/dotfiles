@@ -4,11 +4,11 @@
 if ! command -v paru >/dev/null; then
   echo "Bootstrapping paru..."
 
-  PARU="${TMPDIR:-/tmp}/paru"
-  trap 'rm -rf $PARU' EXIT
+  PARU=$(mktemp -d)
+  trap 'rm -rf "$PARU"' EXIT
 
   git clone https://aur.archlinux.org/paru-bin.git "$PARU"
-  (cd $PARU && makepkg -si --noconfirm)
+  (cd "$PARU" && makepkg -si --noconfirm)
 fi
 
 {{- $packages := .packages.arch.packages | sortAlpha | uniq -}}
@@ -21,6 +21,6 @@ fi
 {{- end }}
 
 echo "Installing packages with paru..."
-paru -Sy --needed --noconfirm {{ join " " $packages }}
+paru -S --needed --noconfirm {{ join " " $packages }}
 
 {{- end -}}
