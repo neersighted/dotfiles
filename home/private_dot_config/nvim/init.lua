@@ -11,6 +11,9 @@ vim.opt.hidden = true -- Allow backgrounding dirty buffers.
 -- Colors (real setup happens at the bottom, after plugins load).
 vim.opt.termguicolors = true -- Use 24-bit color.
 
+-- Completion
+vim.opt.completeopt = { 'menuone', 'noselect', 'popup', 'fuzzy' } -- Menu even for a single match, never preselect, docs popup, client-side fuzzy.
+
 -- Cursor/Movement
 vim.opt.scrolloff = 2 -- Keep the cursor two lines from the top/bottom.
 vim.opt.virtualedit = 'onemore,block' -- Cursor past EOL, and anywhere in visual-block.

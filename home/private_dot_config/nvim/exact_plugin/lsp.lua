@@ -1,6 +1,11 @@
 -- Collect diagnostics into the loclist (buffer)/qflist (workspace).
 vim.keymap.set('n', '<leader>e', function() vim.diagnostic.setloclist() end, { desc = 'Buffer diagnostics (loclist)' })
 vim.keymap.set('n', '<leader>E', function() vim.diagnostic.setqflist() end, { desc = 'Workspace diagnostics (quickfix)' })
+-- Toggle inlay hints (e.g. function parameters)
+vim.keymap.set('n', '<leader>i', function()
+  local filter = { bufnr = 0 }
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(filter), filter)
+end, { desc = 'Toggle inlay hints' })
 
 -- Defer the vim.lsp / vim.diagnostic require chains until the first relevant
 -- filetype is opened.
@@ -77,6 +82,20 @@ for name, config in pairs(servers) do
   })
 end
 
+-- On attach, set up autocompletion and inlays.
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if not client then return end
+    if client:supports_method('textDocument/completion') then
+      vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+    end
+    if client:supports_method('textDocument/inlayHint') then
+      vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+    end
+  end,
+})
+
 -- Diagnostic UI is global; set it once on the first LSP-relevant buffer.
 vim.api.nvim_create_autocmd('FileType', {
   pattern = all_filetypes,
@@ -95,18 +114,3 @@ vim.api.nvim_create_autocmd('FileType', {
     })
   end,
 })
-
--- Inlay hints on attach where the server supports them; toggle with <leader>i.
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client and client:supports_method('textDocument/inlayHint') then
-      vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
-    end
-  end,
-})
-
-vim.keymap.set('n', '<leader>i', function()
-  local filter = { bufnr = 0 }
-  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(filter), filter)
-end, { desc = 'Toggle inlay hints' })
