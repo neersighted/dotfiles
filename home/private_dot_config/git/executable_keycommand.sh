@@ -7,7 +7,7 @@ API_ENDPOINT="/users/$GITHUB_USER/ssh_signing_keys"
 if command -v gh >/dev/null; then
   known_keys=$(gh api $API_ENDPOINT -q '.[].key')
 else
-  known_keys=$(curl -fSsL https://api.github.com/$API_ENDPOINT | yq '.[].key')
+  known_keys=$(curl -fSsL https://api.github.com/$API_ENDPOINT | jq -r '.[].key')
 fi
 
 loaded_keys=$(ssh-add -L | cut -d' ' -f1,2)

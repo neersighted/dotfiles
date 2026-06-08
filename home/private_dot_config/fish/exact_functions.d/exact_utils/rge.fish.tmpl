@@ -1,6 +1,6 @@
 {{- if lookPath "rg" -}}
 function rge -w rg
-  set results (string escape (rg --files-with-matches $argv))
+  set results (string escape (rg --files-with-matches --null $argv | string split0))
 
   echo "Press enter to edit:"
   read -P "$EDITOR $results" -n1 do

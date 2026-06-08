@@ -8,16 +8,15 @@ for repo in $PYENV_ROOT $PYENV_ROOT/plugins/*
   git -C $repo pull -q
 end
 
-set release_cycle (curl -sSf https://peps.python.org/api/release-cycle.json)
-or begin
+set release_cycle (curl -sSf https://peps.python.org/api/release-cycle.json | string collect)
+if test $pipestatus[1] -ne 0
   set_color red
   echo "pyenv-update: could not fetch the Python release cycle" >&2
   set_color normal
   exit 1
 end
-set releases (printf '%s' $release_cycle | yq -ojson -I0)
 
-for release in (printf '%s' $releases | yq -r 'to_entries[] | select(.value.status | contains("bugfix", "security")) | .key')
+for release in (echo $release_cycle | jq -r 'to_entries[] | select(.value.status | IN("bugfix", "security")) | .key')
   set latest (pyenv latest --known $release)
   set installed (pyenv latest $release)
 
@@ -36,7 +35,7 @@ set wanted \
    poetry \
    shiv
 
-set installed (pipx list --json | yq '.venvs[].metadata.main_package | [.package, .suffix] | join("")')
+set installed (pipx list --json | jq -r '.venvs[].metadata.main_package | [.package, .suffix] | join("")')
 set missing
 for spec in $wanted
   contains -- $spec $installed; or set -a missing $spec
@@ -74,10 +73,11 @@ end
 for python in (pyenv versions --bare --skip-aliases)
   set -lx PYENV_VERSION $python
 
-  for spec in (pip list --outdated --format=json | yq -ojson -I0 '.[]')
-    set name (printf '%s' $spec | yq '.name')
-    set current (printf '%s' $spec | yq '.version')
-    set latest (printf '%s' $spec | yq '.latest_version')
+  for spec in (pip list --outdated --format=json | jq -c '.[]')
+    set fields (echo $spec | jq --raw-output0 '.name, .version, .latest_version' | string split0)
+    set name $fields[1]
+    set current $fields[2]
+    set latest $fields[3]
 
     set_color yellow
     echo "Updating $name from $current to $latest ($python)..."
