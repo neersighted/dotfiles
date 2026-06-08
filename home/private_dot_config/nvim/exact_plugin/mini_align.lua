@@ -1,6 +1,6 @@
--- gl matches the old vim-easy-align muscle memory (binds normal + visual);
--- gL adds the live-preview variant. Avoid the ga/gA defaults — ga is taken
--- by vim-characterize.
+-- gl matches vim-easy-align muscle memory (binds normal + visual);
+-- gL adds the live-preview variant
+-- ga/gA is taken by vim-characterize
 require('mini.align').setup({
   mappings = {
     start = 'gl',
@@ -8,5 +8,5 @@ require('mini.align').setup({
   },
 })
 
--- Keep the old "<cr> aligns the visual selection" convenience.
+-- Add <cr> aligns the visual selection" from vim-easy-align.
 vim.keymap.set('x', '<cr>', 'gl', { remap = true, desc = 'Align selection' })

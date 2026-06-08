@@ -1,6 +1,5 @@
--- Per-filetype buffer-local options. Replaces the per-filetype
--- ftplugin/<ft>.vim files; b:undo_ftplugin is auto-derived so
--- `:set ft=other` reverts cleanly.
+-- Per-filetype buffer-local options.
+-- Similar to ftplugin, but undo_ftplugin is automatic.
 local ft_config = {
   gitcommit = { spell = true, autoindent = true, textwidth = 80 },
   markdown  = { spell = true, autoindent = true },

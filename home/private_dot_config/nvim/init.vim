@@ -165,10 +165,11 @@ vim.schedule(function()
   require('nord').setup({
     borders = true,
     on_highlights = function(hl, c)
-      hl.NormalFloat = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
-      hl.NormalNC    = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
-      hl.Pmenu       = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
-      hl.SignColumn  = { bg = c.polar_night.bright }
+      hl.MiniStarterItemPrefix = { link = 'Delimiter' } -- index prefix
+      hl.NormalFloat           = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
+      hl.NormalNC              = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
+      hl.Pmenu                 = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
+      hl.SignColumn            = { bg = c.polar_night.bright }
     end,
   })
   vim.cmd.colorscheme('nord')

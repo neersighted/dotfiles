@@ -1,4 +1,4 @@
--- Auto-cd to project root on buffer enter (replaces airblade/vim-rooter).
+-- cd to project root on buffer enter (replaces airblade/vim-rooter).
 local markers = {
   '.git',
   'go.mod', 'go.work',

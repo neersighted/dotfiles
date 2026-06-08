@@ -1,4 +1,4 @@
--- Handle `nvim file:line:col` notation (replaces wsdjeg/vim-fetch).
+-- Handle `nvim file:line:col` notation (replaces wsdjeg/vim-fetch)
 vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufReadPre' }, {
   pattern = { '*:*', '*:*:*' },
   callback = function(args)

@@ -1,6 +1,8 @@
--- Replacement for mhinz/vim-sayonara: close the current buffer without
--- closing its window. `!` also closes the window; `!!` force-discards a
--- dirty buffer (keeping the window open).
+-- Close the current buffer without closing its window
+-- (replaces mhinz/vim-sayonara)
+--
+-- `!` also closes the window; `!!` force-discards a dirty buffer
+-- (keeping the window open).
 local function close_buffer(close_window, force)
   local buf = vim.api.nvim_get_current_buf()
   local alt = vim.fn.bufnr('#')
