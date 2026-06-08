@@ -95,3 +95,18 @@ vim.api.nvim_create_autocmd('FileType', {
     })
   end,
 })
+
+-- Inlay hints on attach where the server supports them; toggle with <leader>i.
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client:supports_method('textDocument/inlayHint') then
+      vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+    end
+  end,
+})
+
+vim.keymap.set('n', '<leader>i', function()
+  local filter = { bufnr = 0 }
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(filter), filter)
+end, { desc = 'Toggle inlay hints' })
