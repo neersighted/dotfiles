@@ -17,7 +17,7 @@ vim.pack.add({
   'https://github.com/kylechui/nvim-surround',
   'https://github.com/tommcdo/vim-ninja-feet',
   'https://github.com/tpope/vim-rsi',
-  'https://github.com/tpope/vim-unimpaired',
+  'https://github.com/nvim-mini/mini.bracketed',
 
   -- Integration
   'https://github.com/direnv/direnv.vim',
