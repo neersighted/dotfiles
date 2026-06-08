@@ -1,7 +1,8 @@
+-- Most filetypes use lsp_fallback (gopls, rust-analyzer, biome, etc. format natively).
+-- Only list filetypes where the LSP doesn't ship a formatter or we want a different one.
 require('conform').setup({
   formatters_by_ft = {
     python = { 'ruff_format', 'ruff_organize_imports' },
-    rust = { 'rustfmt' },
   },
 })
 

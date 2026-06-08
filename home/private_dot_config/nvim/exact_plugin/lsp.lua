@@ -47,3 +47,14 @@ vim.lsp.config('pylsp', {
   },
 })
 vim.lsp.enable('pylsp')
+
+vim.lsp.config('biome', {
+  cmd = { 'biome', 'lsp-proxy' },
+  filetypes = {
+    'javascript', 'javascriptreact',
+    'typescript', 'typescriptreact',
+    'json', 'jsonc',
+  },
+  root_markers = { 'biome.json', 'biome.jsonc', 'package.json', '.git' },
+})
+vim.lsp.enable('biome')
