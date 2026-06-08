@@ -300,6 +300,7 @@
         "sysutils/dust",
         "sysutils/eza",
         "sysutils/fd",
+        "sysutils/handlr",
         "sysutils/hexyl",
         "sysutils/htop",
         "sysutils/smug",
