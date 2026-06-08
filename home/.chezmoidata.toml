@@ -26,7 +26,7 @@
     nord15dim = "#8c738c"
 
 [node]
-    current  = 23
+    current  = 26
 
 [node.lts]
     hydrogen = 18
@@ -34,10 +34,10 @@
     jod      = 22
     krypton  = 24
     lithium  = 26
-    active   = 22
+    active   = 24
 
 [python]
-    supported = ["3.9", "3.10", "3.11", "3.12", "3.13"]
+    supported = ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
 [packages.macos]
     taps = [
