@@ -1,0 +1,41 @@
+require('nvim-treesitter-textobjects').setup()
+
+local select = require('nvim-treesitter-textobjects.select')
+local move = require('nvim-treesitter-textobjects.move')
+local swap = require('nvim-treesitter-textobjects.swap')
+
+-- Select (operator-pending + visual). af/if are left to dsf.vim.
+local objects = {
+  ac = '@class.outer',
+  ic = '@class.inner',
+  aa = '@parameter.outer',
+  ia = '@parameter.inner',
+}
+for key, query in pairs(objects) do
+  vim.keymap.set({ 'x', 'o' }, key, function()
+    select.select_textobject(query, 'textobjects')
+  end, { desc = 'Select ' .. query })
+end
+
+-- Move between functions/classes.
+local moves = {
+  [']m'] = { move.goto_next_start, '@function.outer', 'Next function start' },
+  [']M'] = { move.goto_next_end, '@function.outer', 'Next function end' },
+  ['[m'] = { move.goto_previous_start, '@function.outer', 'Prev function start' },
+  ['[M'] = { move.goto_previous_end, '@function.outer', 'Prev function end' },
+  [']]'] = { move.goto_next_start, '@class.outer', 'Next class start' },
+  ['[['] = { move.goto_previous_start, '@class.outer', 'Prev class start' },
+}
+for key, spec in pairs(moves) do
+  vim.keymap.set({ 'n', 'x', 'o' }, key, function()
+    spec[1](spec[2], 'textobjects')
+  end, { desc = spec[3] })
+end
+
+-- Swap the parameter under the cursor with the next/previous one.
+vim.keymap.set('n', '<leader>a', function()
+  swap.swap_next('@parameter.inner', 'textobjects')
+end, { desc = 'Swap parameter with next' })
+vim.keymap.set('n', '<leader>A', function()
+  swap.swap_previous('@parameter.inner', 'textobjects')
+end, { desc = 'Swap parameter with previous' })

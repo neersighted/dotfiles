@@ -118,11 +118,6 @@ xmap <leader>? <plug>(fzf-maps-x)
 nnoremap <silent> <leader>u <cmd>lua require('undotree').toggle()<cr>
 nnoremap <leader>y :Vista!!<cr>
 
-" Align text using EasyAlign.
-nmap gl   <plug>(EasyAlign)
-xmap gl   <plug>(EasyAlign)
-vmap <cr> <plug>(EasyAlign)
-
 " Move arguments/list items around.
 nnoremap ]v :SidewaysRight<cr>
 nnoremap [v :SidewaysLeft<cr>

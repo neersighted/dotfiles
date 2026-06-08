@@ -6,15 +6,15 @@ vim.pack.add({
   'https://github.com/AndrewRadev/dsf.vim',
   'https://github.com/AndrewRadev/inline_edit.vim',
   'https://github.com/AndrewRadev/sideways.vim',
-  'https://github.com/AndrewRadev/splitjoin.vim',
+  'https://github.com/Wansmer/treesj',
   'https://github.com/AndrewRadev/switch.vim',
   'https://github.com/AndrewRadev/tagalong.vim',
   'https://github.com/gbprod/yanky.nvim',
   'https://github.com/chaoren/vim-wordmotion',
   'https://github.com/cohama/lexima.vim',
-  'https://github.com/junegunn/vim-easy-align',
+  'https://github.com/nvim-mini/mini.align',
   'https://codeberg.org/andyg/leap.nvim',
-  'https://github.com/machakann/vim-sandwich',
+  'https://github.com/kylechui/nvim-surround',
   'https://github.com/tommcdo/vim-ninja-feet',
   'https://github.com/tpope/vim-rsi',
   'https://github.com/tpope/vim-unimpaired',
@@ -36,18 +36,15 @@ vim.pack.add({
   'https://github.com/inkarkat/vim-visualrepeat',
 
   -- Syntax
-  -- tree-sitter-manager: actively-maintained successor to the archived
-  -- nvim-treesitter (purpose-built post-archive). git-clone based, so
-  -- works in environments where curl-tarball downloads fail.
   'https://github.com/romus204/tree-sitter-manager.nvim',
+  { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects', version = 'main' },
   'https://github.com/HiPhish/rainbow-delimiters.nvim',
   'https://github.com/alker0/chezmoi.vim',
-  'https://github.com/catgoose/nvim-colorizer.lua',
+  'https://github.com/nvim-mini/mini.hipatterns',
   'https://github.com/chr4/nginx.vim',
   'https://github.com/ericpruitt/tmux.vim',
   'https://github.com/mboughaba/i3config.vim',
   'https://github.com/pprovost/vim-ps1',
-  'https://github.com/vim-ruby/vim-ruby',
 
   -- UI
   'https://github.com/andymass/vim-matchup',
@@ -62,7 +59,7 @@ vim.pack.add({
   'https://github.com/lewis6991/gitsigns.nvim',
   'https://github.com/liuchengxu/vista.vim',
   'https://github.com/lukas-reineke/indent-blankline.nvim',
-  'https://github.com/mhinz/vim-startify',
+  'https://github.com/nvim-mini/mini.starter',
   'https://github.com/mrjones2014/smart-splits.nvim',
   'https://github.com/jiaoshijie/undotree',
   'https://github.com/tommcdo/vim-kangaroo',
