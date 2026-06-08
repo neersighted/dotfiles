@@ -41,6 +41,7 @@ defaults write -globalDomain NSTextShowsControlCharacters -bool true # Show cont
 
 # ----- Trackpad / Mouse -----
 
+defaults write -globalDomain com.apple.swipescrolldirection -bool false # Use traditional (non-natural) scroll direction.
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool false # No tap-to-click on the internal trackpad.
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool false # ...or any Bluetooth trackpad.
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 0 # ...for the current user.
