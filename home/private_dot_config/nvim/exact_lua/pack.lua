@@ -3,7 +3,6 @@ vim.pack.add({
   'https://github.com/gbprod/nord.nvim',
 
   -- Editing
-  'https://github.com/AndrewRadev/dsf.vim',
   'https://github.com/AndrewRadev/inline_edit.vim',
   'https://github.com/AndrewRadev/sideways.vim',
   'https://github.com/Wansmer/treesj',
@@ -14,7 +13,7 @@ vim.pack.add({
   'https://github.com/cohama/lexima.vim',
   'https://github.com/nvim-mini/mini.align',
   'https://codeberg.org/andyg/leap.nvim',
-  'https://github.com/kylechui/nvim-surround',
+  'https://github.com/nvim-mini/mini.surround',
   'https://github.com/tommcdo/vim-ninja-feet',
   'https://github.com/tpope/vim-rsi',
   'https://github.com/nvim-mini/mini.bracketed',

@@ -4,12 +4,14 @@ local select = require('nvim-treesitter-textobjects.select')
 local move = require('nvim-treesitter-textobjects.move')
 local swap = require('nvim-treesitter-textobjects.swap')
 
--- Select (operator-pending + visual). af/if are left to dsf.vim.
+-- Select (operator-pending + visual)
 local objects = {
   ac = '@class.outer',
   ic = '@class.inner',
   aa = '@parameter.outer',
   ia = '@parameter.inner',
+  af = '@call.outer',
+  ['if'] = '@call.inner', -- if is a keyword
 }
 for key, query in pairs(objects) do
   vim.keymap.set({ 'x', 'o' }, key, function()
@@ -17,7 +19,7 @@ for key, query in pairs(objects) do
   end, { desc = 'Select ' .. query })
 end
 
--- Move between functions/classes.
+-- Movements (unimpaired-style)
 local moves = {
   [']m'] = { move.goto_next_start, '@function.outer', 'Next function start' },
   [']M'] = { move.goto_next_end, '@function.outer', 'Next function end' },
@@ -32,7 +34,7 @@ for key, spec in pairs(moves) do
   end, { desc = spec[3] })
 end
 
--- Swap the parameter under the cursor with the next/previous one.
+-- Move the parameter under the cursor
 vim.keymap.set('n', '<leader>a', function()
   swap.swap_next('@parameter.inner', 'textobjects')
 end, { desc = 'Swap parameter with next' })
