@@ -16,22 +16,16 @@ else
 end
 
 for toolchain in stable nightly
-  if rustup toolchain list | string match -rq "^$toolchain"
-    set_color red
-    echo "Updating $toolchain Rust toolchain..."
-    set_color normal
+  set_color red
+  echo "Installing/updating $toolchain Rust toolchain..."
+  set_color normal
 
-    rustup update --no-self-update $toolchain
-  else
-    set_color red
-    echo "Installing $toolchain Rust toolchain..."
-    set_color normal
-
-    rustup toolchain install $toolchain
-  end
+  rustup toolchain install \
+    --no-self-update \
+    --component rust-analyzer \
+    --component rust-src \
+    $toolchain
 end
-
-set installed (cargo install --list | string match -r '^\S+')
 
 set wanted \
    cargo-audit \
@@ -58,25 +52,22 @@ if is_linux
      cross
 end
 
+set installed (cargo install --list | string match -r '^\S+')
+set missing
 for crate in $wanted
-  if contains -- $crate $installed
-    set i (contains -i -- $crate $wanted)
-    set -e wanted[$i]
-  end
+  contains -- $crate $installed; or set -a missing $crate
 end
 
-if test (count $wanted) -gt 0
+if test (count $missing) -gt 0
   set_color red
   echo "Installing crates..."
   set_color normal
 
-  cargo install --locked --force -- $wanted
+  cargo install --locked --force -- $missing
 end
 
-if test (count $installed) -gt 0
-  set_color red
-  echo "Updating crates..."
-  set_color normal
+set_color red
+echo "Updating crates..."
+set_color normal
 
-  cargo install-update -- $installed
-end
+cargo install-update --all
