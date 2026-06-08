@@ -2,7 +2,7 @@
 #!/bin/sh -e
 
 echo "Installing packages from Brewfile..."
-brew bundle --file=/dev/stdin <<EOF
+brew bundle install --no-upgrade --file=/dev/stdin <<EOF
 {{ includeTemplate "private_dot_config/homebrew/Brewfile.tmpl" . }}
 EOF
 
