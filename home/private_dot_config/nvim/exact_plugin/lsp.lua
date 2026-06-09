@@ -7,6 +7,42 @@ vim.keymap.set('n', '<leader>i', function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(filter), filter)
 end, { desc = 'Toggle inlay hints' })
 
+-- SchemaSource catalogs by filetype, along with merge logic and settings.json key.
+local SchemaStore = {
+  -- json.schemas: list of { fileMatch = {globs}, url }; project wins first-match.
+  JSON = {
+    catalog = function() return require('schemastore').json.schemas() end,
+    merge = function(catalog, project) return vim.list_extend(project, catalog) end,
+    key = 'json.schemas',
+  },
+  -- yaml.schemas: { uri = glob(s) } map; project keys override the catalog.
+  YAML = {
+    catalog = function() return require('schemastore').yaml.schemas() end,
+    merge = function(catalog, project)
+      for uri, patterns in pairs(project) do catalog[uri] = patterns end
+      return catalog
+    end,
+    key = 'yaml.schemas',
+  },
+}
+
+-- Overlay schemas found in VS Code settings.json (JSONC) onto SchemaStore.
+local function vscode_schemastore(kind, root_markers)
+  local root = (root_markers and vim.fs.root(0, root_markers)) or vim.uv.cwd()
+  local file = io.open(root .. '/.vscode/settings.json', 'r')
+
+  local catalog = kind.catalog()
+  if not file then return catalog end
+  local text = file:read('*a')
+  file:close()
+
+  local ok, decoded = pcall(require('jsonc').decode, text)
+  local project = ok and type(decoded) == 'table' and decoded[kind.key] or nil
+  if not project then return catalog end
+
+  return kind.merge(catalog, project)
+end
+
 -- Defer the vim.lsp / vim.diagnostic require chains until the first relevant
 -- filetype is opened.
 local servers = {
@@ -77,7 +113,7 @@ local servers = {
       },
     },
     prepare = function(c)
-      c.settings.json.schemas = require('schemastore').json.schemas()
+      c.settings.json.schemas = vscode_schemastore(SchemaStore.JSON, c.root_markers)
     end,
   },
   yamlls = {
@@ -90,7 +126,7 @@ local servers = {
       },
     },
     prepare = function(c)
-      c.settings.yaml.schemas = require('schemastore').yaml.schemas()
+      c.settings.yaml.schemas = vscode_schemastore(SchemaStore.YAML, c.root_markers)
     end,
   },
 }
