@@ -66,6 +66,33 @@ local servers = {
     },
     root_markers = { 'biome.json', 'biome.jsonc', 'package.json', '.git' },
   },
+  jsonls = {
+    cmd = { 'vscode-json-language-server', '--stdio' },
+    filetypes = { 'json', 'jsonc' },
+    root_markers = { '.git' },
+    init_options = { provideFormatter = false },
+    settings = {
+      json = {
+        validate = { enable = true },
+      },
+    },
+    prepare = function(c)
+      c.settings.json.schemas = require('schemastore').json.schemas()
+    end,
+  },
+  yamlls = {
+    cmd = { 'yaml-language-server', '--stdio' },
+    filetypes = { 'yaml', 'yaml.docker-compose', 'yaml.gitlab' },
+    root_markers = { '.git' },
+    settings = {
+      yaml = {
+        schemaStore = { enable = false, url = '' },
+      },
+    },
+    prepare = function(c)
+      c.settings.yaml.schemas = require('schemastore').yaml.schemas()
+    end,
+  },
 }
 
 -- One lazy registration per server, scoped to just its own filetypes.
@@ -76,6 +103,11 @@ for name, config in pairs(servers) do
     pattern = config.filetypes,
     once = true,
     callback = function()
+      -- Resolve any deferred configuration (e.g. schemastore) on first use.
+      if config.prepare then
+        config.prepare(config)
+        config.prepare = nil
+      end
       vim.lsp.config(name, config)
       vim.lsp.enable(name)
     end,

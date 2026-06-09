@@ -24,6 +24,7 @@ vim.pack.add({
   'https://github.com/tpope/vim-sleuth',
 
   -- Libraries
+  'https://github.com/b0o/SchemaStore.nvim',
   'https://github.com/tpope/vim-repeat',
 
   -- Syntax

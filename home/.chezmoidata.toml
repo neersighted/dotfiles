@@ -138,9 +138,11 @@
         "tree-sitter-cli",
         "vexctl",
         "vivid",
+        "vscode-langservers-extracted",
         "watch",
         "watchexec",
         "wget",
+        "yaml-language-server",
         "yq",
         "yubikey-agent",
         "zoxide",
@@ -326,7 +328,9 @@
         # missing: ijq
         # missing: mkcert
         # missing: regclient
+        # missing: vscode-json-languageserver
         # missing: watchexec
+        # missing: yaml-language-server
     ]
 
 [packages.arch]
@@ -432,9 +436,11 @@
         "tree-sitter-cli",
         "unzip",
         "vivid",
+        "vscode-json-languageserver",
         "watchexec",
         "wget",
         "whois",
+        "yaml-language-server",
         "zip",
         "zoxide",
     ]
