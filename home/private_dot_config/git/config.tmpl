@@ -35,7 +35,6 @@
 #
 
 [core]
-	hooksPath = {{ .chezmoi.homeDir }}/.config/git/hooks
 {{- if eq .chezmoi.os "windows" }}
 {{-   if lookPath "subl" }}
 	editor = subl --wait
@@ -76,6 +75,9 @@
 	defaultBranch = main
 [commit]
 	verbose = true
+[hook "auto-signoff"]
+	event = prepare-commit-msg
+	command = {{ .chezmoi.homeDir }}/.config/git/hooks/auto-signoff
 [tag]
 	gpgSign = true
 
