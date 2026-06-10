@@ -1,5 +1,16 @@
 {{- if and (lookPath "zoxide") (lookPath "fzf") -}}
 function zoxide-interactive -d 'select a directory to jump to using zoxide'
+  # zoxide drops FZF_DEFAULT_OPTS when _ZO_FZF_OPTS is set.
+  set -lx _ZO_FZF_OPTS \
+    $FZF_DEFAULT_OPTS \
+    --tmux 75% \
+    --exact --no-sort --keep-right --exit-0
+{{- if lookPath "eza" }}
+  set -a _ZO_FZF_OPTS \
+    --preview "'eza --color=always --classify --group-directories-first {2..}'" \
+    --preview-window=down,30%,sharp
+{{- end }}
+
   if set target (zoxide query --interactive)
     commandline --replace "cd $target"
     commandline -f execute
