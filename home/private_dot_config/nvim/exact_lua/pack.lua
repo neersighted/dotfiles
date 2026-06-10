@@ -13,6 +13,7 @@ vim.pack.add({
   'https://codeberg.org/andyg/leap.nvim',
   'https://github.com/nvim-mini/mini.surround',
   'https://github.com/nvim-mini/mini.bracketed',
+  'https://github.com/nvim-mini/mini.move',
 
   -- Integration
   'https://github.com/NotAShelf/direnv.nvim',

@@ -118,33 +118,12 @@ vim.g.startuptime_self = 1 -- Use 'self' time when profiling.
 vim.g.mapleader = ' '
 vim.g.maplocalleader = '\\'
 
--- fzf-lua
-vim.keymap.set('n', '<leader><leader>', function() FzfLua.builtin() end, { desc = 'Pickers' })
-vim.keymap.set('n', '<leader>b', function() FzfLua.buffers() end, { desc = 'Buffers' })
-vim.keymap.set('n', '<leader>o', function() FzfLua.files() end, { desc = 'Files' })
-vim.keymap.set('n', "<leader>'", function() FzfLua.marks() end, { desc = 'Marks' })
-vim.keymap.set('n', '<leader>/', function() FzfLua.blines() end, { desc = 'Lines (buffer)' })
-vim.keymap.set('n', '<leader><c-/>', function() FzfLua.lines() end, { desc = 'Lines (open buffers)' })
-vim.keymap.set('n', '<leader>g', function() FzfLua.live_grep() end, { desc = 'Live grep' })
-vim.keymap.set('n', '<leader>G', function() FzfLua.live_grep({ cwd = require('rooter').find() }) end, { desc = 'Live grep (project root)' })
-vim.keymap.set('n', '<leader>]', function() FzfLua.lsp_workspace_symbols() end, { desc = 'Workspace symbols' })
-vim.keymap.set('n', '<leader>\\', function() FzfLua.lsp_document_symbols() end, { desc = 'Document symbols' })
-vim.keymap.set('n', '<leader>?', function() FzfLua.keymaps() end, { desc = 'Keymaps' })
-
 -- Sidebars
 vim.keymap.set('n', '<leader>u', function() require('undotree').toggle() end, { silent = true, desc = 'Undotree' })
 
 -- Keep the selection when indenting in visual mode.
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
-
--- Simple buffer/window management.
-vim.keymap.set('n', '<leader>x', '<cmd>Sayonara<cr>', { desc = 'Close buffer' })
-vim.keymap.set('n', '<leader>d', '<cmd>Sayonara!<cr>', { desc = 'Close buffer + window' })
-
--- Make <c-e>/<c-y> faster.
-vim.keymap.set('n', '<c-e>', '5<c-e>')
-vim.keymap.set('n', '<c-y>', '5<c-y>')
 
 -- Toggle loclist/quickfix.
 local function qftoggle(loc)

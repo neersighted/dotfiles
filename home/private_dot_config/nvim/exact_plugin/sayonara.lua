@@ -26,3 +26,6 @@ vim.api.nvim_create_user_command('Sayonara', function(opts)
   local force = opts.args == '!'
   close_buffer(opts.bang and not force, force)
 end, { bang = true, nargs = '?', desc = 'Close buffer (! closes window; !! force-discards dirty)' })
+
+vim.keymap.set('n', '<leader>x', function() close_buffer(false, false) end, { desc = 'Close buffer' })
+vim.keymap.set('n', '<leader>d', function() close_buffer(true, false) end, { desc = 'Close buffer + window' })
