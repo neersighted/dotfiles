@@ -30,13 +30,13 @@ vim.api.nvim_create_autocmd('SwapExists', {
     elseif info.host == vim.uv.os_gethostname() and process_alive(info.pid) then
       vim.v.swapchoice = 'o'
       vim.notify(
-        ('%s is open in nvim (pid %d) - opening read-only'):format(basename(vim.v.swapname), info.pid),
+        ('%s is open in nvim (pid %d) - opening read-only'):format(basename(info.fname), info.pid),
         vim.log.levels.WARN)
     -- The other nvim exited unexpectedly; suggest :recover and continue.
     elseif info.dirty == 1 then
       vim.v.swapchoice = 'e'
       vim.notify(
-        ('%s has unsaved changes in swapfile - :recover to inspect'):format(basename(vim.v.swapname)),
+        ('%s has unsaved changes in swapfile - :recover to inspect'):format(basename(info.fname)),
         vim.log.levels.WARN)
     -- The swapfile is clean; delete it and continue.
     else
@@ -47,26 +47,30 @@ vim.api.nvim_create_autocmd('SwapExists', {
 
 -- Reload open buffers when a refocus event happens; a modified
 -- buffer that was written under will still trigger the default prompt.
+-- To make autoread fire, we need to call checktime in an autocmd.
 vim.o.autoread = true
+local function on_refocus(scoped)
+  return function(args)
+    if vim.fn.getcmdwintype() ~= '' then return end
+    if scoped then
+      pcall(vim.cmd.checktime, args.buf)
+    else
+      pcall(vim.cmd.checktime)
+    end
+  end
+end
+
 vim.api.nvim_create_autocmd('FocusGained', {
   group = grp,
-  desc = 'Check for external file change on refocus',
-  callback = function()
-    if vim.fn.getcmdwintype() == '' then
-      pcall(vim.cmd.checktime) -- Check all buffers.
-    end
-  end,
+  desc = 'Check all buffers for external change on refocus',
+  callback = on_refocus(false),
 })
 
 -- Navigating to a buffer/tab/split within nvim: re-check the one we land on.
 vim.api.nvim_create_autocmd('BufEnter', {
   group = grp,
   desc = 'Check the entered buffer for external change',
-  callback = function(args)
-    if vim.fn.getcmdwintype() == '' then
-      pcall(vim.cmd.checktime, args.buf) -- Check the entered buffer.
-    end
-  end,
+  callback = on_refocus(true),
 })
 
 vim.api.nvim_create_autocmd('FileChangedShellPost', {
