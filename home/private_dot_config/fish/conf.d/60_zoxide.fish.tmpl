@@ -1,6 +1,9 @@
 {{- if lookPath "zoxide" -}}
 status is-interactive; or exit
 
-# XXX: startup optimization: don't do abbr -e
-{{ output "sh" "-c" "zoxide init fish | sed '/^abbr /d'" }}
+{{ output "zoxide" "init" "--no-cmd" "fish" }}
+# define the commands ourselves; --no-cmd drops zoxide's abbr --erase dance,
+# and alias auto-wraps __zoxide_z so its completions still apply
+alias z=__zoxide_z
+alias zi=__zoxide_zi
 {{- end -}}
