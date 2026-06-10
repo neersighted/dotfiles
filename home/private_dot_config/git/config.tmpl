@@ -131,7 +131,7 @@
 [format]
 	pretty = onelineplus
 [pretty]
-	onelineplus = format:%C(yellow)%h%C(auto)%d%C(reset) %s %C(blue)(%cr)%C(reset) %C(green)<%aN>
+	onelineplus = format:{{ .git.pretty.onelineplus }}
 	columns = format:%C(yellow)%h%C(magenta)% G? %C(blue)%<(12,trunc)%ar %C(green)%<(16,trunc)%aN %C(reset)%s%C(auto)%d
 	github = format:- %s
 

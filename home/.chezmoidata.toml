@@ -39,6 +39,9 @@
 [python]
     supported = ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
+[git.pretty]
+    onelineplus = "%C(yellow)%h%C(auto)%d%C(reset) %s %C(blue)(%cr)%C(reset) %C(green)<%aN>"
+
 [packages.macos]
     taps = [
         "beeftornado/rmtree",

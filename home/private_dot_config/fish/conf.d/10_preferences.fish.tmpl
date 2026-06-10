@@ -103,6 +103,7 @@ set -g fzf_directory_opts \
   --bind 'ctrl-v:execute(command nvim {} >/dev/tty)' \
   --bind 'alt-d:reload(fd --hidden --color=always --type=directory)' \
   --bind 'alt-a:reload(fd --hidden --color=always)'
+set -g fzf_git_log_format '{{ .git.pretty.onelineplus }}'
 set -g fzf_git_log_opts \
   --bind 'ctrl-o:execute-silent(git switch -d {})'
 set -g fzf_history_opts --nth=4..
