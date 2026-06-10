@@ -1,4 +1,4 @@
-function __bind_keys --on-event fish_startup
+function __bind_keys_startup --on-event fish_startup
   functions -e (status current-function)
 
   bind \r execute-or-preexec

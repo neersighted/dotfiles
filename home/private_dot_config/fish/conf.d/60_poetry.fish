@@ -1,6 +1,8 @@
 status is-interactive; or exit
 
+# --on-variable PWD doesn't fire at startup
 function __poetry_auto_activate_startup --on-event fish_startup
+  functions -e (status current-function)
   __poetry_auto_activate
 end
 
