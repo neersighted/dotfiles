@@ -1,170 +1,151 @@
-{{- $hash := include .chezmoi.sourceFile | sha256sum -}}
+#
+# migration
+#
 
 # fish 4.3: key bindings are global by default. Erase any leftover universal
 # (which fish <4.3 event handlers would otherwise re-create).
 set -e -U fish_key_bindings
 set -g fish_key_bindings fish_default_key_bindings
 
-function fish_reset
+# fish_prefs: this file used to set universals and keep a list of what had been
+# set; erase any remnants of that system.
+if set -q fish_prefs_hash
   for pref in $fish_prefs
-    set -S $pref
-    set -U -e $pref
-    printf '\n'
+    set -e -U $pref
   end
-  set -U -e fish_prefs fish_prefs_hash
-  source (status current-filename)
+  set -e -U fish_prefs fish_prefs_hash
 end
 
-if not set -q fish_prefs_hash; or test $fish_prefs_hash != {{ $hash }}
-  function def
-    set -f -a options (fish_opt --short=x --long=export)
+#
+# toolchains
+#
 
-    argparse --min-args 2 --stop-nonopt $options -- $argv; or return
-    set -q _flag_x; and set -a flags -x
+# golang
+set -gx GOPATH $XDG_DATA_HOME/go
+set -gx GOROOT $XDG_DATA_HOME/go/root
 
-    set -Ua fish_prefs $argv[1]
-    if not set -q $argv[1]
-      set -U $flags $argv
-    end
-  end
+# node.js
+set -gx NODENV_ROOT $XDG_DATA_HOME/nodenv
+set -gx NODE_REPL_HISTORY $XDG_DATA_HOME/node/repl_history
+set -gx NPM_CONFIG_CACHE $XDG_CACHE_HOME/npm
+set -gx NPM_CONFIG_STORE_DIR $XDG_CACHE_HOME/pnpm
+set -gx NPM_CONFIG_USERCONFIG $XDG_CONFIG_HOME/npm/npmrc
 
-  status is-interactive; and echo 'Setting default preferences...' >&2
+# python
+set -gx PYENV_ROOT $XDG_DATA_HOME/pyenv
+set -gx PIPX_HOME $XDG_DATA_HOME/pipx
+set -gx PYLINTHOME $XDG_CACHE_HOME/pylint
+set -gx PYTHONSTARTUP $XDG_CONFIG_HOME/python/startup.py
 
-  #
-  # toolchains
-  #
+# ruby
+set -gx RBENV_ROOT $XDG_DATA_HOME/rbenv
+set -gx IRBRC $XDG_CONFIG_HOME/irb/irbrc
+set -gx GEM_SPEC_CACHE $XDG_CACHE_HOME/gem
+set -gx BUNDLE_USER_CONFIG $XDG_CONFIG_HOME/bundle
+set -gx BUNDLE_USER_CACHE $XDG_CACHE_HOME/bundle
+set -gx BUNDLE_USER_PLUGIN $XDG_DATA_HOME/bundle
 
-  # golang
-  def -x GOPATH $XDG_DATA_HOME/go
-  def -x GOROOT $XDG_DATA_HOME/go/root
+# rust
+set -gx RUSTUP_HOME $XDG_DATA_HOME/rustup
+set -gx CARGO_HOME $XDG_DATA_HOME/cargo
 
-  # node.js
-  def -x NODENV_ROOT $XDG_DATA_HOME/nodenv
-  def -x NODE_REPL_HISTORY $XDG_DATA_HOME/node/repl_history
-  def -x NPM_CONFIG_CACHE $XDG_CACHE_HOME/npm
-  def -x NPM_CONFIG_STORE_DIR $XDG_CACHE_HOME/pnpm
-  def -x NPM_CONFIG_USERCONFIG $XDG_CONFIG_HOME/npm/npmrc
+#
+# defaults
+#
 
-  # python
-  def -x PYENV_ROOT $XDG_DATA_HOME/pyenv
-  def -x PIPX_HOME $XDG_DATA_HOME/pipx
-  def -x PYLINTHOME $XDG_CACHE_HOME/pylint
-  def -x PYTHONSTARTUP $XDG_CONFIG_HOME/python/startup.py
+# core
+set -gx EDITOR nvim
+set -gx VISUAL nvim
+set -gx PAGER less
 
-  # ruby
-  def -x RBENV_ROOT $XDG_DATA_HOME/rbenv
-  def -x IRBRC $XDG_CONFIG_HOME/irb/irbrc
-  def -x GEM_SPEC_CACHE $XDG_CACHE_HOME/gem
-  def -x BUNDLE_USER_CONFIG $XDG_CONFIG_HOME/bundle
-  def -x BUNDLE_USER_CACHE $XDG_CACHE_HOME/bundle
-  def -x BUNDLE_USER_PLUGIN $XDG_DATA_HOME/bundle
-
-  # rust
-  def -x RUSTUP_HOME $XDG_DATA_HOME/rustup
-  def -x CARGO_HOME $XDG_DATA_HOME/cargo
-
-  #
-  # defaults
-  #
-
-  # universal
-  def -x EDITOR nvim
-  def -x VISUAL nvim
-  def -x PAGER less
-
-  # wsl
-  if is_wsl
-    def -x BROWSER 'wslopen'
-  end
-
-  #
-  # tools
-  #
-
-  # bash
-  def -x HISTFILE $XDG_DATA_HOME/bash/history
-
-  # bd
-  def BD_OPT 'insensitive'
-
-  # ccache
-  def -x CCACHE_DIR $XDG_CACHE_HOME/ccache
-
-  # fish
-  def fish_greeting ''
-  def fish_term24bit 1
-
-   # fzf
-   def FZF_DEFAULT_OPTS_BASE \
-      --ansi --no-bold \
-      --marker='*' \
-      --cycle \
-      --layout=reverse --preview-window=wrap \
-      --bind "'ctrl-\:toggle-preview'" \
-      --bind "'ctrl-x:execute-silent(echo {+} | clipboard-provider copy)'"
-   def -x FZF_DEFAULT_COMMAND 'fd --type=file --type=directory --hidden --strip-cwd-prefix --color=always .'
-
-   # fzf.fish
-   def fzf_fd_opts --hidden
-   def fzf_preview_dir_cmd eza --all --classify --color=always
-   def fzf_directory_opts \
-      --scheme=path \
-      --bind 'ctrl-v:execute(command nvim {} >/dev/tty)'
-   def fzf_git_log_opts \
-      --bind 'ctrl-o:execute-silent(git switch -d {})'
-
-  # homebrew
-  if is_macos
-    def -x HOMEBREW_AUTO_UPDATE_SECS 86400
-    def -x HOMEBREW_BAT 1
-    def -x HOMEBREW_CLEANUP_MAX_AGE_DAYS 30
-    def -x HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS 7
-    def -x HOMEBREW_DEVELOPER 1
-    def -x HOMEBREW_NO_ANALYTICS 1
-    def -x HOMEBREW_NO_ENV_HINTS 1
-    def -x HOMEBREW_NO_INSECURE_REDIRECT 1
-    def -x HOMEBREW_REQUIRE_TAP_TRUST 1
-    def -x HOMEBREW_UPDATE_TO_TAG 1
-    def -x HOMEBREW_UPGRADE_GREEDY_CASKS 1
-    def -x HOMEBREW_USE_INTERNAL_API 1
-    def -x HOMEBREW_VERIFY_ATTESTATIONS 1
-  end
-
-  # less
-  def -x LESS '--mouse --tabs=2 --RAW-CONTROL-CHARS'
-  def -x LESSHISTFILE $XDG_DATA_HOME/less/history
-
-  # pip
-  def -x PIP_REQUIRE_VIRTUALENV 1
-
-  # lsof
-  def -x LSOFDEVCACHE $XDG_CACHE_HOME/lsof
-
-  # mysql
-  def -x MYSQL_HISTFILE $XDG_DATA_HOME/mysql/history
-
-  # (n)vim
-  def -x VIM_CONFIG_PATH $XDG_CONFIG_HOME/nvim
-
-  # redis
-  def -x REDISCLI_HISTFILE $XDG_DATA_HOME/rediscli/history
-
-  # ripgrep
-  def -x RIPGREP_CONFIG_PATH $XDG_CONFIG_HOME/ripgrep/config
-
-  # shiv
-  def -x SHIV_ROOT $XDG_CACHE_HOME/shiv
-
-  # tmux
-  def -x TMUX_TMPDIR $XDG_RUNTIME_DIR
-
-  # wget
-  def -x WGETRC $XDG_CONFIG_HOME/wget/wgetrc
-
-  # vagrant
-  def -x VAGRANT_HOME $XDG_DATA_HOME/vagrant
-
-  # cleanup
-  functions -e def
-  set -U fish_prefs_hash {{ $hash }}
+# wsl
+if is_wsl
+  set -gx BROWSER wslopen
 end
+
+#
+# tools
+#
+
+# bash
+set -gx HISTFILE $XDG_DATA_HOME/bash/history
+
+# bd
+set -g BD_OPT insensitive
+
+# ccache
+set -gx CCACHE_DIR $XDG_CACHE_HOME/ccache
+
+# fish
+set -g fish_greeting ''
+set -g fish_term24bit 1
+
+# fzf
+set -g FZF_DEFAULT_OPTS_BASE \
+  --ansi --no-bold \
+  --marker='*' \
+  --cycle \
+  --layout=reverse --preview-window=wrap \
+  --bind "'ctrl-\:toggle-preview'" \
+  --bind "'ctrl-x:execute-silent(echo {+} | clipboard-provider copy)'"
+set -gx FZF_DEFAULT_COMMAND 'fd --type=file --type=directory --hidden --strip-cwd-prefix --color=always .'
+
+# fzf.fish
+set -g fzf_fd_opts --hidden
+set -g fzf_preview_dir_cmd eza --all --classify --color=always
+set -g fzf_directory_opts \
+  --scheme=path \
+  --bind 'ctrl-v:execute(command nvim {} >/dev/tty)'
+set -g fzf_git_log_opts \
+  --bind 'ctrl-o:execute-silent(git switch -d {})'
+
+# homebrew
+if is_macos
+  set -gx HOMEBREW_AUTO_UPDATE_SECS 86400
+  set -gx HOMEBREW_BAT 1
+  set -gx HOMEBREW_CLEANUP_MAX_AGE_DAYS 30
+  set -gx HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS 7
+  set -gx HOMEBREW_DEVELOPER 1
+  set -gx HOMEBREW_NO_ANALYTICS 1
+  set -gx HOMEBREW_NO_ENV_HINTS 1
+  set -gx HOMEBREW_NO_INSECURE_REDIRECT 1
+  set -gx HOMEBREW_REQUIRE_TAP_TRUST 1
+  set -gx HOMEBREW_UPDATE_TO_TAG 1
+  set -gx HOMEBREW_UPGRADE_GREEDY_CASKS 1
+  set -gx HOMEBREW_USE_INTERNAL_API 1
+  set -gx HOMEBREW_VERIFY_ATTESTATIONS 1
+end
+
+# less
+set -gx LESS '--mouse --tabs=2 --RAW-CONTROL-CHARS'
+set -gx LESSHISTFILE $XDG_DATA_HOME/less/history
+
+# pip
+set -gx PIP_REQUIRE_VIRTUALENV 1
+
+# lsof
+set -gx LSOFDEVCACHE $XDG_CACHE_HOME/lsof
+
+# mysql
+set -gx MYSQL_HISTFILE $XDG_DATA_HOME/mysql/history
+
+# (n)vim
+set -gx VIM_CONFIG_PATH $XDG_CONFIG_HOME/nvim
+
+# redis
+set -gx REDISCLI_HISTFILE $XDG_DATA_HOME/rediscli/history
+
+# ripgrep
+set -gx RIPGREP_CONFIG_PATH $XDG_CONFIG_HOME/ripgrep/config
+
+# shiv
+set -gx SHIV_ROOT $XDG_CACHE_HOME/shiv
+
+# tmux
+set -gx TMUX_TMPDIR $XDG_RUNTIME_DIR
+
+# wget
+set -gx WGETRC $XDG_CONFIG_HOME/wget/wgetrc
+
+# vagrant
+set -gx VAGRANT_HOME $XDG_DATA_HOME/vagrant
