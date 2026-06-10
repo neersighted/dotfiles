@@ -106,6 +106,7 @@ set -g fzf_directory_opts \
 set -g fzf_git_log_format '{{ .git.pretty.onelineplus }}'
 set -g fzf_git_log_opts \
   --bind 'ctrl-o:execute-silent(git switch -d {})'
+set -g fzf_git_status_opts --header-lines=1 # git config status.branch
 set -g fzf_history_opts --nth=4..
 
 # homebrew
