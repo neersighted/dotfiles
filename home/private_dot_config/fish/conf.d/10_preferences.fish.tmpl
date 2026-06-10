@@ -92,12 +92,20 @@ set -gx FZF_DEFAULT_COMMAND 'fd --type=file --type=directory --hidden --strip-cw
 
 # fzf.fish
 set -g fzf_fd_opts --hidden
-set -g fzf_preview_dir_cmd eza --all --classify --color=always
+set -g fzf_diff_highlighter delta --paging=never
+{{ if lookPath "eza" -}}
+set -g fzf_preview_dir_cmd eza --classify --git --group --all --color=always
+{{ end -}}
+# alt-d / alt-a reload the picker to dirs-only / all (files+dirs); the fd flags
+# mirror $fzf_fd_opts (a fish var won't expand inside fzf's --bind at runtime).
 set -g fzf_directory_opts \
   --scheme=path \
-  --bind 'ctrl-v:execute(command nvim {} >/dev/tty)'
+  --bind 'ctrl-v:execute(command nvim {} >/dev/tty)' \
+  --bind 'alt-d:reload(fd --hidden --color=always --type=directory)' \
+  --bind 'alt-a:reload(fd --hidden --color=always)'
 set -g fzf_git_log_opts \
   --bind 'ctrl-o:execute-silent(git switch -d {})'
+set -g fzf_history_opts --nth=4..
 
 # homebrew
 if is_macos

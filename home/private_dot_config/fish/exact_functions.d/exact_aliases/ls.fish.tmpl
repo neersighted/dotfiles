@@ -1,8 +1,7 @@
 {{- if lookPath "eza" -}}
-{{- $git := output "eza" "-v" | contains "+git" -}}
 status is-interactive; or exit
 
 function ls -w eza
-  command eza --classify {{ $git | ternary "--git " "" }}--group $argv
+  command eza --classify --git --group $argv
 end
 {{- end -}}
