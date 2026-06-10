@@ -2,6 +2,10 @@
 
 status is-interactive; or exit
 
+if set -q fish_plugins_hash; and test $fish_plugins_hash = {{ $hash }}
+  exit
+end
+
 if not functions -q fisher
   set_color magenta
   echo "Bootstrapping fisher..."
@@ -10,10 +14,8 @@ if not functions -q fisher
   curl -sSf https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
 end
 
-if not set -q fish_plugins_hash; or test $fish_plugins_hash != {{ $hash }}
-  echo "Updating fish plugins..."
-  fisher update
+echo "Updating fish plugins..."
+fisher update
 
-  set -U fish_plugins_hash {{ $hash }}
-end
+set -U fish_plugins_hash {{ $hash }}
 
