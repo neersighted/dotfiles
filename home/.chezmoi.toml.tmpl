@@ -43,27 +43,18 @@
 {{- $headless  := false -}}{{/* no graphical interface */}}
 {{- $transient := false -}}{{/* temporary machine (VM/cloud instances/container) */}}
 
-{{- if hasKey . "configured" -}}
-{{-   $headless  = .headless -}}
-{{-   $transient = .transient -}}
-{{- else -}}
-
-{{/* preset detection */}}
-{{-   if (eq .chezmoi.username "root" "ubuntu" "vagrant") -}}
-{{-     $transient = true -}}
-{{-   end -}}
-{{-   if $devcontainer -}}
-{{-     $headless  = true -}}
-{{-     $transient = true -}}
-{{-   end -}}
-{{/* base configration */}}
-{{-   if and (not $headless) stdinIsATTY -}}
-{{-       $headless = promptBool "headless" false -}}
-{{-   end -}}
-{{-   if and (not $transient) stdinIsATTY -}}
-{{-       $transient = promptBool "transient" false -}}
-{{-   end -}}
+{{/* preset detection (used as prompt defaults) */}}
+{{- if (eq .chezmoi.username "root" "ubuntu" "vagrant") -}}
+{{-   $transient = true -}}
 {{- end -}}
+{{- if $devcontainer -}}
+{{-   $headless  = true -}}
+{{-   $transient = true -}}
+{{- end -}}
+
+{{/* prompt once, then reuse the stored value (default non-interactively) */}}
+{{- $headless  = promptBoolOnce . "headless"  "headless"  $headless  -}}
+{{- $transient = promptBoolOnce . "transient" "transient" $transient -}}
 
 sourceDir = {{ quote .chezmoi.sourceDir }}
 remove = true
@@ -83,8 +74,6 @@ encryption = "age"
     watch = true
 
 [data]
-    configured = true
-
     osid       = {{ quote $osid }}
     headless   = {{ $headless }}
     transient  = {{ $transient }}
