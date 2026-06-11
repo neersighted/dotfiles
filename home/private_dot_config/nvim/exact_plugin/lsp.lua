@@ -1,6 +1,3 @@
--- Collect diagnostics into the loclist (buffer)/qflist (workspace).
-vim.keymap.set('n', '<leader>e', vim.diagnostic.setloclist, { desc = 'Buffer diagnostics (loclist)' })
-vim.keymap.set('n', '<leader>E', vim.diagnostic.setqflist, { desc = 'Workspace diagnostics (quickfix)' })
 -- Toggle inlay hints (e.g. function parameters)
 vim.keymap.set('n', '<leader>i', function()
   local filter = { bufnr = 0 }

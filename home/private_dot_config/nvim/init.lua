@@ -126,17 +126,9 @@ vim.keymap.set('n', '<leader>u', function() require('undotree').toggle() end, { 
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
 
--- Toggle loclist/quickfix.
-local function qftoggle(loc)
-  local key = loc and 'loclist' or 'quickfix'
-  local open = false
-  for _, w in ipairs(vim.fn.getwininfo()) do
-    if w[key] == 1 then open = true; break end
-  end
-  vim.cmd(open and (loc and 'lclose' or 'cclose') or (loc and 'lopen' or 'copen'))
-end
-vim.keymap.set('n', '<leader>q', function() qftoggle(true) end, { desc = 'Toggle loclist' })
-vim.keymap.set('n', '<leader>Q', function() qftoggle(false) end, { desc = 'Toggle quickfix' })
+-- Toggle the diagnostics loclist (buffer) / quickfix (project).
+vim.keymap.set('n', '<leader>q', function() require('lineutil').diag_toggle(true) end, { desc = 'Toggle buffer diagnostics' })
+vim.keymap.set('n', '<leader>Q', function() require('lineutil').diag_toggle(false) end, { desc = 'Toggle project diagnostics' })
 
 -- Ergonomic :terminal escape.
 vim.keymap.set('t', '<esc>', '<c-\\><c-n>')
