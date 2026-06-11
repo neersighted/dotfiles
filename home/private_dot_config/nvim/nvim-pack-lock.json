@@ -1,7 +1,7 @@
 {
   "plugins": {
     "SchemaStore.nvim": {
-      "rev": "0f3cd0e584b4ed221fc44eee5b0b6ce335f7e263",
+      "rev": "8a1c2472b53269bb368d1ffc5edddccfc782e8bb",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "aerial.nvim": {
@@ -45,7 +45,7 @@
       "src": "https://github.com/lukas-reineke/indent-blankline.nvim"
     },
     "leap.nvim": {
-      "rev": "d3641f9aa86e7460b14d9f4479e7454f88cc6b2d",
+      "rev": "d7f8ee64155b7790188f17a993390f32577cfb81",
       "src": "https://codeberg.org/andyg/leap.nvim"
     },
     "lexima.vim": {
@@ -114,7 +114,7 @@
       "src": "https://github.com/AndrewRadev/switch.vim"
     },
     "tree-sitter-manager.nvim": {
-      "rev": "30b6dd8d14bf4a3870dc44ccefdc228a9a760e71",
+      "rev": "c8a7b7b91aa23da24e7d02874f78d4c668a08530",
       "src": "https://github.com/romus204/tree-sitter-manager.nvim"
     },
     "undotree": {
