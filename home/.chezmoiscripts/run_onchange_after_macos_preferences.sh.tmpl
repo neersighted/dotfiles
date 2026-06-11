@@ -92,10 +92,6 @@ for uti in public.json public.plain-text; do # Use Sublime Text for text and JSO
   duti -s com.sublimetext.4 "$uti" all
 done
 
-# ----- Services -----
-
-brew services restart -v yubikey-agent # Enable the yubikey-agent daemon.
-
 # ----- Apply -----
 
 echo "Done! System UI will restart!"

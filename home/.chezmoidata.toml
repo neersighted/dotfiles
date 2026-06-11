@@ -45,7 +45,6 @@
 [packages.macos]
     taps = [
         "beeftornado/rmtree",
-        "docker/tap",
     ]
 
     formulae = [
@@ -152,6 +151,11 @@
         "zoxide",
     ]
 
+    # Formulae with services we should start/enable by default.
+    services = [
+        "yubikey-agent",
+    ]
+
     casks = [
         "1password",
         "1password-cli",
@@ -164,6 +168,7 @@
         "dash",
         "discord",
         "docker-desktop",
+        "docker/tap/sbx",
         "elgato-stream-deck",
         "firefox",
         "git-credential-manager",
@@ -202,8 +207,8 @@
         { name = "Dato", id = 1470584107 },
         { name = "Keynote", id = 361285480 },
         { name = "Lungo", id = 1263070803 },
-        { name = "Numbers", id = 361309726 },
-        { name = "Pages", id = 361304891 },
+        { name = "Numbers", id = 361304891 },
+        { name = "Pages", id = 361309726 },
         { name = "Pasteboard Viewer", id = 1499215709 },
         { name = "PCalc", id = 403504866 },
         { name = "Pixelmator Pro", id = 1289583905 },
@@ -211,17 +216,6 @@
         { name = "Shareful", id = 1522267256 },
         { name = "Velja", id = 1607635845 },
         { name = "Windows App", id = 1295203466 },
-    ]
-
-[packages.macos.unofficial]
-    formulae = []
-
-    casks = [
-        "docker/tap/sbx",
-    ]
-
-    commands = [
-        "beeftornado/rmtree/rmtree",
     ]
 
 # Casks declaring sha256 :no_check upstream (typically auto-updating vendor
