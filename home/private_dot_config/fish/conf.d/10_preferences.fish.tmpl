@@ -39,7 +39,6 @@ set -gx PYTHONSTARTUP $XDG_CONFIG_HOME/python/startup.py
 
 # ruby
 set -gx RBENV_ROOT $XDG_DATA_HOME/rbenv
-set -gx IRBRC $XDG_CONFIG_HOME/irb/irbrc
 set -gx GEM_SPEC_CACHE $XDG_CACHE_HOME/gem
 set -gx BUNDLE_USER_CONFIG $XDG_CONFIG_HOME/bundle
 set -gx BUNDLE_USER_CACHE $XDG_CACHE_HOME/bundle
@@ -72,9 +71,6 @@ set -gx HISTFILE $XDG_DATA_HOME/bash/history
 
 # bd
 set -g BD_OPT insensitive
-
-# ccache
-set -gx CCACHE_DIR $XDG_CACHE_HOME/ccache
 
 # fish
 set -g fish_greeting ''
@@ -137,9 +133,6 @@ set -gx LSOFDEVCACHE $XDG_CACHE_HOME/lsof
 
 # mysql
 set -gx MYSQL_HISTFILE $XDG_DATA_HOME/mysql/history
-
-# (n)vim
-set -gx VIM_CONFIG_PATH $XDG_CONFIG_HOME/nvim
 
 # redis
 set -gx REDISCLI_HISTFILE $XDG_DATA_HOME/rediscli/history
