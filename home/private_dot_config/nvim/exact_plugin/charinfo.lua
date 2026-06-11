@@ -128,7 +128,7 @@ local function write_chardata(data)
     end
   end
 
-  out:put('return {\n  names = {\n')
+  out:put('-- @generated using :CharinfoUpdate\nreturn {\n  names = {\n')
   put_map(data.names)
   out:put('  },\n  ranges = {\n')
   for i = 1, #data.ranges do

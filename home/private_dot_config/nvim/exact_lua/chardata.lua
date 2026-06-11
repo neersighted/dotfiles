@@ -1,3 +1,4 @@
+-- @generated using :CharinfoUpdate
 return {
   names = {
     [0x0] = "NULL",
