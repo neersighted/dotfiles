@@ -79,6 +79,48 @@ function M.status_symbol()
   return flags .. ' '
 end
 
+-- Width-aware Aerial breadcrumb factory. Returns a render fn that keeps the
+-- most-specific (rightmost) symbols within a column budget (the lesser of `max`
+-- and `frac` of the window), dropping leading ones behind a … and truncating
+-- the current symbol if it alone overflows. opts: max (60), frac (0.4),
+-- sep (' > '), ellipsis ('…').
+function M.aerial_crumbs(opts)
+  opts = opts or {}
+  local max = opts.max or 60
+  local frac = opts.frac or 0.4
+  local SEP = opts.sep or ' > '
+  local ELL = opts.ellipsis or '…'
+  local sepw = vim.fn.strdisplaywidth(SEP)
+
+  return function()
+    local ok, aerial = pcall(require, 'aerial')
+    if not ok then return '' end
+    local syms = aerial.get_location(true)
+    if vim.tbl_isempty(syms) then return '' end
+
+    local budget = math.min(max, math.floor(vim.fn.winwidth(0) * frac))
+    local kept, width = {}, 0
+    for i = #syms, 1, -1 do
+      local name = syms[i].name
+      if #kept == 0 then
+        -- Always show the current symbol, truncated to the budget.
+        if vim.fn.strdisplaywidth(name) > budget then
+          name = vim.fn.strcharpart(name, 0, budget - 1) .. ELL
+        end
+        kept[1] = name
+        width = vim.fn.strdisplaywidth(name)
+      elseif width + sepw + vim.fn.strdisplaywidth(name) > budget then
+        table.insert(kept, 1, ELL)
+        break
+      else
+        table.insert(kept, 1, name)
+        width = width + sepw + vim.fn.strdisplaywidth(name)
+      end
+    end
+    return esc(table.concat(kept, SEP))
+  end
+end
+
 -- Indent settings, modeline-style (sw=/ts=/tw=/noeol).
 function M.indentline()
   local sw = vim.bo.shiftwidth ~= 0 and vim.bo.shiftwidth or vim.bo.tabstop

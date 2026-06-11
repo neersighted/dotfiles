@@ -74,7 +74,7 @@ require('lualine').setup({
       'progress',
     },
     lualine_z = {
-      { 'aerial', colored = false, depth = 3, cond = lu.width_min(160), on_click = click_cmd('AerialToggle') },
+      { lu.aerial_crumbs({ max = 60, frac = 0.4 }), cond = lu.width_min(160), on_click = click_cmd('AerialToggle') },
       'location',
     },
   },
