@@ -1,3 +1,4 @@
+{{- /* chezmoi:modify-template */ -}}
 #
 # User Details
 #
@@ -200,4 +201,18 @@
 [url "aur@aur.archlinux.org:"]
 	insteadOf = aur:
 
+#
+# Machine-local maintenance.repo entries (written by `git maintenance`),
+# preserved across `chezmoi apply` instead of being clobbered.
+#
+{{ $repos := list -}}
+{{- range (.chezmoi.stdin | splitList "\n") -}}
+{{-   if regexMatch "^[ \t]*repo[ \t]*=" . -}}
+{{-     $repos = append $repos . -}}
+{{-   end -}}
+{{- end -}}
+{{- if $repos }}
+[maintenance]
+{{ join "\n" $repos }}
+{{ end }}
 # vi: ft=gitconfig.chezmoitmpl
