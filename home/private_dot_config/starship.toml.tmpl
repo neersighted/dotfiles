@@ -44,9 +44,9 @@ $directory\
 
 # Minimal collapsed prompt shown for past commands once transience kicks in
 # (see fish_prompt's --final-rendering branch in conf.d/60_starship.fish).
-# Just the character glyph (λ), status-colored via [character] — add_newline=false
-# above keeps it on one line.
-transient = "$character "
+# A plain literal "$ " (not the live λ) so copied scrollback lines start with a
+# standard, paste-friendly shell prompt char. add_newline=false keeps it on one line.
+transient = '\$ '
 
 [hostname]
 format = "[$hostname]($style)"
@@ -185,6 +185,7 @@ pipestatus_format = "\\[$pipestatus\\] => [$common_meaning$signal_name$maybe_int
 style = {{ quote .nord.nord11 }}
 
 [cmd_duration]
+min_time = 500
 format = "[$duration]($style)"
 style = {{ quote .nord.nord3 }}
 show_notifications = true
