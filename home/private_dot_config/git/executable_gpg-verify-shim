@@ -1,0 +1,16 @@
+#!/bin/sh -eu
+
+# fake gpg for use with `git slog`
+fd=1
+prev=
+for arg in "$@"; do
+	case $prev in --status-fd) fd=$arg ;; esac
+	case $arg in --status-fd=*) fd=${arg#--status-fd=} ;; esac
+	prev=$arg
+done
+
+cat >/dev/null 2>&1 || true # drain stdin to avoid EPIPE
+
+# report the signature as uncheckable
+printf '[GNUPG:] ERRSIG 0000000000000000 1 10 00 1 9\n[GNUPG:] NO_PUBKEY 0000000000000000\n' >&"$fd" || true
+exit 2

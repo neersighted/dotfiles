@@ -1,0 +1,71 @@
+#!/bin/sh -eu
+
+# `git slog` annotates the default log format with signature info.
+for arg in "$@"; do
+	case $arg in --pretty | --pretty=* | --format | --format=* | --oneline) explicit_format=1; break ;; esac
+done
+pretty=$(git config get --default='' format.pretty)
+case $pretty in
+	format:* | tformat:*) base=$pretty ;;
+	*) base=$(git config get --default='' "pretty.$pretty") ;;
+esac
+if [ "$(git config get --bool --default=false commit.gpgsign)" != true ] ||
+	[ -n "${explicit_format:-}" ] ||
+	[ -z "$base" ]; then
+	echo 'git-slog: not annotating (commit.gpgsign off, --pretty/--format/--oneline specified, or format.pretty is a builtin)' >&2
+	exec git log "$@"
+fi
+fmt="${base}%x1f%GK%x1f%G?"
+
+# Use our shim as the PGP verifier if none is configured/runnable, so an
+# uncheckable PGP signature reports %G?=E ("?") + a populated %GK, not N ("x").
+gpg_program=$(git config get --default=gpg gpg.program)
+command -v "$gpg_program" >/dev/null 2>&1 || gpg_program="$HOME/.config/git/gpg-verify-shim"
+
+# Match git's color rules, honouring explicit --color/--no-color (last wins).
+test -t 1 && tty=true
+test "$(git config --get-colorbool color.ui "${tty:-false}")" = true && color=always
+for arg do
+	shift
+	case $arg in
+		--color | --color=always) color=always ;;
+		--color=never | --no-color) color= ;;
+		--color=auto) color=${tty+always} ;;
+		*) set -- "$@" "$arg" ;;
+	esac
+done
+
+#   ✓  G          good, trusted signature
+#   ✗  N B        no signature / bad signature
+#   ⚠  R X Y      revoked key / expired signature / expired key
+#   ?  U E        good but unknown validity / cannot check (e.g. gpg missing)
+#   [ssh]/[gpg]   signature scheme, shown when a signature object exists
+ok='✓'; bad='✗'; warn='⚠'; unk='?'; to=''; tc=''
+if [ -n "${color:-}" ]; then
+	esc=$(printf '\033')
+	ok="${esc}[32m${ok}${esc}[0m"
+	bad="${esc}[31m${bad}${esc}[0m"
+	warn="${esc}[33m${warn}${esc}[0m"
+	unk="${esc}[2m${unk}${esc}[0m"
+	to="${esc}[2m"
+	tc="${esc}[0m"
+fi
+
+# Match git's pager behavior, as our `awk` will prevent native paging.
+pager='cat'
+test "${tty:-}" = true && pager=$(git var GIT_PAGER)
+
+git -c "gpg.program=$gpg_program" log --color="${color:-never}" --pretty="$fmt" "$@" \
+| awk -F'\037' -v ok="$ok" -v bad="$bad" -v warn="$warn" -v unk="$unk" -v to="$to" -v tc="$tc" '
+	NF < 3 { print; fflush(); next } # -p patch lines etc.
+	{
+		st = $3; gk = $2
+		if (st == "G") g = ok
+		else if (st == "N" || st == "B") g = bad
+		else if (st == "R" || st == "X" || st == "Y") g = warn
+		else g = unk
+		tag = ""
+		if (gk != "") tag = " " to "[" (gk ~ /^SHA256:/ ? "ssh" : "gpg") "]" tc
+		print $1 " " g tag; fflush()
+	}' \
+| LESS="${LESS:-FRX}" sh -c "$pager"
