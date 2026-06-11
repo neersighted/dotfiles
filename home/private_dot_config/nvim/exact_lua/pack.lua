@@ -53,22 +53,36 @@ vim.pack.add({
   'https://github.com/jiaoshijie/undotree',
 })
 
-vim.api.nvim_create_user_command('PackUpdate', function()
-  vim.pack.update()
-end, { desc = 'Update plugins via vim.pack' })
+vim.api.nvim_create_user_command('PackUpdate', function(opts)
+  vim.pack.update(nil, { target = opts.bang and 'lockfile' or 'version' })
+end, { bang = true, desc = 'Update plugins via vim.pack (! use lockfile versions)' })
 
-vim.api.nvim_create_user_command('PackStatus', function()
-  vim.print(vim.pack.get())
-end, { desc = 'List installed plugins' })
+vim.api.nvim_create_user_command('PackStatus', function(opts)
+  if not opts.bang then
+    return vim.pack.update(nil, { offline = true }) -- Report state without fetching.
+  end
+  -- Dump raw plugin data to a throwaway scratch buffer.
+  local lines = vim.split(vim.inspect(vim.pack.get()), '\n', { plain = true })
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+  vim.bo[buf].modifiable = false
+  vim.bo[buf].bufhidden = 'wipe'
+  vim.bo[buf].filetype = 'lua'
+  vim.cmd.sbuffer(buf)
+end, { bang = true, desc = 'List plugins registered via vim.pack (! dump debug data)' })
 
-vim.api.nvim_create_user_command('PackClean', function()
+vim.api.nvim_create_user_command('PackClean', function(opts)
   local orphans = vim.iter(vim.pack.get())
     :filter(function(p) return not p.active end)
     :map(function(p) return p.spec.name end)
     :totable()
   if #orphans == 0 then
-    print('No orphan plugins')
+    vim.notify('No unregistered plugins', vim.log.levels.INFO)
     return
   end
-  vim.pack.del(orphans)
-end, { desc = 'Remove plugins not in vim.pack.add' })
+  if opts.bang then
+    vim.pack.del(orphans)
+  else
+    vim.notify('Would remove (:PackClean! to execute): ' .. table.concat(orphans, ', '), vim.log.levels.INFO)
+  end
+end, { bang = true, desc = 'List plugins not in vim.pack.add (! remove them)' })
