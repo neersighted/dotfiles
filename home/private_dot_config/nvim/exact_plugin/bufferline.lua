@@ -28,14 +28,25 @@ local function diag_indicator(_, _, errors, ctx)
   return ' ' .. table.concat(parts, ' ')
 end
 
--- Right-area string: project-wide diagnostic counts, each in its own %#hl#.
-local function diag_segments()
+-- Cache project-wide diagnostic counts outside bufferline's render path.
+local diag_cache = ''
+local function refresh_diag_cache()
   local parts, counts = {}, vim.diagnostic.count(nil)
   for _, level in ipairs(diag_levels) do
     local n = counts[level.severity]
     if n and n > 0 then parts[#parts + 1] = lu.hl(level.hl, ' ' .. level.glyph .. n) end
   end
-  return table.concat(parts)
+  diag_cache = table.concat(parts)
+end
+
+vim.api.nvim_create_autocmd('DiagnosticChanged', {
+  group = vim.api.nvim_create_augroup('bufferline_diag_cache', { clear = true }),
+  callback = refresh_diag_cache,
+})
+
+-- Right-area string: project-wide diagnostic counts, each in its own %#hl#.
+local function diag_segments()
+  return diag_cache
 end
 
 -- Right-area string: the cwd, shown only when the file is outside it.

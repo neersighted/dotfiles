@@ -21,7 +21,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     if fname == '' or vim.fn.filereadable(fname) == 0 then return end
     local dir = M.find(args.buf)
     if dir and dir ~= vim.uv.cwd() then
-      vim.cmd.lcd(dir)
+      vim.cmd.lcd(vim.fn.fnameescape(dir))
     end
   end,
 })

@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufReadPre' }, {
     if not file or vim.fn.filereadable(file) ~= 1 then return end
     local buf = args.buf
     vim.schedule(function()
-      vim.cmd.edit(file)
+      vim.cmd.edit(vim.fn.fnameescape(file))
       pcall(vim.api.nvim_win_set_cursor, 0, { tonumber(line), tonumber(col) or 0 })
       if vim.api.nvim_buf_is_valid(buf) and buf ~= vim.api.nvim_get_current_buf() then
         pcall(vim.api.nvim_buf_delete, buf, { force = true })

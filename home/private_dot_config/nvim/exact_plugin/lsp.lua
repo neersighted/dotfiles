@@ -67,6 +67,13 @@ local function vscode_schemastore(kind, root)
   return kind.merge(catalog, project)
 end
 
+-- This nvim config: either the installed copy, or the chezmoi source.
+local function is_nvim_config(root)
+  if not root then return false end
+  return root == vim.fn.stdpath('config')
+    or vim.uv.fs_stat(root .. '/.chezmoiroot') ~= nil
+end
+
 local servers = {
   gopls = {
     cmd = { 'gopls' },
@@ -108,12 +115,14 @@ local servers = {
       Lua = {
         runtime = { version = 'LuaJIT' },
         diagnostics = { globals = { 'vim' } },
-        workspace = {
-          library = vim.api.nvim_get_runtime_file('', true),
-          checkThirdParty = false,
-        },
+        workspace = { checkThirdParty = false },
       },
     },
+    before_init = function(_, config)
+      if is_nvim_config(config.root_dir) then
+        config.settings.Lua.workspace.library = vim.api.nvim_get_runtime_file('', true)
+      end
+    end,
   },
   biome = {
     cmd = { 'biome', 'lsp-proxy' },

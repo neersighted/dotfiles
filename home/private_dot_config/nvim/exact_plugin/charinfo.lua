@@ -1,4 +1,19 @@
--- `ga`: character info from lua/chardata.lua; regenerate via :CharinfoUpdate.
+-- `ga`: character info from generated chardata; regenerate via :CharinfoUpdate.
+
+local function chardata_path()
+  return vim.fn.stdpath('data') .. '/chardata.lua'
+end
+
+local chardata
+local function read_chardata()
+  if chardata then return chardata end
+  local chunk, err = loadfile(chardata_path())
+  if not chunk then return nil, err end
+  local ok, data = pcall(chunk)
+  if not ok then return nil, data end
+  chardata = data
+  return chardata
+end
 
 -- char → digraph keystroke, built once from :digraphs (first wins on collision).
 local digraphs
@@ -17,8 +32,8 @@ local function charinfo()
   if ch == '' then return end
   local cp = vim.fn.char2nr(ch)
 
-  local ok, data = pcall(require, 'chardata')
-  if not ok then
+  local data = read_chardata()
+  if not data then
     vim.notify('chardata.lua missing (run :CharinfoUpdate)', vim.log.levels.WARN)
     return
   end
@@ -114,7 +129,8 @@ local buffer = require('string.buffer')
 
 -- Serialize to chardata.lua via string.buffer.
 local function write_chardata(data)
-  local path = vim.fn.stdpath('config') .. '/lua/chardata.lua'
+  local path = chardata_path()
+  vim.fn.mkdir(vim.fn.fnamemodify(path, ':h'), 'p')
   -- Pre-size from the previous file.
   local out = buffer.new((vim.uv.fs_stat(path) or {}).size or 0)
 
@@ -149,7 +165,7 @@ end
 vim.api.nvim_create_user_command('CharinfoUpdate', function()
   local data = generate()
   write_chardata(data)
-  package.loaded.chardata = nil -- reload chardata on the next `ga`
+  chardata = data
   vim.notify(('chardata.lua updated: %d names, %d ranges, %d entities, %d emoji')
     :format(vim.tbl_count(data.names), #data.ranges, vim.tbl_count(data.entities), vim.tbl_count(data.emoji)))
 end, { desc = 'Regenerate chardata.lua from source data' })
