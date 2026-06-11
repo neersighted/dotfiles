@@ -27,47 +27,14 @@ for toolchain in stable nightly
     $toolchain
 end
 
-set wanted \
-   cargo-audit \
-   cargo-asm \
-   cargo-binutils \
-   cargo-bloat \
-   cargo-depgraph \
-   cargo-edit \
-   cargo-expand \
-   cargo-feature \
-   cargo-fuzz \
-   cargo-release \
-   cargo-sort \
-   cargo-supply-chain \
-   cargo-outdated \
-   cargo-udeps \
-   cargo-update \
-   cargo-watch \
-   flamegraph
-
-if is_linux
-  set -a wanted \
-     cargo-tarpaulin \
-     cross
-end
-
-set installed (cargo install --list | string match -r '^\S+')
-set missing
-for crate in $wanted
-  contains -- $crate $installed; or set -a missing $crate
-end
-
-if test (count $missing) -gt 0
+# Crates are installed declaratively from [tools].cargo by
+# run_onchange_after_manage_unmanaged_tools; this script only updates them.
+# cargo-install-update (from the cargo-update crate) may not be present until
+# that runs, so gate on it.
+if command -q cargo-install-update
   set_color red
-  echo "Installing crates..."
+  echo "Updating crates..."
   set_color normal
 
-  cargo install --locked --force -- $missing
+  cargo install-update --all
 end
-
-set_color red
-echo "Updating crates..."
-set_color normal
-
-cargo install-update --all

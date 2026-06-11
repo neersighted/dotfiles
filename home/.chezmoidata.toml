@@ -445,6 +445,49 @@
         "zoxide",
     ]
 
+# Language-ecosystem tools, installed by run_onchange_after_manage_unmanaged_tools
+# via the native installer (go install / cargo install / pipx install) when that
+# toolchain is present. Cross-platform (incl. FreeBSD); not OS package manager-owned.
+[tools]
+    # go install <path>@latest; binary name is the last path element
+    go = [
+        "github.com/rhysd/vim-startuptime",
+        "mvdan.cc/xurls/v2/cmd/xurls",
+    ]
+    cargo = [
+        "cargo-asm",
+        "cargo-audit",
+        "cargo-binutils",
+        "cargo-bloat",
+        "cargo-depgraph",
+        "cargo-edit",
+        "cargo-expand",
+        "cargo-feature",
+        "cargo-fuzz",
+        "cargo-outdated",
+        "cargo-release",
+        "cargo-sort",
+        "cargo-supply-chain",
+        "cargo-udeps",
+        "cargo-update",
+        "cargo-watch",
+        "flamegraph",
+    ]
+    # pipx today, uv tool later — same list
+    python = [
+        "pip-run",
+        "pip-tools",
+        "poetry",
+        "shiv",
+    ]
+
+# OS-specific additions, merged in apply-time on .chezmoi.os.
+[tools.linux]
+    cargo = [
+        "cargo-tarpaulin",
+        "cross",
+    ]
+
 [wsl.aliases]
     adb        = "adb.exe"
     clion      = "cmd.exe /c clion.cmd"

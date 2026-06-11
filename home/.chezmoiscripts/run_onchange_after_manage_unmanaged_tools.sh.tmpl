@@ -6,25 +6,27 @@ if [ -f "./chezmoi" ] && [ "$(which -a chezmoi | wc -l)" -gt 1 ]; then
   echo "Switching to system-managed chezmoi..."
   rm -f "./chezmoi"
 fi
-
-if ! command -v eget >/dev/null; then
-  if [ "$(uname -s)-$(uname -m)" = 'Darwin-arm64' ]; then
-    export GETEGET_PLATFORM='darwin_amd64'
-  fi
-  if [ "$(uname -s)-$(uname -m)" = 'FreeBSD-amd64' ]; then
-    export GETEGET_PLATFORM='linux_amd64'
-  fi
-
-  echo "Fetching eget binary..."
-  curl https://zyedidia.github.io/eget.sh | sh
-fi
-
-if ! command -v vim-startuptime >/dev/null; then
-  echo "Fetching vim-startuptime binary..."
-  ./eget rhysd/vim-startuptime
-fi
-
-if ! command -v xurls >/dev/null; then
-  echo "Fetching xurls binary..."
-  ./eget mvdan/xurls
-fi
+{{ if lookPath "go" }}
+echo "Installing Go tools..."
+{{ range .tools.go -}}
+command -v {{ base . }} >/dev/null || go install {{ . }}@latest
+{{ end -}}
+{{ end }}
+{{- if lookPath "cargo" }}
+echo "Installing Rust crates..."
+cargo_wanted="{{ range .tools.cargo }}{{ . }} {{ end }}{{ if eq .chezmoi.os "linux" }}{{ range .tools.linux.cargo }}{{ . }} {{ end }}{{ end }}"
+cargo_installed="$(cargo install --list | awk '/^[^[:space:]]/ { print $1 }')"
+cargo_missing=""
+for crate in $cargo_wanted; do
+  printf '%s\n' "$cargo_installed" | grep -qx "$crate" || cargo_missing="$cargo_missing $crate"
+done
+# shellcheck disable=SC2086 # intentional split: one arg per crate
+[ -z "$cargo_missing" ] || cargo install --locked --force -- $cargo_missing
+{{ end }}
+{{- if lookPath "pipx" }}
+echo "Installing Python apps..."
+pipx_installed="$(pipx list --json | jq -r '.venvs[].metadata.main_package.package')"
+{{ range .tools.python -}}
+printf '%s\n' "$pipx_installed" | grep -qx "{{ . }}" || pipx install "{{ . }}"
+{{ end -}}
+{{ end }}

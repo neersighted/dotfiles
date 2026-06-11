@@ -29,27 +29,9 @@ for release in (echo $release_cycle | jq -r 'to_entries[] | select(.value.status
   end
 end
 
-set wanted \
-   pip-run \
-   pip-tools \
-   poetry \
-   shiv
-
+# Apps are installed declaratively from [tools].python by
+# run_onchange_after_manage_unmanaged_tools; this script only updates them.
 set installed (pipx list --json | jq -r '.venvs[].metadata.main_package | [.package, .suffix] | join("")')
-set missing
-for spec in $wanted
-  contains -- $spec $installed; or set -a missing $spec
-end
-
-if test (count $missing) -gt 0
-  set_color yellow
-  echo "Installing Python development apps..."
-  set_color normal
-
-  for spec in $missing
-    pipx install "$spec"
-  end
-end
 
 if test (count $installed) -gt 0
   set_color yellow
