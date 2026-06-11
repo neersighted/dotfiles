@@ -22,7 +22,7 @@ vim.pack.add({
   'https://github.com/stevearc/conform.nvim',
   'https://github.com/tpope/vim-eunuch',
   'https://github.com/tpope/vim-fugitive',
-  'https://github.com/tpope/vim-sleuth',
+  'https://github.com/NMAC427/guess-indent.nvim',
 
   -- Libraries
   'https://github.com/b0o/SchemaStore.nvim',
@@ -37,6 +37,7 @@ vim.pack.add({
   'https://github.com/mboughaba/i3config.vim',
 
   -- UI
+  'https://github.com/akinsho/bufferline.nvim',
   'https://github.com/andymass/vim-matchup',
   'https://github.com/dstein64/vim-startuptime',
   'https://github.com/nvim-lualine/lualine.nvim',

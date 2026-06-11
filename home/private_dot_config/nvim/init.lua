@@ -33,6 +33,7 @@ vim.opt.grepformat:prepend('%f:%l:%c:%m')
 
 -- Mouse
 vim.opt.mouse = 'a' -- Enable full mouse support.
+vim.opt.mousemoveevent = true -- Report mouse moves/hover.
 
 -- Numbering
 vim.opt.number = true -- Show (relative) line numbers.
@@ -154,11 +155,20 @@ vim.schedule(function()
   require('nord').setup({
     borders = true,
     on_highlights = function(hl, c)
-      hl.MiniStarterItemPrefix = { link = 'Delimiter' } -- index prefix
       hl.NormalFloat           = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
-      hl.NormalNC              = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
-      hl.Pmenu                 = { fg = c.snow_storm.origin, bg = c.polar_night.bright }
+      hl.NormalNC              = { link = 'NormalFloat' }
+      hl.Pmenu                 = { link = 'NormalFloat' }
       hl.SignColumn            = { bg = c.polar_night.bright }
+
+      hl.MiniStarterItemPrefix = { link = 'Delimiter' }
+      -- The bufferline cwd and the faded statusline pwd both sit on lualine's
+      -- section b, so both take that theme's background and stay in lockstep with
+      -- the statusline. LualinePwd's fg is polar_night.light — nord's own muted
+      -- shade, the colour it defines `Comment` and all dimmed text from (nord
+      -- names it by shade; there's no 'comment' role alias to reference).
+      local lualine_b = require('lualine.themes.nord').normal.b
+      hl.BufferlineCwd = { fg = lualine_b.fg, bg = lualine_b.bg }
+      hl.LualinePwd   = { fg = c.polar_night.light, bg = lualine_b.bg }
     end,
   })
   vim.cmd.colorscheme('nord')

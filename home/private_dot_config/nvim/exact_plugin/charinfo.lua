@@ -5,7 +5,7 @@ local function char_info()
   local cp = vim.fn.char2nr(ch)
 
   local digraph
-  for _, d in ipairs(vim.fn.digraph_getlist(1)) do
+  for _, d in ipairs(vim.fn.digraph_getlist(true)) do
     if d[2] == ch then digraph = d[1] break end
   end
 
