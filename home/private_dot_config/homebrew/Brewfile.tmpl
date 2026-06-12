@@ -3,7 +3,6 @@
 {{- $casks := .packages.macos.casks | default list -}}
 {{- $noShaCasks := .packages.macos.no_sha.casks | default list -}}
 {{- $trustedTaps := .packages.macos.taps | default list -}}
-{{- $officialTaps := list "homebrew/cask" "homebrew/core" -}}
 {{- $implicitTaps := list -}}
 {{- range (concat $formulae $casks) -}}
 {{- if contains "/" . -}}
@@ -27,7 +26,7 @@
 # .packages.macos.no_sha.casks:
 #   - official: require_sha skipped
 #   - non-official: blocked
-{{ range (concat $officialTaps $trustedTaps $implicitTaps) | sortAlpha | uniq -}}
+{{ range (concat $trustedTaps $implicitTaps) | sortAlpha | uniq -}}
 tap {{ quote . }}{{ if has . $trustedTaps }}, trusted: true{{ end }}
 {{ end -}}
 {{ range $formulae | sortAlpha | uniq -}}
