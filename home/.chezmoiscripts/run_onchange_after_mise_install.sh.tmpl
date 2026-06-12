@@ -1,0 +1,7 @@
+{{- if ne .chezmoi.os "freebsd" -}}
+#!/bin/sh -e
+# run_onchange hash: {{ include "private_dot_config/mise/mise.lock" | sha256sum }}
+command -v mise >/dev/null || exit 0
+echo "Installing/updating mise-managed tools..."
+mise install
+{{- end -}}

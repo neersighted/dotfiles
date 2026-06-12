@@ -1,0 +1,4 @@
+# cap mise.toml discovery at ~
+ceiling_paths = [ "{{ env.HOME }}" ]
+# use platform-specific mise.toml files transparently
+auto_env = true

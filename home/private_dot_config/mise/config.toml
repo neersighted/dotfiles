@@ -1,0 +1,23 @@
+[settings]
+# check in tool versions and digests (for platforms I use)
+lockfile = true 
+lockfile_platforms = ["macos-arm64", "linux-x64"]
+# disable telemetry
+use_versions_host_track = false
+# enable experimental features
+experimental = true
+
+# cache the computed env
+env_cache = true
+env_shell_expand = true
+# enable automatic venv/tool activation
+python.uv_venv_auto = "source"
+idiomatic_version_file_enable_tools = ["go", "node", "python", "rust"]
+
+[settings.github]
+# find github credentials using the configured credential-helper
+use_git_credentials = true
+
+[hooks]
+# notify uv of new versions automatically
+postinstall = "mise sync python --uv"

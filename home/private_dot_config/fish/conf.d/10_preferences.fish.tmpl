@@ -20,25 +20,17 @@ end
 # toolchains
 #
 
-# golang
-set -gx GOPATH $XDG_DATA_HOME/go
-set -gx GOROOT $XDG_DATA_HOME/go/root
-
-# node.js
-set -gx NODENV_ROOT $XDG_DATA_HOME/nodenv
+# node
 set -gx NODE_REPL_HISTORY $XDG_DATA_HOME/node/repl_history
 set -gx NPM_CONFIG_CACHE $XDG_CACHE_HOME/npm
 set -gx NPM_CONFIG_STORE_DIR $XDG_CACHE_HOME/pnpm
 set -gx NPM_CONFIG_USERCONFIG $XDG_CONFIG_HOME/npm/npmrc
 
 # python
-set -gx PYENV_ROOT $XDG_DATA_HOME/pyenv
-set -gx PIPX_HOME $XDG_DATA_HOME/pipx
 set -gx PYLINTHOME $XDG_CACHE_HOME/pylint
 set -gx PYTHONSTARTUP $XDG_CONFIG_HOME/python/startup.py
 
 # ruby
-set -gx RBENV_ROOT $XDG_DATA_HOME/rbenv
 set -gx GEM_SPEC_CACHE $XDG_CACHE_HOME/gem
 set -gx BUNDLE_USER_CONFIG $XDG_CONFIG_HOME/bundle
 set -gx BUNDLE_USER_CACHE $XDG_CACHE_HOME/bundle

@@ -1,7 +1,0 @@
-{{- if lookPath "pyenv" -}}
-{{-   range (reverse .python.supported) -}}
-{{      output "sh" "-c" (printf "pyenv latest -b %s || true" .) }}
-{{-   end -}}
-{{- else -}}
-system
-{{- end -}}

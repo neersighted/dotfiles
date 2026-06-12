@@ -1,0 +1,29 @@
+{{- if eq .chezmoi.os "freebsd" -}}
+#!/bin/sh -e
+# run_onchange hash: {{ toJson .tools | sha256sum }}
+# mise does not support FreeBSD; so we do this the painful way.
+: "${XDG_DATA_HOME:=$HOME/.local/share}"
+: "${CARGO_HOME:=$XDG_DATA_HOME/cargo}"
+export CARGO_HOME
+export PATH="$CARGO_HOME/bin:$PATH"
+
+{{ if lookPath "go" -}}
+{{ range .tools.go }}command -v {{ base . }} >/dev/null || go install {{ . }}@latest
+{{ end -}}
+{{ end -}}
+
+{{ if lookPath "cargo" -}}
+command -v cargo-install-update >/dev/null || cargo install --locked cargo-update || echo "WARN: cargo-update failed to build"
+cargo_have="$(cargo install --list | awk '/^[^[:space:]]/ { print $1 }')"
+for crate in {{ range .tools.cargo }}{{ . }} {{ end }}; do
+  printf '%s\n' "$cargo_have" | grep -qx "$crate" || cargo install --locked "$crate" || echo "WARN: $crate failed to build"
+done
+command -v cargo-install-update >/dev/null && cargo install-update --all || echo "WARN: crate update skipped/failed"
+{{ end -}}
+
+{{ if lookPath "npm" -}}
+{{ range .tools.npm }}npm ls -g --depth=0 {{ . }} >/dev/null 2>&1 || npm install -g {{ . }}
+{{ end -}}
+
+{{ end -}}
+{{- end -}}

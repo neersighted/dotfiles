@@ -16,40 +16,30 @@ manup $HOMEBREW_PREFIX/share/man
 set -x INFOPATH $HOMEBREW_PREFIX/share/info ''
 {{- end }}
 
-{{- $nodenv_version := (expandenv "$NODENV_ROOT/version") }}
-{{- if stat $nodenv_version }}
-# nodejs
-set -q NODENV_VERSION; or set -l NODENV_VERSION {{ include $nodenv_version | trim }}
-manup MANPATH $NODENV_ROOT/versions/$NODENV_VERSION/share/man
-{{- end}}
-
-{{- $pyenv_version := (expandenv "$PYENV_ROOT/version") }}
-{{- if stat $pyenv_version }}
-# python
-set -q PYENV_VERSION; or set -l PYENV_VERSION {{ (split "\n" (include $pyenv_version))._0 }}
-manup MANPATH $PYENV_ROOT/versions/$PYENV_VERSION/share/man
-{{- end}}
-
-{{- $rbenv_version := (expandenv "$RBENV_ROOT/version") }}
-{{- if stat $rbenv_version }}
-# ruby
-set -q RBENV_VERSION; or set -l RBENV_VERSION {{ include $rbenv_version | trim }}
-manup MANPATH $RBENV_ROOT/versions/$RBENV_VERSION/share/man
-{{- end}}
+{{- if lookPath "mise" }}
+{{- $ls := output "mise" "ls" "--current" "--json" | fromJson }}
+{{- range $i, $tool := list "node" "python" }}
+{{-   range $j, $v := index $ls $tool }}
+{{-     if $v.install_path }}
+manup {{ $v.install_path }}/share/man
+{{-     end }}
+{{-   end }}
+{{- end }}
+{{- end }}
 
 # rust
-if test -e $RUSTUP_HOME/toolchains
+if test -e $XDG_DATA_HOME/rustup/toolchains
   set -l rustup_toolchain stable
   if set -q RUSTUP_TOOLCHAIN
     set rustup_toolchain $RUSTUP_TOOLCHAIN
-  else if test -e $RUSTUP_HOME/settings.toml
-    set rustup_toolchain (string match -r 'default_toolchain = "(.*)"' < $RUSTUP_HOME/settings.toml)[2]
+  else if test -e $XDG_DATA_HOME/rustup/settings.toml
+    set rustup_toolchain (string match -r 'default_toolchain = "(.*)"' < $XDG_DATA_HOME/rustup/settings.toml)[2]
   end
-  manup MANPATH $RUSTUP_HOME/toolchains/$rustup_toolchain*/{,share/}man
+  manup $XDG_DATA_HOME/rustup/toolchains/$rustup_toolchain*/{,share/}man
 end
 
 # local
-manup MANPATH $HOME/.local/share/man
+manup $HOME/.local/share/man
 
 # cleanup
 functions -e manup

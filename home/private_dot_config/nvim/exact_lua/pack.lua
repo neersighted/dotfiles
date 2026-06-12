@@ -16,7 +16,6 @@ vim.pack.add({
   'https://github.com/nvim-mini/mini.move',
 
   -- Integration
-  'https://github.com/NotAShelf/direnv.nvim',
   'https://github.com/ibhagwan/fzf-lua',
   'https://github.com/nanotee/zoxide.vim',
   'https://github.com/stevearc/conform.nvim',

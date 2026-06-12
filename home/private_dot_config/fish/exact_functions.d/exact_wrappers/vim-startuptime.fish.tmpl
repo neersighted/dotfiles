@@ -1,9 +1,0 @@
-{{- if lookPath "vim-startuptime" -}}
-function vim-startuptime
-  if isatty stdout
-    command vim-startuptime $argv | $PAGER
-  else
-    command vim-startuptime $argv
-  end
-end
-{{- end -}}

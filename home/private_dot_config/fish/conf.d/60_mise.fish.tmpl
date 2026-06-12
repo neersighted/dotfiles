@@ -1,0 +1,26 @@
+{{- if lookPath "mise" }}
+# Disable Homebrew's vendor_conf.d/mise.fish auto-activation (it would install the
+# per-prompt fish_prompt hook we're avoiding). This file (60_mise.fish) sorts before
+# the vendor "mise.fish" in fish's conf.d ordering, so the var is set in time.
+set -gx MISE_FISH_AUTO_ACTIVATE 0
+
+# The cd-hook below is interactive-only: a non-interactive fish script that `cd`s
+# must not shell out to `mise hook-env`. (Set MISE_FISH_AUTO_ACTIVATE above this
+# guard so the vendor file is suppressed even in non-interactive shells.)
+status is-interactive; or exit
+
+# mise: tool shims on PATH (no startup/prompt shell-out), env on cd only.
+set -gx MISE_SHELL fish
+set -q __MISE_ORIG_PATH; or set -gx __MISE_ORIG_PATH $PATH
+
+# The `mise` function wrapper (`mise shell`/`deactivate`/`sh`) is autoloaded from
+# functions.d/wrappers/mise.fish — kept out of conf.d so it isn't defined on every
+# shell. __mise_hook calls `command mise` so the wrapper isn't loaded at startup.
+
+function __mise_hook --on-variable PWD
+  command mise hook-env -s fish | source
+end
+function __mise_hook_startup --on-event fish_startup
+  __mise_hook
+end
+{{- end }}

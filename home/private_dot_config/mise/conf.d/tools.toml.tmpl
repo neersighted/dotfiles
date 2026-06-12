@@ -1,0 +1,22 @@
+[tools]
+go = "latest"
+node = "lts"
+python = "latest"
+rust = { version = "stable", components = "rust-analyzer,rust-src" }
+
+aube = "latest"
+cargo-binstall = "latest"
+uv = "latest"
+
+{{ range .tools.cargo -}}
+"cargo:{{ . }}" = { version = "latest", depends = ["rust", "cargo-binstall"] }
+{{ end -}}
+{{ range .tools.go -}}
+"go:{{ . }}" = { version = "latest", depends = ["go"] }
+{{ end -}}
+{{ range .tools.npm -}}
+"npm:{{ . }}" = { version = "latest", depends = ["aube"] }
+{{ end -}}
+{{ range .tools.pip -}}
+"pipx:{{ . }}" = { version = "latest", depends = ["python", "uv"] }
+{{ end -}}

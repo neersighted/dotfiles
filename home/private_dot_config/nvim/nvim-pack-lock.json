@@ -1,7 +1,7 @@
 {
   "plugins": {
     "SchemaStore.nvim": {
-      "rev": "8a1c2472b53269bb368d1ffc5edddccfc782e8bb",
+      "rev": "8d6022b2a9034f46135437ade736c31b0ccfc8d7",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "aerial.nvim": {
@@ -106,7 +106,7 @@
       "src": "https://github.com/HiPhish/rainbow-delimiters.nvim"
     },
     "smart-splits.nvim": {
-      "rev": "6806149fd36d1c5e797debe3e18b2c07219b685a",
+      "rev": "501ea73e433246cbd53f0b14bbd205fa44831e4d",
       "src": "https://github.com/mrjones2014/smart-splits.nvim"
     },
     "switch.vim": {

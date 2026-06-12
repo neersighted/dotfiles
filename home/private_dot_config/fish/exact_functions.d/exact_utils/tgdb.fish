@@ -24,11 +24,11 @@ function tgdb -d 'tmux-enabled gdb(-dashboard)'
     end
 
     function __tgdb_python
-      command -q pyenv; or return
+      command -q mise; or return
 
-      # use pyenv to locate the pythonX-gdb.py file
+      # use mise to locate the pythonX-gdb.py file
       # python-build installs it next to the python binaries
-      set load_path (dirname (pyenv which python))
+      set load_path (dirname (mise which python))
 
       string join -- \n \
          -ex "add-auto-load-safe-path $load_path"

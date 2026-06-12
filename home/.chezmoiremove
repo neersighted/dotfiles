@@ -1,1 +1,20 @@
+# the great luau
 .config/nvim/init.vim
+# the misening
+.config/fish/completions/nodenv.fish
+.config/fish/completions/poetry.fish
+.config/fish/completions/pyenv.fish
+.config/fish/conf.d/60_direnv.fish
+.config/fish/conf.d/60_poetry.fish
+.local/bin/git-recent
+.local/bin/goup
+.local/bin/nodenv-prune
+.local/bin/nodenv-update
+.local/bin/pyenv-prune
+.local/bin/pyenv-update
+.local/bin/rbenv-prune
+.local/bin/rbenv-update
+.local/bin/rustupup
+.local/share/nodenv
+.local/share/pyenv
+.local/share/rbenv
