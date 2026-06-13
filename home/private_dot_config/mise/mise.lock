@@ -125,13 +125,6 @@ version = "stable"
 backend = "core:rust"
 
 [tools.rust.options]
-components = "rust-analyzer,rust-src"
-
-[[tools.rust]]
-version = "stable"
-backend = "core:rust"
-
-[tools.rust.options]
 components = "rust-analyzer,rust-docs,rust-src"
 
 [[tools.uv]]
