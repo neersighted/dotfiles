@@ -1,40 +1,41 @@
-#! /bin/python
+"""
+Mirrors CPython's default readline hook, but loads the init file and caps the history length.
+"""
 
 import atexit
 import os
 import sys
 
-HOME = os.path.expanduser("~")
-XDG_DATA_HOME = os.environ['XDG_DATA_HOME'] \
-                    if os.environ['XDG_DATA_HOME'] \
-                    else os.path.join(HOME, ".local", "share")
-PYTHON_DATA = os.path.join(XDG_DATA_HOME, "python")
 
-
-def interactivehook():
+def _interactive_hook():
     try:
         import readline
-        import rlcompleter
+        import rlcompleter  # noqa: F401 -- importing registers the completer
     except ImportError:
         return
 
-    readline_doc = getattr(readline, '__doc__', '')
-    if readline_doc is not None and 'libedit' in readline_doc:
-        readline.parse_and_bind('bind ^I rl_complete')
+    # editline/libedit needs a different binding than GNU readline.
+    backend = getattr(readline, "backend", None)
+    if backend == "editline" or (
+        backend is None and "libedit" in (readline.__doc__ or "")
+    ):
+        readline.parse_and_bind("bind ^I rl_complete")
     else:
-        readline.parse_and_bind('tab: complete')
-
-    if not os.path.isdir(PYTHON_DATA):
-        os.mkdir(PYTHON_DATA)
-    histfile = os.path.join(PYTHON_DATA, "history")
+        readline.parse_and_bind("tab: complete")
 
     try:
-        readline.read_history_file(histfile)
-        readline.set_history_length(1000)
-    except FileNotFoundError:
+        readline.read_init_file()
+    except OSError:
         pass
 
+    histfile = os.environ["PYTHON_HISTORY"]
+    os.makedirs(os.path.dirname(histfile), exist_ok=True)
+    try:
+        readline.read_history_file(histfile)
+    except OSError:
+        pass
+    readline.set_history_length(1000)
     atexit.register(readline.write_history_file, histfile)
 
 
-sys.__interactivehook__ = interactivehook
+sys.__interactivehook__ = _interactive_hook

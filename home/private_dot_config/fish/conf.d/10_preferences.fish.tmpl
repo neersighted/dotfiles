@@ -20,13 +20,19 @@ end
 # toolchains
 #
 
+# go
+set -gx GOPATH $XDG_DATA_HOME/go
+set -gx GOMODCACHE $XDG_CACHE_HOME/go/mod
+set -gx GOCACHE $XDG_CACHE_HOME/go/build
+
 # node
-set -gx NODE_REPL_HISTORY $XDG_DATA_HOME/node/repl_history
+set -gx NODE_REPL_HISTORY $XDG_STATE_HOME/node/repl_history
 set -gx NPM_CONFIG_USERCONFIG $XDG_CONFIG_HOME/npm/npmrc
 
 # python
 set -gx PYLINTHOME $XDG_CACHE_HOME/pylint
 set -gx PYTHONSTARTUP $XDG_CONFIG_HOME/python/startup.py
+set -gx PYTHON_HISTORY $XDG_STATE_HOME/python/history
 
 # ruby
 set -gx GEM_SPEC_CACHE $XDG_CACHE_HOME/gem
@@ -57,7 +63,7 @@ end
 #
 
 # bash
-set -gx HISTFILE $XDG_DATA_HOME/bash/history
+set -gx HISTFILE $XDG_STATE_HOME/bash/history
 
 # bd
 set -g BD_OPT insensitive
@@ -95,6 +101,9 @@ set -g fzf_git_log_opts \
 set -g fzf_git_status_opts --header-lines=1 # git config status.branch
 set -g fzf_history_opts --nth=4..
 
+# gdb
+set -gx GDBHISTFILE $XDG_STATE_HOME/gdb/history
+
 # homebrew
 if is_macos
   set -gx HOMEBREW_AUTO_UPDATE_SECS 86400
@@ -111,27 +120,43 @@ if is_macos
   set -gx HOMEBREW_VERIFY_ATTESTATIONS 1
 end
 
+# kubernetes
+set -gx KUBECONFIG $XDG_CONFIG_HOME/kube/config
+set -gx KUBECACHEDIR $XDG_CACHE_HOME/kube
+
 # less
 set -gx LESS '--mouse --tabs=2 --RAW-CONTROL-CHARS'
-set -gx LESSHISTFILE $XDG_DATA_HOME/less/history
+set -gx LESSHISTFILE $XDG_STATE_HOME/less/history
 
 # pip
 set -gx PIP_REQUIRE_VIRTUALENV 1
+
+# postgres
+set -gx PSQLRC $XDG_CONFIG_HOME/pg/psqlrc
+set -gx PSQL_HISTORY $XDG_STATE_HOME/psql/history
+set -gx PGPASSFILE $XDG_CONFIG_HOME/pg/pgpass
+set -gx PGSERVICEFILE $XDG_CONFIG_HOME/pg/pg_service.conf
+
+# readline
+set -gx INPUTRC $XDG_CONFIG_HOME/readline/inputrc
 
 # lsof
 set -gx LSOFDEVCACHE $XDG_CACHE_HOME/lsof
 
 # mysql
-set -gx MYSQL_HISTFILE $XDG_DATA_HOME/mysql/history
+set -gx MYSQL_HISTFILE $XDG_STATE_HOME/mysql/history
 
 # redis
-set -gx REDISCLI_HISTFILE $XDG_DATA_HOME/rediscli/history
+set -gx REDISCLI_HISTFILE $XDG_STATE_HOME/rediscli/history
 
 # ripgrep
 set -gx RIPGREP_CONFIG_PATH $XDG_CONFIG_HOME/ripgrep/config
 
 # shiv
 set -gx SHIV_ROOT $XDG_CACHE_HOME/shiv
+
+# sqlite
+set -gx SQLITE_HISTORY $XDG_STATE_HOME/sqlite/history
 
 # tmux
 set -gx TMUX_TMPDIR $XDG_RUNTIME_DIR
