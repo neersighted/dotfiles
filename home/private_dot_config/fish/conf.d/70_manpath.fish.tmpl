@@ -1,47 +1,16 @@
-# prepend an entry to manpath, moving if it already exists
-function manup
-  for entry in $argv[-1..1]
-    if not contains $entry $MANPATH; and test -e $entry
-      set -p MANPATH $entry
-    end
-  end
-end
-
-# ensure the system manpath is represented
+# empty entry: man derives from $PATH
 set -q MANPATH; or set -x MANPATH ''
 
 {{- if eq .chezmoi.os "darwin" }}
-# macos
-manup $HOMEBREW_PREFIX/share/man
+# info has no $PATH auto-derivation, so brew's infodir must be added
 set -x INFOPATH $HOMEBREW_PREFIX/share/info ''
 {{- end }}
 
-{{- if lookPath "mise" }}
-{{- $ls := output "mise" "ls" "--current" "--json" | fromJson }}
-{{- range $i, $tool := list "node" "python" }}
-{{-   range $j, $v := index $ls $tool }}
-{{-     if $v.install_path }}
-manup {{ $v.install_path }}/share/man
-{{-     end }}
-{{-   end }}
-{{- end }}
-{{- end }}
-
-# rust
+# rust: cargo/rustc are rustup proxies; so we can't discover them implicitly
 if test -e $XDG_DATA_HOME/rustup/toolchains
-  set -l rustup_toolchain stable
-  if set -q RUSTUP_TOOLCHAIN[1]
-    set rustup_toolchain $RUSTUP_TOOLCHAIN
-  else if test -r $XDG_DATA_HOME/rustup/settings.toml
-    set -l default (string match -rg '^\s*default_toolchain\s*=\s*"([^"]*)"' < $XDG_DATA_HOME/rustup/settings.toml)
-    set -q default[1]; and set rustup_toolchain $default
+  set -l tc '' # empty -> $tc* is just *, matching every installed toolchain
+  set -q RUSTUP_TOOLCHAIN[1]; and set tc $RUSTUP_TOOLCHAIN
+  for man in $XDG_DATA_HOME/rustup/toolchains/$tc*/{,share/}man
+    contains -- $man $MANPATH; or set -p MANPATH $man
   end
-  set -l rust_man $XDG_DATA_HOME/rustup/toolchains/$rustup_toolchain*/{,share/}man
-  set -q rust_man[1]; and manup $rust_man
 end
-
-# local
-manup $HOME/.local/share/man
-
-# cleanup
-functions -e manup
