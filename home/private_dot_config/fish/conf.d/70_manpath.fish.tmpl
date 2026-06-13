@@ -30,12 +30,14 @@ manup {{ $v.install_path }}/share/man
 # rust
 if test -e $XDG_DATA_HOME/rustup/toolchains
   set -l rustup_toolchain stable
-  if set -q RUSTUP_TOOLCHAIN
+  if set -q RUSTUP_TOOLCHAIN[1]
     set rustup_toolchain $RUSTUP_TOOLCHAIN
-  else if test -e $XDG_DATA_HOME/rustup/settings.toml
-    set rustup_toolchain (string match -r 'default_toolchain = "(.*)"' < $XDG_DATA_HOME/rustup/settings.toml)[2]
+  else if test -r $XDG_DATA_HOME/rustup/settings.toml
+    set -l default (string match -rg '^\s*default_toolchain\s*=\s*"([^"]*)"' < $XDG_DATA_HOME/rustup/settings.toml)
+    set -q default[1]; and set rustup_toolchain $default
   end
-  manup $XDG_DATA_HOME/rustup/toolchains/$rustup_toolchain*/{,share/}man
+  set -l rust_man $XDG_DATA_HOME/rustup/toolchains/$rustup_toolchain*/{,share/}man
+  set -q rust_man[1]; and manup $rust_man
 end
 
 # local
