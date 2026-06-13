@@ -8,6 +8,9 @@ aube = "latest"
 cargo-binstall = "latest"
 uv = "latest"
 
+{{ range .tools.mise -}}
+"{{ . }}" = "latest"
+{{ end -}}
 {{ range .tools.cargo -}}
 "cargo:{{ . }}" = { version = "latest", depends = ["rust", "cargo-binstall"] }
 {{ end -}}

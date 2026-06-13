@@ -436,7 +436,12 @@
     ]
     gem = []
     go = [
+        "golang.org/x/tools/cmd/goimports",
+        "golang.org/x/vuln/cmd/govulncheck",
         "mvdan.cc/xurls/v2/cmd/xurls",
+    ]
+    mise = [
+        "golangci-lint",
     ]
     npm = [
         "git-recent",
