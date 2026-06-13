@@ -48,8 +48,29 @@ defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 0 # 
 
 # ----- Dock -----
 
-# Remove default apps from the Dock.
-for app in "Launchpad" "Safari" "Messages" "Mail" "Maps" "Photos" "FaceTime" "Calendar" "Contacts" "Reminders" "Notes" "TV" "Music" "News" "App Store" "System Preferences"; do
+# Purge default apps.
+for app in \
+  com.apple.apps.launcher \
+  com.apple.mobilephone \
+  com.apple.Safari \
+  com.apple.mail \
+  com.apple.MobileSMS \
+  com.apple.Maps \
+  com.apple.Photos \
+  com.apple.FaceTime \
+  com.apple.iCal \
+  com.apple.AddressBook \
+  com.apple.reminders \
+  com.apple.Notes \
+  com.apple.TV \
+  com.apple.Music \
+  com.apple.news \
+  com.apple.iWork.Keynote \
+  com.apple.iWork.Numbers \
+  com.apple.iWork.Pages \
+  com.apple.games \
+  com.apple.AppStore \
+  com.apple.systempreferences; do
   dockutil --remove "$app" --no-restart 2>/dev/null || true
 done
 
