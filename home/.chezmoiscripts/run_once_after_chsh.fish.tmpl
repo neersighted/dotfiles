@@ -1,7 +1,7 @@
 {{- if lookPath "fish" -}}
 #!/usr/bin/env fish
 
-set fish (status fish-path)
+set fish (command -v fish)
 set username {{ quote .chezmoi.username }}
 
 function getshell
@@ -22,7 +22,7 @@ function setshell -a shell
 end
 
 if test (getshell) != $fish
-  if not string match -eq (status fish-path) < /etc/shells
+  if not string match -eq $fish < /etc/shells
     echo "Adding $fish to /etc/shells..."
     printf '%s\n' "$fish" | sudo tee -a /etc/shells >/dev/null
   end

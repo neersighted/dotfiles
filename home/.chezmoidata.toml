@@ -29,9 +29,7 @@
     onelineplus = "%C(yellow)%h%C(auto)%d%C(reset) %s %C(blue)(%cr)%C(reset) %C(green)<%aN>"
 
 [packages.macos]
-    taps = [
-        "beeftornado/rmtree",
-    ]
+    taps = []
 
     formulae = [
         # Toolchain
@@ -153,10 +151,9 @@
         "dash",
         "discord",
         "docker-desktop",
-        "docker/tap/sbx",
+        "docker/tap/sbx@nightly",
         "elgato-stream-deck",
         "firefox",
-        "git-credential-manager",
         "hex-fiend",
         "hot",
         "iterm2",
@@ -365,7 +362,6 @@
         "gdb",
         "git",
         "git-absorb",
-        "git-credential-manager-bin",
         "git-delta",
         "git-filter-repo",
         "git-interactive-rebase-tool-bin",
