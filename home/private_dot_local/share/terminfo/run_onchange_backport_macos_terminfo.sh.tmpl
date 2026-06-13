@@ -2,16 +2,10 @@
 {{- if stat $infocmp -}}
 #!/bin/sh -e
 
-terminfo=$(mktemp)
-trap 'rm $terminfo' EXIT
-
-{{- range $i, $term := list "iterm2" "tmux-256color" }}
+{{- range $term := list "alacritty" "iterm2" }}
 if ! /usr/bin/infocmp {{ quote $term }} >/dev/null 2>&1; then
   echo "Backporting brewed {{ $term }} terminfo..."
-
-  {{ quote $infocmp }} -x {{ quote $term }} \
-    | sed 's/pairs#0x10000/pairs#0x1000/' >"$terminfo"
-  /usr/bin/tic -o . -x "$terminfo"
+  {{ quote $infocmp }} -x {{ quote $term }} | /usr/bin/tic -o . -x -
 
   # run_onchange hash: {{ output $infocmp $term | sha256sum }}
 fi
