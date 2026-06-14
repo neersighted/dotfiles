@@ -2,6 +2,7 @@
 {{ if .headless }}
 .config/Xresources
 .config/alacritty
+.config/ghostty
 .config/i3
 .config/xinit
 {{ end }}
@@ -31,7 +32,6 @@ Documents
 .config/xinit
 {{ else }} # macos-only software
 .config/brew
-.config/iterm2
 .local/share/terminfo # terminfo hacks are only needed on macos
 {{ end }}
 

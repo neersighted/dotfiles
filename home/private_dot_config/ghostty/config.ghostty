@@ -1,0 +1,25 @@
+# Style
+theme = nord
+font-family = Source Code Pro
+font-size = 12
+
+# Window
+window-padding-x = 2
+window-padding-y = 0,4
+window-padding-balance = true
+
+# Clipboard
+clipboard-read = ask
+clipboard-write = allow
+
+# Behaviour
+link-previews = osc8
+quit-after-last-window-closed = true
+
+# macOS
+macos-icon = holographic
+macos-icon-frame = chrome
+macos-titlebar-proxy-icon = "hidden"
+
+# Linux
+gtk-single-instance = false

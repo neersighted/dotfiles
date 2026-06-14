@@ -2,12 +2,16 @@
 # Terminal
 #
 
-# Escapes
+# TERM
 set -g default-terminal 'tmux-256color'
-set -ga terminal-features 'xterm*:extkeys' # CSI-u is nearly universal
-set -ga terminal-features 'alacritty:extkeys:hyperlinks' # tmux can't detect extkeys or hyperlinks for alacritty
-set -g extended-keys on # support xterm-style extended keys (CSI u)
-set -g escape-time 25 # pass escape sequences (almost) instantly
+set -ga terminal-features 'xterm*:RGB:extkeys'
+set -ga terminal-features 'xterm-ghostty:hyperlinks:strikethrough:usstyle'
+set -ga terminal-features 'alacritty:extkeys:hyperlinks:strikethrough:usstyle'
+
+# Escape Sequences
+set -g escape-time 25
+set -g extended-keys on
+set -g extended-keys-format csi-u
 
 # Environment
 set -ga update-environment 'WSL_INTEROP' # update WSL interop socket on reattach

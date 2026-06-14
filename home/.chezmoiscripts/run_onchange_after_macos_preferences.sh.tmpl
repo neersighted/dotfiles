@@ -108,7 +108,7 @@ defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true # Q
 # ----- File handlers -----
 
 duti -s org.mozilla.firefox mailto # Use Firefox for email handling.
-duti -s com.googlecode.iTerm2 com.apple.terminal.shell-script shell # Use iTerm2 for .command scripts.
+duti -s com.mitchellh.ghostty com.apple.terminal.shell-script shell # Use Ghostty for .command scripts.
 for uti in public.json public.plain-text; do # Use Sublime Text for text and JSON.
   duti -s com.sublimetext.4 "$uti" all
 done

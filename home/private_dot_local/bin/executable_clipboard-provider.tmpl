@@ -40,15 +40,21 @@ function tty
   end | string match -e '/dev/'
 end
 
-function base64
+function eb64
 {{- if lookPath "base64" }}
-  if command base64 -w0 </dev/null 2>/dev/null
-    command base64 -w0
-  else
-    command base64
-  end
+  base64 -w0
 {{ else if lookPath "b64encode" }}
   b64encode -r -
+{{ else }}
+  return 1
+{{ end -}}
+end
+
+function db64
+{{- if lookPath "base64" }}
+  base64 -d
+{{ else if lookPath "b64decode" }}
+  b64decode -r
 {{ else }}
   return 1
 {{ end -}}
@@ -85,8 +91,8 @@ function wsl-provider -a op
   end
 {{    else }}
   switch $op
-    case copy; spit | tr '\n' '\r\n' | clip.exe
-    case paste; {{ quote $powershell }} -NoProfile -Command Get-Clipboard | tr '\r\n' '\n'
+    case copy; string replace -a \n \r\n -- $data | clip.exe
+    case paste; {{ quote $powershell }} -NoProfile -Command Get-Clipboard | string replace -a \r ''
   end
 {{    end -}}
 {{ else }}
@@ -148,16 +154,25 @@ end
 
 function osc52-provider -a op
   set -l tty (tty); or return 1
-  set -l payload (spit | base64); or return 1
-  test (printf '\e]52;c;%s\e\\' $payload | string length -b) -le 100000; or return 1 # max length 100000 bytes
 
   # OSC 52: ESC ] 52 ; <target> ; <data> ESC \  (ST = String Terminator)
   #   target "c" = clipboard; data = base64 content, "?" to query, or invalid base64 to clear
   #   https://ghostty.org/docs/vt/osc/52
-  # "!" = clear clipboard (invalid base64); $payload = set clipboard
   switch $op
-    case copy; printf '\e]52;c;%s\e\\' '!' $payload > $tty
-    case paste; return 1
+    case copy
+      set -l payload (spit | eb64); or return 1
+      test (printf '\e]52;c;%s\e\\' $payload | string length) -le 100000; or return 1 # max length 100000 bytes
+      # "!" = clear clipboard (invalid base64); $payload = set clipboard
+      printf '\e]52;c;%s\e\\' '!' $payload > $tty
+    case paste
+      set -l saved (stty -g <$tty 2>/dev/null); or return 1
+      stty -icanon -echo min 0 time 10 <$tty
+      printf '\e]52;c;?\e\\' >$tty
+      read -lz resp <$tty
+      stty $saved <$tty
+
+      set -l payload (string match -rg '\x1b\]52;[^;]*;([A-Za-z0-9+/=]+)' -- $resp); or return 1
+      printf '%s' $payload | db64
   end
 end
 
@@ -165,7 +180,7 @@ function file-provider -a op
   set -l clipboard_file $XDG_RUNTIME_DIR/clipboard
   switch $op
     case copy; spit > $clipboard_file
-    case paste; cat $clipboard_file
+    case paste; string collect -N <$clipboard_file
   end
 end
 

@@ -2,12 +2,15 @@
 {{- if stat $infocmp -}}
 #!/bin/sh -e
 
-{{- range $term := list "alacritty" "iterm2" }}
-if ! /usr/bin/infocmp {{ quote $term }} >/dev/null 2>&1; then
-  echo "Backporting brewed {{ $term }} terminfo..."
-  {{ quote $infocmp }} -x {{ quote $term }} | /usr/bin/tic -o . -x -
-
-  # run_onchange hash: {{ output $infocmp $term | sha256sum }}
+{{- range $entry := list "alacritty" "ghostty:xterm-ghostty" }}
+{{-   $name := splitList ":" $entry | first }}
+{{-   $alias := splitList ":" $entry | last }}
+if ! env -i /usr/bin/infocmp {{ $alias }} >/dev/null 2>&1; then
+  echo "Backporting brewed {{ $alias }} terminfo..."
+  {{ quote $infocmp }} -x {{ $name }}{{ if ne $name $alias }} \
+    | sed 's/^{{ $name }}|/{{ $alias }}|{{ $name }}|/'{{ end }} \
+    | /usr/bin/tic -o . -x -
+  # run_onchange hash: {{ output $infocmp $name | sha256sum }}
 fi
 {{- end }}
 {{- end -}}

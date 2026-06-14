@@ -69,17 +69,17 @@ function osc -a data
     printf '\e]%s\e\\' $data
 end
 
-# iterm2 color names (in index order)
+# palette color names (in index order)
 set -l term_palette \
   black red green yellow blue magenta cyan white \
   br_black br_red br_green br_yellow br_blue br_magenta br_cyan br_white
 
-# iterm2 special color names
+# special color names
 set -l term_special \
-   fg bg bold link selbg selfg curbg curfg underline tab
+   fg bg bold selbg selfg curbg underline tab
 # osc commands (corresponding to the above list)
 set -l term_special_osc \
-   10 11 '5;0' '' 17 19 12 '' '5;1' '4;264'
+   10 11 '5;0' 17 19 12 '5;1' '4;264'
 
 function term_color -V term_palette -V term_special -V term_special_osc -a color_name hex_color
   if set color_index (contains -i $color_name $term_palette)
@@ -91,8 +91,6 @@ function term_color -V term_palette -V term_special -V term_special_osc -a color
 
   if test $TERM = 'linux'; and set -q color_index
     osc (printf 'P%x%s' $color_index (string sub -s 2 $hex_color))
-  else if is_iterm
-    osc (printf '1337;SetColors=%s=%s' $color_name (string sub -s 2 $hex_color))
   else if test -n "$osc"
     osc (printf '%s;%s' $osc $hex_color)
   end
@@ -102,11 +100,9 @@ end
 term_color bg         '{{ .nord.nord0 }}'
 term_color fg         '{{ .nord.nord4 }}'
 term_color bold       '{{ .nord.nord4 }}'
-term_color link       '{{ .nord.nord4 }}'
 term_color selbg      '{{ .nord.nord2 }}'
 term_color selfg      '{{ .nord.nord4 }}'
 term_color curbg      '{{ .nord.nord4 }}'
-term_color curfg      '{{ .nord.nord0 }}'
 term_color underline  '{{ .nord.nord4 }}'
 term_color tab        '{{ .nord.nord0 }}'
 # 16-color palette

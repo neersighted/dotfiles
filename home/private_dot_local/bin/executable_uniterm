@@ -36,11 +36,16 @@ while [ "$#" -gt 0 ]; do
   esac
 done
 
-for term in alacritty kitty urxvt; do
+for term in ghostty alacritty kitty urxvt; do
   [ "$(command -v "$term")" ] && break
 done
 
 case $term in
+  ghostty)
+    width=$(echo "$geom" | cut -dx -f1)
+    height=$(echo "$geom" | cut -dx -f2)
+    args="${title:+--title=$title }${name:+--class=$name }${geom:+--window-width=$width --window-height=$height }${cmd:+-e $cmd}"
+    ;;
   alacritty)
     geom=$(echo "$geom" | tr 'x' ' ')
     args="${title:+--title $title }${name:+--class $name }${geom:+--dimensions $geom }${cmd:+--command $cmd}"
