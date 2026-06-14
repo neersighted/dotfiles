@@ -15,7 +15,9 @@ python.uv_venv_auto = "source"
 idiomatic_version_file_enable_tools = ["go", "node", "python", "rust"]
 
 [settings.github]
-# find github credentials using the configured credential-helper
+# re-use gh credentials
+credential_command = 'gh auth token -h "${MISE_CREDENTIAL_HOST}"'
+
 use_git_credentials = true
 
 [hooks]
