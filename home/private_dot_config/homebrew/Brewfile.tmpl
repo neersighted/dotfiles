@@ -1,33 +1,58 @@
-{{- $formulae := .packages.macos.formulae | default list -}}
-{{- $services := .packages.macos.services | default list -}}
-{{- $casks := .packages.macos.casks | default list -}}
-{{- $noShaCasks := .packages.macos.no_sha.casks | default list -}}
-{{- $trustedTaps := .packages.macos.taps | default list -}}
+{{- $formulae := list -}}
+{{- $services := list -}}
+{{- $casks := list -}}
+{{- $noShaCasks := list -}}
+{{- $mas := list -}}
+{{- range .packages -}}
+{{-   $name := "" -}}
+{{-   $type := "formula" -}}
+{{-   $service := false -}}
+{{-   $reqSha := true -}}
+{{-   $id := 0 -}}
+{{-   if kindIs "string" . -}}
+{{-     $name = . -}}
+{{-   else if hasKey . "macos" -}}
+{{-     $m := .macos -}}
+{{-     if kindIs "string" $m -}}
+{{-       $name = $m -}}
+{{-     else -}}
+{{-       $name = $m.name -}}
+{{-       if hasKey $m "type" -}}{{- $type = $m.type -}}{{- end -}}
+{{-       if hasKey $m "service" -}}{{- $service = $m.service -}}{{- end -}}
+{{-       if hasKey $m "require_sha" -}}{{- $reqSha = $m.require_sha -}}{{- end -}}
+{{-       if hasKey $m "id" -}}{{- $id = $m.id -}}{{- end -}}
+{{-     end -}}
+{{-   end -}}
+{{-   if $name -}}
+{{-     if eq $type "cask" -}}
+{{-       if $reqSha -}}
+{{-         $casks = append $casks $name -}}
+{{-       else -}}
+{{-         $noShaCasks = append $noShaCasks $name -}}
+{{-       end -}}
+{{-     else if eq $type "mas" -}}
+{{-       $mas = append $mas (dict "name" $name "id" $id) -}}
+{{-     else -}}
+{{-       $formulae = append $formulae $name -}}
+{{-       if $service -}}
+{{-         $services = append $services $name -}}
+{{-       end -}}
+{{-     end -}}
+{{-   end -}}
+{{- end -}}
 {{- $implicitTaps := list -}}
 {{- range (concat $formulae $casks) -}}
-{{- if contains "/" . -}}
-{{- $implicitTaps = append $implicitTaps (slice (splitList "/" .) 0 2 | join "/") -}}
-{{- end -}}
+{{-   if contains "/" . -}}
+{{-     $implicitTaps = append $implicitTaps (slice (splitList "/" .) 0 2 | join "/") -}}
+{{-   end -}}
 {{- end -}}
 {{- range $noShaCasks -}}
-{{- if contains "/" . -}}
-{{- fail (printf "no_sha cask %q is non-official; all non-official casks must be require_sha: true" .) -}}
+{{-   if contains "/" . -}}
+{{-     fail (printf "non-official cask %q cannot be require_sha: false" .) -}}
+{{-   end -}}
 {{- end -}}
-{{- end -}}
-{{- range $services -}}
-{{- if not (has . $formulae) -}}
-{{- fail (printf "service %q is not a declared formula; brew services is formula-only" .) -}}
-{{- end -}}
-{{- end -}}
-# .packages.macos.taps: all contents trusted
-# .packages.macos.formulae, .packages.macos.casks:
-#   - official: implicitly trusted
-#   - non-official: narrowly trusted
-# .packages.macos.no_sha.casks:
-#   - official: require_sha skipped
-#   - non-official: blocked
-{{ range (concat $trustedTaps $implicitTaps) | sortAlpha | uniq -}}
-tap {{ quote . }}{{ if has . $trustedTaps }}, trusted: true{{ end }}
+{{ range $implicitTaps | sortAlpha | uniq -}}
+tap {{ quote . }}
 {{ end -}}
 {{ range $formulae | sortAlpha | uniq -}}
 brew {{ quote . }}{{ if contains "/" . }}, trusted: true{{ end }}{{ if has . $services }}, restart_service: :changed{{ end }}
@@ -35,6 +60,6 @@ brew {{ quote . }}{{ if contains "/" . }}, trusted: true{{ end }}{{ if has . $se
 {{ range $c := (concat $casks $noShaCasks) | sortAlpha | uniq -}}
 cask {{ quote $c }}{{ if not (has $c $noShaCasks) }}, args: { require_sha: true }{{ end }}{{ if contains "/" $c }}, trusted: true{{ end }}
 {{ end -}}
-{{ range .packages.macos.app_store -}}
+{{ range $mas -}}
 mas {{ quote .name }}, id: {{ .id }}
 {{ end -}}

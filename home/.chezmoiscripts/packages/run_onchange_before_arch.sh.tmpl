@@ -1,0 +1,44 @@
+{{- if hasPrefix "linux-arch" .osid -}}
+#!/bin/sh -eu
+{{- $repo := list -}}
+{{- $aur := list -}}
+{{- range .packages -}}
+{{-   $name := "" -}}
+{{-   $isAur := false -}}
+{{-   if kindIs "string" . -}}
+{{-     $name = . -}}
+{{-   else if hasKey . "arch" -}}
+{{-     $a := .arch -}}
+{{-     if kindIs "string" $a -}}
+{{-       $name = $a -}}
+{{-     else -}}
+{{-       $name = $a.name -}}
+{{-       if hasKey $a "aur" -}}{{- $isAur = $a.aur -}}{{- end -}}
+{{-     end -}}
+{{-   end -}}
+{{-   if $name -}}
+{{-     if $isAur -}}
+{{-       $aur = append $aur $name -}}
+{{-     else -}}
+{{-       $repo = append $repo $name -}}
+{{-     end -}}
+{{-   end -}}
+{{- end -}}
+
+echo "Installing repo packages with pacman..."
+sudo pacman -S --needed {{ $repo | sortAlpha | uniq | join " " }}
+
+if ! command -v paru >/dev/null; then
+  echo "Bootstrapping paru..."
+
+  paru=$(mktemp -d)
+  trap 'rm -rf "$paru"' EXIT
+
+  git clone https://aur.archlinux.org/paru.git "$paru"
+  makepkg -D "$paru" --syncdeps --rmdeps --install
+fi
+
+echo "Installing AUR packages with paru..."
+paru -S --needed {{ $aur | sortAlpha | uniq | join " " }}
+
+{{- end -}}

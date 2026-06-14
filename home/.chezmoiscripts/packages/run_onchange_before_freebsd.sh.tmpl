@@ -5,9 +5,21 @@ if [ "$(id -u)" -ne 0 ]; then
   echo "Asking for root credentials..."
   exec su root -c "sh $0"
 fi
+{{- $packages := list -}}
+{{- range .packages -}}
+{{-   $name := "" -}}
+{{-   if kindIs "string" . -}}
+{{-     $name = . -}}
+{{-   else if hasKey . "freebsd" -}}
+{{-     $name = .freebsd -}}
+{{-   end -}}
+{{-   if $name -}}
+{{-     $packages = append $packages $name -}}
+{{-   end -}}
+{{- end -}}
 
-echo "Installing ports with pkg..."
-pkg install -y {{ .packages.freebsd.ports | sortAlpha | uniq | join " " }}
+echo "Installing packages with pkg..."
+pkg install -y {{ $packages | sortAlpha | uniq | join " " }}
 
 # Set up pkg-provides.
 if ! grep -Eq '^PKG_ENABLE_PLUGINS' /usr/local/etc/pkg.conf; then
