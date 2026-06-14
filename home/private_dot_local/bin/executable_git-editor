@@ -6,5 +6,4 @@ if is_vscode
     exec $code --wait $argv
 end
 
-set -g nvim_wait
 $EDITOR $argv
