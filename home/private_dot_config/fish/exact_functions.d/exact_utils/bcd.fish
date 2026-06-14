@@ -1,4 +1,3 @@
-{{- if eq .chezmoi.os "darwin" -}}
 function bcd -d 'cd into homebrew repo' -a query
   set -f repo (brew tap | fzf --tiebreak=end --query=$query --select-1 --exit-0)
 
@@ -10,4 +9,3 @@ function bcd -d 'cd into homebrew repo' -a query
   end
 
 end
-{{- end -}}

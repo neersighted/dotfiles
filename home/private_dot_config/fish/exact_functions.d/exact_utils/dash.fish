@@ -1,4 +1,3 @@
-{{- if eq .chezmoi.os "darwin" -}}
 function dash -d 'offline documentation viewer'
   if test -n "$argv"
     open dash://$argv
@@ -6,4 +5,3 @@ function dash -d 'offline documentation viewer'
     open -a Dash
   end
 end
-{{- end -}}

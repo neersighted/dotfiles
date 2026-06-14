@@ -24,6 +24,7 @@ Documents
 .config/*
 !.config/git # ...except git, which stores config files at the same paths
 .local
+.ssh/config.d/multiplexing
 {{ end }}
 
 {{ if eq .chezmoi.os "darwin" }} # ignore x11 files on macos
@@ -32,7 +33,13 @@ Documents
 .config/xinit
 {{ else }} # macos-only software
 .config/brew
+.config/fish/functions.d/utils/bcd.fish
+.config/fish/functions.d/utils/dash.fish
 .local/share/terminfo # terminfo hacks are only needed on macos
+{{ end }}
+
+{{ if ne .chezmoi.os "freebsd" }} # freebsd-only software
+.config/fish/functions.d/utils/portfind.fish
 {{ end }}
 
 {{ if hasPrefix "linux-arch" .osid }} # hushlogin on everything but arch

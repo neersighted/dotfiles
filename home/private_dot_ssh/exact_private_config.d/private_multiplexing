@@ -1,8 +1,6 @@
-{{- if ne .chezmoi.os "windows" -}}
 Host *
 	ControlMaster auto
 	ControlPath ~/.ssh/controlmaster.d/%C
 	ControlPersist 90m
 
 # vi: ft=sshconfig
-{{- end }}
