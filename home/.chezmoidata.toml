@@ -56,7 +56,6 @@
         "coreutils",
         "croc",
         "curl",
-        "curlie",
         "delve",
         "diskus",
         "dockutil",
@@ -128,6 +127,7 @@
         "watch",
         "watchexec",
         "wget",
+        "xh",
         "yaml-language-server",
         "yq",
         "yubikey-agent",
@@ -254,7 +254,6 @@
         "devel/tokei",
         "editors/neovim",
         "ftp/curl",
-        "ftp/curlie",
         "ftp/lftp",
         "ftp/wget",
         "lang/gawk",
@@ -306,6 +305,7 @@
         "textproc/sd",
         "www/caddy",
         "www/node",
+        "www/xh",
         # missing: biome
         # missing: ijq
         # missing: mkcert
@@ -348,7 +348,6 @@
         "caddy",
         "chezmoi",
         "croc",
-        "curlie",
         "delve",
         "diskus",
         "dool",
@@ -421,6 +420,7 @@
         "watchexec",
         "wget",
         "whois",
+        "xh",
         "yaml-language-server",
         "zip",
         "zoxide",
