@@ -82,7 +82,7 @@ vim.opt.inccommand = 'split' -- Show incomplete substitutions in a preview split
 
 -- Terminal
 vim.opt.title = true
-vim.opt.titlestring = "nvim %t%( %m%r%) (%{fnamemodify(getcwd(),':~')})"
+vim.opt.titlestring = "nvim %t%( %m%r%)"
 
 -- Whitespace
 vim.opt.list = true -- Show hidden characters.
