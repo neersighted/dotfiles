@@ -1,7 +1,7 @@
 {
   "plugins": {
     "SchemaStore.nvim": {
-      "rev": "8d6022b2a9034f46135437ade736c31b0ccfc8d7",
+      "rev": "3dca2d2153cfbc9aab937c1be0441e371101b0b8",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "aerial.nvim": {
@@ -114,7 +114,7 @@
       "src": "https://github.com/AndrewRadev/switch.vim"
     },
     "tree-sitter-manager.nvim": {
-      "rev": "c8a7b7b91aa23da24e7d02874f78d4c668a08530",
+      "rev": "95f81026390077f8eea9eef6d32ad59d4c3bd3ee",
       "src": "https://github.com/romus204/tree-sitter-manager.nvim"
     },
     "undotree": {

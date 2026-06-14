@@ -1,0 +1,3 @@
+[git.pretty]
+    onelineplus = "%C(yellow)%h%C(auto)%d%C(reset) %s %C(blue)(%cr)%C(reset) %C(green)<%aN>"
+

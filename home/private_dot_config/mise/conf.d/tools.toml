@@ -1,0 +1,28 @@
+[tools]
+# Languages
+go = "latest"
+node = "lts"
+python = "latest"
+rust = { version = "stable", components = "rust-analyzer,rust-docs,rust-src" }
+
+# Installers
+aube = "latest"
+cargo-binstall = "latest"
+uv = "latest"
+
+# General
+"go:mvdan.cc/xurls/v2/cmd/xurls" = { version = "latest", depends = ["go"] }
+"npm:git-recent" = { version = "latest", depends = ["aube"] }
+
+# Go
+"golangci-lint" = "latest"
+"go:golang.org/x/tools/cmd/goimports" = { version = "latest", depends = ["go"] }
+"go:golang.org/x/vuln/cmd/govulncheck" = { version = "latest", depends = ["go"] }
+
+# Rust
+"cargo:cargo-audit" = { version = "latest", depends = ["rust", "cargo-binstall"] }
+"cargo:cargo-fuzz" = { version = "latest", depends = ["rust", "cargo-binstall"] }
+"cargo:cargo-llvm-cov" = { version = "latest", depends = ["rust", "cargo-binstall"] }
+"cargo:cargo-outdated" = { version = "latest", depends = ["rust", "cargo-binstall"] }
+"cargo:cargo-udeps" = { version = "latest", depends = ["rust", "cargo-binstall"] }
+"cargo:flamegraph" = { version = "latest", depends = ["rust", "cargo-binstall"] }
