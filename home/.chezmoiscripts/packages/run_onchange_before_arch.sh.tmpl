@@ -1,6 +1,6 @@
 {{- if hasPrefix "linux-arch" .osid -}}
 #!/bin/sh -eu
-{{- $repo := list -}}
+{{- $repo := list }}
 {{- $aur := list -}}
 {{- range .packages -}}
 {{-   $name := "" -}}
@@ -23,7 +23,7 @@
 {{-       $repo = append $repo $name -}}
 {{-     end -}}
 {{-   end -}}
-{{- end -}}
+{{- end }}
 
 echo "Installing repo packages with pacman..."
 sudo pacman -S --needed {{ $repo | sortAlpha | uniq | join " " }}
