@@ -39,6 +39,6 @@ if ! command -v paru >/dev/null; then
 fi
 
 echo "Installing AUR packages with paru..."
-paru -S --needed {{ $aur | sortAlpha | uniq | join " " }}
+paru -S --needed --aur {{ $aur | sortAlpha | uniq | join " " }}
 
 {{- end -}}
