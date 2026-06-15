@@ -33,6 +33,7 @@ packages = [
     { macos = "mise", arch = "mise" },
     { macos = "openssh" },
     { macos = "rsync" },
+    { macos = "usage", arch = "usage" },
     { macos = "watch", freebsd = "gnu-watch" },
 
     # Toolchain
