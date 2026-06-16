@@ -65,7 +65,7 @@
 	rebase = true
 [push]
 	default = current
-	gpgSign = if-asked
+	gpgSign = false
 
 [init]
 	defaultBranch = main
