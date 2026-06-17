@@ -162,6 +162,7 @@ packages = [
     { macos = "dockutil" },
     { macos = "duti" },
     { macos = "fileicon" },
+    { macos = "folderify" },
     { arch = "fuse2" },
     { arch = "handlr-regex", freebsd = "handlr" },
     { macos = "mas" },
