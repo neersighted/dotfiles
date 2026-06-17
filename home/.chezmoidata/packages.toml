@@ -208,6 +208,7 @@ packages = [
     { macos = { type = "cask", name = "maccy" } },
     { macos = { type = "cask", name = "mimestream" } },
     { macos = { type = "cask", name = "muteme" } },
+    { macos = { type = "cask", name = "notunes" } },
     { macos = { type = "cask", name = "obsidian" } },
     { macos = { type = "cask", name = "plexamp" } },
     { macos = { type = "cask", name = "rectangle-pro" } },
