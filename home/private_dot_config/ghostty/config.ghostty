@@ -17,8 +17,7 @@ link-previews = osc8
 quit-after-last-window-closed = true
 
 # macOS
-macos-icon = holographic
-macos-icon-frame = chrome
+macos-icon = xray
 macos-titlebar-proxy-icon = "hidden"
 
 # Linux

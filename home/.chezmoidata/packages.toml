@@ -117,6 +117,10 @@ packages = [
     { macos = "watchexec", arch = "watchexec" },
     { macos = "yaml-language-server", arch = "yaml-language-server" },
 
+    # Containers & virtualization
+    { macos = "container" },
+    { macos = { type = "cask", name = "docker/tap/sbx@nightly" } },
+
     # System & observability
     { arch = "bcc-libbpf-tools" },
     { arch = "dool" },
@@ -189,7 +193,6 @@ packages = [
     { macos = { type = "cask", name = "dash" } },
     { macos = { type = "cask", name = "discord" } },
     { macos = { type = "cask", name = "docker-desktop" } },
-    { macos = { type = "cask", name = "docker/tap/sbx@nightly" } },
     { macos = { type = "cask", name = "elgato-stream-deck" } },
     { macos = { type = "cask", name = "firefox" } },
     { macos = { type = "cask", name = "ghostty" }, arch = "ghostty" },
@@ -204,7 +207,6 @@ packages = [
     { macos = { type = "cask", name = "logitune", require_sha = false } },
     { macos = { type = "cask", name = "maccy" } },
     { macos = { type = "cask", name = "mimestream" } },
-    { macos = { type = "cask", name = "multipass" } },
     { macos = { type = "cask", name = "muteme" } },
     { macos = { type = "cask", name = "obsidian" } },
     { macos = { type = "cask", name = "plexamp" } },
@@ -218,7 +220,6 @@ packages = [
     { macos = { type = "cask", name = "sublime-merge" } },
     { macos = { type = "cask", name = "sublime-text" } },
     { macos = { type = "cask", name = "todoist-app" } },
-    { macos = { type = "cask", name = "utm" } },
     { macos = { type = "cask", name = "visual-studio-code" } },
     { macos = { type = "cask", name = "vivid-app" } },
     { macos = { type = "cask", name = "yubico-authenticator" } },
@@ -230,10 +231,7 @@ packages = [
     { macos = { type = "mas", name = "Camera Preview", id = 1632827132 } },
     { macos = { type = "mas", name = "ColorSlurp", id = 1287239339 } },
     { macos = { type = "mas", name = "Dato", id = 1470584107 } },
-    { macos = { type = "mas", name = "Keynote", id = 361285480 } },
     { macos = { type = "mas", name = "Lungo", id = 1263070803 } },
-    { macos = { type = "mas", name = "Numbers", id = 361304891 } },
-    { macos = { type = "mas", name = "Pages", id = 361309726 } },
     { macos = { type = "mas", name = "Pasteboard Viewer", id = 1499215709 } },
     { macos = { type = "mas", name = "PCalc", id = 403504866 } },
     { macos = { type = "mas", name = "Pixelmator Pro", id = 1289583905 } },
