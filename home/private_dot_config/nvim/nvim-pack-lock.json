@@ -1,7 +1,7 @@
 {
   "plugins": {
     "SchemaStore.nvim": {
-      "rev": "3dca2d2153cfbc9aab937c1be0441e371101b0b8",
+      "rev": "735540a7602bffd1b07deab7d508affb57b78c64",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "aerial.nvim": {
@@ -13,7 +13,7 @@
       "src": "https://github.com/akinsho/bufferline.nvim"
     },
     "chezmoi.vim": {
-      "rev": "73b30df35c6b645ebd2e6a440eea8463ef3c3f47",
+      "rev": "816cbdbe268e6a32367f012c760dd665bb5aa4d4",
       "src": "https://github.com/alker0/chezmoi.vim"
     },
     "conform.nvim": {
@@ -25,7 +25,7 @@
       "src": "https://github.com/NotAShelf/direnv.nvim"
     },
     "fzf-lua": {
-      "rev": "988416cc782dfe28bff3f0da9b8c943b236cd86a",
+      "rev": "267f5db2aa2202b9f6cc7a50783f0ccd2121766c",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "gitsigns.nvim": {
@@ -57,7 +57,7 @@
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "mini.align": {
-      "rev": "a7cd9465ac72c65d726f8fdc8b71ceb63ce8c0fd",
+      "rev": "8e78aef46e1c4ca25fb12316196bc3105da74ce4",
       "src": "https://github.com/nvim-mini/mini.align"
     },
     "mini.bracketed": {
@@ -81,7 +81,7 @@
       "src": "https://github.com/nvim-mini/mini.starter"
     },
     "mini.surround": {
-      "rev": "9fd5ebef2b34cc4ac3c0f1811a6726ea6d92fa91",
+      "rev": "d401c3856585473693e5ce9ec4c8e5b608b4c0fe",
       "src": "https://github.com/nvim-mini/mini.surround"
     },
     "neoscroll.nvim": {
@@ -106,7 +106,7 @@
       "src": "https://github.com/HiPhish/rainbow-delimiters.nvim"
     },
     "smart-splits.nvim": {
-      "rev": "501ea73e433246cbd53f0b14bbd205fa44831e4d",
+      "rev": "d4bda1c9b8d07d9fc642e8f985b3560df8991901",
       "src": "https://github.com/mrjones2014/smart-splits.nvim"
     },
     "switch.vim": {
@@ -114,7 +114,7 @@
       "src": "https://github.com/AndrewRadev/switch.vim"
     },
     "tree-sitter-manager.nvim": {
-      "rev": "95f81026390077f8eea9eef6d32ad59d4c3bd3ee",
+      "rev": "ae305699da5e97b6cffdd5cc6f6045b1b0bd26ea",
       "src": "https://github.com/romus204/tree-sitter-manager.nvim"
     },
     "undotree": {
