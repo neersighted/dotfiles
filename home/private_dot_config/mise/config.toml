@@ -33,7 +33,7 @@ postinstall = "mise sync python --uv"
 go = "latest"
 node = "lts"
 python = "latest"
-rust = { version = "stable", components = "rust-analyzer,rust-docs,rust-src" }
+rust = { version = "stable", components = "rust-analyzer,rust-src" }
 
 # Installers
 aube = "latest"
@@ -51,6 +51,7 @@ uv = "latest"
 
 # Rust
 "cargo:cargo-audit" = { version = "latest", depends = ["rust", "cargo-binstall"] }
+"cargo:cargo-auditable" = { version = "latest", depends = ["rust", "cargo-binstall"] }
 "cargo:cargo-fuzz" = { version = "latest", depends = ["rust", "cargo-binstall"] }
 "cargo:cargo-llvm-cov" = { version = "latest", depends = ["rust", "cargo-binstall"] }
 "cargo:cargo-outdated" = { version = "latest", depends = ["rust", "cargo-binstall"] }

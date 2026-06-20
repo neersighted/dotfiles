@@ -1,6 +1,7 @@
 # the great luau
 .config/nvim/init.vim
 # the misening
+.config/mise/conf.d/tools.toml
 .config/fish/completions/nodenv.fish
 .config/fish/completions/poetry.fish
 .config/fish/completions/pyenv.fish

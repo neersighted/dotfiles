@@ -1,7 +1,7 @@
 {
   "plugins": {
     "SchemaStore.nvim": {
-      "rev": "735540a7602bffd1b07deab7d508affb57b78c64",
+      "rev": "c73e2b170a4927d1dc1b48e878bba6cf0ed9b07c",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "aerial.nvim": {
@@ -13,7 +13,7 @@
       "src": "https://github.com/akinsho/bufferline.nvim"
     },
     "chezmoi.vim": {
-      "rev": "816cbdbe268e6a32367f012c760dd665bb5aa4d4",
+      "rev": "7a498ea65f658993237fb0469001bdf71f68cf94",
       "src": "https://github.com/alker0/chezmoi.vim"
     },
     "conform.nvim": {
@@ -29,7 +29,7 @@
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "gitsigns.nvim": {
-      "rev": "25050e4ed39e628282831d4cbecb1850454ce915",
+      "rev": "2038c666bd9d8a0b7349a0b6ee00dc83104b9ecf",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "guess-indent.nvim": {
@@ -57,31 +57,31 @@
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "mini.align": {
-      "rev": "8e78aef46e1c4ca25fb12316196bc3105da74ce4",
+      "rev": "8cebe89d82f20e6d21b27346bcde4b4b6244a9f1",
       "src": "https://github.com/nvim-mini/mini.align"
     },
     "mini.bracketed": {
-      "rev": "d94d51dcee625723aaaf8d38174b48522eaf9131",
+      "rev": "7662c280946faf573c4eabf307d78406ad0783e4",
       "src": "https://github.com/nvim-mini/mini.bracketed"
     },
     "mini.hipatterns": {
-      "rev": "e25cf080aae092a651a92fa5e477f64a61adbebf",
+      "rev": "607d604e650cdf21d71f863d040c496a1d0cb320",
       "src": "https://github.com/nvim-mini/mini.hipatterns"
     },
     "mini.move": {
-      "rev": "a776027e68fe763987a0132d59877d651a7c0130",
+      "rev": "b9e452f9c83565a1520e14f7531632160f3b0170",
       "src": "https://github.com/nvim-mini/mini.move"
     },
     "mini.splitjoin": {
-      "rev": "146aef247d9bfc58bab20dd921ba6b75ac4b8cf9",
+      "rev": "4a0e6f5ea83148f6884eed03f287f94c3f22915d",
       "src": "https://github.com/nvim-mini/mini.splitjoin"
     },
     "mini.starter": {
-      "rev": "a7d8b353cf120fee32bb5d88e7a9de5eaec746e7",
+      "rev": "0575c96206d63fd98d7f786df78dc225bf847d95",
       "src": "https://github.com/nvim-mini/mini.starter"
     },
     "mini.surround": {
-      "rev": "d401c3856585473693e5ce9ec4c8e5b608b4c0fe",
+      "rev": "580e4cb98c5900d9fe743865fb5a5b2178b4ab18",
       "src": "https://github.com/nvim-mini/mini.surround"
     },
     "neoscroll.nvim": {
@@ -106,7 +106,7 @@
       "src": "https://github.com/HiPhish/rainbow-delimiters.nvim"
     },
     "smart-splits.nvim": {
-      "rev": "d4bda1c9b8d07d9fc642e8f985b3560df8991901",
+      "rev": "c02d70257e5d6065d4154acd596ec8054a725724",
       "src": "https://github.com/mrjones2014/smart-splits.nvim"
     },
     "switch.vim": {
