@@ -14,7 +14,10 @@ function main -a op
       end
     case paste
       for p in (string split ' ' $PASTE_PROVIDERS)
-        $p-provider paste; and set exit_status 0; and break
+        set -l out ($p-provider paste | string collect -N)
+        test -n "$out"; or continue
+        printf '%s' $out; and set exit_status 0
+        break
       end
   end
 
@@ -31,8 +34,8 @@ end
 
 function tty
   begin
-    command tty 2>/dev/null
-    or tmux display-message -p '#{pane_tty}' 2>/dev/null
+    set -q TMUX; and tmux display-message -p '#{client_tty}' 2>/dev/null
+    or command tty 2>/dev/null
     or begin
       set -l ppid (string split -f 4 ' ' </proc/self/stat)
       and command tty </proc/$ppid/fd/0 2>/dev/null
@@ -153,6 +156,7 @@ function xsel-provider -a op
 end
 
 function osc52-provider -a op
+  test "$TERM" != dumb; or return 1
   set -l tty (tty); or return 1
 
   # OSC 52: ESC ] 52 ; <target> ; <data> ESC \  (ST = String Terminator)
