@@ -112,6 +112,7 @@ packages = [
     "shfmt",
     { arch = "sqlite", freebsd = "sqlite3" },
     "tokei",
+    { macos = "tombi", arch = "tombi" },
     { macos = "ty", arch = "ty", freebsd = "py311-ty" },
     { macos = "vexctl" },
     { macos = "vscode-langservers-extracted", arch = "vscode-json-languageserver" },

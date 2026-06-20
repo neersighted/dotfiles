@@ -168,6 +168,11 @@ local servers = {
       config.settings.yaml.schemas = vscode_schemastore(SchemaStore.YAML, config.root_dir)
     end,
   },
+  tombi = {
+    cmd = { 'tombi', 'lsp' },
+    filetypes = { 'toml' },
+    root_markers = { 'tombi.toml', 'pyproject.toml', 'Cargo.toml', '.git' },
+  },
 }
 
 -- Register and enable (FileType autocmd) each defined server.
