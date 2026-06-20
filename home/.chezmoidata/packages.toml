@@ -130,6 +130,7 @@ packages = [
     { arch = "lostfiles" },
     { arch = "lsof" },
     { arch = "ltrace" },
+    { macos = "mactop" },
     { arch = "perf" },
     { arch = "strace" },
 
@@ -208,8 +209,8 @@ packages = [
     { macos = { type = "cask", name = "logitune", require_sha = false } },
     { macos = { type = "cask", name = "maccy" } },
     { macos = { type = "cask", name = "mimestream" } },
+    { macos = { type = "cask", name = "music-decoy" } },
     { macos = { type = "cask", name = "muteme" } },
-    { macos = { type = "cask", name = "notunes" } },
     { macos = { type = "cask", name = "obsidian" } },
     { macos = { type = "cask", name = "plexamp" } },
     { macos = { type = "cask", name = "rectangle-pro" } },
