@@ -1,5 +1,7 @@
 # Configuration
 
+min_version = "2026.6.11"
+
 [settings]
 # check in tool versions and digests (for platforms I use)
 lockfile = true 
@@ -41,19 +43,19 @@ cargo-binstall = "latest"
 uv = "latest"
 
 # General
-"go:mvdan.cc/xurls/v2/cmd/xurls" = { version = "latest", depends = ["go"] }
-"npm:git-recent" = { version = "latest", depends = ["aube"] }
+"go:mvdan.cc/xurls/v2/cmd/xurls" = "latest"
+"npm:git-recent" = "latest"
 
 # Go
 "golangci-lint" = "latest"
-"go:golang.org/x/tools/cmd/goimports" = { version = "latest", depends = ["go"] }
-"go:golang.org/x/vuln/cmd/govulncheck" = { version = "latest", depends = ["go"] }
+"go:golang.org/x/tools/cmd/goimports" = "latest"
+"go:golang.org/x/vuln/cmd/govulncheck" = "latest"
 
 # Rust
-"cargo:cargo-audit" = { version = "latest", depends = ["rust", "cargo-binstall"] }
-"cargo:cargo-auditable" = { version = "latest", depends = ["rust", "cargo-binstall"] }
-"cargo:cargo-fuzz" = { version = "latest", depends = ["rust", "cargo-binstall"] }
-"cargo:cargo-llvm-cov" = { version = "latest", depends = ["rust", "cargo-binstall"] }
-"cargo:cargo-outdated" = { version = "latest", depends = ["rust", "cargo-binstall"] }
-"cargo:cargo-udeps" = { version = "latest", depends = ["rust", "cargo-binstall"] }
-"cargo:flamegraph" = { version = "latest", depends = ["rust", "cargo-binstall"] }
+"cargo:cargo-audit" = "latest"
+"cargo:cargo-auditable" = "latest"
+"cargo:cargo-fuzz" = "latest"
+"cargo:cargo-llvm-cov" = "latest"
+"cargo:cargo-outdated" = "latest"
+"cargo:cargo-udeps" = "latest"
+"cargo:flamegraph" = "latest"
