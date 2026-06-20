@@ -12,6 +12,7 @@ set -ga terminal-features 'alacritty:extkeys:hyperlinks:strikethrough:usstyle'
 set -g escape-time 25
 set -g extended-keys on
 set -g extended-keys-format csi-u
+set -g allow-passthrough on # the current pane can use passthroug (eg. for kitty graphics)
 
 # Environment
 set -ga update-environment 'WSL_INTEROP' # update WSL interop socket on reattach
@@ -265,16 +266,16 @@ bind -T copy-mode-vi D { send -X copy-end-of-line-and-cancel }
 bind -T copy-mode-vi p { send -X copy-selection-and-cancel; paste-buffer -p -r }
 
 # Copy Mode (Search / Jump)
-bind -T copy-mode-vi / { command-prompt -p '(search down)' -T search "send -X search-forward '%%'" }
-bind -T copy-mode-vi ? { command-prompt -p '(search up)' -T search "send -X search-backward '%%'" }
-bind -T copy-mode-vi f { command-prompt -1 -p '(jump forward)' "send -X jump-forward '%%'" }
-bind -T copy-mode-vi F { command-prompt -1 -p '(jump backward)' "send -X jump-backward '%%'" }
-bind -T copy-mode-vi t { command-prompt -1 -p '(jump to forward)' "send -X jump-to-forward '%%'" }
-bind -T copy-mode-vi T { command-prompt -1 -p '(jump to backward)' "send -X jump-to-backward '%%'" }
+bind -T copy-mode-vi / { command-prompt -p '(search down)' -T search "send -X search-forward -- '%%'" }
+bind -T copy-mode-vi ? { command-prompt -p '(search up)' -T search "send -X search-backward -- '%%'" }
+bind -T copy-mode-vi f { command-prompt -1 -p '(jump forward)' "send -X jump-forward -- '%%'" }
+bind -T copy-mode-vi F { command-prompt -1 -p '(jump backward)' "send -X jump-backward -- '%%'" }
+bind -T copy-mode-vi t { command-prompt -1 -p '(jump to forward)' "send -X jump-to-forward -- '%%'" }
+bind -T copy-mode-vi T { command-prompt -1 -p '(jump to backward)' "send -X jump-to-backward -- '%%'" }
 bind -T copy-mode-vi '*' { send -XF "search-forward '#{copy_cursor_word}'" }
 bind -T copy-mode-vi '#' { send -XF "search-backward '#{copy_cursor_word}'" }
 bind -T copy-mode-vi '%' { send -X next-matching-bracket }
-bind -T copy-mode-vi ':' { command-prompt -N -p '(goto line)' "send -X goto-line '%%'" }
+bind -T copy-mode-vi ':' { command-prompt -N -p '(goto line)' "send -X goto-line -- '%%'" }
 
 # Copy Mode (Repeat)
 bind -T copy-mode-vi n { send -X search-again }
