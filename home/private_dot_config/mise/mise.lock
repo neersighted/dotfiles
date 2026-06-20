@@ -40,9 +40,17 @@ backend = "cargo:cargo-auditable"
 version = "0.13.2"
 backend = "cargo:cargo-fuzz"
 
+[[tools."cargo:cargo-insta"]]
+version = "1.48.0"
+backend = "cargo:cargo-insta"
+
 [[tools."cargo:cargo-llvm-cov"]]
 version = "0.8.7"
 backend = "cargo:cargo-llvm-cov"
+
+[[tools."cargo:cargo-nextest"]]
+version = "0.9.137"
+backend = "cargo:cargo-nextest"
 
 [[tools."cargo:cargo-outdated"]]
 version = "0.19.0"
