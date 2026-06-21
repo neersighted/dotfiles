@@ -120,7 +120,7 @@ packages = [
     { macos = "yaml-language-server", arch = "yaml-language-server" },
 
     # Containers & virtualization
-    { macos = "container" },
+    { macos = { name = "container", service = true } },
     { macos = { type = "cask", name = "docker/tap/sbx@nightly" } },
 
     # System & observability
