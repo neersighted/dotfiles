@@ -12,25 +12,26 @@ if not set -q fish_path_hash; or test $fish_path_hash != {{ $hash }}
     # homebrew
     fish_add_path -m $HOMEBREW_PREFIX/{bin,sbin}
     # homebrew overrides
-    fish_add_path -m $HOMEBREW_PREFIX/opt/{curl,gnu-getopt}/bin
+    fish_add_path -m $HOMEBREW_PREFIX/opt/{curl,gnu-getopt,sqlite,whois}/bin
     # ccache (macos)
     fish_add_path -m $HOMEBREW_PREFIX/opt/ccache/libexec
-    # orbstack/docker desktop
-    fish_add_path -m ~/.orbstack/bin
-    fish_add_path -m ~/.docker/bin
+    # jetbrains (macos)
+    fish_add_path -m ~/Library/Application Support/JetBrains/Toolbox/scripts
+    # docker desktop (and alternartives)
+    fish_add_path -m ~/.{docker,orbstack}/bin
   else
-    # ccache (linux)
-    fish_add_path -m /usr/lib/ccache/bin
-    # ccache (bsd)
-    fish_add_path -m /local/libexec/ccache
+    # ccache (linux/freebsd)
+    fish_add_path -m /usr/lib/{ccache/bin,libexec/ccache}
+    # jetbrains
+    fish_add_path -m ~/.local/share/JetBrains/Toolbox/scripts
   end
 
   # mise shims
   fish_add_path -m $XDG_DATA_HOME/mise/shims
   # rust/cargo shims
   fish_add_path -m $XDG_DATA_HOME/cargo/bin
-  # dotfiles/local
-  fish_add_path -m $HOME/.local/bin $XDG_BIN_HOME
+  # dotfiles (and system-local)
+  fish_add_path -m $XDG_BIN_HOME
 
   # cleanup
   set -U fish_path_hash {{ $hash }}
