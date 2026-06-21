@@ -1,5 +1,5 @@
 function su
-  if test -z "$argv"
+  if not set -q argv[1]
     if command -q sudo
       command sudo -E -s
     else

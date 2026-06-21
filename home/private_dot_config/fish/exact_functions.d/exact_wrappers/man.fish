@@ -15,7 +15,7 @@ function man
 
   set -q MANPATH; or set -lx MANPATH ''
   set fish_manpath $__fish_data_dir/man
-  test -d $fish_manpath; and set -lx -p MANPATH $fish_manpath
+  path is -d $fish_manpath; and set -lx -p MANPATH $fish_manpath
 
   command man $argv
 end

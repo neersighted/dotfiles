@@ -9,7 +9,7 @@ function redit -d 'quick and dirty redis(es)'
   set -q _flag_image; or set _flag_image redis:latest
   set -q _flag_port; or set _flag_port 6379
 
-  set -q _flag_config; and set _flag_config (builtin realpath $_flag_config)
+  set -q _flag_config; and set _flag_config (path resolve $_flag_config)
 
   set -q _flag_config; and set -a arguments -v $_flag_config:/etc/redis.conf
   set -a arguments -p $_flag_port:6379 $_flag_image

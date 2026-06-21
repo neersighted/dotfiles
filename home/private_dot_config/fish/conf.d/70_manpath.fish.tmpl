@@ -10,7 +10,7 @@ set -x INFOPATH $HOMEBREW_PREFIX/share/info ''
 if test -e $XDG_DATA_HOME/rustup/toolchains
   set -l tc '' # empty -> $tc* is just *, matching every installed toolchain
   set -q RUSTUP_TOOLCHAIN[1]; and set tc $RUSTUP_TOOLCHAIN
-  for man in $XDG_DATA_HOME/rustup/toolchains/$tc*/{,share/}man
+  for man in (path filter -d $XDG_DATA_HOME/rustup/toolchains/$tc*/share/man)
     contains -- $man $MANPATH; or set -p MANPATH $man
   end
 end

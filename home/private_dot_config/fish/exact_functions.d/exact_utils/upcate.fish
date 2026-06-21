@@ -4,7 +4,7 @@ function upcate -a target path -d 'locate a target upwards in the directory tree
   end
 
   while test "$path" != /
-    if test -e $path/$target
+    if path is $path/$target
       printf '%s/%s' $path $target
       return
     else

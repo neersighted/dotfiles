@@ -46,7 +46,7 @@ function __tmux_auto_launch --on-event fish_startup
 
   if not tmux has-session -t=$session &>/dev/null
     tmux new -s $session
-  else if test -z (tmux list-clients -t $session)[1]
+  else if not string length -q -- (tmux list-clients -t $session)
     tmux attach -t $session
   end
 end
