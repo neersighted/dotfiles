@@ -38,7 +38,7 @@ packages = [
 
     # Toolchain
     { arch = "base-devel" },
-    "ccache",
+    { arch = "ccache", freebsd = "ccache4", macos = "ccache" },
     { arch = "clang" },
     "cmake",
     { freebsd = "gmake" },
