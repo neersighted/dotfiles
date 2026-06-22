@@ -26,8 +26,6 @@ if not set -q fish_path_hash; or test $fish_path_hash != {{ $hash }}
     fish_add_path -m ~/.local/share/JetBrains/Toolbox/scripts
   end
 
-  # mise shims
-  fish_add_path -m $XDG_DATA_HOME/mise/shims
   # rust/cargo shims
   fish_add_path -m $XDG_DATA_HOME/cargo/bin
   # dotfiles (and system-local)
