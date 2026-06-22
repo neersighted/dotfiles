@@ -103,6 +103,7 @@ packages = [
     { macos = "go-task", arch = "go-task", freebsd = "task" },
     "gopls",
     "lua-language-server",
+    "lychee",
     { macos = "pgcli", arch = "pgcli", freebsd = "py311-pgcli" },
     { macos = "pre-commit", arch = "pre-commit", freebsd = "py311-pre-commit" },
     { macos = "regclient" },

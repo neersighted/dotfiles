@@ -2,6 +2,6 @@
 #!/bin/sh -e
 
 {{- if lookPath "go" -}}
-command -v "xurls" >/dev/null || go install "mvcan.cc/xurls/v2/cmd/xurls@latest"
+command -v "xurls" >/dev/null || go install "mvdan.cc/xurls/v2/cmd/xurls@latest"
 {{- end -}}
 {{- end -}}
