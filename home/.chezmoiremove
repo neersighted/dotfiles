@@ -2,6 +2,7 @@
 .config/nvim/init.vim
 # the misening
 .config/mise/conf.d/tools.toml
+.config/fish/conf.d/70_command_not_found.fish
 .config/fish/completions/nodenv.fish
 .config/fish/completions/poetry.fish
 .config/fish/completions/pyenv.fish

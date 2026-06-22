@@ -11,8 +11,13 @@ use_versions_host_track = false
 # enable experimental features
 experimental = true
 
+# do not auto-install 'missing' commands
+not_found_auto_install = false
+
 # cache the computed env
 env_cache = true
+
+# support shell-style env var expansion
 env_shell_expand = true
 # enable automatic venv/tool activation
 python.uv_venv_auto = "source"

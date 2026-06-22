@@ -15,5 +15,5 @@ end
 # Capture with the active-session markers unset so mise emits a clean activation
 # (inactive->active) rather than baking a stale `set -gx PATH` teardown snapshot of
 # whatever shell ran `chezmoi apply`. The __MISE_ORIG_PATH capture is unaffected.
-{{ output "env" "-u" "__MISE_SESSION" "-u" "__MISE_DIFF" "-u" "__MISE_ORIG_PATH" "MISE_ENV_CACHE=0" "mise" "activate" "fish" }}
+{{ output "env" "-u" "__MISE_SESSION" "-u" "__MISE_DIFF" "-u" "__MISE_ORIG_PATH" "MISE_ENV_CACHE=0" "MISE_NOT_FOUND_AUTO_INSTALL=0" "mise" "activate" "fish" }}
 {{- end }}
