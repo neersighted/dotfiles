@@ -40,7 +40,7 @@ function chezmoi
         | string match -re '^.M|^M.' | string sub -s 4 \
         | fzf --multi --preview 'chezmoi diff --reverse --color=true ~/{}')
         set targets '~/'$modified
-        chezmoi add $modified
+        chezmoi add $targets
       end
     else
       command chezmoi $argv
