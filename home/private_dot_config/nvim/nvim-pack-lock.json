@@ -1,7 +1,7 @@
 {
   "plugins": {
     "SchemaStore.nvim": {
-      "rev": "e034560c0266d5a99d811f595b04ce839ab868ff",
+      "rev": "490afbd7fd3b316330550405ac74758a971104a4",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "aerial.nvim": {
@@ -20,12 +20,8 @@
       "rev": "619363c30309d29ffa631e67c8183f2a72caa373",
       "src": "https://github.com/stevearc/conform.nvim"
     },
-    "direnv.nvim": {
-      "rev": "e623d3645152839cbe7e73e7b2aa6e31256020ea",
-      "src": "https://github.com/NotAShelf/direnv.nvim"
-    },
     "fzf-lua": {
-      "rev": "267f5db2aa2202b9f6cc7a50783f0ccd2121766c",
+      "rev": "39da6060d53659acf3ec118200bc48721b29b8fd",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "gitsigns.nvim": {
@@ -57,7 +53,7 @@
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "mini.align": {
-      "rev": "8cebe89d82f20e6d21b27346bcde4b4b6244a9f1",
+      "rev": "34014f8c9c0740904ed6760f9eee58f4ae00c131",
       "src": "https://github.com/nvim-mini/mini.align"
     },
     "mini.bracketed": {
@@ -77,11 +73,11 @@
       "src": "https://github.com/nvim-mini/mini.splitjoin"
     },
     "mini.starter": {
-      "rev": "0575c96206d63fd98d7f786df78dc225bf847d95",
+      "rev": "a1c26c1c4acd08beb5b0057c663acb6e5f5b7042",
       "src": "https://github.com/nvim-mini/mini.starter"
     },
     "mini.surround": {
-      "rev": "580e4cb98c5900d9fe743865fb5a5b2178b4ab18",
+      "rev": "a2f644f3759edd3d3f8b6a6d55378408bfe6d290",
       "src": "https://github.com/nvim-mini/mini.surround"
     },
     "neoscroll.nvim": {
@@ -106,7 +102,7 @@
       "src": "https://github.com/HiPhish/rainbow-delimiters.nvim"
     },
     "smart-splits.nvim": {
-      "rev": "c02d70257e5d6065d4154acd596ec8054a725724",
+      "rev": "0e5bc00d2a32e6c782cd279cb96ab6c7ae49cd94",
       "src": "https://github.com/mrjones2014/smart-splits.nvim"
     },
     "switch.vim": {
@@ -134,7 +130,7 @@
       "src": "https://github.com/tpope/vim-fugitive"
     },
     "vim-matchup": {
-      "rev": "a2d618496223386844acb5a6763cfc3cc1357af1",
+      "rev": "055881643e1b37038a572c883de7b1969716db77",
       "src": "https://github.com/andymass/vim-matchup"
     },
     "vim-peekaboo": {
