@@ -160,7 +160,7 @@ packages = [
     { freebsd = "poudriere" },
 
     # Security & secrets
-    { macos = { type = "cask", name = "1password-cli" }, arch = { name = "1password-cli", aur = true }, freebsd = "1password-client" },
+    { macos = { type = "cask", name = "1password-cli" }, arch = { name = "1password-cli", aur = true }, freebsd = "1password-client2" },
     "age",
     { macos = "mkcert", arch = "mkcert" },
     { macos = "pam-reattach" },
