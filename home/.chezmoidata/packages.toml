@@ -55,7 +55,6 @@ packages = [
     "starship",
     "tmux",
     { macos = "tmux-mem-cpu-load", arch = { name = "tmux-mem-cpu-load", aur = true }, freebsd = "tmux-mem-cpu-load" },
-    "vhs",
     "vivid",
 
     # Editors
