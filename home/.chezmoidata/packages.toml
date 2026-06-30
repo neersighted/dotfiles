@@ -125,6 +125,7 @@ packages = [
 
     # System & observability
     { arch = "bcc-libbpf-tools" },
+    "btop",
     { arch = "dool" },
     "htop",
     "hyperfine",
