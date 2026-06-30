@@ -7,3 +7,4 @@
     subl       = "subl.exe"
     winget     = "winget.exe"
     wsl        = "wsl.exe"
+    wt         = "wt.exe"
