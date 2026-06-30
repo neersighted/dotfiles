@@ -1,23 +1,34 @@
+[env]
+TERM = 'alacritty-direct'
+COLORTERM = 'truecolor'
+
 {{ if eq .chezmoi.os "windows" -}}
 [terminal.shell]
 program = 'wsl.exe'
 args = ['~']
 
 {{ end -}}
-[bell]
+[bell.command]
 {{ if eq .chezmoi.os "darwin" -}}
-command = { program = "afplay", args = ["/System/Library/Sounds/Ping.aiff"] }
-{{- else if and (eq .chezmoi.os "linux") (stat "/usr/share/sounds/freedesktop/stereo/dialog-information.oga") -}}
-command = { program = "paplay", args = ["/usr/share/sounds/freedesktop/stereo/dialog-information.oga"] }
+program = 'osascript'
+args = ['-e', 'beep']
+{{- else if eq .chezmoi.os "windows" -}}
+program = "pwsh"
+args = "[System.Media.SystemSounds]::Hand.Play()"
+{{- else -}}
+program = "xkbbell"
 {{- end }}
 
 [window]
-dynamic_padding = true
 option_as_alt = 'Both'
-padding = { x = 2, y = 2 }
+dynamic_padding = true
+
+[window.padding]
+x = 2
+y = 2
 
 [font]
-size = 12.5
+size = 10
 
 [font.normal]
 family = 'Source Code Pro'

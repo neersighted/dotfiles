@@ -3,10 +3,11 @@
 #
 
 # TERM
-set -g default-terminal 'tmux-256color'
-set -ga terminal-features 'xterm*:RGB:extkeys'
-set -ga terminal-features 'xterm-ghostty:hyperlinks:strikethrough:usstyle'
-set -ga terminal-features 'alacritty:extkeys:hyperlinks:strikethrough:usstyle'
+set -g default-terminal 'tmux-direct'
+set -ga terminal-features 'xterm*:RGB:extkeys:bpaste'
+set -ga terminal-features 'ms-terminal*:extkeys:progressbar:osc7:strikethrough:usstyle'
+set -ga terminal-features '*ghostty:hyperlinks:progressbar:osc7:strikethrough:usstyle'
+set -ga terminal-features 'alacritty*:extkeys:hyperlinks:strikethrough:usstyle'
 
 # Escape Sequences
 set -g escape-time 25
@@ -60,8 +61,8 @@ set -g history-limit 100000 # store 100k lines of history
 # Hooks
 #
 
-set-hook -g client-attached { run-shell 'pkill -SIGUSR2 -P #{pid} fish' } # signal fish to refresh env
-set-hook -g client-session-changed { if -F "#{==:#{session_created},#{session_last_attached}}" {} { run-shell 'pkill -SIGUSR2 -P #{pid} fish' }} # ...except during new sessions
+set-hook -g client-attached { run 'pkill -SIGUSR2 -P #{pid} fish' } # signal fish to refresh env
+set-hook -g client-session-changed { if -F "#{==:#{session_created},#{session_last_attached}}" {} { run 'pkill -SIGUSR2 -P #{pid} fish' }} # ...except during new sessions
 
 #
 # Keybinds
@@ -205,21 +206,21 @@ bind -N 'Open URLs from pane (including history)' M-o { run -b 'tmuxrl -t #{pane
 bind -N 'Yank URLs from pane' C-y { run -b 'tmuxrl -t #{pane_id} -y' }
 bind -N 'Yank URLs from pane (including history)' M-y { run -b 'tmuxrl -t #{pane_id} -y -f' }
 
-# Copy Mode
+# Command Selection
+bind -N 'Enter copy mode and select latest command' BSpace { copy-mode; send -X cursor-up; send -X select-line; send -X previous-prompt; send -X start-of-line; send -X end-selection }
+bind -T copy-mode-vi BSpace { send -X cursor-up; send -X select-line; send -X previous-prompt; send -X start-of-line }
+
+# Copy Mode (Management)
 bind -N 'Enter copy mode' Escape { copy-mode }
 bind -N 'Enter copy mode and scroll up' PgUp { copy-mode -e -u }
 bind -N 'Enter copy mode and search up' ? { copy-mode; send ? }
 bind -N 'Enter copy mode and search down' / { copy-mode; send -X history-top; send / }
-
-# Copy Mode
 bind -T copy-mode-vi q { send -X cancel }
 bind -T copy-mode-vi C-c { send -X cancel }
 bind -T copy-mode-vi r { send -X refresh-from-pane }
 bind -T copy-mode-vi M-p { send -X toggle-position }
 
 # Copy Mode (Cursor)
-bind -T copy-mode-vi C-h { send -X cursor-left }
-bind -T copy-mode-vi BSpace { send -X cursor-left }
 bind -T copy-mode-vi h { send -X cursor-left }
 bind -T copy-mode-vi j { send -X cursor-down }
 bind -T copy-mode-vi k { send -X cursor-up }
@@ -303,8 +304,12 @@ bind -T copy-mode-vi W { send -X next-space }
 bind -T copy-mode-vi e { send -X next-word-end }
 bind -T copy-mode-vi E { send -X next-space-end }
 bind -T copy-mode-vi o { send -X other-end }
-bind -T copy-mode-vi '{' { send -X previous-paragraph }
-bind -T copy-mode-vi '}' { send -X next-paragraph }
+
+# Copy Mode (Shell Integration)
+bind -T copy-mode-vi '{' { send -X previous-prompt -o }
+bind -T copy-mode-vi '}' { send -X next-prompt -o }
+bind -T copy-mode-vi '[' { send -X previous-prompt }
+bind -T copy-mode-vi ']' { send -X next-prompt }
 
 # Copy Mode (Mouse)
 bind -T copy-mode-vi MouseDown1Pane { select-pane }
