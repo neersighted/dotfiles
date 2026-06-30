@@ -12,10 +12,12 @@
             },
             "tab": {
                 "background": "terminalBackground",
-                "unfocusedBackground": "#00000000"
+                "unfocusedBackground": "#00000000",
+                "showCloseButton": "hover"
             },
             "tabRow": {
-                "background": "#00000000"
+                "background": "#00000000",
+                "unfocusedBackground": "#00000000"
             }
         }
     ],
