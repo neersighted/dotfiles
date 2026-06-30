@@ -85,6 +85,23 @@
         ]
     },
 
+    "newTabMenu": 
+    [
+        {
+            "source": "^(Microsoft|Windows.Terminal)\\.WSL$",
+            "type": "matchProfiles"
+        },
+        { "type": "separator" },
+        {
+            "name": "(Windows )?PowerShell",
+            "type": "matchProfiles"
+        },
+        { "type": "separator" },
+        {
+            "type": "remainingProfiles"
+        }
+    ],
+
     "keybindings": 
     [
         {
