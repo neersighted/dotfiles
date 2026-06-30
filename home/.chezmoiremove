@@ -20,3 +20,5 @@
 .local/share/nodenv
 .local/share/pyenv
 .local/share/rbenv
+# probably broken
+.config/mimeapps.list
