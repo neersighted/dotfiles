@@ -2,44 +2,38 @@
     "$help": "https://aka.ms/terminal-documentation",
     "$schema": "https://aka.ms/terminal-profiles-schema",
 
+    "theme": "dark",
+    "themes": [],
     "useAcrylicInTabRow": true,
 
-    "defaultProfile": "{a5a97cb8-8961-5535-816d-772efe0c6a3f}",
+    "schemes": [],
+
+    "defaultProfile": "{7bee06fb-f91d-5dfe-96fb-74145f815991}",
+    "disabledProfileSources": 
+    [
+        "Windows.Terminal.Azure",
+        "Windows.Terminal.Wsl" // Legacy WSL profile source
+    ],
     "profiles": 
     {
         "defaults": 
         {
+            "padding": "2",
             "cursorShape": "filledBox",
-            "padding": "5, 2",
             "font": 
             {
                 "face": "Source Code Pro",
                 "size": 10
             },
-            "intenseTextStyle": "bold",
-            "antialiasingMode": "cleartype"
+            "antialiasingMode": "cleartype",
+            "intenseTextStyle": "bold"
         },
         "list": 
         [
             {
                 "name": "Arch",
-                "guid": "{a5a97cb8-8961-5535-816d-772efe0c6a3f}",
-                "source": "Windows.Terminal.Wsl",
-                "icon": "ms-appdata:///roaming/Arch.ico",
-                "scrollbarState": "hidden"
-            },
-            {
-                "name": "FreeBSD (beastiebox)",
-                "guid": "{0eb06ae8-5ce0-45dd-ac9c-c02bca2b62bf}",
-                "commandline": "ssh -A beastiebox",
-                "icon": "ms-appdata:///roaming/FreeBSD.ico",
-                "scrollbarState": "hidden"
-            },
-            {
-                "name": "macOS (rorqual)",
-                "guid": "{5da3af36-c996-45c8-9007-af80a9c9f335}",
-                "commandline": "ssh -A rorqual",
-                "icon": "ms-appdata:///roaming/Apple.ico",
+                "guid": "{7bee06fb-f91d-5dfe-96fb-74145f815991}",
+                "source": "Microsoft.WSL",
                 "scrollbarState": "hidden"
             },
             {
@@ -67,92 +61,16 @@
                 "source": "Git",
                 "colorScheme": "Vintage",
                 "tabColor": "#0c0c0c"
-            },
-            {
-                "guid": "{e441b99b-7542-57bb-86c0-cccd04b820e9}",
-                "name": "Developer Command Prompt for VS 2022",
-                "source": "Windows.Terminal.VisualStudio",
-                "colorScheme": "Campbell",
-                "tabColor": "#0c0c0c"
-            },
-            {
-                "guid": "{f3e75b2a-c550-5406-8987-81f2dd09e866}",
-                "name": "Developer PowerShell for VS 2022",
-                "source": "Windows.Terminal.VisualStudio",
-                "colorScheme": "Campbell Powershell",
-                "tabColor": "#012456"
             }
         ]
     },
-    "disabledProfileSources": 
-    [
-        "Windows.Terminal.Azure"
-    ],
-
-    "schemes": 
-    [
-        {
-            "name": "Ubuntu",
-            "background": "#300a24",
-            "foreground": "#eeeeec",
-            "selectionBackground": "#b5d5ff",
-            "cursorColor": "#bbbbbb",
-            "black": "#2e3436",
-            "red": "#cc0000",
-            "green": "#4e9a06",
-            "yellow": "#c4a000",
-            "blue": "#3465a4",
-            "purple": "#75507b",
-            "cyan": "#06989a",
-            "white": "#d3d7cf",
-            "brightBlack": "#555753",
-            "brightRed": "#ef2929",
-            "brightGreen": "#8ae234",
-            "brightYellow": "#fce94f",
-            "brightBlue": "#729fcf",
-            "brightPurple": "#ad7fa8",
-            "brightCyan": "#34e2e2",
-            "brightWhite": "#eeeeec"
-        }
-    ],
 
     "keybindings": 
     [
         {
-            "command": null,
+            "id": null, // Defaults to fullscreen
             "keys": "alt+enter"
-        },
-        {
-            "command": "unbound",
-            "keys": "ctrl+up"
-        },
-        {
-            "command": "unbound",
-            "keys": "ctrl+down"
-        },
-        {
-            "command": "unbound",
-            "keys": "ctrl+left"
-        },
-        {
-            "command": "unbound",
-            "keys": "ctrl+right"
-        },
-        {
-            "command": "unbound",
-            "keys": "alt+up"
-        },
-        {
-            "command": "unbound",
-            "keys": "alt+down"
-        },
-        {
-            "command": "unbound",
-            "keys": "alt+left"
-        },
-        {
-            "command": "unbound",
-            "keys": "alt+right"
         }
     ]
 }
+// vi: ft=jsonc
