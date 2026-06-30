@@ -175,6 +175,7 @@ packages = [
     { macos = "mas" },
     { arch = "perl-file-mimeinfo", freebsd = "p5-File-MimeInfo" },
     { macos = "terminal-notifier" },
+    { arch = "xdg-utils" },
 
     # Documentation
     { arch = "man-db" },
