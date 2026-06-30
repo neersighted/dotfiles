@@ -1,9 +1,13 @@
 status is-interactive; or exit
 
-# shared history, but you can press up+enter for the last command
-# alternatively, an empty command will force a sync
-function __histsync --on-event histsync
-  test -z "$fish_private_mode"; or return
-  history save
-  history merge
+# sync/share history on blank command; respects $fish_private_mode
+function execute-or-histsync
+  set -f commandline (commandline)
+  if test -z "$commandline$fish_private_mode"
+    history save
+    history merge
+  end
+  commandline -f execute
 end
+
+bind enter execute-or-histsync

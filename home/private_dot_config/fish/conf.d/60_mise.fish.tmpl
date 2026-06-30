@@ -1,19 +1,15 @@
-{{- if lookPath "mise" }}
-# Defer mise hook-env to fish_preexec (lazy evaluation, in other words).
+{{- if lookPath "mise" -}}
+# defer mise hook-env to the fish_preexec event
 set -g mise_fish_mode eval_after_arrow
-
-# Prevent vendor-provided, implicit activation of mise.
+# prevent vendor-provided, implicit activation of mise
 set -gx MISE_FISH_AUTO_ACTIVATE 0
 
-# Generate the mise env key ourselves, as we can't let mise bake it into the templated file.
+# generate the env cache key at runtime, instead of template time
 if not set -q __MISE_ENV_CACHE_KEY
   set -gx __MISE_ENV_CACHE_KEY (openssl rand -base64 32)
 end
 
-
-# Template the activation script, so we don't pay the execution cost on every startup.
-# Capture with the active-session markers unset so mise emits a clean activation
-# (inactive->active) rather than baking a stale `set -gx PATH` teardown snapshot of
-# whatever shell ran `chezmoi apply`. The __MISE_ORIG_PATH capture is unaffected.
+# templated mise activation; unset env markers set by an activated mise
+# (also set MISE_ENV_CACHE=0 to keep a cache key from becoming baked in)
 {{ output "env" "-u" "__MISE_SESSION" "-u" "__MISE_DIFF" "-u" "__MISE_ORIG_PATH" "MISE_ENV_CACHE=0" "MISE_NOT_FOUND_AUTO_INSTALL=0" "mise" "activate" "fish" }}
-{{- end }}
+{{- end -}}

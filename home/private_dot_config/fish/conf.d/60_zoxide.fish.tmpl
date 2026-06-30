@@ -1,9 +1,13 @@
 {{- if lookPath "zoxide" -}}
 status is-interactive; or exit
 
-{{ output "zoxide" "init" "--no-cmd" "fish" }}
-# define the commands ourselves; --no-cmd drops zoxide's abbr --erase dance,
-# and alias auto-wraps __zoxide_z so its completions still apply
-alias z=__zoxide_z
-alias zi=__zoxide_zi
+{{ output "zoxide" "init" "--no-cmd" "fish" | trim }}
+
+# define our own wrappers; avoiding the `abbr` dance the genrated script performs
+function z -w __zoxide_z
+    __zoxide_z $argv
+end
+function zi
+    __zoxide_zi $argv
+end
 {{- end -}}

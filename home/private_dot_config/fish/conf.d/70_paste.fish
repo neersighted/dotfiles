@@ -1,6 +1,5 @@
 status is-interactive; or exit
 
-
 function fish_clipboard_copy
   set -lx COPY_PROVIDERS desktop tmux
   if isatty stdin

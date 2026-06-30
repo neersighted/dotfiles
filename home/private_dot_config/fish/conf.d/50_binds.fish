@@ -1,8 +1,6 @@
 function __bind_keys_startup --on-event fish_startup
   functions -e (status current-function)
 
-  bind enter execute-or-preexec
-
   bind ! history-prev-command
   bind \$ history-prev-arguments
 

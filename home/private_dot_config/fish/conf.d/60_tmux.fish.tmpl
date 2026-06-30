@@ -1,8 +1,8 @@
 {{- if lookPath "tmux" -}}
-# run code on tmux reattach (signalled by USR2)
-function __tmux_resync --on-signal SIGUSR2
+function __fish_usr2_handler --on-signal SIGUSR2
+  # tmux will signal USR2 on reattach; we use this to re-sync variables
   if is_tmux
-    # sync variables defined in tmux's update-environment array
+    # discover and sync variables from the update-environment array
     for entry in (tmux show-environment)
       if string match -rq '^-' -- $entry
         set -eg (string replace '-' '' -- $entry)
@@ -11,10 +11,11 @@ function __tmux_resync --on-signal SIGUSR2
         set -gx $var[1] $var[2]
       end
     end
-  else
-    # default is to exit on SIGUSR2, which we do when not in TMUX
-    exit
+    # early return, so we don't exit
+    return
   end
+  # maintain default exit on USR2
+  exit
 end
 
 function __tmux_session_name
