@@ -1,7 +1,8 @@
 #!/usr/bin/env fish
 
-set -q COPY_PROVIDERS; or set -x COPY_PROVIDERS tmux desktop file
-set -q PASTE_PROVIDERS; or set -x PASTE_PROVIDERS tmux desktop file
+set -q COPY_PROVIDERS; or set COPY_PROVIDERS tmux desktop osc52 file
+set -q PASTE_PROVIDERS; or set PASTE_PROVIDERS tmux desktop file
+set -q OSC52_TARGET; or set OSC52_TARGET c
 
 function main -a op
   set -l exit_status 99
@@ -80,7 +81,6 @@ function desktop-provider
   or macos-provider $argv
   or wayland-provider $argv
   or x11-provider $argv
-  or osc52-provider $argv
 end
 
 function wsl-provider -a op
@@ -165,9 +165,10 @@ function osc52-provider -a op
   switch $op
     case copy
       set -l payload (spit | eb64); or return 1
-      test (printf '\e]52;c;%s\e\\' $payload | string length) -le 100000; or return 1 # max length 100000 bytes
-      # "!" = clear clipboard (invalid base64); $payload = set clipboard
-      printf '\e]52;c;%s\e\\' '!' $payload > $tty
+      set -l esc (printf '\e]52;%s;%s\e\\' $OSC52_TARGET $payload)
+
+      test (string length $esc) -le 100000; or return 1 # max length 100000 bytes
+      printf $esc > $tty
     case paste
       set -l saved (stty -g <$tty 2>/dev/null); or return 1
       stty -icanon -echo min 0 time 10 <$tty
