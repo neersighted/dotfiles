@@ -19,21 +19,17 @@ function __fish_usr2_handler --on-signal SIGUSR2
 end
 
 function __tmux_session_name
-  # no tmux in editors
-  is_editor; and return 1
-  # no nested tmux
-  is_tmux; and return 1
-  # no remote connections
-  is_ssh; and return 1
+  # only generate a session in a direct, local session
+  not is_multiplexer; and not is_ssh; or return 1
 
   set -f tty (tty)
 
-  # is a console/tty
+  # is a virtual console/tty
   if not string match -rq '^/dev/(pts/\d+|ttys\d+)$' $tty; and not is_wsl1
     printf '%s' $tty; return
   end
 
-  # is a terminal/pty
+  # is a terminal emulator/pty
   if is_wsl
     set -q WSL_DISTRO_NAME; and printf '%s' $WSL_DISTRO_NAME; or return 1
   else

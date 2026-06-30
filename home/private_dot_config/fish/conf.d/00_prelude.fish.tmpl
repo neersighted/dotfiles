@@ -5,7 +5,7 @@ for f in $conf_d/fish_frozen_key_bindings.fish $conf_d/fish_frozen_theme.fish
 end
 
 # opt into future feature flags early
-contains 4.1 $fish_features; or set -U fish_features 4.1
+set -q fish_features; or set -U fish_features all
 
 # pick up functions.d paths
 set -p fish_function_path (path normalize (status dirname)/../functions.d/*)

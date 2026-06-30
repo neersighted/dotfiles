@@ -10,44 +10,49 @@ if set -q fish_theme_env_hash
   set -e -U FZF_DEFAULT_OPTS LS_COLORS EZA_COLORS fish_theme_env_hash
 end
 
-# fish UI colors (global)
-set -g fish_color_normal '{{ .nord.nord4 }}'
-set -g fish_color_command '{{ .nord.nord7 }}'
-set -g fish_color_keyword '{{ .nord.nord9 }}'
-set -g fish_color_quote '{{ .nord.nord14 }}'
-set -g fish_color_redirection '{{ .nord.nord15 }}'
-set -g fish_color_end '{{ .nord.nord8 }}'
-set -g fish_color_error '{{ .nord.nord13 }}'
-set -g fish_color_param '{{ .nord.nord6 }}'
-set -g fish_color_option '{{ .nord.nord10 }}'
-set -g fish_color_comment '{{ .nord.nord2 }}'
-set -g fish_color_match --background '{{ .nord.nord8 }}'
-set -g fish_color_selection '{{ .nord.nord5 }}' --bold --background '{{ .nord.nord2 }}'
-set -g fish_color_search_match '{{ .nord.nord13 }}' --background '{{ .nord.nord2 }}'
-set -g fish_color_history_current --bold
-set -g fish_color_operator '{{ .nord.nord8 }}'
-set -g fish_color_escape '{{ .nord.nord8 }}'
+# shell colors
+set -g fish_color_normal {{ quote .nord.nord4 }}
+set -g fish_color_command {{ quote .nord.nord7 }}
+set -g fish_color_keyword {{ quote .nord.nord9 }}
+set -g fish_color_quote {{ quote .nord.nord14 }}
+set -g fish_color_redirection {{ quote .nord.nord15 }}
+set -g fish_color_end {{ quote .nord.nord8 }}
+set -g fish_color_error {{ quote .nord.nord13 }}
+set -g fish_color_param {{ quote .nord.nord6 }}
 set -g fish_color_valid_path --underline
-set -g fish_color_autosuggestion '{{ .nord.nord3 }}'
+set -g fish_color_option {{ quote .nord.nord10 }}
+set -g fish_color_comment {{ quote .nord.nord2 }}
+set -g fish_color_selection {{ quote .nord.nord5 }} --bold --background {{ quote .nord.nord2 }}
+set -g fish_color_operator {{ quote .nord.nord8 }}
+set -g fish_color_escape {{ quote .nord.nord8 }}
+set -g fish_color_autosuggestion {{ quote .nord.nord3 }}
 set -g fish_color_cancel -r
-set -g fish_pager_color_completion '{{ .nord.nord4 }}'
-set -g fish_pager_color_prefix --bold --underline
-set -g fish_pager_color_description '{{ .nord.nord13 }}'
-set -g fish_pager_color_progress '{{ .nord.nord6 }}' --background '{{ .nord.nord8 }}'
-set -g fish_pager_color_selected_background --background '{{ .nord.nord2 }}'
+set -g fish_color_search_match {{ quote .nord.nord13 }} --background {{ quote .nord.nord2 }}
+set -g fish_color_history_current --bold
 
-# manpages
-set -g man_color_blink '{{ .nord.nord11 }}' --underline
-set -g man_color_bold '{{ .nord.nord10 }}'
+# pager colors
+set -g fish_pager_color_progress {{ quote .nord.nord6 }} --background {{ quote .nord.nord3 }}
+set -g fish_pager_color_background --background {{ quote .nord.nord0 }}
+set -g fish_pager_color_prefix {{ quote .nord.nord3 }}
+set -g fish_pager_color_completion {{ quote .nord.nord4 }}
+set -g fish_pager_color_description {{ quote .nord.nord10 }}
+set -g fish_pager_color_selected_background --background {{ quote .nord.nord2 }}
+set -g fish_pager_color_selected_prefix {{ quote .nord.nord3 }} --underline
+set -g fish_pager_color_selected_completion {{ quote .nord.nord6 }} --underline
+set -g fish_pager_color_selected_description {{ quote .nord.nord7 }}
+
+# manpage colors
+set -g man_color_blink {{ quote .nord.nord15 }} --bold
+set -g man_color_bold {{ quote .nord.nord9 }}
 set -g man_color_standout --reverse
-set -g man_color_underline '{{ .nord.nord7 }}' --underline
+set -g man_color_underline {{ quote .nord.nord8 }} --underline
 
 # fzf
 set -gx FZF_DEFAULT_OPTS $FZF_DEFAULT_OPTS_BASE \
-  --color=fg:'{{ .nord.nord5 }}',bg:'{{ .nord.nord0 }}',hl:'{{ .nord.nord9 }}' \
-  --color=fg+:'{{ .nord.nord5 }}',bg+:'{{ .nord.nord1 }}',hl+:'{{ .nord.nord9 }}' \
-  --color=info:'{{ .nord.nord13 }}',prompt:'{{ .nord.nord11 }}',pointer:'{{ .nord.nord15 }}' \
-  --color=marker:'{{ .nord.nord14 }}',spinner:'{{ .nord.nord15 }}',header:'{{ .nord.nord14 }}'
+  --color=fg:{{ quote .nord.nord5 }},bg:{{ quote .nord.nord0 }},hl:{{ quote .nord.nord9 }} \
+  --color=fg+:{{ quote .nord.nord5 }},bg+:{{ quote .nord.nord1 }},hl+:{{ quote .nord.nord9 }} \
+  --color=info:{{ quote .nord.nord13 }},prompt:{{ quote .nord.nord11 }},pointer:{{ quote .nord.nord15 }} \
+  --color=marker:{{ quote .nord.nord14 }},spinner:{{ quote .nord.nord15 }},header:{{ quote .nord.nord14 }}
 
 # ls/eza colors
 {{- if lookPath "vivid" }}
@@ -64,7 +69,16 @@ set -gx EZA_COLORS 'uu=35:gu=35:un=33:gn=33'
 status is-interactive; or exit
 status is-login; or test $SHLVL -eq 1; or exit
 
+# helper to re-apply the theme from this config file
+function fish_retheme
+  source (status current-filename)
+end
+
 # OSC (ESC ]) DATA ST (ESC \)
+#   https://ghostty.org/docs/vt/concepts/colors
+#   https://ghostty.org/docs/vt/osc/4
+#   https://ghostty.org/docs/vt/osc/5
+#   https://ghostty.org/docs/vt/osc/1x
 function osc -a data
     printf '\e]%s\e\\' $data
 end
@@ -76,10 +90,10 @@ set -l term_palette \
 
 # special color names
 set -l term_special \
-   fg bg bold selbg selfg curbg underline tab
+   fg bg curbg selbg selfg bold underline blink reversed italic tabfg tabbg
 # osc commands (corresponding to the above list)
 set -l term_special_osc \
-   10 11 '5;0' 17 19 12 '5;1' '4;264'
+   10 11 12 17 19 '4;256' '4;257' '4;258' '4;259' '4;260' '4;263' '4;264'
 
 function term_color -V term_palette -V term_special -V term_special_osc -a color_name hex_color
   if set color_index (contains -i $color_name $term_palette)
@@ -97,31 +111,35 @@ function term_color -V term_palette -V term_special -V term_special_osc -a color
 end
 
 # special colors
-term_color fg         '{{ .nord.nord4 }}'
-term_color bg         '{{ .nord.nord0 }}'
-term_color bold       '{{ .nord.nord4 }}'
-term_color selbg      '{{ .nord.nord2 }}'
-term_color selfg      '{{ .nord.nord4 }}'
-term_color curbg      '{{ .nord.nord4 }}'
-term_color underline  '{{ .nord.nord4 }}'
-term_color tab        '{{ .nord.nord0 }}'
+term_color fg         {{ quote .nord.nord4 }}
+term_color bg         {{ quote .nord.nord0 }}
+term_color curbg      {{ quote .nord.nord4 }}
+term_color selbg      {{ quote .nord.nord2 }}
+term_color selfg      {{ quote .nord.nord4 }}
+term_color bold       {{ quote .nord.nord4 }}
+term_color underline  {{ quote .nord.nord4 }}
+term_color blink      {{ quote .nord.nord7 }}
+term_color reversed   {{ quote .nord.nord11 }}
+term_color italic     {{ quote .nord.nord4 }}
+term_color tabfg      {{ quote .nord.nord8 }}
+term_color tabbg      {{ quote .nord.nord0 }}
 # 16-color palette
-term_color black      '{{ .nord.nord1 }}'
-term_color red        '{{ .nord.nord11 }}'
-term_color green      '{{ .nord.nord14 }}'
-term_color yellow     '{{ .nord.nord13 }}'
-term_color blue       '{{ .nord.nord9 }}'
-term_color magenta    '{{ .nord.nord15 }}'
-term_color cyan       '{{ .nord.nord8 }}'
-term_color white      '{{ .nord.nord5 }}'
-term_color br_black   '{{ .nord.nord3 }}'
-term_color br_red     '{{ .nord.nord11 }}'
-term_color br_green   '{{ .nord.nord14 }}'
-term_color br_yellow  '{{ .nord.nord13 }}'
-term_color br_blue    '{{ .nord.nord9 }}'
-term_color br_magenta '{{ .nord.nord15 }}'
-term_color br_cyan    '{{ .nord.nord7 }}'
-term_color br_white   '{{ .nord.nord6 }}'
+term_color black      {{ quote .nord.nord1 }}
+term_color red        {{ quote .nord.nord11 }}
+term_color green      {{ quote .nord.nord14 }}
+term_color yellow     {{ quote .nord.nord13 }}
+term_color blue       {{ quote .nord.nord9 }}
+term_color magenta    {{ quote .nord.nord15 }}
+term_color cyan       {{ quote .nord.nord8 }}
+term_color white      {{ quote .nord.nord5 }}
+term_color br_black   {{ quote .nord.nord3 }}
+term_color br_red     {{ quote .nord.nord11 }}
+term_color br_green   {{ quote .nord.nord14 }}
+term_color br_yellow  {{ quote .nord.nord13 }}
+term_color br_blue    {{ quote .nord.nord9 }}
+term_color br_magenta {{ quote .nord.nord15 }}
+term_color br_cyan    {{ quote .nord.nord7 }}
+term_color br_white   {{ quote .nord.nord6 }}
 
 # clean up
 functions -e osc term_color

@@ -1,5 +1,6 @@
 {{- $hash := include .chezmoi.sourceFile | sha256sum -}}
 
+# helper to re-create fish_user_paths from this config file
 function fish_repath
   set -U -e fish_user_paths fish_path_hash
   source (status current-filename)
