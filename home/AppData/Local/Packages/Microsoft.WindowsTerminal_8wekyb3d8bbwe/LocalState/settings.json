@@ -12,6 +12,7 @@
     "disabledProfileSources": 
     [
         "Windows.Terminal.Azure",
+        "Windows.Terminal.VisualStudio",
         "Windows.Terminal.Wsl" // Legacy WSL profile source
     ],
     "profiles": 
