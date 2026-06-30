@@ -11,7 +11,7 @@ if is_macos
 else if is_freebsd
   set update_command 'sudo pkg upgrade'
 else if command -q pacman
-  set update_command 'paru; and sudo pacman -Fy'
+  set update_command 'paru'
 end
 
 # system/special

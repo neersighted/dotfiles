@@ -41,4 +41,9 @@ fi
 echo "Installing AUR packages with paru..."
 paru -S --needed --aur {{ $aur | sortAlpha | uniq | join " " }}
 
+# Set up the Pacman filesdb.
+echo "Updating pacman filesdb..."
+sudo pacman -Fy
+systemctl is-enabled --quiet pacman-filesdb-refresh.timer || sudo systemctl enable --now pacman-filesdb-refresh.timer
+
 {{- end -}}
