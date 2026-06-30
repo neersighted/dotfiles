@@ -198,7 +198,7 @@ packages = [
     { macos = { type = "cask", name = "docker-desktop" } },
     { macos = { type = "cask", name = "elgato-stream-deck" } },
     { macos = { type = "cask", name = "firefox" } },
-    { macos = { type = "cask", name = "ghostty" }, arch = "ghostty" },
+    { macos = { type = "cask", name = "ghostty" } },
     { macos = { type = "cask", name = "google-chrome", require_sha = false } },
     { macos = { type = "cask", name = "hex-fiend" } },
     { macos = { type = "cask", name = "hot" } },
