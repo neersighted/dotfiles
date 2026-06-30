@@ -43,15 +43,6 @@
                 "scrollbarState": "hidden"
             },
             {
-                "name": "Multipass",
-                "guid": "{aaaa9e6d-1e09-4be6-b76c-82b4ba1885fb}",
-                "commandline": "multipass.exe shell",
-                "icon": "%PROGRAMFILES%/Multipass/bin/multipass_wt.ico",
-                "colorScheme": "Ubuntu",
-                "tabColor": "#300a24",
-                "fontFace": "Ubuntu Mono"
-            },
-            {
                 "name": "PowerShell",
                 "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
                 "source": "Windows.Terminal.PowershellCore",
