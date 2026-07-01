@@ -1,9 +1,6 @@
 function __bind_keys_startup --on-event fish_startup
   functions -e (status current-function)
 
-  bind ! history-prev-command
-  bind \$ history-prev-arguments
-
   bind alt-r push-line
 
   bind alt-z zoxide-interactive
