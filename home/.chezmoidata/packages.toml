@@ -151,6 +151,7 @@ packages = [
 
     # Package & config management
     { arch = "aurpublish" },
+    { arch = "devtools" },
     { arch = "namcap" },
     { arch = "pacman-contrib" },
     { arch = { name = "paru", aur = true } },
