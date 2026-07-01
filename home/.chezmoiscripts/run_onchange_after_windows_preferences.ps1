@@ -1,10 +1,7 @@
 # Re-execute as admin if we're not already elevated.
-if (!(new-object System.Security.Principal.WindowsPrincipal([System.Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    $elevated = new-object System.Diagnostics.ProcessStartInfo 'powershell.exe'
-    $elevated.Arguments = $myInvocation.MyCommand.Definition + @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-WindowStyle', 'hidden')
-    $elevated.Verb = 'RunAs'
-    $child = [System.Diagnostics.Process]::Start($elevated)
-    $child.WaitForExit()
+if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    $Args = "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
+    (Start-Process PowerShell -Verb RunAs -ArgumentList $Args -Passthru).WaitForExit()
     return
 }
 
