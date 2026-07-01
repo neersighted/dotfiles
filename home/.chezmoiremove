@@ -8,6 +8,7 @@
 .config/fish/completions/pyenv.fish
 .config/fish/conf.d/60_direnv.fish
 .config/fish/conf.d/60_poetry.fish
+.config/fish/conf.d/90_wsl_aliases.fish
 .local/bin/git-recent
 .local/bin/goup
 .local/bin/nodenv-prune

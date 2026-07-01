@@ -2,12 +2,10 @@
 {{- $configDir := dir .chezmoi.configFile -}}
 
 {{/* environment/hardware tags */}}
-{{- $devcontainer := false -}}{{/* devcontainer (codespaces, vscode) */}}
 {{- $codespaces   := false -}}{{/* github codespaces */}}
+{{- $devcontainer := false -}}{{/* devcontainer (codespaces, vscode) */}}
 {{- $vscontainer  := false -}}{{/* vs code remote containers */}}
-{{- $wsl          := false -}}{{/* wsl 1/2 */}}
-{{- $wsl1         := false -}}{{/* wsl 1 */}}
-{{- $wsl2         := false -}}{{/* wsl 2 */}}
+{{- $wsl          := false -}}{{/* wsl (2) */}}
 
 {{/* devcontainer detection */}}
 {{- if (env "CODESPACES") -}}
@@ -22,13 +20,7 @@
 
 {{/* wsl detection */}}
 {{- if eq .chezmoi.os "linux" -}}
-{{-   if contains "Microsoft" .chezmoi.kernel.osrelease -}}
-{{-     $wsl1 = true -}}
-{{-   end -}}
-{{-   if contains "microsoft" .chezmoi.kernel.osrelease -}}
-{{-     $wsl2 = true -}}
-{{-   end -}}
-{{-   if or $wsl1 $wsl2 -}}
+{{-   if contains "microsoft" (.chezmoi.kernel.osrelease | lower) -}}
 {{-     $wsl = true -}}
 {{-   end -}}
 {{- end -}}
@@ -70,13 +62,9 @@ encryption = "age"
 [data]
     headless   = {{ $headless }}
     transient  = {{ $transient }}
+    wsl        = {{ $wsl }}
 
 [data.devcontainer]
     any         = {{ $devcontainer }}
     codespaces  = {{ $codespaces }}
     vscontainer = {{ $vscontainer }}
-
-[data.wsl]
-    any          = {{ $wsl }}
-    wsl1         = {{ $wsl1 }}
-    wsl2         = {{ $wsl2 }}

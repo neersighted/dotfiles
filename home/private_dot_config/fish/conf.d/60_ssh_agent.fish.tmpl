@@ -1,8 +1,6 @@
 is_ssh; and exit
 
-{{- if .wsl.wsl1 }}
-set -q USERPROFILE; and set -x SSH_AUTH_SOCK $USERPROFILE/wincrypt-wsl.sock
-{{- else if .wsl.wsl2}}
+{{- if .wsl }}
 set -x SSH_AUTH_SOCK /mnt/wsl/wincrypt-hv.sock
 
 if not test -S $SSH_AUTH_SOCK

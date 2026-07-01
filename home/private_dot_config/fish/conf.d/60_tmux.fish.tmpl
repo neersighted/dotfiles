@@ -25,7 +25,7 @@ function __tmux_session_name
   set -f tty (tty)
 
   # is a virtual console/tty
-  if not string match -rq '^/dev/(pts/\d+|ttys\d+)$' $tty; and not is_wsl1
+  if not string match -rq '^/dev/(pts/\d+|ttys\d+)$' $tty
     printf '%s' $tty; return
   end
 
