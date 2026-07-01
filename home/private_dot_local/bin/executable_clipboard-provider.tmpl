@@ -94,7 +94,7 @@ function wsl-provider -a op
   end
 {{    else }}
   switch $op
-    case copy; string replace -a \n \r\n -- $data | clip.exe
+    case copy; string replace -a \n \r\n -- $data | iconv -f utf8 -t utf16le | clip.exe
     case paste; {{ quote $powershell }} -NoProfile -Command Get-Clipboard | string replace -a \r ''
   end
 {{    end -}}
