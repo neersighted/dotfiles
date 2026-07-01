@@ -13,10 +13,10 @@ args = ['~']
 program = 'osascript'
 args = ['-e', 'beep']
 {{- else if eq .chezmoi.os "windows" -}}
-program = "pwsh"
-args = "[System.Media.SystemSounds]::Hand.Play()"
+program = 'powershell.exe'
+args = ['-NoProfile', '-Command', '[System.Media.SystemSounds]::Hand.Play()']
 {{- else -}}
-program = "xkbbell"
+program = 'xkbbell'
 {{- end }}
 
 [window]
