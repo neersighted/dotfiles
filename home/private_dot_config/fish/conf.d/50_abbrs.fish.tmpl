@@ -14,6 +14,12 @@ else if command -q pacman
   set update_command 'paru'
 end
 
+# meta-syntax
+function __abbr_command_s
+  command --search (string sub -s 2 $argv)
+end
+abbr -a = --regex '=\w+' --position anywhere --function __abbr_command_s
+
 # system/special
 abbr -a -- up "$update_command; and mise upgrade; and $chezmoi_update"
 
