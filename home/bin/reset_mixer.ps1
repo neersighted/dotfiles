@@ -1,17 +1,16 @@
-if (!(new-object System.Security.Principal.WindowsPrincipal([System.Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    $elevated = new-object System.Diagnostics.ProcessStartInfo 'PowerShell'
-    $elevated.Arguments = $myInvocation.MyCommand.Definition
-    $elevated.Verb = 'runas'
-    $null = [System.Diagnostics.Process]::Start($elevated)
+# Re-execute as admin if we're not already elevated.
+if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    $Args = "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
+    (Start-Process PowerShell -Verb RunAs -ArgumentList $Args -Passthru).WaitForExit()
     return
 }
 
 function Write-Status {
-	if ($args[0]) {
-		Write-Host -ForegroundColor Green "OK"
-	} else {
-		Write-Host -ForegroundColor Red "ERR"
-	}
+    if ($args[0]) {
+        Write-Host -ForegroundColor Green "OK"
+    } else {
+        Write-Host -ForegroundColor Red "ERR"
+    }
 }
 
 Write-Host -NoNewline 'Stopping Audiosrv... '
