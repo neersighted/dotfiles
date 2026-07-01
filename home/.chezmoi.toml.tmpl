@@ -9,12 +9,6 @@
 {{- $wsl1         := false -}}{{/* wsl 1 */}}
 {{- $wsl2         := false -}}{{/* wsl 2 */}}
 
-{{/* os environment detection */}}
-{{- $osid := .chezmoi.os -}}
-{{- if .chezmoi.osRelease -}}
-{{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
-{{- end -}}
-
 {{/* devcontainer detection */}}
 {{- if (env "CODESPACES") -}}
 {{-   $codespaces = true -}}
@@ -74,7 +68,6 @@ encryption = "age"
     watch = true
 
 [data]
-    osid       = {{ quote $osid }}
     headless   = {{ $headless }}
     transient  = {{ $transient }}
 

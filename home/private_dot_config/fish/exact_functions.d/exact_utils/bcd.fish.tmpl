@@ -1,3 +1,4 @@
+{{- if lookPath "brew" -}}
 function bcd -d 'cd into homebrew repo' -a query
   set -f repo (brew tap | fzf --tiebreak=end --query=$query --select-1 --exit-0)
 
@@ -7,5 +8,5 @@ function bcd -d 'cd into homebrew repo' -a query
   else
     cd (brew --repo $repo)
   end
-
 end
+{{- end -}}

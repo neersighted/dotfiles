@@ -1,7 +1,4 @@
 Host git.launchpad.net heroku.com
 	HostKeyAlgorithms +ssh-rsa
 
-Host *.lan
-	CheckHostIp no
-
 # vi: ft=sshconfig

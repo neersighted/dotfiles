@@ -1,4 +1,5 @@
-{{- if hasPrefix "linux-arch" .osid -}}
+{{- if eq .chezmoi.os "linux" -}}
+{{- if eq .chezmoi.osRelease.id "arch" -}}
 #!/bin/sh -eu
 {{- $repo := list }}
 {{- $aur := list -}}
@@ -46,4 +47,5 @@ echo "Updating pacman filesdb..."
 sudo pacman -Fy
 systemctl is-enabled --quiet pacman-filesdb-refresh.timer || sudo systemctl enable --now pacman-filesdb-refresh.timer
 
+{{- end -}}
 {{- end -}}

@@ -1,11 +1,15 @@
 {{- if eq .chezmoi.os "darwin" -}}
-#!/bin/sh -e
+#!/bin/sh -eu
 
 HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(brew --prefix)}"
 
+test -f /etc/pam.d/sudo_local && exit 0
+
 echo "Writing /etc/pam.d/sudo_local..."
 sudo tee /etc/pam.d/sudo_local >/dev/null <<EOF
-auth       optional       $HOMEBREW_PREFIX/lib/pam/pam_reattach.so ignore_ssh
+auth       optional       ${HOMEBREW_PREFIX}/lib/pam/pam_reattach.so ignore_ssh
 auth       sufficient     pam_tid.so
 EOF
+
+# MacOS build version: {{ output "sw_vers" "--buildVersion" }}
 {{- end -}}
