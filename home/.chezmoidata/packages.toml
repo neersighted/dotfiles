@@ -59,7 +59,7 @@ packages = [
 
     # Editors
     "neovim",
-    { macos = "tree-sitter-cli", arch = "tree-sitter-cli" },
+    "tree-sitter-cli",
 
     # Version control
     { macos = "gh", arch = "github-cli", freebsd = "gh" },
@@ -103,8 +103,8 @@ packages = [
     "gopls",
     "lua-language-server",
     "lychee",
-    { macos = "pgcli", arch = "pgcli", freebsd = "py311-pgcli" },
-    { macos = "pre-commit", arch = "pre-commit", freebsd = "py311-pre-commit" },
+    { macos = "pgcli", arch = "pgcli", freebsd = "py312-pgcli" },
+    { macos = "pre-commit", arch = "pre-commit", freebsd = "py312-pre-commit" },
     { macos = "regclient" },
     "ruff",
     "selene",
@@ -113,7 +113,7 @@ packages = [
     { arch = "sqlite", freebsd = "sqlite3" },
     "tokei",
     { macos = "tombi", arch = "tombi" },
-    { macos = "ty", arch = "ty", freebsd = "py311-ty" },
+    { macos = "ty", arch = "ty", freebsd = "py312-ty" },
     { macos = "vexctl" },
     { macos = "vscode-langservers-extracted", arch = "vscode-json-languageserver" },
     { macos = "watchexec", arch = "watchexec" },

@@ -1,11 +1,6 @@
 {{- if eq .chezmoi.os "freebsd" -}}
-#!/bin/sh -e
-
-if [ "$(id -u)" -ne 0 ]; then
-  echo "Asking for root credentials..."
-  exec su root -c "sh $0"
-fi
-{{- $packages := list -}}
+#!/bin/sh -eu
+{{- $packages := list }}
 {{- range .packages -}}
 {{-   $name := "" -}}
 {{-   if kindIs "string" . -}}
@@ -16,7 +11,12 @@ fi
 {{-   if $name -}}
 {{-     $packages = append $packages $name -}}
 {{-   end -}}
-{{- end -}}
+{{- end }}
+
+if [ "$(id -u)" -ne 0 ]; then
+  echo "Asking for root credentials..."
+  exec su root -c "sh $0"
+fi
 
 echo "Installing packages with pkg..."
 pkg install -y {{ $packages | sortAlpha | uniq | join " " }}

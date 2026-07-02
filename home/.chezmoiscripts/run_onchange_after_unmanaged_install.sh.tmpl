@@ -1,7 +1,7 @@
 {{- if eq .chezmoi.os "freebsd" -}}
 #!/bin/sh -e
 
-{{- if lookPath "go" -}}
+{{ if lookPath "go" -}}
 command -v "xurls" >/dev/null || go install "mvdan.cc/xurls/v2/cmd/xurls@latest"
-{{- end -}}
+{{ end -}}
 {{- end -}}
