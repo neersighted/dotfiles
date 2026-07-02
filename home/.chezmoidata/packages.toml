@@ -135,6 +135,7 @@ packages = [
     { macos = "mactop" },
     { arch = "perf" },
     { arch = "strace" },
+    { arch = "usbutils" },
 
     # Networking & transfer
     "caddy",
