@@ -4,35 +4,32 @@ function __chezmoi_targets
     | fzf --multi --preview 'chezmoi cat ~/{}'
 end
 
-function chezmoi
+function chezmoi -a sub
   if command -q gh
     set -fx GITHUB_TOKEN (gh auth token -h github.com 2>/dev/null)
   end
 
   set argc (count $argv)
-  switch $argv[1]
+  switch $sub
   case cat
     if test $argc -eq 1
       if set targets (__chezmoi_targets)
         chezmoi cat '~/'$targets
       end
+      return
     else if test $argc -eq 2
-      command chezmoi $argv | bat --style=numbers --color=always --file-name $argv[-1]
-    else
-      command chezmoi $argv
+      command chezmoi $argv | bat --style=numbers --color=always --file-name $argv[2]
+      return
     end
   case cd
-    cd (command chezmoi source-path)
+    cd (command chezmoi source-path $argv[2..-1])
+    return
   case edit
     if test $argc -eq 1
       if set targets (__chezmoi_targets)
         chezmoi edit '~/'$targets
       end
-    else
-      # use the git-editor wrapper to take advantage of custom logic
-      set -lx VISUAL git-editor
-
-      command chezmoi $argv
+      return
     end
   case add
     if test $argc -eq 1
@@ -41,11 +38,13 @@ function chezmoi
         | fzf --multi --preview 'chezmoi diff --reverse --color=true ~/{}')
         chezmoi add '~/'$targets
       end
-    else
-      command chezmoi $argv
+      return
     end
-  case '*'
-    command chezmoi $argv
   end
+
+  # use the git-editor wrapper to take advantage of custom logic
+  set -lx VISUAL git-editor
+
+  command chezmoi $argv
 end
 {{- end -}}
