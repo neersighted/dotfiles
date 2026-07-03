@@ -6,4 +6,7 @@ if is_vscode
     exec $code --wait $argv
 end
 
-$EDITOR $argv
+set -q EDITOR; or set -l EDITOR vi
+set -q VISUAL; or set -l VISUAL $EDITOR
+
+$VISUAL $argv

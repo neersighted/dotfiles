@@ -14,13 +14,13 @@ execution = 'tail -f {file}'
 [[verbs]]
 invocation = 'open'
 key = 'enter'
-execution = '$EDITOR +{line} {file}'
+execution = '$VISUAL +{line} {file}'
 leave_broot = false
 
 [[verbs]]
 invocation = 'edit {subpath}'
 shortcut = 'e'
-execution = '$EDITOR {directory}/{subpath}'
+execution = '$VISUAL {directory}/{subpath}'
 leave_broot = false
 
 [[verbs]]
