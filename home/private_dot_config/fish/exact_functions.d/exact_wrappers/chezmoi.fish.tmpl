@@ -24,7 +24,7 @@ function chezmoi
   case cd
     cd (command chezmoi source-path)
   case edit
-    if test (count $argv) -eq 1
+    if test $argc -eq 1
       if set targets (__chezmoi_targets)
         chezmoi edit '~/'$targets
       end
@@ -36,11 +36,10 @@ function chezmoi
     end
   case add
     if test $argc -eq 1
-      if set modified (chezmoi status \
+      if set targets (chezmoi status \
         | string match -re '^.M|^M.' | string sub -s 4 \
         | fzf --multi --preview 'chezmoi diff --reverse --color=true ~/{}')
-        set targets '~/'$modified
-        chezmoi add $targets
+        chezmoi add '~/'$targets
       end
     else
       command chezmoi $argv
