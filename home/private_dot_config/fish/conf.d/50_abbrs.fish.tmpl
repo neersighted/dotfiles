@@ -1,71 +1,86 @@
 status is-interactive; or exit
 
-set -l chezmoi_update 'chezmoi update --init'
-if string match -eq $HOME {{ .chezmoi.executable }}
-  set chezmoi_update "$chezmoi_update; and chezmoi upgrade" # self-update unmanaged chezmoi
+# system/special
+function __abbr_update
+  if is_macos
+    printf 'mas upgrade; and brew upgrade'
+  else if is_freebsd
+    printf 'sudo pkg upgrade'
+  else if command -q pacman
+    printf 'sudo pacman -Syu; and paru -Sua'
+  end
+  if command -q mise
+    printf '; and mise upgrade'
+  end
+  if set -l chezmoi_up (__abbr_chezmoi_up)
+    printf '; and chezmoi %s' $chezmoi_up
+  end
 end
-
-set -l update_command true
-if is_macos
-  set update_command 'mas upgrade; and brew upgrade'
-else if is_freebsd
-  set update_command 'sudo pkg upgrade'
-else if command -q pacman
-  set update_command 'paru'
-end
+abbr -a up --position command --function __abbr_update
 
 # meta-syntax
 function __abbr_command_s
   command --search (string sub -s 2 $argv)
 end
-abbr -a = --regex '=\w+' --position anywhere --function __abbr_command_s
-
-# system/special
-abbr -a -- up "$update_command; and mise upgrade; and $chezmoi_update"
+abbr -a = --position anywhere --regex '=\w+' --function __abbr_command_s
 
 # aur
-abbr -a -- aur 'ssh aur@aur.archlinux.org'
+abbr -a aur ssh aur@aur.archlinux.org
 
 # chezmoi
-abbr -a -- cz 'chezmoi'
-abbr -a -- cad 'chezmoi add'
-abbr -a -- cap 'chezmoi apply --init'
-abbr -a -- ced 'chezmoi edit'
-abbr -a -- cup $chezmoi_update
+abbr -a chez chezmoi
+abbr -a --command=chezmoi{,.exe} ad add
+abbr -a --command=chezmoi{,.exe} ap apply --init
+abbr -a --command=chezmoi{,.exe} ed edit
+function __abbr_chezmoi_up -a exe
+  printf 'update --init'
+
+  set -l homedir $HOME
+  if string match -q chezmoi.exe $exe
+    set -l homedir $USERPROFILE
+  end
+
+  if string match -eq $homedir (command -a $exe)
+    printf '; and %s upgrade' $exe
+  end
+end
+abbr -a --command=chezmoi{,.exe} --function __abbr_chezmoi_up up
 
 # clipboard-provider
-abbr -a -- clipc 'clipboard-provider copy'
-abbr -a -- clipp 'clipboard-provider paste'
+abbr -a clip clipboard-provider paste
+abbr -a clic clipboard-provider copy
 
 # docker
-abbr -a -- dspa 'docker system prune -a'
+abbr -a --command=docker spa system prune -a
 
 # gh
-abbr -a -- gpc 'gh pr create'
-abbr -a -- grc 'gh repo clone'
+abbr -a --command=gh pc pr create
+abbr -a --command=gh rc repo clone
 
-# gpg
-abbr -a -- gpgt 'set -x GPG_TTY (tty); gpg-connect-agent UPDATESTARTUPTTY /bye'
+# git
+abbr -a --command=git sw switch
+abbr -a --command=git co checkout
 
 # ls/eza
-abbr -a -- ll 'ls -lh'
-abbr -a -- la 'ls -lah'
-abbr -a -- lt 'ls -lhTL2'
+abbr -a ll ls -lh
+abbr -a la ls -lah
+abbr -a lt ls -lhTL2
 
 # zoxide
-abbr -a -- zrm 'zoxide remove'
+abbr -a zrm zoxide remove
 
 {{- if .wsl -}}
 # wsl
-abbr -a -- adb 'adb.exe'
-abbr -a -- cmd 'cmd.exe'
-abbr -a -- neovide 'neovide.exe --wsl'
-abbr -a -- powershell 'powershell.exe'
-abbr -a -- smerge 'smerge.exe'
-abbr -a -- subl 'subl.exe'
-abbr -a -- usbipd 'usbipd.exe'
-abbr -a -- winget 'winget.exe'
-abbr -a -- wsl 'wsl.exe'
-abbr -a -- wslc 'wslc.exe'
-abbr -a -- wt 'wt.exe'
+abbr -a adb adb.exe
+abbr -a chew chezmoi.exe
+abbr -a cmd cmd.exe
+abbr -a neovide neovide.exe --wsl
+abbr -a powershell powershell.exe
+abbr -a smerge smerge.exe
+abbr -a subl subl.exe
+abbr -a usbipd usbipd.exe
+abbr -a winget winget.exe
+abbr -a wsl wsl.exe
+abbr -a wslc wslc.exe
+abbr -a wt wt.exe
 {{- end -}}
