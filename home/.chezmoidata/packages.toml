@@ -38,7 +38,7 @@ packages = [
 
     # Toolchain
     { arch = "base-devel" },
-    { arch = "ccache", freebsd = "ccache4", macos = "ccache" },
+    { macos = "ccache", arch = "ccache", freebsd = "ccache4" },
     { arch = "clang" },
     "cmake",
     { freebsd = "gmake" },
@@ -85,7 +85,7 @@ packages = [
     # Text & data processing
     "bat",
     "hexyl",
-    { arch = "ijq", macos = "ijq" },
+    { macos = "ijq", arch = "ijq" },
     "jless",
     "jq",
     "sd",
@@ -166,9 +166,11 @@ packages = [
     # Security & secrets
     { macos = { type = "cask", name = "1password-cli" }, arch = { name = "1password-cli", aur = true }, freebsd = "1password-client2" },
     "age",
+    "libfido2",
     { macos = "mkcert", arch = "mkcert" },
     { macos = "pam-reattach" },
     { macos = { name = "yubikey-agent", service = true } },
+    { macos = "ykman", arch = "yubikey-manager", freebsd = "py312-yubikey-manager" },
 
     # OS & desktop integration
     { macos = "dockutil" },
