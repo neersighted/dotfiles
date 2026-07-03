@@ -154,6 +154,7 @@ packages = [
     # Package & config management
     { arch = "aurpublish" },
     { arch = "devtools" },
+    { freebsd = "py312-fastest_pkg" },
     { arch = "namcap" },
     { arch = "pacman-contrib" },
     { arch = { name = "paru", aur = true } },
