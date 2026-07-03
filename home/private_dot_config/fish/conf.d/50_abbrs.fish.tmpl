@@ -20,7 +20,7 @@ abbr -a up --position command --function __abbr_update
 
 # meta-syntax
 function __abbr_command_s -a token
-  command --search (string sub -s 2 $token)
+  command -s (string sub -s 2 $token)
 end
 abbr -a = --position anywhere --regex '=\w+' --function __abbr_command_s
 function __abbr_common_dir -a token

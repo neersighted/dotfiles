@@ -1,23 +1,11 @@
 {{- if and (lookPath "rg") (lookPath "fzf") -}}
 function rzf -w rg
-  set -a options 'L/no-lines'
-
-  argparse $options -- $argv; or return
-
   set results (
-    rg --line-number --color=always $argv |
-    fzf --multi --print0 \
-      --delimiter : --with-nth='{1}:{2}' \
-      --preview 'bat --style=numbers --highlight-line={2} {1} --color=always' \
-      --preview-window +{2}-/2 |
-    string split0
+    rg --pretty $argv |
+      gawk -v RS='\n\n+' -v ORS='\0' '1' |
+      fzf --read0 --ansi --multi --highlight-line --layout reverse --gap |
+      awk '!/^[0-9]+:/ && !/^$/'
   )
-
-  if set -q _flag_L
-    set results (string split -f 1 : $results)
-  else
-    set results (string match -r '[^:]*:[^:]*' $results)
-  end
 
   if test -n "$results"
     set -q EDITOR; or set -l EDITOR vi
