@@ -53,6 +53,7 @@ packages = [
     "fish",
     "fzf",
     "starship",
+    { freebsd = "terminfo-db" },
     "tmux",
     { macos = "tmux-mem-cpu-load", arch = { name = "tmux-mem-cpu-load", aur = true }, freebsd = "tmux-mem-cpu-load" },
     "vivid",
