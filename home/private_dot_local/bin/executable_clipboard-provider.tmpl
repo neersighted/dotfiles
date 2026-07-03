@@ -37,10 +37,7 @@ function tty
   begin
     set -q TMUX; and tmux display-message -p '#{client_tty}' 2>/dev/null
     or command tty 2>/dev/null
-    or begin
-      set -l ppid (string split -f 4 ' ' </proc/self/stat)
-      and command tty </proc/$ppid/fd/0 2>/dev/null
-    end
+    or printf '/dev/%s\n' (ps -p (ps -o ppid= -p $fish_pid | string trim) -o tty=)
   end | string match -e '/dev/'
 end
 
