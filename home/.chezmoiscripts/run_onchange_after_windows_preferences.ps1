@@ -37,7 +37,7 @@ if (!$path.Contains($bin)) {
 }
 
 # Add my standard variables to WSLENV.
-foreach ($var in @('APPDATA/p', 'LOCALAPPDATA/p', 'USERPROFILE/p', 'TERMINAL_EMULATOR')) {
+foreach ($var in @('APPDATA/p', 'LOCALAPPDATA/p', 'USERPROFILE/p', 'TERM', 'COLORTERM', 'TERMINAL_EMULATOR')) {
     $wslenv = [Environment]::GetEnvironmentVariable('WSLENV', 'User')
     if ($wslenv) {
         $wslenv = $wslenv.Split(':')
