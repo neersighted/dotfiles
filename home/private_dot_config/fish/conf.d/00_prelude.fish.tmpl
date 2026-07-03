@@ -3,6 +3,8 @@ set -l conf_d (status dirname)
 for f in $conf_d/fish_frozen_key_bindings.fish $conf_d/fish_frozen_theme.fish
   path is $f; and rm $f
 end
+# unset the old (pre-4.8) __fish_initialzied universal
+set -e __fish_initialized
 
 # opt into future feature flags early
 set -q fish_features; or set -U fish_features all
