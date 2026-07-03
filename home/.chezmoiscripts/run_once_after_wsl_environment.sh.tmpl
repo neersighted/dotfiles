@@ -1,0 +1,15 @@
+{{- if .wsl -}}
+#!/bin/sh -eu
+
+WSLENV="WSL_DISTRO_NAME" powershell.exe -NoProfile -Command - <<'EOF'
+$path = (Get-ChildItem "HKCU:\Software\Microsoft\Windows\CurrentVersion\Lxss" | Where-Object { (Get-ItemPropertyValue -Path $_.PsPath -Name "DistributionName") -eq $env:WSL_DISTRO_NAME }).PsPath
+
+$desired = @("LANG=C.UTF-8", "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin")
+$current = (Get-ItemProperty $path -Name "DefaultEnvironment").DefaultEnvironment
+
+if (Compare-Object -ReferenceObject $desired -DifferenceObject $current) {
+    Set-ItemProperty -Path $path -Name "DefaultEnvironment" -Value $desired -Type MultiString
+}
+
+EOF
+{{- end -}}
