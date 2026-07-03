@@ -40,7 +40,7 @@ function __abbr_common_dir -a token
         printf '%s%s' $XDG_RUNTIME_HOME $parts[2]
       case chezmoi
         printf '%s%s' (chezmoi source-path) $parts[2]
-      case *
+      case '*'
         return 1
     end
   else
@@ -100,6 +100,7 @@ abbr -a adb adb.exe
 abbr -a chew chezmoi.exe
 abbr -a cmd cmd.exe
 abbr -a neovide neovide.exe --wsl
+abbr -a op op.exe
 abbr -a powershell powershell.exe
 abbr -a smerge smerge.exe
 abbr -a subl subl.exe
