@@ -1,11 +1,13 @@
 {{- if lookPath "rg" -}}
 function rge -w rg
-  set results (string escape (rg --files-with-matches --null $argv | string split0))
+  set results (rg --files-with-matches --null $argv | string split0)
 
-  echo "Press enter to edit:"
-  read -P "$EDITOR $results" -n1 do
-  if test -z "$do"
-    eval $EDITOR $results
+  if test -n "$results"
+    set -q EDITOR; or set -l EDITOR vi
+    set -q VISUAL; or set -l VISUAL $EDITOR
+
+    commandline --replace "$VISUAL "(string escape $results | string join ' ')
+    commandline --cursor (string length $VISUAL)
   end
 end
 {{- end -}}

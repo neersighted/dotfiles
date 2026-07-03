@@ -12,8 +12,7 @@ function zoxide-interactive -d 'select a directory to jump to using zoxide'
 {{- end }}
 
   if set target (zoxide query --interactive)
-    commandline --replace "cd $target"
-    commandline -f execute
+    commandline --replace 'cd '$target
   end
 end
 {{- end -}}

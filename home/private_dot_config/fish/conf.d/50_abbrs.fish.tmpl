@@ -19,10 +19,35 @@ end
 abbr -a up --position command --function __abbr_update
 
 # meta-syntax
-function __abbr_command_s
-  command --search (string sub -s 2 $argv)
+function __abbr_command_s -a token
+  command --search (string sub -s 2 $token)
 end
 abbr -a = --position anywhere --regex '=\w+' --function __abbr_command_s
+function __abbr_common_dir -a token
+  if set -l parts (string match -rg '^@(\w+)(.*)?' $token)
+    switch $parts[1]
+      case bin
+        printf '%s%s' $XDG_BIN_HOME $parts[2]
+      case cache
+        printf '%s%s' $XDG_CACHE_HOME $parts[2]
+      case config
+        printf '%s%s' $XDG_CONFIG_HOME $parts[2]
+      case data
+        printf '%s%s' $XDG_DATA_HOME $parts[2]
+      case state
+        printf '%s%s' $XDG_STATE_HOME $parts[2]
+      case runtime
+        printf '%s%s' $XDG_RUNTIME_HOME $parts[2]
+      case chezmoi
+        printf '%s%s' (chezmoi source-path) $parts[2]
+      case *
+        return 1
+    end
+  else
+    return 1
+  end
+end
+abbr -a @ --position anywhere --regex '@\S+' --function __abbr_common_dir
 
 # aur
 abbr -a aur ssh aur@aur.archlinux.org

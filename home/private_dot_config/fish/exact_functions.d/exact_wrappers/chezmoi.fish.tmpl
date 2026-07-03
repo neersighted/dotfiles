@@ -22,7 +22,7 @@ function chezmoi -a sub
       return
     end
   case cd
-    cd (command chezmoi source-path $argv[2..-1])
+    commandline --replace 'cd '(command chezmoi source-path $argv[2..-1])
     return
   case edit
     if test $argc -eq 1
