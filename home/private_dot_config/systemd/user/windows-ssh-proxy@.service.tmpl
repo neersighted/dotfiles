@@ -1,0 +1,12 @@
+{{- if .wsl -}}
+[Unit]
+Description=Windows SSH Agent Proxy Handler
+Requires=windows-ssh-proxy.socket
+
+[Service]
+Type=simple
+ExecStart=socat - VSOCK-CONNECT:2:0x22223333
+StandardInput=socket
+StandardOutput=socket
+StandardError=journal
+{{- end -}}

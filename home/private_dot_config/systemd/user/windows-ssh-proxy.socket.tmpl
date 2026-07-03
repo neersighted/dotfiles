@@ -1,0 +1,11 @@
+{{- if .wsl -}}
+[Unit]
+Description=Windows SSH Agent Proxy Socket
+
+[Socket]
+ListenStream=%t/windows-ssh-proxy.sock
+Accept=yes
+
+[Install]
+WantedBy=sockets.target
+{{- end -}}
