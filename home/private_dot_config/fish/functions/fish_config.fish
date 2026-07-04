@@ -10,6 +10,7 @@ function fish_config --description "Launch fish's web based configuration"
         return 0
     end
 
-    source $__fish_data_dir/functions/fish_config.fish
+    functions -e (status current-function)
+    status get-file functions/fish_config.fish | source
     fish_config $argv
 end

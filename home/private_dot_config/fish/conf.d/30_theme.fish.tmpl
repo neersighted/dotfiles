@@ -1,6 +1,5 @@
-# theme only in interactive and login/top-level shells
-status is-interactive; or exit
-status is-login; or test $SHLVL -eq 1; or exit
+# set colors only in interactive shells
+status is-interactive; or set -q __fish_force_load_default_theme; or exit
 
 # fish 4.3 migration: erase pre-4.3 universal theme variables on first
 # run after this file changes. Everything below is set as global +/-
@@ -69,6 +68,9 @@ set -gx EZA_COLORS 'uu=35:gu=35:un=33:gn=33'
 #
 # terminal theme
 #
+
+# set the terminal palette only in top level shells
+status is-login; or test $SHLVL -eq 1; or exit
 
 # helper to re-apply the theme from this config file
 function fish_retheme
