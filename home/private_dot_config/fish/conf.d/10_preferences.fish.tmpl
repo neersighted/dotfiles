@@ -1,22 +1,4 @@
 #
-# migration
-#
-
-# fish 4.3: key bindings are global by default. Erase any leftover universal
-# (which fish <4.3 event handlers would otherwise re-create).
-set -e -U fish_key_bindings
-set -g fish_key_bindings fish_default_key_bindings
-
-# fish_prefs: this file used to set universals and keep a list of what had been
-# set; erase any remnants of that system.
-if set -q fish_prefs_hash
-  for pref in $fish_prefs
-    set -e -U $pref
-  end
-  set -e -U fish_prefs fish_prefs_hash
-end
-
-#
 # toolchains
 #
 

@@ -1,18 +1,6 @@
 # set colors only in interactive shells
 status is-interactive; or set -q __fish_force_load_default_theme; or exit
 
-# fish 4.3 migration: erase pre-4.3 universal theme variables on first
-# run after this file changes. Everything below is set as global +/-
-# exported and re-applied each shell start.
-if set -q fish_colors_hash
-  for var in $fish_colors fish_colors fish_colors_hash
-    set -e -U $var
-  end
-end
-if set -q fish_theme_env_hash
-  set -e -U FZF_DEFAULT_OPTS LS_COLORS EZA_COLORS fish_theme_env_hash
-end
-
 # shell colors
 set -g fish_color_normal {{ quote .nord.nord4 }}
 set -g fish_color_command {{ quote .nord.nord7 }}

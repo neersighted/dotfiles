@@ -1,16 +1,10 @@
-# The global config.fish runs `fish_config theme choose default --no-override`
-# for every interactive shell. This is unnecessary for us, as we do our own
-# theming. We no-op that invocation, and load the real fish_config if otherwise
-# invoked.
-#
-# This file must live in `functions` as we cannot run any code before global
-# config.fish; we must rely on shadowing the autoload mechanism.
-function fish_config --description "Launch fish's web based configuration"
-    if test "$argv" = 'theme choose default --no-override'
-        return 0
-    end
+# Ugly hack to no-op the first `fish_config theme choose default` that the built-in
+# configuration implicitly calls. This should be otherwise transparent.
+function fish_config
+    return 0
+end
 
+function __restore_fish_config --on-event fish_startup
     functions -e (status current-function)
     status get-file functions/fish_config.fish | source
-    fish_config $argv
 end
