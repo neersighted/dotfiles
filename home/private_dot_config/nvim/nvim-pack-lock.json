@@ -102,7 +102,7 @@
       "src": "https://github.com/HiPhish/rainbow-delimiters.nvim"
     },
     "smart-splits.nvim": {
-      "rev": "0e5bc00d2a32e6c782cd279cb96ab6c7ae49cd94",
+      "rev": "ebf4d8bbc16570817c0f5275468466b9d00b8d7d",
       "src": "https://github.com/mrjones2014/smart-splits.nvim"
     },
     "switch.vim": {
@@ -118,7 +118,7 @@
       "src": "https://github.com/jiaoshijie/undotree"
     },
     "vim-dirvish": {
-      "rev": "cb95f799e9ff8f86f9fa92acc9a3f216afa35f03",
+      "rev": "032fa157e1d8094b967cf06c948d4fbc319adabd",
       "src": "https://github.com/justinmk/vim-dirvish"
     },
     "vim-eunuch": {
