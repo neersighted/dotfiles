@@ -37,7 +37,7 @@ function __abbr_common_dir -a token
       case state
         printf '%s%s' $XDG_STATE_HOME $parts[2]
       case runtime
-        printf '%s%s' $XDG_RUNTIME_HOME $parts[2]
+        printf '%s%s' $XDG_RUNTIME_DIR $parts[2]
       case chezmoi
         printf '%s%s' (chezmoi source-path) $parts[2]
       case '*'
