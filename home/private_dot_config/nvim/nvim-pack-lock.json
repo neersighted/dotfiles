@@ -21,7 +21,7 @@
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "fzf-lua": {
-      "rev": "237b7e7f2bd07becc83144933b6058cc15bef2dc",
+      "rev": "774150bc05f774af1df614f55d156b3318c6decd",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "gitsigns.nvim": {
@@ -118,7 +118,7 @@
       "src": "https://github.com/jiaoshijie/undotree"
     },
     "vim-dirvish": {
-      "rev": "032fa157e1d8094b967cf06c948d4fbc319adabd",
+      "rev": "4cbf39ce024c57f700c4d5502cc172ea91d69360",
       "src": "https://github.com/justinmk/vim-dirvish"
     },
     "vim-eunuch": {
