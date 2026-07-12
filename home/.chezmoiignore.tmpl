@@ -42,9 +42,12 @@ Documents
 {{   if eq .chezmoi.osRelease.id "arch" }} # not used on arch
 .hushlogin
 {{   else }} # only used on arch
+.config/pacman
 .config/paru
 {{   end }}
 {{ else }} # only used on linux
+.config/pacman
 .config/paru
 .config/systemd
+.local/share/dbus-1
 {{ end }}
