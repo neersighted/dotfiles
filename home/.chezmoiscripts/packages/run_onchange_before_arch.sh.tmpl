@@ -36,7 +36,11 @@ if ! command -v paru >/dev/null; then
   trap 'rm -rf "$paru"' EXIT
 
   git clone https://aur.archlinux.org/paru.git "$paru"
-  makepkg -D "$paru" --syncdeps --rmdeps --install
+  OPTIONS='!debug' makepkg -D "$paru" --syncdeps --rmdeps --install
+
+  GNUPGHOME=$(mktemp -d)
+  trap 'rm -rf "$GNUPGHOME"' EXIT
+  export GNUPGHOME
 fi
 
 echo "Installing AUR packages with paru..."

@@ -1,7 +1,11 @@
 {{- if ne .chezmoi.os "freebsd" -}}
-#!/bin/sh -e
+#!/bin/sh -eu
 # run_onchange hash: {{ include "private_dot_config/mise/mise.lock" | sha256sum }}
 command -v mise >/dev/null || exit 0
+
+: "${RUSTUP_HOME:=${HOME}/.local/share/rustup}"
+: "${CARGO_HOME:=${HOME}/.local/share/cargo}"
+
 echo "Installing/updating mise-managed tools..."
 mise install --locked
 {{- end -}}
