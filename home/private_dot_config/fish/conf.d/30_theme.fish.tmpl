@@ -94,7 +94,7 @@ function term_color -V term_palette -V term_special -V term_special_osc -a color
     set osc $term_special_osc[$osc_index]
   end
 
-  if test "$TERM" = linux; and set -q color_index
+  if test "$TERM" = linux; and test -n "$color_index"
     osc (printf 'P%x%s' $color_index (string sub -s 2 $hex_color))
   else if test -n "$osc"
     osc (printf '%s;%s' $osc $hex_color)
