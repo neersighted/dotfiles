@@ -1,7 +1,7 @@
 {
   "plugins": {
     "SchemaStore.nvim": {
-      "rev": "6ff1f21b2e2b77ec59f7433ce2d9fbc052d908ac",
+      "rev": "e954496f8ef22904e8a84f5078f4a110fdc7a0d3",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "aerial.nvim": {
@@ -21,7 +21,7 @@
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "fzf-lua": {
-      "rev": "774150bc05f774af1df614f55d156b3318c6decd",
+      "rev": "532d463f5c83595192fe740572d8fd6902b2217a",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "gitsigns.nvim": {
@@ -45,7 +45,7 @@
       "src": "https://codeberg.org/andyg/leap.nvim"
     },
     "lexima.vim": {
-      "rev": "ab621e4756465c9d354fce88cff2bd1aa7887065",
+      "rev": "9f6942c5e1f0f6fe63bdcdac515f34c484b970f5",
       "src": "https://github.com/cohama/lexima.vim"
     },
     "lualine.nvim": {
@@ -53,31 +53,31 @@
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "mini.align": {
-      "rev": "34014f8c9c0740904ed6760f9eee58f4ae00c131",
+      "rev": "77d7446b9f2452193f13ced9fb73a8b3aa4a4f4d",
       "src": "https://github.com/nvim-mini/mini.align"
     },
     "mini.bracketed": {
-      "rev": "7662c280946faf573c4eabf307d78406ad0783e4",
+      "rev": "203eb35f386b4fc9abcff1518c84d5537d41c80a",
       "src": "https://github.com/nvim-mini/mini.bracketed"
     },
     "mini.hipatterns": {
-      "rev": "607d604e650cdf21d71f863d040c496a1d0cb320",
+      "rev": "7c840c71d6a91f53d734cab2b6fe2290d285ec3b",
       "src": "https://github.com/nvim-mini/mini.hipatterns"
     },
     "mini.move": {
-      "rev": "b9e452f9c83565a1520e14f7531632160f3b0170",
+      "rev": "48fcaac289a19b8eff2fd5fe203267d478a8abdc",
       "src": "https://github.com/nvim-mini/mini.move"
     },
     "mini.splitjoin": {
-      "rev": "6b731ce7f38ca4899a575373db93d2de2fc5bbf2",
+      "rev": "9301717c7612ccb72e89629df89416585dd54c9b",
       "src": "https://github.com/nvim-mini/mini.splitjoin"
     },
     "mini.starter": {
-      "rev": "a1c26c1c4acd08beb5b0057c663acb6e5f5b7042",
+      "rev": "25de4998197d59673f1918968a8f4060195edca0",
       "src": "https://github.com/nvim-mini/mini.starter"
     },
     "mini.surround": {
-      "rev": "a2f644f3759edd3d3f8b6a6d55378408bfe6d290",
+      "rev": "c30ec60393b256427512c6996a2b37d9cbcbb66a",
       "src": "https://github.com/nvim-mini/mini.surround"
     },
     "neoscroll.nvim": {
@@ -102,7 +102,7 @@
       "src": "https://github.com/HiPhish/rainbow-delimiters.nvim"
     },
     "smart-splits.nvim": {
-      "rev": "ebf4d8bbc16570817c0f5275468466b9d00b8d7d",
+      "rev": "9493405fb8ee683aa6efd50c529f6296ad8f40ad",
       "src": "https://github.com/mrjones2014/smart-splits.nvim"
     },
     "switch.vim": {
@@ -110,7 +110,7 @@
       "src": "https://github.com/AndrewRadev/switch.vim"
     },
     "tree-sitter-manager.nvim": {
-      "rev": "966c28dbc68fc99c82c51a64b6ec37f420aab880",
+      "rev": "09e3a321eea8100cacd2e759c3a6c9d350295fab",
       "src": "https://github.com/romus204/tree-sitter-manager.nvim"
     },
     "undotree": {
