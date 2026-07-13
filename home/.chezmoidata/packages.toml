@@ -157,6 +157,7 @@ packages = [
     { freebsd = "py312-fastest_pkg" },
     { arch = "namcap" },
     { arch = "pacman-contrib" },
+    { arch = "pacutils" },
     { arch = { name = "paru", aur = true } },
     { freebsd = "pkg" },
     { freebsd = "pkg-provides" },
