@@ -97,6 +97,9 @@ if is_macos
   set -gx HOMEBREW_VERIFY_ATTESTATIONS 1
 end
 
+# java applications
+set -gx _JAVA_OPTIONS -Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java
+
 # kubernetes
 set -gx KUBECONFIG $XDG_CONFIG_HOME/kube/config
 set -gx KUBECACHEDIR $XDG_CACHE_HOME/kube
