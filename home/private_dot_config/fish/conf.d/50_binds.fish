@@ -1,6 +1,7 @@
 function __bind_keys_startup --on-event fish_startup
   functions -e (status current-function)
 
+  bind alt-s toggle-sudo
   bind alt-r push-line
 
   bind alt-z zoxide-interactive

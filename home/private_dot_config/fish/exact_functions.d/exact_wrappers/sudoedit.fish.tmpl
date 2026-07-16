@@ -1,0 +1,9 @@
+{{- if or (lookPath "sudoedit") (lookPath "sudoedit-rs") -}}
+set -l sudoedit sudoedit
+command -q sudoedit-rs; and set sudoedit sudoedit-rs
+
+function sudoedit -V sudoedit
+  command $sudoedit $argv
+end
+{{- end -}}
+
