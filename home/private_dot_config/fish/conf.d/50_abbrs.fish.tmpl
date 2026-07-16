@@ -10,7 +10,11 @@ function __abbr_update
     printf 'sudo pacman -Syu; and paru -Sua'
   end
   if command -q mise
-    printf '; and mise upgrade'
+    if is_wsl
+      printf '; and mise -E wsl upgrade'
+    else
+      printf '; and mise upgrade'
+    end
   end
   if set -l chezmoi_up (__abbr_chezmoi_up)
     printf '; and chezmoi %s' $chezmoi_up

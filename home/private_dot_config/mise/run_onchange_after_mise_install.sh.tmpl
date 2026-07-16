@@ -1,10 +1,18 @@
 #!/bin/sh -eu
+
 command -v mise >/dev/null || exit 0
+{{- if .wsl }}
+export MISE_ENV=wsl
+{{- end }}
 
 : "${RUSTUP_HOME:=${HOME}/.local/share/rustup}"
 : "${CARGO_HOME:=${HOME}/.local/share/cargo}"
+export RUSTUP_HOME CARGO_HOME
 
 echo "Installing/updating mise-managed tools..."
 mise install --locked
 
 # run_onchange hash: {{ include "private_dot_config/mise/mise.lock" | sha256sum }}
+{{- if .wsl }}
+# run_onchange hash: {{ include "private_dot_config/mise/mise.wsl.lock" | sha256sum }}
+{{- end }}

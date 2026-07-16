@@ -1,0 +1,19 @@
+[tool_alias]
+wsl-secret-service-linux = "github:akihiro/wsl-secret-service"
+wsl-secret-service-windows = "github:akihiro/wsl-secret-service"
+
+[tools]
+"github:mame/wsl2-ssh-agent" = "latest"
+
+[tools.wsl-secret-service-linux]
+version = "latest"
+bin = "wsl-secret-service"
+matching = "wsl-secret-service-linux"
+
+[tools.wsl-secret-service-windows]
+version = "latest"
+bin = "wincred-helper.exe"
+
+[tools.wsl-secret-service-windows.platforms]
+linux-x64 = { asset_pattern = "wincred-helper-windows-amd64.exe" }
+linux-arm64 = { asset_pattern = "wincred-helper-windows-arm64.exe" }

@@ -1,6 +1,7 @@
 #!/bin/sh -eu
-command -v nvim >/dev/null || exit 0
 
+command -v nvim >/dev/null || exit 0
+ 
 echo "Installing/updating neovim packages..."
 nvim --headless +PackUpdate! +w +wqall
 
