@@ -60,6 +60,9 @@ if (!(Test-Path -Path $DevMode)) {
 }
 Set-ItemProperty -Path $DevMode -Name AllowDevelopmentWithoutDevLicense -Value 1
 
+# Enable sudo.
+sudo config --enable normal
+
 # Enable WSL/Hyper-V.
 wsl --status
 if ($LASTEXITCODE -ne 0) {
