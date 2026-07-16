@@ -8,7 +8,7 @@
 {{ end }}
 {{ if .transient }}
 .chezmoiscripts/packages/*
-.local/share/mise
+.config/mise
 .ssh/authorized_keys
 .ssh/known_hosts
 {{ end }}
@@ -53,4 +53,8 @@ Documents
 .config/paru
 .config/systemd
 .local/share/dbus-1
+{{ end }}
+
+{{ if eq .chezmoi.os "freebsd" }} # not used on freebsd
+.config/mise
 {{ end }}
