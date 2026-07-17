@@ -55,6 +55,11 @@ set -gx LS_COLORS {{ quote (output "vivid" "generate" "nord") }}
 set -gx EZA_COLORS 'uu=35:gu=35:un=33:gn=33'
 {{- end }}
 
+# quirks
+if is_jetbrains
+  set -g fish_color_valid_path $fish_color_valid_path[1] # underline color is broken in jetbrains terminal
+end
+
 #
 # terminal theme
 #
