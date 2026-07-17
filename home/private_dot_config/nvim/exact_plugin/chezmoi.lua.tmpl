@@ -1,0 +1,19 @@
+group = vim.api.nvim_create_augroup('chezmoi', { clear = true }),
+{{- if lookPath "chezmoi" }}
+vim.api.nvim_create_autocmd('BufWritePost', {
+  group = group,
+  pattern = {{ joinPath .chezmoi.sourceDir "*" | quote }},
+  callback = function(args)
+    vim.system({ 'chezmoi', 'apply', '--exclude', 'scripts', '--source-path', args.file })
+  end,
+})
+{{- end }}
+{{- if lookPath "chezmoi.exe" }}
+vim.api.nvim_create_autocmd('BufWritePost', {
+  group = group,
+  pattern = {{ joinPath (output "wslpath" "-u" (output "chezmoi.exe" "source-path" | trim) | trim) "*" | quote }},
+  callback = function(args)
+    vim.system({ 'chezmoi.exe', 'apply', '--exclude', 'scripts', '--source-path', args.file })
+  end,
+})
+{{- end }}
