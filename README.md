@@ -4,9 +4,9 @@
 
 ```sh
 # linux, macos:
-curl -sSf https://raw.githubusercontent.com/neersighted/dotfiles/master/bootstrap.sh | sh
+curl -sSf https://raw.githubusercontent.com/neersighted/dotfiles/main/bootstrap.sh | sh
 # freebsd:
-fetch -o - https://raw.githubusercontent.com/neersighted/dotfiles/master/bootstrap.sh | sh
+fetch -o - https://raw.githubusercontent.com/neersighted/dotfiles/main/bootstrap.sh | sh
 ```
 ```pwsh
 # windows:
