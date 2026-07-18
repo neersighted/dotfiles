@@ -178,11 +178,11 @@ pipestatus_format = "\\[$pipestatus\\] => [$common_meaning$signal_name$maybe_int
 style = {{ quote .nord.nord11 }}
 
 [cmd_duration]
-min_time = 500
+min_time = 1_000
 format = "[$duration]($style)"
 style = {{ quote .nord.nord3 }}
 show_notifications = true
-min_time_to_notify = 30_000
+min_time_to_notify = 120_000
 
 [[battery.display]]
 threshold = 10
