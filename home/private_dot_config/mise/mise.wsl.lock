@@ -41,6 +41,9 @@ checksum = "sha256:8234722cc84c79a1302da9693954195a133c5bcd8c70994295aeb6bff4ae5
 url = "https://github.com/akihiro/wsl-secret-service/releases/download/v0.0.6/wincred-helper-windows-amd64.exe"
 url_api = "https://api.github.com/repos/akihiro/wsl-secret-service/releases/assets/383298165"
 
+[tools.wsl-secret-service-windows."platforms.linux-x64".provenance.slsa]
+url = "https://github.com/akihiro/wsl-secret-service/releases/download/v0.0.6/wincred-helper-windows-amd64.exe.intoto.jsonl"
+
 [[tools.wsl-secret-service-windows]]
 version = "0.0.6"
 backend = "github:akihiro/wsl-secret-service"

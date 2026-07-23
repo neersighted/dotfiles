@@ -43,7 +43,6 @@ python = "latest"
 rust = { version = "stable", components = "rust-analyzer,rust-src" }
 
 # Installers
-aube = "latest"
 cargo-binstall = "latest"
 uv = "latest"
 
