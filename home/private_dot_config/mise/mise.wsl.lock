@@ -43,7 +43,3 @@ url_api = "https://api.github.com/repos/akihiro/wsl-secret-service/releases/asse
 
 [tools.wsl-secret-service-windows."platforms.linux-x64".provenance.slsa]
 url = "https://github.com/akihiro/wsl-secret-service/releases/download/v0.0.6/wincred-helper-windows-amd64.exe.intoto.jsonl"
-
-[[tools.wsl-secret-service-windows]]
-version = "0.0.6"
-backend = "github:akihiro/wsl-secret-service"
