@@ -1,3 +1,6 @@
 
 [Default Applications]
 x-scheme-handler/jetbrains=jetbrainsd.desktop
+video/mp4=mpv.desktop
+video/x-matroska=mpv.desktop
+video/x-msvideo=mpv.desktop
