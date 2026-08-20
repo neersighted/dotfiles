@@ -1,7 +1,7 @@
 {
   "plugins": {
     "SchemaStore.nvim": {
-      "rev": "19e40cef03a380bfb578793a08222826118664dd",
+      "rev": "73e89eb3e536a4dd8f991c963bd37189520c9919",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "aerial.nvim": {
@@ -17,15 +17,15 @@
       "src": "https://github.com/alker0/chezmoi.vim"
     },
     "conform.nvim": {
-      "rev": "619363c30309d29ffa631e67c8183f2a72caa373",
+      "rev": "016802de402556da54c36bd7359b441266b01cdd",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "fzf-lua": {
-      "rev": "28440c741e927592877514fba3db21eb188caec8",
+      "rev": "05e44d38de0a79c11fba5f7bf8138791b1dbdd1e",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "gitsigns.nvim": {
-      "rev": "31d6fb2d618bca1482b9f274751ead5f03461408",
+      "rev": "5be654f2232c10ddcad19c1607a67b6b4b78fc29",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "guess-indent.nvim": {
@@ -41,7 +41,7 @@
       "src": "https://github.com/lukas-reineke/indent-blankline.nvim"
     },
     "leap.nvim": {
-      "rev": "52bc56ba61b1f54f123e29d6df7d1b7a0393eeac",
+      "rev": "e51ba2a70169bb6fd58342312ccde591242ac739",
       "src": "https://codeberg.org/andyg/leap.nvim"
     },
     "lexima.vim": {
@@ -102,7 +102,7 @@
       "src": "https://github.com/HiPhish/rainbow-delimiters.nvim"
     },
     "smart-splits.nvim": {
-      "rev": "32f67888ac71942442fdab3819864a10449dfc41",
+      "rev": "289971cfdbc7f7b1c91670a228b239d870130af7",
       "src": "https://github.com/mrjones2014/smart-splits.nvim"
     },
     "switch.vim": {
@@ -122,7 +122,7 @@
       "src": "https://github.com/justinmk/vim-dirvish"
     },
     "vim-eunuch": {
-      "rev": "e86bb794a1c10a2edac130feb0ea590a00d03f1e",
+      "rev": "929490937745cd96130d3e7948f762f0aa403314",
       "src": "https://github.com/tpope/vim-eunuch"
     },
     "vim-fugitive": {
@@ -130,7 +130,7 @@
       "src": "https://github.com/tpope/vim-fugitive"
     },
     "vim-matchup": {
-      "rev": "055881643e1b37038a572c883de7b1969716db77",
+      "rev": "5e3c4a3274a9766aee520caebb52572c007fc4f8",
       "src": "https://github.com/andymass/vim-matchup"
     },
     "vim-peekaboo": {
@@ -158,7 +158,7 @@
       "src": "https://github.com/gbprod/yanky.nvim"
     },
     "zoxide.vim": {
-      "rev": "520d1abeb71ba42989a842251f8ba5c46be89aab",
+      "rev": "d4c3d088a70a4edae9def6209644c092f4221fe5",
       "src": "https://github.com/nanotee/zoxide.vim"
     }
   }
